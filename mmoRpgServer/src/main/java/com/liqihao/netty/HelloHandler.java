@@ -2,6 +2,7 @@ package com.liqihao.netty;
 
 import com.liqihao.dao.MmoPersonMapper;
 import com.liqihao.entity.MmoPerson;
+import com.liqihao.netty.codec.MmoStudentPOJO;
 import io.netty.channel.*;
 
 
@@ -15,8 +16,10 @@ public class HelloHandler extends ChannelInboundHandlerAdapter{
     }
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        System.out.println("Server received: "+msg);
+        MmoStudentPOJO.MmoStudent student= (MmoStudentPOJO.MmoStudent) msg;
+        System.out.println("Server received: "+student.getName());
     }
+
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         //发生异常，关闭通道

@@ -1,6 +1,7 @@
 package com.liqihao.netty;
 
 import com.liqihao.dao.MmoPersonMapper;
+import com.liqihao.netty.codec.MmoStudentPOJO;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -9,6 +10,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.serialization.ClassResolver;
 import io.netty.handler.codec.serialization.ClassResolvers;
 import io.netty.handler.codec.serialization.ObjectDecoder;
@@ -54,9 +56,11 @@ public class HelloServer {
                             //给pipeline管道设置处理器 childhandler是写游戏业务处理逻辑的
                             socketChannel.pipeline()
                                     //对象的序列化
-                                    .addLast(new ObjectEncoder())
+//                                    .addLast(new ObjectEncoder())
                                     //对象的反序列化
-                                    .addLast(new ObjectDecoder(ClassResolvers.cacheDisabled(null)))
+//                                    .addLast(new ObjectDecoder(ClassResolvers.cacheDisabled(null)))
+//                            加入protoful解码器 需要指定对于哪种对象进行解码
+                                    .addLast("decoder",new ProtobufDecoder(MmoStudentPOJO.MmoStudent.getDefaultInstance()))
                                     .addLast(new HelloHandler(mmoPersonMapper))
                             ;
                         }

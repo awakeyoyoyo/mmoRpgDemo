@@ -21,6 +21,12 @@
         <netty.version>4.1.32.Final</netty.version>
     </properties>
     <dependencies>
+<!--        protobuf-->
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>3.13.0</version>
+        </dependency>
         <!--        mybatis-generator-->
         <dependency>
             <groupId>org.mybatis.generator</groupId>
