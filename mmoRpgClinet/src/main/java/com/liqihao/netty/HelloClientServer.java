@@ -1,4 +1,5 @@
 package com.liqihao.netty;
+import com.liqihao.pojo.MmoPerson;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -6,6 +7,9 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.serialization.ClassResolvers;
+import io.netty.handler.codec.serialization.ObjectDecoder;
+import io.netty.handler.codec.serialization.ObjectEncoder;
 import java.net.InetSocketAddress;
 
 public class HelloClientServer {
@@ -18,14 +22,13 @@ public class HelloClientServer {
         this.host = host;
     }
     public  void run() throws Exception {
-        //创建两个线程组 boosGroup
-        EventLoopGroup group = new NioEventLoopGroup();
-
+        //创建两个workerGroup
+        EventLoopGroup worker = new NioEventLoopGroup();
         try {
             //创建Bootstrap 初始化客户端
             Bootstrap bootstrap = new Bootstrap();
             //设置两个线程组boosGroup和workerGroup
-            bootstrap.group(group)
+            bootstrap.group(worker)
                     //设置服务端通道实现类型
                     .channel(NioSocketChannel.class)
                     .remoteAddress(new InetSocketAddress(host,port))
@@ -34,15 +37,23 @@ public class HelloClientServer {
                         @Override
                         protected void initChannel(SocketChannel socketChannel) throws Exception {
                             //给pipeline管道设置处理器
-                            socketChannel.pipeline().addLast(new HelloClientHandler());
+                            socketChannel.pipeline()
+                                    .addLast(new ObjectDecoder(ClassResolvers.cacheDisabled(null)))
+                                    .addLast(new ObjectEncoder())
+                                    .addLast(new HelloClientHandler());
                         }
                     });//给workerGroup的EventLoop对应的管道设置处理器
             //绑定端口号，启动服务端
             ChannelFuture channelFuture = bootstrap.connect().sync();
+            MmoPerson mmoPerson=new MmoPerson();
+            mmoPerson.setId(1);
+            mmoPerson.setName("刘德华");
+            channelFuture.channel().writeAndFlush(mmoPerson);
             //对关闭通道进行监听
+            System.out.println("客户端已经启动");
             channelFuture.channel().closeFuture().sync();
         } finally {
-            group.shutdownGracefully();
+            worker.shutdownGracefully();
         }
     }
 }

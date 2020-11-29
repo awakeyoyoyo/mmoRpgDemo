@@ -1,4 +1,4 @@
-package com.liqihao.entity;
+package com.liqihao.pojo;
 
 import java.io.Serializable;
 
