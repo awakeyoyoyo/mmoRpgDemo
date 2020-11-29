@@ -1,4 +1,5 @@
 package com.liqihao.netty;
+import com.liqihao.netty.codec.MmoStudentPOJO;
 import com.liqihao.pojo.MmoPerson;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
@@ -7,6 +8,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.codec.serialization.ClassResolvers;
 import io.netty.handler.codec.serialization.ObjectDecoder;
@@ -41,6 +43,7 @@ public class HelloClientServer {
                             socketChannel.pipeline()
                                     //加入protoful编码器
                                     .addLast("encoder",new ProtobufEncoder())
+                                    .addLast("decoder",new ProtobufDecoder(MmoStudentPOJO.MmoStudent.getDefaultInstance()))
 //                                    .addLast(new ObjectEncoder())
                                     .addLast(new HelloClientHandler());
                         }
