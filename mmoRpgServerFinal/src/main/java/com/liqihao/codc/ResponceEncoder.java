@@ -15,6 +15,8 @@ import io.netty.handler.codec.MessageToByteEncoder;
 public class ResponceEncoder extends MessageToByteEncoder<NettyResponse> {
     @Override
     protected void encode(ChannelHandlerContext channelHandlerContext, NettyResponse nettyResponse, ByteBuf byteBuf) throws Exception {
+        System.out.println("Server:ResponceEncoder");
+
         //写入包头
         byteBuf.writeInt(ConstantValue.FLAG);
         //module

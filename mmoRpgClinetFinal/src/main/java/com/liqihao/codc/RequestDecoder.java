@@ -18,6 +18,7 @@ public class RequestDecoder  extends ByteToMessageDecoder {
     public static int BASE_LENGTH=4+2+2+4;
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
+        System.out.println("Clinet:RequestDecoder");
         if (byteBuf.readableBytes()>=BASE_LENGTH){
             //记录开始读取的index
             int beginReader =byteBuf.writerIndex();

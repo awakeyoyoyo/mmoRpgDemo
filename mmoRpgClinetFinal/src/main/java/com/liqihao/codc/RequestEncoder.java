@@ -12,6 +12,7 @@ import io.netty.handler.codec.MessageToByteEncoder;
 public class RequestEncoder extends MessageToByteEncoder<NettyRequest> {
     @Override
     protected void encode(ChannelHandlerContext channelHandlerContext, NettyRequest nettyRequest, ByteBuf byteBuf) throws Exception {
+        System.out.println("Clinet:RequestEncoder");
         //写入包头
         byteBuf.writeInt(ConstantValue.FLAG);
         //module

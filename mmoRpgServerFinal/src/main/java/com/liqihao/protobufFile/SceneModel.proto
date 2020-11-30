@@ -1,0 +1,75 @@
+syntax ="proto3";
+
+option java_outer_classname="SceneModel";
+//protoful 可以使用message 管理其他的mssage
+message SceneModelMessage{
+  //定义枚举类型
+  enum DateType{
+    AskCanRequest=0;//在proto3 要求enum的编号从0开始
+    FindAllRolesRequest=1;
+    WentRequest=2;
+    WhereRequest=3;
+    AskCanResponse=4;
+    FindAllRolesResponse=5;
+    WentResponse=6;
+    WhereResponse=7;
+  }
+  //用date_type来标识传的是哪一个枚举类型
+  DateType data_type=1;
+  //表示每次枚举类型最多只能出现其中一个，节省空间
+  oneof dateBody{
+    AskCanRequest askCanRequest=2;
+    FindAllRolesRequest findAllRolesRequest=3;
+    WentRequest wentRequest=4;
+    WhereRequest whereRequest=5;
+    AskCanResponse askCanResponse=6;
+    FindAllRolesResponse findAllRolesResponse=7;
+    WentResponse wentResponse=8;
+    WhereResponse whereResponse=9;
+    MmoScene mmoScene=10;
+  }
+}
+message AskCanRequest{
+  int32  sceneId=1;
+}
+message FindAllRolesRequest{
+  int32  sceneId=1;
+}
+message WentRequest{
+  int32  sceneId=1;;
+  int32  playId=2;
+}
+message WhereRequest{
+  int32 playId=1;
+}
+message AskCanResponse{
+  repeated MmoSimpleScene mmoSimpleScenes=1;
+}
+message FindAllRolesResponse{
+  repeated MmoSimpleRole mmoSimpleRoles=1;
+}
+message WentResponse{
+  MmoScene mmoScene=1;
+}
+message WhereResponse{
+  MmoScene mmoScene=1;
+}
+
+message MmoScene{
+  int32 id=1;
+  string placeName=2;
+  repeated MmoSimpleScene canScene=3;
+  repeated MmoSimpleRole roles=4;
+}
+message MmoSimpleRole{
+  int32 id=1;
+  string name=2;
+  string status=3;
+  string type=4;
+}
+
+
+message MmoSimpleScene{
+   int32 id=1;
+   string palceName=2;
+}

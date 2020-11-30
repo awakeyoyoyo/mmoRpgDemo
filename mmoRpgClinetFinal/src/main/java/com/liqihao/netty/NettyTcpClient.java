@@ -9,11 +9,10 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.protobuf.ProtobufDecoder;
-import io.netty.handler.codec.protobuf.ProtobufEncoder;
+
 
 import java.net.InetSocketAddress;
-import java.util.Scanner;
+
 
 public class NettyTcpClient {
     private int port;
@@ -41,11 +40,9 @@ public class NettyTcpClient {
                         protected void initChannel(SocketChannel socketChannel) throws Exception {
                             //给pipeline管道设置处理器
                             socketChannel.pipeline()
-                                    //加入protoful编码器
-                                    .addLast("decoder",new ResponceDecoder())
-                                    .addLast("encoder",new RequestEncoder())
-//                                    .addLast(new ObjectEncoder())
-                                    .addLast(null);
+                                    .addLast("decoder",new ResponceDecoder()) //解码器
+                                    .addLast("encoder",new RequestEncoder())  //编码器
+                                    .addLast(new ClientHandler());
                         }
                     });//给workerGroup的EventLoop对应的管道设置处理器
             //绑定端口号，启动服务端
@@ -53,15 +50,9 @@ public class NettyTcpClient {
             //对关闭通道进行监听
             System.out.println("客户端已经启动.....");
             System.out.println("---------------------------------------------------------");
-            System.out.println("欢迎来到传奇123，请输入指令啦");
-            Scanner scanner=new Scanner(System.in);
-            while(true){
-                String cmd=scanner.nextLine();
-                if (cmd.equals("exit")){
-                    channelFuture.channel().close();
-                    break;
-                }
-            }
+            //开始游戏
+//            ClientWorker clientWorker=new ClientWorker();
+//            clientWorker.gameBegim(channelFuture);
             channelFuture.channel().closeFuture().sync();
         } finally {
             worker.shutdownGracefully();
