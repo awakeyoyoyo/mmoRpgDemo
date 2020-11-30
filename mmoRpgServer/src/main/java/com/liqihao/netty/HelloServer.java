@@ -24,6 +24,7 @@ import org.springframework.stereotype.Component;
 public class HelloServer {
     @Autowired
     private MmoPersonMapper mmoPersonMapper;
+
     private int port=6666;
 
     public int getPort() {
@@ -33,7 +34,6 @@ public class HelloServer {
     public void setPort(int port) {
         this.port = port;
     }
-
     public  void run() throws Exception {
         //创建两个线程吃 boosGroup、workerGroup
         //负责监听端口

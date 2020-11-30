@@ -90,6 +90,7 @@ public class ServerInit implements ApplicationContextAware {
     public static void main(String[] args) {
         String str=null;
         System.out.println(split(str));
+
     }
 
 }
