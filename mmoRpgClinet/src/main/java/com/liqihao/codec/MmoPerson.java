@@ -1,4 +1,4 @@
-package com.liqihao.pojo;
+package com.liqihao.codec;
 
 import java.io.Serializable;
 

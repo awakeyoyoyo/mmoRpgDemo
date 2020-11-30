@@ -11,6 +11,8 @@
     <modules>
         <module>mmoRpgServer</module>
         <module>mmoRpgClinet</module>
+        <module>mmoRpgServerFinal</module>
+        <module>mmoRpgClinetFinal</module>
     </modules>
 
 
