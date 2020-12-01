@@ -11,6 +11,7 @@ import java.util.List;
 public class ClientHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("CLIENT:channelActive");
         //发送一个当前askCanRequest
         NettyRequest nettyRequest=new NettyRequest();
         nettyRequest.setCmd((short)1);
@@ -22,20 +23,19 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
         byte[] data=myMessage.toByteArray();
         nettyRequest.setData(data);
         ctx.writeAndFlush(nettyRequest);
-        System.out.println("CLIENT发送一个当前askCanRequest");
     }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        System.out.println("CLIENT:channelRead");
         NettyResponse response= (NettyResponse) msg;
         byte[] data=response.getData();
         SceneModel.SceneModelMessage myMessage;
         myMessage=SceneModel.SceneModelMessage.parseFrom(data);
         List<SceneModel.MmoSimpleScene> mmoSimpleScenes=myMessage.getAskCanResponse().getMmoSimpleScenesList();
         for (SceneModel.MmoSimpleScene mmoSimpleScene:mmoSimpleScenes){
-            System.out.println(mmoSimpleScene.getPalceName());
+            System.out.println("当前可以进入的场景："+mmoSimpleScene.getPalceName());
         }
-        System.out.println("CLIENT收到回复一个NettyResponse");
     }
 
     @Override

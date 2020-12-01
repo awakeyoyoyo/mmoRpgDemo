@@ -11,14 +11,15 @@ import io.netty.handler.codec.MessageToByteEncoder;
  * 响应编码器
  * 数据包格式
  * 包头（4byte）-----模块号（2byte）-----命令号（2byte）-----状态码（4byte）------长度（4byte）--------数据
+ * 数据包基本长度 模块号+命令+状态码+长度
  */
 public class ResponceEncoder extends MessageToByteEncoder<NettyResponse> {
     @Override
     protected void encode(ChannelHandlerContext channelHandlerContext, NettyResponse nettyResponse, ByteBuf byteBuf) throws Exception {
         System.out.println("Server:ResponceEncoder");
 
-        //写入包头
-        byteBuf.writeInt(ConstantValue.FLAG);
+//        //写入包头
+//        byteBuf.writeInt(ConstantValue.FLAG);
         //module
         byteBuf.writeShort(nettyResponse.getModule());
         //cmd
@@ -29,5 +30,7 @@ public class ResponceEncoder extends MessageToByteEncoder<NettyResponse> {
         byteBuf.writeInt(nettyResponse.getDataLength());
         //data
         byteBuf.writeBytes(nettyResponse.getData());
+
+        System.err.println(byteBuf.readableBytes());
     }
 }

@@ -16,7 +16,7 @@ public class ResponceEncoder extends MessageToByteEncoder<NettyResponse> {
     protected void encode(ChannelHandlerContext channelHandlerContext, NettyResponse nettyResponse, ByteBuf byteBuf) throws Exception {
         System.out.println("Clinet:ResponceEncoder");
         //写入包头
-        byteBuf.writeInt(ConstantValue.FLAG);
+//        byteBuf.writeInt(ConstantValue.FLAG);
         //module
         byteBuf.writeShort(nettyResponse.getModule());
         //cmd

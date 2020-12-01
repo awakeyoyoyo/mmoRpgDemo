@@ -17,21 +17,23 @@ import java.util.List;
 public class ResponceDecoder extends ByteToMessageDecoder {
     /**
      * 数据包基本长度 包头+模块号+命令+状态码+长度
+     * 数据包基本长度 模块号+命令+状态码+长度
      */
     public static int BASE_LENGTH=4+2+2+4+4;
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
         System.out.println("Server:ResponceDecoder");
+
         if (byteBuf.readableBytes()>=BASE_LENGTH){
             //记录开始读取的index
             int beginReader =byteBuf.writerIndex();
             //可以处理
             //读到包头才出来 从正确位置开始读取
-            while(true) {
-                if (byteBuf.readInt() == ConstantValue.FLAG) {
-                    break;
-                }
-            }
+//            while(true) {
+//                if (byteBuf.readInt() == ConstantValue.FLAG) {
+//                    break;
+//                }
+//            }
             short module=byteBuf.readShort();
             short cmd=byteBuf.readShort();
             int stateCode=byteBuf.readInt();
@@ -45,14 +47,16 @@ public class ResponceDecoder extends ByteToMessageDecoder {
             }
             byte[] data=new byte[len];
             byteBuf.readBytes(data);
-            NettyResponse nettyRequest=new NettyResponse();
-            nettyRequest.setModule(module);
-            nettyRequest.setCmd(cmd);
-            nettyRequest.setStateCode(stateCode);
-            nettyRequest.setData(data);
+            NettyResponse nettyRseponse=new NettyResponse();
+            nettyRseponse.setModule(module);
+            nettyRseponse.setCmd(cmd);
+            nettyRseponse.setStateCode(stateCode);
+            nettyRseponse.setData(data);
+            list.add(nettyRseponse);
         }else{
             //数据包不完整，需要等待数据包来齐
             return;
         }
+
     }
 }
