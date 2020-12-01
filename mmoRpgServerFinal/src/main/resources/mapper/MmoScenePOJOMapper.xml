@@ -85,4 +85,11 @@
     <include refid="Base_Column_List" />
     from mmo_scene
   </select>
+  <select id="selectCanSceneByPrId"  parameterType="java.lang.Integer" resultType="java.lang.String">
+    select
+    canScene
+    from mmo_scene
+    where id=#{mmosceneid}
+  </select>
+
 </mapper>

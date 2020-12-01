@@ -155,6 +155,21 @@ public final class SceneModel {
      */
     WhereResponseOrBuilder getWhereResponseOrBuilder();
 
+    /**
+     * <code>.MmoScene mmoScene = 10;</code>
+     * @return Whether the mmoScene field is set.
+     */
+    boolean hasMmoScene();
+    /**
+     * <code>.MmoScene mmoScene = 10;</code>
+     * @return The mmoScene.
+     */
+    MmoScene getMmoScene();
+    /**
+     * <code>.MmoScene mmoScene = 10;</code>
+     */
+    MmoSceneOrBuilder getMmoSceneOrBuilder();
+
     public SceneModelMessage.DateBodyCase getDateBodyCase();
   }
   /**
@@ -323,6 +338,20 @@ public final class SceneModel {
                 dateBody_ = subBuilder.buildPartial();
               }
               dateBodyCase_ = 9;
+              break;
+            }
+            case 82: {
+              MmoScene.Builder subBuilder = null;
+              if (dateBodyCase_ == 10) {
+                subBuilder = ((MmoScene) dateBody_).toBuilder();
+              }
+              dateBody_ =
+                  input.readMessage(MmoScene.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((MmoScene) dateBody_);
+                dateBody_ = subBuilder.buildPartial();
+              }
+              dateBodyCase_ = 10;
               break;
             }
             default: {
@@ -544,6 +573,7 @@ public final class SceneModel {
       FINDALLROLESRESPONSE(7),
       WENTRESPONSE(8),
       WHERERESPONSE(9),
+      MMOSCENE(10),
       DATEBODY_NOT_SET(0);
       private final int value;
       private DateBodyCase(int value) {
@@ -569,6 +599,7 @@ public final class SceneModel {
           case 7: return FINDALLROLESRESPONSE;
           case 8: return WENTRESPONSE;
           case 9: return WHERERESPONSE;
+          case 10: return MMOSCENE;
           case 0: return DATEBODY_NOT_SET;
           default: return null;
         }
@@ -859,6 +890,37 @@ public final class SceneModel {
       return WhereResponse.getDefaultInstance();
     }
 
+    public static final int MMOSCENE_FIELD_NUMBER = 10;
+    /**
+     * <code>.MmoScene mmoScene = 10;</code>
+     * @return Whether the mmoScene field is set.
+     */
+    @Override
+    public boolean hasMmoScene() {
+      return dateBodyCase_ == 10;
+    }
+    /**
+     * <code>.MmoScene mmoScene = 10;</code>
+     * @return The mmoScene.
+     */
+    @Override
+    public MmoScene getMmoScene() {
+      if (dateBodyCase_ == 10) {
+         return (MmoScene) dateBody_;
+      }
+      return MmoScene.getDefaultInstance();
+    }
+    /**
+     * <code>.MmoScene mmoScene = 10;</code>
+     */
+    @Override
+    public MmoSceneOrBuilder getMmoSceneOrBuilder() {
+      if (dateBodyCase_ == 10) {
+         return (MmoScene) dateBody_;
+      }
+      return MmoScene.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -899,6 +961,9 @@ public final class SceneModel {
       }
       if (dateBodyCase_ == 9) {
         output.writeMessage(9, (WhereResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 10) {
+        output.writeMessage(10, (MmoScene) dateBody_);
       }
       unknownFields.writeTo(output);
     }
@@ -944,6 +1009,10 @@ public final class SceneModel {
       if (dateBodyCase_ == 9) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(9, (WhereResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 10) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(10, (MmoScene) dateBody_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -995,6 +1064,10 @@ public final class SceneModel {
           if (!getWhereResponse()
               .equals(other.getWhereResponse())) return false;
           break;
+        case 10:
+          if (!getMmoScene()
+              .equals(other.getMmoScene())) return false;
+          break;
         case 0:
         default:
       }
@@ -1043,6 +1116,10 @@ public final class SceneModel {
         case 9:
           hash = (37 * hash) + WHERERESPONSE_FIELD_NUMBER;
           hash = (53 * hash) + getWhereResponse().hashCode();
+          break;
+        case 10:
+          hash = (37 * hash) + MMOSCENE_FIELD_NUMBER;
+          hash = (53 * hash) + getMmoScene().hashCode();
           break;
         case 0:
         default:
@@ -1271,6 +1348,13 @@ public final class SceneModel {
             result.dateBody_ = whereResponseBuilder_.build();
           }
         }
+        if (dateBodyCase_ == 10) {
+          if (mmoSceneBuilder_ == null) {
+            result.dateBody_ = dateBody_;
+          } else {
+            result.dateBody_ = mmoSceneBuilder_.build();
+          }
+        }
         result.dateBodyCase_ = dateBodyCase_;
         onBuilt();
         return result;
@@ -1354,6 +1438,10 @@ public final class SceneModel {
           }
           case WHERERESPONSE: {
             mergeWhereResponse(other.getWhereResponse());
+            break;
+          }
+          case MMOSCENE: {
+            mergeMmoScene(other.getMmoScene());
             break;
           }
           case DATEBODY_NOT_SET: {
@@ -2605,6 +2693,147 @@ public final class SceneModel {
         onChanged();;
         return whereResponseBuilder_;
       }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          MmoScene, MmoScene.Builder, MmoSceneOrBuilder> mmoSceneBuilder_;
+      /**
+       * <code>.MmoScene mmoScene = 10;</code>
+       * @return Whether the mmoScene field is set.
+       */
+      @Override
+      public boolean hasMmoScene() {
+        return dateBodyCase_ == 10;
+      }
+      /**
+       * <code>.MmoScene mmoScene = 10;</code>
+       * @return The mmoScene.
+       */
+      @Override
+      public MmoScene getMmoScene() {
+        if (mmoSceneBuilder_ == null) {
+          if (dateBodyCase_ == 10) {
+            return (MmoScene) dateBody_;
+          }
+          return MmoScene.getDefaultInstance();
+        } else {
+          if (dateBodyCase_ == 10) {
+            return mmoSceneBuilder_.getMessage();
+          }
+          return MmoScene.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.MmoScene mmoScene = 10;</code>
+       */
+      public Builder setMmoScene(MmoScene value) {
+        if (mmoSceneBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dateBody_ = value;
+          onChanged();
+        } else {
+          mmoSceneBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 10;
+        return this;
+      }
+      /**
+       * <code>.MmoScene mmoScene = 10;</code>
+       */
+      public Builder setMmoScene(
+          MmoScene.Builder builderForValue) {
+        if (mmoSceneBuilder_ == null) {
+          dateBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          mmoSceneBuilder_.setMessage(builderForValue.build());
+        }
+        dateBodyCase_ = 10;
+        return this;
+      }
+      /**
+       * <code>.MmoScene mmoScene = 10;</code>
+       */
+      public Builder mergeMmoScene(MmoScene value) {
+        if (mmoSceneBuilder_ == null) {
+          if (dateBodyCase_ == 10 &&
+              dateBody_ != MmoScene.getDefaultInstance()) {
+            dateBody_ = MmoScene.newBuilder((MmoScene) dateBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dateBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dateBodyCase_ == 10) {
+            mmoSceneBuilder_.mergeFrom(value);
+          }
+          mmoSceneBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 10;
+        return this;
+      }
+      /**
+       * <code>.MmoScene mmoScene = 10;</code>
+       */
+      public Builder clearMmoScene() {
+        if (mmoSceneBuilder_ == null) {
+          if (dateBodyCase_ == 10) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dateBodyCase_ == 10) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+          }
+          mmoSceneBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.MmoScene mmoScene = 10;</code>
+       */
+      public MmoScene.Builder getMmoSceneBuilder() {
+        return getMmoSceneFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.MmoScene mmoScene = 10;</code>
+       */
+      @Override
+      public MmoSceneOrBuilder getMmoSceneOrBuilder() {
+        if ((dateBodyCase_ == 10) && (mmoSceneBuilder_ != null)) {
+          return mmoSceneBuilder_.getMessageOrBuilder();
+        } else {
+          if (dateBodyCase_ == 10) {
+            return (MmoScene) dateBody_;
+          }
+          return MmoScene.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.MmoScene mmoScene = 10;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          MmoScene, MmoScene.Builder, MmoSceneOrBuilder>
+          getMmoSceneFieldBuilder() {
+        if (mmoSceneBuilder_ == null) {
+          if (!(dateBodyCase_ == 10)) {
+            dateBody_ = MmoScene.getDefaultInstance();
+          }
+          mmoSceneBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              MmoScene, MmoScene.Builder, MmoSceneOrBuilder>(
+                  (MmoScene) dateBody_,
+                  getParentForChildren(),
+                  isClean());
+          dateBody_ = null;
+        }
+        dateBodyCase_ = 10;
+        onChanged();;
+        return mmoSceneBuilder_;
+      }
       @Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -3078,7 +3307,7 @@ public final class SceneModel {
        * @return This builder for chaining.
        */
       public Builder setSceneId(int value) {
-
+        
         sceneId_ = value;
         onChanged();
         return this;
@@ -3088,7 +3317,7 @@ public final class SceneModel {
        * @return This builder for chaining.
        */
       public Builder clearSceneId() {
-
+        
         sceneId_ = 0;
         onChanged();
         return this;
@@ -3566,7 +3795,7 @@ public final class SceneModel {
        * @return This builder for chaining.
        */
       public Builder setSceneId(int value) {
-
+        
         sceneId_ = value;
         onChanged();
         return this;
@@ -3576,7 +3805,7 @@ public final class SceneModel {
        * @return This builder for chaining.
        */
       public Builder clearSceneId() {
-
+        
         sceneId_ = 0;
         onChanged();
         return this;
@@ -4093,7 +4322,7 @@ public final class SceneModel {
        * @return This builder for chaining.
        */
       public Builder setSceneId(int value) {
-
+        
         sceneId_ = value;
         onChanged();
         return this;
@@ -4103,7 +4332,7 @@ public final class SceneModel {
        * @return This builder for chaining.
        */
       public Builder clearSceneId() {
-
+        
         sceneId_ = 0;
         onChanged();
         return this;
@@ -4124,7 +4353,7 @@ public final class SceneModel {
        * @return This builder for chaining.
        */
       public Builder setPlayId(int value) {
-
+        
         playId_ = value;
         onChanged();
         return this;
@@ -4134,7 +4363,7 @@ public final class SceneModel {
        * @return This builder for chaining.
        */
       public Builder clearPlayId() {
-
+        
         playId_ = 0;
         onChanged();
         return this;
@@ -4612,7 +4841,7 @@ public final class SceneModel {
        * @return This builder for chaining.
        */
       public Builder setPlayId(int value) {
-
+        
         playId_ = value;
         onChanged();
         return this;
@@ -4622,7 +4851,7 @@ public final class SceneModel {
        * @return This builder for chaining.
        */
       public Builder clearPlayId() {
-
+        
         playId_ = 0;
         onChanged();
         return this;
@@ -5143,7 +5372,7 @@ public final class SceneModel {
               mmoSimpleScenesBuilder_ = null;
               mmoSimpleScenes_ = other.mmoSimpleScenes_;
               bitField0_ = (bitField0_ & ~0x00000001);
-              mmoSimpleScenesBuilder_ =
+              mmoSimpleScenesBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getMmoSimpleScenesFieldBuilder() : null;
             } else {
@@ -5936,7 +6165,7 @@ public final class SceneModel {
               mmoSimpleRolesBuilder_ = null;
               mmoSimpleRoles_ = other.mmoSimpleRoles_;
               bitField0_ = (bitField0_ & ~0x00000001);
-              mmoSimpleRolesBuilder_ =
+              mmoSimpleRolesBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getMmoSimpleRolesFieldBuilder() : null;
             } else {
@@ -6803,7 +7032,7 @@ public final class SceneModel {
        * <code>.MmoScene mmoScene = 1;</code>
        */
       public MmoScene.Builder getMmoSceneBuilder() {
-
+        
         onChanged();
         return getMmoSceneFieldBuilder().getBuilder();
       }
@@ -7424,7 +7653,7 @@ public final class SceneModel {
        * <code>.MmoScene mmoScene = 1;</code>
        */
       public MmoScene.Builder getMmoSceneBuilder() {
-
+        
         onChanged();
         return getMmoSceneFieldBuilder().getBuilder();
       }
@@ -7717,7 +7946,7 @@ public final class SceneModel {
       if (ref instanceof String) {
         return (String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         String s = bs.toStringUtf8();
         placeName_ = s;
@@ -7733,7 +7962,7 @@ public final class SceneModel {
         getPlaceNameBytes() {
       Object ref = placeName_;
       if (ref instanceof String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (String) ref);
         placeName_ = b;
@@ -8190,7 +8419,7 @@ public final class SceneModel {
               canSceneBuilder_ = null;
               canScene_ = other.canScene_;
               bitField0_ = (bitField0_ & ~0x00000001);
-              canSceneBuilder_ =
+              canSceneBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getCanSceneFieldBuilder() : null;
             } else {
@@ -8216,7 +8445,7 @@ public final class SceneModel {
               rolesBuilder_ = null;
               roles_ = other.roles_;
               bitField0_ = (bitField0_ & ~0x00000002);
-              rolesBuilder_ =
+              rolesBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getRolesFieldBuilder() : null;
             } else {
@@ -8269,7 +8498,7 @@ public final class SceneModel {
        * @return This builder for chaining.
        */
       public Builder setId(int value) {
-
+        
         id_ = value;
         onChanged();
         return this;
@@ -8279,7 +8508,7 @@ public final class SceneModel {
        * @return This builder for chaining.
        */
       public Builder clearId() {
-
+        
         id_ = 0;
         onChanged();
         return this;
@@ -8310,7 +8539,7 @@ public final class SceneModel {
           getPlaceNameBytes() {
         Object ref = placeName_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (String) ref);
           placeName_ = b;
@@ -8329,7 +8558,7 @@ public final class SceneModel {
         if (value == null) {
     throw new NullPointerException();
   }
-
+  
         placeName_ = value;
         onChanged();
         return this;
@@ -8339,7 +8568,7 @@ public final class SceneModel {
        * @return This builder for chaining.
        */
       public Builder clearPlaceName() {
-
+        
         placeName_ = getDefaultInstance().getPlaceName();
         onChanged();
         return this;
@@ -8355,7 +8584,7 @@ public final class SceneModel {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-
+        
         placeName_ = value;
         onChanged();
         return this;
@@ -8938,6 +9167,18 @@ public final class SceneModel {
      */
     com.google.protobuf.ByteString
         getTypeBytes();
+
+    /**
+     * <code>string onStatus = 5;</code>
+     * @return The onStatus.
+     */
+    String getOnStatus();
+    /**
+     * <code>string onStatus = 5;</code>
+     * @return The bytes for onStatus.
+     */
+    com.google.protobuf.ByteString
+        getOnStatusBytes();
   }
   /**
    * Protobuf type {@code MmoSimpleRole}
@@ -8955,6 +9196,7 @@ public final class SceneModel {
       name_ = "";
       status_ = "";
       type_ = "";
+      onStatus_ = "";
     }
 
     @Override
@@ -9008,6 +9250,12 @@ public final class SceneModel {
               String s = input.readStringRequireUtf8();
 
               type_ = s;
+              break;
+            }
+            case 42: {
+              String s = input.readStringRequireUtf8();
+
+              onStatus_ = s;
               break;
             }
             default: {
@@ -9167,6 +9415,44 @@ public final class SceneModel {
       }
     }
 
+    public static final int ONSTATUS_FIELD_NUMBER = 5;
+    private volatile Object onStatus_;
+    /**
+     * <code>string onStatus = 5;</code>
+     * @return The onStatus.
+     */
+    @Override
+    public String getOnStatus() {
+      Object ref = onStatus_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        onStatus_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string onStatus = 5;</code>
+     * @return The bytes for onStatus.
+     */
+    @Override
+    public com.google.protobuf.ByteString
+        getOnStatusBytes() {
+      Object ref = onStatus_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (String) ref);
+        onStatus_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -9193,6 +9479,9 @@ public final class SceneModel {
       if (!getTypeBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 4, type_);
       }
+      if (!getOnStatusBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, onStatus_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -9214,6 +9503,9 @@ public final class SceneModel {
       }
       if (!getTypeBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, type_);
+      }
+      if (!getOnStatusBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, onStatus_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -9238,6 +9530,8 @@ public final class SceneModel {
           .equals(other.getStatus())) return false;
       if (!getType()
           .equals(other.getType())) return false;
+      if (!getOnStatus()
+          .equals(other.getOnStatus())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -9257,6 +9551,8 @@ public final class SceneModel {
       hash = (53 * hash) + getStatus().hashCode();
       hash = (37 * hash) + TYPE_FIELD_NUMBER;
       hash = (53 * hash) + getType().hashCode();
+      hash = (37 * hash) + ONSTATUS_FIELD_NUMBER;
+      hash = (53 * hash) + getOnStatus().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -9398,6 +9694,8 @@ public final class SceneModel {
 
         type_ = "";
 
+        onStatus_ = "";
+
         return this;
       }
 
@@ -9428,6 +9726,7 @@ public final class SceneModel {
         result.name_ = name_;
         result.status_ = status_;
         result.type_ = type_;
+        result.onStatus_ = onStatus_;
         onBuilt();
         return result;
       }
@@ -9489,6 +9788,10 @@ public final class SceneModel {
         }
         if (!other.getType().isEmpty()) {
           type_ = other.type_;
+          onChanged();
+        }
+        if (!other.getOnStatus().isEmpty()) {
+          onStatus_ = other.onStatus_;
           onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
@@ -9775,6 +10078,82 @@ public final class SceneModel {
   checkByteStringIsUtf8(value);
         
         type_ = value;
+        onChanged();
+        return this;
+      }
+
+      private Object onStatus_ = "";
+      /**
+       * <code>string onStatus = 5;</code>
+       * @return The onStatus.
+       */
+      public String getOnStatus() {
+        Object ref = onStatus_;
+        if (!(ref instanceof String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          String s = bs.toStringUtf8();
+          onStatus_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      /**
+       * <code>string onStatus = 5;</code>
+       * @return The bytes for onStatus.
+       */
+      public com.google.protobuf.ByteString
+          getOnStatusBytes() {
+        Object ref = onStatus_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (String) ref);
+          onStatus_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string onStatus = 5;</code>
+       * @param value The onStatus to set.
+       * @return This builder for chaining.
+       */
+      public Builder setOnStatus(
+          String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        onStatus_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string onStatus = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearOnStatus() {
+        
+        onStatus_ = getDefaultInstance().getOnStatus();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string onStatus = 5;</code>
+       * @param value The bytes for onStatus to set.
+       * @return This builder for chaining.
+       */
+      public Builder setOnStatusBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        onStatus_ = value;
         onChanged();
         return this;
       }
@@ -10538,7 +10917,7 @@ public final class SceneModel {
       descriptor;
   static {
     String[] descriptorData = {
-      "\n\020SceneModel.proto\"\332\004\n\021SceneModelMessage" +
+      "\n\020SceneModel.proto\"\371\004\n\021SceneModelMessage" +
       "\022.\n\tdata_type\030\001 \001(\0162\033.SceneModelMessage." +
       "DateType\022\'\n\raskCanRequest\030\002 \001(\0132\016.AskCan" +
       "RequestH\000\0223\n\023findAllRolesRequest\030\003 \001(\0132\024" +
@@ -10548,28 +10927,29 @@ public final class SceneModel {
       "(\0132\017.AskCanResponseH\000\0225\n\024findAllRolesRes" +
       "ponse\030\007 \001(\0132\025.FindAllRolesResponseH\000\022%\n\014" +
       "wentResponse\030\010 \001(\0132\r.WentResponseH\000\022\'\n\rw" +
-      "hereResponse\030\t \001(\0132\016.WhereResponseH\000\"\254\001\n" +
-      "\010DateType\022\021\n\rAskCanRequest\020\000\022\027\n\023FindAllR" +
-      "olesRequest\020\001\022\017\n\013WentRequest\020\002\022\020\n\014WhereR" +
-      "equest\020\003\022\022\n\016AskCanResponse\020\004\022\030\n\024FindAllR" +
-      "olesResponse\020\005\022\020\n\014WentResponse\020\006\022\021\n\rWher" +
-      "eResponse\020\007B\n\n\010dateBody\" \n\rAskCanRequest" +
-      "\022\017\n\007sceneId\030\001 \001(\005\"&\n\023FindAllRolesRequest" +
-      "\022\017\n\007sceneId\030\001 \001(\005\".\n\013WentRequest\022\017\n\007scen" +
-      "eId\030\001 \001(\005\022\016\n\006playId\030\002 \001(\005\"\036\n\014WhereReques" +
-      "t\022\016\n\006playId\030\001 \001(\005\":\n\016AskCanResponse\022(\n\017m" +
-      "moSimpleScenes\030\001 \003(\0132\017.MmoSimpleScene\">\n" +
-      "\024FindAllRolesResponse\022&\n\016mmoSimpleRoles\030" +
-      "\001 \003(\0132\016.MmoSimpleRole\"+\n\014WentResponse\022\033\n" +
-      "\010mmoScene\030\001 \001(\0132\t.MmoScene\",\n\rWhereRespo" +
-      "nse\022\033\n\010mmoScene\030\001 \001(\0132\t.MmoScene\"k\n\010MmoS" +
-      "cene\022\n\n\002id\030\001 \001(\005\022\021\n\tplaceName\030\002 \001(\t\022!\n\010c" +
-      "anScene\030\003 \003(\0132\017.MmoSimpleScene\022\035\n\005roles\030" +
-      "\004 \003(\0132\016.MmoSimpleRole\"G\n\rMmoSimpleRole\022\n" +
-      "\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\016\n\006status\030\003 \001(\t" +
-      "\022\014\n\004type\030\004 \001(\t\"/\n\016MmoSimpleScene\022\n\n\002id\030\001" +
-      " \001(\005\022\021\n\tpalceName\030\002 \001(\tB\014B\nSceneModelb\006p" +
-      "roto3"
+      "hereResponse\030\t \001(\0132\016.WhereResponseH\000\022\035\n\010" +
+      "mmoScene\030\n \001(\0132\t.MmoSceneH\000\"\254\001\n\010DateType" +
+      "\022\021\n\rAskCanRequest\020\000\022\027\n\023FindAllRolesReque" +
+      "st\020\001\022\017\n\013WentRequest\020\002\022\020\n\014WhereRequest\020\003\022" +
+      "\022\n\016AskCanResponse\020\004\022\030\n\024FindAllRolesRespo" +
+      "nse\020\005\022\020\n\014WentResponse\020\006\022\021\n\rWhereResponse" +
+      "\020\007B\n\n\010dateBody\" \n\rAskCanRequest\022\017\n\007scene" +
+      "Id\030\001 \001(\005\"&\n\023FindAllRolesRequest\022\017\n\007scene" +
+      "Id\030\001 \001(\005\".\n\013WentRequest\022\017\n\007sceneId\030\001 \001(\005" +
+      "\022\016\n\006playId\030\002 \001(\005\"\036\n\014WhereRequest\022\016\n\006play" +
+      "Id\030\001 \001(\005\":\n\016AskCanResponse\022(\n\017mmoSimpleS" +
+      "cenes\030\001 \003(\0132\017.MmoSimpleScene\">\n\024FindAllR" +
+      "olesResponse\022&\n\016mmoSimpleRoles\030\001 \003(\0132\016.M" +
+      "moSimpleRole\"+\n\014WentResponse\022\033\n\010mmoScene" +
+      "\030\001 \001(\0132\t.MmoScene\",\n\rWhereResponse\022\033\n\010mm" +
+      "oScene\030\001 \001(\0132\t.MmoScene\"k\n\010MmoScene\022\n\n\002i" +
+      "d\030\001 \001(\005\022\021\n\tplaceName\030\002 \001(\t\022!\n\010canScene\030\003" +
+      " \003(\0132\017.MmoSimpleScene\022\035\n\005roles\030\004 \003(\0132\016.M" +
+      "moSimpleRole\"Y\n\rMmoSimpleRole\022\n\n\002id\030\001 \001(" +
+      "\005\022\014\n\004name\030\002 \001(\t\022\016\n\006status\030\003 \001(\t\022\014\n\004type\030" +
+      "\004 \001(\t\022\020\n\010onStatus\030\005 \001(\t\"/\n\016MmoSimpleScen" +
+      "e\022\n\n\002id\030\001 \001(\005\022\021\n\tpalceName\030\002 \001(\tB\014B\nScen" +
+      "eModelb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -10580,7 +10960,7 @@ public final class SceneModel {
     internal_static_SceneModelMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SceneModelMessage_descriptor,
-        new String[] { "DataType", "AskCanRequest", "FindAllRolesRequest", "WentRequest", "WhereRequest", "AskCanResponse", "FindAllRolesResponse", "WentResponse", "WhereResponse", "DateBody", });
+        new String[] { "DataType", "AskCanRequest", "FindAllRolesRequest", "WentRequest", "WhereRequest", "AskCanResponse", "FindAllRolesResponse", "WentResponse", "WhereResponse", "MmoScene", "DateBody", });
     internal_static_AskCanRequest_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_AskCanRequest_fieldAccessorTable = new
@@ -10640,7 +11020,7 @@ public final class SceneModel {
     internal_static_MmoSimpleRole_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_MmoSimpleRole_descriptor,
-        new String[] { "Id", "Name", "Status", "Type", });
+        new String[] { "Id", "Name", "Status", "Type", "OnStatus", });
     internal_static_MmoSimpleScene_descriptor =
       getDescriptor().getMessageTypes().get(11);
     internal_static_MmoSimpleScene_fieldAccessorTable = new

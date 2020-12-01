@@ -79,4 +79,17 @@
       userRoleId = #{userroleid,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectByUsername" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select
+    count(1)
+    from mmo_user
+    where userName = #{username}
+  </select>
+
+  <select id="checkByUernameAndPassword" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select
+    id
+    from mmo_user
+    where userName = #{username} and userPwd=#{password}
+  </select>
 </mapper>

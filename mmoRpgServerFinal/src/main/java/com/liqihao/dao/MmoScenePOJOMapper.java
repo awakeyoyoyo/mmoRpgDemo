@@ -18,4 +18,6 @@ public interface MmoScenePOJOMapper {
     int updateByPrimaryKey(MmoScenePOJO record);
 
     List<MmoScenePOJO> selectAll();
+
+    String selectCanSceneByPrId(Integer mmosceneid);
 }

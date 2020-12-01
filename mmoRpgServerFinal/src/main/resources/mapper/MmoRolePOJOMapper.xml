@@ -7,9 +7,10 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="mmoSceneId" jdbcType="INTEGER" property="mmosceneid" />
+    <result column="onStatus" jdbcType="INTEGER" property="onstatus" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, status, name, type, mmoSceneId
+    id, status, name, type, mmoSceneId, onStatus
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -23,9 +24,11 @@
   </delete>
   <insert id="insert" parameterType="com.liqihao.pojo.MmoRolePOJO">
     insert into mmo_role (id, status, name, 
-      type, mmoSceneId)
+      type, mmoSceneId, onStatus
+      )
     values (#{id,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{type,jdbcType=INTEGER}, #{mmosceneid,jdbcType=INTEGER})
+      #{type,jdbcType=INTEGER}, #{mmosceneid,jdbcType=INTEGER}, #{onstatus,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.liqihao.pojo.MmoRolePOJO">
     insert into mmo_role
@@ -45,6 +48,9 @@
       <if test="mmosceneid != null">
         mmoSceneId,
       </if>
+      <if test="onstatus != null">
+        onStatus,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -61,6 +67,9 @@
       </if>
       <if test="mmosceneid != null">
         #{mmosceneid,jdbcType=INTEGER},
+      </if>
+      <if test="onstatus != null">
+        #{onstatus,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -79,6 +88,9 @@
       <if test="mmosceneid != null">
         mmoSceneId = #{mmosceneid,jdbcType=INTEGER},
       </if>
+      <if test="onstatus != null">
+        onStatus = #{onstatus,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -87,7 +99,20 @@
     set status = #{status,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       type = #{type,jdbcType=INTEGER},
-      mmoSceneId = #{mmosceneid,jdbcType=INTEGER}
+      mmoSceneId = #{mmosceneid,jdbcType=INTEGER},
+      onStatus = #{onstatus,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectByRoleName" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+  select
+  count(1)
+  from mmo_role
+  where name = #{roleName}
+   </select>
+  <select id="selectByPrimaryKeyAndOnStatus" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from mmo_role
+    where id = #{id,jdbcType=INTEGER} and onStatus=9527
+  </select>
 </mapper>

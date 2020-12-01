@@ -1,0 +1,58 @@
+syntax ="proto3";
+
+option java_outer_classname="PlayModel";
+//protoful 可以使用message 管理其他的mssage
+message PlayModelMessage{
+  //定义枚举类型
+  enum DateType{
+    LoginRequest=0;//在proto3 要求enum的编号从0开始
+    RegisterRequest=1;
+    LoginResponse=2;
+    RegisterResponse=3;
+  }
+  //用date_type来标识传的是哪一个枚举类型
+  DateType data_type=1;
+  //表示每次枚举类型最多只能出现其中一个，节省空间
+  oneof dateBody{
+    LoginRequest loginRequest=2;
+    RegisterRequest registerRequest=3;
+    LoginResponse loginResponse=4;
+    RegisterResponse registerResponse=5;
+  }
+}
+message LoginRequest{
+  string username=1;
+  string password=2;
+}
+message RegisterRequest{
+  string username=1;
+  string password=2;
+  string rolename=3;
+}
+message LoginResponse{
+  MmoScene mmoScene=1;
+  MmoSimpleRole mmoSimpleRole=2;
+}
+
+message RegisterResponse{
+  int32 stateCode=1;
+  string message=2;
+}
+
+message MmoScene{
+  int32 id=1;
+  string placeName=2;
+  repeated MmoSimpleScene canScene=3;
+  repeated MmoSimpleRole roles=4;
+}
+message MmoSimpleRole{
+  int32 id=1;
+  string name=2;
+  string status=3;
+  string type=4;
+  string onStatus=5;
+}
+message MmoSimpleScene{
+  int32 id=1;
+  string placeName=2;
+}

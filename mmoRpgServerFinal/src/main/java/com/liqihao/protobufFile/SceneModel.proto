@@ -66,6 +66,7 @@ message MmoSimpleRole{
   string name=2;
   string status=3;
   string type=4;
+  string onStatus=5;
 }
 
 

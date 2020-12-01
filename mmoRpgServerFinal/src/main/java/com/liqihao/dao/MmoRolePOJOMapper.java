@@ -14,4 +14,7 @@ public interface MmoRolePOJOMapper {
     int updateByPrimaryKeySelective(MmoRolePOJO record);
 
     int updateByPrimaryKey(MmoRolePOJO record);
+    Integer selectByRoleName(String roleName);
+
+    MmoRolePOJO selectByPrimaryKeyAndOnStatus(Integer id);
 }

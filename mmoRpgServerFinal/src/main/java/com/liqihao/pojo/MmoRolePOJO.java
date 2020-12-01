@@ -11,6 +11,8 @@ public class MmoRolePOJO {
 
     private Integer mmosceneid;
 
+    private Integer onstatus;
+
     public Integer getId() {
         return id;
     }
@@ -49,5 +51,13 @@ public class MmoRolePOJO {
 
     public void setMmosceneid(Integer mmosceneid) {
         this.mmosceneid = mmosceneid;
+    }
+
+    public Integer getOnstatus() {
+        return onstatus;
+    }
+
+    public void setOnstatus(Integer onstatus) {
+        this.onstatus = onstatus;
     }
 }
