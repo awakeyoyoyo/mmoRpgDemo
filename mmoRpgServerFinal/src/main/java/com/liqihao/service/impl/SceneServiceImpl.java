@@ -18,8 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
-
-import javax.swing.plaf.nimbus.State;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,8 +42,8 @@ public class SceneServiceImpl implements SceneService, ApplicationContextAware {
         SceneModel.SceneModelMessage myMessage;
         myMessage=SceneModel.SceneModelMessage.parseFrom(data);
         Integer sceneId=myMessage.getAskCanRequest().getSceneId();
-        if (null==sceneId){
-            return new NettyResponse(400,(short)444,(short)444,"无传入sceneId无法查询".getBytes());
+        if (null==sceneId) {
+            return new NettyResponse(StateCode.FAIL, ConstantValue.SCENE_MODULE, ConstantValue.ASK_CAN_RESPONSE, "无传入sceneId无法查询".getBytes());
         }
         log.info("SceneService accept sceneId: "+sceneId);
 
@@ -66,9 +64,9 @@ public class SceneServiceImpl implements SceneService, ApplicationContextAware {
                 .setAskCanResponse(SceneModel.AskCanResponse.newBuilder().addAllMmoSimpleScenes(mmoSimpleScenes)).build();
         //封装到NettyResponse中
         NettyResponse response=new NettyResponse();
-        response.setCmd((short)1010);
-        response.setStateCode(200);
-        response.setModule((short)1111);
+        response.setCmd(ConstantValue.ASK_CAN_RESPONSE);
+        response.setStateCode(StateCode.SUCCESS);
+        response.setModule(ConstantValue.SCENE_MODULE);
         byte[] data2=Messagedata.toByteArray();
         response.setData(data2);
         return response;
@@ -89,7 +87,7 @@ public class SceneServiceImpl implements SceneService, ApplicationContextAware {
 
         if (!cans.contains(sceneId)){
             //不包含 即不可进入
-            NettyResponse errotResponse=new NettyResponse(400,(short)444,(short)444,"无法前往该场景".getBytes());
+            NettyResponse errotResponse=new NettyResponse(StateCode.FAIL,ConstantValue.SCENE_MODULE,ConstantValue.WENT_RESPONSE,"无法前往该场景".getBytes());
             return  errotResponse;
         }
         //进入场景，修改数据库 player 和scene
@@ -131,9 +129,9 @@ public class SceneServiceImpl implements SceneService, ApplicationContextAware {
 
         //生成response返回
         NettyResponse nettyResponse=new NettyResponse();
-        nettyResponse.setCmd((short)1012);
-        nettyResponse.setStateCode(200);
-        nettyResponse.setModule((short)1111);
+        nettyResponse.setCmd(ConstantValue.WENT_RESPONSE);
+        nettyResponse.setStateCode(StateCode.SUCCESS);
+        nettyResponse.setModule(ConstantValue.SCENE_MODULE);
         //ptotobuf生成wentResponse
         SceneModel.SceneModelMessage.Builder builder=SceneModel.SceneModelMessage.newBuilder();
         builder.setDataType(SceneModel.SceneModelMessage.DateType.WentResponse);
@@ -177,7 +175,7 @@ public class SceneServiceImpl implements SceneService, ApplicationContextAware {
 
     @Override
     public NettyResponse whereRequest(NettyRequest nettyRequest) throws InvalidProtocolBufferException {
-        return new NettyResponse(StateCode.FAIL,(short)444,(short)444,"该请求未写".getBytes());
+        return new NettyResponse(StateCode.FAIL,ConstantValue.SCENE_MODULE,ConstantValue.WHERE_RESPONSE,"该请求未写".getBytes());
     }
 
     @Override
@@ -207,9 +205,9 @@ public class SceneServiceImpl implements SceneService, ApplicationContextAware {
         findAllRolesResponseBuilder.addAllMmoSimpleRoles(mmoSimpleRoles);
         byte[] data2=findAllRolesResponseBuilder.build().toByteArray();
         NettyResponse nettyResponse=new NettyResponse();
-        nettyResponse.setCmd((short)1011);
+        nettyResponse.setCmd(ConstantValue.FIND_ALL_ROLES_RESPONSE);
         nettyResponse.setStateCode(200);
-        nettyResponse.setModule((short)1111);
+        nettyResponse.setModule(ConstantValue.SCENE_MODULE);
         nettyResponse.setData(data2);
         return nettyResponse;
     }

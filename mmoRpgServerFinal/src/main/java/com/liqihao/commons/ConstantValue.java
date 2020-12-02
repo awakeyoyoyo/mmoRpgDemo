@@ -16,6 +16,7 @@ public interface ConstantValue {
     public static final short WHERE_RESPONSE=1013;
 
     public static final short PLAY_MODULE=2222;
+
     public static final short LOGIN_REQUEST=2000;
     public static final short REGISTER_REQUEST=2001;
     public static final short LOGOUT_REQUEST=2002;
