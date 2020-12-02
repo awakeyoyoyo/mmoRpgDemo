@@ -38,9 +38,9 @@ public class PlayServiceImpl implements PlayService {
         if (count1>0||count2>0){
             //用户已存在
             NettyResponse nettyResponse=new NettyResponse();
-            nettyResponse.setCmd((short)2011);
+            nettyResponse.setCmd(ConstantValue.REGISTER_RESPONSE);
             nettyResponse.setStateCode(StateCode.SUCCESS);
-            nettyResponse.setModule((short)2222);
+            nettyResponse.setModule(ConstantValue.PLAY_MODULE);
             //protobuf 生成registerResponse
             PlayModel.PlayModelMessage.Builder messageData=PlayModel.PlayModelMessage.newBuilder();
             messageData.setDataType(PlayModel.PlayModelMessage.DateType.LoginResponse);
@@ -67,9 +67,9 @@ public class PlayServiceImpl implements PlayService {
 
         //返回成功的数据包
         NettyResponse nettyResponse=new NettyResponse();
-        nettyResponse.setCmd((short)2011);
+        nettyResponse.setCmd(ConstantValue.REGISTER_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        nettyResponse.setModule((short)2222);
+        nettyResponse.setModule(ConstantValue.PLAY_MODULE);
         //protobuf 生成registerResponse
         PlayModel.PlayModelMessage.Builder messageData=PlayModel.PlayModelMessage.newBuilder();
         messageData.setDataType(PlayModel.PlayModelMessage.DateType.RegisterResponse);
@@ -91,9 +91,9 @@ public class PlayServiceImpl implements PlayService {
         Integer mmoUserId=mmoUserPOJOMapper.checkByUernameAndPassword(username,password);
         if (null==mmoUserId||mmoUserId<0){
             NettyResponse nettyResponse=new NettyResponse();
-            nettyResponse.setCmd((short)2010);
+            nettyResponse.setCmd(ConstantValue.LOGIN_RESPONSE);
             nettyResponse.setStateCode(StateCode.FAIL);
-            nettyResponse.setModule((short)2222);
+            nettyResponse.setModule(ConstantValue.PLAY_MODULE);
             //protobuf 生成loginResponse
             PlayModel.PlayModelMessage.Builder messageData=PlayModel.PlayModelMessage.newBuilder();
             messageData.setDataType(PlayModel.PlayModelMessage.DateType.LoginResponse);
@@ -166,6 +166,40 @@ public class PlayServiceImpl implements PlayService {
         messageData.setLoginResponse(loginResponseBuilder.build());
         NettyResponse nettyResponse=new NettyResponse();
         nettyResponse.setData(messageData.build().toByteArray());
+        nettyResponse.setModule(ConstantValue.PLAY_MODULE);
+        nettyResponse.setCmd(ConstantValue.LOGIN_RESPONSE);
         return nettyResponse;
+    }
+
+    @Override
+    public NettyResponse logoutRequest(NettyRequest nettyRequest) throws InvalidProtocolBufferException {
+        byte[] data=nettyRequest.getData();
+        PlayModel.PlayModelMessage myMessage;
+        myMessage=PlayModel.PlayModelMessage.parseFrom(data);
+        Integer rolesId=myMessage.getLogoutRequest().getRolesId();
+        //将数据库中设置为离线
+        MmoRolePOJO mmoRolePOJO=mmoRolePOJOMapper.selectByPrimaryKey(rolesId);
+        mmoRolePOJO.setOnstatus(RoleOnStatusCode.EXIT.getCode());
+        mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO);
+        //将场景中玩家id 移除
+        MmoScenePOJO mmoScenePOJO=mmoScenePOJOMapper.selectByPrimaryKey(mmoRolePOJO.getMmosceneid());
+        List<Integer> sceneRoles=CommonsUtil.split(mmoScenePOJO.getRoles());
+        if (sceneRoles.contains(rolesId)){
+            sceneRoles.remove(rolesId);
+        }
+        //protobuf生成消息
+        PlayModel.PlayModelMessage.Builder myMessageBuilder=PlayModel.PlayModelMessage.newBuilder();
+        myMessageBuilder.setDataType(PlayModel.PlayModelMessage.DateType.LogoutResponse);
+        PlayModel.LogoutResponse.Builder logoutResponseBuilder=PlayModel.LogoutResponse.newBuilder();
+        logoutResponseBuilder.setCode(StateCode.SUCCESS);
+        logoutResponseBuilder.setMxg("退出登陆成功");
+        myMessageBuilder.setLogoutResponse(logoutResponseBuilder.build());
+        //封装成nettyResponse
+        NettyResponse nettyResponse=new NettyResponse();
+        nettyResponse.setCmd(ConstantValue.LOGOUT_RESPONSE);
+        nettyResponse.setStateCode(StateCode.SUCCESS);
+        nettyResponse.setModule(ConstantValue.PLAY_MODULE);
+        nettyResponse.setData(myMessageBuilder.build().toByteArray());
+        return  nettyResponse;
     }
 }

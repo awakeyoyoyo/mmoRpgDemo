@@ -7,8 +7,10 @@ message PlayModelMessage{
   enum DateType{
     LoginRequest=0;//在proto3 要求enum的编号从0开始
     RegisterRequest=1;
-    LoginResponse=2;
-    RegisterResponse=3;
+    LogoutRequest=2;
+    LoginResponse=3;
+    RegisterResponse=4;
+    LogoutResponse=5;
   }
   //用date_type来标识传的是哪一个枚举类型
   DateType data_type=1;
@@ -16,8 +18,10 @@ message PlayModelMessage{
   oneof dateBody{
     LoginRequest loginRequest=2;
     RegisterRequest registerRequest=3;
-    LoginResponse loginResponse=4;
-    RegisterResponse registerResponse=5;
+    LogoutRequest logoutRequest=4;
+    LoginResponse loginResponse=5;
+    RegisterResponse registerResponse=6;
+    LogoutResponse logoutResponse=7;
   }
 }
 message LoginRequest{
@@ -38,7 +42,13 @@ message RegisterResponse{
   int32 stateCode=1;
   string message=2;
 }
-
+message LogoutRequest{
+  int32 rolesId=1;
+}
+message LogoutResponse{
+  int32 code=1;
+  string mxg=2;
+}
 message MmoScene{
   int32 id=1;
   string placeName=2;

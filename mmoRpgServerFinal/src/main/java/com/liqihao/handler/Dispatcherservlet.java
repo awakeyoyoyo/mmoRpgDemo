@@ -27,7 +27,7 @@ public class Dispatcherservlet {
         short cmd=nettyRequest.getCmd();
         NettyResponse nettyResponse=null;
         switch (module){
-            case ConstantValue.PLAY_MODULE:
+            case ConstantValue.SCENE_MODULE:
                 switch (cmd){
                     case ConstantValue.ASK_CAN_REQUEST:
                         nettyResponse=sceneService.askCanRequest(nettyRequest);
@@ -45,7 +45,7 @@ public class Dispatcherservlet {
                         nettyResponse=new NettyResponse(StateCode.FAIL,(short)444,(short)444,"传入错误的cmd".getBytes());
                 }
                 break;
-            case ConstantValue.SCENE_MODULE:
+            case ConstantValue.PLAY_MODULE:
                 switch (cmd){
                     case ConstantValue.LOGIN_REQUEST:
                         nettyResponse=playService.loginRequest(nettyRequest);
@@ -53,6 +53,8 @@ public class Dispatcherservlet {
                     case ConstantValue.REGISTER_REQUEST:
                         nettyResponse=playService.registerRequest(nettyRequest);
                         break;
+                    case ConstantValue.LOGOUT_REQUEST:
+                        nettyResponse=playService.logoutRequest(nettyRequest);
                     default:
                        nettyResponse=new NettyResponse(StateCode.FAIL,(short)444,(short)444,"传入错误的cmd".getBytes());
                 }

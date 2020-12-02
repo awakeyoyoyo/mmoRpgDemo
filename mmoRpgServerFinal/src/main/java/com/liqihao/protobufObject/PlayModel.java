@@ -66,34 +66,64 @@ public final class PlayModel {
     RegisterRequestOrBuilder getRegisterRequestOrBuilder();
 
     /**
-     * <code>.LoginResponse loginResponse = 4;</code>
+     * <code>.LogoutRequest logoutRequest = 4;</code>
+     * @return Whether the logoutRequest field is set.
+     */
+    boolean hasLogoutRequest();
+    /**
+     * <code>.LogoutRequest logoutRequest = 4;</code>
+     * @return The logoutRequest.
+     */
+    LogoutRequest getLogoutRequest();
+    /**
+     * <code>.LogoutRequest logoutRequest = 4;</code>
+     */
+    LogoutRequestOrBuilder getLogoutRequestOrBuilder();
+
+    /**
+     * <code>.LoginResponse loginResponse = 5;</code>
      * @return Whether the loginResponse field is set.
      */
     boolean hasLoginResponse();
     /**
-     * <code>.LoginResponse loginResponse = 4;</code>
+     * <code>.LoginResponse loginResponse = 5;</code>
      * @return The loginResponse.
      */
     LoginResponse getLoginResponse();
     /**
-     * <code>.LoginResponse loginResponse = 4;</code>
+     * <code>.LoginResponse loginResponse = 5;</code>
      */
     LoginResponseOrBuilder getLoginResponseOrBuilder();
 
     /**
-     * <code>.RegisterResponse registerResponse = 5;</code>
+     * <code>.RegisterResponse registerResponse = 6;</code>
      * @return Whether the registerResponse field is set.
      */
     boolean hasRegisterResponse();
     /**
-     * <code>.RegisterResponse registerResponse = 5;</code>
+     * <code>.RegisterResponse registerResponse = 6;</code>
      * @return The registerResponse.
      */
     RegisterResponse getRegisterResponse();
     /**
-     * <code>.RegisterResponse registerResponse = 5;</code>
+     * <code>.RegisterResponse registerResponse = 6;</code>
      */
     RegisterResponseOrBuilder getRegisterResponseOrBuilder();
+
+    /**
+     * <code>.LogoutResponse logoutResponse = 7;</code>
+     * @return Whether the logoutResponse field is set.
+     */
+    boolean hasLogoutResponse();
+    /**
+     * <code>.LogoutResponse logoutResponse = 7;</code>
+     * @return The logoutResponse.
+     */
+    LogoutResponse getLogoutResponse();
+    /**
+     * <code>.LogoutResponse logoutResponse = 7;</code>
+     */
+    LogoutResponseOrBuilder getLogoutResponseOrBuilder();
 
     public PlayModelMessage.DateBodyCase getDateBodyCase();
   }
@@ -182,8 +212,22 @@ public final class PlayModel {
               break;
             }
             case 34: {
-              LoginResponse.Builder subBuilder = null;
+              LogoutRequest.Builder subBuilder = null;
               if (dateBodyCase_ == 4) {
+                subBuilder = ((LogoutRequest) dateBody_).toBuilder();
+              }
+              dateBody_ =
+                  input.readMessage(LogoutRequest.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((LogoutRequest) dateBody_);
+                dateBody_ = subBuilder.buildPartial();
+              }
+              dateBodyCase_ = 4;
+              break;
+            }
+            case 42: {
+              LoginResponse.Builder subBuilder = null;
+              if (dateBodyCase_ == 5) {
                 subBuilder = ((LoginResponse) dateBody_).toBuilder();
               }
               dateBody_ =
@@ -192,12 +236,12 @@ public final class PlayModel {
                 subBuilder.mergeFrom((LoginResponse) dateBody_);
                 dateBody_ = subBuilder.buildPartial();
               }
-              dateBodyCase_ = 4;
+              dateBodyCase_ = 5;
               break;
             }
-            case 42: {
+            case 50: {
               RegisterResponse.Builder subBuilder = null;
-              if (dateBodyCase_ == 5) {
+              if (dateBodyCase_ == 6) {
                 subBuilder = ((RegisterResponse) dateBody_).toBuilder();
               }
               dateBody_ =
@@ -206,7 +250,21 @@ public final class PlayModel {
                 subBuilder.mergeFrom((RegisterResponse) dateBody_);
                 dateBody_ = subBuilder.buildPartial();
               }
-              dateBodyCase_ = 5;
+              dateBodyCase_ = 6;
+              break;
+            }
+            case 58: {
+              LogoutResponse.Builder subBuilder = null;
+              if (dateBodyCase_ == 7) {
+                subBuilder = ((LogoutResponse) dateBody_).toBuilder();
+              }
+              dateBody_ =
+                  input.readMessage(LogoutResponse.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((LogoutResponse) dateBody_);
+                dateBody_ = subBuilder.buildPartial();
+              }
+              dateBodyCase_ = 7;
               break;
             }
             default: {
@@ -263,13 +321,21 @@ public final class PlayModel {
        */
       RegisterRequest(1),
       /**
-       * <code>LoginResponse = 2;</code>
+       * <code>LogoutRequest = 2;</code>
        */
-      LoginResponse(2),
+      LogoutRequest(2),
       /**
-       * <code>RegisterResponse = 3;</code>
+       * <code>LoginResponse = 3;</code>
        */
-      RegisterResponse(3),
+      LoginResponse(3),
+      /**
+       * <code>RegisterResponse = 4;</code>
+       */
+      RegisterResponse(4),
+      /**
+       * <code>LogoutResponse = 5;</code>
+       */
+      LogoutResponse(5),
       UNRECOGNIZED(-1),
       ;
 
@@ -286,13 +352,21 @@ public final class PlayModel {
        */
       public static final int RegisterRequest_VALUE = 1;
       /**
-       * <code>LoginResponse = 2;</code>
+       * <code>LogoutRequest = 2;</code>
        */
-      public static final int LoginResponse_VALUE = 2;
+      public static final int LogoutRequest_VALUE = 2;
       /**
-       * <code>RegisterResponse = 3;</code>
+       * <code>LoginResponse = 3;</code>
        */
-      public static final int RegisterResponse_VALUE = 3;
+      public static final int LoginResponse_VALUE = 3;
+      /**
+       * <code>RegisterResponse = 4;</code>
+       */
+      public static final int RegisterResponse_VALUE = 4;
+      /**
+       * <code>LogoutResponse = 5;</code>
+       */
+      public static final int LogoutResponse_VALUE = 5;
 
 
       public final int getNumber() {
@@ -321,8 +395,10 @@ public final class PlayModel {
         switch (value) {
           case 0: return LoginRequest;
           case 1: return RegisterRequest;
-          case 2: return LoginResponse;
-          case 3: return RegisterResponse;
+          case 2: return LogoutRequest;
+          case 3: return LoginResponse;
+          case 4: return RegisterResponse;
+          case 5: return LogoutResponse;
           default: return null;
         }
       }
@@ -386,8 +462,10 @@ public final class PlayModel {
             InternalOneOfEnum {
       LOGINREQUEST(2),
       REGISTERREQUEST(3),
-      LOGINRESPONSE(4),
-      REGISTERRESPONSE(5),
+      LOGOUTREQUEST(4),
+      LOGINRESPONSE(5),
+      REGISTERRESPONSE(6),
+      LOGOUTRESPONSE(7),
       DATEBODY_NOT_SET(0);
       private final int value;
       private DateBodyCase(int value) {
@@ -407,8 +485,10 @@ public final class PlayModel {
         switch (value) {
           case 2: return LOGINREQUEST;
           case 3: return REGISTERREQUEST;
-          case 4: return LOGINRESPONSE;
-          case 5: return REGISTERRESPONSE;
+          case 4: return LOGOUTREQUEST;
+          case 5: return LOGINRESPONSE;
+          case 6: return REGISTERRESPONSE;
+          case 7: return LOGOUTRESPONSE;
           case 0: return DATEBODY_NOT_SET;
           default: return null;
         }
@@ -513,66 +593,128 @@ public final class PlayModel {
       return RegisterRequest.getDefaultInstance();
     }
 
-    public static final int LOGINRESPONSE_FIELD_NUMBER = 4;
+    public static final int LOGOUTREQUEST_FIELD_NUMBER = 4;
     /**
-     * <code>.LoginResponse loginResponse = 4;</code>
+     * <code>.LogoutRequest logoutRequest = 4;</code>
+     * @return Whether the logoutRequest field is set.
+     */
+    @Override
+    public boolean hasLogoutRequest() {
+      return dateBodyCase_ == 4;
+    }
+    /**
+     * <code>.LogoutRequest logoutRequest = 4;</code>
+     * @return The logoutRequest.
+     */
+    @Override
+    public LogoutRequest getLogoutRequest() {
+      if (dateBodyCase_ == 4) {
+         return (LogoutRequest) dateBody_;
+      }
+      return LogoutRequest.getDefaultInstance();
+    }
+    /**
+     * <code>.LogoutRequest logoutRequest = 4;</code>
+     */
+    @Override
+    public LogoutRequestOrBuilder getLogoutRequestOrBuilder() {
+      if (dateBodyCase_ == 4) {
+         return (LogoutRequest) dateBody_;
+      }
+      return LogoutRequest.getDefaultInstance();
+    }
+
+    public static final int LOGINRESPONSE_FIELD_NUMBER = 5;
+    /**
+     * <code>.LoginResponse loginResponse = 5;</code>
      * @return Whether the loginResponse field is set.
      */
     @Override
     public boolean hasLoginResponse() {
-      return dateBodyCase_ == 4;
+      return dateBodyCase_ == 5;
     }
     /**
-     * <code>.LoginResponse loginResponse = 4;</code>
+     * <code>.LoginResponse loginResponse = 5;</code>
      * @return The loginResponse.
      */
     @Override
     public LoginResponse getLoginResponse() {
-      if (dateBodyCase_ == 4) {
+      if (dateBodyCase_ == 5) {
          return (LoginResponse) dateBody_;
       }
       return LoginResponse.getDefaultInstance();
     }
     /**
-     * <code>.LoginResponse loginResponse = 4;</code>
+     * <code>.LoginResponse loginResponse = 5;</code>
      */
     @Override
     public LoginResponseOrBuilder getLoginResponseOrBuilder() {
-      if (dateBodyCase_ == 4) {
+      if (dateBodyCase_ == 5) {
          return (LoginResponse) dateBody_;
       }
       return LoginResponse.getDefaultInstance();
     }
 
-    public static final int REGISTERRESPONSE_FIELD_NUMBER = 5;
+    public static final int REGISTERRESPONSE_FIELD_NUMBER = 6;
     /**
-     * <code>.RegisterResponse registerResponse = 5;</code>
+     * <code>.RegisterResponse registerResponse = 6;</code>
      * @return Whether the registerResponse field is set.
      */
     @Override
     public boolean hasRegisterResponse() {
-      return dateBodyCase_ == 5;
+      return dateBodyCase_ == 6;
     }
     /**
-     * <code>.RegisterResponse registerResponse = 5;</code>
+     * <code>.RegisterResponse registerResponse = 6;</code>
      * @return The registerResponse.
      */
     @Override
     public RegisterResponse getRegisterResponse() {
-      if (dateBodyCase_ == 5) {
+      if (dateBodyCase_ == 6) {
          return (RegisterResponse) dateBody_;
       }
       return RegisterResponse.getDefaultInstance();
     }
     /**
-     * <code>.RegisterResponse registerResponse = 5;</code>
+     * <code>.RegisterResponse registerResponse = 6;</code>
      */
     @Override
     public RegisterResponseOrBuilder getRegisterResponseOrBuilder() {
-      if (dateBodyCase_ == 5) {
+      if (dateBodyCase_ == 6) {
          return (RegisterResponse) dateBody_;
       }
       return RegisterResponse.getDefaultInstance();
+    }
+
+    public static final int LOGOUTRESPONSE_FIELD_NUMBER = 7;
+    /**
+     * <code>.LogoutResponse logoutResponse = 7;</code>
+     * @return Whether the logoutResponse field is set.
+     */
+    @Override
+    public boolean hasLogoutResponse() {
+      return dateBodyCase_ == 7;
+    }
+    /**
+     * <code>.LogoutResponse logoutResponse = 7;</code>
+     * @return The logoutResponse.
+     */
+    @Override
+    public LogoutResponse getLogoutResponse() {
+      if (dateBodyCase_ == 7) {
+         return (LogoutResponse) dateBody_;
+      }
+      return LogoutResponse.getDefaultInstance();
+    }
+    /**
+     * <code>.LogoutResponse logoutResponse = 7;</code>
+     */
+    @Override
+    public LogoutResponseOrBuilder getLogoutResponseOrBuilder() {
+      if (dateBodyCase_ == 7) {
+         return (LogoutResponse) dateBody_;
+      }
+      return LogoutResponse.getDefaultInstance();
     }
 
     private byte memoizedIsInitialized = -1;
@@ -599,10 +741,16 @@ public final class PlayModel {
         output.writeMessage(3, (RegisterRequest) dateBody_);
       }
       if (dateBodyCase_ == 4) {
-        output.writeMessage(4, (LoginResponse) dateBody_);
+        output.writeMessage(4, (LogoutRequest) dateBody_);
       }
       if (dateBodyCase_ == 5) {
-        output.writeMessage(5, (RegisterResponse) dateBody_);
+        output.writeMessage(5, (LoginResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 6) {
+        output.writeMessage(6, (RegisterResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 7) {
+        output.writeMessage(7, (LogoutResponse) dateBody_);
       }
       unknownFields.writeTo(output);
     }
@@ -627,11 +775,19 @@ public final class PlayModel {
       }
       if (dateBodyCase_ == 4) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, (LoginResponse) dateBody_);
+          .computeMessageSize(4, (LogoutRequest) dateBody_);
       }
       if (dateBodyCase_ == 5) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(5, (RegisterResponse) dateBody_);
+          .computeMessageSize(5, (LoginResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 6) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, (RegisterResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 7) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(7, (LogoutResponse) dateBody_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -660,12 +816,20 @@ public final class PlayModel {
               .equals(other.getRegisterRequest())) return false;
           break;
         case 4:
+          if (!getLogoutRequest()
+              .equals(other.getLogoutRequest())) return false;
+          break;
+        case 5:
           if (!getLoginResponse()
               .equals(other.getLoginResponse())) return false;
           break;
-        case 5:
+        case 6:
           if (!getRegisterResponse()
               .equals(other.getRegisterResponse())) return false;
+          break;
+        case 7:
+          if (!getLogoutResponse()
+              .equals(other.getLogoutResponse())) return false;
           break;
         case 0:
         default:
@@ -693,12 +857,20 @@ public final class PlayModel {
           hash = (53 * hash) + getRegisterRequest().hashCode();
           break;
         case 4:
+          hash = (37 * hash) + LOGOUTREQUEST_FIELD_NUMBER;
+          hash = (53 * hash) + getLogoutRequest().hashCode();
+          break;
+        case 5:
           hash = (37 * hash) + LOGINRESPONSE_FIELD_NUMBER;
           hash = (53 * hash) + getLoginResponse().hashCode();
           break;
-        case 5:
+        case 6:
           hash = (37 * hash) + REGISTERRESPONSE_FIELD_NUMBER;
           hash = (53 * hash) + getRegisterResponse().hashCode();
+          break;
+        case 7:
+          hash = (37 * hash) + LOGOUTRESPONSE_FIELD_NUMBER;
+          hash = (53 * hash) + getLogoutResponse().hashCode();
           break;
         case 0:
         default:
@@ -886,17 +1058,31 @@ public final class PlayModel {
           }
         }
         if (dateBodyCase_ == 4) {
+          if (logoutRequestBuilder_ == null) {
+            result.dateBody_ = dateBody_;
+          } else {
+            result.dateBody_ = logoutRequestBuilder_.build();
+          }
+        }
+        if (dateBodyCase_ == 5) {
           if (loginResponseBuilder_ == null) {
             result.dateBody_ = dateBody_;
           } else {
             result.dateBody_ = loginResponseBuilder_.build();
           }
         }
-        if (dateBodyCase_ == 5) {
+        if (dateBodyCase_ == 6) {
           if (registerResponseBuilder_ == null) {
             result.dateBody_ = dateBody_;
           } else {
             result.dateBody_ = registerResponseBuilder_.build();
+          }
+        }
+        if (dateBodyCase_ == 7) {
+          if (logoutResponseBuilder_ == null) {
+            result.dateBody_ = dateBody_;
+          } else {
+            result.dateBody_ = logoutResponseBuilder_.build();
           }
         }
         result.dateBodyCase_ = dateBodyCase_;
@@ -960,12 +1146,20 @@ public final class PlayModel {
             mergeRegisterRequest(other.getRegisterRequest());
             break;
           }
+          case LOGOUTREQUEST: {
+            mergeLogoutRequest(other.getLogoutRequest());
+            break;
+          }
           case LOGINRESPONSE: {
             mergeLoginResponse(other.getLoginResponse());
             break;
           }
           case REGISTERRESPONSE: {
             mergeRegisterResponse(other.getRegisterResponse());
+            break;
+          }
+          case LOGOUTRESPONSE: {
+            mergeLogoutResponse(other.getLogoutResponse());
             break;
           }
           case DATEBODY_NOT_SET: {
@@ -1373,35 +1567,176 @@ public final class PlayModel {
       }
 
       private com.google.protobuf.SingleFieldBuilderV3<
+          LogoutRequest, LogoutRequest.Builder, LogoutRequestOrBuilder> logoutRequestBuilder_;
+      /**
+       * <code>.LogoutRequest logoutRequest = 4;</code>
+       * @return Whether the logoutRequest field is set.
+       */
+      @Override
+      public boolean hasLogoutRequest() {
+        return dateBodyCase_ == 4;
+      }
+      /**
+       * <code>.LogoutRequest logoutRequest = 4;</code>
+       * @return The logoutRequest.
+       */
+      @Override
+      public LogoutRequest getLogoutRequest() {
+        if (logoutRequestBuilder_ == null) {
+          if (dateBodyCase_ == 4) {
+            return (LogoutRequest) dateBody_;
+          }
+          return LogoutRequest.getDefaultInstance();
+        } else {
+          if (dateBodyCase_ == 4) {
+            return logoutRequestBuilder_.getMessage();
+          }
+          return LogoutRequest.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.LogoutRequest logoutRequest = 4;</code>
+       */
+      public Builder setLogoutRequest(LogoutRequest value) {
+        if (logoutRequestBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dateBody_ = value;
+          onChanged();
+        } else {
+          logoutRequestBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 4;
+        return this;
+      }
+      /**
+       * <code>.LogoutRequest logoutRequest = 4;</code>
+       */
+      public Builder setLogoutRequest(
+          LogoutRequest.Builder builderForValue) {
+        if (logoutRequestBuilder_ == null) {
+          dateBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          logoutRequestBuilder_.setMessage(builderForValue.build());
+        }
+        dateBodyCase_ = 4;
+        return this;
+      }
+      /**
+       * <code>.LogoutRequest logoutRequest = 4;</code>
+       */
+      public Builder mergeLogoutRequest(LogoutRequest value) {
+        if (logoutRequestBuilder_ == null) {
+          if (dateBodyCase_ == 4 &&
+              dateBody_ != LogoutRequest.getDefaultInstance()) {
+            dateBody_ = LogoutRequest.newBuilder((LogoutRequest) dateBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dateBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dateBodyCase_ == 4) {
+            logoutRequestBuilder_.mergeFrom(value);
+          }
+          logoutRequestBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 4;
+        return this;
+      }
+      /**
+       * <code>.LogoutRequest logoutRequest = 4;</code>
+       */
+      public Builder clearLogoutRequest() {
+        if (logoutRequestBuilder_ == null) {
+          if (dateBodyCase_ == 4) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dateBodyCase_ == 4) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+          }
+          logoutRequestBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.LogoutRequest logoutRequest = 4;</code>
+       */
+      public LogoutRequest.Builder getLogoutRequestBuilder() {
+        return getLogoutRequestFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.LogoutRequest logoutRequest = 4;</code>
+       */
+      @Override
+      public LogoutRequestOrBuilder getLogoutRequestOrBuilder() {
+        if ((dateBodyCase_ == 4) && (logoutRequestBuilder_ != null)) {
+          return logoutRequestBuilder_.getMessageOrBuilder();
+        } else {
+          if (dateBodyCase_ == 4) {
+            return (LogoutRequest) dateBody_;
+          }
+          return LogoutRequest.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.LogoutRequest logoutRequest = 4;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          LogoutRequest, LogoutRequest.Builder, LogoutRequestOrBuilder>
+          getLogoutRequestFieldBuilder() {
+        if (logoutRequestBuilder_ == null) {
+          if (!(dateBodyCase_ == 4)) {
+            dateBody_ = LogoutRequest.getDefaultInstance();
+          }
+          logoutRequestBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              LogoutRequest, LogoutRequest.Builder, LogoutRequestOrBuilder>(
+                  (LogoutRequest) dateBody_,
+                  getParentForChildren(),
+                  isClean());
+          dateBody_ = null;
+        }
+        dateBodyCase_ = 4;
+        onChanged();;
+        return logoutRequestBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
           LoginResponse, LoginResponse.Builder, LoginResponseOrBuilder> loginResponseBuilder_;
       /**
-       * <code>.LoginResponse loginResponse = 4;</code>
+       * <code>.LoginResponse loginResponse = 5;</code>
        * @return Whether the loginResponse field is set.
        */
       @Override
       public boolean hasLoginResponse() {
-        return dateBodyCase_ == 4;
+        return dateBodyCase_ == 5;
       }
       /**
-       * <code>.LoginResponse loginResponse = 4;</code>
+       * <code>.LoginResponse loginResponse = 5;</code>
        * @return The loginResponse.
        */
       @Override
       public LoginResponse getLoginResponse() {
         if (loginResponseBuilder_ == null) {
-          if (dateBodyCase_ == 4) {
+          if (dateBodyCase_ == 5) {
             return (LoginResponse) dateBody_;
           }
           return LoginResponse.getDefaultInstance();
         } else {
-          if (dateBodyCase_ == 4) {
+          if (dateBodyCase_ == 5) {
             return loginResponseBuilder_.getMessage();
           }
           return LoginResponse.getDefaultInstance();
         }
       }
       /**
-       * <code>.LoginResponse loginResponse = 4;</code>
+       * <code>.LoginResponse loginResponse = 5;</code>
        */
       public Builder setLoginResponse(LoginResponse value) {
         if (loginResponseBuilder_ == null) {
@@ -1413,11 +1748,11 @@ public final class PlayModel {
         } else {
           loginResponseBuilder_.setMessage(value);
         }
-        dateBodyCase_ = 4;
+        dateBodyCase_ = 5;
         return this;
       }
       /**
-       * <code>.LoginResponse loginResponse = 4;</code>
+       * <code>.LoginResponse loginResponse = 5;</code>
        */
       public Builder setLoginResponse(
           LoginResponse.Builder builderForValue) {
@@ -1427,15 +1762,15 @@ public final class PlayModel {
         } else {
           loginResponseBuilder_.setMessage(builderForValue.build());
         }
-        dateBodyCase_ = 4;
+        dateBodyCase_ = 5;
         return this;
       }
       /**
-       * <code>.LoginResponse loginResponse = 4;</code>
+       * <code>.LoginResponse loginResponse = 5;</code>
        */
       public Builder mergeLoginResponse(LoginResponse value) {
         if (loginResponseBuilder_ == null) {
-          if (dateBodyCase_ == 4 &&
+          if (dateBodyCase_ == 5 &&
               dateBody_ != LoginResponse.getDefaultInstance()) {
             dateBody_ = LoginResponse.newBuilder((LoginResponse) dateBody_)
                 .mergeFrom(value).buildPartial();
@@ -1444,26 +1779,26 @@ public final class PlayModel {
           }
           onChanged();
         } else {
-          if (dateBodyCase_ == 4) {
+          if (dateBodyCase_ == 5) {
             loginResponseBuilder_.mergeFrom(value);
           }
           loginResponseBuilder_.setMessage(value);
         }
-        dateBodyCase_ = 4;
+        dateBodyCase_ = 5;
         return this;
       }
       /**
-       * <code>.LoginResponse loginResponse = 4;</code>
+       * <code>.LoginResponse loginResponse = 5;</code>
        */
       public Builder clearLoginResponse() {
         if (loginResponseBuilder_ == null) {
-          if (dateBodyCase_ == 4) {
+          if (dateBodyCase_ == 5) {
             dateBodyCase_ = 0;
             dateBody_ = null;
             onChanged();
           }
         } else {
-          if (dateBodyCase_ == 4) {
+          if (dateBodyCase_ == 5) {
             dateBodyCase_ = 0;
             dateBody_ = null;
           }
@@ -1472,33 +1807,33 @@ public final class PlayModel {
         return this;
       }
       /**
-       * <code>.LoginResponse loginResponse = 4;</code>
+       * <code>.LoginResponse loginResponse = 5;</code>
        */
       public LoginResponse.Builder getLoginResponseBuilder() {
         return getLoginResponseFieldBuilder().getBuilder();
       }
       /**
-       * <code>.LoginResponse loginResponse = 4;</code>
+       * <code>.LoginResponse loginResponse = 5;</code>
        */
       @Override
       public LoginResponseOrBuilder getLoginResponseOrBuilder() {
-        if ((dateBodyCase_ == 4) && (loginResponseBuilder_ != null)) {
+        if ((dateBodyCase_ == 5) && (loginResponseBuilder_ != null)) {
           return loginResponseBuilder_.getMessageOrBuilder();
         } else {
-          if (dateBodyCase_ == 4) {
+          if (dateBodyCase_ == 5) {
             return (LoginResponse) dateBody_;
           }
           return LoginResponse.getDefaultInstance();
         }
       }
       /**
-       * <code>.LoginResponse loginResponse = 4;</code>
+       * <code>.LoginResponse loginResponse = 5;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           LoginResponse, LoginResponse.Builder, LoginResponseOrBuilder>
           getLoginResponseFieldBuilder() {
         if (loginResponseBuilder_ == null) {
-          if (!(dateBodyCase_ == 4)) {
+          if (!(dateBodyCase_ == 5)) {
             dateBody_ = LoginResponse.getDefaultInstance();
           }
           loginResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
@@ -1508,7 +1843,7 @@ public final class PlayModel {
                   isClean());
           dateBody_ = null;
         }
-        dateBodyCase_ = 4;
+        dateBodyCase_ = 5;
         onChanged();;
         return loginResponseBuilder_;
       }
@@ -1516,33 +1851,33 @@ public final class PlayModel {
       private com.google.protobuf.SingleFieldBuilderV3<
           RegisterResponse, RegisterResponse.Builder, RegisterResponseOrBuilder> registerResponseBuilder_;
       /**
-       * <code>.RegisterResponse registerResponse = 5;</code>
+       * <code>.RegisterResponse registerResponse = 6;</code>
        * @return Whether the registerResponse field is set.
        */
       @Override
       public boolean hasRegisterResponse() {
-        return dateBodyCase_ == 5;
+        return dateBodyCase_ == 6;
       }
       /**
-       * <code>.RegisterResponse registerResponse = 5;</code>
+       * <code>.RegisterResponse registerResponse = 6;</code>
        * @return The registerResponse.
        */
       @Override
       public RegisterResponse getRegisterResponse() {
         if (registerResponseBuilder_ == null) {
-          if (dateBodyCase_ == 5) {
+          if (dateBodyCase_ == 6) {
             return (RegisterResponse) dateBody_;
           }
           return RegisterResponse.getDefaultInstance();
         } else {
-          if (dateBodyCase_ == 5) {
+          if (dateBodyCase_ == 6) {
             return registerResponseBuilder_.getMessage();
           }
           return RegisterResponse.getDefaultInstance();
         }
       }
       /**
-       * <code>.RegisterResponse registerResponse = 5;</code>
+       * <code>.RegisterResponse registerResponse = 6;</code>
        */
       public Builder setRegisterResponse(RegisterResponse value) {
         if (registerResponseBuilder_ == null) {
@@ -1554,11 +1889,11 @@ public final class PlayModel {
         } else {
           registerResponseBuilder_.setMessage(value);
         }
-        dateBodyCase_ = 5;
+        dateBodyCase_ = 6;
         return this;
       }
       /**
-       * <code>.RegisterResponse registerResponse = 5;</code>
+       * <code>.RegisterResponse registerResponse = 6;</code>
        */
       public Builder setRegisterResponse(
           RegisterResponse.Builder builderForValue) {
@@ -1568,15 +1903,15 @@ public final class PlayModel {
         } else {
           registerResponseBuilder_.setMessage(builderForValue.build());
         }
-        dateBodyCase_ = 5;
+        dateBodyCase_ = 6;
         return this;
       }
       /**
-       * <code>.RegisterResponse registerResponse = 5;</code>
+       * <code>.RegisterResponse registerResponse = 6;</code>
        */
       public Builder mergeRegisterResponse(RegisterResponse value) {
         if (registerResponseBuilder_ == null) {
-          if (dateBodyCase_ == 5 &&
+          if (dateBodyCase_ == 6 &&
               dateBody_ != RegisterResponse.getDefaultInstance()) {
             dateBody_ = RegisterResponse.newBuilder((RegisterResponse) dateBody_)
                 .mergeFrom(value).buildPartial();
@@ -1585,26 +1920,26 @@ public final class PlayModel {
           }
           onChanged();
         } else {
-          if (dateBodyCase_ == 5) {
+          if (dateBodyCase_ == 6) {
             registerResponseBuilder_.mergeFrom(value);
           }
           registerResponseBuilder_.setMessage(value);
         }
-        dateBodyCase_ = 5;
+        dateBodyCase_ = 6;
         return this;
       }
       /**
-       * <code>.RegisterResponse registerResponse = 5;</code>
+       * <code>.RegisterResponse registerResponse = 6;</code>
        */
       public Builder clearRegisterResponse() {
         if (registerResponseBuilder_ == null) {
-          if (dateBodyCase_ == 5) {
+          if (dateBodyCase_ == 6) {
             dateBodyCase_ = 0;
             dateBody_ = null;
             onChanged();
           }
         } else {
-          if (dateBodyCase_ == 5) {
+          if (dateBodyCase_ == 6) {
             dateBodyCase_ = 0;
             dateBody_ = null;
           }
@@ -1613,33 +1948,33 @@ public final class PlayModel {
         return this;
       }
       /**
-       * <code>.RegisterResponse registerResponse = 5;</code>
+       * <code>.RegisterResponse registerResponse = 6;</code>
        */
       public RegisterResponse.Builder getRegisterResponseBuilder() {
         return getRegisterResponseFieldBuilder().getBuilder();
       }
       /**
-       * <code>.RegisterResponse registerResponse = 5;</code>
+       * <code>.RegisterResponse registerResponse = 6;</code>
        */
       @Override
       public RegisterResponseOrBuilder getRegisterResponseOrBuilder() {
-        if ((dateBodyCase_ == 5) && (registerResponseBuilder_ != null)) {
+        if ((dateBodyCase_ == 6) && (registerResponseBuilder_ != null)) {
           return registerResponseBuilder_.getMessageOrBuilder();
         } else {
-          if (dateBodyCase_ == 5) {
+          if (dateBodyCase_ == 6) {
             return (RegisterResponse) dateBody_;
           }
           return RegisterResponse.getDefaultInstance();
         }
       }
       /**
-       * <code>.RegisterResponse registerResponse = 5;</code>
+       * <code>.RegisterResponse registerResponse = 6;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           RegisterResponse, RegisterResponse.Builder, RegisterResponseOrBuilder>
           getRegisterResponseFieldBuilder() {
         if (registerResponseBuilder_ == null) {
-          if (!(dateBodyCase_ == 5)) {
+          if (!(dateBodyCase_ == 6)) {
             dateBody_ = RegisterResponse.getDefaultInstance();
           }
           registerResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
@@ -1649,9 +1984,150 @@ public final class PlayModel {
                   isClean());
           dateBody_ = null;
         }
-        dateBodyCase_ = 5;
+        dateBodyCase_ = 6;
         onChanged();;
         return registerResponseBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          LogoutResponse, LogoutResponse.Builder, LogoutResponseOrBuilder> logoutResponseBuilder_;
+      /**
+       * <code>.LogoutResponse logoutResponse = 7;</code>
+       * @return Whether the logoutResponse field is set.
+       */
+      @Override
+      public boolean hasLogoutResponse() {
+        return dateBodyCase_ == 7;
+      }
+      /**
+       * <code>.LogoutResponse logoutResponse = 7;</code>
+       * @return The logoutResponse.
+       */
+      @Override
+      public LogoutResponse getLogoutResponse() {
+        if (logoutResponseBuilder_ == null) {
+          if (dateBodyCase_ == 7) {
+            return (LogoutResponse) dateBody_;
+          }
+          return LogoutResponse.getDefaultInstance();
+        } else {
+          if (dateBodyCase_ == 7) {
+            return logoutResponseBuilder_.getMessage();
+          }
+          return LogoutResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.LogoutResponse logoutResponse = 7;</code>
+       */
+      public Builder setLogoutResponse(LogoutResponse value) {
+        if (logoutResponseBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dateBody_ = value;
+          onChanged();
+        } else {
+          logoutResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 7;
+        return this;
+      }
+      /**
+       * <code>.LogoutResponse logoutResponse = 7;</code>
+       */
+      public Builder setLogoutResponse(
+          LogoutResponse.Builder builderForValue) {
+        if (logoutResponseBuilder_ == null) {
+          dateBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          logoutResponseBuilder_.setMessage(builderForValue.build());
+        }
+        dateBodyCase_ = 7;
+        return this;
+      }
+      /**
+       * <code>.LogoutResponse logoutResponse = 7;</code>
+       */
+      public Builder mergeLogoutResponse(LogoutResponse value) {
+        if (logoutResponseBuilder_ == null) {
+          if (dateBodyCase_ == 7 &&
+              dateBody_ != LogoutResponse.getDefaultInstance()) {
+            dateBody_ = LogoutResponse.newBuilder((LogoutResponse) dateBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dateBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dateBodyCase_ == 7) {
+            logoutResponseBuilder_.mergeFrom(value);
+          }
+          logoutResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 7;
+        return this;
+      }
+      /**
+       * <code>.LogoutResponse logoutResponse = 7;</code>
+       */
+      public Builder clearLogoutResponse() {
+        if (logoutResponseBuilder_ == null) {
+          if (dateBodyCase_ == 7) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dateBodyCase_ == 7) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+          }
+          logoutResponseBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.LogoutResponse logoutResponse = 7;</code>
+       */
+      public LogoutResponse.Builder getLogoutResponseBuilder() {
+        return getLogoutResponseFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.LogoutResponse logoutResponse = 7;</code>
+       */
+      @Override
+      public LogoutResponseOrBuilder getLogoutResponseOrBuilder() {
+        if ((dateBodyCase_ == 7) && (logoutResponseBuilder_ != null)) {
+          return logoutResponseBuilder_.getMessageOrBuilder();
+        } else {
+          if (dateBodyCase_ == 7) {
+            return (LogoutResponse) dateBody_;
+          }
+          return LogoutResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.LogoutResponse logoutResponse = 7;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          LogoutResponse, LogoutResponse.Builder, LogoutResponseOrBuilder>
+          getLogoutResponseFieldBuilder() {
+        if (logoutResponseBuilder_ == null) {
+          if (!(dateBodyCase_ == 7)) {
+            dateBody_ = LogoutResponse.getDefaultInstance();
+          }
+          logoutResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              LogoutResponse, LogoutResponse.Builder, LogoutResponseOrBuilder>(
+                  (LogoutResponse) dateBody_,
+                  getParentForChildren(),
+                  isClean());
+          dateBody_ = null;
+        }
+        dateBodyCase_ = 7;
+        onChanged();;
+        return logoutResponseBuilder_;
       }
       @Override
       public final Builder setUnknownFields(
@@ -4749,6 +5225,1132 @@ public final class PlayModel {
 
     @Override
     public RegisterResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface LogoutRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:LogoutRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>int32 rolesId = 1;</code>
+     * @return The rolesId.
+     */
+    int getRolesId();
+  }
+  /**
+   * Protobuf type {@code LogoutRequest}
+   */
+  public static final class LogoutRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:LogoutRequest)
+      LogoutRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use LogoutRequest.newBuilder() to construct.
+    private LogoutRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private LogoutRequest() {
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new LogoutRequest();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private LogoutRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+
+              rolesId_ = input.readInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return PlayModel.internal_static_LogoutRequest_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return PlayModel.internal_static_LogoutRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              LogoutRequest.class, Builder.class);
+    }
+
+    public static final int ROLESID_FIELD_NUMBER = 1;
+    private int rolesId_;
+    /**
+     * <code>int32 rolesId = 1;</code>
+     * @return The rolesId.
+     */
+    @Override
+    public int getRolesId() {
+      return rolesId_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (rolesId_ != 0) {
+        output.writeInt32(1, rolesId_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (rolesId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, rolesId_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof LogoutRequest)) {
+        return super.equals(obj);
+      }
+      LogoutRequest other = (LogoutRequest) obj;
+
+      if (getRolesId()
+          != other.getRolesId()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + ROLESID_FIELD_NUMBER;
+      hash = (53 * hash) + getRolesId();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static LogoutRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static LogoutRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static LogoutRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static LogoutRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static LogoutRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static LogoutRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static LogoutRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static LogoutRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static LogoutRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static LogoutRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static LogoutRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static LogoutRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(LogoutRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code LogoutRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:LogoutRequest)
+        LogoutRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return PlayModel.internal_static_LogoutRequest_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return PlayModel.internal_static_LogoutRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                LogoutRequest.class, Builder.class);
+      }
+
+      // Construct using PlayModel.LogoutRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        rolesId_ = 0;
+
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return PlayModel.internal_static_LogoutRequest_descriptor;
+      }
+
+      @Override
+      public LogoutRequest getDefaultInstanceForType() {
+        return LogoutRequest.getDefaultInstance();
+      }
+
+      @Override
+      public LogoutRequest build() {
+        LogoutRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public LogoutRequest buildPartial() {
+        LogoutRequest result = new LogoutRequest(this);
+        result.rolesId_ = rolesId_;
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof LogoutRequest) {
+          return mergeFrom((LogoutRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(LogoutRequest other) {
+        if (other == LogoutRequest.getDefaultInstance()) return this;
+        if (other.getRolesId() != 0) {
+          setRolesId(other.getRolesId());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        LogoutRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (LogoutRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private int rolesId_ ;
+      /**
+       * <code>int32 rolesId = 1;</code>
+       * @return The rolesId.
+       */
+      @Override
+      public int getRolesId() {
+        return rolesId_;
+      }
+      /**
+       * <code>int32 rolesId = 1;</code>
+       * @param value The rolesId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRolesId(int value) {
+        
+        rolesId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 rolesId = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRolesId() {
+        
+        rolesId_ = 0;
+        onChanged();
+        return this;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:LogoutRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:LogoutRequest)
+    private static final LogoutRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new LogoutRequest();
+    }
+
+    public static LogoutRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<LogoutRequest>
+        PARSER = new com.google.protobuf.AbstractParser<LogoutRequest>() {
+      @Override
+      public LogoutRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new LogoutRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<LogoutRequest> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<LogoutRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public LogoutRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface LogoutResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:LogoutResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>int32 code = 1;</code>
+     * @return The code.
+     */
+    int getCode();
+
+    /**
+     * <code>string mxg = 2;</code>
+     * @return The mxg.
+     */
+    String getMxg();
+    /**
+     * <code>string mxg = 2;</code>
+     * @return The bytes for mxg.
+     */
+    com.google.protobuf.ByteString
+        getMxgBytes();
+  }
+  /**
+   * Protobuf type {@code LogoutResponse}
+   */
+  public static final class LogoutResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:LogoutResponse)
+      LogoutResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use LogoutResponse.newBuilder() to construct.
+    private LogoutResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private LogoutResponse() {
+      mxg_ = "";
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new LogoutResponse();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private LogoutResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+
+              code_ = input.readInt32();
+              break;
+            }
+            case 18: {
+              String s = input.readStringRequireUtf8();
+
+              mxg_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return PlayModel.internal_static_LogoutResponse_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return PlayModel.internal_static_LogoutResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              LogoutResponse.class, Builder.class);
+    }
+
+    public static final int CODE_FIELD_NUMBER = 1;
+    private int code_;
+    /**
+     * <code>int32 code = 1;</code>
+     * @return The code.
+     */
+    @Override
+    public int getCode() {
+      return code_;
+    }
+
+    public static final int MXG_FIELD_NUMBER = 2;
+    private volatile Object mxg_;
+    /**
+     * <code>string mxg = 2;</code>
+     * @return The mxg.
+     */
+    @Override
+    public String getMxg() {
+      Object ref = mxg_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        mxg_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string mxg = 2;</code>
+     * @return The bytes for mxg.
+     */
+    @Override
+    public com.google.protobuf.ByteString
+        getMxgBytes() {
+      Object ref = mxg_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (String) ref);
+        mxg_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (code_ != 0) {
+        output.writeInt32(1, code_);
+      }
+      if (!getMxgBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, mxg_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (code_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, code_);
+      }
+      if (!getMxgBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, mxg_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof LogoutResponse)) {
+        return super.equals(obj);
+      }
+      LogoutResponse other = (LogoutResponse) obj;
+
+      if (getCode()
+          != other.getCode()) return false;
+      if (!getMxg()
+          .equals(other.getMxg())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + CODE_FIELD_NUMBER;
+      hash = (53 * hash) + getCode();
+      hash = (37 * hash) + MXG_FIELD_NUMBER;
+      hash = (53 * hash) + getMxg().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static LogoutResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static LogoutResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static LogoutResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static LogoutResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static LogoutResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static LogoutResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static LogoutResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static LogoutResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static LogoutResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static LogoutResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static LogoutResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static LogoutResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(LogoutResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code LogoutResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:LogoutResponse)
+        LogoutResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return PlayModel.internal_static_LogoutResponse_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return PlayModel.internal_static_LogoutResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                LogoutResponse.class, Builder.class);
+      }
+
+      // Construct using PlayModel.LogoutResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        code_ = 0;
+
+        mxg_ = "";
+
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return PlayModel.internal_static_LogoutResponse_descriptor;
+      }
+
+      @Override
+      public LogoutResponse getDefaultInstanceForType() {
+        return LogoutResponse.getDefaultInstance();
+      }
+
+      @Override
+      public LogoutResponse build() {
+        LogoutResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public LogoutResponse buildPartial() {
+        LogoutResponse result = new LogoutResponse(this);
+        result.code_ = code_;
+        result.mxg_ = mxg_;
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof LogoutResponse) {
+          return mergeFrom((LogoutResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(LogoutResponse other) {
+        if (other == LogoutResponse.getDefaultInstance()) return this;
+        if (other.getCode() != 0) {
+          setCode(other.getCode());
+        }
+        if (!other.getMxg().isEmpty()) {
+          mxg_ = other.mxg_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        LogoutResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (LogoutResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private int code_ ;
+      /**
+       * <code>int32 code = 1;</code>
+       * @return The code.
+       */
+      @Override
+      public int getCode() {
+        return code_;
+      }
+      /**
+       * <code>int32 code = 1;</code>
+       * @param value The code to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCode(int value) {
+        
+        code_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 code = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCode() {
+        
+        code_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private Object mxg_ = "";
+      /**
+       * <code>string mxg = 2;</code>
+       * @return The mxg.
+       */
+      public String getMxg() {
+        Object ref = mxg_;
+        if (!(ref instanceof String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          String s = bs.toStringUtf8();
+          mxg_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      /**
+       * <code>string mxg = 2;</code>
+       * @return The bytes for mxg.
+       */
+      public com.google.protobuf.ByteString
+          getMxgBytes() {
+        Object ref = mxg_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (String) ref);
+          mxg_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string mxg = 2;</code>
+       * @param value The mxg to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMxg(
+          String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        mxg_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string mxg = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMxg() {
+        
+        mxg_ = getDefaultInstance().getMxg();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string mxg = 2;</code>
+       * @param value The bytes for mxg to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMxgBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        mxg_ = value;
+        onChanged();
+        return this;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:LogoutResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:LogoutResponse)
+    private static final LogoutResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new LogoutResponse();
+    }
+
+    public static LogoutResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<LogoutResponse>
+        PARSER = new com.google.protobuf.AbstractParser<LogoutResponse>() {
+      @Override
+      public LogoutResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new LogoutResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<LogoutResponse> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<LogoutResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public LogoutResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -7891,6 +9493,16 @@ public final class PlayModel {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_RegisterResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_LogoutRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_LogoutRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_LogoutResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_LogoutResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_MmoScene_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -7914,29 +9526,34 @@ public final class PlayModel {
       descriptor;
   static {
     String[] descriptorData = {
-      "\n\017PlayModel.proto\"\325\002\n\020PlayModelMessage\022-" +
+      "\n\017PlayModel.proto\"\321\003\n\020PlayModelMessage\022-" +
       "\n\tdata_type\030\001 \001(\0162\032.PlayModelMessage.Dat" +
       "eType\022%\n\014loginRequest\030\002 \001(\0132\r.LoginReque" +
       "stH\000\022+\n\017registerRequest\030\003 \001(\0132\020.Register" +
-      "RequestH\000\022\'\n\rloginResponse\030\004 \001(\0132\016.Login" +
-      "ResponseH\000\022-\n\020registerResponse\030\005 \001(\0132\021.R" +
-      "egisterResponseH\000\"Z\n\010DateType\022\020\n\014LoginRe" +
-      "quest\020\000\022\023\n\017RegisterRequest\020\001\022\021\n\rLoginRes" +
-      "ponse\020\002\022\024\n\020RegisterResponse\020\003B\n\n\010dateBod" +
-      "y\"2\n\014LoginRequest\022\020\n\010username\030\001 \001(\t\022\020\n\010p" +
-      "assword\030\002 \001(\t\"G\n\017RegisterRequest\022\020\n\010user" +
-      "name\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\022\020\n\010rolename" +
-      "\030\003 \001(\t\"S\n\rLoginResponse\022\033\n\010mmoScene\030\001 \001(" +
-      "\0132\t.MmoScene\022%\n\rmmoSimpleRole\030\002 \001(\0132\016.Mm" +
-      "oSimpleRole\"6\n\020RegisterResponse\022\021\n\tstate" +
-      "Code\030\001 \001(\005\022\017\n\007message\030\002 \001(\t\"k\n\010MmoScene\022" +
-      "\n\n\002id\030\001 \001(\005\022\021\n\tplaceName\030\002 \001(\t\022!\n\010canSce" +
-      "ne\030\003 \003(\0132\017.MmoSimpleScene\022\035\n\005roles\030\004 \003(\013" +
-      "2\016.MmoSimpleRole\"Y\n\rMmoSimpleRole\022\n\n\002id\030" +
-      "\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\016\n\006status\030\003 \001(\t\022\014\n\004t" +
-      "ype\030\004 \001(\t\022\020\n\010onStatus\030\005 \001(\t\"/\n\016MmoSimple" +
-      "Scene\022\n\n\002id\030\001 \001(\005\022\021\n\tplaceName\030\002 \001(\tB\013B\t" +
-      "PlayModelb\006proto3"
+      "RequestH\000\022\'\n\rlogoutRequest\030\004 \001(\0132\016.Logou" +
+      "tRequestH\000\022\'\n\rloginResponse\030\005 \001(\0132\016.Logi" +
+      "nResponseH\000\022-\n\020registerResponse\030\006 \001(\0132\021." +
+      "RegisterResponseH\000\022)\n\016logoutResponse\030\007 \001" +
+      "(\0132\017.LogoutResponseH\000\"\201\001\n\010DateType\022\020\n\014Lo" +
+      "ginRequest\020\000\022\023\n\017RegisterRequest\020\001\022\021\n\rLog" +
+      "outRequest\020\002\022\021\n\rLoginResponse\020\003\022\024\n\020Regis" +
+      "terResponse\020\004\022\022\n\016LogoutResponse\020\005B\n\n\010dat" +
+      "eBody\"2\n\014LoginRequest\022\020\n\010username\030\001 \001(\t\022" +
+      "\020\n\010password\030\002 \001(\t\"G\n\017RegisterRequest\022\020\n\010" +
+      "username\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\022\020\n\010role" +
+      "name\030\003 \001(\t\"S\n\rLoginResponse\022\033\n\010mmoScene\030" +
+      "\001 \001(\0132\t.MmoScene\022%\n\rmmoSimpleRole\030\002 \001(\0132" +
+      "\016.MmoSimpleRole\"6\n\020RegisterResponse\022\021\n\ts" +
+      "tateCode\030\001 \001(\005\022\017\n\007message\030\002 \001(\t\" \n\rLogou" +
+      "tRequest\022\017\n\007rolesId\030\001 \001(\005\"+\n\016LogoutRespo" +
+      "nse\022\014\n\004code\030\001 \001(\005\022\013\n\003mxg\030\002 \001(\t\"k\n\010MmoSce" +
+      "ne\022\n\n\002id\030\001 \001(\005\022\021\n\tplaceName\030\002 \001(\t\022!\n\010can" +
+      "Scene\030\003 \003(\0132\017.MmoSimpleScene\022\035\n\005roles\030\004 " +
+      "\003(\0132\016.MmoSimpleRole\"Y\n\rMmoSimpleRole\022\n\n\002" +
+      "id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\016\n\006status\030\003 \001(\t\022\014" +
+      "\n\004type\030\004 \001(\t\022\020\n\010onStatus\030\005 \001(\t\"/\n\016MmoSim" +
+      "pleScene\022\n\n\002id\030\001 \001(\005\022\021\n\tplaceName\030\002 \001(\tB" +
+      "\013B\tPlayModelb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -7947,7 +9564,7 @@ public final class PlayModel {
     internal_static_PlayModelMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_PlayModelMessage_descriptor,
-        new String[] { "DataType", "LoginRequest", "RegisterRequest", "LoginResponse", "RegisterResponse", "DateBody", });
+        new String[] { "DataType", "LoginRequest", "RegisterRequest", "LogoutRequest", "LoginResponse", "RegisterResponse", "LogoutResponse", "DateBody", });
     internal_static_LoginRequest_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_LoginRequest_fieldAccessorTable = new
@@ -7972,20 +9589,32 @@ public final class PlayModel {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_RegisterResponse_descriptor,
         new String[] { "StateCode", "Message", });
-    internal_static_MmoScene_descriptor =
+    internal_static_LogoutRequest_descriptor =
       getDescriptor().getMessageTypes().get(5);
+    internal_static_LogoutRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_LogoutRequest_descriptor,
+        new String[] { "RolesId", });
+    internal_static_LogoutResponse_descriptor =
+      getDescriptor().getMessageTypes().get(6);
+    internal_static_LogoutResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_LogoutResponse_descriptor,
+        new String[] { "Code", "Mxg", });
+    internal_static_MmoScene_descriptor =
+      getDescriptor().getMessageTypes().get(7);
     internal_static_MmoScene_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_MmoScene_descriptor,
         new String[] { "Id", "PlaceName", "CanScene", "Roles", });
     internal_static_MmoSimpleRole_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_MmoSimpleRole_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_MmoSimpleRole_descriptor,
         new String[] { "Id", "Name", "Status", "Type", "OnStatus", });
     internal_static_MmoSimpleScene_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_MmoSimpleScene_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_MmoSimpleScene_descriptor,

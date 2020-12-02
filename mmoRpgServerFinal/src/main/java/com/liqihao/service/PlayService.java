@@ -8,4 +8,6 @@ public interface PlayService {
     NettyResponse registerRequest(NettyRequest nettyRequest) throws InvalidProtocolBufferException;
 
     NettyResponse loginRequest(NettyRequest nettyRequest) throws InvalidProtocolBufferException;
+
+    NettyResponse logoutRequest(NettyRequest nettyRequest) throws InvalidProtocolBufferException;
 }
