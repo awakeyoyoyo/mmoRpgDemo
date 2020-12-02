@@ -49,11 +49,18 @@ public class SceneServiceImpl implements SceneService, ApplicationContextAware {
 
 
         //根据sceneId 从spirng容器中获取场景信息
-        MmoScene mmoScene=applicationContext.getBean("scene"+sceneId,MmoScene.class);
+
+//       MmoScene mmoScene=applicationContext.getBean("scene"+sceneId,MmoScene.class);
+        MmoScenePOJO mmoScenePOJO=mmoScenePOJOMapper.selectByPrimaryKey(sceneId);
+        List<MmoScenePOJO> canScenes=new ArrayList<>();
+        for (Integer id:CommonsUtil.split(mmoScenePOJO.getCanscene())){
+            MmoScenePOJO mmoScene=mmoScenePOJOMapper.selectByPrimaryKey(id);
+            canScenes.add(mmoScene);
+        }
         List<SceneModel.MmoSimpleScene> mmoSimpleScenes=new ArrayList<>();
         //由MmoSimpleScene转化为SceneModel.MmoSimpleScene
-        for (MmoSimpleScene m :mmoScene.getCanScene()) {
-            SceneModel.MmoSimpleScene mmoSimpleScene=SceneModel.MmoSimpleScene.newBuilder().setId(m.getId()).setPalceName(m.getPalceName()).build();
+        for (MmoScenePOJO m :canScenes) {
+            SceneModel.MmoSimpleScene mmoSimpleScene=SceneModel.MmoSimpleScene.newBuilder().setId(m.getId()).setPalceName(m.getPlacename()).build();
             mmoSimpleScenes.add(mmoSimpleScene);
         }
 
@@ -136,7 +143,7 @@ public class SceneServiceImpl implements SceneService, ApplicationContextAware {
         SceneModel.SceneModelMessage.Builder builder=SceneModel.SceneModelMessage.newBuilder();
         builder.setDataType(SceneModel.SceneModelMessage.DateType.WentResponse);
 
-        SceneModel.WentResponse.Builder wentResponsebuilder=SceneModel.SceneModelMessage.newBuilder().getWentResponseBuilder();
+        SceneModel.WentResponse.Builder wentResponsebuilder=SceneModel.WentResponse.newBuilder();
 
         SceneModel.MmoScene.Builder mmoSceneBuilder=SceneModel.MmoScene.newBuilder();
         mmoSceneBuilder.setId(nextScene.getId()).setPlaceName(nextScene.getPlacename());
@@ -158,7 +165,7 @@ public class SceneServiceImpl implements SceneService, ApplicationContextAware {
             msr.setName(mmoRole.getName());
             msr.setType(RoleTypeCode.getValue(mmoRole.getType()));
             msr.setStatus(RoleStatusCode.getValue(mmoRole.getStatus()));
-            msr.setOnStatus(RoleStatusCode.getValue(mmoRole.getOnstatus()));
+            msr.setOnStatus(RoleOnStatusCode.getValue(mmoRole.getOnstatus()));
             SceneModel.MmoSimpleRole msrobject=msr.build();
             simRoles.add(msrobject);
         }
@@ -169,7 +176,8 @@ public class SceneServiceImpl implements SceneService, ApplicationContextAware {
         builder.setWentResponse(wentResponsebuilder.build());
 
         byte[] data2=builder.build().toByteArray();
-        nettyRequest.setData(data2);
+        nettyResponse.setData(data2);
+        log.info("wentRequest:"+data2.length);
         return nettyResponse;
     }
 
@@ -194,7 +202,7 @@ public class SceneServiceImpl implements SceneService, ApplicationContextAware {
         }
         //protobuf
         SceneModel.SceneModelMessage.Builder messagedataBuilder=SceneModel.SceneModelMessage.newBuilder();
-        messagedataBuilder.setDataType(SceneModel.SceneModelMessage.DateType.FindAllRolesRequest);
+        messagedataBuilder.setDataType(SceneModel.SceneModelMessage.DateType.FindAllRolesResponse);
         SceneModel.FindAllRolesResponse.Builder findAllRolesResponseBuilder=SceneModel.FindAllRolesResponse.newBuilder();
         List<SceneModel.MmoSimpleRole> mmoSimpleRoles=new ArrayList<>();
         for (MmoRolePOJO m :mmoRolePOJOS) {
@@ -203,7 +211,8 @@ public class SceneServiceImpl implements SceneService, ApplicationContextAware {
             mmoSimpleRoles.add(msr);
         }
         findAllRolesResponseBuilder.addAllMmoSimpleRoles(mmoSimpleRoles);
-        byte[] data2=findAllRolesResponseBuilder.build().toByteArray();
+        messagedataBuilder.setFindAllRolesResponse(findAllRolesResponseBuilder.build());
+        byte[] data2=messagedataBuilder.build().toByteArray();
         NettyResponse nettyResponse=new NettyResponse();
         nettyResponse.setCmd(ConstantValue.FIND_ALL_ROLES_RESPONSE);
         nettyResponse.setStateCode(200);

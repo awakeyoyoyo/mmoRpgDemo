@@ -55,6 +55,7 @@ public class Dispatcherservlet {
                         break;
                     case ConstantValue.LOGOUT_REQUEST:
                         nettyResponse=playService.logoutRequest(nettyRequest);
+                        break;
                     default:
                        nettyResponse=new NettyResponse(StateCode.FAIL,(short)444,(short)444,"传入错误的cmd".getBytes());
                 }

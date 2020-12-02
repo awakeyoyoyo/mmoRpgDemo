@@ -17,7 +17,7 @@ public class Main {
         //输出获取到的对象
         ServerInit serverInit = (ServerInit) applicationContext.getBean("serverInit");
         serverInit.init();
-        NettyTcpServer nettyTcpServer=new NettyTcpServer();
+        NettyTcpServer nettyTcpServer=(NettyTcpServer)applicationContext.getBean("nettyTcpServer");
         nettyTcpServer.run();
     }
 }

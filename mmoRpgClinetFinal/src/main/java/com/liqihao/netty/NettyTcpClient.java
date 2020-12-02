@@ -11,6 +11,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,16 +20,13 @@ import java.net.InetSocketAddress;
 
 @Component
 public class NettyTcpClient {
+    private static Logger logger=Logger.getLogger(NettyTcpClient.class);
     @Autowired
     private Dispatcherservlet dispatcherservlet;
-    private int port;
+    private int port=6666;
 
-    private String host;
+    private String host="127.0.0.1";
 
-    public NettyTcpClient(String host,int port) {
-        this.port = port;
-        this.host = host;
-    }
     public  void run() throws Exception {
         //创建一个workerGroup
         EventLoopGroup worker = new NioEventLoopGroup();
@@ -54,8 +52,9 @@ public class NettyTcpClient {
             //绑定端口号，启动服务端
             ChannelFuture channelFuture = bootstrap.connect().sync();
             //对关闭通道进行监听
-            System.out.println("客户端已经启动.....");
-            System.out.println("---------------------------------------------------------");
+
+            logger.info("客户端已经启动.....");
+            logger.info("---------------------------------------------------------");
             //开始游戏
             GameStart gameStart=new GameStart(channelFuture.channel());
             gameStart.play();

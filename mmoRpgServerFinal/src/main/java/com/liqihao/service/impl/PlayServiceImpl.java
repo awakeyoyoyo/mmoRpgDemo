@@ -58,9 +58,9 @@ public class PlayServiceImpl implements PlayService {
         mmoRolePOJO.setStatus(RoleStatusCode.ALIVE.getCode());
         mmoRolePOJO.setOnstatus(RoleOnStatusCode.EXIT.getCode());
         mmoRolePOJO.setType(RoleTypeCode.PLAYER.getCode());
-        Integer id=mmoRolePOJOMapper.insert(mmoRolePOJO);
+        mmoRolePOJOMapper.insert(mmoRolePOJO);
         MmoUserPOJO mmoUserPOJO=new MmoUserPOJO();
-        mmoUserPOJO.setUserroleid(id.toString());
+        mmoUserPOJO.setUserroleid(mmoRolePOJO.getId().toString());
         mmoUserPOJO.setUsername(username);
         mmoUserPOJO.setUserpwd(password);
         mmoUserPOJOMapper.insert(mmoUserPOJO);
@@ -94,10 +94,7 @@ public class PlayServiceImpl implements PlayService {
             nettyResponse.setCmd(ConstantValue.LOGIN_RESPONSE);
             nettyResponse.setStateCode(StateCode.FAIL);
             nettyResponse.setModule(ConstantValue.PLAY_MODULE);
-            //protobuf 生成loginResponse
-            PlayModel.PlayModelMessage.Builder messageData=PlayModel.PlayModelMessage.newBuilder();
-            messageData.setDataType(PlayModel.PlayModelMessage.DateType.LoginResponse);
-            nettyResponse.setData(messageData.build().toByteArray());
+            nettyResponse.setData("密码错误or账号错误".getBytes());
             return nettyResponse;
         }
         //将角色设置为在线模式
@@ -155,7 +152,7 @@ public class PlayServiceImpl implements PlayService {
             msr.setName(mmoRole.getName());
             msr.setType(RoleTypeCode.getValue(mmoRole.getType()));
             msr.setStatus(RoleStatusCode.getValue(mmoRole.getStatus()));
-            msr.setOnStatus(RoleStatusCode.getValue(mmoRole.getOnstatus()));
+            msr.setOnStatus(RoleOnStatusCode.getValue(mmoRole.getOnstatus()));
             PlayModel.MmoSimpleRole msrobject=msr.build();
             simRoles.add(msrobject);
         }

@@ -2,7 +2,9 @@ package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.liqihao.commons.CacheUtil;
+import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
+import com.liqihao.commons.StateCode;
 import com.liqihao.pojo.MmoScene;
 import com.liqihao.pojo.MmoSimpleRole;
 import com.liqihao.pojo.MmoSimpleScene;
@@ -10,16 +12,22 @@ import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.service.PlayService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Service
 public class PlayServiceImpl implements PlayService {
-    private static final Logger log = LoggerFactory.getLogger(SceneServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(PlayServiceImpl.class);
 
     @Override
     public void loginResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
         byte[] data=nettyResponse.getData();
+        if (nettyResponse.getStateCode()== StateCode.FAIL){
+            String s = new String(nettyResponse.getData());
+            log.info(s);
+            return;
+        }
         PlayModel.PlayModelMessage myMessage;
         myMessage=PlayModel.PlayModelMessage.parseFrom(data);
         PlayModel.LoginResponse loginResponse=myMessage.getLoginResponse();

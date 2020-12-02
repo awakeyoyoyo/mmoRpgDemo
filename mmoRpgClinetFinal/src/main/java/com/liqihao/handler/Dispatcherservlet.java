@@ -54,6 +54,7 @@ public class Dispatcherservlet {
                         break;
                     case ConstantValue.LOGOUT_RESPONSE:
                         playService.logoutResponse(nettyResponse);
+                        break;
                     default:
                         System.out.println("handler:收到错误的数据包");
                 }

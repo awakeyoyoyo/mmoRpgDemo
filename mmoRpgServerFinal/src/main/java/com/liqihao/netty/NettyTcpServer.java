@@ -49,7 +49,7 @@ public class NettyTcpServer {
                     });//给workerGroup的EventLoop对应的管道设置处理器
             //绑定端口号，启动服务端
             ChannelFuture channelFuture = bootstrap.bind(port).sync();
-            System.out.println("hello服务端已经准备就绪...");
+            logger.info("hello服务端已经准备就绪...");
             //对关闭通道进行监听
             channelFuture.channel().closeFuture().sync();
         } catch (InterruptedException e){
