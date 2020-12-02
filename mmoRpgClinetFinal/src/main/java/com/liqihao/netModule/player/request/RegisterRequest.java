@@ -9,4 +9,8 @@ public class RegisterRequest {
      * 密码
      */
     private String password;
+    /**
+     * 角色名
+     */
+    private String roleName;
 }

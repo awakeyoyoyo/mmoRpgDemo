@@ -18,6 +18,16 @@ public class NettyResponse {
      */
     private byte[] data;
 
+    public NettyResponse() {
+    }
+
+    public NettyResponse(int stateCode, short module, short cmd, byte[] data) {
+        this.stateCode = stateCode;
+        this.module = module;
+        this.cmd = cmd;
+        this.data = data;
+    }
+
     public int getStateCode() {
         return stateCode;
     }

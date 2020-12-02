@@ -13,6 +13,13 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
     private Dispatcherservlet dispatcherservlet;
     private static final Logger log = LoggerFactory.getLogger(ServerHandler.class);
 
+    public ServerHandler() {
+    }
+
+    public ServerHandler(Dispatcherservlet dispatcherservlet) {
+        this.dispatcherservlet = dispatcherservlet;
+    }
+
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         System.out.println("Server:channelActive");

@@ -1,10 +1,19 @@
 package com.liqihao.pojo;
 
 public class MmoSimpleRole {
-    int id;
-    String name;
-    String status;
-    String type;
+    private int id;
+    private String name;
+    private String status;
+    private String type;
+    private String onstatus;
+
+    public String getOnstatus() {
+        return onstatus;
+    }
+
+    public void setOnstatus(String onstatus) {
+        this.onstatus = onstatus;
+    }
 
     public String getType() {
         return type;

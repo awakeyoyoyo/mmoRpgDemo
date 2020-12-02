@@ -1,7 +1,9 @@
 package com.liqihao.netty;
 
+import com.liqihao.application.GameStart;
 import com.liqihao.codc.RequestEncoder;
 import com.liqihao.codc.ResponceDecoder;
+import com.liqihao.handler.Dispatcherservlet;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -9,12 +11,16 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 
 import java.net.InetSocketAddress;
 
-
+@Component
 public class NettyTcpClient {
+    @Autowired
+    private Dispatcherservlet dispatcherservlet;
     private int port;
 
     private String host;
@@ -42,7 +48,7 @@ public class NettyTcpClient {
                             socketChannel.pipeline()
                                     .addLast("decoder",new ResponceDecoder()) //解码器
                                     .addLast("encoder",new RequestEncoder())  //编码器
-                                    .addLast(new ClientHandler());
+                                    .addLast(new ClientHandler(dispatcherservlet));
                         }
                     });//给workerGroup的EventLoop对应的管道设置处理器
             //绑定端口号，启动服务端
@@ -51,8 +57,8 @@ public class NettyTcpClient {
             System.out.println("客户端已经启动.....");
             System.out.println("---------------------------------------------------------");
             //开始游戏
-//            ClientWorker clientWorker=new ClientWorker();
-//            clientWorker.gameBegim(channelFuture);
+            GameStart gameStart=new GameStart(channelFuture.channel());
+            gameStart.play();
             channelFuture.channel().closeFuture().sync();
         } finally {
             worker.shutdownGracefully();

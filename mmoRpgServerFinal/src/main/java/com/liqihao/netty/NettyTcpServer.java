@@ -3,6 +3,7 @@ package com.liqihao.netty;
 import com.liqihao.codc.RequestDecoder;
 import com.liqihao.codc.ResponceDecoder;
 import com.liqihao.codc.ResponceEncoder;
+import com.liqihao.handler.Dispatcherservlet;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -11,11 +12,15 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-
+@Component
 public class NettyTcpServer {
     private static Logger logger=Logger.getLogger(NettyTcpServer.class);
     private int port=6666;
+    @Autowired
+    private Dispatcherservlet dispatcherservlet;
     public void run() throws Exception {
         //创建两个线程池 boosGroup、workerGroup
         //负责监听端口
@@ -37,7 +42,7 @@ public class NettyTcpServer {
                             socketChannel.pipeline()
                                     .addLast("decoder", new RequestDecoder())//解码器
                                     .addLast("encoder",new ResponceEncoder())//编码器
-                                    .addLast(new ServerHandler())//业务处理handler
+                                    .addLast(new ServerHandler(dispatcherservlet))//业务处理handler
 
                             ;
                         }
