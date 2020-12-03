@@ -64,7 +64,6 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
                 // 不处理
                 break;
         }
-        log.error(ctx.channel().remoteAddress() + "第"+readIdleTimes+"次超时事件：" +eventType);
         if(readIdleTimes > 3){
             log.error(" [server]读空闲超过3次，关闭连接");
             NettyResponse response=new NettyResponse();

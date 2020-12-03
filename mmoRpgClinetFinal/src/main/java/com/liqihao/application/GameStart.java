@@ -2,6 +2,7 @@ package com.liqihao.application;
 
 
 import com.liqihao.commons.CacheUtil;
+import com.liqihao.commons.CmdCode;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyRequest;
 import com.liqihao.pojo.MmoScene;
@@ -36,15 +37,16 @@ public class GameStart {
     public void play(){
         Scanner scanner=new Scanner(System.in);
         while (true){
-            System.out.println("请输入module号");
-            short module=scanner.nextShort();
-            //消除回车
+            System.out.println("命令");
+            String cmdT=scanner.nextLine();
             scanner.nextLine();
-            System.out.println("请输入cmd号");
-            short cmd=scanner.nextShort();
             //消除回车
-            scanner.nextLine();
-            handler(scanner,module,cmd);
+            CmdCode cmd=CmdCode.getValue(cmdT);
+            if (null==cmd){
+                System.out.println("输入错误指令");
+                continue;
+            }
+            handler(scanner,cmd.getModule(),cmd.getCmd());
         }
     }
     public void handler(Scanner scanner,short module,short cmd){
