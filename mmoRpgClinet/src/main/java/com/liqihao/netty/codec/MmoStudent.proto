@@ -1,7 +1,0 @@
-syntax="proto3";
-option java_outer_classname="MmoStudentPOJO";//生成的外部类名，同时也是java文件名
-message MmoStudent{
-  //会在MmoPersonPOJO外部类生成一个内部类MmoPerson，他是真正发送的pojo对象
-  int32 id=1; //MmoPerson类中有个属性 名字为id 类型是int32(protobuf类型)1表示属性序号，不是值
-  string name=2;
-}

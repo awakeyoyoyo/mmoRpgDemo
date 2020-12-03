@@ -53,7 +53,6 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
         switch (event.state()){
             case READER_IDLE:
                 eventType = "读空闲";
-                readIdleTimes ++; // 读空闲的计数加1
                 break;
             case WRITER_IDLE:
                 eventType = "写空闲";
@@ -62,6 +61,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
             case ALL_IDLE:
                 eventType ="读写空闲";
                 // 不处理
+                readIdleTimes ++;
                 break;
         }
         if(readIdleTimes > 3){

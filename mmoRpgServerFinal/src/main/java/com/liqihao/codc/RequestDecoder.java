@@ -1,13 +1,10 @@
 package com.liqihao.codc;
 
-import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyRequest;
-import com.liqihao.netty.NettyTcpServer;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import org.apache.log4j.Logger;
-
 import java.util.List;
 
 /**
