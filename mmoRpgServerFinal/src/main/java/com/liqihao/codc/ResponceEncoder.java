@@ -33,6 +33,6 @@ public class ResponceEncoder extends MessageToByteEncoder<NettyResponse> {
         //data
         byteBuf.writeBytes(nettyResponse.getData());
 
-        System.err.println("Server:ResponceEncoder"+byteBuf.readableBytes());
+        logger.error("Server:ResponceEncoder"+byteBuf.readableBytes());
     }
 }

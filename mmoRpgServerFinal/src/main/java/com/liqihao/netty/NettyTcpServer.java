@@ -10,9 +10,12 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.timeout.IdleStateHandler;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.concurrent.TimeUnit;
 
 @Component
 public class NettyTcpServer {
@@ -41,6 +44,7 @@ public class NettyTcpServer {
                             socketChannel.pipeline()
                                     .addLast("decoder", new RequestDecoder())//解码器
                                     .addLast("encoder",new ResponceEncoder())//编码器
+                                    .addLast(new IdleStateHandler(5,5,5, TimeUnit.SECONDS))//心跳
                                     .addLast(new ServerHandler(dispatcherservlet))//业务处理handler
 
                             ;

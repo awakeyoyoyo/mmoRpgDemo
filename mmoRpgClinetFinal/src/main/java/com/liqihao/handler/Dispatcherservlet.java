@@ -5,6 +5,7 @@ import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyRequest;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
+import com.liqihao.service.GameService;
 import com.liqihao.service.PlayService;
 import com.liqihao.service.SceneService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,8 @@ public class Dispatcherservlet {
     private SceneService sceneService;
     @Autowired
     private PlayService playService;
-
+    @Autowired
+    private GameService gameService;
     /**
      * 根据model和cmd转发到不同的service
      * @param nettyResponse
@@ -54,6 +56,15 @@ public class Dispatcherservlet {
                         break;
                     case ConstantValue.LOGOUT_RESPONSE:
                         playService.logoutResponse(nettyResponse);
+                        break;
+                    default:
+                        System.out.println("handler:收到错误的数据包");
+                }
+                break;
+            case ConstantValue.GAME_SYSTEM_MODULE:
+                switch (cmd){
+                    case ConstantValue.OUT_RIME_RESPONSE:
+                        gameService.outTimeResponse(nettyResponse);
                         break;
                     default:
                         System.out.println("handler:收到错误的数据包");

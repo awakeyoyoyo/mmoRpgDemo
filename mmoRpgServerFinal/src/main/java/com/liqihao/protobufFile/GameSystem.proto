@@ -1,0 +1,17 @@
+syntax ="proto3";
+option java_outer_classname="GameSystemModel";
+message GameSystemModelMessage{
+  //定义枚举类型
+  enum DateType{
+    OutTimeResponse=0;//在proto3 要求enum的编号从0开始
+  }
+  //用date_type来标识传的是哪一个枚举类型
+  DateType data_type=1;
+  //表示每次枚举类型最多只能出现其中一个，节省空间
+  oneof dateBody{
+    OutTimeResponse outTimeResponse=2;
+  }
+}
+message OutTimeResponse{
+  string message=1;
+}

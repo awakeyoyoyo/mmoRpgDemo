@@ -24,4 +24,6 @@ public interface ConstantValue {
     public static final short REGISTER_RESPONSE=2021;
     public static final short LOGOUT_RESPONSE=2022;
 
+    public static final short GAME_SYSTEM_MODULE=3333;
+    public static final short OUT_RIME_RESPONSE=3000;
 }
