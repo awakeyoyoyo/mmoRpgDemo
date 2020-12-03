@@ -1,10 +1,11 @@
 package com.liqihao.codc;
 
-import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyRequest;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
+import org.apache.log4j.Logger;
+
 
 import java.util.List;
 
@@ -12,6 +13,7 @@ import java.util.List;
  * 解码器
  */
 public class RequestDecoder  extends ByteToMessageDecoder {
+    private static Logger logger=Logger.getLogger(RequestDecoder.class);
     /**
      * //数据包基本长度 包头+模块号+命令+长度
      * 数据包基本长度 模块号+命令+长度
@@ -19,7 +21,7 @@ public class RequestDecoder  extends ByteToMessageDecoder {
     public static int BASE_LENGTH=2+2+4;
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
-        System.out.println("Clinet:RequestDecoder");
+        logger.info("Clinet:RequestDecoder");
         if (byteBuf.readableBytes()>=BASE_LENGTH){
             //记录开始读取的index
             int beginReader =byteBuf.writerIndex();

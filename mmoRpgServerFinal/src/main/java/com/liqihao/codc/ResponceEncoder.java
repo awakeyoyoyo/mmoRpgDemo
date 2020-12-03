@@ -6,6 +6,7 @@ import com.liqihao.commons.NettyResponse;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
+import org.apache.log4j.Logger;
 
 /**
  * 响应编码器
@@ -14,9 +15,10 @@ import io.netty.handler.codec.MessageToByteEncoder;
  * 数据包基本长度 模块号+命令+状态码+长度
  */
 public class ResponceEncoder extends MessageToByteEncoder<NettyResponse> {
+    private static Logger logger=Logger.getLogger(ResponceEncoder.class);
     @Override
     protected void encode(ChannelHandlerContext channelHandlerContext, NettyResponse nettyResponse, ByteBuf byteBuf) throws Exception {
-        System.out.println("Server:ResponceEncoder");
+        logger.info("Server:ResponceEncoder");
 
 //        //写入包头
 //        byteBuf.writeInt(ConstantValue.FLAG);

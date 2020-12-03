@@ -1,12 +1,14 @@
 package com.liqihao.handler;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.liqihao.codc.ResponceEncoder;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyRequest;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
 import com.liqihao.service.PlayService;
 import com.liqihao.service.SceneService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,13 +18,14 @@ public class Dispatcherservlet {
     private SceneService sceneService;
     @Autowired
     private PlayService playService;
-
+    private static Logger logger=Logger.getLogger(Dispatcherservlet.class);
     /**
      * 根据model和cmd转发到不同的service
      * @param nettyRequest
      * @return
      */
     public NettyResponse handler(NettyRequest nettyRequest) throws InvalidProtocolBufferException {
+
         short module=nettyRequest.getModule();
         short cmd=nettyRequest.getCmd();
         NettyResponse nettyResponse=null;

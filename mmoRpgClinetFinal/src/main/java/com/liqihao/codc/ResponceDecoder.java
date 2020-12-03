@@ -5,6 +5,7 @@ import com.liqihao.commons.NettyResponse;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
+import org.apache.log4j.Logger;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
  * 包头（4byte）-----模块号（2byte）-----命令号（2byte）-----状态码（4byte）------长度（4byte）--------数据
  */
 public class ResponceDecoder extends ByteToMessageDecoder {
+    private static Logger logger=Logger.getLogger(ResponceDecoder.class);
     /**
      * 数据包基本长度 包头+模块号+命令+状态码+长度
      * 数据包基本长度 模块号+命令+长度
@@ -21,7 +23,7 @@ public class ResponceDecoder extends ByteToMessageDecoder {
     public static int BASE_LENGTH=4+2+2+4+4;
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
-        System.out.println("Clinet:ResponceDecoder");
+        logger.info("Clinet:ResponceDecoder");
         if (byteBuf.readableBytes()>=BASE_LENGTH){
             //记录开始读取的index
             int beginReader =byteBuf.writerIndex();
