@@ -49,8 +49,8 @@ public class SceneServiceImpl implements SceneService, ApplicationContextAware {
 
 
         //根据sceneId 从spirng容器中获取场景信息
-
 //       MmoScene mmoScene=applicationContext.getBean("scene"+sceneId,MmoScene.class);
+        //todo 从缓存或者是spring容器中的场景信息获取 需解决并发安全问题
         MmoScenePOJO mmoScenePOJO=mmoScenePOJOMapper.selectByPrimaryKey(sceneId);
         List<MmoScenePOJO> canScenes=new ArrayList<>();
         for (Integer id:CommonsUtil.split(mmoScenePOJO.getCanscene())){
@@ -86,6 +86,7 @@ public class SceneServiceImpl implements SceneService, ApplicationContextAware {
         myMessage=SceneModel.SceneModelMessage.parseFrom(data);
         Integer sceneId=myMessage.getWentRequest().getSceneId();
         Integer playId=myMessage.getWentRequest().getPlayId();
+        //todo 从缓存或者是spring容器中的场景信息获取 需解决并发安全问题
         //先查询palyId所在场景
         MmoRolePOJO mmoRolePOJO=mmoRolePOJOMapper.selectByPrimaryKey(playId);
         //查询该场景可进入的场景与sceneId判断
@@ -101,9 +102,11 @@ public class SceneServiceImpl implements SceneService, ApplicationContextAware {
         MmoRolePOJO mmoRolePOJO1=new MmoRolePOJO();
         mmoRolePOJO1.setId(playId);
         mmoRolePOJO1.setMmosceneid(sceneId);
+        //todo 提交给线程池异步处理，并且需要修改缓存中场景的角色
         mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO1);
         //修改scene
         //新场景
+        //todo 从缓存或者是spring容器中的场景信息获取 需解决并发安全问题
         MmoScenePOJO nextScene=mmoScenePOJOMapper.selectByPrimaryKey(sceneId);
         List<Integer> oldRoles=CommonsUtil.split(nextScene.getRoles());
         if (!oldRoles.contains(playId)){
@@ -111,6 +114,7 @@ public class SceneServiceImpl implements SceneService, ApplicationContextAware {
         }
         String newRoles=CommonsUtil.listToString(oldRoles);
         nextScene.setRoles(newRoles);
+        //todo 提交给线程池异步处理，并且需要修改缓存中场景的角色
         mmoScenePOJOMapper.updateByPrimaryKeySelective(nextScene);
         //旧场景
         List<Integer> oldRoles2=CommonsUtil.split(nowScene.getRoles());
@@ -119,17 +123,20 @@ public class SceneServiceImpl implements SceneService, ApplicationContextAware {
         }
         String newRoles2=CommonsUtil.listToString(oldRoles2);
         nowScene.setRoles(newRoles2);
+        //todo 提交给线程池异步处理，并且需要修改缓存中场景的角色
         mmoScenePOJOMapper.updateByPrimaryKeySelective(nowScene);
 
         //查询出simpleScene 和SimpleRole
         List<MmoRolePOJO> mmoRolePOJOS=new ArrayList<>();
         List<MmoScenePOJO> mmoScenePOJOS=new ArrayList<>();
         for(Integer id:oldRoles){
+            //todo 从缓存或者是spring容器中的场景信息获取 需解决并发安全问题
             mmoRolePOJOS.add(mmoRolePOJOMapper.selectByPrimaryKeyAndOnStatus(id));
         }
         List<Integer> scenes=CommonsUtil.split(nextScene.getCanscene());
         if (scenes.size()>0) {
             for (Integer id : scenes) {
+                //todo 从缓存或者是spring容器中的场景信息获取 需解决并发安全问题
                 mmoScenePOJOS.add(mmoScenePOJOMapper.selectByPrimaryKey(id));
             }
         }

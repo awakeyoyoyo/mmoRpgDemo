@@ -5,26 +5,35 @@ import com.liqihao.commons.*;
 import com.liqihao.dao.MmoRolePOJOMapper;
 import com.liqihao.dao.MmoScenePOJOMapper;
 import com.liqihao.dao.MmoUserPOJOMapper;
-import com.liqihao.pojo.MmoRolePOJO;
-import com.liqihao.pojo.MmoScenePOJO;
-import com.liqihao.pojo.MmoUserPOJO;
+import com.liqihao.pojo.*;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.service.PlayService;
 import com.liqihao.util.CommonsUtil;
+import com.liqihao.util.ThreadPools;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 
+import javax.management.relation.RoleStatus;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class PlayServiceImpl implements PlayService {
+public class PlayServiceImpl implements PlayService, ApplicationContextAware {
     @Autowired
     private MmoRolePOJOMapper mmoRolePOJOMapper;
     @Autowired
     private MmoUserPOJOMapper mmoUserPOJOMapper;
     @Autowired
     private MmoScenePOJOMapper mmoScenePOJOMapper;
+    private ApplicationContext applicationContext;
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
+    }
     @Override
     public NettyResponse registerRequest(NettyRequest nettyRequest) throws InvalidProtocolBufferException {
         byte[] data=nettyRequest.getData();
@@ -101,8 +110,17 @@ public class PlayServiceImpl implements PlayService {
         MmoUserPOJO mmoUserPOJO=mmoUserPOJOMapper.selectByPrimaryKey(mmoUserId);
         MmoRolePOJO mmoRolePOJO=mmoRolePOJOMapper.selectByPrimaryKey(Integer.parseInt(mmoUserPOJO.getUserroleid()));
         mmoRolePOJO.setOnstatus(RoleOnStatusCode.ONLINE.getCode());
+        //设置缓存中的场景增加人物
+        //todo 置缓存中的场景增加人物 需解决并发安全问题
+
+        //放入线程池中异步处理
+
+        //数据库中人物状态         //todo 提交给线程池异步执行
         mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO);
+
         //获取 场景信息和自身角色信息
+        //todo 从缓存或者是spring容器中的场景信息获取 需解决并发安全问题
+
         MmoScenePOJO mmoScenePOJO=mmoScenePOJOMapper.selectByPrimaryKey(mmoRolePOJO.getMmosceneid());
         List<MmoScenePOJO> canScenes=new ArrayList<>();
         List<MmoRolePOJO> roundRoles=new ArrayList<>();
@@ -175,10 +193,12 @@ public class PlayServiceImpl implements PlayService {
         myMessage=PlayModel.PlayModelMessage.parseFrom(data);
         Integer rolesId=myMessage.getLogoutRequest().getRolesId();
         //将数据库中设置为离线
+        //todo 提交给线程池异步执行
         MmoRolePOJO mmoRolePOJO=mmoRolePOJOMapper.selectByPrimaryKey(rolesId);
         mmoRolePOJO.setOnstatus(RoleOnStatusCode.EXIT.getCode());
         mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO);
         //将场景中玩家id 移除
+        //todo 从缓存或者是spring容器中的场景信息获取 需解决并发安全问题
         MmoScenePOJO mmoScenePOJO=mmoScenePOJOMapper.selectByPrimaryKey(mmoRolePOJO.getMmosceneid());
         List<Integer> sceneRoles=CommonsUtil.split(mmoScenePOJO.getRoles());
         if (sceneRoles.contains(rolesId)){
@@ -199,4 +219,6 @@ public class PlayServiceImpl implements PlayService {
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
         return  nettyResponse;
     }
+
+
 }

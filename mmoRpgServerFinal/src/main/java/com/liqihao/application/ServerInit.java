@@ -7,6 +7,7 @@ import com.liqihao.dao.MmoRolePOJOMapper;
 import com.liqihao.dao.MmoScenePOJOMapper;
 import com.liqihao.pojo.*;
 import com.liqihao.util.CommonsUtil;
+import com.liqihao.util.ThreadPools;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
@@ -30,6 +31,8 @@ public class ServerInit implements ApplicationContextAware {
         this.applicationContext = applicationContext;
     }
     public void init() {
+        //初始化线程池
+        ThreadPools.init();
         List<MmoScenePOJO> mmoScenePOJOS = scenePOJOMapper.selectAll();
         //分解出可用scene
         for (MmoScenePOJO mmoScenePOJO : mmoScenePOJOS) {
