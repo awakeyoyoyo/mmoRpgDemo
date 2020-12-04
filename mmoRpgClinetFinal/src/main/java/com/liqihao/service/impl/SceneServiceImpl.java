@@ -69,10 +69,6 @@ public class SceneServiceImpl implements SceneService {
         log.info("---------------------------------------------------");
     }
 
-    @Override
-    public void whereResponse(NettyResponse nettyResponse) {
-        log.info("whereResponse:---------------------------------------------------");
-    }
 
     @Override
     public void findAllRolesResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException {

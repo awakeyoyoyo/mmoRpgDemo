@@ -9,7 +9,5 @@ public interface SceneService {
 
     NettyResponse wentRequest(NettyRequest nettyRequest) throws InvalidProtocolBufferException;
 
-    NettyResponse whereRequest(NettyRequest nettyRequest) throws InvalidProtocolBufferException;
-
     NettyResponse findAllRolesRequest(NettyRequest nettyRequest) throws InvalidProtocolBufferException;
 }

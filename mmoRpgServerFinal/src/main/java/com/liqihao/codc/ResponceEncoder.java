@@ -21,7 +21,7 @@ public class ResponceEncoder extends MessageToByteEncoder<NettyResponse> {
         logger.info("Server:ResponceEncoder");
 
 //        //写入包头
-//        byteBuf.writeInt(ConstantValue.FLAG);
+        byteBuf.writeInt(ConstantValue.FLAG);
         //module
         byteBuf.writeShort(nettyResponse.getModule());
         //cmd

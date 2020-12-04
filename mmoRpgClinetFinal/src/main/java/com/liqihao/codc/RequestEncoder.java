@@ -16,7 +16,7 @@ public class RequestEncoder extends MessageToByteEncoder<NettyRequest> {
     protected void encode(ChannelHandlerContext channelHandlerContext, NettyRequest nettyRequest, ByteBuf byteBuf) throws Exception {
         logger.info("Clinet:RequestEncoder");
         //写入包头
-//        byteBuf.writeInt(ConstantValue.FLAG);
+        byteBuf.writeInt(ConstantValue.FLAG);
         //module
         byteBuf.writeShort(nettyRequest.getModule());
         //cmd

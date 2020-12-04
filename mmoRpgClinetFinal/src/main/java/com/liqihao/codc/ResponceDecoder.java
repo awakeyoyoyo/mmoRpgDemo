@@ -28,12 +28,11 @@ public class ResponceDecoder extends ByteToMessageDecoder {
             //记录开始读取的index
             int beginReader =byteBuf.writerIndex();
             //可以处理
-            //读到包头才出来 从正确位置开始读取
-//            while(true) {
-//                if (byteBuf.readInt() == ConstantValue.FLAG) {
-//                    break;
-//                }
-//            }
+            //读到不正确包头 断开通道连接 避免恶意telnet或者攻击
+            if (byteBuf.readInt() != ConstantValue.FLAG) {
+                channelHandlerContext.channel().close();
+                logger.info("Client：包头错误关闭通道");
+            }
             short module=byteBuf.readShort();
             short cmd=byteBuf.readShort();
             int stateCode=byteBuf.readInt();

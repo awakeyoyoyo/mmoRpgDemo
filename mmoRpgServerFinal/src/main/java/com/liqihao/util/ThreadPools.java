@@ -26,7 +26,7 @@ public class ThreadPools {
          */
         //创建了一个最大线程数和核心线程数是5的线程池，工作队列长度为100的有限队列，线程池策略采取丢弃抛异常
         executorService = new ThreadPoolExecutor(poolSize, poolSize, 0L, TimeUnit.SECONDS,
-                new LinkedBlockingDeque<>(), new ThreadPoolExecutor.AbortPolicy());
+                new LinkedBlockingDeque<Runnable>(), new ThreadPoolExecutor.AbortPolicy());
     }
     public static void submit(Runnable task){
         executorService.submit(task);

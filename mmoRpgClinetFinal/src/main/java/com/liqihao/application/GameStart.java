@@ -37,7 +37,7 @@ public class GameStart {
     public void play(){
         Scanner scanner=new Scanner(System.in);
         while (true){
-            System.out.println("命令");
+            System.out.println("请输入命令");
             String cmdT=scanner.nextLine();
             scanner.nextLine();
             //消除回车

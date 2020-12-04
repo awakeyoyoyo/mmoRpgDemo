@@ -44,7 +44,7 @@ public class NettyTcpServer {
                             socketChannel.pipeline()
                                     .addLast("decoder", new RequestDecoder())//解码器
                                     .addLast("encoder",new ResponceEncoder())//编码器
-                                    .addLast(new IdleStateHandler(5,5,5, TimeUnit.SECONDS))//心跳
+                                    .addLast(new IdleStateHandler(0,0,10, TimeUnit.SECONDS))//心跳
                                     .addLast(new ServerHandler(dispatcherservlet))//业务处理handler
 
                             ;

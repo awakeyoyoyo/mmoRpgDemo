@@ -8,7 +8,5 @@ public interface SceneService {
 
     void wentResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException;
 
-    void whereResponse(NettyResponse nettyResponse);
-
     void findAllRolesResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException;
 }

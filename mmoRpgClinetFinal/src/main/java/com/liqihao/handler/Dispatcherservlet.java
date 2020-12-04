@@ -36,9 +36,6 @@ public class Dispatcherservlet {
                     case ConstantValue.WENT_RESPONSE:
                         sceneService.wentResponse(nettyResponse);
                         break;
-                    case ConstantValue.WHERE_RESPONSE:
-                        sceneService.whereResponse(nettyResponse);
-                        break;
                     case ConstantValue.FIND_ALL_ROLES_RESPONSE:
                         sceneService.findAllRolesResponse(nettyResponse);
                         break;
