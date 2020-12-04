@@ -1,20 +1,20 @@
 package com.liqihao.application;
 
-import com.liqihao.Cache.MmoCahe;
+import com.liqihao.Cache.MmoCache;
 import com.liqihao.commons.RoleOnStatusCode;
 import com.liqihao.commons.RoleStatusCode;
 import com.liqihao.commons.RoleTypeCode;
 import com.liqihao.dao.MmoRolePOJOMapper;
 import com.liqihao.dao.MmoScenePOJOMapper;
 import com.liqihao.pojo.*;
+import com.liqihao.pojo.baseMessage.NPCMessage;
+import com.liqihao.pojo.baseMessage.SceneMessage;
 import com.liqihao.util.CommonsUtil;
 import com.liqihao.util.ThreadPools;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -22,16 +22,12 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
-public class ServerInit implements ApplicationContextAware {
+public class ServerInit{
     @Autowired
     private MmoScenePOJOMapper scenePOJOMapper;
     @Autowired
     private MmoRolePOJOMapper rolePOJOMapper;
     private ApplicationContext applicationContext;
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
     public void init() {
         //初始化线程池
         ThreadPools.init();
@@ -76,15 +72,11 @@ public class ServerInit implements ApplicationContextAware {
             }
             mmoScene.setRoles(mmoSimpleRoles);
             mmoScenes.put(mmoScene.getId(),mmoScene);
-//            //放入spring容器中进行管理
-//            //将applicationContext转换为ConfigurableApplicationContext
-//            ConfigurableApplicationContext configurableApplicationContext = (ConfigurableApplicationContext) applicationContext;
-//// 获取bean工厂并转换为DefaultListableBeanFactory
-//            DefaultListableBeanFactory defaultListableBeanFactory = (DefaultListableBeanFactory) configurableApplicationContext.getBeanFactory();
-//            defaultListableBeanFactory.registerSingleton("scene"+mmoScene.getId(),mmoScene);
         }
         //初始化缓存
-        MmoCahe.init(mmoScenes,mmoRoles);
+        ConcurrentHashMap<Integer, SceneMessage> scmMap=new ConcurrentHashMap<>();
+        ConcurrentHashMap<Integer, NPCMessage> npcMap=new ConcurrentHashMap<>();
+        MmoCache.init(mmoScenes,mmoRoles,scmMap,npcMap);
     }
 
 

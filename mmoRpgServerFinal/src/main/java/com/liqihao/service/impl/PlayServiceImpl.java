@@ -1,7 +1,7 @@
 package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.liqihao.Cache.MmoCahe;
+import com.liqihao.Cache.MmoCache;
 import com.liqihao.commons.*;
 import com.liqihao.dao.MmoRolePOJOMapper;
 import com.liqihao.dao.MmoScenePOJOMapper;
@@ -10,15 +10,10 @@ import com.liqihao.pojo.*;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.service.PlayService;
 import com.liqihao.util.CommonsUtil;
-import com.liqihao.util.ThreadPools;
 import io.netty.channel.Channel;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 
-import javax.management.relation.RoleStatus;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -110,11 +105,11 @@ public class PlayServiceImpl implements PlayService{
 //        MmoRolePOJO mmoRolePOJO=mmoRolePOJOMapper.selectByPrimaryKey(Integer.parseInt(mmoUserPOJO.getUserroleid()));
 //        mmoRolePOJO.setOnstatus(RoleOnStatusCode.ONLINE.getCode());
         //从缓存中获取,且修改其为在线模式
-        ConcurrentHashMap<Integer,MmoRolePOJO> rolesMap=MmoCahe.getInstance().getMmoSimpleRoleConcurrentHashMap();
+        ConcurrentHashMap<Integer,MmoRolePOJO> rolesMap= MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
         MmoRolePOJO role=rolesMap.get(Integer.parseInt(mmoUserPOJO.getUserroleid()));
         role.setOnstatus(RoleOnStatusCode.ONLINE.getCode());
         //设置缓存中的场景中新增该角色
-        ConcurrentHashMap<Integer,MmoScene> sceneMap=MmoCahe.getInstance().getMmoSceneConcurrentHashMap();
+        ConcurrentHashMap<Integer,MmoScene> sceneMap= MmoCache.getInstance().getMmoSceneConcurrentHashMap();
         MmoScene mmoScene=sceneMap.get(role.getMmosceneid());
         List<MmoSimpleRole> mmoSimpleRoles=mmoScene.getRoles();
         MmoSimpleRole temp=new MmoSimpleRole();
@@ -128,7 +123,7 @@ public class PlayServiceImpl implements PlayService{
         //数据库中人物状态         //todo 提交给线程池异步执行
         mmoRolePOJOMapper.updateByPrimaryKeySelective(role);
         //将channel绑定用户信息存储
-        ConcurrentHashMap<Integer, Channel> channelConcurrentHashMap=MmoCahe.getInstance().getChannelConcurrentHashMap();
+        ConcurrentHashMap<Integer, Channel> channelConcurrentHashMap= MmoCache.getInstance().getChannelConcurrentHashMap();
         channelConcurrentHashMap.put(role.getId(),channel);
 
         //获取 场景信息和自身角色信息
@@ -202,8 +197,8 @@ public class PlayServiceImpl implements PlayService{
             sceneRoles.remove(rolesId);
         }
         //缓存中的场景角色 设置为离线  角色表中的在线改为离线
-        ConcurrentHashMap<Integer,MmoScene> sceneMap=MmoCahe.getInstance().getMmoSceneConcurrentHashMap();
-        ConcurrentHashMap<Integer,MmoRolePOJO> rolesMap=MmoCahe.getInstance().getMmoSimpleRoleConcurrentHashMap();
+        ConcurrentHashMap<Integer,MmoScene> sceneMap= MmoCache.getInstance().getMmoSceneConcurrentHashMap();
+        ConcurrentHashMap<Integer,MmoRolePOJO> rolesMap= MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
         MmoRolePOJO role;
         role = rolesMap.get(rolesId);
         role.setOnstatus(RoleOnStatusCode.EXIT.getCode());
@@ -221,7 +216,7 @@ public class PlayServiceImpl implements PlayService{
             }
         }
         //删除缓存中 channel绑定的信息
-        ConcurrentHashMap<Integer,Channel> channelConcurrentHashMap=MmoCahe.getInstance().getChannelConcurrentHashMap();
+        ConcurrentHashMap<Integer,Channel> channelConcurrentHashMap= MmoCache.getInstance().getChannelConcurrentHashMap();
         channelConcurrentHashMap.remove(role.getId());
 
         //protobuf生成消息

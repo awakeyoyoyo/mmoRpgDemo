@@ -2,16 +2,19 @@ package com.liqihao.Cache;
 
 import com.liqihao.pojo.MmoRolePOJO;
 import com.liqihao.pojo.MmoScene;
+import com.liqihao.pojo.baseMessage.NPCMessage;
+import com.liqihao.pojo.baseMessage.SceneMessage;
 import io.netty.channel.Channel;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-public class MmoCahe {
-    private volatile static MmoCahe instance ;
+public class MmoCache {
+    private volatile static MmoCache instance ;
     private ConcurrentHashMap<Integer,MmoScene> mmoSceneConcurrentHashMap;
     private ConcurrentHashMap<Integer, MmoRolePOJO> mmoSimpleRoleConcurrentHashMap;
     private ConcurrentHashMap<Integer, Channel> channelConcurrentHashMap;
-
+    private ConcurrentHashMap<Integer, SceneMessage> sceneMessageConcurrentHashMap;
+    private ConcurrentHashMap<Integer, NPCMessage> npcMessageConcurrentHashMap;
     public ConcurrentHashMap<Integer, Channel> getChannelConcurrentHashMap() {
         return channelConcurrentHashMap;
     }
@@ -20,18 +23,27 @@ public class MmoCahe {
         this.channelConcurrentHashMap = channelConcurrentHashMap;
     }
 
-    public static void init(ConcurrentHashMap<Integer,MmoScene> mms, ConcurrentHashMap<Integer,MmoRolePOJO> mmr){
-        instance=new MmoCahe(mms,mmr);
+    public static void init(ConcurrentHashMap<Integer,MmoScene> mms, ConcurrentHashMap<Integer,MmoRolePOJO> mmr,
+                            ConcurrentHashMap<Integer, SceneMessage> smc,ConcurrentHashMap<Integer, NPCMessage> npc
+    ){
+        instance=new MmoCache(mms,mmr,smc,npc);
     }
-    public static MmoCahe getInstance(){
+    public static MmoCache getInstance(){
         return instance;
     }
-    public MmoCahe() {
+    public MmoCache() {
     }
 
-    public MmoCahe(ConcurrentHashMap<Integer, MmoScene> mmoSceneConcurrentHashMap, ConcurrentHashMap<Integer, MmoRolePOJO> mmoSimpleRoleConcurrentHashMap) {
+    public MmoCache(ConcurrentHashMap<Integer, MmoScene> mmoSceneConcurrentHashMap,
+                    ConcurrentHashMap<Integer, MmoRolePOJO> mmoSimpleRoleConcurrentHashMap,
+                    ConcurrentHashMap<Integer, SceneMessage> sceneMessageConcurrentHashMap,
+                    ConcurrentHashMap<Integer, NPCMessage> npcMessageConcurrentHashMap
+    )
+    {
         this.mmoSceneConcurrentHashMap = mmoSceneConcurrentHashMap;
         this.mmoSimpleRoleConcurrentHashMap = mmoSimpleRoleConcurrentHashMap;
+        this.sceneMessageConcurrentHashMap=sceneMessageConcurrentHashMap;
+        this.npcMessageConcurrentHashMap=npcMessageConcurrentHashMap;
         this.channelConcurrentHashMap=new ConcurrentHashMap<>();
     }
 

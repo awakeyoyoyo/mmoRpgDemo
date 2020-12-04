@@ -1,6 +1,6 @@
 package com.liqihao.service.impl;
 
-import com.liqihao.Cache.MmoCahe;
+import com.liqihao.Cache.MmoCache;
 import com.liqihao.commons.*;
 import com.liqihao.dao.MmoRolePOJOMapper;
 import com.liqihao.pojo.MmoRolePOJO;
@@ -22,7 +22,7 @@ public class GameSystemService implements com.liqihao.service.GameSystemService 
     @Override
     public NettyResponse netIoOutTime(NettyRequest nettyRequest, Channel channel) {
         //获取相同的channel对应的roleId 然后根据其删除缓存中的信息
-        ConcurrentHashMap<Integer,Channel> channelConcurrentHashMap=MmoCahe.getInstance().getChannelConcurrentHashMap();
+        ConcurrentHashMap<Integer,Channel> channelConcurrentHashMap= MmoCache.getInstance().getChannelConcurrentHashMap();
         Integer roleId=null;
         synchronized (channelConcurrentHashMap) {
             for (Integer key : channelConcurrentHashMap.keySet()) {
@@ -36,12 +36,12 @@ public class GameSystemService implements com.liqihao.service.GameSystemService 
          }
         //删除缓存中的信息
         if (roleId!=null) {
-            ConcurrentHashMap<Integer, MmoRolePOJO> mmsHashMap = MmoCahe.getInstance().getMmoSimpleRoleConcurrentHashMap();
+            ConcurrentHashMap<Integer, MmoRolePOJO> mmsHashMap = MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
             MmoRolePOJO rolePOJO;
             rolePOJO=mmsHashMap.get(roleId);
             rolePOJO.setOnstatus(RoleOnStatusCode.EXIT.getCode());
             mmsHashMap.put(rolePOJO.getId(),rolePOJO);
-            ConcurrentHashMap<Integer, MmoScene> mmoSceneHashMap = MmoCahe.getInstance().getMmoSceneConcurrentHashMap();
+            ConcurrentHashMap<Integer, MmoScene> mmoSceneHashMap = MmoCache.getInstance().getMmoSceneConcurrentHashMap();
             synchronized (mmoSceneHashMap) {
                 MmoScene mmoScene = mmoSceneHashMap.get(rolePOJO.getMmosceneid());
                 List<MmoSimpleRole> mmoSimpleRoles = mmoScene.getRoles();

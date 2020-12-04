@@ -1,7 +1,7 @@
 package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.liqihao.Cache.MmoCahe;
+import com.liqihao.Cache.MmoCache;
 import com.liqihao.commons.*;
 import com.liqihao.dao.MmoRolePOJOMapper;
 import com.liqihao.dao.MmoScenePOJOMapper;
@@ -17,7 +17,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 
-import javax.management.relation.RoleStatus;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -54,7 +53,7 @@ public class SceneServiceImpl implements SceneService, ApplicationContextAware {
 
 //       MmoScene mmoScene=applicationContext.getBean("scene"+sceneId,MmoScene.class);
         //从缓存中读取
-        ConcurrentHashMap<Integer,MmoScene> scenes=MmoCahe.getInstance().getMmoSceneConcurrentHashMap();
+        ConcurrentHashMap<Integer,MmoScene> scenes= MmoCache.getInstance().getMmoSceneConcurrentHashMap();
         MmoScene nowScene=scenes.get(sceneId);
         List<SceneModel.MmoSimpleScene> mmoSimpleScenes=new ArrayList<>();
         //由MmoSimpleScene转化为SceneModel.MmoSimpleScene
@@ -85,10 +84,10 @@ public class SceneServiceImpl implements SceneService, ApplicationContextAware {
         Integer sceneId=myMessage.getWentRequest().getSceneId();
         Integer playId=myMessage.getWentRequest().getPlayId();
         //先查询palyId所在场景
-        MmoRolePOJO mmoRolePOJO=MmoCahe.getInstance().getMmoSimpleRoleConcurrentHashMap().get(playId);
+        MmoRolePOJO mmoRolePOJO= MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap().get(playId);
 //        MmoRolePOJO mmoRolePOJO=mmoRolePOJOMapper.selectByPrimaryKey(playId);
         //查询该场景可进入的场景与sceneId判断
-        MmoScene nowScene=MmoCahe.getInstance().getMmoSceneConcurrentHashMap().get(mmoRolePOJO.getMmosceneid());
+        MmoScene nowScene= MmoCache.getInstance().getMmoSceneConcurrentHashMap().get(mmoRolePOJO.getMmosceneid());
 //        MmoScenePOJO nowScene=mmoScenePOJOMapper.selectByPrimaryKey(mmoRolePOJO.getMmosceneid());
         List<MmoSimpleScene> canScene=nowScene.getCanScene();
         boolean canFlag=false;
@@ -109,13 +108,13 @@ public class SceneServiceImpl implements SceneService, ApplicationContextAware {
         mmoRolePOJO1.setMmosceneid(sceneId);
         mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO1);
         //修改缓存中角色
-        ConcurrentHashMap<Integer,MmoRolePOJO> cacheRoles=MmoCahe.getInstance().getMmoSimpleRoleConcurrentHashMap();
+        ConcurrentHashMap<Integer,MmoRolePOJO> cacheRoles= MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
         MmoRolePOJO player=cacheRoles.get(playId);
         player.setMmosceneid(sceneId);
         cacheRoles.put(player.getId(),player);
         //修改scene
         //新场景中增加该角色
-        MmoScene nextScene=MmoCahe.getInstance().getMmoSceneConcurrentHashMap().get(sceneId);
+        MmoScene nextScene= MmoCache.getInstance().getMmoSceneConcurrentHashMap().get(sceneId);
 //        MmoScenePOJO nextScene=mmoScenePOJOMapper.selectByPrimaryKey(sceneId);
         List<MmoSimpleRole> nextRoles=nextScene.getRoles();
         MmoSimpleRole m=new MmoSimpleRole();
@@ -210,7 +209,7 @@ public class SceneServiceImpl implements SceneService, ApplicationContextAware {
         SceneModel.SceneModelMessage myMessage;
         myMessage=SceneModel.SceneModelMessage.parseFrom(data);
         Integer sceneId=myMessage.getFindAllRolesRequest().getSceneId();
-        MmoScene mmoScene=MmoCahe.getInstance().getMmoSceneConcurrentHashMap().get(sceneId);
+        MmoScene mmoScene= MmoCache.getInstance().getMmoSceneConcurrentHashMap().get(sceneId);
         List<MmoSimpleRole> mmoSimRoles=mmoScene.getRoles();
         //protobuf
         SceneModel.SceneModelMessage.Builder messagedataBuilder=SceneModel.SceneModelMessage.newBuilder();
