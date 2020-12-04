@@ -1,6 +1,7 @@
 package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.liqihao.Cache.MmoCahe;
 import com.liqihao.commons.*;
 import com.liqihao.dao.MmoRolePOJOMapper;
 import com.liqihao.dao.MmoScenePOJOMapper;
@@ -10,6 +11,7 @@ import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.service.PlayService;
 import com.liqihao.util.CommonsUtil;
 import com.liqihao.util.ThreadPools;
+import io.netty.channel.Channel;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -18,24 +20,21 @@ import org.springframework.stereotype.Service;
 
 import javax.management.relation.RoleStatus;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
-public class PlayServiceImpl implements PlayService, ApplicationContextAware {
+public class PlayServiceImpl implements PlayService{
     @Autowired
     private MmoRolePOJOMapper mmoRolePOJOMapper;
     @Autowired
     private MmoUserPOJOMapper mmoUserPOJOMapper;
     @Autowired
     private MmoScenePOJOMapper mmoScenePOJOMapper;
-    private ApplicationContext applicationContext;
 
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
-    @Override
-    public NettyResponse registerRequest(NettyRequest nettyRequest) throws InvalidProtocolBufferException {
+    public NettyResponse registerRequest(NettyRequest nettyRequest,Channel channel) throws InvalidProtocolBufferException {
         byte[] data=nettyRequest.getData();
         PlayModel.PlayModelMessage myMessage;
         myMessage=PlayModel.PlayModelMessage.parseFrom(data);
@@ -60,7 +59,7 @@ public class PlayServiceImpl implements PlayService, ApplicationContextAware {
             nettyResponse.setData(messageData.build().toByteArray());
             return nettyResponse;
         }
-
+        //注册成功 数据库插入账号信息
         MmoRolePOJO mmoRolePOJO=new MmoRolePOJO();
         mmoRolePOJO.setName(roleName);
         mmoRolePOJO.setMmosceneid(1);
@@ -91,7 +90,7 @@ public class PlayServiceImpl implements PlayService, ApplicationContextAware {
     }
 
     @Override
-    public NettyResponse loginRequest(NettyRequest nettyRequest) throws InvalidProtocolBufferException {
+    public NettyResponse loginRequest(NettyRequest nettyRequest,Channel channel) throws InvalidProtocolBufferException {
         byte[] data=nettyRequest.getData();
         PlayModel.PlayModelMessage myMessage;
         myMessage=PlayModel.PlayModelMessage.parseFrom(data);
@@ -108,69 +107,68 @@ public class PlayServiceImpl implements PlayService, ApplicationContextAware {
         }
         //将角色设置为在线模式
         MmoUserPOJO mmoUserPOJO=mmoUserPOJOMapper.selectByPrimaryKey(mmoUserId);
-        MmoRolePOJO mmoRolePOJO=mmoRolePOJOMapper.selectByPrimaryKey(Integer.parseInt(mmoUserPOJO.getUserroleid()));
-        mmoRolePOJO.setOnstatus(RoleOnStatusCode.ONLINE.getCode());
-        //设置缓存中的场景增加人物
-        //todo 置缓存中的场景增加人物 需解决并发安全问题
-
+//        MmoRolePOJO mmoRolePOJO=mmoRolePOJOMapper.selectByPrimaryKey(Integer.parseInt(mmoUserPOJO.getUserroleid()));
+//        mmoRolePOJO.setOnstatus(RoleOnStatusCode.ONLINE.getCode());
+        //从缓存中获取,且修改其为在线模式
+        ConcurrentHashMap<Integer,MmoRolePOJO> rolesMap=MmoCahe.getInstance().getMmoSimpleRoleConcurrentHashMap();
+        MmoRolePOJO role=rolesMap.get(Integer.parseInt(mmoUserPOJO.getUserroleid()));
+        role.setOnstatus(RoleOnStatusCode.ONLINE.getCode());
+        //设置缓存中的场景中新增该角色
+        ConcurrentHashMap<Integer,MmoScene> sceneMap=MmoCahe.getInstance().getMmoSceneConcurrentHashMap();
+        MmoScene mmoScene=sceneMap.get(role.getMmosceneid());
+        List<MmoSimpleRole> mmoSimpleRoles=mmoScene.getRoles();
+        MmoSimpleRole temp=new MmoSimpleRole();
+        temp.setId(role.getId());
+        temp.setOnstatus(RoleOnStatusCode.getValue(role.getOnstatus()));
+        temp.setStatus(RoleStatusCode.getValue(role.getStatus()));
+        temp.setType(RoleTypeCode.getValue(role.getType()));
+        temp.setName(role.getName());
+        mmoSimpleRoles.add(temp);
         //放入线程池中异步处理
-
         //数据库中人物状态         //todo 提交给线程池异步执行
-        mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO);
+        mmoRolePOJOMapper.updateByPrimaryKeySelective(role);
+        //将channel绑定用户信息存储
+        ConcurrentHashMap<Integer, Channel> channelConcurrentHashMap=MmoCahe.getInstance().getChannelConcurrentHashMap();
+        channelConcurrentHashMap.put(role.getId(),channel);
 
         //获取 场景信息和自身角色信息
-        //todo 从缓存或者是spring容器中的场景信息获取 需解决并发安全问题
-
-        MmoScenePOJO mmoScenePOJO=mmoScenePOJOMapper.selectByPrimaryKey(mmoRolePOJO.getMmosceneid());
-        List<MmoScenePOJO> canScenes=new ArrayList<>();
-        List<MmoRolePOJO> roundRoles=new ArrayList<>();
-        List<Integer> cansceneIds= CommonsUtil.split(mmoScenePOJO.getCanscene());
-        if (cansceneIds.size()>0) {
-            for (Integer id : cansceneIds) {
-                canScenes.add(mmoScenePOJOMapper.selectByPrimaryKey(id));
-            }
-        }
-        List<Integer> roundRoleIds= CommonsUtil.split(mmoScenePOJO.getRoles());
-        if (roundRoleIds.size()>0) {
-            for (Integer id : roundRoleIds) {
-                roundRoles.add(mmoRolePOJOMapper.selectByPrimaryKey(id));
-            }
-        }
+        List<MmoSimpleScene> canScenes=mmoScene.getCanScene();
+        List<MmoSimpleRole> roundRoles=mmoScene.getRoles();
         //protobuf 生成loginResponse
         PlayModel.PlayModelMessage.Builder messageData=PlayModel.PlayModelMessage.newBuilder();
         messageData.setDataType(PlayModel.PlayModelMessage.DateType.LoginResponse);
         PlayModel.LoginResponse.Builder loginResponseBuilder=PlayModel.LoginResponse.newBuilder();
         PlayModel.MmoSimpleRole.Builder mmoSimpleRoleBuilder=PlayModel.MmoSimpleRole.newBuilder();
         //自身角色信息
-        PlayModel.MmoSimpleRole mmoSimpleRole=mmoSimpleRoleBuilder.setId(mmoRolePOJO.getId())
-                .setName(mmoRolePOJO.getName())
-                .setOnStatus(RoleOnStatusCode.getValue(mmoRolePOJO.getOnstatus()))
-                .setStatus(RoleStatusCode.getValue(mmoRolePOJO.getStatus()))
-                .setType(RoleTypeCode.getValue(mmoRolePOJO.getType())).build();
+        PlayModel.MmoSimpleRole mmoSimpleRole=mmoSimpleRoleBuilder.setId(role.getId())
+                .setName(role.getName())
+                .setOnStatus(RoleOnStatusCode.getValue(role.getOnstatus()))
+                .setStatus(RoleStatusCode.getValue(role.getStatus()))
+                .setType(RoleTypeCode.getValue(role.getType())).build();
 
         loginResponseBuilder.setMmoSimpleRole(mmoSimpleRole);
         //场景信息
         PlayModel.MmoScene.Builder mmoSceneBuilder=PlayModel.MmoScene.newBuilder();
-        mmoSceneBuilder.setId(mmoScenePOJO.getId()).setPlaceName(mmoScenePOJO.getPlacename());
+        mmoSceneBuilder.setId(mmoScene.getId()).setPlaceName(mmoScene.getPlaceName());
         //protobuf simpleCanScene
         List<PlayModel.MmoSimpleScene> simScenes=new ArrayList<>();
-        for (MmoScenePOJO mmoScene:canScenes){
+        for (MmoSimpleScene mms:canScenes){
             PlayModel.MmoSimpleScene.Builder mss=PlayModel.MmoSimpleScene.newBuilder();
-            mss.setId(mmoScene.getId());
-            mss.setPlaceName(mmoScene.getPlacename());
+            mss.setId(mms.getId());
+            mss.setPlaceName(mms.getPalceName());
             PlayModel.MmoSimpleScene mssobject=mss.build();
             simScenes.add(mssobject);
         }
         mmoSceneBuilder.addAllCanScene(simScenes);
         //protobuf simpleRoles
         List<PlayModel.MmoSimpleRole> simRoles=new ArrayList<>();
-        for (MmoRolePOJO mmoRole :roundRoles){
+        for (MmoSimpleRole mmoRole :roundRoles){
             PlayModel.MmoSimpleRole.Builder msr=PlayModel.MmoSimpleRole.newBuilder();
             msr.setId(mmoRole.getId());
             msr.setName(mmoRole.getName());
-            msr.setType(RoleTypeCode.getValue(mmoRole.getType()));
-            msr.setStatus(RoleStatusCode.getValue(mmoRole.getStatus()));
-            msr.setOnStatus(RoleOnStatusCode.getValue(mmoRole.getOnstatus()));
+            msr.setType(mmoRole.getType());
+            msr.setStatus(mmoRole.getStatus());
+            msr.setOnStatus(mmoRole.getOnstatus());
             PlayModel.MmoSimpleRole msrobject=msr.build();
             simRoles.add(msrobject);
         }
@@ -187,7 +185,7 @@ public class PlayServiceImpl implements PlayService, ApplicationContextAware {
     }
 
     @Override
-    public NettyResponse logoutRequest(NettyRequest nettyRequest) throws InvalidProtocolBufferException {
+    public NettyResponse logoutRequest(NettyRequest nettyRequest,Channel channel) throws InvalidProtocolBufferException {
         byte[] data=nettyRequest.getData();
         PlayModel.PlayModelMessage myMessage;
         myMessage=PlayModel.PlayModelMessage.parseFrom(data);
@@ -197,13 +195,35 @@ public class PlayServiceImpl implements PlayService, ApplicationContextAware {
         MmoRolePOJO mmoRolePOJO=mmoRolePOJOMapper.selectByPrimaryKey(rolesId);
         mmoRolePOJO.setOnstatus(RoleOnStatusCode.EXIT.getCode());
         mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO);
-        //将场景中玩家id 移除
         //todo 从缓存或者是spring容器中的场景信息获取 需解决并发安全问题
         MmoScenePOJO mmoScenePOJO=mmoScenePOJOMapper.selectByPrimaryKey(mmoRolePOJO.getMmosceneid());
         List<Integer> sceneRoles=CommonsUtil.split(mmoScenePOJO.getRoles());
         if (sceneRoles.contains(rolesId)){
             sceneRoles.remove(rolesId);
         }
+        //缓存中的场景角色 设置为离线  角色表中的在线改为离线
+        ConcurrentHashMap<Integer,MmoScene> sceneMap=MmoCahe.getInstance().getMmoSceneConcurrentHashMap();
+        ConcurrentHashMap<Integer,MmoRolePOJO> rolesMap=MmoCahe.getInstance().getMmoSimpleRoleConcurrentHashMap();
+        MmoRolePOJO role;
+        role = rolesMap.get(rolesId);
+        role.setOnstatus(RoleOnStatusCode.EXIT.getCode());
+        rolesMap.put(role.getId(), role);
+        synchronized (sceneMap) {
+            MmoScene mmoScene = sceneMap.get(role.getMmosceneid());
+            List<MmoSimpleRole> mmoSimpleRoles = mmoScene.getRoles();
+            Iterator<MmoSimpleRole> iterator = mmoSimpleRoles.iterator();
+            while (iterator.hasNext()) {
+                MmoSimpleRole sbi = iterator.next();
+                if (sbi.getId() == role.getId()) {
+                    iterator.remove();
+                    break;
+                }
+            }
+        }
+        //删除缓存中 channel绑定的信息
+        ConcurrentHashMap<Integer,Channel> channelConcurrentHashMap=MmoCahe.getInstance().getChannelConcurrentHashMap();
+        channelConcurrentHashMap.remove(role.getId());
+
         //protobuf生成消息
         PlayModel.PlayModelMessage.Builder myMessageBuilder=PlayModel.PlayModelMessage.newBuilder();
         myMessageBuilder.setDataType(PlayModel.PlayModelMessage.DateType.LogoutResponse);

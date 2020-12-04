@@ -30,6 +30,7 @@ public interface ConstantValue {
     public static final short REGISTER_REQUEST=2001;
     //退出登陆请求
     public static final short LOGOUT_REQUEST=2002;
+
     //response
     //登陆响应
     public static final short LOGIN_RESPONSE=2020;
@@ -40,6 +41,8 @@ public interface ConstantValue {
 
     //游戏系统模块
     public static final short GAME_SYSTEM_MODULE=3333;
+    //客户端超时请求
+    public static final short NET_IO_OUTTIME=2003;
     //客户端超市响应
     public static final short OUT_RIME_RESPONSE=3000;
 }

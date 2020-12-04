@@ -6,8 +6,10 @@ import com.liqihao.commons.NettyRequest;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
 import com.liqihao.service.SceneService;
+import io.netty.channel.Channel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 
 @Component
 public class SceneHandler {
@@ -19,7 +21,7 @@ public class SceneHandler {
      * @return
      * @throws InvalidProtocolBufferException
      */
-    public NettyResponse handler(NettyRequest nettyRequest) throws InvalidProtocolBufferException {
+    public NettyResponse handler(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
         NettyResponse nettyResponse=null;
         switch (nettyRequest.getCmd()) {
             case ConstantValue.ASK_CAN_REQUEST:

@@ -1,13 +1,11 @@
 package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.liqihao.Cache.MmoCahe;
 import com.liqihao.commons.*;
 import com.liqihao.dao.MmoRolePOJOMapper;
 import com.liqihao.dao.MmoScenePOJOMapper;
-import com.liqihao.pojo.MmoRolePOJO;
-import com.liqihao.pojo.MmoScene;
-import com.liqihao.pojo.MmoScenePOJO;
-import com.liqihao.pojo.MmoSimpleScene;
+import com.liqihao.pojo.*;
 import com.liqihao.protobufObject.SceneModel;
 import com.liqihao.service.SceneService;
 import com.liqihao.util.CommonsUtil;
@@ -18,8 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
+
+import javax.management.relation.RoleStatus;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class SceneServiceImpl implements SceneService, ApplicationContextAware {
@@ -51,19 +53,15 @@ public class SceneServiceImpl implements SceneService, ApplicationContextAware {
         //根据sceneId 从spirng容器中获取场景信息
 
 //       MmoScene mmoScene=applicationContext.getBean("scene"+sceneId,MmoScene.class);
-        MmoScenePOJO mmoScenePOJO=mmoScenePOJOMapper.selectByPrimaryKey(sceneId);
-        List<MmoScenePOJO> canScenes=new ArrayList<>();
-        for (Integer id:CommonsUtil.split(mmoScenePOJO.getCanscene())){
-            MmoScenePOJO mmoScene=mmoScenePOJOMapper.selectByPrimaryKey(id);
-            canScenes.add(mmoScene);
-        }
+        //从缓存中读取
+        ConcurrentHashMap<Integer,MmoScene> scenes=MmoCahe.getInstance().getMmoSceneConcurrentHashMap();
+        MmoScene nowScene=scenes.get(sceneId);
         List<SceneModel.MmoSimpleScene> mmoSimpleScenes=new ArrayList<>();
         //由MmoSimpleScene转化为SceneModel.MmoSimpleScene
-        for (MmoScenePOJO m :canScenes) {
-            SceneModel.MmoSimpleScene mmoSimpleScene=SceneModel.MmoSimpleScene.newBuilder().setId(m.getId()).setPalceName(m.getPlacename()).build();
+        for (MmoSimpleScene m :nowScene.getCanScene()) {
+            SceneModel.MmoSimpleScene mmoSimpleScene=SceneModel.MmoSimpleScene.newBuilder().setId(m.getId()).setPalceName(m.getPalceName()).build();
             mmoSimpleScenes.add(mmoSimpleScene);
         }
-
         //封装AskCanResponse data的数据
         SceneModel.SceneModelMessage Messagedata;
         Messagedata=SceneModel.SceneModelMessage.newBuilder()
@@ -87,12 +85,20 @@ public class SceneServiceImpl implements SceneService, ApplicationContextAware {
         Integer sceneId=myMessage.getWentRequest().getSceneId();
         Integer playId=myMessage.getWentRequest().getPlayId();
         //先查询palyId所在场景
-        MmoRolePOJO mmoRolePOJO=mmoRolePOJOMapper.selectByPrimaryKey(playId);
+        MmoRolePOJO mmoRolePOJO=MmoCahe.getInstance().getMmoSimpleRoleConcurrentHashMap().get(playId);
+//        MmoRolePOJO mmoRolePOJO=mmoRolePOJOMapper.selectByPrimaryKey(playId);
         //查询该场景可进入的场景与sceneId判断
-        MmoScenePOJO nowScene=mmoScenePOJOMapper.selectByPrimaryKey(mmoRolePOJO.getMmosceneid());
-        List<Integer> cans=CommonsUtil.split(nowScene.getCanscene());
-
-        if (!cans.contains(sceneId)){
+        MmoScene nowScene=MmoCahe.getInstance().getMmoSceneConcurrentHashMap().get(mmoRolePOJO.getMmosceneid());
+//        MmoScenePOJO nowScene=mmoScenePOJOMapper.selectByPrimaryKey(mmoRolePOJO.getMmosceneid());
+        List<MmoSimpleScene> canScene=nowScene.getCanScene();
+        boolean canFlag=false;
+        for (MmoSimpleScene sc:canScene){
+            if (sc.getId()==sceneId){
+                canFlag=true;
+                break;
+            }
+        }
+        if (!canFlag){
             //不包含 即不可进入
             NettyResponse errotResponse=new NettyResponse(StateCode.FAIL,ConstantValue.SCENE_MODULE,ConstantValue.WENT_RESPONSE,"无法前往该场景".getBytes());
             return  errotResponse;
@@ -102,38 +108,55 @@ public class SceneServiceImpl implements SceneService, ApplicationContextAware {
         mmoRolePOJO1.setId(playId);
         mmoRolePOJO1.setMmosceneid(sceneId);
         mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO1);
+        //修改缓存中角色
+        ConcurrentHashMap<Integer,MmoRolePOJO> cacheRoles=MmoCahe.getInstance().getMmoSimpleRoleConcurrentHashMap();
+        MmoRolePOJO player=cacheRoles.get(playId);
+        player.setMmosceneid(sceneId);
+        cacheRoles.put(player.getId(),player);
         //修改scene
-        //新场景
-        MmoScenePOJO nextScene=mmoScenePOJOMapper.selectByPrimaryKey(sceneId);
-        List<Integer> oldRoles=CommonsUtil.split(nextScene.getRoles());
-        if (!oldRoles.contains(playId)){
-            oldRoles.add(playId);
+        //新场景中增加该角色
+        MmoScene nextScene=MmoCahe.getInstance().getMmoSceneConcurrentHashMap().get(sceneId);
+//        MmoScenePOJO nextScene=mmoScenePOJOMapper.selectByPrimaryKey(sceneId);
+        List<MmoSimpleRole> nextRoles=nextScene.getRoles();
+        MmoSimpleRole m=new MmoSimpleRole();
+        m.setId(mmoRolePOJO.getId());
+        m.setName(mmoRolePOJO.getName());
+        m.setType(RoleTypeCode.getValue(mmoRolePOJO.getType()));
+        m.setStatus(RoleStatusCode.getValue(mmoRolePOJO.getStatus()));
+        m.setOnstatus(RoleOnStatusCode.getValue(mmoRolePOJO.getOnstatus()));
+        nextRoles.add(m);
+        List<Integer> rolesIds=new ArrayList<>();
+        for (MmoSimpleRole r:nextRoles){
+            rolesIds.add(r.getId());
         }
-        String newRoles=CommonsUtil.listToString(oldRoles);
-        nextScene.setRoles(newRoles);
-        mmoScenePOJOMapper.updateByPrimaryKeySelective(nextScene);
+        MmoScenePOJO nextScenePOJO=new MmoScenePOJO();
+        nextScenePOJO.setId(nextScene.getId());
+        String newRoles=CommonsUtil.listToString(rolesIds);
+        nextScenePOJO.setRoles(newRoles);
+        mmoScenePOJOMapper.updateByPrimaryKeySelective(nextScenePOJO);
         //旧场景
-        List<Integer> oldRoles2=CommonsUtil.split(nowScene.getRoles());
-        if (oldRoles2.contains(playId)){
-            oldRoles2.remove(playId);
-        }
-        String newRoles2=CommonsUtil.listToString(oldRoles2);
-        nowScene.setRoles(newRoles2);
-        mmoScenePOJOMapper.updateByPrimaryKeySelective(nowScene);
-
-        //查询出simpleScene 和SimpleRole
-        List<MmoRolePOJO> mmoRolePOJOS=new ArrayList<>();
-        List<MmoScenePOJO> mmoScenePOJOS=new ArrayList<>();
-        for(Integer id:oldRoles){
-            mmoRolePOJOS.add(mmoRolePOJOMapper.selectByPrimaryKeyAndOnStatus(id));
-        }
-        List<Integer> scenes=CommonsUtil.split(nextScene.getCanscene());
-        if (scenes.size()>0) {
-            for (Integer id : scenes) {
-                mmoScenePOJOS.add(mmoScenePOJOMapper.selectByPrimaryKey(id));
+        List<MmoSimpleRole> nowRoles=nowScene.getRoles();
+        synchronized (nowScene) {
+            Iterator<MmoSimpleRole> iterator = nowRoles.iterator();
+            while (iterator.hasNext()) {
+                MmoSimpleRole sbi = iterator.next();
+                if (sbi.getId() == playId) {
+                    iterator.remove();
+                }
             }
         }
+        List<Integer> nowRoleIds=new ArrayList<>();
+        for (MmoSimpleRole r:nowRoles){
+            nowRoleIds.add(r.getId());
+        }
+        MmoScenePOJO nowMmoScenePOJO=new MmoScenePOJO();
+        nowMmoScenePOJO.setRoles(CommonsUtil.listToString(nowRoleIds));
+        nowMmoScenePOJO.setId(nowScene.getId());
+        mmoScenePOJOMapper.updateByPrimaryKeySelective(nowMmoScenePOJO);
 
+        //查询出simpleScene 和SimpleRole
+        List<MmoSimpleRole> nextSceneRoles=nextScene.getRoles();
+        List<MmoSimpleScene> nextSceneCanScene=nextScene.getCanScene();
         //生成response返回
         NettyResponse nettyResponse=new NettyResponse();
         nettyResponse.setCmd(ConstantValue.WENT_RESPONSE);
@@ -146,26 +169,26 @@ public class SceneServiceImpl implements SceneService, ApplicationContextAware {
         SceneModel.WentResponse.Builder wentResponsebuilder=SceneModel.WentResponse.newBuilder();
 
         SceneModel.MmoScene.Builder mmoSceneBuilder=SceneModel.MmoScene.newBuilder();
-        mmoSceneBuilder.setId(nextScene.getId()).setPlaceName(nextScene.getPlacename());
+        mmoSceneBuilder.setId(nextScene.getId()).setPlaceName(nextScene.getPlaceName());
         //protobuf simpleCanScene
         List<SceneModel.MmoSimpleScene> simScenes=new ArrayList<>();
-        for (MmoScenePOJO mmoScenePOJO:mmoScenePOJOS){
+        for (MmoSimpleScene mmoSimpleScene:nextSceneCanScene){
             SceneModel.MmoSimpleScene.Builder mss=SceneModel.MmoSimpleScene.newBuilder();
-            mss.setId(mmoScenePOJO.getId());
-            mss.setPalceName(mmoScenePOJO.getPlacename());
+            mss.setId(mmoSimpleScene.getId());
+            mss.setPalceName(mmoSimpleScene.getPalceName());
             SceneModel.MmoSimpleScene mssobject=mss.build();
             simScenes.add(mssobject);
         }
         mmoSceneBuilder.addAllCanScene(simScenes);
        // simpleRole
         List<SceneModel.MmoSimpleRole> simRoles=new ArrayList<>();
-        for (MmoRolePOJO mmoRole :mmoRolePOJOS){
+        for (MmoSimpleRole mmoRole :nextSceneRoles){
             SceneModel.MmoSimpleRole.Builder msr=SceneModel.MmoSimpleRole.newBuilder();
             msr.setId(mmoRole.getId());
             msr.setName(mmoRole.getName());
-            msr.setType(RoleTypeCode.getValue(mmoRole.getType()));
-            msr.setStatus(RoleStatusCode.getValue(mmoRole.getStatus()));
-            msr.setOnStatus(RoleOnStatusCode.getValue(mmoRole.getOnstatus()));
+            msr.setType(mmoRole.getType());
+            msr.setStatus(mmoRole.getStatus());
+            msr.setOnStatus(mmoRole.getOnstatus());
             SceneModel.MmoSimpleRole msrobject=msr.build();
             simRoles.add(msrobject);
         }
@@ -187,22 +210,16 @@ public class SceneServiceImpl implements SceneService, ApplicationContextAware {
         SceneModel.SceneModelMessage myMessage;
         myMessage=SceneModel.SceneModelMessage.parseFrom(data);
         Integer sceneId=myMessage.getFindAllRolesRequest().getSceneId();
-        MmoScenePOJO mmoScene=mmoScenePOJOMapper.selectByPrimaryKey(sceneId);
-        String roles=mmoScene.getRoles();
-        List<Integer> roleIds=CommonsUtil.split(roles);
-        List<MmoRolePOJO> mmoRolePOJOS=new ArrayList<>();
-        for (Integer id:roleIds) {
-            MmoRolePOJO mmoRolePOJO=mmoRolePOJOMapper.selectByPrimaryKeyAndOnStatus(id);
-            mmoRolePOJOS.add(mmoRolePOJO);
-        }
+        MmoScene mmoScene=MmoCahe.getInstance().getMmoSceneConcurrentHashMap().get(sceneId);
+        List<MmoSimpleRole> mmoSimRoles=mmoScene.getRoles();
         //protobuf
         SceneModel.SceneModelMessage.Builder messagedataBuilder=SceneModel.SceneModelMessage.newBuilder();
         messagedataBuilder.setDataType(SceneModel.SceneModelMessage.DateType.FindAllRolesResponse);
         SceneModel.FindAllRolesResponse.Builder findAllRolesResponseBuilder=SceneModel.FindAllRolesResponse.newBuilder();
         List<SceneModel.MmoSimpleRole> mmoSimpleRoles=new ArrayList<>();
-        for (MmoRolePOJO m :mmoRolePOJOS) {
+        for (MmoSimpleRole m :mmoSimRoles) {
             SceneModel.MmoSimpleRole msr=SceneModel.MmoSimpleRole.newBuilder().setId(
-                    m.getId()).setName(m.getName()).setStatus(RoleStatusCode.getValue(m.getStatus())).setType(RoleTypeCode.getValue(m.getType())).setOnStatus(RoleOnStatusCode.getValue(m.getOnstatus())).build();
+                    m.getId()).setName(m.getName()).setStatus(m.getStatus()).setType(m.getType()).setOnStatus(m.getOnstatus()).build();
             mmoSimpleRoles.add(msr);
         }
         findAllRolesResponseBuilder.addAllMmoSimpleRoles(mmoSimpleRoles);

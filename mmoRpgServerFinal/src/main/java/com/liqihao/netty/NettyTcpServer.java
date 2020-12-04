@@ -56,7 +56,7 @@ public class NettyTcpServer {
             //对关闭通道进行监听
             channelFuture.channel().closeFuture().sync();
         } catch (InterruptedException e){
-            logger.error("bind "+":"+port+" failed",e);
+            logger.error("bind "+":"+port+" failed",e.getCause());
         }finally{
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();

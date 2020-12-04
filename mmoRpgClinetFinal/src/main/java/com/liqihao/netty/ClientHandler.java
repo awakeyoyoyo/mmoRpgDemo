@@ -40,6 +40,6 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         cause.printStackTrace();
-        logger.error("ClientHandler exception message: "+cause.getMessage());
+        logger.error("ClientHandler exception message: "+cause);
     }
 }

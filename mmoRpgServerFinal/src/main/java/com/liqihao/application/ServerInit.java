@@ -1,5 +1,6 @@
 package com.liqihao.application;
 
+import com.liqihao.Cache.MmoCahe;
 import com.liqihao.commons.RoleOnStatusCode;
 import com.liqihao.commons.RoleStatusCode;
 import com.liqihao.commons.RoleTypeCode;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 public class ServerInit implements ApplicationContextAware {
@@ -35,6 +37,8 @@ public class ServerInit implements ApplicationContextAware {
         ThreadPools.init();
         List<MmoScenePOJO> mmoScenePOJOS = scenePOJOMapper.selectAll();
         //分解出可用scene
+        ConcurrentHashMap<Integer,MmoScene> mmoScenes=new ConcurrentHashMap<Integer,MmoScene>();
+        ConcurrentHashMap<Integer,MmoRolePOJO> mmoRoles=new ConcurrentHashMap<Integer,MmoRolePOJO>();
         for (MmoScenePOJO mmoScenePOJO : mmoScenePOJOS) {
             MmoScene mmoScene=new MmoScene();
             mmoScene.setId(mmoScenePOJO.getId());
@@ -59,22 +63,28 @@ public class ServerInit implements ApplicationContextAware {
             List<MmoSimpleRole> mmoSimpleRoles=new ArrayList<>();
             for (Integer id:roles){
                 MmoRolePOJO mmoRolePOJO=rolePOJOMapper.selectByPrimaryKey(id);
-                MmoSimpleRole mmoSimpleRole=new MmoSimpleRole();
-                mmoSimpleRole.setId(mmoRolePOJO.getId());
-                mmoSimpleRole.setName(mmoRolePOJO.getName());
-                mmoSimpleRole.setOnstatus(RoleOnStatusCode.getValue(mmoRolePOJO.getOnstatus()));
-                mmoSimpleRole.setStatus(RoleStatusCode.getValue(mmoRolePOJO.getStatus()));
-                mmoSimpleRole.setType(RoleTypeCode.getValue(mmoRolePOJO.getType()));
-                mmoSimpleRoles.add(mmoSimpleRole);
+                if (mmoRolePOJO.getOnstatus().equals(RoleOnStatusCode.ONLINE.getCode())) {
+                    MmoSimpleRole mmoSimpleRole = new MmoSimpleRole();
+                    mmoSimpleRole.setId(mmoRolePOJO.getId());
+                    mmoSimpleRole.setName(mmoRolePOJO.getName());
+                    mmoSimpleRole.setOnstatus(RoleOnStatusCode.getValue(mmoRolePOJO.getOnstatus()));
+                    mmoSimpleRole.setStatus(RoleStatusCode.getValue(mmoRolePOJO.getStatus()));
+                    mmoSimpleRole.setType(RoleTypeCode.getValue(mmoRolePOJO.getType()));
+                    mmoSimpleRoles.add(mmoSimpleRole);
+                }
+                mmoRoles.put(mmoRolePOJO.getId(), mmoRolePOJO);
             }
             mmoScene.setRoles(mmoSimpleRoles);
-            //放入spring容器中进行管理
-            //将applicationContext转换为ConfigurableApplicationContext
-            ConfigurableApplicationContext configurableApplicationContext = (ConfigurableApplicationContext) applicationContext;
-// 获取bean工厂并转换为DefaultListableBeanFactory
-            DefaultListableBeanFactory defaultListableBeanFactory = (DefaultListableBeanFactory) configurableApplicationContext.getBeanFactory();
-            defaultListableBeanFactory.registerSingleton("scene"+mmoScene.getId(),mmoScene);
+            mmoScenes.put(mmoScene.getId(),mmoScene);
+//            //放入spring容器中进行管理
+//            //将applicationContext转换为ConfigurableApplicationContext
+//            ConfigurableApplicationContext configurableApplicationContext = (ConfigurableApplicationContext) applicationContext;
+//// 获取bean工厂并转换为DefaultListableBeanFactory
+//            DefaultListableBeanFactory defaultListableBeanFactory = (DefaultListableBeanFactory) configurableApplicationContext.getBeanFactory();
+//            defaultListableBeanFactory.registerSingleton("scene"+mmoScene.getId(),mmoScene);
         }
+        //初始化缓存
+        MmoCahe.init(mmoScenes,mmoRoles);
     }
 
 
