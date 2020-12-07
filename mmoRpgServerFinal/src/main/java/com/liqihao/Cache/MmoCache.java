@@ -1,14 +1,14 @@
 package com.liqihao.Cache;
 
 import com.liqihao.pojo.MmoRolePOJO;
-import com.liqihao.pojo.MmoScene;
-import com.liqihao.pojo.baseMessage.BaseMessage;
 import com.liqihao.pojo.baseMessage.NPCMessage;
 import com.liqihao.pojo.baseMessage.SceneMessage;
 import io.netty.channel.Channel;
-
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * 缓存
+ */
 public class MmoCache {
     private volatile static MmoCache instance ;
     private ConcurrentHashMap<Integer, MmoRolePOJO> mmoSimpleRoleConcurrentHashMap;

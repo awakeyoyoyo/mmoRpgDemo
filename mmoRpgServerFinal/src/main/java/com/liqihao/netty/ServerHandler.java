@@ -10,7 +10,9 @@ import io.netty.handler.timeout.IdleStateEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
+/**
+ * nettyHandler
+ */
 public class ServerHandler extends ChannelInboundHandlerAdapter {
     private Dispatcherservlet dispatcherservlet;
     private int readIdleTimes=0;

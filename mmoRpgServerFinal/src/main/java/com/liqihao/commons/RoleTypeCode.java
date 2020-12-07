@@ -1,5 +1,8 @@
 package com.liqihao.commons;
 
+/**
+ * 角色类型
+ */
 public enum RoleTypeCode {
     NPC(0,"NPC"),PLAYER(1,"玩家"),ENEMY(2,"敌人");
     private  int code;

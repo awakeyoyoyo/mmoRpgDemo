@@ -1,11 +1,12 @@
 package com.liqihao.util;
 
-import com.liqihao.commons.NettyResponse;
-import sun.nio.ch.Net;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 字符串处理类
+ */
 public class CommonsUtil {
     /**
      * 分割字符串返回id集合

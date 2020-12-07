@@ -1,5 +1,8 @@
 package com.liqihao.commons;
 
+/**
+ * 角色在线状态
+ */
 public enum  RoleOnStatusCode {
     ONLINE(9527,"在线"),EXIT(7259,"离线");
     private  int code;

@@ -19,7 +19,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
+/**
+ * 根据cmd分发请求
+ */
 @Component
 @HandlerModuleTag(module = ConstantValue.SCENE_MODULE)
 public class SceneHandler implements ModuleHandler{

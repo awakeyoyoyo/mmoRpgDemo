@@ -8,6 +8,9 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 import java.io.*;
 
+/**
+ * 读取yml配置文件工具类
+ */
 public class YmlUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(YmlUtils.class);
 

@@ -1,28 +1,19 @@
 package com.liqihao.application;
 
 import com.liqihao.Cache.MmoCache;
-import com.liqihao.commons.RoleOnStatusCode;
-import com.liqihao.commons.RoleStatusCode;
-import com.liqihao.commons.RoleTypeCode;
-import com.liqihao.dao.MmoRolePOJOMapper;
-import com.liqihao.dao.MmoScenePOJOMapper;
-import com.liqihao.pojo.*;
 import com.liqihao.pojo.baseMessage.BaseMessage;
 import com.liqihao.pojo.baseMessage.NPCMessage;
 import com.liqihao.pojo.baseMessage.SceneMessage;
 import com.liqihao.util.CommonsUtil;
-import com.liqihao.util.ThreadPools;
 import com.liqihao.util.YmlUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
+/**
+ * 初始化服务器类
+ */
 public class ServerInit{
     public void init() throws FileNotFoundException {
 //        //初始化线程池

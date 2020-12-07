@@ -20,6 +20,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 根据module分发请求
+ */
 @Component
 public class Dispatcherservlet {
     @Autowired

@@ -17,6 +17,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ * nettyServer
+ */
 @Component
 public class NettyTcpServer {
     private static Logger logger=Logger.getLogger(NettyTcpServer.class);

@@ -9,7 +9,6 @@ import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
 import com.liqihao.service.GameSystemService;
 import io.netty.channel.Channel;
-import org.omg.CORBA.PRIVATE_MEMBER;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +18,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * 根据cmd分发请求
+ */
 @Component
 @HandlerModuleTag(module = ConstantValue.GAME_SYSTEM_MODULE)
 public class GameSystemHandler implements ModuleHandler{

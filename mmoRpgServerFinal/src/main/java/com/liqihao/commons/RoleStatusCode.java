@@ -1,5 +1,8 @@
 package com.liqihao.commons;
 
+/**
+ * 角色生存状态
+ */
 public enum  RoleStatusCode {
     DIE(0,"死亡"),ALIVE(1,"存活");
     private  int code;
