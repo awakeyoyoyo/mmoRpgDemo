@@ -4,15 +4,10 @@ import com.liqihao.Cache.MmoCache;
 import com.liqihao.commons.*;
 import com.liqihao.dao.MmoRolePOJOMapper;
 import com.liqihao.pojo.MmoRolePOJO;
-import com.liqihao.pojo.MmoScene;
-import com.liqihao.pojo.MmoSimpleRole;
 import com.liqihao.protobufObject.GameSystemModel;
 import io.netty.channel.Channel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Iterator;
-import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
@@ -43,7 +38,6 @@ public class GameSystemService implements com.liqihao.service.GameSystemService 
             mmoRolePOJO.setOnstatus(RoleOnStatusCode.EXIT.getCode());
             mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO);
         }
-
         //用户下线
         NettyResponse response=new NettyResponse();
         response.setCmd(ConstantValue.OUT_RIME_RESPONSE);

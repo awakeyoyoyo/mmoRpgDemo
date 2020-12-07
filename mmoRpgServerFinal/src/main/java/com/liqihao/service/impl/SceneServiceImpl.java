@@ -2,6 +2,7 @@ package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.liqihao.Cache.MmoCache;
+import com.liqihao.annotation.HandlerModuleTag;
 import com.liqihao.commons.*;
 import com.liqihao.dao.MmoRolePOJOMapper;
 import com.liqihao.dao.MmoScenePOJOMapper;
@@ -16,14 +17,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.management.relation.Role;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
+@HandlerModuleTag(module = ConstantValue.SCENE_MODULE)
 public class SceneServiceImpl implements SceneService {
     private static final Logger log = LoggerFactory.getLogger(SceneServiceImpl.class);
     @Autowired
@@ -42,7 +42,6 @@ public class SceneServiceImpl implements SceneService {
             return new NettyResponse(StateCode.FAIL, ConstantValue.SCENE_MODULE, ConstantValue.ASK_CAN_RESPONSE, "无传入sceneId无法查询".getBytes());
         }
         log.info("SceneService accept sceneId: "+sceneId);
-//       MmoScene mmoScene=applicationContext.getBean("scene"+sceneId,MmoScene.class);
         //从缓存中读取
         ConcurrentHashMap<Integer, SceneMessage> scenes= MmoCache.getInstance().getSceneMessageConcurrentHashMap();
         String canScene=scenes.get(sceneId).getCanScene();

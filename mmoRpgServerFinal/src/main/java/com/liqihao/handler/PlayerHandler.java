@@ -1,6 +1,7 @@
 package com.liqihao.handler;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.liqihao.annotation.HandlerModuleTag;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyRequest;
 import com.liqihao.commons.NettyResponse;
@@ -11,7 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PlayerHandler {
+@HandlerModuleTag(module = ConstantValue.PLAY_MODULE)
+public class PlayerHandler implements ModuleHandler {
     @Autowired
     private PlayService playService;
 
@@ -21,6 +23,7 @@ public class PlayerHandler {
      * @return
      * @throws InvalidProtocolBufferException
      */
+    @Override
     public NettyResponse handler(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
         NettyResponse nettyResponse=null;
         switch (nettyRequest.getCmd()){
@@ -38,4 +41,5 @@ public class PlayerHandler {
         }
         return nettyResponse;
     }
+
 }

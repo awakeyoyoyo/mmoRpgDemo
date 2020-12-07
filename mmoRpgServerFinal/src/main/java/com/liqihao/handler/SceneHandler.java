@@ -1,6 +1,7 @@
 package com.liqihao.handler;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.liqihao.annotation.HandlerModuleTag;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyRequest;
 import com.liqihao.commons.NettyResponse;
@@ -12,7 +13,8 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-public class SceneHandler {
+@HandlerModuleTag(module = ConstantValue.SCENE_MODULE)
+public class SceneHandler implements ModuleHandler{
     @Autowired
     private SceneService sceneService;
     /**
@@ -21,6 +23,7 @@ public class SceneHandler {
      * @return
      * @throws InvalidProtocolBufferException
      */
+    @Override
     public NettyResponse handler(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
         NettyResponse nettyResponse=null;
         switch (nettyRequest.getCmd()) {

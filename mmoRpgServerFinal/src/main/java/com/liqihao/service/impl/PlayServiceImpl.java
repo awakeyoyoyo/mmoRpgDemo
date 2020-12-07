@@ -135,7 +135,6 @@ public class PlayServiceImpl implements PlayService{
 
     @Override
     public NettyResponse logoutRequest(NettyRequest nettyRequest,Channel channel) throws InvalidProtocolBufferException {
-        byte[] data=nettyRequest.getData();
         ConcurrentHashMap<Integer,Channel> channelConcurrentHashMap= MmoCache.getInstance().getChannelConcurrentHashMap();
         Integer roleId=null;
         synchronized (channelConcurrentHashMap) {
