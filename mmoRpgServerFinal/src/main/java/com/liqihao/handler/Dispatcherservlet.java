@@ -16,6 +16,7 @@ import org.omg.CORBA.PRIVATE_MEMBER;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +30,7 @@ public class Dispatcherservlet {
      * @param nettyRequest
      * @return
      */
-    public NettyResponse handler(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
+    public NettyResponse handler(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException, InvocationTargetException, IllegalAccessException {
         short module=nettyRequest.getModule();
         for (ModuleHandler m:moduleHandlers) {
             if (m.getClass().getAnnotation(HandlerModuleTag.class).module()==module){

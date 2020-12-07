@@ -1,6 +1,7 @@
 package com.liqihao.service.impl;
 
 import com.liqihao.Cache.MmoCache;
+import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.*;
 import com.liqihao.dao.MmoRolePOJOMapper;
 import com.liqihao.pojo.MmoRolePOJO;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
-public class GameSystemService implements com.liqihao.service.GameSystemService {
+public class GameSystemServiceImpl implements com.liqihao.service.GameSystemService {
     @Autowired
     private MmoRolePOJOMapper mmoRolePOJOMapper;
     @Override

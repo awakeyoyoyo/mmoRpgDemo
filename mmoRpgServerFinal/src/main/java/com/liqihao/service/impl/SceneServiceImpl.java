@@ -3,6 +3,7 @@ package com.liqihao.service.impl;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.liqihao.Cache.MmoCache;
 import com.liqihao.annotation.HandlerModuleTag;
+import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.*;
 import com.liqihao.dao.MmoRolePOJOMapper;
 import com.liqihao.dao.MmoScenePOJOMapper;

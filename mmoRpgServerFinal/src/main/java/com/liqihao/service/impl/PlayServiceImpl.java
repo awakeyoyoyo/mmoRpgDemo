@@ -2,6 +2,7 @@ package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.liqihao.Cache.MmoCache;
+import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.*;
 import com.liqihao.dao.MmoRolePOJOMapper;
 import com.liqihao.dao.MmoScenePOJOMapper;
@@ -80,6 +81,7 @@ public class PlayServiceImpl implements PlayService{
     }
 
     @Override
+
     public NettyResponse loginRequest(NettyRequest nettyRequest,Channel channel) throws InvalidProtocolBufferException {
         byte[] data=nettyRequest.getData();
         PlayModel.PlayModelMessage myMessage;
