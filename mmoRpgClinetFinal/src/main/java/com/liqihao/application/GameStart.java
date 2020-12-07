@@ -1,20 +1,20 @@
 package com.liqihao.application;
 
 
-import com.liqihao.commons.CacheUtil;
+import com.liqihao.commons.MmoCacheCilent;
 import com.liqihao.commons.CmdCode;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyRequest;
-import com.liqihao.pojo.MmoScene;
-import com.liqihao.pojo.MmoSimpleScene;
+import com.liqihao.pojo.baseMessage.SceneMessage;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.protobufObject.SceneModel;
+import com.liqihao.utils.CommonsUtil;
 import io.netty.channel.Channel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class GameStart {
@@ -116,13 +116,12 @@ public class GameStart {
     }
 
     private void logoutRequest(Scanner scanner) {
-        Integer rolesId=CacheUtil.getNowRoles().getId();
         NettyRequest nettyRequest=new NettyRequest();
         nettyRequest.setCmd(ConstantValue.LOGOUT_REQUEST);
         nettyRequest.setModule(ConstantValue.PLAY_MODULE);
         PlayModel.PlayModelMessage myMessage;
         myMessage=PlayModel.PlayModelMessage.newBuilder().setDataType(PlayModel.PlayModelMessage.DateType.LogoutRequest)
-                .setLogoutRequest(PlayModel.LogoutRequest.newBuilder().setRolesId(rolesId).build()).build();
+                .setLogoutRequest(PlayModel.LogoutRequest.newBuilder().build()).build();
         byte[] data=myMessage.toByteArray();
         nettyRequest.setData(data);
         channel.writeAndFlush(nettyRequest);
@@ -151,7 +150,7 @@ public class GameStart {
 
     private void findAllRolesRequest(Scanner scanner) {
         System.out.println("稍等片刻。等待数据传输");
-        Integer sceneId=CacheUtil.getNowScene().getId();
+        Integer sceneId= MmoCacheCilent.getInstance().getNowSceneId();
         NettyRequest nettyRequest=new NettyRequest();
         nettyRequest.setCmd(ConstantValue.FIND_ALL_ROLES_REQUEST);
         nettyRequest.setModule(ConstantValue.SCENE_MODULE);
@@ -168,12 +167,16 @@ public class GameStart {
         String str=scanner.nextLine();
         //消除回车
         scanner.nextLine();
-        MmoScene mmoScene=CacheUtil.getNowScene();
-        List<MmoSimpleScene> mmoSimpleScenes=mmoScene.getCanScene();
+        Integer mmoSceneId= MmoCacheCilent.getInstance().getNowSceneId();
+        ConcurrentHashMap<Integer,SceneMessage> concurrentHashMap=MmoCacheCilent.getInstance().getSceneMessageConcurrentHashMap();
+        SceneMessage sceneMessage=MmoCacheCilent.getInstance().getSceneMessageConcurrentHashMap().get(mmoSceneId);
+        String canScenes=sceneMessage.getCanScene();
+        List<Integer> canSecnesIds= CommonsUtil.split(canScenes);
         Integer sceneId=null;
-        for(MmoSimpleScene m:mmoSimpleScenes){
-            if (str.equals(m.getPalceName())){
-                sceneId=m.getId();
+        for(Integer m:canSecnesIds){
+            SceneMessage temp=concurrentHashMap.get(m);
+            if (str.equals(temp.getPlaceName())){
+                sceneId=temp.getId();
             }
         }
         if (sceneId==null){
@@ -185,7 +188,7 @@ public class GameStart {
             SceneModel.SceneModelMessage myMessage;
             myMessage=SceneModel.SceneModelMessage.newBuilder()
                     .setDataType(SceneModel.SceneModelMessage.DateType.WentRequest)
-                    .setWentRequest(SceneModel.WentRequest.newBuilder().setSceneId(sceneId).setPlayId(CacheUtil.getNowRoles().getId()).build()).build();
+                    .setWentRequest(SceneModel.WentRequest.newBuilder().setSceneId(sceneId).build()).build();
             byte[] data=myMessage.toByteArray();
             nettyRequest.setData(data);
             channel.writeAndFlush(nettyRequest);
@@ -194,7 +197,7 @@ public class GameStart {
 
     private void askCanRequest(Scanner scanner) {
         System.out.println("稍等片刻。等待数据传输");
-        Integer sceneId=CacheUtil.getNowScene().getId();
+        Integer sceneId= MmoCacheCilent.getInstance().getNowSceneId();
         NettyRequest nettyRequest=new NettyRequest();
         nettyRequest.setCmd(ConstantValue.ASK_CAN_REQUEST);
         nettyRequest.setModule(ConstantValue.SCENE_MODULE);

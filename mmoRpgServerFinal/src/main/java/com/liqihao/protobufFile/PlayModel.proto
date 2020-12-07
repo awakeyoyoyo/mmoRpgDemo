@@ -34,7 +34,7 @@ message RegisterRequest{
   string rolename=3;
 }
 message LoginResponse{
-  MmoScene mmoScene=1;
+  int32 sceneId=1;
   MmoSimpleRole mmoSimpleRole=2;
 }
 
@@ -43,17 +43,10 @@ message RegisterResponse{
   string message=2;
 }
 message LogoutRequest{
-  int32 rolesId=1;
 }
 message LogoutResponse{
   int32 code=1;
   string mxg=2;
-}
-message MmoScene{
-  int32 id=1;
-  string placeName=2;
-  repeated MmoSimpleScene canScene=3;
-  repeated MmoSimpleRole roles=4;
 }
 message MmoSimpleRole{
   int32 id=1;
@@ -61,8 +54,4 @@ message MmoSimpleRole{
   string status=3;
   string type=4;
   string onStatus=5;
-}
-message MmoSimpleScene{
-  int32 id=1;
-  string placeName=2;
 }

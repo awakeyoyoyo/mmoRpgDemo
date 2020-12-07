@@ -7,7 +7,7 @@ public class LoginResponse {
     /**
      * 当前所处场景
      */
-    private MmoScene mmoScene;
+    private Integer sceneId;
     /**
      * 角色信息
      */

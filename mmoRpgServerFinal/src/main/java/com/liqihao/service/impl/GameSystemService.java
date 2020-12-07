@@ -37,25 +37,11 @@ public class GameSystemService implements com.liqihao.service.GameSystemService 
         //删除缓存中的信息
         if (roleId!=null) {
             ConcurrentHashMap<Integer, MmoRolePOJO> mmsHashMap = MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
-            MmoRolePOJO rolePOJO;
-            rolePOJO=mmsHashMap.get(roleId);
-            rolePOJO.setOnstatus(RoleOnStatusCode.EXIT.getCode());
-            mmsHashMap.put(rolePOJO.getId(),rolePOJO);
-            ConcurrentHashMap<Integer, MmoScene> mmoSceneHashMap = MmoCache.getInstance().getMmoSceneConcurrentHashMap();
-            synchronized (mmoSceneHashMap) {
-                MmoScene mmoScene = mmoSceneHashMap.get(rolePOJO.getMmosceneid());
-                List<MmoSimpleRole> mmoSimpleRoles = mmoScene.getRoles();
-                Iterator<MmoSimpleRole> iterator = mmoSimpleRoles.iterator();
-                while (iterator.hasNext()) {
-                    MmoSimpleRole sbi = iterator.next();
-                    if (sbi.getId() == rolePOJO.getId()) {
-                        iterator.remove();
-                        break;
-                    }
-                }
-            }
+            MmoRolePOJO mmoRolePOJO=mmsHashMap.get(roleId);
+            mmsHashMap.remove(roleId);
             //修改数据库
-            mmoRolePOJOMapper.updateByPrimaryKeySelective(rolePOJO);
+            mmoRolePOJO.setOnstatus(RoleOnStatusCode.EXIT.getCode());
+            mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO);
         }
 
         //用户下线

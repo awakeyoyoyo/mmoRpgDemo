@@ -81,92 +81,62 @@ public final class SceneModel {
     WentRequestOrBuilder getWentRequestOrBuilder();
 
     /**
-     * <code>.WhereRequest whereRequest = 5;</code>
-     * @return Whether the whereRequest field is set.
-     */
-    boolean hasWhereRequest();
-    /**
-     * <code>.WhereRequest whereRequest = 5;</code>
-     * @return The whereRequest.
-     */
-    WhereRequest getWhereRequest();
-    /**
-     * <code>.WhereRequest whereRequest = 5;</code>
-     */
-    WhereRequestOrBuilder getWhereRequestOrBuilder();
-
-    /**
-     * <code>.AskCanResponse askCanResponse = 6;</code>
+     * <code>.AskCanResponse askCanResponse = 5;</code>
      * @return Whether the askCanResponse field is set.
      */
     boolean hasAskCanResponse();
     /**
-     * <code>.AskCanResponse askCanResponse = 6;</code>
+     * <code>.AskCanResponse askCanResponse = 5;</code>
      * @return The askCanResponse.
      */
     AskCanResponse getAskCanResponse();
     /**
-     * <code>.AskCanResponse askCanResponse = 6;</code>
+     * <code>.AskCanResponse askCanResponse = 5;</code>
      */
     AskCanResponseOrBuilder getAskCanResponseOrBuilder();
 
     /**
-     * <code>.FindAllRolesResponse findAllRolesResponse = 7;</code>
+     * <code>.FindAllRolesResponse findAllRolesResponse = 6;</code>
      * @return Whether the findAllRolesResponse field is set.
      */
     boolean hasFindAllRolesResponse();
     /**
-     * <code>.FindAllRolesResponse findAllRolesResponse = 7;</code>
+     * <code>.FindAllRolesResponse findAllRolesResponse = 6;</code>
      * @return The findAllRolesResponse.
      */
     FindAllRolesResponse getFindAllRolesResponse();
     /**
-     * <code>.FindAllRolesResponse findAllRolesResponse = 7;</code>
+     * <code>.FindAllRolesResponse findAllRolesResponse = 6;</code>
      */
     FindAllRolesResponseOrBuilder getFindAllRolesResponseOrBuilder();
 
     /**
-     * <code>.WentResponse wentResponse = 8;</code>
+     * <code>.WentResponse wentResponse = 7;</code>
      * @return Whether the wentResponse field is set.
      */
     boolean hasWentResponse();
     /**
-     * <code>.WentResponse wentResponse = 8;</code>
+     * <code>.WentResponse wentResponse = 7;</code>
      * @return The wentResponse.
      */
     WentResponse getWentResponse();
     /**
-     * <code>.WentResponse wentResponse = 8;</code>
+     * <code>.WentResponse wentResponse = 7;</code>
      */
     WentResponseOrBuilder getWentResponseOrBuilder();
 
     /**
-     * <code>.WhereResponse whereResponse = 9;</code>
-     * @return Whether the whereResponse field is set.
-     */
-    boolean hasWhereResponse();
-    /**
-     * <code>.WhereResponse whereResponse = 9;</code>
-     * @return The whereResponse.
-     */
-    WhereResponse getWhereResponse();
-    /**
-     * <code>.WhereResponse whereResponse = 9;</code>
-     */
-    WhereResponseOrBuilder getWhereResponseOrBuilder();
-
-    /**
-     * <code>.MmoScene mmoScene = 10;</code>
+     * <code>.MmoScene mmoScene = 8;</code>
      * @return Whether the mmoScene field is set.
      */
     boolean hasMmoScene();
     /**
-     * <code>.MmoScene mmoScene = 10;</code>
+     * <code>.MmoScene mmoScene = 8;</code>
      * @return The mmoScene.
      */
     MmoScene getMmoScene();
     /**
-     * <code>.MmoScene mmoScene = 10;</code>
+     * <code>.MmoScene mmoScene = 8;</code>
      */
     MmoSceneOrBuilder getMmoSceneOrBuilder();
 
@@ -271,22 +241,8 @@ public final class SceneModel {
               break;
             }
             case 42: {
-              WhereRequest.Builder subBuilder = null;
-              if (dateBodyCase_ == 5) {
-                subBuilder = ((WhereRequest) dateBody_).toBuilder();
-              }
-              dateBody_ =
-                  input.readMessage(WhereRequest.parser(), extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom((WhereRequest) dateBody_);
-                dateBody_ = subBuilder.buildPartial();
-              }
-              dateBodyCase_ = 5;
-              break;
-            }
-            case 50: {
               AskCanResponse.Builder subBuilder = null;
-              if (dateBodyCase_ == 6) {
+              if (dateBodyCase_ == 5) {
                 subBuilder = ((AskCanResponse) dateBody_).toBuilder();
               }
               dateBody_ =
@@ -295,12 +251,12 @@ public final class SceneModel {
                 subBuilder.mergeFrom((AskCanResponse) dateBody_);
                 dateBody_ = subBuilder.buildPartial();
               }
-              dateBodyCase_ = 6;
+              dateBodyCase_ = 5;
               break;
             }
-            case 58: {
+            case 50: {
               FindAllRolesResponse.Builder subBuilder = null;
-              if (dateBodyCase_ == 7) {
+              if (dateBodyCase_ == 6) {
                 subBuilder = ((FindAllRolesResponse) dateBody_).toBuilder();
               }
               dateBody_ =
@@ -309,12 +265,12 @@ public final class SceneModel {
                 subBuilder.mergeFrom((FindAllRolesResponse) dateBody_);
                 dateBody_ = subBuilder.buildPartial();
               }
-              dateBodyCase_ = 7;
+              dateBodyCase_ = 6;
               break;
             }
-            case 66: {
+            case 58: {
               WentResponse.Builder subBuilder = null;
-              if (dateBodyCase_ == 8) {
+              if (dateBodyCase_ == 7) {
                 subBuilder = ((WentResponse) dateBody_).toBuilder();
               }
               dateBody_ =
@@ -323,26 +279,12 @@ public final class SceneModel {
                 subBuilder.mergeFrom((WentResponse) dateBody_);
                 dateBody_ = subBuilder.buildPartial();
               }
-              dateBodyCase_ = 8;
+              dateBodyCase_ = 7;
               break;
             }
-            case 74: {
-              WhereResponse.Builder subBuilder = null;
-              if (dateBodyCase_ == 9) {
-                subBuilder = ((WhereResponse) dateBody_).toBuilder();
-              }
-              dateBody_ =
-                  input.readMessage(WhereResponse.parser(), extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom((WhereResponse) dateBody_);
-                dateBody_ = subBuilder.buildPartial();
-              }
-              dateBodyCase_ = 9;
-              break;
-            }
-            case 82: {
+            case 66: {
               MmoScene.Builder subBuilder = null;
-              if (dateBodyCase_ == 10) {
+              if (dateBodyCase_ == 8) {
                 subBuilder = ((MmoScene) dateBody_).toBuilder();
               }
               dateBody_ =
@@ -351,7 +293,7 @@ public final class SceneModel {
                 subBuilder.mergeFrom((MmoScene) dateBody_);
                 dateBody_ = subBuilder.buildPartial();
               }
-              dateBodyCase_ = 10;
+              dateBodyCase_ = 8;
               break;
             }
             default: {
@@ -568,12 +510,10 @@ public final class SceneModel {
       ASKCANREQUEST(2),
       FINDALLROLESREQUEST(3),
       WENTREQUEST(4),
-      WHEREREQUEST(5),
-      ASKCANRESPONSE(6),
-      FINDALLROLESRESPONSE(7),
-      WENTRESPONSE(8),
-      WHERERESPONSE(9),
-      MMOSCENE(10),
+      ASKCANRESPONSE(5),
+      FINDALLROLESRESPONSE(6),
+      WENTRESPONSE(7),
+      MMOSCENE(8),
       DATEBODY_NOT_SET(0);
       private final int value;
       private DateBodyCase(int value) {
@@ -594,12 +534,10 @@ public final class SceneModel {
           case 2: return ASKCANREQUEST;
           case 3: return FINDALLROLESREQUEST;
           case 4: return WENTREQUEST;
-          case 5: return WHEREREQUEST;
-          case 6: return ASKCANRESPONSE;
-          case 7: return FINDALLROLESRESPONSE;
-          case 8: return WENTRESPONSE;
-          case 9: return WHERERESPONSE;
-          case 10: return MMOSCENE;
+          case 5: return ASKCANRESPONSE;
+          case 6: return FINDALLROLESRESPONSE;
+          case 7: return WENTRESPONSE;
+          case 8: return MMOSCENE;
           case 0: return DATEBODY_NOT_SET;
           default: return null;
         }
@@ -735,187 +673,125 @@ public final class SceneModel {
       return WentRequest.getDefaultInstance();
     }
 
-    public static final int WHEREREQUEST_FIELD_NUMBER = 5;
+    public static final int ASKCANRESPONSE_FIELD_NUMBER = 5;
     /**
-     * <code>.WhereRequest whereRequest = 5;</code>
-     * @return Whether the whereRequest field is set.
-     */
-    @Override
-    public boolean hasWhereRequest() {
-      return dateBodyCase_ == 5;
-    }
-    /**
-     * <code>.WhereRequest whereRequest = 5;</code>
-     * @return The whereRequest.
-     */
-    @Override
-    public WhereRequest getWhereRequest() {
-      if (dateBodyCase_ == 5) {
-         return (WhereRequest) dateBody_;
-      }
-      return WhereRequest.getDefaultInstance();
-    }
-    /**
-     * <code>.WhereRequest whereRequest = 5;</code>
-     */
-    @Override
-    public WhereRequestOrBuilder getWhereRequestOrBuilder() {
-      if (dateBodyCase_ == 5) {
-         return (WhereRequest) dateBody_;
-      }
-      return WhereRequest.getDefaultInstance();
-    }
-
-    public static final int ASKCANRESPONSE_FIELD_NUMBER = 6;
-    /**
-     * <code>.AskCanResponse askCanResponse = 6;</code>
+     * <code>.AskCanResponse askCanResponse = 5;</code>
      * @return Whether the askCanResponse field is set.
      */
     @Override
     public boolean hasAskCanResponse() {
-      return dateBodyCase_ == 6;
+      return dateBodyCase_ == 5;
     }
     /**
-     * <code>.AskCanResponse askCanResponse = 6;</code>
+     * <code>.AskCanResponse askCanResponse = 5;</code>
      * @return The askCanResponse.
      */
     @Override
     public AskCanResponse getAskCanResponse() {
-      if (dateBodyCase_ == 6) {
+      if (dateBodyCase_ == 5) {
          return (AskCanResponse) dateBody_;
       }
       return AskCanResponse.getDefaultInstance();
     }
     /**
-     * <code>.AskCanResponse askCanResponse = 6;</code>
+     * <code>.AskCanResponse askCanResponse = 5;</code>
      */
     @Override
     public AskCanResponseOrBuilder getAskCanResponseOrBuilder() {
-      if (dateBodyCase_ == 6) {
+      if (dateBodyCase_ == 5) {
          return (AskCanResponse) dateBody_;
       }
       return AskCanResponse.getDefaultInstance();
     }
 
-    public static final int FINDALLROLESRESPONSE_FIELD_NUMBER = 7;
+    public static final int FINDALLROLESRESPONSE_FIELD_NUMBER = 6;
     /**
-     * <code>.FindAllRolesResponse findAllRolesResponse = 7;</code>
+     * <code>.FindAllRolesResponse findAllRolesResponse = 6;</code>
      * @return Whether the findAllRolesResponse field is set.
      */
     @Override
     public boolean hasFindAllRolesResponse() {
-      return dateBodyCase_ == 7;
+      return dateBodyCase_ == 6;
     }
     /**
-     * <code>.FindAllRolesResponse findAllRolesResponse = 7;</code>
+     * <code>.FindAllRolesResponse findAllRolesResponse = 6;</code>
      * @return The findAllRolesResponse.
      */
     @Override
     public FindAllRolesResponse getFindAllRolesResponse() {
-      if (dateBodyCase_ == 7) {
+      if (dateBodyCase_ == 6) {
          return (FindAllRolesResponse) dateBody_;
       }
       return FindAllRolesResponse.getDefaultInstance();
     }
     /**
-     * <code>.FindAllRolesResponse findAllRolesResponse = 7;</code>
+     * <code>.FindAllRolesResponse findAllRolesResponse = 6;</code>
      */
     @Override
     public FindAllRolesResponseOrBuilder getFindAllRolesResponseOrBuilder() {
-      if (dateBodyCase_ == 7) {
+      if (dateBodyCase_ == 6) {
          return (FindAllRolesResponse) dateBody_;
       }
       return FindAllRolesResponse.getDefaultInstance();
     }
 
-    public static final int WENTRESPONSE_FIELD_NUMBER = 8;
+    public static final int WENTRESPONSE_FIELD_NUMBER = 7;
     /**
-     * <code>.WentResponse wentResponse = 8;</code>
+     * <code>.WentResponse wentResponse = 7;</code>
      * @return Whether the wentResponse field is set.
      */
     @Override
     public boolean hasWentResponse() {
-      return dateBodyCase_ == 8;
+      return dateBodyCase_ == 7;
     }
     /**
-     * <code>.WentResponse wentResponse = 8;</code>
+     * <code>.WentResponse wentResponse = 7;</code>
      * @return The wentResponse.
      */
     @Override
     public WentResponse getWentResponse() {
-      if (dateBodyCase_ == 8) {
+      if (dateBodyCase_ == 7) {
          return (WentResponse) dateBody_;
       }
       return WentResponse.getDefaultInstance();
     }
     /**
-     * <code>.WentResponse wentResponse = 8;</code>
+     * <code>.WentResponse wentResponse = 7;</code>
      */
     @Override
     public WentResponseOrBuilder getWentResponseOrBuilder() {
-      if (dateBodyCase_ == 8) {
+      if (dateBodyCase_ == 7) {
          return (WentResponse) dateBody_;
       }
       return WentResponse.getDefaultInstance();
     }
 
-    public static final int WHERERESPONSE_FIELD_NUMBER = 9;
+    public static final int MMOSCENE_FIELD_NUMBER = 8;
     /**
-     * <code>.WhereResponse whereResponse = 9;</code>
-     * @return Whether the whereResponse field is set.
-     */
-    @Override
-    public boolean hasWhereResponse() {
-      return dateBodyCase_ == 9;
-    }
-    /**
-     * <code>.WhereResponse whereResponse = 9;</code>
-     * @return The whereResponse.
-     */
-    @Override
-    public WhereResponse getWhereResponse() {
-      if (dateBodyCase_ == 9) {
-         return (WhereResponse) dateBody_;
-      }
-      return WhereResponse.getDefaultInstance();
-    }
-    /**
-     * <code>.WhereResponse whereResponse = 9;</code>
-     */
-    @Override
-    public WhereResponseOrBuilder getWhereResponseOrBuilder() {
-      if (dateBodyCase_ == 9) {
-         return (WhereResponse) dateBody_;
-      }
-      return WhereResponse.getDefaultInstance();
-    }
-
-    public static final int MMOSCENE_FIELD_NUMBER = 10;
-    /**
-     * <code>.MmoScene mmoScene = 10;</code>
+     * <code>.MmoScene mmoScene = 8;</code>
      * @return Whether the mmoScene field is set.
      */
     @Override
     public boolean hasMmoScene() {
-      return dateBodyCase_ == 10;
+      return dateBodyCase_ == 8;
     }
     /**
-     * <code>.MmoScene mmoScene = 10;</code>
+     * <code>.MmoScene mmoScene = 8;</code>
      * @return The mmoScene.
      */
     @Override
     public MmoScene getMmoScene() {
-      if (dateBodyCase_ == 10) {
+      if (dateBodyCase_ == 8) {
          return (MmoScene) dateBody_;
       }
       return MmoScene.getDefaultInstance();
     }
     /**
-     * <code>.MmoScene mmoScene = 10;</code>
+     * <code>.MmoScene mmoScene = 8;</code>
      */
     @Override
     public MmoSceneOrBuilder getMmoSceneOrBuilder() {
-      if (dateBodyCase_ == 10) {
+      if (dateBodyCase_ == 8) {
          return (MmoScene) dateBody_;
       }
       return MmoScene.getDefaultInstance();
@@ -948,22 +824,16 @@ public final class SceneModel {
         output.writeMessage(4, (WentRequest) dateBody_);
       }
       if (dateBodyCase_ == 5) {
-        output.writeMessage(5, (WhereRequest) dateBody_);
+        output.writeMessage(5, (AskCanResponse) dateBody_);
       }
       if (dateBodyCase_ == 6) {
-        output.writeMessage(6, (AskCanResponse) dateBody_);
+        output.writeMessage(6, (FindAllRolesResponse) dateBody_);
       }
       if (dateBodyCase_ == 7) {
-        output.writeMessage(7, (FindAllRolesResponse) dateBody_);
+        output.writeMessage(7, (WentResponse) dateBody_);
       }
       if (dateBodyCase_ == 8) {
-        output.writeMessage(8, (WentResponse) dateBody_);
-      }
-      if (dateBodyCase_ == 9) {
-        output.writeMessage(9, (WhereResponse) dateBody_);
-      }
-      if (dateBodyCase_ == 10) {
-        output.writeMessage(10, (MmoScene) dateBody_);
+        output.writeMessage(8, (MmoScene) dateBody_);
       }
       unknownFields.writeTo(output);
     }
@@ -992,27 +862,19 @@ public final class SceneModel {
       }
       if (dateBodyCase_ == 5) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(5, (WhereRequest) dateBody_);
+          .computeMessageSize(5, (AskCanResponse) dateBody_);
       }
       if (dateBodyCase_ == 6) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(6, (AskCanResponse) dateBody_);
+          .computeMessageSize(6, (FindAllRolesResponse) dateBody_);
       }
       if (dateBodyCase_ == 7) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(7, (FindAllRolesResponse) dateBody_);
+          .computeMessageSize(7, (WentResponse) dateBody_);
       }
       if (dateBodyCase_ == 8) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(8, (WentResponse) dateBody_);
-      }
-      if (dateBodyCase_ == 9) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(9, (WhereResponse) dateBody_);
-      }
-      if (dateBodyCase_ == 10) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(10, (MmoScene) dateBody_);
+          .computeMessageSize(8, (MmoScene) dateBody_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1045,26 +907,18 @@ public final class SceneModel {
               .equals(other.getWentRequest())) return false;
           break;
         case 5:
-          if (!getWhereRequest()
-              .equals(other.getWhereRequest())) return false;
-          break;
-        case 6:
           if (!getAskCanResponse()
               .equals(other.getAskCanResponse())) return false;
           break;
-        case 7:
+        case 6:
           if (!getFindAllRolesResponse()
               .equals(other.getFindAllRolesResponse())) return false;
           break;
-        case 8:
+        case 7:
           if (!getWentResponse()
               .equals(other.getWentResponse())) return false;
           break;
-        case 9:
-          if (!getWhereResponse()
-              .equals(other.getWhereResponse())) return false;
-          break;
-        case 10:
+        case 8:
           if (!getMmoScene()
               .equals(other.getMmoScene())) return false;
           break;
@@ -1098,26 +952,18 @@ public final class SceneModel {
           hash = (53 * hash) + getWentRequest().hashCode();
           break;
         case 5:
-          hash = (37 * hash) + WHEREREQUEST_FIELD_NUMBER;
-          hash = (53 * hash) + getWhereRequest().hashCode();
-          break;
-        case 6:
           hash = (37 * hash) + ASKCANRESPONSE_FIELD_NUMBER;
           hash = (53 * hash) + getAskCanResponse().hashCode();
           break;
-        case 7:
+        case 6:
           hash = (37 * hash) + FINDALLROLESRESPONSE_FIELD_NUMBER;
           hash = (53 * hash) + getFindAllRolesResponse().hashCode();
           break;
-        case 8:
+        case 7:
           hash = (37 * hash) + WENTRESPONSE_FIELD_NUMBER;
           hash = (53 * hash) + getWentResponse().hashCode();
           break;
-        case 9:
-          hash = (37 * hash) + WHERERESPONSE_FIELD_NUMBER;
-          hash = (53 * hash) + getWhereResponse().hashCode();
-          break;
-        case 10:
+        case 8:
           hash = (37 * hash) + MMOSCENE_FIELD_NUMBER;
           hash = (53 * hash) + getMmoScene().hashCode();
           break;
@@ -1314,41 +1160,27 @@ public final class SceneModel {
           }
         }
         if (dateBodyCase_ == 5) {
-          if (whereRequestBuilder_ == null) {
-            result.dateBody_ = dateBody_;
-          } else {
-            result.dateBody_ = whereRequestBuilder_.build();
-          }
-        }
-        if (dateBodyCase_ == 6) {
           if (askCanResponseBuilder_ == null) {
             result.dateBody_ = dateBody_;
           } else {
             result.dateBody_ = askCanResponseBuilder_.build();
           }
         }
-        if (dateBodyCase_ == 7) {
+        if (dateBodyCase_ == 6) {
           if (findAllRolesResponseBuilder_ == null) {
             result.dateBody_ = dateBody_;
           } else {
             result.dateBody_ = findAllRolesResponseBuilder_.build();
           }
         }
-        if (dateBodyCase_ == 8) {
+        if (dateBodyCase_ == 7) {
           if (wentResponseBuilder_ == null) {
             result.dateBody_ = dateBody_;
           } else {
             result.dateBody_ = wentResponseBuilder_.build();
           }
         }
-        if (dateBodyCase_ == 9) {
-          if (whereResponseBuilder_ == null) {
-            result.dateBody_ = dateBody_;
-          } else {
-            result.dateBody_ = whereResponseBuilder_.build();
-          }
-        }
-        if (dateBodyCase_ == 10) {
+        if (dateBodyCase_ == 8) {
           if (mmoSceneBuilder_ == null) {
             result.dateBody_ = dateBody_;
           } else {
@@ -1420,10 +1252,6 @@ public final class SceneModel {
             mergeWentRequest(other.getWentRequest());
             break;
           }
-          case WHEREREQUEST: {
-            mergeWhereRequest(other.getWhereRequest());
-            break;
-          }
           case ASKCANRESPONSE: {
             mergeAskCanResponse(other.getAskCanResponse());
             break;
@@ -1434,10 +1262,6 @@ public final class SceneModel {
           }
           case WENTRESPONSE: {
             mergeWentResponse(other.getWentResponse());
-            break;
-          }
-          case WHERERESPONSE: {
-            mergeWhereResponse(other.getWhereResponse());
             break;
           }
           case MMOSCENE: {
@@ -1990,176 +1814,35 @@ public final class SceneModel {
       }
 
       private com.google.protobuf.SingleFieldBuilderV3<
-          WhereRequest, WhereRequest.Builder, WhereRequestOrBuilder> whereRequestBuilder_;
-      /**
-       * <code>.WhereRequest whereRequest = 5;</code>
-       * @return Whether the whereRequest field is set.
-       */
-      @Override
-      public boolean hasWhereRequest() {
-        return dateBodyCase_ == 5;
-      }
-      /**
-       * <code>.WhereRequest whereRequest = 5;</code>
-       * @return The whereRequest.
-       */
-      @Override
-      public WhereRequest getWhereRequest() {
-        if (whereRequestBuilder_ == null) {
-          if (dateBodyCase_ == 5) {
-            return (WhereRequest) dateBody_;
-          }
-          return WhereRequest.getDefaultInstance();
-        } else {
-          if (dateBodyCase_ == 5) {
-            return whereRequestBuilder_.getMessage();
-          }
-          return WhereRequest.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.WhereRequest whereRequest = 5;</code>
-       */
-      public Builder setWhereRequest(WhereRequest value) {
-        if (whereRequestBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          dateBody_ = value;
-          onChanged();
-        } else {
-          whereRequestBuilder_.setMessage(value);
-        }
-        dateBodyCase_ = 5;
-        return this;
-      }
-      /**
-       * <code>.WhereRequest whereRequest = 5;</code>
-       */
-      public Builder setWhereRequest(
-          WhereRequest.Builder builderForValue) {
-        if (whereRequestBuilder_ == null) {
-          dateBody_ = builderForValue.build();
-          onChanged();
-        } else {
-          whereRequestBuilder_.setMessage(builderForValue.build());
-        }
-        dateBodyCase_ = 5;
-        return this;
-      }
-      /**
-       * <code>.WhereRequest whereRequest = 5;</code>
-       */
-      public Builder mergeWhereRequest(WhereRequest value) {
-        if (whereRequestBuilder_ == null) {
-          if (dateBodyCase_ == 5 &&
-              dateBody_ != WhereRequest.getDefaultInstance()) {
-            dateBody_ = WhereRequest.newBuilder((WhereRequest) dateBody_)
-                .mergeFrom(value).buildPartial();
-          } else {
-            dateBody_ = value;
-          }
-          onChanged();
-        } else {
-          if (dateBodyCase_ == 5) {
-            whereRequestBuilder_.mergeFrom(value);
-          }
-          whereRequestBuilder_.setMessage(value);
-        }
-        dateBodyCase_ = 5;
-        return this;
-      }
-      /**
-       * <code>.WhereRequest whereRequest = 5;</code>
-       */
-      public Builder clearWhereRequest() {
-        if (whereRequestBuilder_ == null) {
-          if (dateBodyCase_ == 5) {
-            dateBodyCase_ = 0;
-            dateBody_ = null;
-            onChanged();
-          }
-        } else {
-          if (dateBodyCase_ == 5) {
-            dateBodyCase_ = 0;
-            dateBody_ = null;
-          }
-          whereRequestBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>.WhereRequest whereRequest = 5;</code>
-       */
-      public WhereRequest.Builder getWhereRequestBuilder() {
-        return getWhereRequestFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>.WhereRequest whereRequest = 5;</code>
-       */
-      @Override
-      public WhereRequestOrBuilder getWhereRequestOrBuilder() {
-        if ((dateBodyCase_ == 5) && (whereRequestBuilder_ != null)) {
-          return whereRequestBuilder_.getMessageOrBuilder();
-        } else {
-          if (dateBodyCase_ == 5) {
-            return (WhereRequest) dateBody_;
-          }
-          return WhereRequest.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.WhereRequest whereRequest = 5;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilderV3<
-          WhereRequest, WhereRequest.Builder, WhereRequestOrBuilder>
-          getWhereRequestFieldBuilder() {
-        if (whereRequestBuilder_ == null) {
-          if (!(dateBodyCase_ == 5)) {
-            dateBody_ = WhereRequest.getDefaultInstance();
-          }
-          whereRequestBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              WhereRequest, WhereRequest.Builder, WhereRequestOrBuilder>(
-                  (WhereRequest) dateBody_,
-                  getParentForChildren(),
-                  isClean());
-          dateBody_ = null;
-        }
-        dateBodyCase_ = 5;
-        onChanged();;
-        return whereRequestBuilder_;
-      }
-
-      private com.google.protobuf.SingleFieldBuilderV3<
           AskCanResponse, AskCanResponse.Builder, AskCanResponseOrBuilder> askCanResponseBuilder_;
       /**
-       * <code>.AskCanResponse askCanResponse = 6;</code>
+       * <code>.AskCanResponse askCanResponse = 5;</code>
        * @return Whether the askCanResponse field is set.
        */
       @Override
       public boolean hasAskCanResponse() {
-        return dateBodyCase_ == 6;
+        return dateBodyCase_ == 5;
       }
       /**
-       * <code>.AskCanResponse askCanResponse = 6;</code>
+       * <code>.AskCanResponse askCanResponse = 5;</code>
        * @return The askCanResponse.
        */
       @Override
       public AskCanResponse getAskCanResponse() {
         if (askCanResponseBuilder_ == null) {
-          if (dateBodyCase_ == 6) {
+          if (dateBodyCase_ == 5) {
             return (AskCanResponse) dateBody_;
           }
           return AskCanResponse.getDefaultInstance();
         } else {
-          if (dateBodyCase_ == 6) {
+          if (dateBodyCase_ == 5) {
             return askCanResponseBuilder_.getMessage();
           }
           return AskCanResponse.getDefaultInstance();
         }
       }
       /**
-       * <code>.AskCanResponse askCanResponse = 6;</code>
+       * <code>.AskCanResponse askCanResponse = 5;</code>
        */
       public Builder setAskCanResponse(AskCanResponse value) {
         if (askCanResponseBuilder_ == null) {
@@ -2171,11 +1854,11 @@ public final class SceneModel {
         } else {
           askCanResponseBuilder_.setMessage(value);
         }
-        dateBodyCase_ = 6;
+        dateBodyCase_ = 5;
         return this;
       }
       /**
-       * <code>.AskCanResponse askCanResponse = 6;</code>
+       * <code>.AskCanResponse askCanResponse = 5;</code>
        */
       public Builder setAskCanResponse(
           AskCanResponse.Builder builderForValue) {
@@ -2185,15 +1868,15 @@ public final class SceneModel {
         } else {
           askCanResponseBuilder_.setMessage(builderForValue.build());
         }
-        dateBodyCase_ = 6;
+        dateBodyCase_ = 5;
         return this;
       }
       /**
-       * <code>.AskCanResponse askCanResponse = 6;</code>
+       * <code>.AskCanResponse askCanResponse = 5;</code>
        */
       public Builder mergeAskCanResponse(AskCanResponse value) {
         if (askCanResponseBuilder_ == null) {
-          if (dateBodyCase_ == 6 &&
+          if (dateBodyCase_ == 5 &&
               dateBody_ != AskCanResponse.getDefaultInstance()) {
             dateBody_ = AskCanResponse.newBuilder((AskCanResponse) dateBody_)
                 .mergeFrom(value).buildPartial();
@@ -2202,26 +1885,26 @@ public final class SceneModel {
           }
           onChanged();
         } else {
-          if (dateBodyCase_ == 6) {
+          if (dateBodyCase_ == 5) {
             askCanResponseBuilder_.mergeFrom(value);
           }
           askCanResponseBuilder_.setMessage(value);
         }
-        dateBodyCase_ = 6;
+        dateBodyCase_ = 5;
         return this;
       }
       /**
-       * <code>.AskCanResponse askCanResponse = 6;</code>
+       * <code>.AskCanResponse askCanResponse = 5;</code>
        */
       public Builder clearAskCanResponse() {
         if (askCanResponseBuilder_ == null) {
-          if (dateBodyCase_ == 6) {
+          if (dateBodyCase_ == 5) {
             dateBodyCase_ = 0;
             dateBody_ = null;
             onChanged();
           }
         } else {
-          if (dateBodyCase_ == 6) {
+          if (dateBodyCase_ == 5) {
             dateBodyCase_ = 0;
             dateBody_ = null;
           }
@@ -2230,33 +1913,33 @@ public final class SceneModel {
         return this;
       }
       /**
-       * <code>.AskCanResponse askCanResponse = 6;</code>
+       * <code>.AskCanResponse askCanResponse = 5;</code>
        */
       public AskCanResponse.Builder getAskCanResponseBuilder() {
         return getAskCanResponseFieldBuilder().getBuilder();
       }
       /**
-       * <code>.AskCanResponse askCanResponse = 6;</code>
+       * <code>.AskCanResponse askCanResponse = 5;</code>
        */
       @Override
       public AskCanResponseOrBuilder getAskCanResponseOrBuilder() {
-        if ((dateBodyCase_ == 6) && (askCanResponseBuilder_ != null)) {
+        if ((dateBodyCase_ == 5) && (askCanResponseBuilder_ != null)) {
           return askCanResponseBuilder_.getMessageOrBuilder();
         } else {
-          if (dateBodyCase_ == 6) {
+          if (dateBodyCase_ == 5) {
             return (AskCanResponse) dateBody_;
           }
           return AskCanResponse.getDefaultInstance();
         }
       }
       /**
-       * <code>.AskCanResponse askCanResponse = 6;</code>
+       * <code>.AskCanResponse askCanResponse = 5;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           AskCanResponse, AskCanResponse.Builder, AskCanResponseOrBuilder>
           getAskCanResponseFieldBuilder() {
         if (askCanResponseBuilder_ == null) {
-          if (!(dateBodyCase_ == 6)) {
+          if (!(dateBodyCase_ == 5)) {
             dateBody_ = AskCanResponse.getDefaultInstance();
           }
           askCanResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
@@ -2266,7 +1949,7 @@ public final class SceneModel {
                   isClean());
           dateBody_ = null;
         }
-        dateBodyCase_ = 6;
+        dateBodyCase_ = 5;
         onChanged();;
         return askCanResponseBuilder_;
       }
@@ -2274,33 +1957,33 @@ public final class SceneModel {
       private com.google.protobuf.SingleFieldBuilderV3<
           FindAllRolesResponse, FindAllRolesResponse.Builder, FindAllRolesResponseOrBuilder> findAllRolesResponseBuilder_;
       /**
-       * <code>.FindAllRolesResponse findAllRolesResponse = 7;</code>
+       * <code>.FindAllRolesResponse findAllRolesResponse = 6;</code>
        * @return Whether the findAllRolesResponse field is set.
        */
       @Override
       public boolean hasFindAllRolesResponse() {
-        return dateBodyCase_ == 7;
+        return dateBodyCase_ == 6;
       }
       /**
-       * <code>.FindAllRolesResponse findAllRolesResponse = 7;</code>
+       * <code>.FindAllRolesResponse findAllRolesResponse = 6;</code>
        * @return The findAllRolesResponse.
        */
       @Override
       public FindAllRolesResponse getFindAllRolesResponse() {
         if (findAllRolesResponseBuilder_ == null) {
-          if (dateBodyCase_ == 7) {
+          if (dateBodyCase_ == 6) {
             return (FindAllRolesResponse) dateBody_;
           }
           return FindAllRolesResponse.getDefaultInstance();
         } else {
-          if (dateBodyCase_ == 7) {
+          if (dateBodyCase_ == 6) {
             return findAllRolesResponseBuilder_.getMessage();
           }
           return FindAllRolesResponse.getDefaultInstance();
         }
       }
       /**
-       * <code>.FindAllRolesResponse findAllRolesResponse = 7;</code>
+       * <code>.FindAllRolesResponse findAllRolesResponse = 6;</code>
        */
       public Builder setFindAllRolesResponse(FindAllRolesResponse value) {
         if (findAllRolesResponseBuilder_ == null) {
@@ -2312,11 +1995,11 @@ public final class SceneModel {
         } else {
           findAllRolesResponseBuilder_.setMessage(value);
         }
-        dateBodyCase_ = 7;
+        dateBodyCase_ = 6;
         return this;
       }
       /**
-       * <code>.FindAllRolesResponse findAllRolesResponse = 7;</code>
+       * <code>.FindAllRolesResponse findAllRolesResponse = 6;</code>
        */
       public Builder setFindAllRolesResponse(
           FindAllRolesResponse.Builder builderForValue) {
@@ -2326,15 +2009,15 @@ public final class SceneModel {
         } else {
           findAllRolesResponseBuilder_.setMessage(builderForValue.build());
         }
-        dateBodyCase_ = 7;
+        dateBodyCase_ = 6;
         return this;
       }
       /**
-       * <code>.FindAllRolesResponse findAllRolesResponse = 7;</code>
+       * <code>.FindAllRolesResponse findAllRolesResponse = 6;</code>
        */
       public Builder mergeFindAllRolesResponse(FindAllRolesResponse value) {
         if (findAllRolesResponseBuilder_ == null) {
-          if (dateBodyCase_ == 7 &&
+          if (dateBodyCase_ == 6 &&
               dateBody_ != FindAllRolesResponse.getDefaultInstance()) {
             dateBody_ = FindAllRolesResponse.newBuilder((FindAllRolesResponse) dateBody_)
                 .mergeFrom(value).buildPartial();
@@ -2343,26 +2026,26 @@ public final class SceneModel {
           }
           onChanged();
         } else {
-          if (dateBodyCase_ == 7) {
+          if (dateBodyCase_ == 6) {
             findAllRolesResponseBuilder_.mergeFrom(value);
           }
           findAllRolesResponseBuilder_.setMessage(value);
         }
-        dateBodyCase_ = 7;
+        dateBodyCase_ = 6;
         return this;
       }
       /**
-       * <code>.FindAllRolesResponse findAllRolesResponse = 7;</code>
+       * <code>.FindAllRolesResponse findAllRolesResponse = 6;</code>
        */
       public Builder clearFindAllRolesResponse() {
         if (findAllRolesResponseBuilder_ == null) {
-          if (dateBodyCase_ == 7) {
+          if (dateBodyCase_ == 6) {
             dateBodyCase_ = 0;
             dateBody_ = null;
             onChanged();
           }
         } else {
-          if (dateBodyCase_ == 7) {
+          if (dateBodyCase_ == 6) {
             dateBodyCase_ = 0;
             dateBody_ = null;
           }
@@ -2371,33 +2054,33 @@ public final class SceneModel {
         return this;
       }
       /**
-       * <code>.FindAllRolesResponse findAllRolesResponse = 7;</code>
+       * <code>.FindAllRolesResponse findAllRolesResponse = 6;</code>
        */
       public FindAllRolesResponse.Builder getFindAllRolesResponseBuilder() {
         return getFindAllRolesResponseFieldBuilder().getBuilder();
       }
       /**
-       * <code>.FindAllRolesResponse findAllRolesResponse = 7;</code>
+       * <code>.FindAllRolesResponse findAllRolesResponse = 6;</code>
        */
       @Override
       public FindAllRolesResponseOrBuilder getFindAllRolesResponseOrBuilder() {
-        if ((dateBodyCase_ == 7) && (findAllRolesResponseBuilder_ != null)) {
+        if ((dateBodyCase_ == 6) && (findAllRolesResponseBuilder_ != null)) {
           return findAllRolesResponseBuilder_.getMessageOrBuilder();
         } else {
-          if (dateBodyCase_ == 7) {
+          if (dateBodyCase_ == 6) {
             return (FindAllRolesResponse) dateBody_;
           }
           return FindAllRolesResponse.getDefaultInstance();
         }
       }
       /**
-       * <code>.FindAllRolesResponse findAllRolesResponse = 7;</code>
+       * <code>.FindAllRolesResponse findAllRolesResponse = 6;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           FindAllRolesResponse, FindAllRolesResponse.Builder, FindAllRolesResponseOrBuilder>
           getFindAllRolesResponseFieldBuilder() {
         if (findAllRolesResponseBuilder_ == null) {
-          if (!(dateBodyCase_ == 7)) {
+          if (!(dateBodyCase_ == 6)) {
             dateBody_ = FindAllRolesResponse.getDefaultInstance();
           }
           findAllRolesResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
@@ -2407,7 +2090,7 @@ public final class SceneModel {
                   isClean());
           dateBody_ = null;
         }
-        dateBodyCase_ = 7;
+        dateBodyCase_ = 6;
         onChanged();;
         return findAllRolesResponseBuilder_;
       }
@@ -2415,33 +2098,33 @@ public final class SceneModel {
       private com.google.protobuf.SingleFieldBuilderV3<
           WentResponse, WentResponse.Builder, WentResponseOrBuilder> wentResponseBuilder_;
       /**
-       * <code>.WentResponse wentResponse = 8;</code>
+       * <code>.WentResponse wentResponse = 7;</code>
        * @return Whether the wentResponse field is set.
        */
       @Override
       public boolean hasWentResponse() {
-        return dateBodyCase_ == 8;
+        return dateBodyCase_ == 7;
       }
       /**
-       * <code>.WentResponse wentResponse = 8;</code>
+       * <code>.WentResponse wentResponse = 7;</code>
        * @return The wentResponse.
        */
       @Override
       public WentResponse getWentResponse() {
         if (wentResponseBuilder_ == null) {
-          if (dateBodyCase_ == 8) {
+          if (dateBodyCase_ == 7) {
             return (WentResponse) dateBody_;
           }
           return WentResponse.getDefaultInstance();
         } else {
-          if (dateBodyCase_ == 8) {
+          if (dateBodyCase_ == 7) {
             return wentResponseBuilder_.getMessage();
           }
           return WentResponse.getDefaultInstance();
         }
       }
       /**
-       * <code>.WentResponse wentResponse = 8;</code>
+       * <code>.WentResponse wentResponse = 7;</code>
        */
       public Builder setWentResponse(WentResponse value) {
         if (wentResponseBuilder_ == null) {
@@ -2453,11 +2136,11 @@ public final class SceneModel {
         } else {
           wentResponseBuilder_.setMessage(value);
         }
-        dateBodyCase_ = 8;
+        dateBodyCase_ = 7;
         return this;
       }
       /**
-       * <code>.WentResponse wentResponse = 8;</code>
+       * <code>.WentResponse wentResponse = 7;</code>
        */
       public Builder setWentResponse(
           WentResponse.Builder builderForValue) {
@@ -2467,15 +2150,15 @@ public final class SceneModel {
         } else {
           wentResponseBuilder_.setMessage(builderForValue.build());
         }
-        dateBodyCase_ = 8;
+        dateBodyCase_ = 7;
         return this;
       }
       /**
-       * <code>.WentResponse wentResponse = 8;</code>
+       * <code>.WentResponse wentResponse = 7;</code>
        */
       public Builder mergeWentResponse(WentResponse value) {
         if (wentResponseBuilder_ == null) {
-          if (dateBodyCase_ == 8 &&
+          if (dateBodyCase_ == 7 &&
               dateBody_ != WentResponse.getDefaultInstance()) {
             dateBody_ = WentResponse.newBuilder((WentResponse) dateBody_)
                 .mergeFrom(value).buildPartial();
@@ -2484,26 +2167,26 @@ public final class SceneModel {
           }
           onChanged();
         } else {
-          if (dateBodyCase_ == 8) {
+          if (dateBodyCase_ == 7) {
             wentResponseBuilder_.mergeFrom(value);
           }
           wentResponseBuilder_.setMessage(value);
         }
-        dateBodyCase_ = 8;
+        dateBodyCase_ = 7;
         return this;
       }
       /**
-       * <code>.WentResponse wentResponse = 8;</code>
+       * <code>.WentResponse wentResponse = 7;</code>
        */
       public Builder clearWentResponse() {
         if (wentResponseBuilder_ == null) {
-          if (dateBodyCase_ == 8) {
+          if (dateBodyCase_ == 7) {
             dateBodyCase_ = 0;
             dateBody_ = null;
             onChanged();
           }
         } else {
-          if (dateBodyCase_ == 8) {
+          if (dateBodyCase_ == 7) {
             dateBodyCase_ = 0;
             dateBody_ = null;
           }
@@ -2512,33 +2195,33 @@ public final class SceneModel {
         return this;
       }
       /**
-       * <code>.WentResponse wentResponse = 8;</code>
+       * <code>.WentResponse wentResponse = 7;</code>
        */
       public WentResponse.Builder getWentResponseBuilder() {
         return getWentResponseFieldBuilder().getBuilder();
       }
       /**
-       * <code>.WentResponse wentResponse = 8;</code>
+       * <code>.WentResponse wentResponse = 7;</code>
        */
       @Override
       public WentResponseOrBuilder getWentResponseOrBuilder() {
-        if ((dateBodyCase_ == 8) && (wentResponseBuilder_ != null)) {
+        if ((dateBodyCase_ == 7) && (wentResponseBuilder_ != null)) {
           return wentResponseBuilder_.getMessageOrBuilder();
         } else {
-          if (dateBodyCase_ == 8) {
+          if (dateBodyCase_ == 7) {
             return (WentResponse) dateBody_;
           }
           return WentResponse.getDefaultInstance();
         }
       }
       /**
-       * <code>.WentResponse wentResponse = 8;</code>
+       * <code>.WentResponse wentResponse = 7;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           WentResponse, WentResponse.Builder, WentResponseOrBuilder>
           getWentResponseFieldBuilder() {
         if (wentResponseBuilder_ == null) {
-          if (!(dateBodyCase_ == 8)) {
+          if (!(dateBodyCase_ == 7)) {
             dateBody_ = WentResponse.getDefaultInstance();
           }
           wentResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
@@ -2548,182 +2231,41 @@ public final class SceneModel {
                   isClean());
           dateBody_ = null;
         }
-        dateBodyCase_ = 8;
+        dateBodyCase_ = 7;
         onChanged();;
         return wentResponseBuilder_;
       }
 
       private com.google.protobuf.SingleFieldBuilderV3<
-          WhereResponse, WhereResponse.Builder, WhereResponseOrBuilder> whereResponseBuilder_;
-      /**
-       * <code>.WhereResponse whereResponse = 9;</code>
-       * @return Whether the whereResponse field is set.
-       */
-      @Override
-      public boolean hasWhereResponse() {
-        return dateBodyCase_ == 9;
-      }
-      /**
-       * <code>.WhereResponse whereResponse = 9;</code>
-       * @return The whereResponse.
-       */
-      @Override
-      public WhereResponse getWhereResponse() {
-        if (whereResponseBuilder_ == null) {
-          if (dateBodyCase_ == 9) {
-            return (WhereResponse) dateBody_;
-          }
-          return WhereResponse.getDefaultInstance();
-        } else {
-          if (dateBodyCase_ == 9) {
-            return whereResponseBuilder_.getMessage();
-          }
-          return WhereResponse.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.WhereResponse whereResponse = 9;</code>
-       */
-      public Builder setWhereResponse(WhereResponse value) {
-        if (whereResponseBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          dateBody_ = value;
-          onChanged();
-        } else {
-          whereResponseBuilder_.setMessage(value);
-        }
-        dateBodyCase_ = 9;
-        return this;
-      }
-      /**
-       * <code>.WhereResponse whereResponse = 9;</code>
-       */
-      public Builder setWhereResponse(
-          WhereResponse.Builder builderForValue) {
-        if (whereResponseBuilder_ == null) {
-          dateBody_ = builderForValue.build();
-          onChanged();
-        } else {
-          whereResponseBuilder_.setMessage(builderForValue.build());
-        }
-        dateBodyCase_ = 9;
-        return this;
-      }
-      /**
-       * <code>.WhereResponse whereResponse = 9;</code>
-       */
-      public Builder mergeWhereResponse(WhereResponse value) {
-        if (whereResponseBuilder_ == null) {
-          if (dateBodyCase_ == 9 &&
-              dateBody_ != WhereResponse.getDefaultInstance()) {
-            dateBody_ = WhereResponse.newBuilder((WhereResponse) dateBody_)
-                .mergeFrom(value).buildPartial();
-          } else {
-            dateBody_ = value;
-          }
-          onChanged();
-        } else {
-          if (dateBodyCase_ == 9) {
-            whereResponseBuilder_.mergeFrom(value);
-          }
-          whereResponseBuilder_.setMessage(value);
-        }
-        dateBodyCase_ = 9;
-        return this;
-      }
-      /**
-       * <code>.WhereResponse whereResponse = 9;</code>
-       */
-      public Builder clearWhereResponse() {
-        if (whereResponseBuilder_ == null) {
-          if (dateBodyCase_ == 9) {
-            dateBodyCase_ = 0;
-            dateBody_ = null;
-            onChanged();
-          }
-        } else {
-          if (dateBodyCase_ == 9) {
-            dateBodyCase_ = 0;
-            dateBody_ = null;
-          }
-          whereResponseBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>.WhereResponse whereResponse = 9;</code>
-       */
-      public WhereResponse.Builder getWhereResponseBuilder() {
-        return getWhereResponseFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>.WhereResponse whereResponse = 9;</code>
-       */
-      @Override
-      public WhereResponseOrBuilder getWhereResponseOrBuilder() {
-        if ((dateBodyCase_ == 9) && (whereResponseBuilder_ != null)) {
-          return whereResponseBuilder_.getMessageOrBuilder();
-        } else {
-          if (dateBodyCase_ == 9) {
-            return (WhereResponse) dateBody_;
-          }
-          return WhereResponse.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.WhereResponse whereResponse = 9;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilderV3<
-          WhereResponse, WhereResponse.Builder, WhereResponseOrBuilder>
-          getWhereResponseFieldBuilder() {
-        if (whereResponseBuilder_ == null) {
-          if (!(dateBodyCase_ == 9)) {
-            dateBody_ = WhereResponse.getDefaultInstance();
-          }
-          whereResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              WhereResponse, WhereResponse.Builder, WhereResponseOrBuilder>(
-                  (WhereResponse) dateBody_,
-                  getParentForChildren(),
-                  isClean());
-          dateBody_ = null;
-        }
-        dateBodyCase_ = 9;
-        onChanged();;
-        return whereResponseBuilder_;
-      }
-
-      private com.google.protobuf.SingleFieldBuilderV3<
           MmoScene, MmoScene.Builder, MmoSceneOrBuilder> mmoSceneBuilder_;
       /**
-       * <code>.MmoScene mmoScene = 10;</code>
+       * <code>.MmoScene mmoScene = 8;</code>
        * @return Whether the mmoScene field is set.
        */
       @Override
       public boolean hasMmoScene() {
-        return dateBodyCase_ == 10;
+        return dateBodyCase_ == 8;
       }
       /**
-       * <code>.MmoScene mmoScene = 10;</code>
+       * <code>.MmoScene mmoScene = 8;</code>
        * @return The mmoScene.
        */
       @Override
       public MmoScene getMmoScene() {
         if (mmoSceneBuilder_ == null) {
-          if (dateBodyCase_ == 10) {
+          if (dateBodyCase_ == 8) {
             return (MmoScene) dateBody_;
           }
           return MmoScene.getDefaultInstance();
         } else {
-          if (dateBodyCase_ == 10) {
+          if (dateBodyCase_ == 8) {
             return mmoSceneBuilder_.getMessage();
           }
           return MmoScene.getDefaultInstance();
         }
       }
       /**
-       * <code>.MmoScene mmoScene = 10;</code>
+       * <code>.MmoScene mmoScene = 8;</code>
        */
       public Builder setMmoScene(MmoScene value) {
         if (mmoSceneBuilder_ == null) {
@@ -2735,11 +2277,11 @@ public final class SceneModel {
         } else {
           mmoSceneBuilder_.setMessage(value);
         }
-        dateBodyCase_ = 10;
+        dateBodyCase_ = 8;
         return this;
       }
       /**
-       * <code>.MmoScene mmoScene = 10;</code>
+       * <code>.MmoScene mmoScene = 8;</code>
        */
       public Builder setMmoScene(
           MmoScene.Builder builderForValue) {
@@ -2749,15 +2291,15 @@ public final class SceneModel {
         } else {
           mmoSceneBuilder_.setMessage(builderForValue.build());
         }
-        dateBodyCase_ = 10;
+        dateBodyCase_ = 8;
         return this;
       }
       /**
-       * <code>.MmoScene mmoScene = 10;</code>
+       * <code>.MmoScene mmoScene = 8;</code>
        */
       public Builder mergeMmoScene(MmoScene value) {
         if (mmoSceneBuilder_ == null) {
-          if (dateBodyCase_ == 10 &&
+          if (dateBodyCase_ == 8 &&
               dateBody_ != MmoScene.getDefaultInstance()) {
             dateBody_ = MmoScene.newBuilder((MmoScene) dateBody_)
                 .mergeFrom(value).buildPartial();
@@ -2766,26 +2308,26 @@ public final class SceneModel {
           }
           onChanged();
         } else {
-          if (dateBodyCase_ == 10) {
+          if (dateBodyCase_ == 8) {
             mmoSceneBuilder_.mergeFrom(value);
           }
           mmoSceneBuilder_.setMessage(value);
         }
-        dateBodyCase_ = 10;
+        dateBodyCase_ = 8;
         return this;
       }
       /**
-       * <code>.MmoScene mmoScene = 10;</code>
+       * <code>.MmoScene mmoScene = 8;</code>
        */
       public Builder clearMmoScene() {
         if (mmoSceneBuilder_ == null) {
-          if (dateBodyCase_ == 10) {
+          if (dateBodyCase_ == 8) {
             dateBodyCase_ = 0;
             dateBody_ = null;
             onChanged();
           }
         } else {
-          if (dateBodyCase_ == 10) {
+          if (dateBodyCase_ == 8) {
             dateBodyCase_ = 0;
             dateBody_ = null;
           }
@@ -2794,33 +2336,33 @@ public final class SceneModel {
         return this;
       }
       /**
-       * <code>.MmoScene mmoScene = 10;</code>
+       * <code>.MmoScene mmoScene = 8;</code>
        */
       public MmoScene.Builder getMmoSceneBuilder() {
         return getMmoSceneFieldBuilder().getBuilder();
       }
       /**
-       * <code>.MmoScene mmoScene = 10;</code>
+       * <code>.MmoScene mmoScene = 8;</code>
        */
       @Override
       public MmoSceneOrBuilder getMmoSceneOrBuilder() {
-        if ((dateBodyCase_ == 10) && (mmoSceneBuilder_ != null)) {
+        if ((dateBodyCase_ == 8) && (mmoSceneBuilder_ != null)) {
           return mmoSceneBuilder_.getMessageOrBuilder();
         } else {
-          if (dateBodyCase_ == 10) {
+          if (dateBodyCase_ == 8) {
             return (MmoScene) dateBody_;
           }
           return MmoScene.getDefaultInstance();
         }
       }
       /**
-       * <code>.MmoScene mmoScene = 10;</code>
+       * <code>.MmoScene mmoScene = 8;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           MmoScene, MmoScene.Builder, MmoSceneOrBuilder>
           getMmoSceneFieldBuilder() {
         if (mmoSceneBuilder_ == null) {
-          if (!(dateBodyCase_ == 10)) {
+          if (!(dateBodyCase_ == 8)) {
             dateBody_ = MmoScene.getDefaultInstance();
           }
           mmoSceneBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
@@ -2830,7 +2372,7 @@ public final class SceneModel {
                   isClean());
           dateBody_ = null;
         }
-        dateBodyCase_ = 10;
+        dateBodyCase_ = 8;
         onChanged();;
         return mmoSceneBuilder_;
       }
@@ -3872,12 +3414,6 @@ public final class SceneModel {
      * @return The sceneId.
      */
     int getSceneId();
-
-    /**
-     * <code>int32 playId = 2;</code>
-     * @return The playId.
-     */
-    int getPlayId();
   }
   /**
    * Protobuf type {@code WentRequest}
@@ -3929,11 +3465,6 @@ public final class SceneModel {
               sceneId_ = input.readInt32();
               break;
             }
-            case 16: {
-
-              playId_ = input.readInt32();
-              break;
-            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -3977,17 +3508,6 @@ public final class SceneModel {
       return sceneId_;
     }
 
-    public static final int PLAYID_FIELD_NUMBER = 2;
-    private int playId_;
-    /**
-     * <code>int32 playId = 2;</code>
-     * @return The playId.
-     */
-    @Override
-    public int getPlayId() {
-      return playId_;
-    }
-
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -4005,9 +3525,6 @@ public final class SceneModel {
       if (sceneId_ != 0) {
         output.writeInt32(1, sceneId_);
       }
-      if (playId_ != 0) {
-        output.writeInt32(2, playId_);
-      }
       unknownFields.writeTo(output);
     }
 
@@ -4020,10 +3537,6 @@ public final class SceneModel {
       if (sceneId_ != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(1, sceneId_);
-      }
-      if (playId_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, playId_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -4042,8 +3555,6 @@ public final class SceneModel {
 
       if (getSceneId()
           != other.getSceneId()) return false;
-      if (getPlayId()
-          != other.getPlayId()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -4057,8 +3568,6 @@ public final class SceneModel {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + SCENEID_FIELD_NUMBER;
       hash = (53 * hash) + getSceneId();
-      hash = (37 * hash) + PLAYID_FIELD_NUMBER;
-      hash = (53 * hash) + getPlayId();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -4194,8 +3703,6 @@ public final class SceneModel {
         super.clear();
         sceneId_ = 0;
 
-        playId_ = 0;
-
         return this;
       }
 
@@ -4223,7 +3730,6 @@ public final class SceneModel {
       public WentRequest buildPartial() {
         WentRequest result = new WentRequest(this);
         result.sceneId_ = sceneId_;
-        result.playId_ = playId_;
         onBuilt();
         return result;
       }
@@ -4274,9 +3780,6 @@ public final class SceneModel {
         if (other == WentRequest.getDefaultInstance()) return this;
         if (other.getSceneId() != 0) {
           setSceneId(other.getSceneId());
-        }
-        if (other.getPlayId() != 0) {
-          setPlayId(other.getPlayId());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -4337,37 +3840,6 @@ public final class SceneModel {
         onChanged();
         return this;
       }
-
-      private int playId_ ;
-      /**
-       * <code>int32 playId = 2;</code>
-       * @return The playId.
-       */
-      @Override
-      public int getPlayId() {
-        return playId_;
-      }
-      /**
-       * <code>int32 playId = 2;</code>
-       * @param value The playId to set.
-       * @return This builder for chaining.
-       */
-      public Builder setPlayId(int value) {
-        
-        playId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>int32 playId = 2;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearPlayId() {
-        
-        playId_ = 0;
-        onChanged();
-        return this;
-      }
       @Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -4421,521 +3893,26 @@ public final class SceneModel {
 
   }
 
-  public interface WhereRequestOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:WhereRequest)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>int32 playId = 1;</code>
-     * @return The playId.
-     */
-    int getPlayId();
-  }
-  /**
-   * Protobuf type {@code WhereRequest}
-   */
-  public static final class WhereRequest extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:WhereRequest)
-      WhereRequestOrBuilder {
-  private static final long serialVersionUID = 0L;
-    // Use WhereRequest.newBuilder() to construct.
-    private WhereRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private WhereRequest() {
-    }
-
-    @Override
-    @SuppressWarnings({"unused"})
-    protected Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new WhereRequest();
-    }
-
-    @Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private WhereRequest(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new NullPointerException();
-      }
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 8: {
-
-              playId_ = input.readInt32();
-              break;
-            }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return SceneModel.internal_static_WhereRequest_descriptor;
-    }
-
-    @Override
-    protected FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return SceneModel.internal_static_WhereRequest_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              WhereRequest.class, Builder.class);
-    }
-
-    public static final int PLAYID_FIELD_NUMBER = 1;
-    private int playId_;
-    /**
-     * <code>int32 playId = 1;</code>
-     * @return The playId.
-     */
-    @Override
-    public int getPlayId() {
-      return playId_;
-    }
-
-    private byte memoizedIsInitialized = -1;
-    @Override
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    @Override
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (playId_ != 0) {
-        output.writeInt32(1, playId_);
-      }
-      unknownFields.writeTo(output);
-    }
-
-    @Override
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (playId_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, playId_);
-      }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @Override
-    public boolean equals(final Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof WhereRequest)) {
-        return super.equals(obj);
-      }
-      WhereRequest other = (WhereRequest) obj;
-
-      if (getPlayId()
-          != other.getPlayId()) return false;
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
-    }
-
-    @Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + PLAYID_FIELD_NUMBER;
-      hash = (53 * hash) + getPlayId();
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static WhereRequest parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static WhereRequest parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static WhereRequest parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static WhereRequest parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static WhereRequest parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static WhereRequest parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static WhereRequest parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static WhereRequest parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static WhereRequest parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static WhereRequest parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static WhereRequest parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static WhereRequest parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    @Override
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(WhereRequest prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    @Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @Override
-    protected Builder newBuilderForType(
-        BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code WhereRequest}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:WhereRequest)
-        WhereRequestOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return SceneModel.internal_static_WhereRequest_descriptor;
-      }
-
-      @Override
-      protected FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return SceneModel.internal_static_WhereRequest_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                WhereRequest.class, Builder.class);
-      }
-
-      // Construct using SceneModel.WhereRequest.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
-      }
-      @Override
-      public Builder clear() {
-        super.clear();
-        playId_ = 0;
-
-        return this;
-      }
-
-      @Override
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return SceneModel.internal_static_WhereRequest_descriptor;
-      }
-
-      @Override
-      public WhereRequest getDefaultInstanceForType() {
-        return WhereRequest.getDefaultInstance();
-      }
-
-      @Override
-      public WhereRequest build() {
-        WhereRequest result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      @Override
-      public WhereRequest buildPartial() {
-        WhereRequest result = new WhereRequest(this);
-        result.playId_ = playId_;
-        onBuilt();
-        return result;
-      }
-
-      @Override
-      public Builder clone() {
-        return super.clone();
-      }
-      @Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return super.setField(field, value);
-      }
-      @Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
-      }
-      @Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
-      }
-      @Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, Object value) {
-        return super.setRepeatedField(field, index, value);
-      }
-      @Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return super.addRepeatedField(field, value);
-      }
-      @Override
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof WhereRequest) {
-          return mergeFrom((WhereRequest)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(WhereRequest other) {
-        if (other == WhereRequest.getDefaultInstance()) return this;
-        if (other.getPlayId() != 0) {
-          setPlayId(other.getPlayId());
-        }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      @Override
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      @Override
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        WhereRequest parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (WhereRequest) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-
-      private int playId_ ;
-      /**
-       * <code>int32 playId = 1;</code>
-       * @return The playId.
-       */
-      @Override
-      public int getPlayId() {
-        return playId_;
-      }
-      /**
-       * <code>int32 playId = 1;</code>
-       * @param value The playId to set.
-       * @return This builder for chaining.
-       */
-      public Builder setPlayId(int value) {
-        
-        playId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>int32 playId = 1;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearPlayId() {
-        
-        playId_ = 0;
-        onChanged();
-        return this;
-      }
-      @Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
-      }
-
-      @Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:WhereRequest)
-    }
-
-    // @@protoc_insertion_point(class_scope:WhereRequest)
-    private static final WhereRequest DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new WhereRequest();
-    }
-
-    public static WhereRequest getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<WhereRequest>
-        PARSER = new com.google.protobuf.AbstractParser<WhereRequest>() {
-      @Override
-      public WhereRequest parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new WhereRequest(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<WhereRequest> parser() {
-      return PARSER;
-    }
-
-    @Override
-    public com.google.protobuf.Parser<WhereRequest> getParserForType() {
-      return PARSER;
-    }
-
-    @Override
-    public WhereRequest getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
   public interface AskCanResponseOrBuilder extends
       // @@protoc_insertion_point(interface_extends:AskCanResponse)
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>repeated .MmoSimpleScene mmoSimpleScenes = 1;</code>
+     * <code>repeated int32 scenesIds = 1;</code>
+     * @return A list containing the scenesIds.
      */
-    java.util.List<MmoSimpleScene>
-        getMmoSimpleScenesList();
+    java.util.List<Integer> getScenesIdsList();
     /**
-     * <code>repeated .MmoSimpleScene mmoSimpleScenes = 1;</code>
+     * <code>repeated int32 scenesIds = 1;</code>
+     * @return The count of scenesIds.
      */
-    MmoSimpleScene getMmoSimpleScenes(int index);
+    int getScenesIdsCount();
     /**
-     * <code>repeated .MmoSimpleScene mmoSimpleScenes = 1;</code>
+     * <code>repeated int32 scenesIds = 1;</code>
+     * @param index The index of the element to return.
+     * @return The scenesIds at the given index.
      */
-    int getMmoSimpleScenesCount();
-    /**
-     * <code>repeated .MmoSimpleScene mmoSimpleScenes = 1;</code>
-     */
-    java.util.List<? extends MmoSimpleSceneOrBuilder>
-        getMmoSimpleScenesOrBuilderList();
-    /**
-     * <code>repeated .MmoSimpleScene mmoSimpleScenes = 1;</code>
-     */
-    MmoSimpleSceneOrBuilder getMmoSimpleScenesOrBuilder(
-            int index);
+    int getScenesIds(int index);
   }
   /**
    * Protobuf type {@code AskCanResponse}
@@ -4950,7 +3927,7 @@ public final class SceneModel {
       super(builder);
     }
     private AskCanResponse() {
-      mmoSimpleScenes_ = java.util.Collections.emptyList();
+      scenesIds_ = emptyIntList();
     }
 
     @Override
@@ -4984,13 +3961,25 @@ public final class SceneModel {
             case 0:
               done = true;
               break;
-            case 10: {
+            case 8: {
               if (!((mutable_bitField0_ & 0x00000001) != 0)) {
-                mmoSimpleScenes_ = new java.util.ArrayList<MmoSimpleScene>();
+                scenesIds_ = newIntList();
                 mutable_bitField0_ |= 0x00000001;
               }
-              mmoSimpleScenes_.add(
-                  input.readMessage(MmoSimpleScene.parser(), extensionRegistry));
+              scenesIds_.addInt(input.readInt32());
+              break;
+            }
+            case 10: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00000001) != 0) && input.getBytesUntilLimit() > 0) {
+                scenesIds_ = newIntList();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                scenesIds_.addInt(input.readInt32());
+              }
+              input.popLimit(limit);
               break;
             }
             default: {
@@ -5009,7 +3998,7 @@ public final class SceneModel {
             e).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000001) != 0)) {
-          mmoSimpleScenes_ = java.util.Collections.unmodifiableList(mmoSimpleScenes_);
+          scenesIds_.makeImmutable(); // C
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -5028,45 +4017,33 @@ public final class SceneModel {
               AskCanResponse.class, Builder.class);
     }
 
-    public static final int MMOSIMPLESCENES_FIELD_NUMBER = 1;
-    private java.util.List<MmoSimpleScene> mmoSimpleScenes_;
+    public static final int SCENESIDS_FIELD_NUMBER = 1;
+    private com.google.protobuf.Internal.IntList scenesIds_;
     /**
-     * <code>repeated .MmoSimpleScene mmoSimpleScenes = 1;</code>
+     * <code>repeated int32 scenesIds = 1;</code>
+     * @return A list containing the scenesIds.
      */
     @Override
-    public java.util.List<MmoSimpleScene> getMmoSimpleScenesList() {
-      return mmoSimpleScenes_;
+    public java.util.List<Integer>
+        getScenesIdsList() {
+      return scenesIds_;
     }
     /**
-     * <code>repeated .MmoSimpleScene mmoSimpleScenes = 1;</code>
+     * <code>repeated int32 scenesIds = 1;</code>
+     * @return The count of scenesIds.
      */
-    @Override
-    public java.util.List<? extends MmoSimpleSceneOrBuilder>
-        getMmoSimpleScenesOrBuilderList() {
-      return mmoSimpleScenes_;
+    public int getScenesIdsCount() {
+      return scenesIds_.size();
     }
     /**
-     * <code>repeated .MmoSimpleScene mmoSimpleScenes = 1;</code>
+     * <code>repeated int32 scenesIds = 1;</code>
+     * @param index The index of the element to return.
+     * @return The scenesIds at the given index.
      */
-    @Override
-    public int getMmoSimpleScenesCount() {
-      return mmoSimpleScenes_.size();
+    public int getScenesIds(int index) {
+      return scenesIds_.getInt(index);
     }
-    /**
-     * <code>repeated .MmoSimpleScene mmoSimpleScenes = 1;</code>
-     */
-    @Override
-    public MmoSimpleScene getMmoSimpleScenes(int index) {
-      return mmoSimpleScenes_.get(index);
-    }
-    /**
-     * <code>repeated .MmoSimpleScene mmoSimpleScenes = 1;</code>
-     */
-    @Override
-    public MmoSimpleSceneOrBuilder getMmoSimpleScenesOrBuilder(
-        int index) {
-      return mmoSimpleScenes_.get(index);
-    }
+    private int scenesIdsMemoizedSerializedSize = -1;
 
     private byte memoizedIsInitialized = -1;
     @Override
@@ -5082,8 +4059,13 @@ public final class SceneModel {
     @Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      for (int i = 0; i < mmoSimpleScenes_.size(); i++) {
-        output.writeMessage(1, mmoSimpleScenes_.get(i));
+      getSerializedSize();
+      if (getScenesIdsList().size() > 0) {
+        output.writeUInt32NoTag(10);
+        output.writeUInt32NoTag(scenesIdsMemoizedSerializedSize);
+      }
+      for (int i = 0; i < scenesIds_.size(); i++) {
+        output.writeInt32NoTag(scenesIds_.getInt(i));
       }
       unknownFields.writeTo(output);
     }
@@ -5094,9 +4076,19 @@ public final class SceneModel {
       if (size != -1) return size;
 
       size = 0;
-      for (int i = 0; i < mmoSimpleScenes_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, mmoSimpleScenes_.get(i));
+      {
+        int dataSize = 0;
+        for (int i = 0; i < scenesIds_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeInt32SizeNoTag(scenesIds_.getInt(i));
+        }
+        size += dataSize;
+        if (!getScenesIdsList().isEmpty()) {
+          size += 1;
+          size += com.google.protobuf.CodedOutputStream
+              .computeInt32SizeNoTag(dataSize);
+        }
+        scenesIdsMemoizedSerializedSize = dataSize;
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -5113,8 +4105,8 @@ public final class SceneModel {
       }
       AskCanResponse other = (AskCanResponse) obj;
 
-      if (!getMmoSimpleScenesList()
-          .equals(other.getMmoSimpleScenesList())) return false;
+      if (!getScenesIdsList()
+          .equals(other.getScenesIdsList())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -5126,9 +4118,9 @@ public final class SceneModel {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      if (getMmoSimpleScenesCount() > 0) {
-        hash = (37 * hash) + MMOSIMPLESCENES_FIELD_NUMBER;
-        hash = (53 * hash) + getMmoSimpleScenesList().hashCode();
+      if (getScenesIdsCount() > 0) {
+        hash = (37 * hash) + SCENESIDS_FIELD_NUMBER;
+        hash = (53 * hash) + getScenesIdsList().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -5258,18 +4250,13 @@ public final class SceneModel {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
-          getMmoSimpleScenesFieldBuilder();
         }
       }
       @Override
       public Builder clear() {
         super.clear();
-        if (mmoSimpleScenesBuilder_ == null) {
-          mmoSimpleScenes_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
-        } else {
-          mmoSimpleScenesBuilder_.clear();
-        }
+        scenesIds_ = emptyIntList();
+        bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
 
@@ -5297,15 +4284,11 @@ public final class SceneModel {
       public AskCanResponse buildPartial() {
         AskCanResponse result = new AskCanResponse(this);
         int from_bitField0_ = bitField0_;
-        if (mmoSimpleScenesBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) != 0)) {
-            mmoSimpleScenes_ = java.util.Collections.unmodifiableList(mmoSimpleScenes_);
-            bitField0_ = (bitField0_ & ~0x00000001);
-          }
-          result.mmoSimpleScenes_ = mmoSimpleScenes_;
-        } else {
-          result.mmoSimpleScenes_ = mmoSimpleScenesBuilder_.build();
+        if (((bitField0_ & 0x00000001) != 0)) {
+          scenesIds_.makeImmutable();
+          bitField0_ = (bitField0_ & ~0x00000001);
         }
+        result.scenesIds_ = scenesIds_;
         onBuilt();
         return result;
       }
@@ -5354,31 +4337,15 @@ public final class SceneModel {
 
       public Builder mergeFrom(AskCanResponse other) {
         if (other == AskCanResponse.getDefaultInstance()) return this;
-        if (mmoSimpleScenesBuilder_ == null) {
-          if (!other.mmoSimpleScenes_.isEmpty()) {
-            if (mmoSimpleScenes_.isEmpty()) {
-              mmoSimpleScenes_ = other.mmoSimpleScenes_;
-              bitField0_ = (bitField0_ & ~0x00000001);
-            } else {
-              ensureMmoSimpleScenesIsMutable();
-              mmoSimpleScenes_.addAll(other.mmoSimpleScenes_);
-            }
-            onChanged();
+        if (!other.scenesIds_.isEmpty()) {
+          if (scenesIds_.isEmpty()) {
+            scenesIds_ = other.scenesIds_;
+            bitField0_ = (bitField0_ & ~0x00000001);
+          } else {
+            ensureScenesIdsIsMutable();
+            scenesIds_.addAll(other.scenesIds_);
           }
-        } else {
-          if (!other.mmoSimpleScenes_.isEmpty()) {
-            if (mmoSimpleScenesBuilder_.isEmpty()) {
-              mmoSimpleScenesBuilder_.dispose();
-              mmoSimpleScenesBuilder_ = null;
-              mmoSimpleScenes_ = other.mmoSimpleScenes_;
-              bitField0_ = (bitField0_ & ~0x00000001);
-              mmoSimpleScenesBuilder_ = 
-                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                   getMmoSimpleScenesFieldBuilder() : null;
-            } else {
-              mmoSimpleScenesBuilder_.addAllMessages(other.mmoSimpleScenes_);
-            }
-          }
+          onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -5410,244 +4377,83 @@ public final class SceneModel {
       }
       private int bitField0_;
 
-      private java.util.List<MmoSimpleScene> mmoSimpleScenes_ =
-        java.util.Collections.emptyList();
-      private void ensureMmoSimpleScenesIsMutable() {
+      private com.google.protobuf.Internal.IntList scenesIds_ = emptyIntList();
+      private void ensureScenesIdsIsMutable() {
         if (!((bitField0_ & 0x00000001) != 0)) {
-          mmoSimpleScenes_ = new java.util.ArrayList<MmoSimpleScene>(mmoSimpleScenes_);
+          scenesIds_ = mutableCopy(scenesIds_);
           bitField0_ |= 0x00000001;
          }
       }
-
-      private com.google.protobuf.RepeatedFieldBuilderV3<
-          MmoSimpleScene, MmoSimpleScene.Builder, MmoSimpleSceneOrBuilder> mmoSimpleScenesBuilder_;
-
       /**
-       * <code>repeated .MmoSimpleScene mmoSimpleScenes = 1;</code>
+       * <code>repeated int32 scenesIds = 1;</code>
+       * @return A list containing the scenesIds.
        */
-      public java.util.List<MmoSimpleScene> getMmoSimpleScenesList() {
-        if (mmoSimpleScenesBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(mmoSimpleScenes_);
-        } else {
-          return mmoSimpleScenesBuilder_.getMessageList();
-        }
+      public java.util.List<Integer>
+          getScenesIdsList() {
+        return ((bitField0_ & 0x00000001) != 0) ?
+                 java.util.Collections.unmodifiableList(scenesIds_) : scenesIds_;
       }
       /**
-       * <code>repeated .MmoSimpleScene mmoSimpleScenes = 1;</code>
+       * <code>repeated int32 scenesIds = 1;</code>
+       * @return The count of scenesIds.
        */
-      public int getMmoSimpleScenesCount() {
-        if (mmoSimpleScenesBuilder_ == null) {
-          return mmoSimpleScenes_.size();
-        } else {
-          return mmoSimpleScenesBuilder_.getCount();
-        }
+      public int getScenesIdsCount() {
+        return scenesIds_.size();
       }
       /**
-       * <code>repeated .MmoSimpleScene mmoSimpleScenes = 1;</code>
+       * <code>repeated int32 scenesIds = 1;</code>
+       * @param index The index of the element to return.
+       * @return The scenesIds at the given index.
        */
-      public MmoSimpleScene getMmoSimpleScenes(int index) {
-        if (mmoSimpleScenesBuilder_ == null) {
-          return mmoSimpleScenes_.get(index);
-        } else {
-          return mmoSimpleScenesBuilder_.getMessage(index);
-        }
+      public int getScenesIds(int index) {
+        return scenesIds_.getInt(index);
       }
       /**
-       * <code>repeated .MmoSimpleScene mmoSimpleScenes = 1;</code>
+       * <code>repeated int32 scenesIds = 1;</code>
+       * @param index The index to set the value at.
+       * @param value The scenesIds to set.
+       * @return This builder for chaining.
        */
-      public Builder setMmoSimpleScenes(
-          int index, MmoSimpleScene value) {
-        if (mmoSimpleScenesBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureMmoSimpleScenesIsMutable();
-          mmoSimpleScenes_.set(index, value);
-          onChanged();
-        } else {
-          mmoSimpleScenesBuilder_.setMessage(index, value);
-        }
+      public Builder setScenesIds(
+          int index, int value) {
+        ensureScenesIdsIsMutable();
+        scenesIds_.setInt(index, value);
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .MmoSimpleScene mmoSimpleScenes = 1;</code>
+       * <code>repeated int32 scenesIds = 1;</code>
+       * @param value The scenesIds to add.
+       * @return This builder for chaining.
        */
-      public Builder setMmoSimpleScenes(
-          int index, MmoSimpleScene.Builder builderForValue) {
-        if (mmoSimpleScenesBuilder_ == null) {
-          ensureMmoSimpleScenesIsMutable();
-          mmoSimpleScenes_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          mmoSimpleScenesBuilder_.setMessage(index, builderForValue.build());
-        }
+      public Builder addScenesIds(int value) {
+        ensureScenesIdsIsMutable();
+        scenesIds_.addInt(value);
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .MmoSimpleScene mmoSimpleScenes = 1;</code>
+       * <code>repeated int32 scenesIds = 1;</code>
+       * @param values The scenesIds to add.
+       * @return This builder for chaining.
        */
-      public Builder addMmoSimpleScenes(MmoSimpleScene value) {
-        if (mmoSimpleScenesBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureMmoSimpleScenesIsMutable();
-          mmoSimpleScenes_.add(value);
-          onChanged();
-        } else {
-          mmoSimpleScenesBuilder_.addMessage(value);
-        }
+      public Builder addAllScenesIds(
+          Iterable<? extends Integer> values) {
+        ensureScenesIdsIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, scenesIds_);
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .MmoSimpleScene mmoSimpleScenes = 1;</code>
+       * <code>repeated int32 scenesIds = 1;</code>
+       * @return This builder for chaining.
        */
-      public Builder addMmoSimpleScenes(
-          int index, MmoSimpleScene value) {
-        if (mmoSimpleScenesBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureMmoSimpleScenesIsMutable();
-          mmoSimpleScenes_.add(index, value);
-          onChanged();
-        } else {
-          mmoSimpleScenesBuilder_.addMessage(index, value);
-        }
+      public Builder clearScenesIds() {
+        scenesIds_ = emptyIntList();
+        bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
         return this;
-      }
-      /**
-       * <code>repeated .MmoSimpleScene mmoSimpleScenes = 1;</code>
-       */
-      public Builder addMmoSimpleScenes(
-          MmoSimpleScene.Builder builderForValue) {
-        if (mmoSimpleScenesBuilder_ == null) {
-          ensureMmoSimpleScenesIsMutable();
-          mmoSimpleScenes_.add(builderForValue.build());
-          onChanged();
-        } else {
-          mmoSimpleScenesBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .MmoSimpleScene mmoSimpleScenes = 1;</code>
-       */
-      public Builder addMmoSimpleScenes(
-          int index, MmoSimpleScene.Builder builderForValue) {
-        if (mmoSimpleScenesBuilder_ == null) {
-          ensureMmoSimpleScenesIsMutable();
-          mmoSimpleScenes_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          mmoSimpleScenesBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .MmoSimpleScene mmoSimpleScenes = 1;</code>
-       */
-      public Builder addAllMmoSimpleScenes(
-          Iterable<? extends MmoSimpleScene> values) {
-        if (mmoSimpleScenesBuilder_ == null) {
-          ensureMmoSimpleScenesIsMutable();
-          com.google.protobuf.AbstractMessageLite.Builder.addAll(
-              values, mmoSimpleScenes_);
-          onChanged();
-        } else {
-          mmoSimpleScenesBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .MmoSimpleScene mmoSimpleScenes = 1;</code>
-       */
-      public Builder clearMmoSimpleScenes() {
-        if (mmoSimpleScenesBuilder_ == null) {
-          mmoSimpleScenes_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
-          onChanged();
-        } else {
-          mmoSimpleScenesBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .MmoSimpleScene mmoSimpleScenes = 1;</code>
-       */
-      public Builder removeMmoSimpleScenes(int index) {
-        if (mmoSimpleScenesBuilder_ == null) {
-          ensureMmoSimpleScenesIsMutable();
-          mmoSimpleScenes_.remove(index);
-          onChanged();
-        } else {
-          mmoSimpleScenesBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .MmoSimpleScene mmoSimpleScenes = 1;</code>
-       */
-      public MmoSimpleScene.Builder getMmoSimpleScenesBuilder(
-          int index) {
-        return getMmoSimpleScenesFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .MmoSimpleScene mmoSimpleScenes = 1;</code>
-       */
-      public MmoSimpleSceneOrBuilder getMmoSimpleScenesOrBuilder(
-          int index) {
-        if (mmoSimpleScenesBuilder_ == null) {
-          return mmoSimpleScenes_.get(index);  } else {
-          return mmoSimpleScenesBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .MmoSimpleScene mmoSimpleScenes = 1;</code>
-       */
-      public java.util.List<? extends MmoSimpleSceneOrBuilder>
-           getMmoSimpleScenesOrBuilderList() {
-        if (mmoSimpleScenesBuilder_ != null) {
-          return mmoSimpleScenesBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(mmoSimpleScenes_);
-        }
-      }
-      /**
-       * <code>repeated .MmoSimpleScene mmoSimpleScenes = 1;</code>
-       */
-      public MmoSimpleScene.Builder addMmoSimpleScenesBuilder() {
-        return getMmoSimpleScenesFieldBuilder().addBuilder(
-            MmoSimpleScene.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .MmoSimpleScene mmoSimpleScenes = 1;</code>
-       */
-      public MmoSimpleScene.Builder addMmoSimpleScenesBuilder(
-          int index) {
-        return getMmoSimpleScenesFieldBuilder().addBuilder(
-            index, MmoSimpleScene.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .MmoSimpleScene mmoSimpleScenes = 1;</code>
-       */
-      public java.util.List<MmoSimpleScene.Builder>
-           getMmoSimpleScenesBuilderList() {
-        return getMmoSimpleScenesFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilderV3<
-          MmoSimpleScene, MmoSimpleScene.Builder, MmoSimpleSceneOrBuilder>
-          getMmoSimpleScenesFieldBuilder() {
-        if (mmoSimpleScenesBuilder_ == null) {
-          mmoSimpleScenesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-              MmoSimpleScene, MmoSimpleScene.Builder, MmoSimpleSceneOrBuilder>(
-                  mmoSimpleScenes_,
-                  ((bitField0_ & 0x00000001) != 0),
-                  getParentForChildren(),
-                  isClean());
-          mmoSimpleScenes_ = null;
-        }
-        return mmoSimpleScenesBuilder_;
       }
       @Override
       public final Builder setUnknownFields(
@@ -5728,7 +4534,7 @@ public final class SceneModel {
      * <code>repeated .MmoSimpleRole mmoSimpleRoles = 1;</code>
      */
     MmoSimpleRoleOrBuilder getMmoSimpleRolesOrBuilder(
-            int index);
+        int index);
   }
   /**
    * Protobuf type {@code FindAllRolesResponse}
@@ -6500,19 +5306,34 @@ public final class SceneModel {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>.MmoScene mmoScene = 1;</code>
-     * @return Whether the mmoScene field is set.
+     * <code>int32 sceneId = 1;</code>
+     * @return The sceneId.
      */
-    boolean hasMmoScene();
+    int getSceneId();
+
     /**
-     * <code>.MmoScene mmoScene = 1;</code>
-     * @return The mmoScene.
+     * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
      */
-    MmoScene getMmoScene();
+    java.util.List<MmoSimpleRole>
+        getMmoSimpleRolesList();
     /**
-     * <code>.MmoScene mmoScene = 1;</code>
+     * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
      */
-    MmoSceneOrBuilder getMmoSceneOrBuilder();
+    MmoSimpleRole getMmoSimpleRoles(int index);
+    /**
+     * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+     */
+    int getMmoSimpleRolesCount();
+    /**
+     * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+     */
+    java.util.List<? extends MmoSimpleRoleOrBuilder>
+        getMmoSimpleRolesOrBuilderList();
+    /**
+     * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+     */
+    MmoSimpleRoleOrBuilder getMmoSimpleRolesOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code WentResponse}
@@ -6527,6 +5348,7 @@ public final class SceneModel {
       super(builder);
     }
     private WentResponse() {
+      mmoSimpleRoles_ = java.util.Collections.emptyList();
     }
 
     @Override
@@ -6549,6 +5371,7 @@ public final class SceneModel {
       if (extensionRegistry == null) {
         throw new NullPointerException();
       }
+      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -6559,17 +5382,18 @@ public final class SceneModel {
             case 0:
               done = true;
               break;
-            case 10: {
-              MmoScene.Builder subBuilder = null;
-              if (mmoScene_ != null) {
-                subBuilder = mmoScene_.toBuilder();
-              }
-              mmoScene_ = input.readMessage(MmoScene.parser(), extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(mmoScene_);
-                mmoScene_ = subBuilder.buildPartial();
-              }
+            case 8: {
 
+              sceneId_ = input.readInt32();
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+                mmoSimpleRoles_ = new java.util.ArrayList<MmoSimpleRole>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              mmoSimpleRoles_.add(
+                  input.readMessage(MmoSimpleRole.parser(), extensionRegistry));
               break;
             }
             default: {
@@ -6587,6 +5411,9 @@ public final class SceneModel {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+          mmoSimpleRoles_ = java.util.Collections.unmodifiableList(mmoSimpleRoles_);
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -6604,30 +5431,55 @@ public final class SceneModel {
               WentResponse.class, Builder.class);
     }
 
-    public static final int MMOSCENE_FIELD_NUMBER = 1;
-    private MmoScene mmoScene_;
+    public static final int SCENEID_FIELD_NUMBER = 1;
+    private int sceneId_;
     /**
-     * <code>.MmoScene mmoScene = 1;</code>
-     * @return Whether the mmoScene field is set.
+     * <code>int32 sceneId = 1;</code>
+     * @return The sceneId.
      */
     @Override
-    public boolean hasMmoScene() {
-      return mmoScene_ != null;
+    public int getSceneId() {
+      return sceneId_;
+    }
+
+    public static final int MMOSIMPLEROLES_FIELD_NUMBER = 2;
+    private java.util.List<MmoSimpleRole> mmoSimpleRoles_;
+    /**
+     * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+     */
+    @Override
+    public java.util.List<MmoSimpleRole> getMmoSimpleRolesList() {
+      return mmoSimpleRoles_;
     }
     /**
-     * <code>.MmoScene mmoScene = 1;</code>
-     * @return The mmoScene.
+     * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
      */
     @Override
-    public MmoScene getMmoScene() {
-      return mmoScene_ == null ? MmoScene.getDefaultInstance() : mmoScene_;
+    public java.util.List<? extends MmoSimpleRoleOrBuilder>
+        getMmoSimpleRolesOrBuilderList() {
+      return mmoSimpleRoles_;
     }
     /**
-     * <code>.MmoScene mmoScene = 1;</code>
+     * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
      */
     @Override
-    public MmoSceneOrBuilder getMmoSceneOrBuilder() {
-      return getMmoScene();
+    public int getMmoSimpleRolesCount() {
+      return mmoSimpleRoles_.size();
+    }
+    /**
+     * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+     */
+    @Override
+    public MmoSimpleRole getMmoSimpleRoles(int index) {
+      return mmoSimpleRoles_.get(index);
+    }
+    /**
+     * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+     */
+    @Override
+    public MmoSimpleRoleOrBuilder getMmoSimpleRolesOrBuilder(
+        int index) {
+      return mmoSimpleRoles_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
@@ -6644,8 +5496,11 @@ public final class SceneModel {
     @Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (mmoScene_ != null) {
-        output.writeMessage(1, getMmoScene());
+      if (sceneId_ != 0) {
+        output.writeInt32(1, sceneId_);
+      }
+      for (int i = 0; i < mmoSimpleRoles_.size(); i++) {
+        output.writeMessage(2, mmoSimpleRoles_.get(i));
       }
       unknownFields.writeTo(output);
     }
@@ -6656,9 +5511,13 @@ public final class SceneModel {
       if (size != -1) return size;
 
       size = 0;
-      if (mmoScene_ != null) {
+      if (sceneId_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, getMmoScene());
+          .computeInt32Size(1, sceneId_);
+      }
+      for (int i = 0; i < mmoSimpleRoles_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, mmoSimpleRoles_.get(i));
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -6675,11 +5534,10 @@ public final class SceneModel {
       }
       WentResponse other = (WentResponse) obj;
 
-      if (hasMmoScene() != other.hasMmoScene()) return false;
-      if (hasMmoScene()) {
-        if (!getMmoScene()
-            .equals(other.getMmoScene())) return false;
-      }
+      if (getSceneId()
+          != other.getSceneId()) return false;
+      if (!getMmoSimpleRolesList()
+          .equals(other.getMmoSimpleRolesList())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -6691,9 +5549,11 @@ public final class SceneModel {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasMmoScene()) {
-        hash = (37 * hash) + MMOSCENE_FIELD_NUMBER;
-        hash = (53 * hash) + getMmoScene().hashCode();
+      hash = (37 * hash) + SCENEID_FIELD_NUMBER;
+      hash = (53 * hash) + getSceneId();
+      if (getMmoSimpleRolesCount() > 0) {
+        hash = (37 * hash) + MMOSIMPLEROLES_FIELD_NUMBER;
+        hash = (53 * hash) + getMmoSimpleRolesList().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -6823,16 +5683,19 @@ public final class SceneModel {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
+          getMmoSimpleRolesFieldBuilder();
         }
       }
       @Override
       public Builder clear() {
         super.clear();
-        if (mmoSceneBuilder_ == null) {
-          mmoScene_ = null;
+        sceneId_ = 0;
+
+        if (mmoSimpleRolesBuilder_ == null) {
+          mmoSimpleRoles_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
-          mmoScene_ = null;
-          mmoSceneBuilder_ = null;
+          mmoSimpleRolesBuilder_.clear();
         }
         return this;
       }
@@ -6860,10 +5723,16 @@ public final class SceneModel {
       @Override
       public WentResponse buildPartial() {
         WentResponse result = new WentResponse(this);
-        if (mmoSceneBuilder_ == null) {
-          result.mmoScene_ = mmoScene_;
+        int from_bitField0_ = bitField0_;
+        result.sceneId_ = sceneId_;
+        if (mmoSimpleRolesBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) != 0)) {
+            mmoSimpleRoles_ = java.util.Collections.unmodifiableList(mmoSimpleRoles_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.mmoSimpleRoles_ = mmoSimpleRoles_;
         } else {
-          result.mmoScene_ = mmoSceneBuilder_.build();
+          result.mmoSimpleRoles_ = mmoSimpleRolesBuilder_.build();
         }
         onBuilt();
         return result;
@@ -6913,8 +5782,34 @@ public final class SceneModel {
 
       public Builder mergeFrom(WentResponse other) {
         if (other == WentResponse.getDefaultInstance()) return this;
-        if (other.hasMmoScene()) {
-          mergeMmoScene(other.getMmoScene());
+        if (other.getSceneId() != 0) {
+          setSceneId(other.getSceneId());
+        }
+        if (mmoSimpleRolesBuilder_ == null) {
+          if (!other.mmoSimpleRoles_.isEmpty()) {
+            if (mmoSimpleRoles_.isEmpty()) {
+              mmoSimpleRoles_ = other.mmoSimpleRoles_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureMmoSimpleRolesIsMutable();
+              mmoSimpleRoles_.addAll(other.mmoSimpleRoles_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.mmoSimpleRoles_.isEmpty()) {
+            if (mmoSimpleRolesBuilder_.isEmpty()) {
+              mmoSimpleRolesBuilder_.dispose();
+              mmoSimpleRolesBuilder_ = null;
+              mmoSimpleRoles_ = other.mmoSimpleRoles_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              mmoSimpleRolesBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getMmoSimpleRolesFieldBuilder() : null;
+            } else {
+              mmoSimpleRolesBuilder_.addAllMessages(other.mmoSimpleRoles_);
+            }
+          }
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -6944,124 +5839,277 @@ public final class SceneModel {
         }
         return this;
       }
+      private int bitField0_;
 
-      private MmoScene mmoScene_;
-      private com.google.protobuf.SingleFieldBuilderV3<
-          MmoScene, MmoScene.Builder, MmoSceneOrBuilder> mmoSceneBuilder_;
+      private int sceneId_ ;
       /**
-       * <code>.MmoScene mmoScene = 1;</code>
-       * @return Whether the mmoScene field is set.
+       * <code>int32 sceneId = 1;</code>
+       * @return The sceneId.
        */
-      public boolean hasMmoScene() {
-        return mmoSceneBuilder_ != null || mmoScene_ != null;
+      @Override
+      public int getSceneId() {
+        return sceneId_;
       }
       /**
-       * <code>.MmoScene mmoScene = 1;</code>
-       * @return The mmoScene.
+       * <code>int32 sceneId = 1;</code>
+       * @param value The sceneId to set.
+       * @return This builder for chaining.
        */
-      public MmoScene getMmoScene() {
-        if (mmoSceneBuilder_ == null) {
-          return mmoScene_ == null ? MmoScene.getDefaultInstance() : mmoScene_;
+      public Builder setSceneId(int value) {
+        
+        sceneId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 sceneId = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSceneId() {
+        
+        sceneId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.util.List<MmoSimpleRole> mmoSimpleRoles_ =
+        java.util.Collections.emptyList();
+      private void ensureMmoSimpleRolesIsMutable() {
+        if (!((bitField0_ & 0x00000001) != 0)) {
+          mmoSimpleRoles_ = new java.util.ArrayList<MmoSimpleRole>(mmoSimpleRoles_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          MmoSimpleRole, MmoSimpleRole.Builder, MmoSimpleRoleOrBuilder> mmoSimpleRolesBuilder_;
+
+      /**
+       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+       */
+      public java.util.List<MmoSimpleRole> getMmoSimpleRolesList() {
+        if (mmoSimpleRolesBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(mmoSimpleRoles_);
         } else {
-          return mmoSceneBuilder_.getMessage();
+          return mmoSimpleRolesBuilder_.getMessageList();
         }
       }
       /**
-       * <code>.MmoScene mmoScene = 1;</code>
+       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
        */
-      public Builder setMmoScene(MmoScene value) {
-        if (mmoSceneBuilder_ == null) {
+      public int getMmoSimpleRolesCount() {
+        if (mmoSimpleRolesBuilder_ == null) {
+          return mmoSimpleRoles_.size();
+        } else {
+          return mmoSimpleRolesBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+       */
+      public MmoSimpleRole getMmoSimpleRoles(int index) {
+        if (mmoSimpleRolesBuilder_ == null) {
+          return mmoSimpleRoles_.get(index);
+        } else {
+          return mmoSimpleRolesBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+       */
+      public Builder setMmoSimpleRoles(
+          int index, MmoSimpleRole value) {
+        if (mmoSimpleRolesBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          mmoScene_ = value;
+          ensureMmoSimpleRolesIsMutable();
+          mmoSimpleRoles_.set(index, value);
           onChanged();
         } else {
-          mmoSceneBuilder_.setMessage(value);
+          mmoSimpleRolesBuilder_.setMessage(index, value);
         }
-
         return this;
       }
       /**
-       * <code>.MmoScene mmoScene = 1;</code>
+       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
        */
-      public Builder setMmoScene(
-          MmoScene.Builder builderForValue) {
-        if (mmoSceneBuilder_ == null) {
-          mmoScene_ = builderForValue.build();
+      public Builder setMmoSimpleRoles(
+          int index, MmoSimpleRole.Builder builderForValue) {
+        if (mmoSimpleRolesBuilder_ == null) {
+          ensureMmoSimpleRolesIsMutable();
+          mmoSimpleRoles_.set(index, builderForValue.build());
           onChanged();
         } else {
-          mmoSceneBuilder_.setMessage(builderForValue.build());
+          mmoSimpleRolesBuilder_.setMessage(index, builderForValue.build());
         }
-
         return this;
       }
       /**
-       * <code>.MmoScene mmoScene = 1;</code>
+       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
        */
-      public Builder mergeMmoScene(MmoScene value) {
-        if (mmoSceneBuilder_ == null) {
-          if (mmoScene_ != null) {
-            mmoScene_ =
-              MmoScene.newBuilder(mmoScene_).mergeFrom(value).buildPartial();
-          } else {
-            mmoScene_ = value;
+      public Builder addMmoSimpleRoles(MmoSimpleRole value) {
+        if (mmoSimpleRolesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
           }
+          ensureMmoSimpleRolesIsMutable();
+          mmoSimpleRoles_.add(value);
           onChanged();
         } else {
-          mmoSceneBuilder_.mergeFrom(value);
+          mmoSimpleRolesBuilder_.addMessage(value);
         }
-
         return this;
       }
       /**
-       * <code>.MmoScene mmoScene = 1;</code>
+       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
        */
-      public Builder clearMmoScene() {
-        if (mmoSceneBuilder_ == null) {
-          mmoScene_ = null;
+      public Builder addMmoSimpleRoles(
+          int index, MmoSimpleRole value) {
+        if (mmoSimpleRolesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureMmoSimpleRolesIsMutable();
+          mmoSimpleRoles_.add(index, value);
           onChanged();
         } else {
-          mmoScene_ = null;
-          mmoSceneBuilder_ = null;
+          mmoSimpleRolesBuilder_.addMessage(index, value);
         }
-
         return this;
       }
       /**
-       * <code>.MmoScene mmoScene = 1;</code>
+       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
        */
-      public MmoScene.Builder getMmoSceneBuilder() {
-        
-        onChanged();
-        return getMmoSceneFieldBuilder().getBuilder();
+      public Builder addMmoSimpleRoles(
+          MmoSimpleRole.Builder builderForValue) {
+        if (mmoSimpleRolesBuilder_ == null) {
+          ensureMmoSimpleRolesIsMutable();
+          mmoSimpleRoles_.add(builderForValue.build());
+          onChanged();
+        } else {
+          mmoSimpleRolesBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
       }
       /**
-       * <code>.MmoScene mmoScene = 1;</code>
+       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
        */
-      public MmoSceneOrBuilder getMmoSceneOrBuilder() {
-        if (mmoSceneBuilder_ != null) {
-          return mmoSceneBuilder_.getMessageOrBuilder();
+      public Builder addMmoSimpleRoles(
+          int index, MmoSimpleRole.Builder builderForValue) {
+        if (mmoSimpleRolesBuilder_ == null) {
+          ensureMmoSimpleRolesIsMutable();
+          mmoSimpleRoles_.add(index, builderForValue.build());
+          onChanged();
         } else {
-          return mmoScene_ == null ?
-              MmoScene.getDefaultInstance() : mmoScene_;
+          mmoSimpleRolesBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+       */
+      public Builder addAllMmoSimpleRoles(
+          Iterable<? extends MmoSimpleRole> values) {
+        if (mmoSimpleRolesBuilder_ == null) {
+          ensureMmoSimpleRolesIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, mmoSimpleRoles_);
+          onChanged();
+        } else {
+          mmoSimpleRolesBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+       */
+      public Builder clearMmoSimpleRoles() {
+        if (mmoSimpleRolesBuilder_ == null) {
+          mmoSimpleRoles_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          mmoSimpleRolesBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+       */
+      public Builder removeMmoSimpleRoles(int index) {
+        if (mmoSimpleRolesBuilder_ == null) {
+          ensureMmoSimpleRolesIsMutable();
+          mmoSimpleRoles_.remove(index);
+          onChanged();
+        } else {
+          mmoSimpleRolesBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+       */
+      public MmoSimpleRole.Builder getMmoSimpleRolesBuilder(
+          int index) {
+        return getMmoSimpleRolesFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+       */
+      public MmoSimpleRoleOrBuilder getMmoSimpleRolesOrBuilder(
+          int index) {
+        if (mmoSimpleRolesBuilder_ == null) {
+          return mmoSimpleRoles_.get(index);  } else {
+          return mmoSimpleRolesBuilder_.getMessageOrBuilder(index);
         }
       }
       /**
-       * <code>.MmoScene mmoScene = 1;</code>
+       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
        */
-      private com.google.protobuf.SingleFieldBuilderV3<
-          MmoScene, MmoScene.Builder, MmoSceneOrBuilder>
-          getMmoSceneFieldBuilder() {
-        if (mmoSceneBuilder_ == null) {
-          mmoSceneBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              MmoScene, MmoScene.Builder, MmoSceneOrBuilder>(
-                  getMmoScene(),
+      public java.util.List<? extends MmoSimpleRoleOrBuilder>
+           getMmoSimpleRolesOrBuilderList() {
+        if (mmoSimpleRolesBuilder_ != null) {
+          return mmoSimpleRolesBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(mmoSimpleRoles_);
+        }
+      }
+      /**
+       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+       */
+      public MmoSimpleRole.Builder addMmoSimpleRolesBuilder() {
+        return getMmoSimpleRolesFieldBuilder().addBuilder(
+            MmoSimpleRole.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+       */
+      public MmoSimpleRole.Builder addMmoSimpleRolesBuilder(
+          int index) {
+        return getMmoSimpleRolesFieldBuilder().addBuilder(
+            index, MmoSimpleRole.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+       */
+      public java.util.List<MmoSimpleRole.Builder>
+           getMmoSimpleRolesBuilderList() {
+        return getMmoSimpleRolesFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          MmoSimpleRole, MmoSimpleRole.Builder, MmoSimpleRoleOrBuilder>
+          getMmoSimpleRolesFieldBuilder() {
+        if (mmoSimpleRolesBuilder_ == null) {
+          mmoSimpleRolesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              MmoSimpleRole, MmoSimpleRole.Builder, MmoSimpleRoleOrBuilder>(
+                  mmoSimpleRoles_,
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
-          mmoScene_ = null;
+          mmoSimpleRoles_ = null;
         }
-        return mmoSceneBuilder_;
+        return mmoSimpleRolesBuilder_;
       }
       @Override
       public final Builder setUnknownFields(
@@ -7116,627 +6164,6 @@ public final class SceneModel {
 
   }
 
-  public interface WhereResponseOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:WhereResponse)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>.MmoScene mmoScene = 1;</code>
-     * @return Whether the mmoScene field is set.
-     */
-    boolean hasMmoScene();
-    /**
-     * <code>.MmoScene mmoScene = 1;</code>
-     * @return The mmoScene.
-     */
-    MmoScene getMmoScene();
-    /**
-     * <code>.MmoScene mmoScene = 1;</code>
-     */
-    MmoSceneOrBuilder getMmoSceneOrBuilder();
-  }
-  /**
-   * Protobuf type {@code WhereResponse}
-   */
-  public static final class WhereResponse extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:WhereResponse)
-      WhereResponseOrBuilder {
-  private static final long serialVersionUID = 0L;
-    // Use WhereResponse.newBuilder() to construct.
-    private WhereResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private WhereResponse() {
-    }
-
-    @Override
-    @SuppressWarnings({"unused"})
-    protected Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new WhereResponse();
-    }
-
-    @Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private WhereResponse(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new NullPointerException();
-      }
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 10: {
-              MmoScene.Builder subBuilder = null;
-              if (mmoScene_ != null) {
-                subBuilder = mmoScene_.toBuilder();
-              }
-              mmoScene_ = input.readMessage(MmoScene.parser(), extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(mmoScene_);
-                mmoScene_ = subBuilder.buildPartial();
-              }
-
-              break;
-            }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return SceneModel.internal_static_WhereResponse_descriptor;
-    }
-
-    @Override
-    protected FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return SceneModel.internal_static_WhereResponse_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              WhereResponse.class, Builder.class);
-    }
-
-    public static final int MMOSCENE_FIELD_NUMBER = 1;
-    private MmoScene mmoScene_;
-    /**
-     * <code>.MmoScene mmoScene = 1;</code>
-     * @return Whether the mmoScene field is set.
-     */
-    @Override
-    public boolean hasMmoScene() {
-      return mmoScene_ != null;
-    }
-    /**
-     * <code>.MmoScene mmoScene = 1;</code>
-     * @return The mmoScene.
-     */
-    @Override
-    public MmoScene getMmoScene() {
-      return mmoScene_ == null ? MmoScene.getDefaultInstance() : mmoScene_;
-    }
-    /**
-     * <code>.MmoScene mmoScene = 1;</code>
-     */
-    @Override
-    public MmoSceneOrBuilder getMmoSceneOrBuilder() {
-      return getMmoScene();
-    }
-
-    private byte memoizedIsInitialized = -1;
-    @Override
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    @Override
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (mmoScene_ != null) {
-        output.writeMessage(1, getMmoScene());
-      }
-      unknownFields.writeTo(output);
-    }
-
-    @Override
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (mmoScene_ != null) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, getMmoScene());
-      }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @Override
-    public boolean equals(final Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof WhereResponse)) {
-        return super.equals(obj);
-      }
-      WhereResponse other = (WhereResponse) obj;
-
-      if (hasMmoScene() != other.hasMmoScene()) return false;
-      if (hasMmoScene()) {
-        if (!getMmoScene()
-            .equals(other.getMmoScene())) return false;
-      }
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
-    }
-
-    @Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasMmoScene()) {
-        hash = (37 * hash) + MMOSCENE_FIELD_NUMBER;
-        hash = (53 * hash) + getMmoScene().hashCode();
-      }
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static WhereResponse parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static WhereResponse parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static WhereResponse parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static WhereResponse parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static WhereResponse parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static WhereResponse parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static WhereResponse parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static WhereResponse parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static WhereResponse parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static WhereResponse parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static WhereResponse parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static WhereResponse parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    @Override
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(WhereResponse prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    @Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @Override
-    protected Builder newBuilderForType(
-        BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code WhereResponse}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:WhereResponse)
-        WhereResponseOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return SceneModel.internal_static_WhereResponse_descriptor;
-      }
-
-      @Override
-      protected FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return SceneModel.internal_static_WhereResponse_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                WhereResponse.class, Builder.class);
-      }
-
-      // Construct using SceneModel.WhereResponse.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
-      }
-      @Override
-      public Builder clear() {
-        super.clear();
-        if (mmoSceneBuilder_ == null) {
-          mmoScene_ = null;
-        } else {
-          mmoScene_ = null;
-          mmoSceneBuilder_ = null;
-        }
-        return this;
-      }
-
-      @Override
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return SceneModel.internal_static_WhereResponse_descriptor;
-      }
-
-      @Override
-      public WhereResponse getDefaultInstanceForType() {
-        return WhereResponse.getDefaultInstance();
-      }
-
-      @Override
-      public WhereResponse build() {
-        WhereResponse result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      @Override
-      public WhereResponse buildPartial() {
-        WhereResponse result = new WhereResponse(this);
-        if (mmoSceneBuilder_ == null) {
-          result.mmoScene_ = mmoScene_;
-        } else {
-          result.mmoScene_ = mmoSceneBuilder_.build();
-        }
-        onBuilt();
-        return result;
-      }
-
-      @Override
-      public Builder clone() {
-        return super.clone();
-      }
-      @Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return super.setField(field, value);
-      }
-      @Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
-      }
-      @Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
-      }
-      @Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, Object value) {
-        return super.setRepeatedField(field, index, value);
-      }
-      @Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return super.addRepeatedField(field, value);
-      }
-      @Override
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof WhereResponse) {
-          return mergeFrom((WhereResponse)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(WhereResponse other) {
-        if (other == WhereResponse.getDefaultInstance()) return this;
-        if (other.hasMmoScene()) {
-          mergeMmoScene(other.getMmoScene());
-        }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      @Override
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      @Override
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        WhereResponse parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (WhereResponse) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-
-      private MmoScene mmoScene_;
-      private com.google.protobuf.SingleFieldBuilderV3<
-          MmoScene, MmoScene.Builder, MmoSceneOrBuilder> mmoSceneBuilder_;
-      /**
-       * <code>.MmoScene mmoScene = 1;</code>
-       * @return Whether the mmoScene field is set.
-       */
-      public boolean hasMmoScene() {
-        return mmoSceneBuilder_ != null || mmoScene_ != null;
-      }
-      /**
-       * <code>.MmoScene mmoScene = 1;</code>
-       * @return The mmoScene.
-       */
-      public MmoScene getMmoScene() {
-        if (mmoSceneBuilder_ == null) {
-          return mmoScene_ == null ? MmoScene.getDefaultInstance() : mmoScene_;
-        } else {
-          return mmoSceneBuilder_.getMessage();
-        }
-      }
-      /**
-       * <code>.MmoScene mmoScene = 1;</code>
-       */
-      public Builder setMmoScene(MmoScene value) {
-        if (mmoSceneBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          mmoScene_ = value;
-          onChanged();
-        } else {
-          mmoSceneBuilder_.setMessage(value);
-        }
-
-        return this;
-      }
-      /**
-       * <code>.MmoScene mmoScene = 1;</code>
-       */
-      public Builder setMmoScene(
-          MmoScene.Builder builderForValue) {
-        if (mmoSceneBuilder_ == null) {
-          mmoScene_ = builderForValue.build();
-          onChanged();
-        } else {
-          mmoSceneBuilder_.setMessage(builderForValue.build());
-        }
-
-        return this;
-      }
-      /**
-       * <code>.MmoScene mmoScene = 1;</code>
-       */
-      public Builder mergeMmoScene(MmoScene value) {
-        if (mmoSceneBuilder_ == null) {
-          if (mmoScene_ != null) {
-            mmoScene_ =
-              MmoScene.newBuilder(mmoScene_).mergeFrom(value).buildPartial();
-          } else {
-            mmoScene_ = value;
-          }
-          onChanged();
-        } else {
-          mmoSceneBuilder_.mergeFrom(value);
-        }
-
-        return this;
-      }
-      /**
-       * <code>.MmoScene mmoScene = 1;</code>
-       */
-      public Builder clearMmoScene() {
-        if (mmoSceneBuilder_ == null) {
-          mmoScene_ = null;
-          onChanged();
-        } else {
-          mmoScene_ = null;
-          mmoSceneBuilder_ = null;
-        }
-
-        return this;
-      }
-      /**
-       * <code>.MmoScene mmoScene = 1;</code>
-       */
-      public MmoScene.Builder getMmoSceneBuilder() {
-        
-        onChanged();
-        return getMmoSceneFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>.MmoScene mmoScene = 1;</code>
-       */
-      public MmoSceneOrBuilder getMmoSceneOrBuilder() {
-        if (mmoSceneBuilder_ != null) {
-          return mmoSceneBuilder_.getMessageOrBuilder();
-        } else {
-          return mmoScene_ == null ?
-              MmoScene.getDefaultInstance() : mmoScene_;
-        }
-      }
-      /**
-       * <code>.MmoScene mmoScene = 1;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilderV3<
-          MmoScene, MmoScene.Builder, MmoSceneOrBuilder>
-          getMmoSceneFieldBuilder() {
-        if (mmoSceneBuilder_ == null) {
-          mmoSceneBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              MmoScene, MmoScene.Builder, MmoSceneOrBuilder>(
-                  getMmoScene(),
-                  getParentForChildren(),
-                  isClean());
-          mmoScene_ = null;
-        }
-        return mmoSceneBuilder_;
-      }
-      @Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
-      }
-
-      @Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:WhereResponse)
-    }
-
-    // @@protoc_insertion_point(class_scope:WhereResponse)
-    private static final WhereResponse DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new WhereResponse();
-    }
-
-    public static WhereResponse getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<WhereResponse>
-        PARSER = new com.google.protobuf.AbstractParser<WhereResponse>() {
-      @Override
-      public WhereResponse parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new WhereResponse(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<WhereResponse> parser() {
-      return PARSER;
-    }
-
-    @Override
-    public com.google.protobuf.Parser<WhereResponse> getParserForType() {
-      return PARSER;
-    }
-
-    @Override
-    public WhereResponse getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
   public interface MmoSceneOrBuilder extends
       // @@protoc_insertion_point(interface_extends:MmoScene)
       com.google.protobuf.MessageOrBuilder {
@@ -7781,7 +6208,7 @@ public final class SceneModel {
      * <code>repeated .MmoSimpleScene canScene = 3;</code>
      */
     MmoSimpleSceneOrBuilder getCanSceneOrBuilder(
-            int index);
+        int index);
 
     /**
      * <code>repeated .MmoSimpleRole roles = 4;</code>
@@ -7805,7 +6232,7 @@ public final class SceneModel {
      * <code>repeated .MmoSimpleRole roles = 4;</code>
      */
     MmoSimpleRoleOrBuilder getRolesOrBuilder(
-            int index);
+        int index);
   }
   /**
    * Protobuf type {@code MmoScene}
@@ -10869,11 +9296,6 @@ public final class SceneModel {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_WentRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_WhereRequest_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_WhereRequest_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_AskCanResponse_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -10888,11 +9310,6 @@ public final class SceneModel {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_WentResponse_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_WhereResponse_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_WhereResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_MmoScene_descriptor;
   private static final 
@@ -10917,39 +9334,35 @@ public final class SceneModel {
       descriptor;
   static {
     String[] descriptorData = {
-      "\n\020SceneModel.proto\"\371\004\n\021SceneModelMessage" +
+      "\n\020SceneModel.proto\"\251\004\n\021SceneModelMessage" +
       "\022.\n\tdata_type\030\001 \001(\0162\033.SceneModelMessage." +
       "DateType\022\'\n\raskCanRequest\030\002 \001(\0132\016.AskCan" +
       "RequestH\000\0223\n\023findAllRolesRequest\030\003 \001(\0132\024" +
       ".FindAllRolesRequestH\000\022#\n\013wentRequest\030\004 " +
-      "\001(\0132\014.WentRequestH\000\022%\n\014whereRequest\030\005 \001(" +
-      "\0132\r.WhereRequestH\000\022)\n\016askCanResponse\030\006 \001" +
-      "(\0132\017.AskCanResponseH\000\0225\n\024findAllRolesRes" +
-      "ponse\030\007 \001(\0132\025.FindAllRolesResponseH\000\022%\n\014" +
-      "wentResponse\030\010 \001(\0132\r.WentResponseH\000\022\'\n\rw" +
-      "hereResponse\030\t \001(\0132\016.WhereResponseH\000\022\035\n\010" +
-      "mmoScene\030\n \001(\0132\t.MmoSceneH\000\"\254\001\n\010DateType" +
+      "\001(\0132\014.WentRequestH\000\022)\n\016askCanResponse\030\005 " +
+      "\001(\0132\017.AskCanResponseH\000\0225\n\024findAllRolesRe" +
+      "sponse\030\006 \001(\0132\025.FindAllRolesResponseH\000\022%\n" +
+      "\014wentResponse\030\007 \001(\0132\r.WentResponseH\000\022\035\n\010" +
+      "mmoScene\030\010 \001(\0132\t.MmoSceneH\000\"\254\001\n\010DateType" +
       "\022\021\n\rAskCanRequest\020\000\022\027\n\023FindAllRolesReque" +
       "st\020\001\022\017\n\013WentRequest\020\002\022\020\n\014WhereRequest\020\003\022" +
       "\022\n\016AskCanResponse\020\004\022\030\n\024FindAllRolesRespo" +
       "nse\020\005\022\020\n\014WentResponse\020\006\022\021\n\rWhereResponse" +
       "\020\007B\n\n\010dateBody\" \n\rAskCanRequest\022\017\n\007scene" +
       "Id\030\001 \001(\005\"&\n\023FindAllRolesRequest\022\017\n\007scene" +
-      "Id\030\001 \001(\005\".\n\013WentRequest\022\017\n\007sceneId\030\001 \001(\005" +
-      "\022\016\n\006playId\030\002 \001(\005\"\036\n\014WhereRequest\022\016\n\006play" +
-      "Id\030\001 \001(\005\":\n\016AskCanResponse\022(\n\017mmoSimpleS" +
-      "cenes\030\001 \003(\0132\017.MmoSimpleScene\">\n\024FindAllR" +
-      "olesResponse\022&\n\016mmoSimpleRoles\030\001 \003(\0132\016.M" +
-      "moSimpleRole\"+\n\014WentResponse\022\033\n\010mmoScene" +
-      "\030\001 \001(\0132\t.MmoScene\",\n\rWhereResponse\022\033\n\010mm" +
-      "oScene\030\001 \001(\0132\t.MmoScene\"k\n\010MmoScene\022\n\n\002i" +
-      "d\030\001 \001(\005\022\021\n\tplaceName\030\002 \001(\t\022!\n\010canScene\030\003" +
-      " \003(\0132\017.MmoSimpleScene\022\035\n\005roles\030\004 \003(\0132\016.M" +
-      "moSimpleRole\"Y\n\rMmoSimpleRole\022\n\n\002id\030\001 \001(" +
-      "\005\022\014\n\004name\030\002 \001(\t\022\016\n\006status\030\003 \001(\t\022\014\n\004type\030" +
-      "\004 \001(\t\022\020\n\010onStatus\030\005 \001(\t\"/\n\016MmoSimpleScen" +
-      "e\022\n\n\002id\030\001 \001(\005\022\021\n\tpalceName\030\002 \001(\tB\014B\nScen" +
-      "eModelb\006proto3"
+      "Id\030\001 \001(\005\"\036\n\013WentRequest\022\017\n\007sceneId\030\001 \001(\005" +
+      "\"#\n\016AskCanResponse\022\021\n\tscenesIds\030\001 \003(\005\">\n" +
+      "\024FindAllRolesResponse\022&\n\016mmoSimpleRoles\030" +
+      "\001 \003(\0132\016.MmoSimpleRole\"G\n\014WentResponse\022\017\n" +
+      "\007sceneId\030\001 \001(\005\022&\n\016mmoSimpleRoles\030\002 \003(\0132\016" +
+      ".MmoSimpleRole\"k\n\010MmoScene\022\n\n\002id\030\001 \001(\005\022\021" +
+      "\n\tplaceName\030\002 \001(\t\022!\n\010canScene\030\003 \003(\0132\017.Mm" +
+      "oSimpleScene\022\035\n\005roles\030\004 \003(\0132\016.MmoSimpleR" +
+      "ole\"Y\n\rMmoSimpleRole\022\n\n\002id\030\001 \001(\005\022\014\n\004name" +
+      "\030\002 \001(\t\022\016\n\006status\030\003 \001(\t\022\014\n\004type\030\004 \001(\t\022\020\n\010" +
+      "onStatus\030\005 \001(\t\"/\n\016MmoSimpleScene\022\n\n\002id\030\001" +
+      " \001(\005\022\021\n\tpalceName\030\002 \001(\tB\014B\nSceneModelb\006p" +
+      "roto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -10960,7 +9373,7 @@ public final class SceneModel {
     internal_static_SceneModelMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SceneModelMessage_descriptor,
-        new String[] { "DataType", "AskCanRequest", "FindAllRolesRequest", "WentRequest", "WhereRequest", "AskCanResponse", "FindAllRolesResponse", "WentResponse", "WhereResponse", "MmoScene", "DateBody", });
+        new String[] { "DataType", "AskCanRequest", "FindAllRolesRequest", "WentRequest", "AskCanResponse", "FindAllRolesResponse", "WentResponse", "MmoScene", "DateBody", });
     internal_static_AskCanRequest_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_AskCanRequest_fieldAccessorTable = new
@@ -10978,51 +9391,39 @@ public final class SceneModel {
     internal_static_WentRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_WentRequest_descriptor,
-        new String[] { "SceneId", "PlayId", });
-    internal_static_WhereRequest_descriptor =
-      getDescriptor().getMessageTypes().get(4);
-    internal_static_WhereRequest_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_WhereRequest_descriptor,
-        new String[] { "PlayId", });
+        new String[] { "SceneId", });
     internal_static_AskCanResponse_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(4);
     internal_static_AskCanResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_AskCanResponse_descriptor,
-        new String[] { "MmoSimpleScenes", });
+        new String[] { "ScenesIds", });
     internal_static_FindAllRolesResponse_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_FindAllRolesResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_FindAllRolesResponse_descriptor,
         new String[] { "MmoSimpleRoles", });
     internal_static_WentResponse_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_WentResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_WentResponse_descriptor,
-        new String[] { "MmoScene", });
-    internal_static_WhereResponse_descriptor =
-      getDescriptor().getMessageTypes().get(8);
-    internal_static_WhereResponse_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_WhereResponse_descriptor,
-        new String[] { "MmoScene", });
+        new String[] { "SceneId", "MmoSimpleRoles", });
     internal_static_MmoScene_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_MmoScene_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_MmoScene_descriptor,
         new String[] { "Id", "PlaceName", "CanScene", "Roles", });
     internal_static_MmoSimpleRole_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_MmoSimpleRole_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_MmoSimpleRole_descriptor,
         new String[] { "Id", "Name", "Status", "Type", "OnStatus", });
     internal_static_MmoSimpleScene_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_MmoSimpleScene_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_MmoSimpleScene_descriptor,

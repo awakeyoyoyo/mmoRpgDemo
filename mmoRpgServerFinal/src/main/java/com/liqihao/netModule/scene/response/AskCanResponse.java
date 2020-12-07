@@ -5,5 +5,5 @@ import com.liqihao.pojo.MmoSimpleScene;
 import java.util.List;
 
 public class AskCanResponse {
-    private List<MmoSimpleScene> mmoSimpleScenes;
+    private List<Integer> scenesIds;
 }

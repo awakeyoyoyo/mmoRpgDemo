@@ -6,39 +6,34 @@ import com.liqihao.commons.*;
 import com.liqihao.dao.MmoRolePOJOMapper;
 import com.liqihao.dao.MmoScenePOJOMapper;
 import com.liqihao.pojo.*;
+import com.liqihao.pojo.baseMessage.NPCMessage;
+import com.liqihao.pojo.baseMessage.SceneMessage;
 import com.liqihao.protobufObject.SceneModel;
 import com.liqihao.service.SceneService;
 import com.liqihao.util.CommonsUtil;
+import io.netty.channel.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 
+import javax.management.relation.Role;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
-public class SceneServiceImpl implements SceneService, ApplicationContextAware {
+public class SceneServiceImpl implements SceneService {
     private static final Logger log = LoggerFactory.getLogger(SceneServiceImpl.class);
     @Autowired
     private MmoScenePOJOMapper mmoScenePOJOMapper;
     @Autowired
     private MmoRolePOJOMapper mmoRolePOJOMapper;
 
-    private ApplicationContext applicationContext;
 
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
-
-    @Override
-    public NettyResponse askCanRequest(NettyRequest request) throws InvalidProtocolBufferException {
+    public NettyResponse askCanRequest(NettyRequest request,Channel channel) throws InvalidProtocolBufferException {
         byte[] data=request.getData();
         SceneModel.SceneModelMessage myMessage;
         myMessage=SceneModel.SceneModelMessage.parseFrom(data);
@@ -47,25 +42,16 @@ public class SceneServiceImpl implements SceneService, ApplicationContextAware {
             return new NettyResponse(StateCode.FAIL, ConstantValue.SCENE_MODULE, ConstantValue.ASK_CAN_RESPONSE, "无传入sceneId无法查询".getBytes());
         }
         log.info("SceneService accept sceneId: "+sceneId);
-
-
-        //根据sceneId 从spirng容器中获取场景信息
-
 //       MmoScene mmoScene=applicationContext.getBean("scene"+sceneId,MmoScene.class);
         //从缓存中读取
-        ConcurrentHashMap<Integer,MmoScene> scenes= MmoCache.getInstance().getMmoSceneConcurrentHashMap();
-        MmoScene nowScene=scenes.get(sceneId);
-        List<SceneModel.MmoSimpleScene> mmoSimpleScenes=new ArrayList<>();
-        //由MmoSimpleScene转化为SceneModel.MmoSimpleScene
-        for (MmoSimpleScene m :nowScene.getCanScene()) {
-            SceneModel.MmoSimpleScene mmoSimpleScene=SceneModel.MmoSimpleScene.newBuilder().setId(m.getId()).setPalceName(m.getPalceName()).build();
-            mmoSimpleScenes.add(mmoSimpleScene);
-        }
+        ConcurrentHashMap<Integer, SceneMessage> scenes= MmoCache.getInstance().getSceneMessageConcurrentHashMap();
+        String canScene=scenes.get(sceneId).getCanScene();
+        List<Integer> sceneIds=CommonsUtil.split(canScene);
         //封装AskCanResponse data的数据
         SceneModel.SceneModelMessage Messagedata;
         Messagedata=SceneModel.SceneModelMessage.newBuilder()
                 .setDataType(SceneModel.SceneModelMessage.DateType.AskCanResponse)
-                .setAskCanResponse(SceneModel.AskCanResponse.newBuilder().addAllMmoSimpleScenes(mmoSimpleScenes)).build();
+                .setAskCanResponse(SceneModel.AskCanResponse.newBuilder().addAllScenesIds(sceneIds)).build();
         //封装到NettyResponse中
         NettyResponse response=new NettyResponse();
         response.setCmd(ConstantValue.ASK_CAN_RESPONSE);
@@ -77,22 +63,33 @@ public class SceneServiceImpl implements SceneService, ApplicationContextAware {
     }
 
     @Override
-    public NettyResponse wentRequest(NettyRequest nettyRequest) throws InvalidProtocolBufferException {
+    public NettyResponse wentRequest(NettyRequest nettyRequest,Channel channel) throws InvalidProtocolBufferException {
         byte[] data=nettyRequest.getData();
         SceneModel.SceneModelMessage myMessage;
         myMessage=SceneModel.SceneModelMessage.parseFrom(data);
-        Integer sceneId=myMessage.getWentRequest().getSceneId();
-        Integer playId=myMessage.getWentRequest().getPlayId();
+        Integer nextSceneId=myMessage.getWentRequest().getSceneId();
+        ConcurrentHashMap<Integer, Channel> channelConcurrentHashMap= MmoCache.getInstance().getChannelConcurrentHashMap();
+        Integer roleId=null;
+        synchronized (channelConcurrentHashMap) {
+            for (Integer key : channelConcurrentHashMap.keySet()) {
+                if (channelConcurrentHashMap.get(key).equals(channel)) {
+                    roleId = key;
+                }
+            }
+        }
+        if (roleId==null){
+            NettyResponse errotResponse=new NettyResponse(StateCode.FAIL,ConstantValue.SCENE_MODULE,ConstantValue.WENT_RESPONSE,"请先登录".getBytes());
+            return  errotResponse;
+        }
         //先查询palyId所在场景
-        MmoRolePOJO mmoRolePOJO= MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap().get(playId);
-//        MmoRolePOJO mmoRolePOJO=mmoRolePOJOMapper.selectByPrimaryKey(playId);
+        MmoRolePOJO mmoRolePOJO= MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap().get(roleId);
         //查询该场景可进入的场景与sceneId判断
-        MmoScene nowScene= MmoCache.getInstance().getMmoSceneConcurrentHashMap().get(mmoRolePOJO.getMmosceneid());
-//        MmoScenePOJO nowScene=mmoScenePOJOMapper.selectByPrimaryKey(mmoRolePOJO.getMmosceneid());
-        List<MmoSimpleScene> canScene=nowScene.getCanScene();
+        Integer nowSceneId=mmoRolePOJO.getMmosceneid();
+        SceneMessage sceneMessage=MmoCache.getInstance().getSceneMessageConcurrentHashMap().get(nowSceneId);
+        List<Integer> canScene=CommonsUtil.split(sceneMessage.getCanScene());
         boolean canFlag=false;
-        for (MmoSimpleScene sc:canScene){
-            if (sc.getId()==sceneId){
+        for (Integer id:canScene){
+            if (id.equals(nextSceneId)){
                 canFlag=true;
                 break;
             }
@@ -104,58 +101,62 @@ public class SceneServiceImpl implements SceneService, ApplicationContextAware {
         }
         //进入场景，修改数据库 player 和scene
         MmoRolePOJO mmoRolePOJO1=new MmoRolePOJO();
-        mmoRolePOJO1.setId(playId);
-        mmoRolePOJO1.setMmosceneid(sceneId);
+        mmoRolePOJO1.setId(roleId);
+        mmoRolePOJO1.setMmosceneid(nextSceneId);
         mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO1);
         //修改缓存中角色
         ConcurrentHashMap<Integer,MmoRolePOJO> cacheRoles= MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
-        MmoRolePOJO player=cacheRoles.get(playId);
-        player.setMmosceneid(sceneId);
+        MmoRolePOJO player=cacheRoles.get(roleId);
+        player.setMmosceneid(nextSceneId);
         cacheRoles.put(player.getId(),player);
         //修改scene
-        //新场景中增加该角色
-        MmoScene nextScene= MmoCache.getInstance().getMmoSceneConcurrentHashMap().get(sceneId);
-//        MmoScenePOJO nextScene=mmoScenePOJOMapper.selectByPrimaryKey(sceneId);
-        List<MmoSimpleRole> nextRoles=nextScene.getRoles();
-        MmoSimpleRole m=new MmoSimpleRole();
-        m.setId(mmoRolePOJO.getId());
-        m.setName(mmoRolePOJO.getName());
-        m.setType(RoleTypeCode.getValue(mmoRolePOJO.getType()));
-        m.setStatus(RoleStatusCode.getValue(mmoRolePOJO.getStatus()));
-        m.setOnstatus(RoleOnStatusCode.getValue(mmoRolePOJO.getOnstatus()));
-        nextRoles.add(m);
-        List<Integer> rolesIds=new ArrayList<>();
-        for (MmoSimpleRole r:nextRoles){
-            rolesIds.add(r.getId());
-        }
-        MmoScenePOJO nextScenePOJO=new MmoScenePOJO();
-        nextScenePOJO.setId(nextScene.getId());
+        //数据库中新场景中增加该角色
+        MmoScenePOJO nextScenePOJO=mmoScenePOJOMapper.selectByPrimaryKey(nextSceneId);
+        List<Integer> rolesIds=CommonsUtil.split(nextScenePOJO.getRoles());
+        rolesIds.add(roleId);
         String newRoles=CommonsUtil.listToString(rolesIds);
         nextScenePOJO.setRoles(newRoles);
         mmoScenePOJOMapper.updateByPrimaryKeySelective(nextScenePOJO);
         //旧场景
-        List<MmoSimpleRole> nowRoles=nowScene.getRoles();
-        synchronized (nowScene) {
-            Iterator<MmoSimpleRole> iterator = nowRoles.iterator();
-            while (iterator.hasNext()) {
-                MmoSimpleRole sbi = iterator.next();
-                if (sbi.getId() == playId) {
-                    iterator.remove();
-                }
+        MmoScenePOJO nowScenePOJO=mmoScenePOJOMapper.selectByPrimaryKey(nowSceneId);
+        String  nowRoles=nowScenePOJO.getRoles();
+        List<Integer> nowrolesIds=CommonsUtil.split(nowRoles);
+        nowrolesIds.remove(roleId);
+        nowScenePOJO.setRoles(CommonsUtil.listToString(nowrolesIds));
+        mmoScenePOJOMapper.updateByPrimaryKeySelective(nowScenePOJO);
+
+        //查询出npc 和SimpleRole
+        List<MmoSimpleRole> nextSceneRoles=new ArrayList<>();
+        ConcurrentHashMap<Integer, NPCMessage> npcMsgMap=MmoCache.getInstance().getNpcMessageConcurrentHashMap();
+        ConcurrentHashMap<Integer, MmoRolePOJO> roleMsgMap=MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
+        Iterator<NPCMessage> npcItor=npcMsgMap.values().iterator();
+        //NPC
+        while(npcItor.hasNext()){
+            NPCMessage temp=npcItor.next();
+            if (temp.getMmosceneid().equals(nextSceneId)){
+                MmoSimpleRole roleTemp=new MmoSimpleRole();
+                roleTemp.setId(temp.getId());
+                roleTemp.setName(temp.getName());
+                roleTemp.setStatus(RoleStatusCode.getValue(temp.getStatus()));
+                roleTemp.setType(RoleTypeCode.getValue(temp.getType()));
+                roleTemp.setOnstatus(RoleOnStatusCode.getValue(temp.getOnstatus()));
+                nextSceneRoles.add(roleTemp);
             }
         }
-        List<Integer> nowRoleIds=new ArrayList<>();
-        for (MmoSimpleRole r:nowRoles){
-            nowRoleIds.add(r.getId());
+        //ROLES
+        Iterator<MmoRolePOJO> roleItor=roleMsgMap.values().iterator();
+        while(roleItor.hasNext()){
+            MmoRolePOJO temp=roleItor.next();
+            if (temp.getMmosceneid().equals(nextSceneId)){
+                MmoSimpleRole roleTemp=new MmoSimpleRole();
+                roleTemp.setId(temp.getId());
+                roleTemp.setName(temp.getName());
+                roleTemp.setStatus(RoleStatusCode.getValue(temp.getStatus()));
+                roleTemp.setType(RoleTypeCode.getValue(temp.getType()));
+                roleTemp.setOnstatus(RoleOnStatusCode.getValue(temp.getOnstatus()));
+                nextSceneRoles.add(roleTemp);
+            }
         }
-        MmoScenePOJO nowMmoScenePOJO=new MmoScenePOJO();
-        nowMmoScenePOJO.setRoles(CommonsUtil.listToString(nowRoleIds));
-        nowMmoScenePOJO.setId(nowScene.getId());
-        mmoScenePOJOMapper.updateByPrimaryKeySelective(nowMmoScenePOJO);
-
-        //查询出simpleScene 和SimpleRole
-        List<MmoSimpleRole> nextSceneRoles=nextScene.getRoles();
-        List<MmoSimpleScene> nextSceneCanScene=nextScene.getCanScene();
         //生成response返回
         NettyResponse nettyResponse=new NettyResponse();
         nettyResponse.setCmd(ConstantValue.WENT_RESPONSE);
@@ -166,19 +167,6 @@ public class SceneServiceImpl implements SceneService, ApplicationContextAware {
         builder.setDataType(SceneModel.SceneModelMessage.DateType.WentResponse);
 
         SceneModel.WentResponse.Builder wentResponsebuilder=SceneModel.WentResponse.newBuilder();
-
-        SceneModel.MmoScene.Builder mmoSceneBuilder=SceneModel.MmoScene.newBuilder();
-        mmoSceneBuilder.setId(nextScene.getId()).setPlaceName(nextScene.getPlaceName());
-        //protobuf simpleCanScene
-        List<SceneModel.MmoSimpleScene> simScenes=new ArrayList<>();
-        for (MmoSimpleScene mmoSimpleScene:nextSceneCanScene){
-            SceneModel.MmoSimpleScene.Builder mss=SceneModel.MmoSimpleScene.newBuilder();
-            mss.setId(mmoSimpleScene.getId());
-            mss.setPalceName(mmoSimpleScene.getPalceName());
-            SceneModel.MmoSimpleScene mssobject=mss.build();
-            simScenes.add(mssobject);
-        }
-        mmoSceneBuilder.addAllCanScene(simScenes);
        // simpleRole
         List<SceneModel.MmoSimpleRole> simRoles=new ArrayList<>();
         for (MmoSimpleRole mmoRole :nextSceneRoles){
@@ -191,12 +179,9 @@ public class SceneServiceImpl implements SceneService, ApplicationContextAware {
             SceneModel.MmoSimpleRole msrobject=msr.build();
             simRoles.add(msrobject);
         }
-        mmoSceneBuilder.addAllCanScene(simScenes);
-        mmoSceneBuilder.addAllRoles(simRoles);
-
-        wentResponsebuilder.setMmoScene(mmoSceneBuilder.build());
+        wentResponsebuilder.setSceneId(nextSceneId);
+        wentResponsebuilder.addAllMmoSimpleRoles(simRoles);
         builder.setWentResponse(wentResponsebuilder.build());
-
         byte[] data2=builder.build().toByteArray();
         nettyResponse.setData(data2);
         log.info("wentRequest:"+data2.length);
@@ -204,19 +189,48 @@ public class SceneServiceImpl implements SceneService, ApplicationContextAware {
     }
 
     @Override
-    public NettyResponse findAllRolesRequest(NettyRequest nettyRequest) throws InvalidProtocolBufferException {
+    public NettyResponse findAllRolesRequest(NettyRequest nettyRequest,Channel channel) throws InvalidProtocolBufferException {
         byte[] data=nettyRequest.getData();
         SceneModel.SceneModelMessage myMessage;
         myMessage=SceneModel.SceneModelMessage.parseFrom(data);
         Integer sceneId=myMessage.getFindAllRolesRequest().getSceneId();
-        MmoScene mmoScene= MmoCache.getInstance().getMmoSceneConcurrentHashMap().get(sceneId);
-        List<MmoSimpleRole> mmoSimRoles=mmoScene.getRoles();
+        List<MmoSimpleRole> nextSceneRoles=new ArrayList<>();
+        ConcurrentHashMap<Integer, NPCMessage> npcMsgMap=MmoCache.getInstance().getNpcMessageConcurrentHashMap();
+        ConcurrentHashMap<Integer, MmoRolePOJO> roleMsgMap=MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
+        Iterator<NPCMessage> npcItor=npcMsgMap.values().iterator();
+        //NPC
+        while(npcItor.hasNext()){
+            NPCMessage temp=npcItor.next();
+            if (temp.getMmosceneid().equals(sceneId)){
+                MmoSimpleRole roleTemp=new MmoSimpleRole();
+                roleTemp.setId(temp.getId());
+                roleTemp.setName(temp.getName());
+                roleTemp.setStatus(RoleStatusCode.getValue(temp.getStatus()));
+                roleTemp.setType(RoleTypeCode.getValue(temp.getType()));
+                roleTemp.setOnstatus(RoleOnStatusCode.getValue(temp.getOnstatus()));
+                nextSceneRoles.add(roleTemp);
+            }
+        }
+        //ROLES
+        Iterator<MmoRolePOJO> roleItor=roleMsgMap.values().iterator();
+        while(roleItor.hasNext()){
+            MmoRolePOJO temp=roleItor.next();
+            if (temp.getMmosceneid().equals(sceneId)){
+                MmoSimpleRole roleTemp=new MmoSimpleRole();
+                roleTemp.setId(temp.getId());
+                roleTemp.setName(temp.getName());
+                roleTemp.setStatus(RoleStatusCode.getValue(temp.getStatus()));
+                roleTemp.setType(RoleTypeCode.getValue(temp.getType()));
+                roleTemp.setOnstatus(RoleOnStatusCode.getValue(temp.getOnstatus()));
+                nextSceneRoles.add(roleTemp);
+            }
+        }
         //protobuf
         SceneModel.SceneModelMessage.Builder messagedataBuilder=SceneModel.SceneModelMessage.newBuilder();
         messagedataBuilder.setDataType(SceneModel.SceneModelMessage.DateType.FindAllRolesResponse);
         SceneModel.FindAllRolesResponse.Builder findAllRolesResponseBuilder=SceneModel.FindAllRolesResponse.newBuilder();
         List<SceneModel.MmoSimpleRole> mmoSimpleRoles=new ArrayList<>();
-        for (MmoSimpleRole m :mmoSimRoles) {
+        for (MmoSimpleRole m :nextSceneRoles) {
             SceneModel.MmoSimpleRole msr=SceneModel.MmoSimpleRole.newBuilder().setId(
                     m.getId()).setName(m.getName()).setStatus(m.getStatus()).setType(m.getType()).setOnStatus(m.getOnstatus()).build();
             mmoSimpleRoles.add(msr);

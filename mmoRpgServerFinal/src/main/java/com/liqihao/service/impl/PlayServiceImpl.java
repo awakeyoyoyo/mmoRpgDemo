@@ -9,14 +9,9 @@ import com.liqihao.dao.MmoUserPOJOMapper;
 import com.liqihao.pojo.*;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.service.PlayService;
-import com.liqihao.util.CommonsUtil;
 import io.netty.channel.Channel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
@@ -102,23 +97,12 @@ public class PlayServiceImpl implements PlayService{
         }
         //将角色设置为在线模式
         MmoUserPOJO mmoUserPOJO=mmoUserPOJOMapper.selectByPrimaryKey(mmoUserId);
-//        MmoRolePOJO mmoRolePOJO=mmoRolePOJOMapper.selectByPrimaryKey(Integer.parseInt(mmoUserPOJO.getUserroleid()));
-//        mmoRolePOJO.setOnstatus(RoleOnStatusCode.ONLINE.getCode());
-        //从缓存中获取,且修改其为在线模式
-        ConcurrentHashMap<Integer,MmoRolePOJO> rolesMap= MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
-        MmoRolePOJO role=rolesMap.get(Integer.parseInt(mmoUserPOJO.getUserroleid()));
+        //从数据库中读取角色,且修改其为在线模式，放入角色在线集合
+        MmoRolePOJO role=mmoRolePOJOMapper.selectByPrimaryKey(Integer.parseInt(mmoUserPOJO.getUserroleid()));
         role.setOnstatus(RoleOnStatusCode.ONLINE.getCode());
-        //设置缓存中的场景中新增该角色
-        ConcurrentHashMap<Integer,MmoScene> sceneMap= MmoCache.getInstance().getMmoSceneConcurrentHashMap();
-        MmoScene mmoScene=sceneMap.get(role.getMmosceneid());
-        List<MmoSimpleRole> mmoSimpleRoles=mmoScene.getRoles();
-        MmoSimpleRole temp=new MmoSimpleRole();
-        temp.setId(role.getId());
-        temp.setOnstatus(RoleOnStatusCode.getValue(role.getOnstatus()));
-        temp.setStatus(RoleStatusCode.getValue(role.getStatus()));
-        temp.setType(RoleTypeCode.getValue(role.getType()));
-        temp.setName(role.getName());
-        mmoSimpleRoles.add(temp);
+        //缓存
+        ConcurrentHashMap<Integer,MmoRolePOJO> rolesMap= MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
+        rolesMap.put(role.getId(),role);
         //放入线程池中异步处理
         //数据库中人物状态         //todo 提交给线程池异步执行
         mmoRolePOJOMapper.updateByPrimaryKeySelective(role);
@@ -126,9 +110,6 @@ public class PlayServiceImpl implements PlayService{
         ConcurrentHashMap<Integer, Channel> channelConcurrentHashMap= MmoCache.getInstance().getChannelConcurrentHashMap();
         channelConcurrentHashMap.put(role.getId(),channel);
 
-        //获取 场景信息和自身角色信息
-        List<MmoSimpleScene> canScenes=mmoScene.getCanScene();
-        List<MmoSimpleRole> roundRoles=mmoScene.getRoles();
         //protobuf 生成loginResponse
         PlayModel.PlayModelMessage.Builder messageData=PlayModel.PlayModelMessage.newBuilder();
         messageData.setDataType(PlayModel.PlayModelMessage.DateType.LoginResponse);
@@ -140,36 +121,9 @@ public class PlayServiceImpl implements PlayService{
                 .setOnStatus(RoleOnStatusCode.getValue(role.getOnstatus()))
                 .setStatus(RoleStatusCode.getValue(role.getStatus()))
                 .setType(RoleTypeCode.getValue(role.getType())).build();
-
         loginResponseBuilder.setMmoSimpleRole(mmoSimpleRole);
         //场景信息
-        PlayModel.MmoScene.Builder mmoSceneBuilder=PlayModel.MmoScene.newBuilder();
-        mmoSceneBuilder.setId(mmoScene.getId()).setPlaceName(mmoScene.getPlaceName());
-        //protobuf simpleCanScene
-        List<PlayModel.MmoSimpleScene> simScenes=new ArrayList<>();
-        for (MmoSimpleScene mms:canScenes){
-            PlayModel.MmoSimpleScene.Builder mss=PlayModel.MmoSimpleScene.newBuilder();
-            mss.setId(mms.getId());
-            mss.setPlaceName(mms.getPalceName());
-            PlayModel.MmoSimpleScene mssobject=mss.build();
-            simScenes.add(mssobject);
-        }
-        mmoSceneBuilder.addAllCanScene(simScenes);
-        //protobuf simpleRoles
-        List<PlayModel.MmoSimpleRole> simRoles=new ArrayList<>();
-        for (MmoSimpleRole mmoRole :roundRoles){
-            PlayModel.MmoSimpleRole.Builder msr=PlayModel.MmoSimpleRole.newBuilder();
-            msr.setId(mmoRole.getId());
-            msr.setName(mmoRole.getName());
-            msr.setType(mmoRole.getType());
-            msr.setStatus(mmoRole.getStatus());
-            msr.setOnStatus(mmoRole.getOnstatus());
-            PlayModel.MmoSimpleRole msrobject=msr.build();
-            simRoles.add(msrobject);
-        }
-        mmoSceneBuilder.addAllCanScene(simScenes);
-        mmoSceneBuilder.addAllRoles(simRoles);
-        loginResponseBuilder.setMmoScene(mmoSceneBuilder.build());
+        loginResponseBuilder.setSceneId(role.getMmosceneid());
         //打包成messageData
         messageData.setLoginResponse(loginResponseBuilder.build());
         NettyResponse nettyResponse=new NettyResponse();
@@ -182,42 +136,33 @@ public class PlayServiceImpl implements PlayService{
     @Override
     public NettyResponse logoutRequest(NettyRequest nettyRequest,Channel channel) throws InvalidProtocolBufferException {
         byte[] data=nettyRequest.getData();
-        PlayModel.PlayModelMessage myMessage;
-        myMessage=PlayModel.PlayModelMessage.parseFrom(data);
-        Integer rolesId=myMessage.getLogoutRequest().getRolesId();
-        //将数据库中设置为离线
-        //todo 提交给线程池异步执行
-        MmoRolePOJO mmoRolePOJO=mmoRolePOJOMapper.selectByPrimaryKey(rolesId);
-        mmoRolePOJO.setOnstatus(RoleOnStatusCode.EXIT.getCode());
-        mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO);
-        //todo 从缓存或者是spring容器中的场景信息获取 需解决并发安全问题
-        MmoScenePOJO mmoScenePOJO=mmoScenePOJOMapper.selectByPrimaryKey(mmoRolePOJO.getMmosceneid());
-        List<Integer> sceneRoles=CommonsUtil.split(mmoScenePOJO.getRoles());
-        if (sceneRoles.contains(rolesId)){
-            sceneRoles.remove(rolesId);
-        }
-        //缓存中的场景角色 设置为离线  角色表中的在线改为离线
-        ConcurrentHashMap<Integer,MmoScene> sceneMap= MmoCache.getInstance().getMmoSceneConcurrentHashMap();
-        ConcurrentHashMap<Integer,MmoRolePOJO> rolesMap= MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
-        MmoRolePOJO role;
-        role = rolesMap.get(rolesId);
-        role.setOnstatus(RoleOnStatusCode.EXIT.getCode());
-        rolesMap.put(role.getId(), role);
-        synchronized (sceneMap) {
-            MmoScene mmoScene = sceneMap.get(role.getMmosceneid());
-            List<MmoSimpleRole> mmoSimpleRoles = mmoScene.getRoles();
-            Iterator<MmoSimpleRole> iterator = mmoSimpleRoles.iterator();
-            while (iterator.hasNext()) {
-                MmoSimpleRole sbi = iterator.next();
-                if (sbi.getId() == role.getId()) {
-                    iterator.remove();
-                    break;
+        ConcurrentHashMap<Integer,Channel> channelConcurrentHashMap= MmoCache.getInstance().getChannelConcurrentHashMap();
+        Integer roleId=null;
+        synchronized (channelConcurrentHashMap) {
+            for (Integer key : channelConcurrentHashMap.keySet()) {
+                if (channelConcurrentHashMap.get(key).equals(channel)) {
+                    roleId = key;
                 }
             }
+            if (roleId != null) {
+                //删除缓存中 channel绑定的信息
+                channelConcurrentHashMap.remove(roleId);
+            }
         }
-        //删除缓存中 channel绑定的信息
-        ConcurrentHashMap<Integer,Channel> channelConcurrentHashMap= MmoCache.getInstance().getChannelConcurrentHashMap();
-        channelConcurrentHashMap.remove(role.getId());
+        if (roleId==null){
+            NettyResponse errotResponse=new NettyResponse(StateCode.FAIL,ConstantValue.PLAY_MODULE,ConstantValue.LOGOUT_RESPONSE,"请先登录".getBytes());
+            return  errotResponse;
+        }
+        //将数据库中设置为离线
+        //todo 提交给线程池异步执行
+
+        MmoRolePOJO mmoRolePOJO=mmoRolePOJOMapper.selectByPrimaryKey(roleId);
+        mmoRolePOJO.setOnstatus(RoleOnStatusCode.EXIT.getCode());
+        mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO);
+        MmoScenePOJO mmoScenePOJO=mmoScenePOJOMapper.selectByPrimaryKey(mmoRolePOJO.getMmosceneid());
+        //缓存角色集合删除
+        ConcurrentHashMap<Integer,MmoRolePOJO> rolesMap= MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
+        rolesMap.remove(roleId);
 
         //protobuf生成消息
         PlayModel.PlayModelMessage.Builder myMessageBuilder=PlayModel.PlayModelMessage.newBuilder();

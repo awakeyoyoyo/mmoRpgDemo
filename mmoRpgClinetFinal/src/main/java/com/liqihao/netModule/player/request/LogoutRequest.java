@@ -2,7 +2,6 @@ package com.liqihao.netModule.player.request;
 
 public class LogoutRequest {
     /**
-     * 角色id
+     * 登陆即绑定通道 无需传id
      */
-    private int rolesId;
 }

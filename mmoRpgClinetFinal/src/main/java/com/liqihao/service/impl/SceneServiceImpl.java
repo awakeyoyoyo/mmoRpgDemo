@@ -1,12 +1,13 @@
 package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.liqihao.commons.CacheUtil;
+import com.liqihao.commons.MmoCacheCilent;
 import com.liqihao.commons.NettyResponse;
+import com.liqihao.commons.StateCode;
 import com.liqihao.pojo.MmoScene;
 import com.liqihao.pojo.MmoSimpleRole;
 import com.liqihao.pojo.MmoSimpleScene;
-import com.liqihao.protobufObject.PlayModel;
+import com.liqihao.pojo.baseMessage.SceneMessage;
 import com.liqihao.protobufObject.SceneModel;
 import com.liqihao.service.SceneService;
 import org.slf4j.Logger;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+
 @Service
 public class SceneServiceImpl implements SceneService {
     private static final Logger log = LoggerFactory.getLogger(SceneServiceImpl.class);
@@ -24,48 +27,33 @@ public class SceneServiceImpl implements SceneService {
         byte[] data=nettyResponse.getData();
         SceneModel.SceneModelMessage myMessage;
         myMessage=SceneModel.SceneModelMessage.parseFrom(data);
-        List<SceneModel.MmoSimpleScene> mmoSimpleScenes=myMessage.getAskCanResponse().getMmoSimpleScenesList();
-
+        List<Integer> Scenes=myMessage.getAskCanResponse().getScenesIdsList();
+        ConcurrentHashMap<Integer, SceneMessage> sceneMap=MmoCacheCilent.getInstance().getSceneMessageConcurrentHashMap();
         log.info("当前可以进入的场景：");
-        for (SceneModel.MmoSimpleScene mmoSimpleScene:mmoSimpleScenes){
-            log.info("---------"+mmoSimpleScene.getPalceName()+"---------");
+        for (Integer id:Scenes){
+
+            log.info("---------"+sceneMap.get(id).getPlaceName()+"---------");
         }
         log.info("---------------------------------------------------");
     }
 
     @Override
     public void wentResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
+        if (nettyResponse.getStateCode()== StateCode.FAIL){
+            byte[] data=nettyResponse.getData();
+            String mxg=new String(data);
+            log.info(mxg);
+        }
         byte[] data=nettyResponse.getData();
         SceneModel.SceneModelMessage myMessage;
         myMessage=SceneModel.SceneModelMessage.parseFrom(data);
         SceneModel.WentResponse wentResponse=myMessage.getWentResponse();
-        SceneModel.MmoScene mmoScene=wentResponse.getMmoScene();
+        Integer mmoScene=wentResponse.getSceneId();
         //本地缓存设置当前的场景
-        MmoScene scene=new MmoScene();
-        List<MmoSimpleRole> simpleRoles=new ArrayList<>();
-        for (SceneModel.MmoSimpleRole m:mmoScene.getRolesList()) {
-            MmoSimpleRole role=new MmoSimpleRole();
-            role.setName(m.getName());
-            role.setStatus(m.getStatus());
-            role.setType(m.getType());
-            role.setOnstatus(m.getOnStatus());
-            role.setId(m.getId());
-            simpleRoles.add(role);
-        }
-        scene.setRoles(simpleRoles);
-        List<MmoSimpleScene> simpleScenes=new ArrayList<>();
-        for (SceneModel.MmoSimpleScene m:mmoScene.getCanSceneList()) {
-            MmoSimpleScene sscene=new MmoSimpleScene();
-            sscene.setPalceName(m.getPalceName());
-            sscene.setId(m.getId());
-            simpleScenes.add(sscene);
-        }
-        scene.setCanScene(simpleScenes);
-        scene.setId(mmoScene.getId());
-        scene.setPlaceName(mmoScene.getPlaceName());
-        CacheUtil.setNowScene(scene);
+        SceneMessage m=MmoCacheCilent.getInstance().getSceneMessageConcurrentHashMap().get(mmoScene);
+        MmoCacheCilent.getInstance().setNowSceneId(mmoScene);
         log.info("已进入下一个场景");
-        log.info("当前场景是: "+mmoScene.getPlaceName());
+        log.info("当前场景是: "+m.getPlaceName());
         log.info("---------------------------------------------------");
     }
 

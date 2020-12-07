@@ -3773,19 +3773,10 @@ public final class PlayModel {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>.MmoScene mmoScene = 1;</code>
-     * @return Whether the mmoScene field is set.
+     * <code>int32 sceneId = 1;</code>
+     * @return The sceneId.
      */
-    boolean hasMmoScene();
-    /**
-     * <code>.MmoScene mmoScene = 1;</code>
-     * @return The mmoScene.
-     */
-    MmoScene getMmoScene();
-    /**
-     * <code>.MmoScene mmoScene = 1;</code>
-     */
-    MmoSceneOrBuilder getMmoSceneOrBuilder();
+    int getSceneId();
 
     /**
      * <code>.MmoSimpleRole mmoSimpleRole = 2;</code>
@@ -3847,17 +3838,9 @@ public final class PlayModel {
             case 0:
               done = true;
               break;
-            case 10: {
-              MmoScene.Builder subBuilder = null;
-              if (mmoScene_ != null) {
-                subBuilder = mmoScene_.toBuilder();
-              }
-              mmoScene_ = input.readMessage(MmoScene.parser(), extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(mmoScene_);
-                mmoScene_ = subBuilder.buildPartial();
-              }
+            case 8: {
 
+              sceneId_ = input.readInt32();
               break;
             }
             case 18: {
@@ -3905,30 +3888,15 @@ public final class PlayModel {
               LoginResponse.class, Builder.class);
     }
 
-    public static final int MMOSCENE_FIELD_NUMBER = 1;
-    private MmoScene mmoScene_;
+    public static final int SCENEID_FIELD_NUMBER = 1;
+    private int sceneId_;
     /**
-     * <code>.MmoScene mmoScene = 1;</code>
-     * @return Whether the mmoScene field is set.
+     * <code>int32 sceneId = 1;</code>
+     * @return The sceneId.
      */
     @Override
-    public boolean hasMmoScene() {
-      return mmoScene_ != null;
-    }
-    /**
-     * <code>.MmoScene mmoScene = 1;</code>
-     * @return The mmoScene.
-     */
-    @Override
-    public MmoScene getMmoScene() {
-      return mmoScene_ == null ? MmoScene.getDefaultInstance() : mmoScene_;
-    }
-    /**
-     * <code>.MmoScene mmoScene = 1;</code>
-     */
-    @Override
-    public MmoSceneOrBuilder getMmoSceneOrBuilder() {
-      return getMmoScene();
+    public int getSceneId() {
+      return sceneId_;
     }
 
     public static final int MMOSIMPLEROLE_FIELD_NUMBER = 2;
@@ -3971,8 +3939,8 @@ public final class PlayModel {
     @Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (mmoScene_ != null) {
-        output.writeMessage(1, getMmoScene());
+      if (sceneId_ != 0) {
+        output.writeInt32(1, sceneId_);
       }
       if (mmoSimpleRole_ != null) {
         output.writeMessage(2, getMmoSimpleRole());
@@ -3986,9 +3954,9 @@ public final class PlayModel {
       if (size != -1) return size;
 
       size = 0;
-      if (mmoScene_ != null) {
+      if (sceneId_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, getMmoScene());
+          .computeInt32Size(1, sceneId_);
       }
       if (mmoSimpleRole_ != null) {
         size += com.google.protobuf.CodedOutputStream
@@ -4009,11 +3977,8 @@ public final class PlayModel {
       }
       LoginResponse other = (LoginResponse) obj;
 
-      if (hasMmoScene() != other.hasMmoScene()) return false;
-      if (hasMmoScene()) {
-        if (!getMmoScene()
-            .equals(other.getMmoScene())) return false;
-      }
+      if (getSceneId()
+          != other.getSceneId()) return false;
       if (hasMmoSimpleRole() != other.hasMmoSimpleRole()) return false;
       if (hasMmoSimpleRole()) {
         if (!getMmoSimpleRole()
@@ -4030,10 +3995,8 @@ public final class PlayModel {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasMmoScene()) {
-        hash = (37 * hash) + MMOSCENE_FIELD_NUMBER;
-        hash = (53 * hash) + getMmoScene().hashCode();
-      }
+      hash = (37 * hash) + SCENEID_FIELD_NUMBER;
+      hash = (53 * hash) + getSceneId();
       if (hasMmoSimpleRole()) {
         hash = (37 * hash) + MMOSIMPLEROLE_FIELD_NUMBER;
         hash = (53 * hash) + getMmoSimpleRole().hashCode();
@@ -4171,12 +4134,8 @@ public final class PlayModel {
       @Override
       public Builder clear() {
         super.clear();
-        if (mmoSceneBuilder_ == null) {
-          mmoScene_ = null;
-        } else {
-          mmoScene_ = null;
-          mmoSceneBuilder_ = null;
-        }
+        sceneId_ = 0;
+
         if (mmoSimpleRoleBuilder_ == null) {
           mmoSimpleRole_ = null;
         } else {
@@ -4209,11 +4168,7 @@ public final class PlayModel {
       @Override
       public LoginResponse buildPartial() {
         LoginResponse result = new LoginResponse(this);
-        if (mmoSceneBuilder_ == null) {
-          result.mmoScene_ = mmoScene_;
-        } else {
-          result.mmoScene_ = mmoSceneBuilder_.build();
-        }
+        result.sceneId_ = sceneId_;
         if (mmoSimpleRoleBuilder_ == null) {
           result.mmoSimpleRole_ = mmoSimpleRole_;
         } else {
@@ -4267,8 +4222,8 @@ public final class PlayModel {
 
       public Builder mergeFrom(LoginResponse other) {
         if (other == LoginResponse.getDefaultInstance()) return this;
-        if (other.hasMmoScene()) {
-          mergeMmoScene(other.getMmoScene());
+        if (other.getSceneId() != 0) {
+          setSceneId(other.getSceneId());
         }
         if (other.hasMmoSimpleRole()) {
           mergeMmoSimpleRole(other.getMmoSimpleRole());
@@ -4302,123 +4257,35 @@ public final class PlayModel {
         return this;
       }
 
-      private MmoScene mmoScene_;
-      private com.google.protobuf.SingleFieldBuilderV3<
-          MmoScene, MmoScene.Builder, MmoSceneOrBuilder> mmoSceneBuilder_;
+      private int sceneId_ ;
       /**
-       * <code>.MmoScene mmoScene = 1;</code>
-       * @return Whether the mmoScene field is set.
+       * <code>int32 sceneId = 1;</code>
+       * @return The sceneId.
        */
-      public boolean hasMmoScene() {
-        return mmoSceneBuilder_ != null || mmoScene_ != null;
+      @Override
+      public int getSceneId() {
+        return sceneId_;
       }
       /**
-       * <code>.MmoScene mmoScene = 1;</code>
-       * @return The mmoScene.
+       * <code>int32 sceneId = 1;</code>
+       * @param value The sceneId to set.
+       * @return This builder for chaining.
        */
-      public MmoScene getMmoScene() {
-        if (mmoSceneBuilder_ == null) {
-          return mmoScene_ == null ? MmoScene.getDefaultInstance() : mmoScene_;
-        } else {
-          return mmoSceneBuilder_.getMessage();
-        }
-      }
-      /**
-       * <code>.MmoScene mmoScene = 1;</code>
-       */
-      public Builder setMmoScene(MmoScene value) {
-        if (mmoSceneBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          mmoScene_ = value;
-          onChanged();
-        } else {
-          mmoSceneBuilder_.setMessage(value);
-        }
-
-        return this;
-      }
-      /**
-       * <code>.MmoScene mmoScene = 1;</code>
-       */
-      public Builder setMmoScene(
-          MmoScene.Builder builderForValue) {
-        if (mmoSceneBuilder_ == null) {
-          mmoScene_ = builderForValue.build();
-          onChanged();
-        } else {
-          mmoSceneBuilder_.setMessage(builderForValue.build());
-        }
-
-        return this;
-      }
-      /**
-       * <code>.MmoScene mmoScene = 1;</code>
-       */
-      public Builder mergeMmoScene(MmoScene value) {
-        if (mmoSceneBuilder_ == null) {
-          if (mmoScene_ != null) {
-            mmoScene_ =
-              MmoScene.newBuilder(mmoScene_).mergeFrom(value).buildPartial();
-          } else {
-            mmoScene_ = value;
-          }
-          onChanged();
-        } else {
-          mmoSceneBuilder_.mergeFrom(value);
-        }
-
-        return this;
-      }
-      /**
-       * <code>.MmoScene mmoScene = 1;</code>
-       */
-      public Builder clearMmoScene() {
-        if (mmoSceneBuilder_ == null) {
-          mmoScene_ = null;
-          onChanged();
-        } else {
-          mmoScene_ = null;
-          mmoSceneBuilder_ = null;
-        }
-
-        return this;
-      }
-      /**
-       * <code>.MmoScene mmoScene = 1;</code>
-       */
-      public MmoScene.Builder getMmoSceneBuilder() {
+      public Builder setSceneId(int value) {
         
+        sceneId_ = value;
         onChanged();
-        return getMmoSceneFieldBuilder().getBuilder();
+        return this;
       }
       /**
-       * <code>.MmoScene mmoScene = 1;</code>
+       * <code>int32 sceneId = 1;</code>
+       * @return This builder for chaining.
        */
-      public MmoSceneOrBuilder getMmoSceneOrBuilder() {
-        if (mmoSceneBuilder_ != null) {
-          return mmoSceneBuilder_.getMessageOrBuilder();
-        } else {
-          return mmoScene_ == null ?
-              MmoScene.getDefaultInstance() : mmoScene_;
-        }
-      }
-      /**
-       * <code>.MmoScene mmoScene = 1;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilderV3<
-          MmoScene, MmoScene.Builder, MmoSceneOrBuilder>
-          getMmoSceneFieldBuilder() {
-        if (mmoSceneBuilder_ == null) {
-          mmoSceneBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              MmoScene, MmoScene.Builder, MmoSceneOrBuilder>(
-                  getMmoScene(),
-                  getParentForChildren(),
-                  isClean());
-          mmoScene_ = null;
-        }
-        return mmoSceneBuilder_;
+      public Builder clearSceneId() {
+        
+        sceneId_ = 0;
+        onChanged();
+        return this;
       }
 
       private MmoSimpleRole mmoSimpleRole_;
@@ -5233,12 +5100,6 @@ public final class PlayModel {
   public interface LogoutRequestOrBuilder extends
       // @@protoc_insertion_point(interface_extends:LogoutRequest)
       com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>int32 rolesId = 1;</code>
-     * @return The rolesId.
-     */
-    int getRolesId();
   }
   /**
    * Protobuf type {@code LogoutRequest}
@@ -5285,11 +5146,6 @@ public final class PlayModel {
             case 0:
               done = true;
               break;
-            case 8: {
-
-              rolesId_ = input.readInt32();
-              break;
-            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -5322,17 +5178,6 @@ public final class PlayModel {
               LogoutRequest.class, Builder.class);
     }
 
-    public static final int ROLESID_FIELD_NUMBER = 1;
-    private int rolesId_;
-    /**
-     * <code>int32 rolesId = 1;</code>
-     * @return The rolesId.
-     */
-    @Override
-    public int getRolesId() {
-      return rolesId_;
-    }
-
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -5347,9 +5192,6 @@ public final class PlayModel {
     @Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (rolesId_ != 0) {
-        output.writeInt32(1, rolesId_);
-      }
       unknownFields.writeTo(output);
     }
 
@@ -5359,10 +5201,6 @@ public final class PlayModel {
       if (size != -1) return size;
 
       size = 0;
-      if (rolesId_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, rolesId_);
-      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -5378,8 +5216,6 @@ public final class PlayModel {
       }
       LogoutRequest other = (LogoutRequest) obj;
 
-      if (getRolesId()
-          != other.getRolesId()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -5391,8 +5227,6 @@ public final class PlayModel {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + ROLESID_FIELD_NUMBER;
-      hash = (53 * hash) + getRolesId();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -5526,8 +5360,6 @@ public final class PlayModel {
       @Override
       public Builder clear() {
         super.clear();
-        rolesId_ = 0;
-
         return this;
       }
 
@@ -5554,7 +5386,6 @@ public final class PlayModel {
       @Override
       public LogoutRequest buildPartial() {
         LogoutRequest result = new LogoutRequest(this);
-        result.rolesId_ = rolesId_;
         onBuilt();
         return result;
       }
@@ -5603,9 +5434,6 @@ public final class PlayModel {
 
       public Builder mergeFrom(LogoutRequest other) {
         if (other == LogoutRequest.getDefaultInstance()) return this;
-        if (other.getRolesId() != 0) {
-          setRolesId(other.getRolesId());
-        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -5632,37 +5460,6 @@ public final class PlayModel {
             mergeFrom(parsedMessage);
           }
         }
-        return this;
-      }
-
-      private int rolesId_ ;
-      /**
-       * <code>int32 rolesId = 1;</code>
-       * @return The rolesId.
-       */
-      @Override
-      public int getRolesId() {
-        return rolesId_;
-      }
-      /**
-       * <code>int32 rolesId = 1;</code>
-       * @param value The rolesId to set.
-       * @return This builder for chaining.
-       */
-      public Builder setRolesId(int value) {
-        
-        rolesId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>int32 rolesId = 1;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearRolesId() {
-        
-        rolesId_ = 0;
-        onChanged();
         return this;
       }
       @Override
@@ -6351,1391 +6148,6 @@ public final class PlayModel {
 
     @Override
     public LogoutResponse getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
-  public interface MmoSceneOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:MmoScene)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>int32 id = 1;</code>
-     * @return The id.
-     */
-    int getId();
-
-    /**
-     * <code>string placeName = 2;</code>
-     * @return The placeName.
-     */
-    String getPlaceName();
-    /**
-     * <code>string placeName = 2;</code>
-     * @return The bytes for placeName.
-     */
-    com.google.protobuf.ByteString
-        getPlaceNameBytes();
-
-    /**
-     * <code>repeated .MmoSimpleScene canScene = 3;</code>
-     */
-    java.util.List<MmoSimpleScene>
-        getCanSceneList();
-    /**
-     * <code>repeated .MmoSimpleScene canScene = 3;</code>
-     */
-    MmoSimpleScene getCanScene(int index);
-    /**
-     * <code>repeated .MmoSimpleScene canScene = 3;</code>
-     */
-    int getCanSceneCount();
-    /**
-     * <code>repeated .MmoSimpleScene canScene = 3;</code>
-     */
-    java.util.List<? extends MmoSimpleSceneOrBuilder>
-        getCanSceneOrBuilderList();
-    /**
-     * <code>repeated .MmoSimpleScene canScene = 3;</code>
-     */
-    MmoSimpleSceneOrBuilder getCanSceneOrBuilder(
-        int index);
-
-    /**
-     * <code>repeated .MmoSimpleRole roles = 4;</code>
-     */
-    java.util.List<MmoSimpleRole>
-        getRolesList();
-    /**
-     * <code>repeated .MmoSimpleRole roles = 4;</code>
-     */
-    MmoSimpleRole getRoles(int index);
-    /**
-     * <code>repeated .MmoSimpleRole roles = 4;</code>
-     */
-    int getRolesCount();
-    /**
-     * <code>repeated .MmoSimpleRole roles = 4;</code>
-     */
-    java.util.List<? extends MmoSimpleRoleOrBuilder>
-        getRolesOrBuilderList();
-    /**
-     * <code>repeated .MmoSimpleRole roles = 4;</code>
-     */
-    MmoSimpleRoleOrBuilder getRolesOrBuilder(
-        int index);
-  }
-  /**
-   * Protobuf type {@code MmoScene}
-   */
-  public static final class MmoScene extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:MmoScene)
-      MmoSceneOrBuilder {
-  private static final long serialVersionUID = 0L;
-    // Use MmoScene.newBuilder() to construct.
-    private MmoScene(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private MmoScene() {
-      placeName_ = "";
-      canScene_ = java.util.Collections.emptyList();
-      roles_ = java.util.Collections.emptyList();
-    }
-
-    @Override
-    @SuppressWarnings({"unused"})
-    protected Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new MmoScene();
-    }
-
-    @Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private MmoScene(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 8: {
-
-              id_ = input.readInt32();
-              break;
-            }
-            case 18: {
-              String s = input.readStringRequireUtf8();
-
-              placeName_ = s;
-              break;
-            }
-            case 26: {
-              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
-                canScene_ = new java.util.ArrayList<MmoSimpleScene>();
-                mutable_bitField0_ |= 0x00000001;
-              }
-              canScene_.add(
-                  input.readMessage(MmoSimpleScene.parser(), extensionRegistry));
-              break;
-            }
-            case 34: {
-              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
-                roles_ = new java.util.ArrayList<MmoSimpleRole>();
-                mutable_bitField0_ |= 0x00000002;
-              }
-              roles_.add(
-                  input.readMessage(MmoSimpleRole.parser(), extensionRegistry));
-              break;
-            }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        if (((mutable_bitField0_ & 0x00000001) != 0)) {
-          canScene_ = java.util.Collections.unmodifiableList(canScene_);
-        }
-        if (((mutable_bitField0_ & 0x00000002) != 0)) {
-          roles_ = java.util.Collections.unmodifiableList(roles_);
-        }
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return PlayModel.internal_static_MmoScene_descriptor;
-    }
-
-    @Override
-    protected FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return PlayModel.internal_static_MmoScene_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              MmoScene.class, Builder.class);
-    }
-
-    public static final int ID_FIELD_NUMBER = 1;
-    private int id_;
-    /**
-     * <code>int32 id = 1;</code>
-     * @return The id.
-     */
-    @Override
-    public int getId() {
-      return id_;
-    }
-
-    public static final int PLACENAME_FIELD_NUMBER = 2;
-    private volatile Object placeName_;
-    /**
-     * <code>string placeName = 2;</code>
-     * @return The placeName.
-     */
-    @Override
-    public String getPlaceName() {
-      Object ref = placeName_;
-      if (ref instanceof String) {
-        return (String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        String s = bs.toStringUtf8();
-        placeName_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string placeName = 2;</code>
-     * @return The bytes for placeName.
-     */
-    @Override
-    public com.google.protobuf.ByteString
-        getPlaceNameBytes() {
-      Object ref = placeName_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (String) ref);
-        placeName_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int CANSCENE_FIELD_NUMBER = 3;
-    private java.util.List<MmoSimpleScene> canScene_;
-    /**
-     * <code>repeated .MmoSimpleScene canScene = 3;</code>
-     */
-    @Override
-    public java.util.List<MmoSimpleScene> getCanSceneList() {
-      return canScene_;
-    }
-    /**
-     * <code>repeated .MmoSimpleScene canScene = 3;</code>
-     */
-    @Override
-    public java.util.List<? extends MmoSimpleSceneOrBuilder>
-        getCanSceneOrBuilderList() {
-      return canScene_;
-    }
-    /**
-     * <code>repeated .MmoSimpleScene canScene = 3;</code>
-     */
-    @Override
-    public int getCanSceneCount() {
-      return canScene_.size();
-    }
-    /**
-     * <code>repeated .MmoSimpleScene canScene = 3;</code>
-     */
-    @Override
-    public MmoSimpleScene getCanScene(int index) {
-      return canScene_.get(index);
-    }
-    /**
-     * <code>repeated .MmoSimpleScene canScene = 3;</code>
-     */
-    @Override
-    public MmoSimpleSceneOrBuilder getCanSceneOrBuilder(
-        int index) {
-      return canScene_.get(index);
-    }
-
-    public static final int ROLES_FIELD_NUMBER = 4;
-    private java.util.List<MmoSimpleRole> roles_;
-    /**
-     * <code>repeated .MmoSimpleRole roles = 4;</code>
-     */
-    @Override
-    public java.util.List<MmoSimpleRole> getRolesList() {
-      return roles_;
-    }
-    /**
-     * <code>repeated .MmoSimpleRole roles = 4;</code>
-     */
-    @Override
-    public java.util.List<? extends MmoSimpleRoleOrBuilder>
-        getRolesOrBuilderList() {
-      return roles_;
-    }
-    /**
-     * <code>repeated .MmoSimpleRole roles = 4;</code>
-     */
-    @Override
-    public int getRolesCount() {
-      return roles_.size();
-    }
-    /**
-     * <code>repeated .MmoSimpleRole roles = 4;</code>
-     */
-    @Override
-    public MmoSimpleRole getRoles(int index) {
-      return roles_.get(index);
-    }
-    /**
-     * <code>repeated .MmoSimpleRole roles = 4;</code>
-     */
-    @Override
-    public MmoSimpleRoleOrBuilder getRolesOrBuilder(
-        int index) {
-      return roles_.get(index);
-    }
-
-    private byte memoizedIsInitialized = -1;
-    @Override
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    @Override
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (id_ != 0) {
-        output.writeInt32(1, id_);
-      }
-      if (!getPlaceNameBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, placeName_);
-      }
-      for (int i = 0; i < canScene_.size(); i++) {
-        output.writeMessage(3, canScene_.get(i));
-      }
-      for (int i = 0; i < roles_.size(); i++) {
-        output.writeMessage(4, roles_.get(i));
-      }
-      unknownFields.writeTo(output);
-    }
-
-    @Override
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (id_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, id_);
-      }
-      if (!getPlaceNameBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, placeName_);
-      }
-      for (int i = 0; i < canScene_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, canScene_.get(i));
-      }
-      for (int i = 0; i < roles_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, roles_.get(i));
-      }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @Override
-    public boolean equals(final Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof MmoScene)) {
-        return super.equals(obj);
-      }
-      MmoScene other = (MmoScene) obj;
-
-      if (getId()
-          != other.getId()) return false;
-      if (!getPlaceName()
-          .equals(other.getPlaceName())) return false;
-      if (!getCanSceneList()
-          .equals(other.getCanSceneList())) return false;
-      if (!getRolesList()
-          .equals(other.getRolesList())) return false;
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
-    }
-
-    @Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + ID_FIELD_NUMBER;
-      hash = (53 * hash) + getId();
-      hash = (37 * hash) + PLACENAME_FIELD_NUMBER;
-      hash = (53 * hash) + getPlaceName().hashCode();
-      if (getCanSceneCount() > 0) {
-        hash = (37 * hash) + CANSCENE_FIELD_NUMBER;
-        hash = (53 * hash) + getCanSceneList().hashCode();
-      }
-      if (getRolesCount() > 0) {
-        hash = (37 * hash) + ROLES_FIELD_NUMBER;
-        hash = (53 * hash) + getRolesList().hashCode();
-      }
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static MmoScene parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static MmoScene parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static MmoScene parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static MmoScene parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static MmoScene parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static MmoScene parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static MmoScene parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static MmoScene parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static MmoScene parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static MmoScene parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static MmoScene parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static MmoScene parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    @Override
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(MmoScene prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    @Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @Override
-    protected Builder newBuilderForType(
-        BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code MmoScene}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:MmoScene)
-        MmoSceneOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return PlayModel.internal_static_MmoScene_descriptor;
-      }
-
-      @Override
-      protected FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return PlayModel.internal_static_MmoScene_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                MmoScene.class, Builder.class);
-      }
-
-      // Construct using PlayModel.MmoScene.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-          getCanSceneFieldBuilder();
-          getRolesFieldBuilder();
-        }
-      }
-      @Override
-      public Builder clear() {
-        super.clear();
-        id_ = 0;
-
-        placeName_ = "";
-
-        if (canSceneBuilder_ == null) {
-          canScene_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
-        } else {
-          canSceneBuilder_.clear();
-        }
-        if (rolesBuilder_ == null) {
-          roles_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
-        } else {
-          rolesBuilder_.clear();
-        }
-        return this;
-      }
-
-      @Override
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return PlayModel.internal_static_MmoScene_descriptor;
-      }
-
-      @Override
-      public MmoScene getDefaultInstanceForType() {
-        return MmoScene.getDefaultInstance();
-      }
-
-      @Override
-      public MmoScene build() {
-        MmoScene result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      @Override
-      public MmoScene buildPartial() {
-        MmoScene result = new MmoScene(this);
-        int from_bitField0_ = bitField0_;
-        result.id_ = id_;
-        result.placeName_ = placeName_;
-        if (canSceneBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) != 0)) {
-            canScene_ = java.util.Collections.unmodifiableList(canScene_);
-            bitField0_ = (bitField0_ & ~0x00000001);
-          }
-          result.canScene_ = canScene_;
-        } else {
-          result.canScene_ = canSceneBuilder_.build();
-        }
-        if (rolesBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) != 0)) {
-            roles_ = java.util.Collections.unmodifiableList(roles_);
-            bitField0_ = (bitField0_ & ~0x00000002);
-          }
-          result.roles_ = roles_;
-        } else {
-          result.roles_ = rolesBuilder_.build();
-        }
-        onBuilt();
-        return result;
-      }
-
-      @Override
-      public Builder clone() {
-        return super.clone();
-      }
-      @Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return super.setField(field, value);
-      }
-      @Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
-      }
-      @Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
-      }
-      @Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, Object value) {
-        return super.setRepeatedField(field, index, value);
-      }
-      @Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return super.addRepeatedField(field, value);
-      }
-      @Override
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof MmoScene) {
-          return mergeFrom((MmoScene)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(MmoScene other) {
-        if (other == MmoScene.getDefaultInstance()) return this;
-        if (other.getId() != 0) {
-          setId(other.getId());
-        }
-        if (!other.getPlaceName().isEmpty()) {
-          placeName_ = other.placeName_;
-          onChanged();
-        }
-        if (canSceneBuilder_ == null) {
-          if (!other.canScene_.isEmpty()) {
-            if (canScene_.isEmpty()) {
-              canScene_ = other.canScene_;
-              bitField0_ = (bitField0_ & ~0x00000001);
-            } else {
-              ensureCanSceneIsMutable();
-              canScene_.addAll(other.canScene_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.canScene_.isEmpty()) {
-            if (canSceneBuilder_.isEmpty()) {
-              canSceneBuilder_.dispose();
-              canSceneBuilder_ = null;
-              canScene_ = other.canScene_;
-              bitField0_ = (bitField0_ & ~0x00000001);
-              canSceneBuilder_ = 
-                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                   getCanSceneFieldBuilder() : null;
-            } else {
-              canSceneBuilder_.addAllMessages(other.canScene_);
-            }
-          }
-        }
-        if (rolesBuilder_ == null) {
-          if (!other.roles_.isEmpty()) {
-            if (roles_.isEmpty()) {
-              roles_ = other.roles_;
-              bitField0_ = (bitField0_ & ~0x00000002);
-            } else {
-              ensureRolesIsMutable();
-              roles_.addAll(other.roles_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.roles_.isEmpty()) {
-            if (rolesBuilder_.isEmpty()) {
-              rolesBuilder_.dispose();
-              rolesBuilder_ = null;
-              roles_ = other.roles_;
-              bitField0_ = (bitField0_ & ~0x00000002);
-              rolesBuilder_ = 
-                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                   getRolesFieldBuilder() : null;
-            } else {
-              rolesBuilder_.addAllMessages(other.roles_);
-            }
-          }
-        }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      @Override
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      @Override
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        MmoScene parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (MmoScene) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      private int id_ ;
-      /**
-       * <code>int32 id = 1;</code>
-       * @return The id.
-       */
-      @Override
-      public int getId() {
-        return id_;
-      }
-      /**
-       * <code>int32 id = 1;</code>
-       * @param value The id to set.
-       * @return This builder for chaining.
-       */
-      public Builder setId(int value) {
-        
-        id_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>int32 id = 1;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearId() {
-        
-        id_ = 0;
-        onChanged();
-        return this;
-      }
-
-      private Object placeName_ = "";
-      /**
-       * <code>string placeName = 2;</code>
-       * @return The placeName.
-       */
-      public String getPlaceName() {
-        Object ref = placeName_;
-        if (!(ref instanceof String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          String s = bs.toStringUtf8();
-          placeName_ = s;
-          return s;
-        } else {
-          return (String) ref;
-        }
-      }
-      /**
-       * <code>string placeName = 2;</code>
-       * @return The bytes for placeName.
-       */
-      public com.google.protobuf.ByteString
-          getPlaceNameBytes() {
-        Object ref = placeName_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (String) ref);
-          placeName_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string placeName = 2;</code>
-       * @param value The placeName to set.
-       * @return This builder for chaining.
-       */
-      public Builder setPlaceName(
-          String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        placeName_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string placeName = 2;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearPlaceName() {
-        
-        placeName_ = getDefaultInstance().getPlaceName();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string placeName = 2;</code>
-       * @param value The bytes for placeName to set.
-       * @return This builder for chaining.
-       */
-      public Builder setPlaceNameBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        placeName_ = value;
-        onChanged();
-        return this;
-      }
-
-      private java.util.List<MmoSimpleScene> canScene_ =
-        java.util.Collections.emptyList();
-      private void ensureCanSceneIsMutable() {
-        if (!((bitField0_ & 0x00000001) != 0)) {
-          canScene_ = new java.util.ArrayList<MmoSimpleScene>(canScene_);
-          bitField0_ |= 0x00000001;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilderV3<
-          MmoSimpleScene, MmoSimpleScene.Builder, MmoSimpleSceneOrBuilder> canSceneBuilder_;
-
-      /**
-       * <code>repeated .MmoSimpleScene canScene = 3;</code>
-       */
-      public java.util.List<MmoSimpleScene> getCanSceneList() {
-        if (canSceneBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(canScene_);
-        } else {
-          return canSceneBuilder_.getMessageList();
-        }
-      }
-      /**
-       * <code>repeated .MmoSimpleScene canScene = 3;</code>
-       */
-      public int getCanSceneCount() {
-        if (canSceneBuilder_ == null) {
-          return canScene_.size();
-        } else {
-          return canSceneBuilder_.getCount();
-        }
-      }
-      /**
-       * <code>repeated .MmoSimpleScene canScene = 3;</code>
-       */
-      public MmoSimpleScene getCanScene(int index) {
-        if (canSceneBuilder_ == null) {
-          return canScene_.get(index);
-        } else {
-          return canSceneBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .MmoSimpleScene canScene = 3;</code>
-       */
-      public Builder setCanScene(
-          int index, MmoSimpleScene value) {
-        if (canSceneBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureCanSceneIsMutable();
-          canScene_.set(index, value);
-          onChanged();
-        } else {
-          canSceneBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .MmoSimpleScene canScene = 3;</code>
-       */
-      public Builder setCanScene(
-          int index, MmoSimpleScene.Builder builderForValue) {
-        if (canSceneBuilder_ == null) {
-          ensureCanSceneIsMutable();
-          canScene_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          canSceneBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .MmoSimpleScene canScene = 3;</code>
-       */
-      public Builder addCanScene(MmoSimpleScene value) {
-        if (canSceneBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureCanSceneIsMutable();
-          canScene_.add(value);
-          onChanged();
-        } else {
-          canSceneBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .MmoSimpleScene canScene = 3;</code>
-       */
-      public Builder addCanScene(
-          int index, MmoSimpleScene value) {
-        if (canSceneBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureCanSceneIsMutable();
-          canScene_.add(index, value);
-          onChanged();
-        } else {
-          canSceneBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .MmoSimpleScene canScene = 3;</code>
-       */
-      public Builder addCanScene(
-          MmoSimpleScene.Builder builderForValue) {
-        if (canSceneBuilder_ == null) {
-          ensureCanSceneIsMutable();
-          canScene_.add(builderForValue.build());
-          onChanged();
-        } else {
-          canSceneBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .MmoSimpleScene canScene = 3;</code>
-       */
-      public Builder addCanScene(
-          int index, MmoSimpleScene.Builder builderForValue) {
-        if (canSceneBuilder_ == null) {
-          ensureCanSceneIsMutable();
-          canScene_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          canSceneBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .MmoSimpleScene canScene = 3;</code>
-       */
-      public Builder addAllCanScene(
-          Iterable<? extends MmoSimpleScene> values) {
-        if (canSceneBuilder_ == null) {
-          ensureCanSceneIsMutable();
-          com.google.protobuf.AbstractMessageLite.Builder.addAll(
-              values, canScene_);
-          onChanged();
-        } else {
-          canSceneBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .MmoSimpleScene canScene = 3;</code>
-       */
-      public Builder clearCanScene() {
-        if (canSceneBuilder_ == null) {
-          canScene_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
-          onChanged();
-        } else {
-          canSceneBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .MmoSimpleScene canScene = 3;</code>
-       */
-      public Builder removeCanScene(int index) {
-        if (canSceneBuilder_ == null) {
-          ensureCanSceneIsMutable();
-          canScene_.remove(index);
-          onChanged();
-        } else {
-          canSceneBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .MmoSimpleScene canScene = 3;</code>
-       */
-      public MmoSimpleScene.Builder getCanSceneBuilder(
-          int index) {
-        return getCanSceneFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .MmoSimpleScene canScene = 3;</code>
-       */
-      public MmoSimpleSceneOrBuilder getCanSceneOrBuilder(
-          int index) {
-        if (canSceneBuilder_ == null) {
-          return canScene_.get(index);  } else {
-          return canSceneBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .MmoSimpleScene canScene = 3;</code>
-       */
-      public java.util.List<? extends MmoSimpleSceneOrBuilder>
-           getCanSceneOrBuilderList() {
-        if (canSceneBuilder_ != null) {
-          return canSceneBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(canScene_);
-        }
-      }
-      /**
-       * <code>repeated .MmoSimpleScene canScene = 3;</code>
-       */
-      public MmoSimpleScene.Builder addCanSceneBuilder() {
-        return getCanSceneFieldBuilder().addBuilder(
-            MmoSimpleScene.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .MmoSimpleScene canScene = 3;</code>
-       */
-      public MmoSimpleScene.Builder addCanSceneBuilder(
-          int index) {
-        return getCanSceneFieldBuilder().addBuilder(
-            index, MmoSimpleScene.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .MmoSimpleScene canScene = 3;</code>
-       */
-      public java.util.List<MmoSimpleScene.Builder>
-           getCanSceneBuilderList() {
-        return getCanSceneFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilderV3<
-          MmoSimpleScene, MmoSimpleScene.Builder, MmoSimpleSceneOrBuilder>
-          getCanSceneFieldBuilder() {
-        if (canSceneBuilder_ == null) {
-          canSceneBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-              MmoSimpleScene, MmoSimpleScene.Builder, MmoSimpleSceneOrBuilder>(
-                  canScene_,
-                  ((bitField0_ & 0x00000001) != 0),
-                  getParentForChildren(),
-                  isClean());
-          canScene_ = null;
-        }
-        return canSceneBuilder_;
-      }
-
-      private java.util.List<MmoSimpleRole> roles_ =
-        java.util.Collections.emptyList();
-      private void ensureRolesIsMutable() {
-        if (!((bitField0_ & 0x00000002) != 0)) {
-          roles_ = new java.util.ArrayList<MmoSimpleRole>(roles_);
-          bitField0_ |= 0x00000002;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilderV3<
-          MmoSimpleRole, MmoSimpleRole.Builder, MmoSimpleRoleOrBuilder> rolesBuilder_;
-
-      /**
-       * <code>repeated .MmoSimpleRole roles = 4;</code>
-       */
-      public java.util.List<MmoSimpleRole> getRolesList() {
-        if (rolesBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(roles_);
-        } else {
-          return rolesBuilder_.getMessageList();
-        }
-      }
-      /**
-       * <code>repeated .MmoSimpleRole roles = 4;</code>
-       */
-      public int getRolesCount() {
-        if (rolesBuilder_ == null) {
-          return roles_.size();
-        } else {
-          return rolesBuilder_.getCount();
-        }
-      }
-      /**
-       * <code>repeated .MmoSimpleRole roles = 4;</code>
-       */
-      public MmoSimpleRole getRoles(int index) {
-        if (rolesBuilder_ == null) {
-          return roles_.get(index);
-        } else {
-          return rolesBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .MmoSimpleRole roles = 4;</code>
-       */
-      public Builder setRoles(
-          int index, MmoSimpleRole value) {
-        if (rolesBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureRolesIsMutable();
-          roles_.set(index, value);
-          onChanged();
-        } else {
-          rolesBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .MmoSimpleRole roles = 4;</code>
-       */
-      public Builder setRoles(
-          int index, MmoSimpleRole.Builder builderForValue) {
-        if (rolesBuilder_ == null) {
-          ensureRolesIsMutable();
-          roles_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          rolesBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .MmoSimpleRole roles = 4;</code>
-       */
-      public Builder addRoles(MmoSimpleRole value) {
-        if (rolesBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureRolesIsMutable();
-          roles_.add(value);
-          onChanged();
-        } else {
-          rolesBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .MmoSimpleRole roles = 4;</code>
-       */
-      public Builder addRoles(
-          int index, MmoSimpleRole value) {
-        if (rolesBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureRolesIsMutable();
-          roles_.add(index, value);
-          onChanged();
-        } else {
-          rolesBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .MmoSimpleRole roles = 4;</code>
-       */
-      public Builder addRoles(
-          MmoSimpleRole.Builder builderForValue) {
-        if (rolesBuilder_ == null) {
-          ensureRolesIsMutable();
-          roles_.add(builderForValue.build());
-          onChanged();
-        } else {
-          rolesBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .MmoSimpleRole roles = 4;</code>
-       */
-      public Builder addRoles(
-          int index, MmoSimpleRole.Builder builderForValue) {
-        if (rolesBuilder_ == null) {
-          ensureRolesIsMutable();
-          roles_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          rolesBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .MmoSimpleRole roles = 4;</code>
-       */
-      public Builder addAllRoles(
-          Iterable<? extends MmoSimpleRole> values) {
-        if (rolesBuilder_ == null) {
-          ensureRolesIsMutable();
-          com.google.protobuf.AbstractMessageLite.Builder.addAll(
-              values, roles_);
-          onChanged();
-        } else {
-          rolesBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .MmoSimpleRole roles = 4;</code>
-       */
-      public Builder clearRoles() {
-        if (rolesBuilder_ == null) {
-          roles_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
-          onChanged();
-        } else {
-          rolesBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .MmoSimpleRole roles = 4;</code>
-       */
-      public Builder removeRoles(int index) {
-        if (rolesBuilder_ == null) {
-          ensureRolesIsMutable();
-          roles_.remove(index);
-          onChanged();
-        } else {
-          rolesBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .MmoSimpleRole roles = 4;</code>
-       */
-      public MmoSimpleRole.Builder getRolesBuilder(
-          int index) {
-        return getRolesFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .MmoSimpleRole roles = 4;</code>
-       */
-      public MmoSimpleRoleOrBuilder getRolesOrBuilder(
-          int index) {
-        if (rolesBuilder_ == null) {
-          return roles_.get(index);  } else {
-          return rolesBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .MmoSimpleRole roles = 4;</code>
-       */
-      public java.util.List<? extends MmoSimpleRoleOrBuilder>
-           getRolesOrBuilderList() {
-        if (rolesBuilder_ != null) {
-          return rolesBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(roles_);
-        }
-      }
-      /**
-       * <code>repeated .MmoSimpleRole roles = 4;</code>
-       */
-      public MmoSimpleRole.Builder addRolesBuilder() {
-        return getRolesFieldBuilder().addBuilder(
-            MmoSimpleRole.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .MmoSimpleRole roles = 4;</code>
-       */
-      public MmoSimpleRole.Builder addRolesBuilder(
-          int index) {
-        return getRolesFieldBuilder().addBuilder(
-            index, MmoSimpleRole.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .MmoSimpleRole roles = 4;</code>
-       */
-      public java.util.List<MmoSimpleRole.Builder>
-           getRolesBuilderList() {
-        return getRolesFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilderV3<
-          MmoSimpleRole, MmoSimpleRole.Builder, MmoSimpleRoleOrBuilder>
-          getRolesFieldBuilder() {
-        if (rolesBuilder_ == null) {
-          rolesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-              MmoSimpleRole, MmoSimpleRole.Builder, MmoSimpleRoleOrBuilder>(
-                  roles_,
-                  ((bitField0_ & 0x00000002) != 0),
-                  getParentForChildren(),
-                  isClean());
-          roles_ = null;
-        }
-        return rolesBuilder_;
-      }
-      @Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
-      }
-
-      @Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:MmoScene)
-    }
-
-    // @@protoc_insertion_point(class_scope:MmoScene)
-    private static final MmoScene DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new MmoScene();
-    }
-
-    public static MmoScene getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<MmoScene>
-        PARSER = new com.google.protobuf.AbstractParser<MmoScene>() {
-      @Override
-      public MmoScene parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new MmoScene(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<MmoScene> parser() {
-      return PARSER;
-    }
-
-    @Override
-    public com.google.protobuf.Parser<MmoScene> getParserForType() {
-      return PARSER;
-    }
-
-    @Override
-    public MmoScene getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -8829,644 +7241,6 @@ public final class PlayModel {
 
   }
 
-  public interface MmoSimpleSceneOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:MmoSimpleScene)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>int32 id = 1;</code>
-     * @return The id.
-     */
-    int getId();
-
-    /**
-     * <code>string placeName = 2;</code>
-     * @return The placeName.
-     */
-    String getPlaceName();
-    /**
-     * <code>string placeName = 2;</code>
-     * @return The bytes for placeName.
-     */
-    com.google.protobuf.ByteString
-        getPlaceNameBytes();
-  }
-  /**
-   * Protobuf type {@code MmoSimpleScene}
-   */
-  public static final class MmoSimpleScene extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:MmoSimpleScene)
-      MmoSimpleSceneOrBuilder {
-  private static final long serialVersionUID = 0L;
-    // Use MmoSimpleScene.newBuilder() to construct.
-    private MmoSimpleScene(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private MmoSimpleScene() {
-      placeName_ = "";
-    }
-
-    @Override
-    @SuppressWarnings({"unused"})
-    protected Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new MmoSimpleScene();
-    }
-
-    @Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private MmoSimpleScene(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new NullPointerException();
-      }
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 8: {
-
-              id_ = input.readInt32();
-              break;
-            }
-            case 18: {
-              String s = input.readStringRequireUtf8();
-
-              placeName_ = s;
-              break;
-            }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return PlayModel.internal_static_MmoSimpleScene_descriptor;
-    }
-
-    @Override
-    protected FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return PlayModel.internal_static_MmoSimpleScene_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              MmoSimpleScene.class, Builder.class);
-    }
-
-    public static final int ID_FIELD_NUMBER = 1;
-    private int id_;
-    /**
-     * <code>int32 id = 1;</code>
-     * @return The id.
-     */
-    @Override
-    public int getId() {
-      return id_;
-    }
-
-    public static final int PLACENAME_FIELD_NUMBER = 2;
-    private volatile Object placeName_;
-    /**
-     * <code>string placeName = 2;</code>
-     * @return The placeName.
-     */
-    @Override
-    public String getPlaceName() {
-      Object ref = placeName_;
-      if (ref instanceof String) {
-        return (String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        String s = bs.toStringUtf8();
-        placeName_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string placeName = 2;</code>
-     * @return The bytes for placeName.
-     */
-    @Override
-    public com.google.protobuf.ByteString
-        getPlaceNameBytes() {
-      Object ref = placeName_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (String) ref);
-        placeName_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    private byte memoizedIsInitialized = -1;
-    @Override
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    @Override
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (id_ != 0) {
-        output.writeInt32(1, id_);
-      }
-      if (!getPlaceNameBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, placeName_);
-      }
-      unknownFields.writeTo(output);
-    }
-
-    @Override
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (id_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, id_);
-      }
-      if (!getPlaceNameBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, placeName_);
-      }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @Override
-    public boolean equals(final Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof MmoSimpleScene)) {
-        return super.equals(obj);
-      }
-      MmoSimpleScene other = (MmoSimpleScene) obj;
-
-      if (getId()
-          != other.getId()) return false;
-      if (!getPlaceName()
-          .equals(other.getPlaceName())) return false;
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
-    }
-
-    @Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + ID_FIELD_NUMBER;
-      hash = (53 * hash) + getId();
-      hash = (37 * hash) + PLACENAME_FIELD_NUMBER;
-      hash = (53 * hash) + getPlaceName().hashCode();
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static MmoSimpleScene parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static MmoSimpleScene parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static MmoSimpleScene parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static MmoSimpleScene parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static MmoSimpleScene parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static MmoSimpleScene parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static MmoSimpleScene parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static MmoSimpleScene parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static MmoSimpleScene parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static MmoSimpleScene parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static MmoSimpleScene parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static MmoSimpleScene parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    @Override
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(MmoSimpleScene prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    @Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @Override
-    protected Builder newBuilderForType(
-        BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code MmoSimpleScene}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:MmoSimpleScene)
-        MmoSimpleSceneOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return PlayModel.internal_static_MmoSimpleScene_descriptor;
-      }
-
-      @Override
-      protected FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return PlayModel.internal_static_MmoSimpleScene_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                MmoSimpleScene.class, Builder.class);
-      }
-
-      // Construct using PlayModel.MmoSimpleScene.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
-      }
-      @Override
-      public Builder clear() {
-        super.clear();
-        id_ = 0;
-
-        placeName_ = "";
-
-        return this;
-      }
-
-      @Override
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return PlayModel.internal_static_MmoSimpleScene_descriptor;
-      }
-
-      @Override
-      public MmoSimpleScene getDefaultInstanceForType() {
-        return MmoSimpleScene.getDefaultInstance();
-      }
-
-      @Override
-      public MmoSimpleScene build() {
-        MmoSimpleScene result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      @Override
-      public MmoSimpleScene buildPartial() {
-        MmoSimpleScene result = new MmoSimpleScene(this);
-        result.id_ = id_;
-        result.placeName_ = placeName_;
-        onBuilt();
-        return result;
-      }
-
-      @Override
-      public Builder clone() {
-        return super.clone();
-      }
-      @Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return super.setField(field, value);
-      }
-      @Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
-      }
-      @Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
-      }
-      @Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, Object value) {
-        return super.setRepeatedField(field, index, value);
-      }
-      @Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return super.addRepeatedField(field, value);
-      }
-      @Override
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof MmoSimpleScene) {
-          return mergeFrom((MmoSimpleScene)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(MmoSimpleScene other) {
-        if (other == MmoSimpleScene.getDefaultInstance()) return this;
-        if (other.getId() != 0) {
-          setId(other.getId());
-        }
-        if (!other.getPlaceName().isEmpty()) {
-          placeName_ = other.placeName_;
-          onChanged();
-        }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      @Override
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      @Override
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        MmoSimpleScene parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (MmoSimpleScene) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-
-      private int id_ ;
-      /**
-       * <code>int32 id = 1;</code>
-       * @return The id.
-       */
-      @Override
-      public int getId() {
-        return id_;
-      }
-      /**
-       * <code>int32 id = 1;</code>
-       * @param value The id to set.
-       * @return This builder for chaining.
-       */
-      public Builder setId(int value) {
-        
-        id_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>int32 id = 1;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearId() {
-        
-        id_ = 0;
-        onChanged();
-        return this;
-      }
-
-      private Object placeName_ = "";
-      /**
-       * <code>string placeName = 2;</code>
-       * @return The placeName.
-       */
-      public String getPlaceName() {
-        Object ref = placeName_;
-        if (!(ref instanceof String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          String s = bs.toStringUtf8();
-          placeName_ = s;
-          return s;
-        } else {
-          return (String) ref;
-        }
-      }
-      /**
-       * <code>string placeName = 2;</code>
-       * @return The bytes for placeName.
-       */
-      public com.google.protobuf.ByteString
-          getPlaceNameBytes() {
-        Object ref = placeName_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (String) ref);
-          placeName_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string placeName = 2;</code>
-       * @param value The placeName to set.
-       * @return This builder for chaining.
-       */
-      public Builder setPlaceName(
-          String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        placeName_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string placeName = 2;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearPlaceName() {
-        
-        placeName_ = getDefaultInstance().getPlaceName();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string placeName = 2;</code>
-       * @param value The bytes for placeName to set.
-       * @return This builder for chaining.
-       */
-      public Builder setPlaceNameBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        placeName_ = value;
-        onChanged();
-        return this;
-      }
-      @Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
-      }
-
-      @Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:MmoSimpleScene)
-    }
-
-    // @@protoc_insertion_point(class_scope:MmoSimpleScene)
-    private static final MmoSimpleScene DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new MmoSimpleScene();
-    }
-
-    public static MmoSimpleScene getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<MmoSimpleScene>
-        PARSER = new com.google.protobuf.AbstractParser<MmoSimpleScene>() {
-      @Override
-      public MmoSimpleScene parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new MmoSimpleScene(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<MmoSimpleScene> parser() {
-      return PARSER;
-    }
-
-    @Override
-    public com.google.protobuf.Parser<MmoSimpleScene> getParserForType() {
-      return PARSER;
-    }
-
-    @Override
-    public MmoSimpleScene getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_PlayModelMessage_descriptor;
   private static final 
@@ -9503,20 +7277,10 @@ public final class PlayModel {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_LogoutResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_MmoScene_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_MmoScene_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_MmoSimpleRole_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_MmoSimpleRole_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_MmoSimpleScene_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_MmoSimpleScene_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -9541,19 +7305,14 @@ public final class PlayModel {
       "eBody\"2\n\014LoginRequest\022\020\n\010username\030\001 \001(\t\022" +
       "\020\n\010password\030\002 \001(\t\"G\n\017RegisterRequest\022\020\n\010" +
       "username\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\022\020\n\010role" +
-      "name\030\003 \001(\t\"S\n\rLoginResponse\022\033\n\010mmoScene\030" +
-      "\001 \001(\0132\t.MmoScene\022%\n\rmmoSimpleRole\030\002 \001(\0132" +
-      "\016.MmoSimpleRole\"6\n\020RegisterResponse\022\021\n\ts" +
-      "tateCode\030\001 \001(\005\022\017\n\007message\030\002 \001(\t\" \n\rLogou" +
-      "tRequest\022\017\n\007rolesId\030\001 \001(\005\"+\n\016LogoutRespo" +
-      "nse\022\014\n\004code\030\001 \001(\005\022\013\n\003mxg\030\002 \001(\t\"k\n\010MmoSce" +
-      "ne\022\n\n\002id\030\001 \001(\005\022\021\n\tplaceName\030\002 \001(\t\022!\n\010can" +
-      "Scene\030\003 \003(\0132\017.MmoSimpleScene\022\035\n\005roles\030\004 " +
-      "\003(\0132\016.MmoSimpleRole\"Y\n\rMmoSimpleRole\022\n\n\002" +
-      "id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\016\n\006status\030\003 \001(\t\022\014" +
-      "\n\004type\030\004 \001(\t\022\020\n\010onStatus\030\005 \001(\t\"/\n\016MmoSim" +
-      "pleScene\022\n\n\002id\030\001 \001(\005\022\021\n\tplaceName\030\002 \001(\tB" +
-      "\013B\tPlayModelb\006proto3"
+      "name\030\003 \001(\t\"G\n\rLoginResponse\022\017\n\007sceneId\030\001" +
+      " \001(\005\022%\n\rmmoSimpleRole\030\002 \001(\0132\016.MmoSimpleR" +
+      "ole\"6\n\020RegisterResponse\022\021\n\tstateCode\030\001 \001" +
+      "(\005\022\017\n\007message\030\002 \001(\t\"\017\n\rLogoutRequest\"+\n\016" +
+      "LogoutResponse\022\014\n\004code\030\001 \001(\005\022\013\n\003mxg\030\002 \001(" +
+      "\t\"Y\n\rMmoSimpleRole\022\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002" +
+      " \001(\t\022\016\n\006status\030\003 \001(\t\022\014\n\004type\030\004 \001(\t\022\020\n\010on" +
+      "Status\030\005 \001(\tB\013B\tPlayModelb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -9582,7 +7341,7 @@ public final class PlayModel {
     internal_static_LoginResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_LoginResponse_descriptor,
-        new String[] { "MmoScene", "MmoSimpleRole", });
+        new String[] { "SceneId", "MmoSimpleRole", });
     internal_static_RegisterResponse_descriptor =
       getDescriptor().getMessageTypes().get(4);
     internal_static_RegisterResponse_fieldAccessorTable = new
@@ -9594,31 +7353,19 @@ public final class PlayModel {
     internal_static_LogoutRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_LogoutRequest_descriptor,
-        new String[] { "RolesId", });
+        new String[] { });
     internal_static_LogoutResponse_descriptor =
       getDescriptor().getMessageTypes().get(6);
     internal_static_LogoutResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_LogoutResponse_descriptor,
         new String[] { "Code", "Mxg", });
-    internal_static_MmoScene_descriptor =
-      getDescriptor().getMessageTypes().get(7);
-    internal_static_MmoScene_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_MmoScene_descriptor,
-        new String[] { "Id", "PlaceName", "CanScene", "Roles", });
     internal_static_MmoSimpleRole_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_MmoSimpleRole_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_MmoSimpleRole_descriptor,
         new String[] { "Id", "Name", "Status", "Type", "OnStatus", });
-    internal_static_MmoSimpleScene_descriptor =
-      getDescriptor().getMessageTypes().get(9);
-    internal_static_MmoSimpleScene_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_MmoSimpleScene_descriptor,
-        new String[] { "Id", "PlaceName", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

@@ -21,12 +21,10 @@ message SceneModelMessage{
     AskCanRequest askCanRequest=2;
     FindAllRolesRequest findAllRolesRequest=3;
     WentRequest wentRequest=4;
-    WhereRequest whereRequest=5;
-    AskCanResponse askCanResponse=6;
-    FindAllRolesResponse findAllRolesResponse=7;
-    WentResponse wentResponse=8;
-    WhereResponse whereResponse=9;
-    MmoScene mmoScene=10;
+    AskCanResponse askCanResponse=5;
+    FindAllRolesResponse findAllRolesResponse=6;
+    WentResponse wentResponse=7;
+    MmoScene mmoScene=8;
   }
 }
 message AskCanRequest{
@@ -36,24 +34,21 @@ message FindAllRolesRequest{
   int32  sceneId=1;
 }
 message WentRequest{
-  int32  sceneId=1;;
-  int32  playId=2;
+  int32  sceneId=1;
 }
-message WhereRequest{
-  int32 playId=1;
-}
+
+
 message AskCanResponse{
-  repeated MmoSimpleScene mmoSimpleScenes=1;
+  repeated int32 scenesIds=1;
 }
 message FindAllRolesResponse{
   repeated MmoSimpleRole mmoSimpleRoles=1;
 }
 message WentResponse{
-  MmoScene mmoScene=1;
+  int32 sceneId=1;
+  repeated MmoSimpleRole mmoSimpleRoles=2;
 }
-message WhereResponse{
-  MmoScene mmoScene=1;
-}
+
 
 message MmoScene{
   int32 id=1;
@@ -68,8 +63,6 @@ message MmoSimpleRole{
   string type=4;
   string onStatus=5;
 }
-
-
 message MmoSimpleScene{
    int32 id=1;
    string palceName=2;

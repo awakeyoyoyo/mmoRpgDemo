@@ -25,13 +25,13 @@ public class SceneHandler {
         NettyResponse nettyResponse=null;
         switch (nettyRequest.getCmd()) {
             case ConstantValue.ASK_CAN_REQUEST:
-                nettyResponse = sceneService.askCanRequest(nettyRequest);
+                nettyResponse = sceneService.askCanRequest(nettyRequest,channel);
                 break;
             case ConstantValue.WENT_REQUEST:
-                nettyResponse = sceneService.wentRequest(nettyRequest);
+                nettyResponse = sceneService.wentRequest(nettyRequest,channel);
                 break;
             case ConstantValue.FIND_ALL_ROLES_REQUEST:
-                nettyResponse = sceneService.findAllRolesRequest(nettyRequest);
+                nettyResponse = sceneService.findAllRolesRequest(nettyRequest,channel);
                 break;
             default:
                 nettyResponse = new NettyResponse(StateCode.FAIL, (short) 444, (short) 444, "传入错误的cmd".getBytes());
