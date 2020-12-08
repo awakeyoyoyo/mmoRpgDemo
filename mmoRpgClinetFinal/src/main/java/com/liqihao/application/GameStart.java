@@ -46,12 +46,10 @@ public class GameStart {
                 System.out.println("输入错误指令");
                 continue;
             }
-            handler(scanner,cmd.getModule(),cmd.getCmd());
+            handler(scanner,cmd.getCmd());
         }
     }
-    public void handler(Scanner scanner,short module,short cmd){
-        switch (module){
-            case ConstantValue.SCENE_MODULE:
+    public void handler(Scanner scanner,int cmd){
                 switch (cmd){
                     case ConstantValue.ASK_CAN_REQUEST:
                         askCanRequest(scanner);
@@ -62,12 +60,6 @@ public class GameStart {
                     case ConstantValue.FIND_ALL_ROLES_REQUEST:
                         findAllRolesRequest(scanner);
                         break;
-                    default:
-                        System.out.println("GameStart-handler:收到错误cmd");
-                }
-                break;
-            case ConstantValue.PLAY_MODULE:
-                switch (cmd){
                     case ConstantValue.LOGIN_REQUEST:
                         loginRequest(scanner);
                         break;
@@ -80,11 +72,6 @@ public class GameStart {
                     default:
                         System.out.println("GameStart-handler:收到错误cmd");
                 }
-                break;
-            default:
-                System.out.println("GameStart-handler:收到错误module");
-
-        }
     }
 
     private void registerRequest(Scanner scanner) {
@@ -103,7 +90,6 @@ public class GameStart {
         scanner.nextLine();
         NettyRequest nettyRequest=new NettyRequest();
         nettyRequest.setCmd(ConstantValue.REGISTER_REQUEST);
-        nettyRequest.setModule(ConstantValue.PLAY_MODULE);
         PlayModel.PlayModelMessage myMessage;
         myMessage=PlayModel.PlayModelMessage.newBuilder().setDataType(PlayModel.PlayModelMessage.DateType.RegisterRequest)
                 .setRegisterRequest(
@@ -118,7 +104,6 @@ public class GameStart {
     private void logoutRequest(Scanner scanner) {
         NettyRequest nettyRequest=new NettyRequest();
         nettyRequest.setCmd(ConstantValue.LOGOUT_REQUEST);
-        nettyRequest.setModule(ConstantValue.PLAY_MODULE);
         PlayModel.PlayModelMessage myMessage;
         myMessage=PlayModel.PlayModelMessage.newBuilder().setDataType(PlayModel.PlayModelMessage.DateType.LogoutRequest)
                 .setLogoutRequest(PlayModel.LogoutRequest.newBuilder().build()).build();
@@ -139,7 +124,6 @@ public class GameStart {
         scanner.nextLine();
         NettyRequest nettyRequest=new NettyRequest();
         nettyRequest.setCmd(ConstantValue.LOGIN_REQUEST);
-        nettyRequest.setModule(ConstantValue.PLAY_MODULE);
         PlayModel.PlayModelMessage myMessage;
         myMessage=PlayModel.PlayModelMessage.newBuilder().setDataType(PlayModel.PlayModelMessage.DateType.LoginRequest)
                 .setLoginRequest(PlayModel.LoginRequest.newBuilder().setUsername(username).setPassword(password).build()).build();
@@ -153,7 +137,6 @@ public class GameStart {
         Integer sceneId= MmoCacheCilent.getInstance().getNowSceneId();
         NettyRequest nettyRequest=new NettyRequest();
         nettyRequest.setCmd(ConstantValue.FIND_ALL_ROLES_REQUEST);
-        nettyRequest.setModule(ConstantValue.SCENE_MODULE);
         SceneModel.SceneModelMessage myMessage;
         myMessage=SceneModel.SceneModelMessage.newBuilder().setDataType(SceneModel.SceneModelMessage.DateType.FindAllRolesRequest)
                 .setFindAllRolesRequest(SceneModel.FindAllRolesRequest.newBuilder().setSceneId(sceneId).build()).build();
@@ -184,7 +167,6 @@ public class GameStart {
         }else{
             NettyRequest nettyRequest=new NettyRequest();
             nettyRequest.setCmd(ConstantValue.WENT_REQUEST);
-            nettyRequest.setModule(ConstantValue.SCENE_MODULE);
             SceneModel.SceneModelMessage myMessage;
             myMessage=SceneModel.SceneModelMessage.newBuilder()
                     .setDataType(SceneModel.SceneModelMessage.DateType.WentRequest)
@@ -200,7 +182,6 @@ public class GameStart {
         Integer sceneId= MmoCacheCilent.getInstance().getNowSceneId();
         NettyRequest nettyRequest=new NettyRequest();
         nettyRequest.setCmd(ConstantValue.ASK_CAN_REQUEST);
-        nettyRequest.setModule(ConstantValue.SCENE_MODULE);
         SceneModel.SceneModelMessage myMessage;
         myMessage=SceneModel.SceneModelMessage.newBuilder()
                 .setDataType(SceneModel.SceneModelMessage.DateType.AskCanRequest)

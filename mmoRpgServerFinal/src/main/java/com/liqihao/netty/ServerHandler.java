@@ -45,7 +45,6 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         log.error("ServerHandler exception message: "+cause);
         NettyRequest nettyRequest=new NettyRequest();
-        nettyRequest.setModule(ConstantValue.GAME_SYSTEM_MODULE);
         nettyRequest.setCmd(ConstantValue.NET_IO_OUTTIME);
         dispatcherservlet.handler(nettyRequest,ctx.channel());
     }
@@ -71,7 +70,6 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
         if(readIdleTimes > 3){
             log.error(" [server]读空闲超过3次，关闭连接");
             NettyRequest nettyRequest=new NettyRequest();
-            nettyRequest.setModule(ConstantValue.GAME_SYSTEM_MODULE);
             nettyRequest.setCmd(ConstantValue.NET_IO_OUTTIME);
             NettyResponse response=dispatcherservlet.handler(nettyRequest,ctx.channel());
             ctx.channel().writeAndFlush(response);

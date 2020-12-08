@@ -6,13 +6,9 @@ public class NettyResponse {
      */
     private int stateCode;
     /**
-     * 请求模块
-     */
-    private short module;
-    /**
      * 请求命令
      */
-    private short cmd;
+    private int cmd;
     /**
      * 数据部分
      */
@@ -21,9 +17,8 @@ public class NettyResponse {
     public NettyResponse() {
     }
 
-    public NettyResponse(int stateCode, short module, short cmd, byte[] data) {
+    public NettyResponse(int stateCode, int cmd, byte[] data) {
         this.stateCode = stateCode;
-        this.module = module;
         this.cmd = cmd;
         this.data = data;
     }
@@ -36,19 +31,11 @@ public class NettyResponse {
         this.stateCode = stateCode;
     }
 
-    public short getModule() {
-        return module;
-    }
-
-    public void setModule(short module) {
-        this.module = module;
-    }
-
-    public short getCmd() {
+    public int getCmd() {
         return cmd;
     }
 
-    public void setCmd(short cmd) {
+    public void setCmd(int cmd) {
         this.cmd = cmd;
     }
 

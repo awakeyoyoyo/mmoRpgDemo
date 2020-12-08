@@ -11,8 +11,8 @@ import org.apache.log4j.Logger;
 /**
  * 响应编码器
  * 数据包格式
- * 包头（4byte）-----模块号（2byte）-----命令号（2byte）-----状态码（4byte）------长度（4byte）--------数据
- * 数据包基本长度 模块号+命令+状态码+长度
+ * 包头（4byte）-----命令号（2byte）-----状态码（4byte）------长度（4byte）--------数据
+ * 数据包基本长度 包头+命令+状态码+长度
  */
 public class ResponceEncoder extends MessageToByteEncoder<NettyResponse> {
     private static Logger logger=Logger.getLogger(ResponceEncoder.class);
@@ -22,10 +22,8 @@ public class ResponceEncoder extends MessageToByteEncoder<NettyResponse> {
 
 //        //写入包头
         byteBuf.writeInt(ConstantValue.FLAG);
-        //module
-        byteBuf.writeShort(nettyResponse.getModule());
         //cmd
-        byteBuf.writeShort(nettyResponse.getCmd());
+        byteBuf.writeInt(nettyResponse.getCmd());
         //状态码
         byteBuf.writeInt(nettyResponse.getStateCode());
         //长度
@@ -33,6 +31,7 @@ public class ResponceEncoder extends MessageToByteEncoder<NettyResponse> {
         //data
         byteBuf.writeBytes(nettyResponse.getData());
 
-        logger.error("Server:ResponceEncoder"+byteBuf.readableBytes());
+        logger.info("ResponceEncoder: 包头: "+ConstantValue.FLAG+"cmd: "+nettyResponse.getCmd()+"状态码："+nettyResponse.getStateCode()+"数据长度: "+nettyResponse.getDataLength() );
+        logger.error("Server:ResponceEncoder readableBytes "+byteBuf.readableBytes());
     }
 }

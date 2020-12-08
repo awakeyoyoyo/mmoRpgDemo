@@ -6,6 +6,7 @@ import java.util.List;
 
 /**
  * 字符串处理类
+ * @author awakeyoyoyo
  */
 public class CommonsUtil {
     /**

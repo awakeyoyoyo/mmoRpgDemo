@@ -9,9 +9,10 @@ import java.lang.annotation.Target;
  * module模块handler优化
  */
 //作用域
-@Target(ElementType.TYPE)
+@Target(ElementType.METHOD)
 //生命周期
 @Retention(RetentionPolicy.RUNTIME)
-public @interface HandlerModuleTag {
-    short module();
+public @interface HandlerCmdTag {
+    int cmd();
+    String module();
 }

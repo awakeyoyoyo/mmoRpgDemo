@@ -7,12 +7,11 @@ import java.lang.annotation.Target;
 
 /**
  * @author 李启浩
- * service模块优化
+ * service
  */
 //作用域
-@Target(ElementType.METHOD)
+@Target(ElementType.TYPE)
 //生命周期
 @Retention(RetentionPolicy.RUNTIME)
 public @interface HandlerServiceTag {
-    short cmd();
 }

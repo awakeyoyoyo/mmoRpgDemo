@@ -2,46 +2,48 @@ package com.liqihao.commons;
 
 public interface ConstantValue {
     //包头
-    public static final  int FLAG=6617329;
+    int FLAG=6617329;
 
     //场景模块
-    public static final short SCENE_MODULE=1111;
+     String SCENE_MODULE="sceneServiceImpl";
     //请求部分
     //请求可以前往的场景
-    public static final short ASK_CAN_REQUEST=1000;
+    int ASK_CAN_REQUEST=1000;
     //请求当前场景的角色
-    public static final short FIND_ALL_ROLES_REQUEST=1001;
+    int FIND_ALL_ROLES_REQUEST=1001;
     //请求前往下一个场景
-    public static final short WENT_REQUEST=1002;
+    int WENT_REQUEST=1002;
 
     //响应部分
     //请求可以前往的场景的响应
-    public static final short ASK_CAN_RESPONSE=1010;
+    int ASK_CAN_RESPONSE=1500;
     //请求当前场景的角色的响应
-    public static final short FIND_ALL_ROLES_RESPONSE=1011;
+    int FIND_ALL_ROLES_RESPONSE=1501;
     //请求前往下一个场景的响应
-    public static final short WENT_RESPONSE=1012;
-
+    int WENT_RESPONSE=1502;
     //玩家模块
-    public static final short PLAY_MODULE=2222;
+    String PLAY_MODULE="playServiceImpl";
     //登陆请求
-    public static final short LOGIN_REQUEST=2000;
+    int LOGIN_REQUEST=2000;
     //注册请求
-    public static final short REGISTER_REQUEST=2001;
+    int REGISTER_REQUEST=2001;
     //退出登陆请求
-    public static final short LOGOUT_REQUEST=2002;
+    int LOGOUT_REQUEST=2002;
+
     //response
     //登陆响应
-    public static final short LOGIN_RESPONSE=2020;
+    int LOGIN_RESPONSE=2500;
     //注册响应
-    public static final short REGISTER_RESPONSE=2021;
+    int REGISTER_RESPONSE=2501;
     //退出登陆响应
-    public static final short LOGOUT_RESPONSE=2022;
+    int LOGOUT_RESPONSE=2502;
 
     //游戏系统模块
-    public static final short GAME_SYSTEM_MODULE=3333;
+    String GAME_SYSTEM_MODULE="gameSystemServiceImpl";
+    //客户端超时请求
+    int NET_IO_OUTTIME=3000;
     //客户端超市响应
-    public static final short OUT_RIME_RESPONSE=3000;
+    int OUT_RIME_RESPONSE=3500;
 
     //客户端指令
     //请求可前往的场景

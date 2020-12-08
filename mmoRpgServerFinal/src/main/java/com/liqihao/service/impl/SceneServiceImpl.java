@@ -2,7 +2,7 @@ package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.liqihao.Cache.MmoCache;
-import com.liqihao.annotation.HandlerModuleTag;
+import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.*;
 import com.liqihao.dao.MmoRolePOJOMapper;
@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
-@HandlerModuleTag(module = ConstantValue.SCENE_MODULE)
+@HandlerServiceTag
 public class SceneServiceImpl implements SceneService {
     private static final Logger log = LoggerFactory.getLogger(SceneServiceImpl.class);
     @Autowired
@@ -34,13 +34,14 @@ public class SceneServiceImpl implements SceneService {
 
 
     @Override
+    @HandlerCmdTag(cmd = ConstantValue.ASK_CAN_REQUEST,module = ConstantValue.SCENE_MODULE)
     public NettyResponse askCanRequest(NettyRequest request,Channel channel) throws InvalidProtocolBufferException {
         byte[] data=request.getData();
         SceneModel.SceneModelMessage myMessage;
         myMessage=SceneModel.SceneModelMessage.parseFrom(data);
         Integer sceneId=myMessage.getAskCanRequest().getSceneId();
         if (null==sceneId) {
-            return new NettyResponse(StateCode.FAIL, ConstantValue.SCENE_MODULE, ConstantValue.ASK_CAN_RESPONSE, "无传入sceneId无法查询".getBytes());
+            return new NettyResponse(StateCode.FAIL, ConstantValue.ASK_CAN_RESPONSE, "无传入sceneId无法查询".getBytes());
         }
         log.info("SceneService accept sceneId: "+sceneId);
         //从缓存中读取
@@ -56,13 +57,13 @@ public class SceneServiceImpl implements SceneService {
         NettyResponse response=new NettyResponse();
         response.setCmd(ConstantValue.ASK_CAN_RESPONSE);
         response.setStateCode(StateCode.SUCCESS);
-        response.setModule(ConstantValue.SCENE_MODULE);
         byte[] data2=Messagedata.toByteArray();
         response.setData(data2);
         return response;
     }
 
     @Override
+    @HandlerCmdTag(cmd = ConstantValue.WENT_REQUEST,module = ConstantValue.SCENE_MODULE)
     public NettyResponse wentRequest(NettyRequest nettyRequest,Channel channel) throws InvalidProtocolBufferException {
         byte[] data=nettyRequest.getData();
         SceneModel.SceneModelMessage myMessage;
@@ -78,7 +79,7 @@ public class SceneServiceImpl implements SceneService {
             }
         }
         if (roleId==null){
-            NettyResponse errotResponse=new NettyResponse(StateCode.FAIL,ConstantValue.SCENE_MODULE,ConstantValue.WENT_RESPONSE,"请先登录".getBytes());
+            NettyResponse errotResponse=new NettyResponse(StateCode.FAIL,ConstantValue.WENT_RESPONSE,"请先登录".getBytes());
             return  errotResponse;
         }
         //先查询palyId所在场景
@@ -96,7 +97,7 @@ public class SceneServiceImpl implements SceneService {
         }
         if (!canFlag){
             //不包含 即不可进入
-            NettyResponse errotResponse=new NettyResponse(StateCode.FAIL,ConstantValue.SCENE_MODULE,ConstantValue.WENT_RESPONSE,"无法前往该场景".getBytes());
+            NettyResponse errotResponse=new NettyResponse(StateCode.FAIL,ConstantValue.WENT_RESPONSE,"无法前往该场景".getBytes());
             return  errotResponse;
         }
         //进入场景，修改数据库 player 和scene
@@ -161,7 +162,6 @@ public class SceneServiceImpl implements SceneService {
         NettyResponse nettyResponse=new NettyResponse();
         nettyResponse.setCmd(ConstantValue.WENT_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        nettyResponse.setModule(ConstantValue.SCENE_MODULE);
         //ptotobuf生成wentResponse
         SceneModel.SceneModelMessage.Builder builder=SceneModel.SceneModelMessage.newBuilder();
         builder.setDataType(SceneModel.SceneModelMessage.DateType.WentResponse);
@@ -189,6 +189,7 @@ public class SceneServiceImpl implements SceneService {
     }
 
     @Override
+    @HandlerCmdTag(cmd = ConstantValue.FIND_ALL_ROLES_REQUEST,module = ConstantValue.SCENE_MODULE)
     public NettyResponse findAllRolesRequest(NettyRequest nettyRequest,Channel channel) throws InvalidProtocolBufferException {
         byte[] data=nettyRequest.getData();
         SceneModel.SceneModelMessage myMessage;
@@ -241,7 +242,6 @@ public class SceneServiceImpl implements SceneService {
         NettyResponse nettyResponse=new NettyResponse();
         nettyResponse.setCmd(ConstantValue.FIND_ALL_ROLES_RESPONSE);
         nettyResponse.setStateCode(200);
-        nettyResponse.setModule(ConstantValue.SCENE_MODULE);
         nettyResponse.setData(data2);
         return nettyResponse;
     }

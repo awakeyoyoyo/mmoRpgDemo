@@ -2,6 +2,7 @@ package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.liqihao.Cache.MmoCache;
+import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.*;
 import com.liqihao.dao.MmoRolePOJOMapper;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
+@HandlerServiceTag
 public class PlayServiceImpl implements PlayService{
     @Autowired
     private MmoRolePOJOMapper mmoRolePOJOMapper;
@@ -25,6 +27,7 @@ public class PlayServiceImpl implements PlayService{
     private MmoScenePOJOMapper mmoScenePOJOMapper;
 
     @Override
+    @HandlerCmdTag(cmd = ConstantValue.REGISTER_REQUEST,module = ConstantValue.PLAY_MODULE)
     public NettyResponse registerRequest(NettyRequest nettyRequest,Channel channel) throws InvalidProtocolBufferException {
         byte[] data=nettyRequest.getData();
         PlayModel.PlayModelMessage myMessage;
@@ -39,7 +42,7 @@ public class PlayServiceImpl implements PlayService{
             NettyResponse nettyResponse=new NettyResponse();
             nettyResponse.setCmd(ConstantValue.REGISTER_RESPONSE);
             nettyResponse.setStateCode(StateCode.SUCCESS);
-            nettyResponse.setModule(ConstantValue.PLAY_MODULE);
+//            nettyResponse.setModule(ConstantValue.PLAY_MODULE);
             //protobuf 生成registerResponse
             PlayModel.PlayModelMessage.Builder messageData=PlayModel.PlayModelMessage.newBuilder();
             messageData.setDataType(PlayModel.PlayModelMessage.DateType.LoginResponse);
@@ -68,7 +71,6 @@ public class PlayServiceImpl implements PlayService{
         NettyResponse nettyResponse=new NettyResponse();
         nettyResponse.setCmd(ConstantValue.REGISTER_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        nettyResponse.setModule(ConstantValue.PLAY_MODULE);
         //protobuf 生成registerResponse
         PlayModel.PlayModelMessage.Builder messageData=PlayModel.PlayModelMessage.newBuilder();
         messageData.setDataType(PlayModel.PlayModelMessage.DateType.RegisterResponse);
@@ -81,7 +83,7 @@ public class PlayServiceImpl implements PlayService{
     }
 
     @Override
-
+    @HandlerCmdTag(cmd = ConstantValue.LOGIN_REQUEST,module = ConstantValue.PLAY_MODULE)
     public NettyResponse loginRequest(NettyRequest nettyRequest,Channel channel) throws InvalidProtocolBufferException {
         byte[] data=nettyRequest.getData();
         PlayModel.PlayModelMessage myMessage;
@@ -93,7 +95,6 @@ public class PlayServiceImpl implements PlayService{
             NettyResponse nettyResponse=new NettyResponse();
             nettyResponse.setCmd(ConstantValue.LOGIN_RESPONSE);
             nettyResponse.setStateCode(StateCode.FAIL);
-            nettyResponse.setModule(ConstantValue.PLAY_MODULE);
             nettyResponse.setData("密码错误or账号错误".getBytes());
             return nettyResponse;
         }
@@ -130,12 +131,13 @@ public class PlayServiceImpl implements PlayService{
         messageData.setLoginResponse(loginResponseBuilder.build());
         NettyResponse nettyResponse=new NettyResponse();
         nettyResponse.setData(messageData.build().toByteArray());
-        nettyResponse.setModule(ConstantValue.PLAY_MODULE);
         nettyResponse.setCmd(ConstantValue.LOGIN_RESPONSE);
+        nettyResponse.setStateCode(StateCode.SUCCESS);
         return nettyResponse;
     }
 
     @Override
+    @HandlerCmdTag(cmd = ConstantValue.LOGOUT_REQUEST,module = ConstantValue.PLAY_MODULE)
     public NettyResponse logoutRequest(NettyRequest nettyRequest,Channel channel) throws InvalidProtocolBufferException {
         ConcurrentHashMap<Integer,Channel> channelConcurrentHashMap= MmoCache.getInstance().getChannelConcurrentHashMap();
         Integer roleId=null;
@@ -151,7 +153,7 @@ public class PlayServiceImpl implements PlayService{
             }
         }
         if (roleId==null){
-            NettyResponse errotResponse=new NettyResponse(StateCode.FAIL,ConstantValue.PLAY_MODULE,ConstantValue.LOGOUT_RESPONSE,"请先登录".getBytes());
+            NettyResponse errotResponse=new NettyResponse(StateCode.FAIL,ConstantValue.LOGOUT_RESPONSE,"请先登录".getBytes());
             return  errotResponse;
         }
         //将数据库中设置为离线
@@ -176,7 +178,6 @@ public class PlayServiceImpl implements PlayService{
         NettyResponse nettyResponse=new NettyResponse();
         nettyResponse.setCmd(ConstantValue.LOGOUT_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        nettyResponse.setModule(ConstantValue.PLAY_MODULE);
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
         return  nettyResponse;
     }

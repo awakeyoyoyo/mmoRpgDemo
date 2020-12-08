@@ -2,31 +2,19 @@ package com.liqihao.commons;
 
 public class NettyRequest {
     /**
-     * 请求模块
-     */
-    private short module;
-    /**
      * 请求命令
      */
-    private short cmd;
+    private int cmd;
     /**
      * 数据部分
      */
     private byte[] data;
 
-    public short getModule() {
-        return module;
-    }
-
-    public void setModule(short module) {
-        this.module = module;
-    }
-
-    public short getCmd() {
+    public int getCmd() {
         return cmd;
     }
 
-    public void setCmd(short cmd) {
+    public void setCmd(int cmd) {
         this.cmd = cmd;
     }
 

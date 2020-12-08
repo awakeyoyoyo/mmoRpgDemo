@@ -25,11 +25,9 @@ public class Dispatcherservlet {
      * @return
      */
     public void handler(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
-        short module=nettyResponse.getModule();
-        short cmd=nettyResponse.getCmd();
-        switch (module){
-            case ConstantValue.SCENE_MODULE:
-                switch (cmd){
+        int cmd=nettyResponse.getCmd();
+
+        switch (cmd){
                     case ConstantValue.ASK_CAN_RESPONSE:
                         sceneService.askCanResponse(nettyResponse);
                         break;
@@ -39,12 +37,6 @@ public class Dispatcherservlet {
                     case ConstantValue.FIND_ALL_ROLES_RESPONSE:
                         sceneService.findAllRolesResponse(nettyResponse);
                         break;
-                    default:
-                       System.out.println("handler:收到错误的数据包");
-                }
-                break;
-            case ConstantValue.PLAY_MODULE:
-                switch (cmd){
                     case ConstantValue.LOGIN_RESPONSE:
                         playService.loginResponse(nettyResponse);
                         break;
@@ -54,22 +46,14 @@ public class Dispatcherservlet {
                     case ConstantValue.LOGOUT_RESPONSE:
                         playService.logoutResponse(nettyResponse);
                         break;
-                    default:
-                        System.out.println("handler:收到错误的数据包");
-                }
-                break;
-            case ConstantValue.GAME_SYSTEM_MODULE:
-                switch (cmd){
+
                     case ConstantValue.OUT_RIME_RESPONSE:
                         gameService.outTimeResponse(nettyResponse);
                         break;
                     default:
                         System.out.println("handler:收到错误的数据包");
                 }
-                break;
-            default:
-                System.out.println("handler:收到错误的数据包");
 
-        }
+
     }
 }

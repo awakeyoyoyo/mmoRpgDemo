@@ -1,6 +1,7 @@
 package com.liqihao.service.impl;
 
 import com.liqihao.Cache.MmoCache;
+import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.*;
 import com.liqihao.dao.MmoRolePOJOMapper;
@@ -12,10 +13,12 @@ import org.springframework.stereotype.Service;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
+@HandlerServiceTag
 public class GameSystemServiceImpl implements com.liqihao.service.GameSystemService {
     @Autowired
     private MmoRolePOJOMapper mmoRolePOJOMapper;
     @Override
+    @HandlerCmdTag(cmd = ConstantValue.NET_IO_OUTTIME,module = ConstantValue.GAME_SYSTEM_MODULE)
     public NettyResponse netIoOutTime(NettyRequest nettyRequest, Channel channel) {
         //获取相同的channel对应的roleId 然后根据其删除缓存中的信息
         ConcurrentHashMap<Integer,Channel> channelConcurrentHashMap= MmoCache.getInstance().getChannelConcurrentHashMap();
@@ -42,7 +45,6 @@ public class GameSystemServiceImpl implements com.liqihao.service.GameSystemServ
         //用户下线
         NettyResponse response=new NettyResponse();
         response.setCmd(ConstantValue.OUT_RIME_RESPONSE);
-        response.setModule(ConstantValue.GAME_SYSTEM_MODULE);
         response.setStateCode(StateCode.SUCCESS);
         GameSystemModel.GameSystemModelMessage modelMessage=GameSystemModel.GameSystemModelMessage.newBuilder()
                 .setDataType(GameSystemModel.GameSystemModelMessage.DateType.OutTimeResponse)
