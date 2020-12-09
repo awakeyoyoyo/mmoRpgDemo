@@ -1,6 +1,7 @@
 package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.MmoCacheCilent;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
@@ -10,12 +11,14 @@ import com.liqihao.pojo.MmoSimpleScene;
 import com.liqihao.pojo.baseMessage.SceneMessage;
 import com.liqihao.protobufObject.SceneModel;
 import com.liqihao.service.SceneService;
+import com.liqihao.utils.CommonsUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
@@ -24,6 +27,10 @@ public class SceneServiceImpl implements SceneService {
 
     @Override
     public void askCanResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
+        if (nettyResponse.getStateCode()== StateCode.FAIL){
+            System.out.println(new String(nettyResponse.getData()));
+            return;
+        }
         byte[] data=nettyResponse.getData();
         SceneModel.SceneModelMessage myMessage;
         myMessage=SceneModel.SceneModelMessage.parseFrom(data);
@@ -39,6 +46,10 @@ public class SceneServiceImpl implements SceneService {
 
     @Override
     public void wentResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
+        if (nettyResponse.getStateCode()== StateCode.FAIL){
+            System.out.println(new String(nettyResponse.getData()));
+            return;
+        }
         if (nettyResponse.getStateCode()== StateCode.FAIL){
             byte[] data=nettyResponse.getData();
             String mxg=new String(data);
@@ -60,6 +71,10 @@ public class SceneServiceImpl implements SceneService {
 
     @Override
     public void findAllRolesResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
+        if (nettyResponse.getStateCode()== StateCode.FAIL){
+            System.out.println(new String(nettyResponse.getData()));
+            return;
+        }
         byte[] data=nettyResponse.getData();
         SceneModel.SceneModelMessage myMessage;
         myMessage=SceneModel.SceneModelMessage.parseFrom(data);
@@ -67,8 +82,26 @@ public class SceneServiceImpl implements SceneService {
         List<SceneModel.MmoSimpleRole> mmoSimpleRoles=findAllRolesResponse.getMmoSimpleRolesList();
         log.info("当前场景中的所有角色: ");
         for (SceneModel.MmoSimpleRole role:mmoSimpleRoles) {
-            log.info("角色名: "+role.getName()+" 类型: "+role.getType()+" 状态: "+role.getStatus());
+            log.info("角色id："+role.getId()+" 角色名: "+role.getName()+" 类型: "+role.getType()+" 状态: "+role.getStatus());
         }
         log.info("---------------------------------------------------");
+    }
+
+    @Override
+    public void talkNPCResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
+        if (nettyResponse.getStateCode()== StateCode.FAIL){
+            System.out.println(new String(nettyResponse.getData()));
+            return;
+        }
+        byte[] data=nettyResponse.getData();
+        SceneModel.SceneModelMessage myMessage;
+        myMessage=SceneModel.SceneModelMessage.parseFrom(data);
+        SceneModel.TalkNPCResponse talkNPCResponse=myMessage.getTalkNPCResponse();
+        Integer npcId=talkNPCResponse.getNpcId();
+        List<String> talks=CommonsUtil.splitToStringList(MmoCacheCilent.getInstance().getNpcMessageConcurrentHashMap().get(npcId).getTalk());
+        String name=MmoCacheCilent.getInstance().getNpcMessageConcurrentHashMap().get(npcId).getName();
+        for (String s:talks) {
+            System.out.println(name+"： "+s);
+        }
     }
 }

@@ -1,5 +1,7 @@
 package com.liqihao.pojo;
 
+import com.sun.scenario.effect.impl.prism.PrImage;
+
 public class MmoRolePOJO {
     private Integer id;
 

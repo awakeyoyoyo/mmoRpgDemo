@@ -13,6 +13,8 @@ message SceneModelMessage{
     FindAllRolesResponse=5;
     WentResponse=6;
     WhereResponse=7;
+    TalkNPCRequest=8;
+    TalkNPCResponse=9;
   }
   //用date_type来标识传的是哪一个枚举类型
   DateType data_type=1;
@@ -24,7 +26,8 @@ message SceneModelMessage{
     AskCanResponse askCanResponse=5;
     FindAllRolesResponse findAllRolesResponse=6;
     WentResponse wentResponse=7;
-    MmoScene mmoScene=8;
+    TalkNPCRequest talkNPCRequest=8;
+    TalkNPCResponse talkNPCResponse=9;
   }
 }
 message AskCanRequest{
@@ -36,7 +39,9 @@ message FindAllRolesRequest{
 message WentRequest{
   int32  sceneId=1;
 }
-
+message TalkNPCRequest{
+  int32 roleId=1;
+}
 
 message AskCanResponse{
   repeated int32 scenesIds=1;
@@ -48,14 +53,10 @@ message WentResponse{
   int32 sceneId=1;
   repeated MmoSimpleRole mmoSimpleRoles=2;
 }
-
-
-message MmoScene{
-  int32 id=1;
-  string placeName=2;
-  repeated MmoSimpleScene canScene=3;
-  repeated MmoSimpleRole roles=4;
+message TalkNPCResponse{
+  int32 npcId=1;
 }
+
 message MmoSimpleRole{
   int32 id=1;
   string name=2;

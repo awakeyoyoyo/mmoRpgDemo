@@ -22,6 +22,10 @@ public class PlayServiceImpl implements PlayService {
 
     @Override
     public void loginResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
+        if (nettyResponse.getStateCode()== StateCode.FAIL){
+            System.out.println(new String(nettyResponse.getData()));
+            return;
+        }
         byte[] data=nettyResponse.getData();
         if (nettyResponse.getStateCode()== StateCode.FAIL){
             String s = new String(nettyResponse.getData());
@@ -46,6 +50,10 @@ public class PlayServiceImpl implements PlayService {
 
     @Override
     public void registerResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
+        if (nettyResponse.getStateCode()== StateCode.FAIL){
+            System.out.println(new String(nettyResponse.getData()));
+            return;
+        }
         byte[] data=nettyResponse.getData();
         PlayModel.PlayModelMessage myMessage;
         myMessage=PlayModel.PlayModelMessage.parseFrom(data);
@@ -58,6 +66,10 @@ public class PlayServiceImpl implements PlayService {
 
     @Override
     public void logoutResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
+        if (nettyResponse.getStateCode()== StateCode.FAIL){
+            System.out.println(new String(nettyResponse.getData()));
+            return;
+        }
         byte[] data=nettyResponse.getData();
         PlayModel.PlayModelMessage myMessage;
         myMessage=PlayModel.PlayModelMessage.parseFrom(data);

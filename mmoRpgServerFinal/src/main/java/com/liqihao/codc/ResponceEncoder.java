@@ -19,8 +19,7 @@ public class ResponceEncoder extends MessageToByteEncoder<NettyResponse> {
     @Override
     protected void encode(ChannelHandlerContext channelHandlerContext, NettyResponse nettyResponse, ByteBuf byteBuf) throws Exception {
         logger.info("Server:ResponceEncoder");
-
-//        //写入包头
+        //写入包头
         byteBuf.writeInt(ConstantValue.FLAG);
         //cmd
         byteBuf.writeInt(nettyResponse.getCmd());
@@ -30,7 +29,6 @@ public class ResponceEncoder extends MessageToByteEncoder<NettyResponse> {
         byteBuf.writeInt(nettyResponse.getDataLength());
         //data
         byteBuf.writeBytes(nettyResponse.getData());
-
         logger.info("ResponceEncoder: 包头: "+ConstantValue.FLAG+"cmd: "+nettyResponse.getCmd()+"状态码："+nettyResponse.getStateCode()+"数据长度: "+nettyResponse.getDataLength() );
         logger.error("Server:ResponceEncoder readableBytes "+byteBuf.readableBytes());
     }

@@ -13,7 +13,8 @@ public interface ConstantValue {
     int FIND_ALL_ROLES_REQUEST=1001;
     //请求前往下一个场景
     int WENT_REQUEST=1002;
-
+    //与npc对话
+    int TALK_NPC_REQUEST=1003;
     //响应部分
     //请求可以前往的场景的响应
     int ASK_CAN_RESPONSE=1500;
@@ -21,6 +22,9 @@ public interface ConstantValue {
     int FIND_ALL_ROLES_RESPONSE=1501;
     //请求前往下一个场景的响应
     int WENT_RESPONSE=1502;
+    //与npc对话响应
+    int TALK_NPC_RESPONSE=1503;
+
     //玩家模块
     String PLAY_MODULE="playServiceImpl";
     //登陆请求
@@ -47,15 +51,17 @@ public interface ConstantValue {
 
     //客户端指令
     //请求可前往的场景
-    public static final String ASK_CAN_REQUEST_CMD="askCan";
+    String ASK_CAN_REQUEST_CMD="askCan";
     //请求当前场景的所有角色
-    public static final String FIND_ALL_ROLES_REQUEST_CMD="findAllRoles";
+    String FIND_ALL_ROLES_REQUEST_CMD="findAllRoles";
     //请求可前往的
-    public static final String WENT_REQUEST_CMD="went";
+    String WENT_REQUEST_CMD="went";
     //登陆
-    public static final String LOGIN_REQUEST_CMD="login";
+    String LOGIN_REQUEST_CMD="login";
     //注册
-    public static final String REGISTER_REQUEST_CMD="register";
+    String REGISTER_REQUEST_CMD="register";
     //退出登陆
-    public static final String LOGOUT_REQUEST_CMD="logout";
+    String LOGOUT_REQUEST_CMD="logout";
+    //退出登陆
+    String TALK_NPC_REQUEST_CMD="talk";
 }

@@ -9,4 +9,6 @@ public interface SceneService {
     void wentResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException;
 
     void findAllRolesResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException;
+
+    void talkNPCResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException;
 }

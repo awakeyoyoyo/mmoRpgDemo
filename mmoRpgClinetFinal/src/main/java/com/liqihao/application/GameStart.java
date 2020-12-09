@@ -47,6 +47,7 @@ public class GameStart {
                 continue;
             }
             handler(scanner,cmd.getCmd());
+
         }
     }
     public void handler(Scanner scanner,int cmd){
@@ -69,9 +70,26 @@ public class GameStart {
                     case ConstantValue.REGISTER_REQUEST:
                         registerRequest(scanner);
                         break;
+                    case ConstantValue.TALK_NPC_REQUEST:
+                        talkNpcRequest(scanner);
+                        break;
                     default:
                         System.out.println("GameStart-handler:收到错误cmd");
                 }
+    }
+
+    private void talkNpcRequest(Scanner scanner) {
+        System.out.println("请输入你想对话的NPC的id");
+        Integer npcId=scanner.nextInt();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.TALK_NPC_REQUEST);
+        SceneModel.SceneModelMessage myMessage;
+        myMessage=SceneModel.SceneModelMessage.newBuilder()
+                .setDataType(SceneModel.SceneModelMessage.DateType.TalkNPCRequest)
+                .setTalkNPCRequest(SceneModel.TalkNPCRequest.newBuilder().setRoleId(npcId).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
     }
 
     private void registerRequest(Scanner scanner) {

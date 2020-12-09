@@ -31,6 +31,7 @@ public class RequestDecoder  extends ByteToMessageDecoder {
             if (!flag.equals(ConstantValue.FLAG)) {
                 channelHandlerContext.channel().close();
                 logger.info("Server：包头错误关闭通道");
+                return;
             }
             int cmd=byteBuf.readInt();
             int len=byteBuf.readInt();

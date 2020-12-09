@@ -50,6 +50,9 @@ public class Dispatcherservlet {
                     case ConstantValue.OUT_RIME_RESPONSE:
                         gameService.outTimeResponse(nettyResponse);
                         break;
+                    case ConstantValue.TALK_NPC_RESPONSE:
+                        sceneService.talkNPCResponse(nettyResponse);
+                        break;
                     default:
                         System.out.println("handler:收到错误的数据包");
                 }

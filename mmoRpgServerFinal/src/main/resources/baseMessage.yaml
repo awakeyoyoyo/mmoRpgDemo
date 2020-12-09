@@ -12,21 +12,53 @@ sceneMessages:
     placeName: "城堡"
     canScene: 2
 npcMessages:
-  - id: 1
-    name: "刘德华"
+  - id: 1000
+    name: "舒华路滋"
     mmosceneid: 1
     status: 1
     type: 0
     onstatus: 9527
-  - id: 2
-    name: "张学友"
+    talk: "乖乖地。-不用给意见。"
+    blood: 100
+  - id: 1001
+    name: "柯拉"
     mmosceneid: 2
     status: 1
     type: 0
     onstatus: 9527
-  - id: 3
-    name: "周星驰"
+    talk: "我有一个天大得好消息。-和一个很小得坏消息要告诉你。"
+  - id: 1002
+    name: "和治"
     mmosceneid: 1
     status: 1
     type: 0
     onstatus: 9527
+    talk: "祝贺吧。-穿越时空，能知过去未来，收集所有蒙面超人的力量。-他就是蒙面超人时王!"
+    blood: 100
+  - id: 1003
+    name: "异类Build"
+    mmosceneid: 3
+    status: 1
+    type: 2
+    onstatus: 9527
+    talk: "我系异类Build。"
+    blood: 100
+    nowBlood: 100
+  - id: 1004
+    name: "异类Ghost"
+    mmosceneid: 3
+    status: 1
+    type: 2
+    onstatus: 9527
+    talk: "我系异类Ghost。"
+    blood: 100
+    nowBlood: 100
+  - id: 1005
+    name: "异类Zio"
+    mmosceneid: 4
+    status: 1
+    type: 2
+    onstatus: 9527
+    talk: "我系异类Zio。"
+    blood: 100
+    nowBlood: 100

@@ -13,7 +13,8 @@ public interface ConstantValue {
     int FIND_ALL_ROLES_REQUEST=1001;
     //请求前往下一个场景
     int WENT_REQUEST=1002;
-
+    //与npc对话
+    int TALK_NPC_REQUEST=1003;
     //响应部分
     //请求可以前往的场景的响应
     int ASK_CAN_RESPONSE=1500;
@@ -21,6 +22,8 @@ public interface ConstantValue {
     int FIND_ALL_ROLES_RESPONSE=1501;
     //请求前往下一个场景的响应
     int WENT_RESPONSE=1502;
+    //与npc对话响应
+    int TALK_NPC_RESPONSE=1503;
     //玩家模块
     String PLAY_MODULE="playServiceImpl";
     //登陆请求

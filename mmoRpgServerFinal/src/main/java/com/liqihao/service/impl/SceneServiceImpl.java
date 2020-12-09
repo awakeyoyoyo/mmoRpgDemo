@@ -246,4 +246,44 @@ public class SceneServiceImpl implements SceneService {
         return nettyResponse;
     }
 
+    @Override
+    @HandlerCmdTag(cmd = ConstantValue.TALK_NPC_REQUEST,module = ConstantValue.SCENE_MODULE)
+    public NettyResponse talkNpcRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
+        byte[] data=nettyRequest.getData();
+        SceneModel.SceneModelMessage myMessage;
+        myMessage=SceneModel.SceneModelMessage.parseFrom(data);
+        Integer npcId=myMessage.getTalkNPCRequest().getRoleId();
+        //判断是否与角色在同一场景
+        ConcurrentHashMap<Integer,Channel> channelConcurrentHashMap=MmoCache.getInstance().getChannelConcurrentHashMap();
+        Integer roleId=null;
+        for (Integer id :channelConcurrentHashMap.keySet()) {
+            if (channelConcurrentHashMap.get(id).equals(channel)){
+                roleId=id;
+                break;
+            }
+        }
+        if (roleId==null){
+            return new NettyResponse(StateCode.FAIL,ConstantValue.TALK_NPC_RESPONSE,"未登录".getBytes());
+        }
+        //缓存中获取NPC
+        NPCMessage npc=MmoCache.getInstance().getNpcMessageConcurrentHashMap().get(npcId);
+        MmoRolePOJO role=MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap().get(roleId);
+        if (!npc.getMmosceneid().equals(role.getMmosceneid())){
+            return new NettyResponse(StateCode.FAIL,ConstantValue.TALK_NPC_RESPONSE,"该NPC不在当前场景".getBytes());
+        }
+        //无问题 返回npcId
+        //封装AskCanResponse data的数据
+        SceneModel.SceneModelMessage Messagedata;
+        Messagedata=SceneModel.SceneModelMessage.newBuilder()
+                .setDataType(SceneModel.SceneModelMessage.DateType.TalkNPCResponse)
+                .setTalkNPCResponse(SceneModel.TalkNPCResponse.newBuilder().setNpcId(npcId).build()).build();
+        //封装到NettyResponse中
+        NettyResponse response=new NettyResponse();
+        response.setCmd(ConstantValue.TALK_NPC_RESPONSE);
+        response.setStateCode(StateCode.SUCCESS);
+        byte[] data2=Messagedata.toByteArray();
+        response.setData(data2);
+        return response;
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.liqihao.utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class CommonsUtil {
@@ -24,7 +25,13 @@ public class CommonsUtil {
         }
         return res;
     }
-
+    public  static List<String> splitToStringList(String str) {
+        if (null == str || str.trim().length() == 0) {
+            return new ArrayList<String>();
+        }
+        String[] strings=str.split("-");
+        return Arrays.asList(strings);
+    }
     public static String listToString(List<Integer> oldRoles) {
         StringBuffer stringBuffer=new StringBuffer();
         if (oldRoles.size()==0) {

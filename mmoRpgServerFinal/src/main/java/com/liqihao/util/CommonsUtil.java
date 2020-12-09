@@ -2,6 +2,7 @@ package com.liqihao.util;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -14,7 +15,7 @@ public class CommonsUtil {
      * @param str
      * @return
      */
-    public   static List<Integer> split(String str) {
+    public  static List<Integer> split(String str) {
         if (null == str || str.trim().length() == 0) {
             return new ArrayList<Integer>();
         }
@@ -28,6 +29,19 @@ public class CommonsUtil {
             res.add(i);
         }
         return res;
+    }
+
+    /**
+     * 分割字符串返回id集合
+     * @param str
+     * @return
+     */
+    public  static List<String> splitToStringList(String str) {
+        if (null == str || str.trim().length() == 0) {
+            return new ArrayList<String>();
+        }
+        String[] strings=str.split("-");
+        return Arrays.asList(strings);
     }
 
     public static String listToString(List<Integer> oldRoles) {
@@ -46,7 +60,7 @@ public class CommonsUtil {
         return stringBuffer.toString();
     }
 
-//    public static void main(String[] args) {
+    public static void main(String[] args) {
 //        List<Integer> list=new ArrayList<>();
 //        list.add(1);
 //        list.add(222);
@@ -56,5 +70,13 @@ public class CommonsUtil {
 //        List<Integer> list3=new ArrayList<>();
 //        list3.add(1);
 //        System.out.println(listToString(list3));
-//    }
+        String str="祝贺吧。-穿越时空，能知过去未来，收集所有蒙面超人的力量。-他就是蒙面超人时王!";
+        String str2="";
+        String str3="我系时王zio";
+        System.out.println(splitToStringList(str).get(0));
+        System.out.println(splitToStringList(str).get(1));
+        System.out.println(splitToStringList(str).get(2));
+        System.out.println(splitToStringList(str2));
+        System.out.println(splitToStringList(str3));
+    }
 }

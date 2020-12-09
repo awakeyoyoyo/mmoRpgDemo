@@ -1,6 +1,5 @@
 package com.liqihao.commons;
 
-import com.liqihao.pojo.MmoScene;
 import com.liqihao.pojo.baseMessage.NPCMessage;
 import com.liqihao.pojo.baseMessage.SceneMessage;
 import com.liqihao.protobufObject.PlayModel;

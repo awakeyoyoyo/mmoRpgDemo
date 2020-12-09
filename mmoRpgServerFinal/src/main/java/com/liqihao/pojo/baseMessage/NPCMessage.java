@@ -13,6 +13,13 @@ public class NPCMessage {
 
     private Integer onstatus;
 
+    private String talk;
+
+    private Integer blood;
+
+    private Integer nowBlood;
+
+
     @Override
     public String toString() {
         return "NPCMessage{" +
@@ -22,7 +29,34 @@ public class NPCMessage {
                 ", type=" + type +
                 ", mmosceneid=" + mmosceneid +
                 ", onstatus=" + onstatus +
+                ", talk='" + talk + '\'' +
+                ", blood=" + blood +
+                ", nowBlood=" + nowBlood +
                 '}';
+    }
+
+    public String getTalk() {
+        return talk;
+    }
+
+    public void setTalk(String talk) {
+        this.talk = talk;
+    }
+
+    public Integer getBlood() {
+        return blood;
+    }
+
+    public void setBlood(Integer blood) {
+        this.blood = blood;
+    }
+
+    public Integer getNowBlood() {
+        return nowBlood;
+    }
+
+    public void setNowBlood(Integer nowBlood) {
+        this.nowBlood = nowBlood;
     }
 
     public Integer getId() {

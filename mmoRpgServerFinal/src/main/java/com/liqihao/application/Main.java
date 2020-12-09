@@ -1,9 +1,6 @@
 package com.liqihao.application;
 
 import com.liqihao.netty.NettyTcpServer;
-import com.liqihao.pojo.MmoScene;
-import com.liqihao.pojo.MmoSimpleRole;
-import com.liqihao.pojo.MmoSimpleScene;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
