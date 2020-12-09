@@ -4,6 +4,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.liqihao.commons.MmoCacheCilent;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
+import com.liqihao.pojo.MmoRole;
 import com.liqihao.pojo.MmoScene;
 import com.liqihao.pojo.MmoSimpleRole;
 import com.liqihao.pojo.MmoSimpleScene;
@@ -35,15 +36,29 @@ public class PlayServiceImpl implements PlayService {
         PlayModel.PlayModelMessage myMessage;
         myMessage=PlayModel.PlayModelMessage.parseFrom(data);
         PlayModel.LoginResponse loginResponse=myMessage.getLoginResponse();
-        PlayModel.MmoSimpleRole mmoSimpleRole=loginResponse.getMmoSimpleRole();
+        PlayModel.RoleDTO roleDTO=loginResponse.getRoleDto();
         Integer mmoScene=loginResponse.getSceneId();
         //将角色存储客户端缓存中
         MmoCacheCilent.getInstance().setNowSceneId(mmoScene);
+        //将角色信息存储客户端缓存
+        MmoRole mmoRole=new MmoRole();
+        mmoRole.setId(roleDTO.getId());
+        mmoRole.setBlood(roleDTO.getBlood());
+        mmoRole.setName(roleDTO.getName());
+        mmoRole.setNowBlood(roleDTO.getNowBlood());
+//        mmoRole.setCdMap(roleDTO.get);
+//        mmoRole.setMmosceneid(roleDTO.g);
+        mmoRole.setSkillIdList(roleDTO.getSkillIdListList());
+        mmoRole.setMp(roleDTO.getMp());
+        mmoRole.setOnstatus(roleDTO.getOnStatus());
+        mmoRole.setStatus(roleDTO.getStatus());
+        mmoRole.setType(roleDTO.getType());
+        MmoCacheCilent.getInstance().setNowRole(mmoRole);
         //将当前场景存入客户端缓存中
         //构建mmoscene对象
         SceneMessage s=MmoCacheCilent.getInstance().getSceneMessageConcurrentHashMap().get(mmoScene);
         //打印当前场景
-        log.info("当前角色: "+mmoSimpleRole.getName());
+        log.info("当前角色: "+mmoRole.getName());
         log.info("当前场景: "+s.getPlaceName());
         log.info("---------------------------------------------------");
     }

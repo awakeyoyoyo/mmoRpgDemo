@@ -1,6 +1,6 @@
 package com.liqihao.netModule.scene.response;
 
-import com.liqihao.pojo.MmoSimpleRole;
+import com.liqihao.pojo.bean.MmoSimpleRole;
 
 
 import java.util.List;

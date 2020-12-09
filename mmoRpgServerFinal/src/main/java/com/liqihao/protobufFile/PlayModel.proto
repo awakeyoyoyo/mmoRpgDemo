@@ -35,7 +35,7 @@ message RegisterRequest{
 }
 message LoginResponse{
   int32 sceneId=1;
-  MmoSimpleRole mmoSimpleRole=2;
+  RoleDTO roleDto=2;
 }
 
 message RegisterResponse{
@@ -48,10 +48,14 @@ message LogoutResponse{
   int32 code=1;
   string mxg=2;
 }
-message MmoSimpleRole{
+message RoleDTO{
   int32 id=1;
   string name=2;
-  string status=3;
-  string type=4;
-  string onStatus=5;
+  int32 status=3;
+  int32 type=4;
+  int32 onStatus=5;
+  int32 blood=6;
+  int32 nowBlood=7;
+  int32 mp=8;
+  repeated int32 skillIdList=9;
 }

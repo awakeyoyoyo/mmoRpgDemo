@@ -1,15 +1,63 @@
 package com.liqihao.util;
 
 
+import com.liqihao.Cache.MmoCache;
+import com.liqihao.pojo.bean.MmoSimpleNPC;
+import com.liqihao.pojo.bean.MmoSimpleRole;
+import io.netty.channel.Channel;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 字符串处理类
  * @author awakeyoyoyo
  */
 public class CommonsUtil {
+
+    public static MmoSimpleRole NpcToMmoSimpleRole(MmoSimpleNPC npc) {
+        MmoSimpleRole roleTemp = new MmoSimpleRole();
+        roleTemp.setId(npc.getId());
+        roleTemp.setName(npc.getName());
+        roleTemp.setMmosceneid(npc.getMmosceneid());
+        roleTemp.setStatus(npc.getStatus());
+        roleTemp.setType(npc.getType());
+        roleTemp.setOnstatus(npc.getOnstatus());
+        roleTemp.setBlood(npc.getBlood());
+        roleTemp.setNowBlood(npc.getNowBlood());
+        roleTemp.setMp(npc.getNowBlood());
+        return roleTemp;
+    }
+
+
+
+
+
+    /**
+     * 根据channel获取Id
+     * @param channel
+     * @return
+     */
+    public static Integer getRoleIdByChannel(Channel channel) {
+        ConcurrentHashMap<Integer,Channel> channelConcurrentHashMap=MmoCache.getInstance().getChannelConcurrentHashMap();
+        Iterator<Integer> ids=channelConcurrentHashMap.keySet().iterator();
+        Integer id=null;
+        while (ids.hasNext()){
+            id=ids.next();
+            //加锁 是为了防止 判断成功后，用户断开连接的情况 貌似无所谓
+            if (channel.equals(channelConcurrentHashMap.get(id))){
+                return id;
+            }
+        }
+        return id;
+    }
+
+
+
+
     /**
      * 分割字符串返回id集合
      * @param str

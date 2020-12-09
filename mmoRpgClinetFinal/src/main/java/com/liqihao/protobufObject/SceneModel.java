@@ -5248,27 +5248,27 @@ public final class SceneModel {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>repeated .MmoSimpleRole mmoSimpleRoles = 1;</code>
+     * <code>repeated .RoleDTO roleDTO = 1;</code>
      */
-    java.util.List<MmoSimpleRole>
-        getMmoSimpleRolesList();
+    java.util.List<RoleDTO>
+        getRoleDTOList();
     /**
-     * <code>repeated .MmoSimpleRole mmoSimpleRoles = 1;</code>
+     * <code>repeated .RoleDTO roleDTO = 1;</code>
      */
-    MmoSimpleRole getMmoSimpleRoles(int index);
+    RoleDTO getRoleDTO(int index);
     /**
-     * <code>repeated .MmoSimpleRole mmoSimpleRoles = 1;</code>
+     * <code>repeated .RoleDTO roleDTO = 1;</code>
      */
-    int getMmoSimpleRolesCount();
+    int getRoleDTOCount();
     /**
-     * <code>repeated .MmoSimpleRole mmoSimpleRoles = 1;</code>
+     * <code>repeated .RoleDTO roleDTO = 1;</code>
      */
-    java.util.List<? extends MmoSimpleRoleOrBuilder>
-        getMmoSimpleRolesOrBuilderList();
+    java.util.List<? extends RoleDTOOrBuilder>
+        getRoleDTOOrBuilderList();
     /**
-     * <code>repeated .MmoSimpleRole mmoSimpleRoles = 1;</code>
+     * <code>repeated .RoleDTO roleDTO = 1;</code>
      */
-    MmoSimpleRoleOrBuilder getMmoSimpleRolesOrBuilder(
+    RoleDTOOrBuilder getRoleDTOOrBuilder(
         int index);
   }
   /**
@@ -5284,7 +5284,7 @@ public final class SceneModel {
       super(builder);
     }
     private FindAllRolesResponse() {
-      mmoSimpleRoles_ = java.util.Collections.emptyList();
+      roleDTO_ = java.util.Collections.emptyList();
     }
 
     @Override
@@ -5320,11 +5320,11 @@ public final class SceneModel {
               break;
             case 10: {
               if (!((mutable_bitField0_ & 0x00000001) != 0)) {
-                mmoSimpleRoles_ = new java.util.ArrayList<MmoSimpleRole>();
+                roleDTO_ = new java.util.ArrayList<RoleDTO>();
                 mutable_bitField0_ |= 0x00000001;
               }
-              mmoSimpleRoles_.add(
-                  input.readMessage(MmoSimpleRole.parser(), extensionRegistry));
+              roleDTO_.add(
+                  input.readMessage(RoleDTO.parser(), extensionRegistry));
               break;
             }
             default: {
@@ -5343,7 +5343,7 @@ public final class SceneModel {
             e).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000001) != 0)) {
-          mmoSimpleRoles_ = java.util.Collections.unmodifiableList(mmoSimpleRoles_);
+          roleDTO_ = java.util.Collections.unmodifiableList(roleDTO_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -5362,44 +5362,44 @@ public final class SceneModel {
               FindAllRolesResponse.class, Builder.class);
     }
 
-    public static final int MMOSIMPLEROLES_FIELD_NUMBER = 1;
-    private java.util.List<MmoSimpleRole> mmoSimpleRoles_;
+    public static final int ROLEDTO_FIELD_NUMBER = 1;
+    private java.util.List<RoleDTO> roleDTO_;
     /**
-     * <code>repeated .MmoSimpleRole mmoSimpleRoles = 1;</code>
+     * <code>repeated .RoleDTO roleDTO = 1;</code>
      */
     @Override
-    public java.util.List<MmoSimpleRole> getMmoSimpleRolesList() {
-      return mmoSimpleRoles_;
+    public java.util.List<RoleDTO> getRoleDTOList() {
+      return roleDTO_;
     }
     /**
-     * <code>repeated .MmoSimpleRole mmoSimpleRoles = 1;</code>
+     * <code>repeated .RoleDTO roleDTO = 1;</code>
      */
     @Override
-    public java.util.List<? extends MmoSimpleRoleOrBuilder>
-        getMmoSimpleRolesOrBuilderList() {
-      return mmoSimpleRoles_;
+    public java.util.List<? extends RoleDTOOrBuilder>
+        getRoleDTOOrBuilderList() {
+      return roleDTO_;
     }
     /**
-     * <code>repeated .MmoSimpleRole mmoSimpleRoles = 1;</code>
+     * <code>repeated .RoleDTO roleDTO = 1;</code>
      */
     @Override
-    public int getMmoSimpleRolesCount() {
-      return mmoSimpleRoles_.size();
+    public int getRoleDTOCount() {
+      return roleDTO_.size();
     }
     /**
-     * <code>repeated .MmoSimpleRole mmoSimpleRoles = 1;</code>
+     * <code>repeated .RoleDTO roleDTO = 1;</code>
      */
     @Override
-    public MmoSimpleRole getMmoSimpleRoles(int index) {
-      return mmoSimpleRoles_.get(index);
+    public RoleDTO getRoleDTO(int index) {
+      return roleDTO_.get(index);
     }
     /**
-     * <code>repeated .MmoSimpleRole mmoSimpleRoles = 1;</code>
+     * <code>repeated .RoleDTO roleDTO = 1;</code>
      */
     @Override
-    public MmoSimpleRoleOrBuilder getMmoSimpleRolesOrBuilder(
+    public RoleDTOOrBuilder getRoleDTOOrBuilder(
         int index) {
-      return mmoSimpleRoles_.get(index);
+      return roleDTO_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
@@ -5416,8 +5416,8 @@ public final class SceneModel {
     @Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      for (int i = 0; i < mmoSimpleRoles_.size(); i++) {
-        output.writeMessage(1, mmoSimpleRoles_.get(i));
+      for (int i = 0; i < roleDTO_.size(); i++) {
+        output.writeMessage(1, roleDTO_.get(i));
       }
       unknownFields.writeTo(output);
     }
@@ -5428,9 +5428,9 @@ public final class SceneModel {
       if (size != -1) return size;
 
       size = 0;
-      for (int i = 0; i < mmoSimpleRoles_.size(); i++) {
+      for (int i = 0; i < roleDTO_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, mmoSimpleRoles_.get(i));
+          .computeMessageSize(1, roleDTO_.get(i));
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -5447,8 +5447,8 @@ public final class SceneModel {
       }
       FindAllRolesResponse other = (FindAllRolesResponse) obj;
 
-      if (!getMmoSimpleRolesList()
-          .equals(other.getMmoSimpleRolesList())) return false;
+      if (!getRoleDTOList()
+          .equals(other.getRoleDTOList())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -5460,9 +5460,9 @@ public final class SceneModel {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      if (getMmoSimpleRolesCount() > 0) {
-        hash = (37 * hash) + MMOSIMPLEROLES_FIELD_NUMBER;
-        hash = (53 * hash) + getMmoSimpleRolesList().hashCode();
+      if (getRoleDTOCount() > 0) {
+        hash = (37 * hash) + ROLEDTO_FIELD_NUMBER;
+        hash = (53 * hash) + getRoleDTOList().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -5592,17 +5592,17 @@ public final class SceneModel {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
-          getMmoSimpleRolesFieldBuilder();
+          getRoleDTOFieldBuilder();
         }
       }
       @Override
       public Builder clear() {
         super.clear();
-        if (mmoSimpleRolesBuilder_ == null) {
-          mmoSimpleRoles_ = java.util.Collections.emptyList();
+        if (roleDTOBuilder_ == null) {
+          roleDTO_ = java.util.Collections.emptyList();
           bitField0_ = (bitField0_ & ~0x00000001);
         } else {
-          mmoSimpleRolesBuilder_.clear();
+          roleDTOBuilder_.clear();
         }
         return this;
       }
@@ -5631,14 +5631,14 @@ public final class SceneModel {
       public FindAllRolesResponse buildPartial() {
         FindAllRolesResponse result = new FindAllRolesResponse(this);
         int from_bitField0_ = bitField0_;
-        if (mmoSimpleRolesBuilder_ == null) {
+        if (roleDTOBuilder_ == null) {
           if (((bitField0_ & 0x00000001) != 0)) {
-            mmoSimpleRoles_ = java.util.Collections.unmodifiableList(mmoSimpleRoles_);
+            roleDTO_ = java.util.Collections.unmodifiableList(roleDTO_);
             bitField0_ = (bitField0_ & ~0x00000001);
           }
-          result.mmoSimpleRoles_ = mmoSimpleRoles_;
+          result.roleDTO_ = roleDTO_;
         } else {
-          result.mmoSimpleRoles_ = mmoSimpleRolesBuilder_.build();
+          result.roleDTO_ = roleDTOBuilder_.build();
         }
         onBuilt();
         return result;
@@ -5688,29 +5688,29 @@ public final class SceneModel {
 
       public Builder mergeFrom(FindAllRolesResponse other) {
         if (other == FindAllRolesResponse.getDefaultInstance()) return this;
-        if (mmoSimpleRolesBuilder_ == null) {
-          if (!other.mmoSimpleRoles_.isEmpty()) {
-            if (mmoSimpleRoles_.isEmpty()) {
-              mmoSimpleRoles_ = other.mmoSimpleRoles_;
+        if (roleDTOBuilder_ == null) {
+          if (!other.roleDTO_.isEmpty()) {
+            if (roleDTO_.isEmpty()) {
+              roleDTO_ = other.roleDTO_;
               bitField0_ = (bitField0_ & ~0x00000001);
             } else {
-              ensureMmoSimpleRolesIsMutable();
-              mmoSimpleRoles_.addAll(other.mmoSimpleRoles_);
+              ensureRoleDTOIsMutable();
+              roleDTO_.addAll(other.roleDTO_);
             }
             onChanged();
           }
         } else {
-          if (!other.mmoSimpleRoles_.isEmpty()) {
-            if (mmoSimpleRolesBuilder_.isEmpty()) {
-              mmoSimpleRolesBuilder_.dispose();
-              mmoSimpleRolesBuilder_ = null;
-              mmoSimpleRoles_ = other.mmoSimpleRoles_;
+          if (!other.roleDTO_.isEmpty()) {
+            if (roleDTOBuilder_.isEmpty()) {
+              roleDTOBuilder_.dispose();
+              roleDTOBuilder_ = null;
+              roleDTO_ = other.roleDTO_;
               bitField0_ = (bitField0_ & ~0x00000001);
-              mmoSimpleRolesBuilder_ = 
+              roleDTOBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                   getMmoSimpleRolesFieldBuilder() : null;
+                   getRoleDTOFieldBuilder() : null;
             } else {
-              mmoSimpleRolesBuilder_.addAllMessages(other.mmoSimpleRoles_);
+              roleDTOBuilder_.addAllMessages(other.roleDTO_);
             }
           }
         }
@@ -5744,244 +5744,244 @@ public final class SceneModel {
       }
       private int bitField0_;
 
-      private java.util.List<MmoSimpleRole> mmoSimpleRoles_ =
+      private java.util.List<RoleDTO> roleDTO_ =
         java.util.Collections.emptyList();
-      private void ensureMmoSimpleRolesIsMutable() {
+      private void ensureRoleDTOIsMutable() {
         if (!((bitField0_ & 0x00000001) != 0)) {
-          mmoSimpleRoles_ = new java.util.ArrayList<MmoSimpleRole>(mmoSimpleRoles_);
+          roleDTO_ = new java.util.ArrayList<RoleDTO>(roleDTO_);
           bitField0_ |= 0x00000001;
          }
       }
 
       private com.google.protobuf.RepeatedFieldBuilderV3<
-          MmoSimpleRole, MmoSimpleRole.Builder, MmoSimpleRoleOrBuilder> mmoSimpleRolesBuilder_;
+          RoleDTO, RoleDTO.Builder, RoleDTOOrBuilder> roleDTOBuilder_;
 
       /**
-       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 1;</code>
+       * <code>repeated .RoleDTO roleDTO = 1;</code>
        */
-      public java.util.List<MmoSimpleRole> getMmoSimpleRolesList() {
-        if (mmoSimpleRolesBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(mmoSimpleRoles_);
+      public java.util.List<RoleDTO> getRoleDTOList() {
+        if (roleDTOBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(roleDTO_);
         } else {
-          return mmoSimpleRolesBuilder_.getMessageList();
+          return roleDTOBuilder_.getMessageList();
         }
       }
       /**
-       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 1;</code>
+       * <code>repeated .RoleDTO roleDTO = 1;</code>
        */
-      public int getMmoSimpleRolesCount() {
-        if (mmoSimpleRolesBuilder_ == null) {
-          return mmoSimpleRoles_.size();
+      public int getRoleDTOCount() {
+        if (roleDTOBuilder_ == null) {
+          return roleDTO_.size();
         } else {
-          return mmoSimpleRolesBuilder_.getCount();
+          return roleDTOBuilder_.getCount();
         }
       }
       /**
-       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 1;</code>
+       * <code>repeated .RoleDTO roleDTO = 1;</code>
        */
-      public MmoSimpleRole getMmoSimpleRoles(int index) {
-        if (mmoSimpleRolesBuilder_ == null) {
-          return mmoSimpleRoles_.get(index);
+      public RoleDTO getRoleDTO(int index) {
+        if (roleDTOBuilder_ == null) {
+          return roleDTO_.get(index);
         } else {
-          return mmoSimpleRolesBuilder_.getMessage(index);
+          return roleDTOBuilder_.getMessage(index);
         }
       }
       /**
-       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 1;</code>
+       * <code>repeated .RoleDTO roleDTO = 1;</code>
        */
-      public Builder setMmoSimpleRoles(
-          int index, MmoSimpleRole value) {
-        if (mmoSimpleRolesBuilder_ == null) {
+      public Builder setRoleDTO(
+          int index, RoleDTO value) {
+        if (roleDTOBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          ensureMmoSimpleRolesIsMutable();
-          mmoSimpleRoles_.set(index, value);
+          ensureRoleDTOIsMutable();
+          roleDTO_.set(index, value);
           onChanged();
         } else {
-          mmoSimpleRolesBuilder_.setMessage(index, value);
+          roleDTOBuilder_.setMessage(index, value);
         }
         return this;
       }
       /**
-       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 1;</code>
+       * <code>repeated .RoleDTO roleDTO = 1;</code>
        */
-      public Builder setMmoSimpleRoles(
-          int index, MmoSimpleRole.Builder builderForValue) {
-        if (mmoSimpleRolesBuilder_ == null) {
-          ensureMmoSimpleRolesIsMutable();
-          mmoSimpleRoles_.set(index, builderForValue.build());
+      public Builder setRoleDTO(
+          int index, RoleDTO.Builder builderForValue) {
+        if (roleDTOBuilder_ == null) {
+          ensureRoleDTOIsMutable();
+          roleDTO_.set(index, builderForValue.build());
           onChanged();
         } else {
-          mmoSimpleRolesBuilder_.setMessage(index, builderForValue.build());
+          roleDTOBuilder_.setMessage(index, builderForValue.build());
         }
         return this;
       }
       /**
-       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 1;</code>
+       * <code>repeated .RoleDTO roleDTO = 1;</code>
        */
-      public Builder addMmoSimpleRoles(MmoSimpleRole value) {
-        if (mmoSimpleRolesBuilder_ == null) {
+      public Builder addRoleDTO(RoleDTO value) {
+        if (roleDTOBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          ensureMmoSimpleRolesIsMutable();
-          mmoSimpleRoles_.add(value);
+          ensureRoleDTOIsMutable();
+          roleDTO_.add(value);
           onChanged();
         } else {
-          mmoSimpleRolesBuilder_.addMessage(value);
+          roleDTOBuilder_.addMessage(value);
         }
         return this;
       }
       /**
-       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 1;</code>
+       * <code>repeated .RoleDTO roleDTO = 1;</code>
        */
-      public Builder addMmoSimpleRoles(
-          int index, MmoSimpleRole value) {
-        if (mmoSimpleRolesBuilder_ == null) {
+      public Builder addRoleDTO(
+          int index, RoleDTO value) {
+        if (roleDTOBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          ensureMmoSimpleRolesIsMutable();
-          mmoSimpleRoles_.add(index, value);
+          ensureRoleDTOIsMutable();
+          roleDTO_.add(index, value);
           onChanged();
         } else {
-          mmoSimpleRolesBuilder_.addMessage(index, value);
+          roleDTOBuilder_.addMessage(index, value);
         }
         return this;
       }
       /**
-       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 1;</code>
+       * <code>repeated .RoleDTO roleDTO = 1;</code>
        */
-      public Builder addMmoSimpleRoles(
-          MmoSimpleRole.Builder builderForValue) {
-        if (mmoSimpleRolesBuilder_ == null) {
-          ensureMmoSimpleRolesIsMutable();
-          mmoSimpleRoles_.add(builderForValue.build());
+      public Builder addRoleDTO(
+          RoleDTO.Builder builderForValue) {
+        if (roleDTOBuilder_ == null) {
+          ensureRoleDTOIsMutable();
+          roleDTO_.add(builderForValue.build());
           onChanged();
         } else {
-          mmoSimpleRolesBuilder_.addMessage(builderForValue.build());
+          roleDTOBuilder_.addMessage(builderForValue.build());
         }
         return this;
       }
       /**
-       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 1;</code>
+       * <code>repeated .RoleDTO roleDTO = 1;</code>
        */
-      public Builder addMmoSimpleRoles(
-          int index, MmoSimpleRole.Builder builderForValue) {
-        if (mmoSimpleRolesBuilder_ == null) {
-          ensureMmoSimpleRolesIsMutable();
-          mmoSimpleRoles_.add(index, builderForValue.build());
+      public Builder addRoleDTO(
+          int index, RoleDTO.Builder builderForValue) {
+        if (roleDTOBuilder_ == null) {
+          ensureRoleDTOIsMutable();
+          roleDTO_.add(index, builderForValue.build());
           onChanged();
         } else {
-          mmoSimpleRolesBuilder_.addMessage(index, builderForValue.build());
+          roleDTOBuilder_.addMessage(index, builderForValue.build());
         }
         return this;
       }
       /**
-       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 1;</code>
+       * <code>repeated .RoleDTO roleDTO = 1;</code>
        */
-      public Builder addAllMmoSimpleRoles(
-          Iterable<? extends MmoSimpleRole> values) {
-        if (mmoSimpleRolesBuilder_ == null) {
-          ensureMmoSimpleRolesIsMutable();
+      public Builder addAllRoleDTO(
+          Iterable<? extends RoleDTO> values) {
+        if (roleDTOBuilder_ == null) {
+          ensureRoleDTOIsMutable();
           com.google.protobuf.AbstractMessageLite.Builder.addAll(
-              values, mmoSimpleRoles_);
+              values, roleDTO_);
           onChanged();
         } else {
-          mmoSimpleRolesBuilder_.addAllMessages(values);
+          roleDTOBuilder_.addAllMessages(values);
         }
         return this;
       }
       /**
-       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 1;</code>
+       * <code>repeated .RoleDTO roleDTO = 1;</code>
        */
-      public Builder clearMmoSimpleRoles() {
-        if (mmoSimpleRolesBuilder_ == null) {
-          mmoSimpleRoles_ = java.util.Collections.emptyList();
+      public Builder clearRoleDTO() {
+        if (roleDTOBuilder_ == null) {
+          roleDTO_ = java.util.Collections.emptyList();
           bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
-          mmoSimpleRolesBuilder_.clear();
+          roleDTOBuilder_.clear();
         }
         return this;
       }
       /**
-       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 1;</code>
+       * <code>repeated .RoleDTO roleDTO = 1;</code>
        */
-      public Builder removeMmoSimpleRoles(int index) {
-        if (mmoSimpleRolesBuilder_ == null) {
-          ensureMmoSimpleRolesIsMutable();
-          mmoSimpleRoles_.remove(index);
+      public Builder removeRoleDTO(int index) {
+        if (roleDTOBuilder_ == null) {
+          ensureRoleDTOIsMutable();
+          roleDTO_.remove(index);
           onChanged();
         } else {
-          mmoSimpleRolesBuilder_.remove(index);
+          roleDTOBuilder_.remove(index);
         }
         return this;
       }
       /**
-       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 1;</code>
+       * <code>repeated .RoleDTO roleDTO = 1;</code>
        */
-      public MmoSimpleRole.Builder getMmoSimpleRolesBuilder(
+      public RoleDTO.Builder getRoleDTOBuilder(
           int index) {
-        return getMmoSimpleRolesFieldBuilder().getBuilder(index);
+        return getRoleDTOFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 1;</code>
+       * <code>repeated .RoleDTO roleDTO = 1;</code>
        */
-      public MmoSimpleRoleOrBuilder getMmoSimpleRolesOrBuilder(
+      public RoleDTOOrBuilder getRoleDTOOrBuilder(
           int index) {
-        if (mmoSimpleRolesBuilder_ == null) {
-          return mmoSimpleRoles_.get(index);  } else {
-          return mmoSimpleRolesBuilder_.getMessageOrBuilder(index);
+        if (roleDTOBuilder_ == null) {
+          return roleDTO_.get(index);  } else {
+          return roleDTOBuilder_.getMessageOrBuilder(index);
         }
       }
       /**
-       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 1;</code>
+       * <code>repeated .RoleDTO roleDTO = 1;</code>
        */
-      public java.util.List<? extends MmoSimpleRoleOrBuilder>
-           getMmoSimpleRolesOrBuilderList() {
-        if (mmoSimpleRolesBuilder_ != null) {
-          return mmoSimpleRolesBuilder_.getMessageOrBuilderList();
+      public java.util.List<? extends RoleDTOOrBuilder>
+           getRoleDTOOrBuilderList() {
+        if (roleDTOBuilder_ != null) {
+          return roleDTOBuilder_.getMessageOrBuilderList();
         } else {
-          return java.util.Collections.unmodifiableList(mmoSimpleRoles_);
+          return java.util.Collections.unmodifiableList(roleDTO_);
         }
       }
       /**
-       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 1;</code>
+       * <code>repeated .RoleDTO roleDTO = 1;</code>
        */
-      public MmoSimpleRole.Builder addMmoSimpleRolesBuilder() {
-        return getMmoSimpleRolesFieldBuilder().addBuilder(
-            MmoSimpleRole.getDefaultInstance());
+      public RoleDTO.Builder addRoleDTOBuilder() {
+        return getRoleDTOFieldBuilder().addBuilder(
+            RoleDTO.getDefaultInstance());
       }
       /**
-       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 1;</code>
+       * <code>repeated .RoleDTO roleDTO = 1;</code>
        */
-      public MmoSimpleRole.Builder addMmoSimpleRolesBuilder(
+      public RoleDTO.Builder addRoleDTOBuilder(
           int index) {
-        return getMmoSimpleRolesFieldBuilder().addBuilder(
-            index, MmoSimpleRole.getDefaultInstance());
+        return getRoleDTOFieldBuilder().addBuilder(
+            index, RoleDTO.getDefaultInstance());
       }
       /**
-       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 1;</code>
+       * <code>repeated .RoleDTO roleDTO = 1;</code>
        */
-      public java.util.List<MmoSimpleRole.Builder>
-           getMmoSimpleRolesBuilderList() {
-        return getMmoSimpleRolesFieldBuilder().getBuilderList();
+      public java.util.List<RoleDTO.Builder>
+           getRoleDTOBuilderList() {
+        return getRoleDTOFieldBuilder().getBuilderList();
       }
       private com.google.protobuf.RepeatedFieldBuilderV3<
-          MmoSimpleRole, MmoSimpleRole.Builder, MmoSimpleRoleOrBuilder>
-          getMmoSimpleRolesFieldBuilder() {
-        if (mmoSimpleRolesBuilder_ == null) {
-          mmoSimpleRolesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-              MmoSimpleRole, MmoSimpleRole.Builder, MmoSimpleRoleOrBuilder>(
-                  mmoSimpleRoles_,
+          RoleDTO, RoleDTO.Builder, RoleDTOOrBuilder>
+          getRoleDTOFieldBuilder() {
+        if (roleDTOBuilder_ == null) {
+          roleDTOBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              RoleDTO, RoleDTO.Builder, RoleDTOOrBuilder>(
+                  roleDTO_,
                   ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
-          mmoSimpleRoles_ = null;
+          roleDTO_ = null;
         }
-        return mmoSimpleRolesBuilder_;
+        return roleDTOBuilder_;
       }
       @Override
       public final Builder setUnknownFields(
@@ -6047,27 +6047,27 @@ public final class SceneModel {
     int getSceneId();
 
     /**
-     * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+     * <code>repeated .RoleDTO roleDTO = 2;</code>
      */
-    java.util.List<MmoSimpleRole>
-        getMmoSimpleRolesList();
+    java.util.List<RoleDTO>
+        getRoleDTOList();
     /**
-     * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+     * <code>repeated .RoleDTO roleDTO = 2;</code>
      */
-    MmoSimpleRole getMmoSimpleRoles(int index);
+    RoleDTO getRoleDTO(int index);
     /**
-     * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+     * <code>repeated .RoleDTO roleDTO = 2;</code>
      */
-    int getMmoSimpleRolesCount();
+    int getRoleDTOCount();
     /**
-     * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+     * <code>repeated .RoleDTO roleDTO = 2;</code>
      */
-    java.util.List<? extends MmoSimpleRoleOrBuilder>
-        getMmoSimpleRolesOrBuilderList();
+    java.util.List<? extends RoleDTOOrBuilder>
+        getRoleDTOOrBuilderList();
     /**
-     * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+     * <code>repeated .RoleDTO roleDTO = 2;</code>
      */
-    MmoSimpleRoleOrBuilder getMmoSimpleRolesOrBuilder(
+    RoleDTOOrBuilder getRoleDTOOrBuilder(
         int index);
   }
   /**
@@ -6083,7 +6083,7 @@ public final class SceneModel {
       super(builder);
     }
     private WentResponse() {
-      mmoSimpleRoles_ = java.util.Collections.emptyList();
+      roleDTO_ = java.util.Collections.emptyList();
     }
 
     @Override
@@ -6124,11 +6124,11 @@ public final class SceneModel {
             }
             case 18: {
               if (!((mutable_bitField0_ & 0x00000001) != 0)) {
-                mmoSimpleRoles_ = new java.util.ArrayList<MmoSimpleRole>();
+                roleDTO_ = new java.util.ArrayList<RoleDTO>();
                 mutable_bitField0_ |= 0x00000001;
               }
-              mmoSimpleRoles_.add(
-                  input.readMessage(MmoSimpleRole.parser(), extensionRegistry));
+              roleDTO_.add(
+                  input.readMessage(RoleDTO.parser(), extensionRegistry));
               break;
             }
             default: {
@@ -6147,7 +6147,7 @@ public final class SceneModel {
             e).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000001) != 0)) {
-          mmoSimpleRoles_ = java.util.Collections.unmodifiableList(mmoSimpleRoles_);
+          roleDTO_ = java.util.Collections.unmodifiableList(roleDTO_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -6177,44 +6177,44 @@ public final class SceneModel {
       return sceneId_;
     }
 
-    public static final int MMOSIMPLEROLES_FIELD_NUMBER = 2;
-    private java.util.List<MmoSimpleRole> mmoSimpleRoles_;
+    public static final int ROLEDTO_FIELD_NUMBER = 2;
+    private java.util.List<RoleDTO> roleDTO_;
     /**
-     * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+     * <code>repeated .RoleDTO roleDTO = 2;</code>
      */
     @Override
-    public java.util.List<MmoSimpleRole> getMmoSimpleRolesList() {
-      return mmoSimpleRoles_;
+    public java.util.List<RoleDTO> getRoleDTOList() {
+      return roleDTO_;
     }
     /**
-     * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+     * <code>repeated .RoleDTO roleDTO = 2;</code>
      */
     @Override
-    public java.util.List<? extends MmoSimpleRoleOrBuilder>
-        getMmoSimpleRolesOrBuilderList() {
-      return mmoSimpleRoles_;
+    public java.util.List<? extends RoleDTOOrBuilder>
+        getRoleDTOOrBuilderList() {
+      return roleDTO_;
     }
     /**
-     * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+     * <code>repeated .RoleDTO roleDTO = 2;</code>
      */
     @Override
-    public int getMmoSimpleRolesCount() {
-      return mmoSimpleRoles_.size();
+    public int getRoleDTOCount() {
+      return roleDTO_.size();
     }
     /**
-     * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+     * <code>repeated .RoleDTO roleDTO = 2;</code>
      */
     @Override
-    public MmoSimpleRole getMmoSimpleRoles(int index) {
-      return mmoSimpleRoles_.get(index);
+    public RoleDTO getRoleDTO(int index) {
+      return roleDTO_.get(index);
     }
     /**
-     * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+     * <code>repeated .RoleDTO roleDTO = 2;</code>
      */
     @Override
-    public MmoSimpleRoleOrBuilder getMmoSimpleRolesOrBuilder(
+    public RoleDTOOrBuilder getRoleDTOOrBuilder(
         int index) {
-      return mmoSimpleRoles_.get(index);
+      return roleDTO_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
@@ -6234,8 +6234,8 @@ public final class SceneModel {
       if (sceneId_ != 0) {
         output.writeInt32(1, sceneId_);
       }
-      for (int i = 0; i < mmoSimpleRoles_.size(); i++) {
-        output.writeMessage(2, mmoSimpleRoles_.get(i));
+      for (int i = 0; i < roleDTO_.size(); i++) {
+        output.writeMessage(2, roleDTO_.get(i));
       }
       unknownFields.writeTo(output);
     }
@@ -6250,9 +6250,9 @@ public final class SceneModel {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(1, sceneId_);
       }
-      for (int i = 0; i < mmoSimpleRoles_.size(); i++) {
+      for (int i = 0; i < roleDTO_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, mmoSimpleRoles_.get(i));
+          .computeMessageSize(2, roleDTO_.get(i));
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -6271,8 +6271,8 @@ public final class SceneModel {
 
       if (getSceneId()
           != other.getSceneId()) return false;
-      if (!getMmoSimpleRolesList()
-          .equals(other.getMmoSimpleRolesList())) return false;
+      if (!getRoleDTOList()
+          .equals(other.getRoleDTOList())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -6286,9 +6286,9 @@ public final class SceneModel {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + SCENEID_FIELD_NUMBER;
       hash = (53 * hash) + getSceneId();
-      if (getMmoSimpleRolesCount() > 0) {
-        hash = (37 * hash) + MMOSIMPLEROLES_FIELD_NUMBER;
-        hash = (53 * hash) + getMmoSimpleRolesList().hashCode();
+      if (getRoleDTOCount() > 0) {
+        hash = (37 * hash) + ROLEDTO_FIELD_NUMBER;
+        hash = (53 * hash) + getRoleDTOList().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -6418,7 +6418,7 @@ public final class SceneModel {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
-          getMmoSimpleRolesFieldBuilder();
+          getRoleDTOFieldBuilder();
         }
       }
       @Override
@@ -6426,11 +6426,11 @@ public final class SceneModel {
         super.clear();
         sceneId_ = 0;
 
-        if (mmoSimpleRolesBuilder_ == null) {
-          mmoSimpleRoles_ = java.util.Collections.emptyList();
+        if (roleDTOBuilder_ == null) {
+          roleDTO_ = java.util.Collections.emptyList();
           bitField0_ = (bitField0_ & ~0x00000001);
         } else {
-          mmoSimpleRolesBuilder_.clear();
+          roleDTOBuilder_.clear();
         }
         return this;
       }
@@ -6460,14 +6460,14 @@ public final class SceneModel {
         WentResponse result = new WentResponse(this);
         int from_bitField0_ = bitField0_;
         result.sceneId_ = sceneId_;
-        if (mmoSimpleRolesBuilder_ == null) {
+        if (roleDTOBuilder_ == null) {
           if (((bitField0_ & 0x00000001) != 0)) {
-            mmoSimpleRoles_ = java.util.Collections.unmodifiableList(mmoSimpleRoles_);
+            roleDTO_ = java.util.Collections.unmodifiableList(roleDTO_);
             bitField0_ = (bitField0_ & ~0x00000001);
           }
-          result.mmoSimpleRoles_ = mmoSimpleRoles_;
+          result.roleDTO_ = roleDTO_;
         } else {
-          result.mmoSimpleRoles_ = mmoSimpleRolesBuilder_.build();
+          result.roleDTO_ = roleDTOBuilder_.build();
         }
         onBuilt();
         return result;
@@ -6520,29 +6520,29 @@ public final class SceneModel {
         if (other.getSceneId() != 0) {
           setSceneId(other.getSceneId());
         }
-        if (mmoSimpleRolesBuilder_ == null) {
-          if (!other.mmoSimpleRoles_.isEmpty()) {
-            if (mmoSimpleRoles_.isEmpty()) {
-              mmoSimpleRoles_ = other.mmoSimpleRoles_;
+        if (roleDTOBuilder_ == null) {
+          if (!other.roleDTO_.isEmpty()) {
+            if (roleDTO_.isEmpty()) {
+              roleDTO_ = other.roleDTO_;
               bitField0_ = (bitField0_ & ~0x00000001);
             } else {
-              ensureMmoSimpleRolesIsMutable();
-              mmoSimpleRoles_.addAll(other.mmoSimpleRoles_);
+              ensureRoleDTOIsMutable();
+              roleDTO_.addAll(other.roleDTO_);
             }
             onChanged();
           }
         } else {
-          if (!other.mmoSimpleRoles_.isEmpty()) {
-            if (mmoSimpleRolesBuilder_.isEmpty()) {
-              mmoSimpleRolesBuilder_.dispose();
-              mmoSimpleRolesBuilder_ = null;
-              mmoSimpleRoles_ = other.mmoSimpleRoles_;
+          if (!other.roleDTO_.isEmpty()) {
+            if (roleDTOBuilder_.isEmpty()) {
+              roleDTOBuilder_.dispose();
+              roleDTOBuilder_ = null;
+              roleDTO_ = other.roleDTO_;
               bitField0_ = (bitField0_ & ~0x00000001);
-              mmoSimpleRolesBuilder_ = 
+              roleDTOBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                   getMmoSimpleRolesFieldBuilder() : null;
+                   getRoleDTOFieldBuilder() : null;
             } else {
-              mmoSimpleRolesBuilder_.addAllMessages(other.mmoSimpleRoles_);
+              roleDTOBuilder_.addAllMessages(other.roleDTO_);
             }
           }
         }
@@ -6607,244 +6607,244 @@ public final class SceneModel {
         return this;
       }
 
-      private java.util.List<MmoSimpleRole> mmoSimpleRoles_ =
+      private java.util.List<RoleDTO> roleDTO_ =
         java.util.Collections.emptyList();
-      private void ensureMmoSimpleRolesIsMutable() {
+      private void ensureRoleDTOIsMutable() {
         if (!((bitField0_ & 0x00000001) != 0)) {
-          mmoSimpleRoles_ = new java.util.ArrayList<MmoSimpleRole>(mmoSimpleRoles_);
+          roleDTO_ = new java.util.ArrayList<RoleDTO>(roleDTO_);
           bitField0_ |= 0x00000001;
          }
       }
 
       private com.google.protobuf.RepeatedFieldBuilderV3<
-          MmoSimpleRole, MmoSimpleRole.Builder, MmoSimpleRoleOrBuilder> mmoSimpleRolesBuilder_;
+          RoleDTO, RoleDTO.Builder, RoleDTOOrBuilder> roleDTOBuilder_;
 
       /**
-       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+       * <code>repeated .RoleDTO roleDTO = 2;</code>
        */
-      public java.util.List<MmoSimpleRole> getMmoSimpleRolesList() {
-        if (mmoSimpleRolesBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(mmoSimpleRoles_);
+      public java.util.List<RoleDTO> getRoleDTOList() {
+        if (roleDTOBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(roleDTO_);
         } else {
-          return mmoSimpleRolesBuilder_.getMessageList();
+          return roleDTOBuilder_.getMessageList();
         }
       }
       /**
-       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+       * <code>repeated .RoleDTO roleDTO = 2;</code>
        */
-      public int getMmoSimpleRolesCount() {
-        if (mmoSimpleRolesBuilder_ == null) {
-          return mmoSimpleRoles_.size();
+      public int getRoleDTOCount() {
+        if (roleDTOBuilder_ == null) {
+          return roleDTO_.size();
         } else {
-          return mmoSimpleRolesBuilder_.getCount();
+          return roleDTOBuilder_.getCount();
         }
       }
       /**
-       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+       * <code>repeated .RoleDTO roleDTO = 2;</code>
        */
-      public MmoSimpleRole getMmoSimpleRoles(int index) {
-        if (mmoSimpleRolesBuilder_ == null) {
-          return mmoSimpleRoles_.get(index);
+      public RoleDTO getRoleDTO(int index) {
+        if (roleDTOBuilder_ == null) {
+          return roleDTO_.get(index);
         } else {
-          return mmoSimpleRolesBuilder_.getMessage(index);
+          return roleDTOBuilder_.getMessage(index);
         }
       }
       /**
-       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+       * <code>repeated .RoleDTO roleDTO = 2;</code>
        */
-      public Builder setMmoSimpleRoles(
-          int index, MmoSimpleRole value) {
-        if (mmoSimpleRolesBuilder_ == null) {
+      public Builder setRoleDTO(
+          int index, RoleDTO value) {
+        if (roleDTOBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          ensureMmoSimpleRolesIsMutable();
-          mmoSimpleRoles_.set(index, value);
+          ensureRoleDTOIsMutable();
+          roleDTO_.set(index, value);
           onChanged();
         } else {
-          mmoSimpleRolesBuilder_.setMessage(index, value);
+          roleDTOBuilder_.setMessage(index, value);
         }
         return this;
       }
       /**
-       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+       * <code>repeated .RoleDTO roleDTO = 2;</code>
        */
-      public Builder setMmoSimpleRoles(
-          int index, MmoSimpleRole.Builder builderForValue) {
-        if (mmoSimpleRolesBuilder_ == null) {
-          ensureMmoSimpleRolesIsMutable();
-          mmoSimpleRoles_.set(index, builderForValue.build());
+      public Builder setRoleDTO(
+          int index, RoleDTO.Builder builderForValue) {
+        if (roleDTOBuilder_ == null) {
+          ensureRoleDTOIsMutable();
+          roleDTO_.set(index, builderForValue.build());
           onChanged();
         } else {
-          mmoSimpleRolesBuilder_.setMessage(index, builderForValue.build());
+          roleDTOBuilder_.setMessage(index, builderForValue.build());
         }
         return this;
       }
       /**
-       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+       * <code>repeated .RoleDTO roleDTO = 2;</code>
        */
-      public Builder addMmoSimpleRoles(MmoSimpleRole value) {
-        if (mmoSimpleRolesBuilder_ == null) {
+      public Builder addRoleDTO(RoleDTO value) {
+        if (roleDTOBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          ensureMmoSimpleRolesIsMutable();
-          mmoSimpleRoles_.add(value);
+          ensureRoleDTOIsMutable();
+          roleDTO_.add(value);
           onChanged();
         } else {
-          mmoSimpleRolesBuilder_.addMessage(value);
+          roleDTOBuilder_.addMessage(value);
         }
         return this;
       }
       /**
-       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+       * <code>repeated .RoleDTO roleDTO = 2;</code>
        */
-      public Builder addMmoSimpleRoles(
-          int index, MmoSimpleRole value) {
-        if (mmoSimpleRolesBuilder_ == null) {
+      public Builder addRoleDTO(
+          int index, RoleDTO value) {
+        if (roleDTOBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          ensureMmoSimpleRolesIsMutable();
-          mmoSimpleRoles_.add(index, value);
+          ensureRoleDTOIsMutable();
+          roleDTO_.add(index, value);
           onChanged();
         } else {
-          mmoSimpleRolesBuilder_.addMessage(index, value);
+          roleDTOBuilder_.addMessage(index, value);
         }
         return this;
       }
       /**
-       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+       * <code>repeated .RoleDTO roleDTO = 2;</code>
        */
-      public Builder addMmoSimpleRoles(
-          MmoSimpleRole.Builder builderForValue) {
-        if (mmoSimpleRolesBuilder_ == null) {
-          ensureMmoSimpleRolesIsMutable();
-          mmoSimpleRoles_.add(builderForValue.build());
+      public Builder addRoleDTO(
+          RoleDTO.Builder builderForValue) {
+        if (roleDTOBuilder_ == null) {
+          ensureRoleDTOIsMutable();
+          roleDTO_.add(builderForValue.build());
           onChanged();
         } else {
-          mmoSimpleRolesBuilder_.addMessage(builderForValue.build());
+          roleDTOBuilder_.addMessage(builderForValue.build());
         }
         return this;
       }
       /**
-       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+       * <code>repeated .RoleDTO roleDTO = 2;</code>
        */
-      public Builder addMmoSimpleRoles(
-          int index, MmoSimpleRole.Builder builderForValue) {
-        if (mmoSimpleRolesBuilder_ == null) {
-          ensureMmoSimpleRolesIsMutable();
-          mmoSimpleRoles_.add(index, builderForValue.build());
+      public Builder addRoleDTO(
+          int index, RoleDTO.Builder builderForValue) {
+        if (roleDTOBuilder_ == null) {
+          ensureRoleDTOIsMutable();
+          roleDTO_.add(index, builderForValue.build());
           onChanged();
         } else {
-          mmoSimpleRolesBuilder_.addMessage(index, builderForValue.build());
+          roleDTOBuilder_.addMessage(index, builderForValue.build());
         }
         return this;
       }
       /**
-       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+       * <code>repeated .RoleDTO roleDTO = 2;</code>
        */
-      public Builder addAllMmoSimpleRoles(
-          Iterable<? extends MmoSimpleRole> values) {
-        if (mmoSimpleRolesBuilder_ == null) {
-          ensureMmoSimpleRolesIsMutable();
+      public Builder addAllRoleDTO(
+          Iterable<? extends RoleDTO> values) {
+        if (roleDTOBuilder_ == null) {
+          ensureRoleDTOIsMutable();
           com.google.protobuf.AbstractMessageLite.Builder.addAll(
-              values, mmoSimpleRoles_);
+              values, roleDTO_);
           onChanged();
         } else {
-          mmoSimpleRolesBuilder_.addAllMessages(values);
+          roleDTOBuilder_.addAllMessages(values);
         }
         return this;
       }
       /**
-       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+       * <code>repeated .RoleDTO roleDTO = 2;</code>
        */
-      public Builder clearMmoSimpleRoles() {
-        if (mmoSimpleRolesBuilder_ == null) {
-          mmoSimpleRoles_ = java.util.Collections.emptyList();
+      public Builder clearRoleDTO() {
+        if (roleDTOBuilder_ == null) {
+          roleDTO_ = java.util.Collections.emptyList();
           bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
-          mmoSimpleRolesBuilder_.clear();
+          roleDTOBuilder_.clear();
         }
         return this;
       }
       /**
-       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+       * <code>repeated .RoleDTO roleDTO = 2;</code>
        */
-      public Builder removeMmoSimpleRoles(int index) {
-        if (mmoSimpleRolesBuilder_ == null) {
-          ensureMmoSimpleRolesIsMutable();
-          mmoSimpleRoles_.remove(index);
+      public Builder removeRoleDTO(int index) {
+        if (roleDTOBuilder_ == null) {
+          ensureRoleDTOIsMutable();
+          roleDTO_.remove(index);
           onChanged();
         } else {
-          mmoSimpleRolesBuilder_.remove(index);
+          roleDTOBuilder_.remove(index);
         }
         return this;
       }
       /**
-       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+       * <code>repeated .RoleDTO roleDTO = 2;</code>
        */
-      public MmoSimpleRole.Builder getMmoSimpleRolesBuilder(
+      public RoleDTO.Builder getRoleDTOBuilder(
           int index) {
-        return getMmoSimpleRolesFieldBuilder().getBuilder(index);
+        return getRoleDTOFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+       * <code>repeated .RoleDTO roleDTO = 2;</code>
        */
-      public MmoSimpleRoleOrBuilder getMmoSimpleRolesOrBuilder(
+      public RoleDTOOrBuilder getRoleDTOOrBuilder(
           int index) {
-        if (mmoSimpleRolesBuilder_ == null) {
-          return mmoSimpleRoles_.get(index);  } else {
-          return mmoSimpleRolesBuilder_.getMessageOrBuilder(index);
+        if (roleDTOBuilder_ == null) {
+          return roleDTO_.get(index);  } else {
+          return roleDTOBuilder_.getMessageOrBuilder(index);
         }
       }
       /**
-       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+       * <code>repeated .RoleDTO roleDTO = 2;</code>
        */
-      public java.util.List<? extends MmoSimpleRoleOrBuilder>
-           getMmoSimpleRolesOrBuilderList() {
-        if (mmoSimpleRolesBuilder_ != null) {
-          return mmoSimpleRolesBuilder_.getMessageOrBuilderList();
+      public java.util.List<? extends RoleDTOOrBuilder>
+           getRoleDTOOrBuilderList() {
+        if (roleDTOBuilder_ != null) {
+          return roleDTOBuilder_.getMessageOrBuilderList();
         } else {
-          return java.util.Collections.unmodifiableList(mmoSimpleRoles_);
+          return java.util.Collections.unmodifiableList(roleDTO_);
         }
       }
       /**
-       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+       * <code>repeated .RoleDTO roleDTO = 2;</code>
        */
-      public MmoSimpleRole.Builder addMmoSimpleRolesBuilder() {
-        return getMmoSimpleRolesFieldBuilder().addBuilder(
-            MmoSimpleRole.getDefaultInstance());
+      public RoleDTO.Builder addRoleDTOBuilder() {
+        return getRoleDTOFieldBuilder().addBuilder(
+            RoleDTO.getDefaultInstance());
       }
       /**
-       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+       * <code>repeated .RoleDTO roleDTO = 2;</code>
        */
-      public MmoSimpleRole.Builder addMmoSimpleRolesBuilder(
+      public RoleDTO.Builder addRoleDTOBuilder(
           int index) {
-        return getMmoSimpleRolesFieldBuilder().addBuilder(
-            index, MmoSimpleRole.getDefaultInstance());
+        return getRoleDTOFieldBuilder().addBuilder(
+            index, RoleDTO.getDefaultInstance());
       }
       /**
-       * <code>repeated .MmoSimpleRole mmoSimpleRoles = 2;</code>
+       * <code>repeated .RoleDTO roleDTO = 2;</code>
        */
-      public java.util.List<MmoSimpleRole.Builder>
-           getMmoSimpleRolesBuilderList() {
-        return getMmoSimpleRolesFieldBuilder().getBuilderList();
+      public java.util.List<RoleDTO.Builder>
+           getRoleDTOBuilderList() {
+        return getRoleDTOFieldBuilder().getBuilderList();
       }
       private com.google.protobuf.RepeatedFieldBuilderV3<
-          MmoSimpleRole, MmoSimpleRole.Builder, MmoSimpleRoleOrBuilder>
-          getMmoSimpleRolesFieldBuilder() {
-        if (mmoSimpleRolesBuilder_ == null) {
-          mmoSimpleRolesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-              MmoSimpleRole, MmoSimpleRole.Builder, MmoSimpleRoleOrBuilder>(
-                  mmoSimpleRoles_,
+          RoleDTO, RoleDTO.Builder, RoleDTOOrBuilder>
+          getRoleDTOFieldBuilder() {
+        if (roleDTOBuilder_ == null) {
+          roleDTOBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              RoleDTO, RoleDTO.Builder, RoleDTOOrBuilder>(
+                  roleDTO_,
                   ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
-          mmoSimpleRoles_ = null;
+          roleDTO_ = null;
         }
-        return mmoSimpleRolesBuilder_;
+        return roleDTOBuilder_;
       }
       @Override
       public final Builder setUnknownFields(
@@ -7387,8 +7387,8 @@ public final class SceneModel {
 
   }
 
-  public interface MmoSimpleRoleOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:MmoSimpleRole)
+  public interface RoleDTOOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:RoleDTO)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -7410,65 +7410,80 @@ public final class SceneModel {
         getNameBytes();
 
     /**
-     * <code>string status = 3;</code>
+     * <code>int32 status = 3;</code>
      * @return The status.
      */
-    String getStatus();
-    /**
-     * <code>string status = 3;</code>
-     * @return The bytes for status.
-     */
-    com.google.protobuf.ByteString
-        getStatusBytes();
+    int getStatus();
 
     /**
-     * <code>string type = 4;</code>
+     * <code>int32 type = 4;</code>
      * @return The type.
      */
-    String getType();
-    /**
-     * <code>string type = 4;</code>
-     * @return The bytes for type.
-     */
-    com.google.protobuf.ByteString
-        getTypeBytes();
+    int getType();
 
     /**
-     * <code>string onStatus = 5;</code>
+     * <code>int32 onStatus = 5;</code>
      * @return The onStatus.
      */
-    String getOnStatus();
+    int getOnStatus();
+
     /**
-     * <code>string onStatus = 5;</code>
-     * @return The bytes for onStatus.
+     * <code>int32 blood = 6;</code>
+     * @return The blood.
      */
-    com.google.protobuf.ByteString
-        getOnStatusBytes();
+    int getBlood();
+
+    /**
+     * <code>int32 nowBlood = 7;</code>
+     * @return The nowBlood.
+     */
+    int getNowBlood();
+
+    /**
+     * <code>int32 mp = 8;</code>
+     * @return The mp.
+     */
+    int getMp();
+
+    /**
+     * <code>repeated int32 skillIdList = 9;</code>
+     * @return A list containing the skillIdList.
+     */
+    java.util.List<Integer> getSkillIdListList();
+    /**
+     * <code>repeated int32 skillIdList = 9;</code>
+     * @return The count of skillIdList.
+     */
+    int getSkillIdListCount();
+    /**
+     * <code>repeated int32 skillIdList = 9;</code>
+     * @param index The index of the element to return.
+     * @return The skillIdList at the given index.
+     */
+    int getSkillIdList(int index);
   }
   /**
-   * Protobuf type {@code MmoSimpleRole}
+   * Protobuf type {@code RoleDTO}
    */
-  public static final class MmoSimpleRole extends
+  public static final class RoleDTO extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:MmoSimpleRole)
-      MmoSimpleRoleOrBuilder {
+      // @@protoc_insertion_point(message_implements:RoleDTO)
+      RoleDTOOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use MmoSimpleRole.newBuilder() to construct.
-    private MmoSimpleRole(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use RoleDTO.newBuilder() to construct.
+    private RoleDTO(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private MmoSimpleRole() {
+    private RoleDTO() {
       name_ = "";
-      status_ = "";
-      type_ = "";
-      onStatus_ = "";
+      skillIdList_ = emptyIntList();
     }
 
     @Override
     @SuppressWarnings({"unused"})
     protected Object newInstance(
         UnusedPrivateParameter unused) {
-      return new MmoSimpleRole();
+      return new RoleDTO();
     }
 
     @Override
@@ -7476,7 +7491,7 @@ public final class SceneModel {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private MmoSimpleRole(
+    private RoleDTO(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -7484,6 +7499,7 @@ public final class SceneModel {
       if (extensionRegistry == null) {
         throw new NullPointerException();
       }
+      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -7505,22 +7521,55 @@ public final class SceneModel {
               name_ = s;
               break;
             }
-            case 26: {
-              String s = input.readStringRequireUtf8();
+            case 24: {
 
-              status_ = s;
+              status_ = input.readInt32();
               break;
             }
-            case 34: {
-              String s = input.readStringRequireUtf8();
+            case 32: {
 
-              type_ = s;
+              type_ = input.readInt32();
               break;
             }
-            case 42: {
-              String s = input.readStringRequireUtf8();
+            case 40: {
 
-              onStatus_ = s;
+              onStatus_ = input.readInt32();
+              break;
+            }
+            case 48: {
+
+              blood_ = input.readInt32();
+              break;
+            }
+            case 56: {
+
+              nowBlood_ = input.readInt32();
+              break;
+            }
+            case 64: {
+
+              mp_ = input.readInt32();
+              break;
+            }
+            case 72: {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+                skillIdList_ = newIntList();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              skillIdList_.addInt(input.readInt32());
+              break;
+            }
+            case 74: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00000001) != 0) && input.getBytesUntilLimit() > 0) {
+                skillIdList_ = newIntList();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                skillIdList_.addInt(input.readInt32());
+              }
+              input.popLimit(limit);
               break;
             }
             default: {
@@ -7538,21 +7587,24 @@ public final class SceneModel {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+          skillIdList_.makeImmutable(); // C
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return SceneModel.internal_static_MmoSimpleRole_descriptor;
+      return SceneModel.internal_static_RoleDTO_descriptor;
     }
 
     @Override
     protected FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return SceneModel.internal_static_MmoSimpleRole_fieldAccessorTable
+      return SceneModel.internal_static_RoleDTO_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              MmoSimpleRole.class, Builder.class);
+              RoleDTO.class, Builder.class);
     }
 
     public static final int ID_FIELD_NUMBER = 1;
@@ -7605,118 +7657,98 @@ public final class SceneModel {
     }
 
     public static final int STATUS_FIELD_NUMBER = 3;
-    private volatile Object status_;
+    private int status_;
     /**
-     * <code>string status = 3;</code>
+     * <code>int32 status = 3;</code>
      * @return The status.
      */
     @Override
-    public String getStatus() {
-      Object ref = status_;
-      if (ref instanceof String) {
-        return (String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        String s = bs.toStringUtf8();
-        status_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string status = 3;</code>
-     * @return The bytes for status.
-     */
-    @Override
-    public com.google.protobuf.ByteString
-        getStatusBytes() {
-      Object ref = status_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (String) ref);
-        status_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public int getStatus() {
+      return status_;
     }
 
     public static final int TYPE_FIELD_NUMBER = 4;
-    private volatile Object type_;
+    private int type_;
     /**
-     * <code>string type = 4;</code>
+     * <code>int32 type = 4;</code>
      * @return The type.
      */
     @Override
-    public String getType() {
-      Object ref = type_;
-      if (ref instanceof String) {
-        return (String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        String s = bs.toStringUtf8();
-        type_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string type = 4;</code>
-     * @return The bytes for type.
-     */
-    @Override
-    public com.google.protobuf.ByteString
-        getTypeBytes() {
-      Object ref = type_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (String) ref);
-        type_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public int getType() {
+      return type_;
     }
 
     public static final int ONSTATUS_FIELD_NUMBER = 5;
-    private volatile Object onStatus_;
+    private int onStatus_;
     /**
-     * <code>string onStatus = 5;</code>
+     * <code>int32 onStatus = 5;</code>
      * @return The onStatus.
      */
     @Override
-    public String getOnStatus() {
-      Object ref = onStatus_;
-      if (ref instanceof String) {
-        return (String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        String s = bs.toStringUtf8();
-        onStatus_ = s;
-        return s;
-      }
+    public int getOnStatus() {
+      return onStatus_;
     }
+
+    public static final int BLOOD_FIELD_NUMBER = 6;
+    private int blood_;
     /**
-     * <code>string onStatus = 5;</code>
-     * @return The bytes for onStatus.
+     * <code>int32 blood = 6;</code>
+     * @return The blood.
      */
     @Override
-    public com.google.protobuf.ByteString
-        getOnStatusBytes() {
-      Object ref = onStatus_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (String) ref);
-        onStatus_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public int getBlood() {
+      return blood_;
     }
+
+    public static final int NOWBLOOD_FIELD_NUMBER = 7;
+    private int nowBlood_;
+    /**
+     * <code>int32 nowBlood = 7;</code>
+     * @return The nowBlood.
+     */
+    @Override
+    public int getNowBlood() {
+      return nowBlood_;
+    }
+
+    public static final int MP_FIELD_NUMBER = 8;
+    private int mp_;
+    /**
+     * <code>int32 mp = 8;</code>
+     * @return The mp.
+     */
+    @Override
+    public int getMp() {
+      return mp_;
+    }
+
+    public static final int SKILLIDLIST_FIELD_NUMBER = 9;
+    private com.google.protobuf.Internal.IntList skillIdList_;
+    /**
+     * <code>repeated int32 skillIdList = 9;</code>
+     * @return A list containing the skillIdList.
+     */
+    @Override
+    public java.util.List<Integer>
+        getSkillIdListList() {
+      return skillIdList_;
+    }
+    /**
+     * <code>repeated int32 skillIdList = 9;</code>
+     * @return The count of skillIdList.
+     */
+    public int getSkillIdListCount() {
+      return skillIdList_.size();
+    }
+    /**
+     * <code>repeated int32 skillIdList = 9;</code>
+     * @param index The index of the element to return.
+     * @return The skillIdList at the given index.
+     */
+    public int getSkillIdList(int index) {
+      return skillIdList_.getInt(index);
+    }
+    private int skillIdListMemoizedSerializedSize = -1;
 
     private byte memoizedIsInitialized = -1;
     @Override
@@ -7732,20 +7764,37 @@ public final class SceneModel {
     @Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      getSerializedSize();
       if (id_ != 0) {
         output.writeInt32(1, id_);
       }
       if (!getNameBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, name_);
       }
-      if (!getStatusBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, status_);
+      if (status_ != 0) {
+        output.writeInt32(3, status_);
       }
-      if (!getTypeBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, type_);
+      if (type_ != 0) {
+        output.writeInt32(4, type_);
       }
-      if (!getOnStatusBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, onStatus_);
+      if (onStatus_ != 0) {
+        output.writeInt32(5, onStatus_);
+      }
+      if (blood_ != 0) {
+        output.writeInt32(6, blood_);
+      }
+      if (nowBlood_ != 0) {
+        output.writeInt32(7, nowBlood_);
+      }
+      if (mp_ != 0) {
+        output.writeInt32(8, mp_);
+      }
+      if (getSkillIdListList().size() > 0) {
+        output.writeUInt32NoTag(74);
+        output.writeUInt32NoTag(skillIdListMemoizedSerializedSize);
+      }
+      for (int i = 0; i < skillIdList_.size(); i++) {
+        output.writeInt32NoTag(skillIdList_.getInt(i));
       }
       unknownFields.writeTo(output);
     }
@@ -7763,14 +7812,43 @@ public final class SceneModel {
       if (!getNameBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, name_);
       }
-      if (!getStatusBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, status_);
+      if (status_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, status_);
       }
-      if (!getTypeBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, type_);
+      if (type_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, type_);
       }
-      if (!getOnStatusBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, onStatus_);
+      if (onStatus_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, onStatus_);
+      }
+      if (blood_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(6, blood_);
+      }
+      if (nowBlood_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(7, nowBlood_);
+      }
+      if (mp_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(8, mp_);
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < skillIdList_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeInt32SizeNoTag(skillIdList_.getInt(i));
+        }
+        size += dataSize;
+        if (!getSkillIdListList().isEmpty()) {
+          size += 1;
+          size += com.google.protobuf.CodedOutputStream
+              .computeInt32SizeNoTag(dataSize);
+        }
+        skillIdListMemoizedSerializedSize = dataSize;
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -7782,21 +7860,29 @@ public final class SceneModel {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof MmoSimpleRole)) {
+      if (!(obj instanceof RoleDTO)) {
         return super.equals(obj);
       }
-      MmoSimpleRole other = (MmoSimpleRole) obj;
+      RoleDTO other = (RoleDTO) obj;
 
       if (getId()
           != other.getId()) return false;
       if (!getName()
           .equals(other.getName())) return false;
-      if (!getStatus()
-          .equals(other.getStatus())) return false;
-      if (!getType()
-          .equals(other.getType())) return false;
-      if (!getOnStatus()
-          .equals(other.getOnStatus())) return false;
+      if (getStatus()
+          != other.getStatus()) return false;
+      if (getType()
+          != other.getType()) return false;
+      if (getOnStatus()
+          != other.getOnStatus()) return false;
+      if (getBlood()
+          != other.getBlood()) return false;
+      if (getNowBlood()
+          != other.getNowBlood()) return false;
+      if (getMp()
+          != other.getMp()) return false;
+      if (!getSkillIdListList()
+          .equals(other.getSkillIdListList())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -7813,79 +7899,89 @@ public final class SceneModel {
       hash = (37 * hash) + NAME_FIELD_NUMBER;
       hash = (53 * hash) + getName().hashCode();
       hash = (37 * hash) + STATUS_FIELD_NUMBER;
-      hash = (53 * hash) + getStatus().hashCode();
+      hash = (53 * hash) + getStatus();
       hash = (37 * hash) + TYPE_FIELD_NUMBER;
-      hash = (53 * hash) + getType().hashCode();
+      hash = (53 * hash) + getType();
       hash = (37 * hash) + ONSTATUS_FIELD_NUMBER;
-      hash = (53 * hash) + getOnStatus().hashCode();
+      hash = (53 * hash) + getOnStatus();
+      hash = (37 * hash) + BLOOD_FIELD_NUMBER;
+      hash = (53 * hash) + getBlood();
+      hash = (37 * hash) + NOWBLOOD_FIELD_NUMBER;
+      hash = (53 * hash) + getNowBlood();
+      hash = (37 * hash) + MP_FIELD_NUMBER;
+      hash = (53 * hash) + getMp();
+      if (getSkillIdListCount() > 0) {
+        hash = (37 * hash) + SKILLIDLIST_FIELD_NUMBER;
+        hash = (53 * hash) + getSkillIdListList().hashCode();
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static MmoSimpleRole parseFrom(
+    public static RoleDTO parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static MmoSimpleRole parseFrom(
+    public static RoleDTO parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static MmoSimpleRole parseFrom(
+    public static RoleDTO parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static MmoSimpleRole parseFrom(
+    public static RoleDTO parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static MmoSimpleRole parseFrom(byte[] data)
+    public static RoleDTO parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static MmoSimpleRole parseFrom(
+    public static RoleDTO parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static MmoSimpleRole parseFrom(java.io.InputStream input)
+    public static RoleDTO parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static MmoSimpleRole parseFrom(
+    public static RoleDTO parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static MmoSimpleRole parseDelimitedFrom(java.io.InputStream input)
+    public static RoleDTO parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static MmoSimpleRole parseDelimitedFrom(
+    public static RoleDTO parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static MmoSimpleRole parseFrom(
+    public static RoleDTO parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static MmoSimpleRole parseFrom(
+    public static RoleDTO parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -7898,7 +7994,7 @@ public final class SceneModel {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(MmoSimpleRole prototype) {
+    public static Builder newBuilder(RoleDTO prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     @Override
@@ -7914,26 +8010,26 @@ public final class SceneModel {
       return builder;
     }
     /**
-     * Protobuf type {@code MmoSimpleRole}
+     * Protobuf type {@code RoleDTO}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:MmoSimpleRole)
-        MmoSimpleRoleOrBuilder {
+        // @@protoc_insertion_point(builder_implements:RoleDTO)
+        RoleDTOOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return SceneModel.internal_static_MmoSimpleRole_descriptor;
+        return SceneModel.internal_static_RoleDTO_descriptor;
       }
 
       @Override
       protected FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return SceneModel.internal_static_MmoSimpleRole_fieldAccessorTable
+        return SceneModel.internal_static_RoleDTO_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                MmoSimpleRole.class, Builder.class);
+                RoleDTO.class, Builder.class);
       }
 
-      // Construct using SceneModel.MmoSimpleRole.newBuilder()
+      // Construct using SceneModel.RoleDTO.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -7955,29 +8051,37 @@ public final class SceneModel {
 
         name_ = "";
 
-        status_ = "";
+        status_ = 0;
 
-        type_ = "";
+        type_ = 0;
 
-        onStatus_ = "";
+        onStatus_ = 0;
 
+        blood_ = 0;
+
+        nowBlood_ = 0;
+
+        mp_ = 0;
+
+        skillIdList_ = emptyIntList();
+        bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
 
       @Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return SceneModel.internal_static_MmoSimpleRole_descriptor;
+        return SceneModel.internal_static_RoleDTO_descriptor;
       }
 
       @Override
-      public MmoSimpleRole getDefaultInstanceForType() {
-        return MmoSimpleRole.getDefaultInstance();
+      public RoleDTO getDefaultInstanceForType() {
+        return RoleDTO.getDefaultInstance();
       }
 
       @Override
-      public MmoSimpleRole build() {
-        MmoSimpleRole result = buildPartial();
+      public RoleDTO build() {
+        RoleDTO result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
@@ -7985,13 +8089,22 @@ public final class SceneModel {
       }
 
       @Override
-      public MmoSimpleRole buildPartial() {
-        MmoSimpleRole result = new MmoSimpleRole(this);
+      public RoleDTO buildPartial() {
+        RoleDTO result = new RoleDTO(this);
+        int from_bitField0_ = bitField0_;
         result.id_ = id_;
         result.name_ = name_;
         result.status_ = status_;
         result.type_ = type_;
         result.onStatus_ = onStatus_;
+        result.blood_ = blood_;
+        result.nowBlood_ = nowBlood_;
+        result.mp_ = mp_;
+        if (((bitField0_ & 0x00000001) != 0)) {
+          skillIdList_.makeImmutable();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        }
+        result.skillIdList_ = skillIdList_;
         onBuilt();
         return result;
       }
@@ -8030,16 +8143,16 @@ public final class SceneModel {
       }
       @Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof MmoSimpleRole) {
-          return mergeFrom((MmoSimpleRole)other);
+        if (other instanceof RoleDTO) {
+          return mergeFrom((RoleDTO)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(MmoSimpleRole other) {
-        if (other == MmoSimpleRole.getDefaultInstance()) return this;
+      public Builder mergeFrom(RoleDTO other) {
+        if (other == RoleDTO.getDefaultInstance()) return this;
         if (other.getId() != 0) {
           setId(other.getId());
         }
@@ -8047,16 +8160,32 @@ public final class SceneModel {
           name_ = other.name_;
           onChanged();
         }
-        if (!other.getStatus().isEmpty()) {
-          status_ = other.status_;
-          onChanged();
+        if (other.getStatus() != 0) {
+          setStatus(other.getStatus());
         }
-        if (!other.getType().isEmpty()) {
-          type_ = other.type_;
-          onChanged();
+        if (other.getType() != 0) {
+          setType(other.getType());
         }
-        if (!other.getOnStatus().isEmpty()) {
-          onStatus_ = other.onStatus_;
+        if (other.getOnStatus() != 0) {
+          setOnStatus(other.getOnStatus());
+        }
+        if (other.getBlood() != 0) {
+          setBlood(other.getBlood());
+        }
+        if (other.getNowBlood() != 0) {
+          setNowBlood(other.getNowBlood());
+        }
+        if (other.getMp() != 0) {
+          setMp(other.getMp());
+        }
+        if (!other.skillIdList_.isEmpty()) {
+          if (skillIdList_.isEmpty()) {
+            skillIdList_ = other.skillIdList_;
+            bitField0_ = (bitField0_ & ~0x00000001);
+          } else {
+            ensureSkillIdListIsMutable();
+            skillIdList_.addAll(other.skillIdList_);
+          }
           onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
@@ -8074,11 +8203,11 @@ public final class SceneModel {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        MmoSimpleRole parsedMessage = null;
+        RoleDTO parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (MmoSimpleRole) e.getUnfinishedMessage();
+          parsedMessage = (RoleDTO) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -8087,6 +8216,7 @@ public final class SceneModel {
         }
         return this;
       }
+      private int bitField0_;
 
       private int id_ ;
       /**
@@ -8195,230 +8325,267 @@ public final class SceneModel {
         return this;
       }
 
-      private Object status_ = "";
+      private int status_ ;
       /**
-       * <code>string status = 3;</code>
+       * <code>int32 status = 3;</code>
        * @return The status.
        */
-      public String getStatus() {
-        Object ref = status_;
-        if (!(ref instanceof String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          String s = bs.toStringUtf8();
-          status_ = s;
-          return s;
-        } else {
-          return (String) ref;
-        }
+      @Override
+      public int getStatus() {
+        return status_;
       }
       /**
-       * <code>string status = 3;</code>
-       * @return The bytes for status.
-       */
-      public com.google.protobuf.ByteString
-          getStatusBytes() {
-        Object ref = status_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (String) ref);
-          status_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string status = 3;</code>
+       * <code>int32 status = 3;</code>
        * @param value The status to set.
        * @return This builder for chaining.
        */
-      public Builder setStatus(
-          String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
+      public Builder setStatus(int value) {
+        
         status_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>string status = 3;</code>
+       * <code>int32 status = 3;</code>
        * @return This builder for chaining.
        */
       public Builder clearStatus() {
         
-        status_ = getDefaultInstance().getStatus();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string status = 3;</code>
-       * @param value The bytes for status to set.
-       * @return This builder for chaining.
-       */
-      public Builder setStatusBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        status_ = value;
+        status_ = 0;
         onChanged();
         return this;
       }
 
-      private Object type_ = "";
+      private int type_ ;
       /**
-       * <code>string type = 4;</code>
+       * <code>int32 type = 4;</code>
        * @return The type.
        */
-      public String getType() {
-        Object ref = type_;
-        if (!(ref instanceof String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          String s = bs.toStringUtf8();
-          type_ = s;
-          return s;
-        } else {
-          return (String) ref;
-        }
+      @Override
+      public int getType() {
+        return type_;
       }
       /**
-       * <code>string type = 4;</code>
-       * @return The bytes for type.
-       */
-      public com.google.protobuf.ByteString
-          getTypeBytes() {
-        Object ref = type_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (String) ref);
-          type_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string type = 4;</code>
+       * <code>int32 type = 4;</code>
        * @param value The type to set.
        * @return This builder for chaining.
        */
-      public Builder setType(
-          String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
+      public Builder setType(int value) {
+        
         type_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>string type = 4;</code>
+       * <code>int32 type = 4;</code>
        * @return This builder for chaining.
        */
       public Builder clearType() {
         
-        type_ = getDefaultInstance().getType();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string type = 4;</code>
-       * @param value The bytes for type to set.
-       * @return This builder for chaining.
-       */
-      public Builder setTypeBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        type_ = value;
+        type_ = 0;
         onChanged();
         return this;
       }
 
-      private Object onStatus_ = "";
+      private int onStatus_ ;
       /**
-       * <code>string onStatus = 5;</code>
+       * <code>int32 onStatus = 5;</code>
        * @return The onStatus.
        */
-      public String getOnStatus() {
-        Object ref = onStatus_;
-        if (!(ref instanceof String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          String s = bs.toStringUtf8();
-          onStatus_ = s;
-          return s;
-        } else {
-          return (String) ref;
-        }
+      @Override
+      public int getOnStatus() {
+        return onStatus_;
       }
       /**
-       * <code>string onStatus = 5;</code>
-       * @return The bytes for onStatus.
-       */
-      public com.google.protobuf.ByteString
-          getOnStatusBytes() {
-        Object ref = onStatus_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (String) ref);
-          onStatus_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string onStatus = 5;</code>
+       * <code>int32 onStatus = 5;</code>
        * @param value The onStatus to set.
        * @return This builder for chaining.
        */
-      public Builder setOnStatus(
-          String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
+      public Builder setOnStatus(int value) {
+        
         onStatus_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>string onStatus = 5;</code>
+       * <code>int32 onStatus = 5;</code>
        * @return This builder for chaining.
        */
       public Builder clearOnStatus() {
         
-        onStatus_ = getDefaultInstance().getOnStatus();
+        onStatus_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int blood_ ;
+      /**
+       * <code>int32 blood = 6;</code>
+       * @return The blood.
+       */
+      @Override
+      public int getBlood() {
+        return blood_;
+      }
+      /**
+       * <code>int32 blood = 6;</code>
+       * @param value The blood to set.
+       * @return This builder for chaining.
+       */
+      public Builder setBlood(int value) {
+        
+        blood_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>string onStatus = 5;</code>
-       * @param value The bytes for onStatus to set.
+       * <code>int32 blood = 6;</code>
        * @return This builder for chaining.
        */
-      public Builder setOnStatusBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
+      public Builder clearBlood() {
         
-        onStatus_ = value;
+        blood_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int nowBlood_ ;
+      /**
+       * <code>int32 nowBlood = 7;</code>
+       * @return The nowBlood.
+       */
+      @Override
+      public int getNowBlood() {
+        return nowBlood_;
+      }
+      /**
+       * <code>int32 nowBlood = 7;</code>
+       * @param value The nowBlood to set.
+       * @return This builder for chaining.
+       */
+      public Builder setNowBlood(int value) {
+        
+        nowBlood_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 nowBlood = 7;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearNowBlood() {
+        
+        nowBlood_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int mp_ ;
+      /**
+       * <code>int32 mp = 8;</code>
+       * @return The mp.
+       */
+      @Override
+      public int getMp() {
+        return mp_;
+      }
+      /**
+       * <code>int32 mp = 8;</code>
+       * @param value The mp to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMp(int value) {
+        
+        mp_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 mp = 8;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMp() {
+        
+        mp_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.Internal.IntList skillIdList_ = emptyIntList();
+      private void ensureSkillIdListIsMutable() {
+        if (!((bitField0_ & 0x00000001) != 0)) {
+          skillIdList_ = mutableCopy(skillIdList_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+      /**
+       * <code>repeated int32 skillIdList = 9;</code>
+       * @return A list containing the skillIdList.
+       */
+      public java.util.List<Integer>
+          getSkillIdListList() {
+        return ((bitField0_ & 0x00000001) != 0) ?
+                 java.util.Collections.unmodifiableList(skillIdList_) : skillIdList_;
+      }
+      /**
+       * <code>repeated int32 skillIdList = 9;</code>
+       * @return The count of skillIdList.
+       */
+      public int getSkillIdListCount() {
+        return skillIdList_.size();
+      }
+      /**
+       * <code>repeated int32 skillIdList = 9;</code>
+       * @param index The index of the element to return.
+       * @return The skillIdList at the given index.
+       */
+      public int getSkillIdList(int index) {
+        return skillIdList_.getInt(index);
+      }
+      /**
+       * <code>repeated int32 skillIdList = 9;</code>
+       * @param index The index to set the value at.
+       * @param value The skillIdList to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSkillIdList(
+          int index, int value) {
+        ensureSkillIdListIsMutable();
+        skillIdList_.setInt(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 skillIdList = 9;</code>
+       * @param value The skillIdList to add.
+       * @return This builder for chaining.
+       */
+      public Builder addSkillIdList(int value) {
+        ensureSkillIdListIsMutable();
+        skillIdList_.addInt(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 skillIdList = 9;</code>
+       * @param values The skillIdList to add.
+       * @return This builder for chaining.
+       */
+      public Builder addAllSkillIdList(
+          Iterable<? extends Integer> values) {
+        ensureSkillIdListIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, skillIdList_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 skillIdList = 9;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSkillIdList() {
+        skillIdList_ = emptyIntList();
+        bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
       }
@@ -8435,41 +8602,41 @@ public final class SceneModel {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:MmoSimpleRole)
+      // @@protoc_insertion_point(builder_scope:RoleDTO)
     }
 
-    // @@protoc_insertion_point(class_scope:MmoSimpleRole)
-    private static final MmoSimpleRole DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:RoleDTO)
+    private static final RoleDTO DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new MmoSimpleRole();
+      DEFAULT_INSTANCE = new RoleDTO();
     }
 
-    public static MmoSimpleRole getDefaultInstance() {
+    public static RoleDTO getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<MmoSimpleRole>
-        PARSER = new com.google.protobuf.AbstractParser<MmoSimpleRole>() {
+    private static final com.google.protobuf.Parser<RoleDTO>
+        PARSER = new com.google.protobuf.AbstractParser<RoleDTO>() {
       @Override
-      public MmoSimpleRole parsePartialFrom(
+      public RoleDTO parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new MmoSimpleRole(input, extensionRegistry);
+        return new RoleDTO(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<MmoSimpleRole> parser() {
+    public static com.google.protobuf.Parser<RoleDTO> parser() {
       return PARSER;
     }
 
     @Override
-    public com.google.protobuf.Parser<MmoSimpleRole> getParserForType() {
+    public com.google.protobuf.Parser<RoleDTO> getParserForType() {
       return PARSER;
     }
 
     @Override
-    public MmoSimpleRole getDefaultInstanceForType() {
+    public RoleDTO getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -9159,10 +9326,10 @@ public final class SceneModel {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_TalkNPCResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_MmoSimpleRole_descriptor;
+    internal_static_RoleDTO_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_MmoSimpleRole_fieldAccessorTable;
+      internal_static_RoleDTO_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_MmoSimpleScene_descriptor;
   private static final 
@@ -9198,15 +9365,16 @@ public final class SceneModel {
       "esRequest\022\017\n\007sceneId\030\001 \001(\005\"\036\n\013WentReques" +
       "t\022\017\n\007sceneId\030\001 \001(\005\" \n\016TalkNPCRequest\022\016\n\006" +
       "roleId\030\001 \001(\005\"#\n\016AskCanResponse\022\021\n\tscenes" +
-      "Ids\030\001 \003(\005\">\n\024FindAllRolesResponse\022&\n\016mmo" +
-      "SimpleRoles\030\001 \003(\0132\016.MmoSimpleRole\"G\n\014Wen" +
-      "tResponse\022\017\n\007sceneId\030\001 \001(\005\022&\n\016mmoSimpleR" +
-      "oles\030\002 \003(\0132\016.MmoSimpleRole\" \n\017TalkNPCRes" +
-      "ponse\022\r\n\005npcId\030\001 \001(\005\"Y\n\rMmoSimpleRole\022\n\n" +
-      "\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\016\n\006status\030\003 \001(\t\022" +
-      "\014\n\004type\030\004 \001(\t\022\020\n\010onStatus\030\005 \001(\t\"/\n\016MmoSi" +
-      "mpleScene\022\n\n\002id\030\001 \001(\005\022\021\n\tpalceName\030\002 \001(\t" +
-      "B\014B\nSceneModelb\006proto3"
+      "Ids\030\001 \003(\005\"1\n\024FindAllRolesResponse\022\031\n\007rol" +
+      "eDTO\030\001 \003(\0132\010.RoleDTO\":\n\014WentResponse\022\017\n\007" +
+      "sceneId\030\001 \001(\005\022\031\n\007roleDTO\030\002 \003(\0132\010.RoleDTO" +
+      "\" \n\017TalkNPCResponse\022\r\n\005npcId\030\001 \001(\005\"\225\001\n\007R" +
+      "oleDTO\022\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\016\n\006stat" +
+      "us\030\003 \001(\005\022\014\n\004type\030\004 \001(\005\022\020\n\010onStatus\030\005 \001(\005" +
+      "\022\r\n\005blood\030\006 \001(\005\022\020\n\010nowBlood\030\007 \001(\005\022\n\n\002mp\030" +
+      "\010 \001(\005\022\023\n\013skillIdList\030\t \003(\005\"/\n\016MmoSimpleS" +
+      "cene\022\n\n\002id\030\001 \001(\005\022\021\n\tpalceName\030\002 \001(\tB\014B\nS" +
+      "ceneModelb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -9253,25 +9421,25 @@ public final class SceneModel {
     internal_static_FindAllRolesResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_FindAllRolesResponse_descriptor,
-        new String[] { "MmoSimpleRoles", });
+        new String[] { "RoleDTO", });
     internal_static_WentResponse_descriptor =
       getDescriptor().getMessageTypes().get(7);
     internal_static_WentResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_WentResponse_descriptor,
-        new String[] { "SceneId", "MmoSimpleRoles", });
+        new String[] { "SceneId", "RoleDTO", });
     internal_static_TalkNPCResponse_descriptor =
       getDescriptor().getMessageTypes().get(8);
     internal_static_TalkNPCResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_TalkNPCResponse_descriptor,
         new String[] { "NpcId", });
-    internal_static_MmoSimpleRole_descriptor =
+    internal_static_RoleDTO_descriptor =
       getDescriptor().getMessageTypes().get(9);
-    internal_static_MmoSimpleRole_fieldAccessorTable = new
+    internal_static_RoleDTO_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_MmoSimpleRole_descriptor,
-        new String[] { "Id", "Name", "Status", "Type", "OnStatus", });
+        internal_static_RoleDTO_descriptor,
+        new String[] { "Id", "Name", "Status", "Type", "OnStatus", "Blood", "NowBlood", "Mp", "SkillIdList", });
     internal_static_MmoSimpleScene_descriptor =
       getDescriptor().getMessageTypes().get(10);
     internal_static_MmoSimpleScene_fieldAccessorTable = new

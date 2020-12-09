@@ -17,8 +17,15 @@ public class NPCMessage {
 
     private Integer blood;
 
-    private Integer nowBlood;
+    private Integer mp;
 
+    public Integer getMp() {
+        return mp;
+    }
+
+    public void setMp(Integer mp) {
+        this.mp = mp;
+    }
 
     @Override
     public String toString() {
@@ -31,7 +38,6 @@ public class NPCMessage {
                 ", onstatus=" + onstatus +
                 ", talk='" + talk + '\'' +
                 ", blood=" + blood +
-                ", nowBlood=" + nowBlood +
                 '}';
     }
 
@@ -49,14 +55,6 @@ public class NPCMessage {
 
     public void setBlood(Integer blood) {
         this.blood = blood;
-    }
-
-    public Integer getNowBlood() {
-        return nowBlood;
-    }
-
-    public void setNowBlood(Integer nowBlood) {
-        this.nowBlood = nowBlood;
     }
 
     public Integer getId() {

@@ -10,6 +10,8 @@ import com.liqihao.dao.MmoScenePOJOMapper;
 import com.liqihao.pojo.*;
 import com.liqihao.pojo.baseMessage.NPCMessage;
 import com.liqihao.pojo.baseMessage.SceneMessage;
+import com.liqihao.pojo.bean.MmoSimpleNPC;
+import com.liqihao.pojo.bean.MmoSimpleRole;
 import com.liqihao.protobufObject.SceneModel;
 import com.liqihao.service.SceneService;
 import com.liqihao.util.CommonsUtil;
@@ -106,8 +108,8 @@ public class SceneServiceImpl implements SceneService {
         mmoRolePOJO1.setMmosceneid(nextSceneId);
         mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO1);
         //修改缓存中角色
-        ConcurrentHashMap<Integer,MmoRolePOJO> cacheRoles= MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
-        MmoRolePOJO player=cacheRoles.get(roleId);
+        ConcurrentHashMap<Integer,MmoSimpleRole> cacheRoles= MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
+        MmoSimpleRole player=cacheRoles.get(roleId);
         player.setMmosceneid(nextSceneId);
         cacheRoles.put(player.getId(),player);
         //修改scene
@@ -128,34 +130,23 @@ public class SceneServiceImpl implements SceneService {
 
         //查询出npc 和SimpleRole
         List<MmoSimpleRole> nextSceneRoles=new ArrayList<>();
-        ConcurrentHashMap<Integer, NPCMessage> npcMsgMap=MmoCache.getInstance().getNpcMessageConcurrentHashMap();
-        ConcurrentHashMap<Integer, MmoRolePOJO> roleMsgMap=MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
-        Iterator<NPCMessage> npcItor=npcMsgMap.values().iterator();
+        ConcurrentHashMap<Integer, MmoSimpleNPC> npcMsgMap=MmoCache.getInstance().getNpcMessageConcurrentHashMap();
+        ConcurrentHashMap<Integer, MmoSimpleRole> roleMsgMap=MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
+        Iterator<MmoSimpleNPC> npcItor=npcMsgMap.values().iterator();
         //NPC
         while(npcItor.hasNext()){
-            NPCMessage temp=npcItor.next();
+            MmoSimpleNPC temp=npcItor.next();
             if (temp.getMmosceneid().equals(nextSceneId)){
-                MmoSimpleRole roleTemp=new MmoSimpleRole();
-                roleTemp.setId(temp.getId());
-                roleTemp.setName(temp.getName());
-                roleTemp.setStatus(RoleStatusCode.getValue(temp.getStatus()));
-                roleTemp.setType(RoleTypeCode.getValue(temp.getType()));
-                roleTemp.setOnstatus(RoleOnStatusCode.getValue(temp.getOnstatus()));
-                nextSceneRoles.add(roleTemp);
+                nextSceneRoles.add(CommonsUtil.NpcToMmoSimpleRole(temp));
             }
         }
         //ROLES
-        Iterator<MmoRolePOJO> roleItor=roleMsgMap.values().iterator();
+        Iterator<MmoSimpleRole> roleItor=roleMsgMap.values().iterator();
         while(roleItor.hasNext()){
-            MmoRolePOJO temp=roleItor.next();
-            if (temp.getMmosceneid().equals(nextSceneId)){
-                MmoSimpleRole roleTemp=new MmoSimpleRole();
-                roleTemp.setId(temp.getId());
-                roleTemp.setName(temp.getName());
-                roleTemp.setStatus(RoleStatusCode.getValue(temp.getStatus()));
-                roleTemp.setType(RoleTypeCode.getValue(temp.getType()));
-                roleTemp.setOnstatus(RoleOnStatusCode.getValue(temp.getOnstatus()));
-                nextSceneRoles.add(roleTemp);
+            MmoSimpleRole temp=roleItor.next();
+            //排除自己咯
+            if (temp.getMmosceneid().equals(nextSceneId)&&!temp.getId().equals(roleId)){
+                nextSceneRoles.add(temp);
             }
         }
         //生成response返回
@@ -167,20 +158,23 @@ public class SceneServiceImpl implements SceneService {
         builder.setDataType(SceneModel.SceneModelMessage.DateType.WentResponse);
 
         SceneModel.WentResponse.Builder wentResponsebuilder=SceneModel.WentResponse.newBuilder();
-       // simpleRole
-        List<SceneModel.MmoSimpleRole> simRoles=new ArrayList<>();
+        //simpleRole
+        List<SceneModel.RoleDTO> roleDTOS=new ArrayList<>();
         for (MmoSimpleRole mmoRole :nextSceneRoles){
-            SceneModel.MmoSimpleRole.Builder msr=SceneModel.MmoSimpleRole.newBuilder();
+            SceneModel.RoleDTO.Builder msr=SceneModel.RoleDTO.newBuilder();
             msr.setId(mmoRole.getId());
             msr.setName(mmoRole.getName());
             msr.setType(mmoRole.getType());
             msr.setStatus(mmoRole.getStatus());
             msr.setOnStatus(mmoRole.getOnstatus());
-            SceneModel.MmoSimpleRole msrobject=msr.build();
-            simRoles.add(msrobject);
+            msr.setBlood(mmoRole.getBlood());
+            msr.setNowBlood(mmoRole.getNowBlood());
+            msr.setMp(mmoRole.getMp());
+            SceneModel.RoleDTO msrobject=msr.build();
+            roleDTOS.add(msrobject);
         }
         wentResponsebuilder.setSceneId(nextSceneId);
-        wentResponsebuilder.addAllMmoSimpleRoles(simRoles);
+        wentResponsebuilder.addAllRoleDTO(roleDTOS);
         builder.setWentResponse(wentResponsebuilder.build());
         byte[] data2=builder.build().toByteArray();
         nettyResponse.setData(data2);
@@ -196,47 +190,52 @@ public class SceneServiceImpl implements SceneService {
         myMessage=SceneModel.SceneModelMessage.parseFrom(data);
         Integer sceneId=myMessage.getFindAllRolesRequest().getSceneId();
         List<MmoSimpleRole> nextSceneRoles=new ArrayList<>();
-        ConcurrentHashMap<Integer, NPCMessage> npcMsgMap=MmoCache.getInstance().getNpcMessageConcurrentHashMap();
-        ConcurrentHashMap<Integer, MmoRolePOJO> roleMsgMap=MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
-        Iterator<NPCMessage> npcItor=npcMsgMap.values().iterator();
+        ConcurrentHashMap<Integer, MmoSimpleNPC> npcMsgMap=MmoCache.getInstance().getNpcMessageConcurrentHashMap();
+        ConcurrentHashMap<Integer, MmoSimpleRole> roleMsgMap=MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
+        Iterator<MmoSimpleNPC> npcItor=npcMsgMap.values().iterator();
         //NPC
         while(npcItor.hasNext()){
-            NPCMessage temp=npcItor.next();
+            MmoSimpleNPC temp=npcItor.next();
             if (temp.getMmosceneid().equals(sceneId)){
                 MmoSimpleRole roleTemp=new MmoSimpleRole();
                 roleTemp.setId(temp.getId());
                 roleTemp.setName(temp.getName());
-                roleTemp.setStatus(RoleStatusCode.getValue(temp.getStatus()));
-                roleTemp.setType(RoleTypeCode.getValue(temp.getType()));
-                roleTemp.setOnstatus(RoleOnStatusCode.getValue(temp.getOnstatus()));
+                roleTemp.setStatus(temp.getStatus());
+                roleTemp.setType(temp.getType());
+                roleTemp.setOnstatus(temp.getOnstatus());
+                roleTemp.setBlood(temp.getBlood());
+                roleTemp.setNowBlood(temp.getNowBlood());
+                roleTemp.setMp(temp.getMp());
                 nextSceneRoles.add(roleTemp);
             }
         }
         //ROLES
-        Iterator<MmoRolePOJO> roleItor=roleMsgMap.values().iterator();
+        Integer roleId=CommonsUtil.getRoleIdByChannel(channel);
+        Iterator<MmoSimpleRole> roleItor=roleMsgMap.values().iterator();
         while(roleItor.hasNext()){
-            MmoRolePOJO temp=roleItor.next();
-            if (temp.getMmosceneid().equals(sceneId)){
-                MmoSimpleRole roleTemp=new MmoSimpleRole();
-                roleTemp.setId(temp.getId());
-                roleTemp.setName(temp.getName());
-                roleTemp.setStatus(RoleStatusCode.getValue(temp.getStatus()));
-                roleTemp.setType(RoleTypeCode.getValue(temp.getType()));
-                roleTemp.setOnstatus(RoleOnStatusCode.getValue(temp.getOnstatus()));
-                nextSceneRoles.add(roleTemp);
+            MmoSimpleRole temp=roleItor.next();
+            if (temp.getMmosceneid().equals(sceneId)&&!roleId.equals(temp.getId())){
+                nextSceneRoles.add(temp);
             }
         }
         //protobuf
         SceneModel.SceneModelMessage.Builder messagedataBuilder=SceneModel.SceneModelMessage.newBuilder();
         messagedataBuilder.setDataType(SceneModel.SceneModelMessage.DateType.FindAllRolesResponse);
         SceneModel.FindAllRolesResponse.Builder findAllRolesResponseBuilder=SceneModel.FindAllRolesResponse.newBuilder();
-        List<SceneModel.MmoSimpleRole> mmoSimpleRoles=new ArrayList<>();
+        List<SceneModel.RoleDTO> roleDTOS=new ArrayList<>();
         for (MmoSimpleRole m :nextSceneRoles) {
-            SceneModel.MmoSimpleRole msr=SceneModel.MmoSimpleRole.newBuilder().setId(
-                    m.getId()).setName(m.getName()).setStatus(m.getStatus()).setType(m.getType()).setOnStatus(m.getOnstatus()).build();
-            mmoSimpleRoles.add(msr);
+            SceneModel.RoleDTO msr=SceneModel.RoleDTO.newBuilder().setId(m.getId())
+                    .setName(m.getName())
+                    .setOnStatus(m.getOnstatus())
+                    .setStatus(m.getStatus())
+                    .setType(m.getType())
+                    .setBlood(m.getBlood())
+                    .setNowBlood(m.getBlood())
+                    .setMp(m.getMp())
+                    .build();
+            roleDTOS.add(msr);
         }
-        findAllRolesResponseBuilder.addAllMmoSimpleRoles(mmoSimpleRoles);
+        findAllRolesResponseBuilder.addAllRoleDTO(roleDTOS);
         messagedataBuilder.setFindAllRolesResponse(findAllRolesResponseBuilder.build());
         byte[] data2=messagedataBuilder.build().toByteArray();
         NettyResponse nettyResponse=new NettyResponse();

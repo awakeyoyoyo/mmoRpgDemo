@@ -47,22 +47,26 @@ message AskCanResponse{
   repeated int32 scenesIds=1;
 }
 message FindAllRolesResponse{
-  repeated MmoSimpleRole mmoSimpleRoles=1;
+  repeated RoleDTO roleDTO=1;
 }
 message WentResponse{
   int32 sceneId=1;
-  repeated MmoSimpleRole mmoSimpleRoles=2;
+  repeated RoleDTO roleDTO=2;
 }
 message TalkNPCResponse{
   int32 npcId=1;
 }
 
-message MmoSimpleRole{
+message RoleDTO{
   int32 id=1;
   string name=2;
-  string status=3;
-  string type=4;
-  string onStatus=5;
+  int32 status=3;
+  int32 type=4;
+  int32 onStatus=5;
+  int32 blood=6;
+  int32 nowBlood=7;
+  int32 mp=8;
+  repeated int32 skillIdList=9;
 }
 message MmoSimpleScene{
    int32 id=1;

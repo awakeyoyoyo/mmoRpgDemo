@@ -6,6 +6,7 @@ import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.*;
 import com.liqihao.dao.MmoRolePOJOMapper;
 import com.liqihao.pojo.MmoRolePOJO;
+import com.liqihao.pojo.bean.MmoSimpleRole;
 import com.liqihao.protobufObject.GameSystemModel;
 import io.netty.channel.Channel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +36,8 @@ public class GameSystemServiceImpl implements com.liqihao.service.GameSystemServ
          }
         //删除缓存中的信息
         if (roleId!=null) {
-            ConcurrentHashMap<Integer, MmoRolePOJO> mmsHashMap = MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
-            MmoRolePOJO mmoRolePOJO=mmsHashMap.get(roleId);
+            ConcurrentHashMap<Integer, MmoSimpleRole> mmsHashMap = MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
+            MmoSimpleRole mmoRolePOJO=mmsHashMap.get(roleId);
             mmsHashMap.remove(roleId);
             //修改数据库
             mmoRolePOJO.setOnstatus(RoleOnStatusCode.EXIT.getCode());

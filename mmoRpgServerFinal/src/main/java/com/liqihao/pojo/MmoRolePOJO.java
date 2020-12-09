@@ -15,6 +15,16 @@ public class MmoRolePOJO {
 
     private Integer onstatus;
 
+    private String skillIds;
+
+    public String getSkillIds() {
+        return skillIds;
+    }
+
+    public void setSkillIds(String skillIds) {
+        this.skillIds = skillIds;
+    }
+
     public Integer getId() {
         return id;
     }

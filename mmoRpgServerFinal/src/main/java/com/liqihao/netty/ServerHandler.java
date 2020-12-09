@@ -44,6 +44,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         log.error("ServerHandler exception message: "+cause);
+        cause.printStackTrace();
         NettyRequest nettyRequest=new NettyRequest();
         nettyRequest.setCmd(ConstantValue.NET_IO_OUTTIME);
         dispatcherservlet.handler(nettyRequest,ctx.channel());

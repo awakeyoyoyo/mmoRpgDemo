@@ -1,6 +1,9 @@
-package com.liqihao.pojo.baseMessage;
+package com.liqihao.pojo;
 
-public class NPCMessage {
+import java.util.HashMap;
+import java.util.List;
+
+public class MmoRole {
     private Integer id;
 
     private Integer status;
@@ -13,41 +16,15 @@ public class NPCMessage {
 
     private Integer onstatus;
 
-    private String talk;
+    private Integer Blood;
 
-    private Integer blood;
+    private Integer nowBlood;
 
+    private Integer mp;
 
+    private HashMap<Integer,Long> cdMap;
 
-    @Override
-    public String toString() {
-        return "NPCMessage{" +
-                "id=" + id +
-                ", status=" + status +
-                ", name='" + name + '\'' +
-                ", type=" + type +
-                ", mmosceneid=" + mmosceneid +
-                ", onstatus=" + onstatus +
-                ", talk='" + talk + '\'' +
-                ", blood=" + blood +
-                '}';
-    }
-
-    public String getTalk() {
-        return talk;
-    }
-
-    public void setTalk(String talk) {
-        this.talk = talk;
-    }
-
-    public Integer getBlood() {
-        return blood;
-    }
-
-    public void setBlood(Integer blood) {
-        this.blood = blood;
-    }
+    private List<Integer> skillIdList;
 
     public Integer getId() {
         return id;
@@ -95,5 +72,45 @@ public class NPCMessage {
 
     public void setOnstatus(Integer onstatus) {
         this.onstatus = onstatus;
+    }
+
+    public Integer getBlood() {
+        return Blood;
+    }
+
+    public void setBlood(Integer blood) {
+        Blood = blood;
+    }
+
+    public Integer getNowBlood() {
+        return nowBlood;
+    }
+
+    public void setNowBlood(Integer nowBlood) {
+        this.nowBlood = nowBlood;
+    }
+
+    public Integer getMp() {
+        return mp;
+    }
+
+    public void setMp(Integer mp) {
+        this.mp = mp;
+    }
+
+    public HashMap<Integer, Long> getCdMap() {
+        return cdMap;
+    }
+
+    public void setCdMap(HashMap<Integer, Long> cdMap) {
+        this.cdMap = cdMap;
+    }
+
+    public List<Integer> getSkillIdList() {
+        return skillIdList;
+    }
+
+    public void setSkillIdList(List<Integer> skillIdList) {
+        this.skillIdList = skillIdList;
     }
 }

@@ -9,6 +9,7 @@ import com.liqihao.utils.YmlUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Main {
@@ -26,7 +27,7 @@ public class Main {
         for (NPCMessage n:baseMessage.getNpcMessages()) {
             npcMap.put(n.getId(),n);
         }
-        MmoCacheCilent.init(null,null,scmMap,npcMap);
+        MmoCacheCilent.init(null,null,new HashMap<>(),scmMap,npcMap);
         nettyTcpServer.run();
     }
 }

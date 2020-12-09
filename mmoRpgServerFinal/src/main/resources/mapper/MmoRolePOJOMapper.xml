@@ -8,9 +8,10 @@
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="mmoSceneId" jdbcType="INTEGER" property="mmosceneid" />
     <result column="onStatus" jdbcType="INTEGER" property="onstatus" />
+    <result column="skillIds" jdbcType="VARCHAR" property="skillIds" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, status, name, type, mmoSceneId, onStatus
+    id, status, name, type, mmoSceneId, onStatus,skillIds
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -24,10 +25,10 @@
   </delete>
   <insert id="insert" parameterType="com.liqihao.pojo.MmoRolePOJO" useGeneratedKeys="true" keyProperty="id" >
     insert into mmo_role (id, status, name, 
-      type, mmoSceneId, onStatus
+      type, mmoSceneId, onStatus,skillIds
       )
     values (#{id,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{type,jdbcType=INTEGER}, #{mmosceneid,jdbcType=INTEGER}, #{onstatus,jdbcType=INTEGER}
+      #{type,jdbcType=INTEGER}, #{mmosceneid,jdbcType=INTEGER}, #{onstatus,jdbcType=INTEGER},#{skillIds,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.liqihao.pojo.MmoRolePOJO">
@@ -51,6 +52,9 @@
       <if test="onstatus != null">
         onStatus,
       </if>
+      <if test="skillIds != null">
+        skillIds,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -70,6 +74,9 @@
       </if>
       <if test="onstatus != null">
         #{onstatus,jdbcType=INTEGER},
+      </if>
+      <if test="skillIds != null">
+        #{skillIds,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -91,6 +98,9 @@
       <if test="onstatus != null">
         onStatus = #{onstatus,jdbcType=INTEGER},
       </if>
+      <if test="skillIds != null">
+        skillIds = #{skillIds,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -100,7 +110,8 @@
       name = #{name,jdbcType=VARCHAR},
       type = #{type,jdbcType=INTEGER},
       mmoSceneId = #{mmosceneid,jdbcType=INTEGER},
-      onStatus = #{onstatus,jdbcType=INTEGER}
+      onStatus = #{onstatus,jdbcType=INTEGER},
+      skillIds = #{skillIds,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByRoleName" parameterType="java.lang.String" resultType="java.lang.Integer">

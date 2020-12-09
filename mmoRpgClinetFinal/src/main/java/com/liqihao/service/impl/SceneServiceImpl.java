@@ -1,13 +1,10 @@
 package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.MmoCacheCilent;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
-import com.liqihao.pojo.MmoScene;
-import com.liqihao.pojo.MmoSimpleRole;
-import com.liqihao.pojo.MmoSimpleScene;
+import com.liqihao.pojo.MmoRole;
 import com.liqihao.pojo.baseMessage.SceneMessage;
 import com.liqihao.protobufObject.SceneModel;
 import com.liqihao.service.SceneService;
@@ -17,8 +14,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Scanner;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
@@ -60,11 +57,29 @@ public class SceneServiceImpl implements SceneService {
         myMessage=SceneModel.SceneModelMessage.parseFrom(data);
         SceneModel.WentResponse wentResponse=myMessage.getWentResponse();
         Integer mmoScene=wentResponse.getSceneId();
+        List<SceneModel.RoleDTO> roleDTOS=wentResponse.getRoleDTOList();
+        HashMap<Integer,MmoRole> roles=new HashMap<>();
+        for (SceneModel.RoleDTO roleDTO:roleDTOS) {
+            MmoRole mmoRole=new MmoRole();
+            mmoRole.setId(roleDTO.getId());
+            mmoRole.setBlood(roleDTO.getBlood());
+            mmoRole.setName(roleDTO.getName());
+            mmoRole.setNowBlood(roleDTO.getNowBlood());
+            mmoRole.setSkillIdList(roleDTO.getSkillIdListList());
+            mmoRole.setMp(roleDTO.getMp());
+            mmoRole.setOnstatus(roleDTO.getOnStatus());
+            mmoRole.setStatus(roleDTO.getStatus());
+            mmoRole.setType(roleDTO.getType());
+            roles.put(mmoRole.getId(),mmoRole);
+        }
+        //本地缓存设置当前场景角色
+        MmoCacheCilent.getInstance().setRoleHashMap(roles);
         //本地缓存设置当前的场景
         SceneMessage m=MmoCacheCilent.getInstance().getSceneMessageConcurrentHashMap().get(mmoScene);
         MmoCacheCilent.getInstance().setNowSceneId(mmoScene);
         log.info("已进入下一个场景");
         log.info("当前场景是: "+m.getPlaceName());
+        log.info("当前场景角色数量是： "+(MmoCacheCilent.getInstance().getRoleHashMap().size()+1) );
         log.info("---------------------------------------------------");
     }
 
@@ -79,11 +94,24 @@ public class SceneServiceImpl implements SceneService {
         SceneModel.SceneModelMessage myMessage;
         myMessage=SceneModel.SceneModelMessage.parseFrom(data);
         SceneModel.FindAllRolesResponse findAllRolesResponse=myMessage.getFindAllRolesResponse();
-        List<SceneModel.MmoSimpleRole> mmoSimpleRoles=findAllRolesResponse.getMmoSimpleRolesList();
+        List<SceneModel.RoleDTO> roleDTOS=findAllRolesResponse.getRoleDTOList();
         log.info("当前场景中的所有角色: ");
-        for (SceneModel.MmoSimpleRole role:mmoSimpleRoles) {
-            log.info("角色id："+role.getId()+" 角色名: "+role.getName()+" 类型: "+role.getType()+" 状态: "+role.getStatus());
+        HashMap<Integer,MmoRole> roles=new HashMap<>();
+        for (SceneModel.RoleDTO roleDTO:roleDTOS) {
+            MmoRole mmoRole=new MmoRole();
+            mmoRole.setId(roleDTO.getId());
+            mmoRole.setBlood(roleDTO.getBlood());
+            mmoRole.setName(roleDTO.getName());
+            mmoRole.setNowBlood(roleDTO.getNowBlood());
+            mmoRole.setSkillIdList(roleDTO.getSkillIdListList());
+            mmoRole.setMp(roleDTO.getMp());
+            mmoRole.setOnstatus(roleDTO.getOnStatus());
+            mmoRole.setStatus(roleDTO.getStatus());
+            mmoRole.setType(roleDTO.getType());
+            roles.put(mmoRole.getId(),mmoRole);
+            log.info("角色id："+roleDTO.getId()+" 角色名: "+roleDTO.getName()+" 类型: "+roleDTO.getType()+" 状态: "+roleDTO.getStatus());
         }
+        MmoCacheCilent.getInstance().setRoleHashMap(roles);
         log.info("---------------------------------------------------");
     }
 

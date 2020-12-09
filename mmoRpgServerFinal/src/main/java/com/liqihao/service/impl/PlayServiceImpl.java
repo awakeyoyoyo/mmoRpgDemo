@@ -9,11 +9,19 @@ import com.liqihao.dao.MmoRolePOJOMapper;
 import com.liqihao.dao.MmoScenePOJOMapper;
 import com.liqihao.dao.MmoUserPOJOMapper;
 import com.liqihao.pojo.*;
+import com.liqihao.pojo.baseMessage.BaseRoleMessage;
+import com.liqihao.pojo.baseMessage.SkillMessage;
+import com.liqihao.pojo.bean.MmoSimpleRole;
+import com.liqihao.pojo.bean.SkillBean;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.service.PlayService;
+import com.liqihao.util.CommonsUtil;
 import io.netty.channel.Channel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
@@ -104,8 +112,24 @@ public class PlayServiceImpl implements PlayService{
         MmoRolePOJO role=mmoRolePOJOMapper.selectByPrimaryKey(Integer.parseInt(mmoUserPOJO.getUserroleid()));
         role.setOnstatus(RoleOnStatusCode.ONLINE.getCode());
         //缓存
-        ConcurrentHashMap<Integer,MmoRolePOJO> rolesMap= MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
-        rolesMap.put(role.getId(),role);
+        ConcurrentHashMap<Integer, MmoSimpleRole> rolesMap= MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
+        MmoSimpleRole simpleRole=new MmoSimpleRole();
+        simpleRole.setId(role.getId());
+        simpleRole.setMmosceneid(role.getMmosceneid());
+        simpleRole.setName(role.getName());
+        simpleRole.setOnstatus(role.getOnstatus());
+        simpleRole.setStatus(role.getStatus());
+        simpleRole.setType(role.getType());
+        simpleRole.setSkillIds(role.getSkillIds());
+        //从基础信息获取
+        BaseRoleMessage baseRoleMessage=MmoCache.getInstance().getBaseRoleMessage();
+        simpleRole.setBlood(baseRoleMessage.getHp());
+        simpleRole.setNowBlood(baseRoleMessage.getHp());
+        simpleRole.setMp(baseRoleMessage.getMp());
+        List<Integer> skillIds=CommonsUtil.split(simpleRole.getSkillIds());
+        simpleRole.setSkillIdList(skillIds);
+        simpleRole.setCdMap(new HashMap<>());
+        rolesMap.put(role.getId(),simpleRole);
         //放入线程池中异步处理
         //数据库中人物状态         //todo 提交给线程池异步执行
         mmoRolePOJOMapper.updateByPrimaryKeySelective(role);
@@ -117,14 +141,19 @@ public class PlayServiceImpl implements PlayService{
         PlayModel.PlayModelMessage.Builder messageData=PlayModel.PlayModelMessage.newBuilder();
         messageData.setDataType(PlayModel.PlayModelMessage.DateType.LoginResponse);
         PlayModel.LoginResponse.Builder loginResponseBuilder=PlayModel.LoginResponse.newBuilder();
-        PlayModel.MmoSimpleRole.Builder mmoSimpleRoleBuilder=PlayModel.MmoSimpleRole.newBuilder();
+        PlayModel.RoleDTO.Builder mmoSimpleRoleBuilder=PlayModel.RoleDTO.newBuilder();
         //自身角色信息
-        PlayModel.MmoSimpleRole mmoSimpleRole=mmoSimpleRoleBuilder.setId(role.getId())
-                .setName(role.getName())
-                .setOnStatus(RoleOnStatusCode.getValue(role.getOnstatus()))
-                .setStatus(RoleStatusCode.getValue(role.getStatus()))
-                .setType(RoleTypeCode.getValue(role.getType())).build();
-        loginResponseBuilder.setMmoSimpleRole(mmoSimpleRole);
+        PlayModel.RoleDTO roleDTO=mmoSimpleRoleBuilder.setId(simpleRole.getId())
+                .setName(simpleRole.getName())
+                .setOnStatus(simpleRole.getOnstatus())
+                .setStatus(simpleRole.getStatus())
+                .setType(simpleRole.getType())
+                .setBlood(simpleRole.getBlood())
+                .setNowBlood(simpleRole.getBlood())
+                .addAllSkillIdList(skillIds)
+                .setMp(simpleRole.getMp())
+                .build();
+        loginResponseBuilder.setRoleDto(roleDTO);
         //场景信息
         loginResponseBuilder.setSceneId(role.getMmosceneid());
         //打包成messageData
@@ -164,7 +193,7 @@ public class PlayServiceImpl implements PlayService{
         mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO);
         MmoScenePOJO mmoScenePOJO=mmoScenePOJOMapper.selectByPrimaryKey(mmoRolePOJO.getMmosceneid());
         //缓存角色集合删除
-        ConcurrentHashMap<Integer,MmoRolePOJO> rolesMap= MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
+        ConcurrentHashMap<Integer,MmoSimpleRole> rolesMap= MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
         rolesMap.remove(roleId);
 
         //protobuf生成消息
@@ -180,6 +209,11 @@ public class PlayServiceImpl implements PlayService{
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
         return  nettyResponse;
+    }
+
+    @Override
+    public NettyResponse useSkillRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
+        return null;
     }
 
 

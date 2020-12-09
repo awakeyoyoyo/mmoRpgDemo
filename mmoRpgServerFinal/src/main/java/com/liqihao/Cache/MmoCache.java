@@ -1,9 +1,17 @@
 package com.liqihao.Cache;
 
+import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.pojo.MmoRolePOJO;
+import com.liqihao.pojo.baseMessage.BaseRoleMessage;
 import com.liqihao.pojo.baseMessage.NPCMessage;
 import com.liqihao.pojo.baseMessage.SceneMessage;
+import com.liqihao.pojo.baseMessage.SkillMessage;
+import com.liqihao.pojo.bean.MmoSimpleNPC;
+import com.liqihao.pojo.bean.MmoSimpleRole;
 import io.netty.channel.Channel;
+
+import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -11,10 +19,29 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class MmoCache {
     private volatile static MmoCache instance ;
-    private ConcurrentHashMap<Integer, MmoRolePOJO> mmoSimpleRoleConcurrentHashMap;
+    private ConcurrentHashMap<Integer, MmoSimpleRole> mmoSimpleRoleConcurrentHashMap;
     private ConcurrentHashMap<Integer, Channel> channelConcurrentHashMap;
     private ConcurrentHashMap<Integer, SceneMessage> sceneMessageConcurrentHashMap;
-    private ConcurrentHashMap<Integer, NPCMessage> npcMessageConcurrentHashMap;
+    private ConcurrentHashMap<Integer, MmoSimpleNPC> npcMessageConcurrentHashMap;
+    private BaseRoleMessage baseRoleMessage;
+    private ConcurrentHashMap<Integer,SkillMessage> skillMessageConcurrentHashMap;
+
+    public ConcurrentHashMap<Integer, SkillMessage> getSkillMessageConcurrentHashMap() {
+        return skillMessageConcurrentHashMap;
+    }
+
+    public void setSkillMessageConcurrentHashMap(ConcurrentHashMap<Integer, SkillMessage> skillMessageConcurrentHashMap) {
+        this.skillMessageConcurrentHashMap = skillMessageConcurrentHashMap;
+    }
+
+    public BaseRoleMessage getBaseRoleMessage() {
+        return baseRoleMessage;
+    }
+
+    public void setBaseRoleMessage(BaseRoleMessage baseRoleMessage) {
+        this.baseRoleMessage = baseRoleMessage;
+    }
+
     public ConcurrentHashMap<Integer, Channel> getChannelConcurrentHashMap() {
         return channelConcurrentHashMap;
     }
@@ -27,11 +54,11 @@ public class MmoCache {
         this.sceneMessageConcurrentHashMap = sceneMessageConcurrentHashMap;
     }
 
-    public ConcurrentHashMap<Integer, NPCMessage> getNpcMessageConcurrentHashMap() {
+    public ConcurrentHashMap<Integer, MmoSimpleNPC> getNpcMessageConcurrentHashMap() {
         return npcMessageConcurrentHashMap;
     }
 
-    public void setNpcMessageConcurrentHashMap(ConcurrentHashMap<Integer, NPCMessage> npcMessageConcurrentHashMap) {
+    public void setNpcMessageConcurrentHashMap(ConcurrentHashMap<Integer, MmoSimpleNPC> npcMessageConcurrentHashMap) {
         this.npcMessageConcurrentHashMap = npcMessageConcurrentHashMap;
     }
 
@@ -40,7 +67,7 @@ public class MmoCache {
     }
 
     public static void init(
-                            ConcurrentHashMap<Integer, SceneMessage> smc, ConcurrentHashMap<Integer, NPCMessage> npc
+                            ConcurrentHashMap<Integer, SceneMessage> smc, ConcurrentHashMap<Integer, MmoSimpleNPC> npc
     ){
         instance=new MmoCache(smc,npc);
     }
@@ -53,7 +80,7 @@ public class MmoCache {
 
     public MmoCache(
                     ConcurrentHashMap<Integer, SceneMessage> sceneMessageConcurrentHashMap,
-                    ConcurrentHashMap<Integer, NPCMessage> npcMessageConcurrentHashMap
+                    ConcurrentHashMap<Integer, MmoSimpleNPC> npcMessageConcurrentHashMap
     )
     {
         this.mmoSimpleRoleConcurrentHashMap = new ConcurrentHashMap<>();;
@@ -63,11 +90,11 @@ public class MmoCache {
     }
 
 
-    public ConcurrentHashMap<Integer, MmoRolePOJO> getMmoSimpleRoleConcurrentHashMap() {
+    public ConcurrentHashMap<Integer, MmoSimpleRole> getMmoSimpleRoleConcurrentHashMap() {
         return mmoSimpleRoleConcurrentHashMap;
     }
 
-    public void setMmoSimpleRoleConcurrentHashMap(ConcurrentHashMap<Integer, MmoRolePOJO> mmoSimpleRoleConcurrentHashMap) {
+    public void setMmoSimpleRoleConcurrentHashMap(ConcurrentHashMap<Integer, MmoSimpleRole> mmoSimpleRoleConcurrentHashMap) {
         this.mmoSimpleRoleConcurrentHashMap = mmoSimpleRoleConcurrentHashMap;
     }
 }
