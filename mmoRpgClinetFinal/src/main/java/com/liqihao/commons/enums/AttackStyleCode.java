@@ -1,10 +1,10 @@
 package com.liqihao.commons.enums;
 
 public enum AttackStyleCode {
-    BUFFER(0,"buffer伤害"),ATTACK(1,"攻击&技能伤害"),USESKILL(2,"使用技能造成");
+    BUFFER(0,"buffer伤害"),ATTACK(1,"攻击&技能伤害"),USESKILL(2,"使用技能造成"),AUTORE(3,"自动恢复");
     private  int code;
     private  String value;
-    AttackStyleCode(int code,String name)
+    AttackStyleCode(int code, String name)
     {
         this.code=code;
         this.value = name;

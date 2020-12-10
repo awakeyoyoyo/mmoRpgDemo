@@ -277,10 +277,11 @@ public class PlayServiceImpl implements PlayService{
             //扣篮
             //判断蓝量是否足够
             if (mmoSimpleRole.getNowMp()<skillBean.getConsumeNum()){
-                //血量不够
+                //蓝量不够
                 return new NettyResponse(StateCode.FAIL,ConstantValue.USE_SKILL_RSPONSE, "蓝量不够无法使用该技能".getBytes());
             }
             mmoSimpleRole.setNowMp(mmoSimpleRole.getNowMp()-skillBean.getConsumeNum());
+            MmoCache.getInstance().getNoMpRole().add(mmoSimpleRole.getId());
         }
         List<PlayModel.RoleIdDamage> list=new ArrayList<>();
         // 生成一个角色扣血或者扣篮

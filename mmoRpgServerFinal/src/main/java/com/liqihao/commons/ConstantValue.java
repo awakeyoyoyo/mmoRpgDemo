@@ -41,6 +41,7 @@ public interface ConstantValue {
     //退出登陆响应
     int LOGOUT_RESPONSE=2502;
     int USE_SKILL_RSPONSE =2503;
+    int DAMAGES_NOTICE_RESPONSE=2504;
     //游戏系统模块
     String GAME_SYSTEM_MODULE="gameSystemServiceImpl";
     //客户端超时请求

@@ -2,10 +2,7 @@ package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.liqihao.commons.*;
-import com.liqihao.commons.enums.DamageTypeCode;
-import com.liqihao.commons.enums.RoleStatusCode;
-import com.liqihao.commons.enums.RoleTypeCode;
-import com.liqihao.commons.enums.StateCode;
+import com.liqihao.commons.enums.*;
 import com.liqihao.pojo.MmoRole;
 import com.liqihao.pojo.baseMessage.SceneMessage;
 import com.liqihao.pojo.baseMessage.SkillMessage;
@@ -15,7 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class PlayServiceImpl implements PlayService {
@@ -143,6 +142,37 @@ public class PlayServiceImpl implements PlayService {
             }
         }
         log.info("---------------------------------------------------");
+    }
+
+    @Override
+    public void damagesNoticeResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
+        if (nettyResponse.getStateCode()== StateCode.FAIL){
+            System.out.println(new String(nettyResponse.getData()));
+            return;
+        }
+        byte[] data=nettyResponse.getData();
+        PlayModel.PlayModelMessage myMessage;
+        myMessage=PlayModel.PlayModelMessage.parseFrom(data);
+        PlayModel.DamagesNoticeResponse damagesNoticeResponse=myMessage.getDamagesNoticeResponse();
+        PlayModel.RoleIdDamage roleIdDamage=damagesNoticeResponse.getRoleIdDamage();
+        MmoRole mmoRole=MmoCacheCilent.getInstance().getNowRole();
+        HashMap<Integer, MmoRole> roleHashMap=MmoCacheCilent.getInstance().getRoleHashMap();
+        if (mmoRole.getId()==roleIdDamage.getToRoleId()){
+            if(roleIdDamage.getDamageType()==DamageTypeCode.HP.getCode()){
+                mmoRole.setNowBlood(roleIdDamage.getNowblood());
+            }else if (roleIdDamage.getDamageType()==DamageTypeCode.MP.getCode()){
+                mmoRole.setNowMp(roleIdDamage.getMp());
+            }
+            if (roleIdDamage.getAttackStyle()== AttackStyleCode.AUTORE.getCode()) {
+                log.info("角色id：" + mmoRole.getId() + " 角色名: " + mmoRole.getName()
+                        + " 类型: " + RoleTypeCode.getValue(mmoRole.getType()) + " 状态: " + RoleStatusCode.getValue(mmoRole.getStatus())
+                        + " 血量： " + mmoRole.getNowBlood() + "/" + mmoRole.getBlood() + " 蓝量： " + mmoRole.getNowMp() + "/" + mmoRole.getMp()
+                        + " 恢复：" + DamageTypeCode.getValue(roleIdDamage.getDamageType()) +" 恢复了"+
+                        roleIdDamage.getDamage());
+            }else if (roleIdDamage.getAttackStyle()== AttackStyleCode.BUFFER.getCode()){
+                //todo
+            }
+        }
     }
 
 }

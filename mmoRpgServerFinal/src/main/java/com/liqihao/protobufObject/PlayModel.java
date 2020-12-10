@@ -155,6 +155,21 @@ public final class PlayModel {
      */
     UseSkillResponseOrBuilder getUseSkillResponseOrBuilder();
 
+    /**
+     * <code>.DamagesNoticeResponse damagesNoticeResponse = 10;</code>
+     * @return Whether the damagesNoticeResponse field is set.
+     */
+    boolean hasDamagesNoticeResponse();
+    /**
+     * <code>.DamagesNoticeResponse damagesNoticeResponse = 10;</code>
+     * @return The damagesNoticeResponse.
+     */
+    DamagesNoticeResponse getDamagesNoticeResponse();
+    /**
+     * <code>.DamagesNoticeResponse damagesNoticeResponse = 10;</code>
+     */
+    DamagesNoticeResponseOrBuilder getDamagesNoticeResponseOrBuilder();
+
     public PlayModelMessage.DateBodyCase getDateBodyCase();
   }
   /**
@@ -325,6 +340,20 @@ public final class PlayModel {
               dateBodyCase_ = 9;
               break;
             }
+            case 82: {
+              DamagesNoticeResponse.Builder subBuilder = null;
+              if (dateBodyCase_ == 10) {
+                subBuilder = ((DamagesNoticeResponse) dateBody_).toBuilder();
+              }
+              dateBody_ =
+                  input.readMessage(DamagesNoticeResponse.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((DamagesNoticeResponse) dateBody_);
+                dateBody_ = subBuilder.buildPartial();
+              }
+              dateBodyCase_ = 10;
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -402,6 +431,10 @@ public final class PlayModel {
        * <code>UseSkillResponse = 7;</code>
        */
       UseSkillResponse(7),
+      /**
+       * <code>DamagesNoticeResponse = 8;</code>
+       */
+      DamagesNoticeResponse(8),
       UNRECOGNIZED(-1),
       ;
 
@@ -441,6 +474,10 @@ public final class PlayModel {
        * <code>UseSkillResponse = 7;</code>
        */
       public static final int UseSkillResponse_VALUE = 7;
+      /**
+       * <code>DamagesNoticeResponse = 8;</code>
+       */
+      public static final int DamagesNoticeResponse_VALUE = 8;
 
 
       public final int getNumber() {
@@ -475,6 +512,7 @@ public final class PlayModel {
           case 5: return LogoutResponse;
           case 6: return UseSkillRequest;
           case 7: return UseSkillResponse;
+          case 8: return DamagesNoticeResponse;
           default: return null;
         }
       }
@@ -544,6 +582,7 @@ public final class PlayModel {
       LOGOUTRESPONSE(7),
       USESKILLREQUEST(8),
       USESKILLRESPONSE(9),
+      DAMAGESNOTICERESPONSE(10),
       DATEBODY_NOT_SET(0);
       private final int value;
       private DateBodyCase(int value) {
@@ -569,6 +608,7 @@ public final class PlayModel {
           case 7: return LOGOUTRESPONSE;
           case 8: return USESKILLREQUEST;
           case 9: return USESKILLRESPONSE;
+          case 10: return DAMAGESNOTICERESPONSE;
           case 0: return DATEBODY_NOT_SET;
           default: return null;
         }
@@ -859,6 +899,37 @@ public final class PlayModel {
       return UseSkillResponse.getDefaultInstance();
     }
 
+    public static final int DAMAGESNOTICERESPONSE_FIELD_NUMBER = 10;
+    /**
+     * <code>.DamagesNoticeResponse damagesNoticeResponse = 10;</code>
+     * @return Whether the damagesNoticeResponse field is set.
+     */
+    @Override
+    public boolean hasDamagesNoticeResponse() {
+      return dateBodyCase_ == 10;
+    }
+    /**
+     * <code>.DamagesNoticeResponse damagesNoticeResponse = 10;</code>
+     * @return The damagesNoticeResponse.
+     */
+    @Override
+    public DamagesNoticeResponse getDamagesNoticeResponse() {
+      if (dateBodyCase_ == 10) {
+         return (DamagesNoticeResponse) dateBody_;
+      }
+      return DamagesNoticeResponse.getDefaultInstance();
+    }
+    /**
+     * <code>.DamagesNoticeResponse damagesNoticeResponse = 10;</code>
+     */
+    @Override
+    public DamagesNoticeResponseOrBuilder getDamagesNoticeResponseOrBuilder() {
+      if (dateBodyCase_ == 10) {
+         return (DamagesNoticeResponse) dateBody_;
+      }
+      return DamagesNoticeResponse.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -899,6 +970,9 @@ public final class PlayModel {
       }
       if (dateBodyCase_ == 9) {
         output.writeMessage(9, (UseSkillResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 10) {
+        output.writeMessage(10, (DamagesNoticeResponse) dateBody_);
       }
       unknownFields.writeTo(output);
     }
@@ -944,6 +1018,10 @@ public final class PlayModel {
       if (dateBodyCase_ == 9) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(9, (UseSkillResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 10) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(10, (DamagesNoticeResponse) dateBody_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -995,6 +1073,10 @@ public final class PlayModel {
           if (!getUseSkillResponse()
               .equals(other.getUseSkillResponse())) return false;
           break;
+        case 10:
+          if (!getDamagesNoticeResponse()
+              .equals(other.getDamagesNoticeResponse())) return false;
+          break;
         case 0:
         default:
       }
@@ -1043,6 +1125,10 @@ public final class PlayModel {
         case 9:
           hash = (37 * hash) + USESKILLRESPONSE_FIELD_NUMBER;
           hash = (53 * hash) + getUseSkillResponse().hashCode();
+          break;
+        case 10:
+          hash = (37 * hash) + DAMAGESNOTICERESPONSE_FIELD_NUMBER;
+          hash = (53 * hash) + getDamagesNoticeResponse().hashCode();
           break;
         case 0:
         default:
@@ -1271,6 +1357,13 @@ public final class PlayModel {
             result.dateBody_ = useSkillResponseBuilder_.build();
           }
         }
+        if (dateBodyCase_ == 10) {
+          if (damagesNoticeResponseBuilder_ == null) {
+            result.dateBody_ = dateBody_;
+          } else {
+            result.dateBody_ = damagesNoticeResponseBuilder_.build();
+          }
+        }
         result.dateBodyCase_ = dateBodyCase_;
         onBuilt();
         return result;
@@ -1354,6 +1447,10 @@ public final class PlayModel {
           }
           case USESKILLRESPONSE: {
             mergeUseSkillResponse(other.getUseSkillResponse());
+            break;
+          }
+          case DAMAGESNOTICERESPONSE: {
+            mergeDamagesNoticeResponse(other.getDamagesNoticeResponse());
             break;
           }
           case DATEBODY_NOT_SET: {
@@ -2604,6 +2701,147 @@ public final class PlayModel {
         dateBodyCase_ = 9;
         onChanged();;
         return useSkillResponseBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          DamagesNoticeResponse, DamagesNoticeResponse.Builder, DamagesNoticeResponseOrBuilder> damagesNoticeResponseBuilder_;
+      /**
+       * <code>.DamagesNoticeResponse damagesNoticeResponse = 10;</code>
+       * @return Whether the damagesNoticeResponse field is set.
+       */
+      @Override
+      public boolean hasDamagesNoticeResponse() {
+        return dateBodyCase_ == 10;
+      }
+      /**
+       * <code>.DamagesNoticeResponse damagesNoticeResponse = 10;</code>
+       * @return The damagesNoticeResponse.
+       */
+      @Override
+      public DamagesNoticeResponse getDamagesNoticeResponse() {
+        if (damagesNoticeResponseBuilder_ == null) {
+          if (dateBodyCase_ == 10) {
+            return (DamagesNoticeResponse) dateBody_;
+          }
+          return DamagesNoticeResponse.getDefaultInstance();
+        } else {
+          if (dateBodyCase_ == 10) {
+            return damagesNoticeResponseBuilder_.getMessage();
+          }
+          return DamagesNoticeResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.DamagesNoticeResponse damagesNoticeResponse = 10;</code>
+       */
+      public Builder setDamagesNoticeResponse(DamagesNoticeResponse value) {
+        if (damagesNoticeResponseBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dateBody_ = value;
+          onChanged();
+        } else {
+          damagesNoticeResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 10;
+        return this;
+      }
+      /**
+       * <code>.DamagesNoticeResponse damagesNoticeResponse = 10;</code>
+       */
+      public Builder setDamagesNoticeResponse(
+          DamagesNoticeResponse.Builder builderForValue) {
+        if (damagesNoticeResponseBuilder_ == null) {
+          dateBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          damagesNoticeResponseBuilder_.setMessage(builderForValue.build());
+        }
+        dateBodyCase_ = 10;
+        return this;
+      }
+      /**
+       * <code>.DamagesNoticeResponse damagesNoticeResponse = 10;</code>
+       */
+      public Builder mergeDamagesNoticeResponse(DamagesNoticeResponse value) {
+        if (damagesNoticeResponseBuilder_ == null) {
+          if (dateBodyCase_ == 10 &&
+              dateBody_ != DamagesNoticeResponse.getDefaultInstance()) {
+            dateBody_ = DamagesNoticeResponse.newBuilder((DamagesNoticeResponse) dateBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dateBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dateBodyCase_ == 10) {
+            damagesNoticeResponseBuilder_.mergeFrom(value);
+          }
+          damagesNoticeResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 10;
+        return this;
+      }
+      /**
+       * <code>.DamagesNoticeResponse damagesNoticeResponse = 10;</code>
+       */
+      public Builder clearDamagesNoticeResponse() {
+        if (damagesNoticeResponseBuilder_ == null) {
+          if (dateBodyCase_ == 10) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dateBodyCase_ == 10) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+          }
+          damagesNoticeResponseBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.DamagesNoticeResponse damagesNoticeResponse = 10;</code>
+       */
+      public DamagesNoticeResponse.Builder getDamagesNoticeResponseBuilder() {
+        return getDamagesNoticeResponseFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.DamagesNoticeResponse damagesNoticeResponse = 10;</code>
+       */
+      @Override
+      public DamagesNoticeResponseOrBuilder getDamagesNoticeResponseOrBuilder() {
+        if ((dateBodyCase_ == 10) && (damagesNoticeResponseBuilder_ != null)) {
+          return damagesNoticeResponseBuilder_.getMessageOrBuilder();
+        } else {
+          if (dateBodyCase_ == 10) {
+            return (DamagesNoticeResponse) dateBody_;
+          }
+          return DamagesNoticeResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.DamagesNoticeResponse damagesNoticeResponse = 10;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          DamagesNoticeResponse, DamagesNoticeResponse.Builder, DamagesNoticeResponseOrBuilder>
+          getDamagesNoticeResponseFieldBuilder() {
+        if (damagesNoticeResponseBuilder_ == null) {
+          if (!(dateBodyCase_ == 10)) {
+            dateBody_ = DamagesNoticeResponse.getDefaultInstance();
+          }
+          damagesNoticeResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              DamagesNoticeResponse, DamagesNoticeResponse.Builder, DamagesNoticeResponseOrBuilder>(
+                  (DamagesNoticeResponse) dateBody_,
+                  getParentForChildren(),
+                  isClean());
+          dateBody_ = null;
+        }
+        dateBodyCase_ = 10;
+        onChanged();;
+        return damagesNoticeResponseBuilder_;
       }
       @Override
       public final Builder setUnknownFields(
@@ -7980,6 +8218,627 @@ public final class PlayModel {
 
   }
 
+  public interface DamagesNoticeResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:DamagesNoticeResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.RoleIdDamage roleIdDamage = 1;</code>
+     * @return Whether the roleIdDamage field is set.
+     */
+    boolean hasRoleIdDamage();
+    /**
+     * <code>.RoleIdDamage roleIdDamage = 1;</code>
+     * @return The roleIdDamage.
+     */
+    RoleIdDamage getRoleIdDamage();
+    /**
+     * <code>.RoleIdDamage roleIdDamage = 1;</code>
+     */
+    RoleIdDamageOrBuilder getRoleIdDamageOrBuilder();
+  }
+  /**
+   * Protobuf type {@code DamagesNoticeResponse}
+   */
+  public static final class DamagesNoticeResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:DamagesNoticeResponse)
+      DamagesNoticeResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use DamagesNoticeResponse.newBuilder() to construct.
+    private DamagesNoticeResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private DamagesNoticeResponse() {
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DamagesNoticeResponse();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private DamagesNoticeResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              RoleIdDamage.Builder subBuilder = null;
+              if (roleIdDamage_ != null) {
+                subBuilder = roleIdDamage_.toBuilder();
+              }
+              roleIdDamage_ = input.readMessage(RoleIdDamage.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(roleIdDamage_);
+                roleIdDamage_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return PlayModel.internal_static_DamagesNoticeResponse_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return PlayModel.internal_static_DamagesNoticeResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              DamagesNoticeResponse.class, Builder.class);
+    }
+
+    public static final int ROLEIDDAMAGE_FIELD_NUMBER = 1;
+    private RoleIdDamage roleIdDamage_;
+    /**
+     * <code>.RoleIdDamage roleIdDamage = 1;</code>
+     * @return Whether the roleIdDamage field is set.
+     */
+    @Override
+    public boolean hasRoleIdDamage() {
+      return roleIdDamage_ != null;
+    }
+    /**
+     * <code>.RoleIdDamage roleIdDamage = 1;</code>
+     * @return The roleIdDamage.
+     */
+    @Override
+    public RoleIdDamage getRoleIdDamage() {
+      return roleIdDamage_ == null ? RoleIdDamage.getDefaultInstance() : roleIdDamage_;
+    }
+    /**
+     * <code>.RoleIdDamage roleIdDamage = 1;</code>
+     */
+    @Override
+    public RoleIdDamageOrBuilder getRoleIdDamageOrBuilder() {
+      return getRoleIdDamage();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (roleIdDamage_ != null) {
+        output.writeMessage(1, getRoleIdDamage());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (roleIdDamage_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getRoleIdDamage());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof DamagesNoticeResponse)) {
+        return super.equals(obj);
+      }
+      DamagesNoticeResponse other = (DamagesNoticeResponse) obj;
+
+      if (hasRoleIdDamage() != other.hasRoleIdDamage()) return false;
+      if (hasRoleIdDamage()) {
+        if (!getRoleIdDamage()
+            .equals(other.getRoleIdDamage())) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasRoleIdDamage()) {
+        hash = (37 * hash) + ROLEIDDAMAGE_FIELD_NUMBER;
+        hash = (53 * hash) + getRoleIdDamage().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static DamagesNoticeResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static DamagesNoticeResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static DamagesNoticeResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static DamagesNoticeResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static DamagesNoticeResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static DamagesNoticeResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static DamagesNoticeResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static DamagesNoticeResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static DamagesNoticeResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static DamagesNoticeResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static DamagesNoticeResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static DamagesNoticeResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(DamagesNoticeResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code DamagesNoticeResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:DamagesNoticeResponse)
+        DamagesNoticeResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return PlayModel.internal_static_DamagesNoticeResponse_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return PlayModel.internal_static_DamagesNoticeResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                DamagesNoticeResponse.class, Builder.class);
+      }
+
+      // Construct using PlayModel.DamagesNoticeResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        if (roleIdDamageBuilder_ == null) {
+          roleIdDamage_ = null;
+        } else {
+          roleIdDamage_ = null;
+          roleIdDamageBuilder_ = null;
+        }
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return PlayModel.internal_static_DamagesNoticeResponse_descriptor;
+      }
+
+      @Override
+      public DamagesNoticeResponse getDefaultInstanceForType() {
+        return DamagesNoticeResponse.getDefaultInstance();
+      }
+
+      @Override
+      public DamagesNoticeResponse build() {
+        DamagesNoticeResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public DamagesNoticeResponse buildPartial() {
+        DamagesNoticeResponse result = new DamagesNoticeResponse(this);
+        if (roleIdDamageBuilder_ == null) {
+          result.roleIdDamage_ = roleIdDamage_;
+        } else {
+          result.roleIdDamage_ = roleIdDamageBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof DamagesNoticeResponse) {
+          return mergeFrom((DamagesNoticeResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(DamagesNoticeResponse other) {
+        if (other == DamagesNoticeResponse.getDefaultInstance()) return this;
+        if (other.hasRoleIdDamage()) {
+          mergeRoleIdDamage(other.getRoleIdDamage());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        DamagesNoticeResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (DamagesNoticeResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private RoleIdDamage roleIdDamage_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          RoleIdDamage, RoleIdDamage.Builder, RoleIdDamageOrBuilder> roleIdDamageBuilder_;
+      /**
+       * <code>.RoleIdDamage roleIdDamage = 1;</code>
+       * @return Whether the roleIdDamage field is set.
+       */
+      public boolean hasRoleIdDamage() {
+        return roleIdDamageBuilder_ != null || roleIdDamage_ != null;
+      }
+      /**
+       * <code>.RoleIdDamage roleIdDamage = 1;</code>
+       * @return The roleIdDamage.
+       */
+      public RoleIdDamage getRoleIdDamage() {
+        if (roleIdDamageBuilder_ == null) {
+          return roleIdDamage_ == null ? RoleIdDamage.getDefaultInstance() : roleIdDamage_;
+        } else {
+          return roleIdDamageBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.RoleIdDamage roleIdDamage = 1;</code>
+       */
+      public Builder setRoleIdDamage(RoleIdDamage value) {
+        if (roleIdDamageBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          roleIdDamage_ = value;
+          onChanged();
+        } else {
+          roleIdDamageBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.RoleIdDamage roleIdDamage = 1;</code>
+       */
+      public Builder setRoleIdDamage(
+          RoleIdDamage.Builder builderForValue) {
+        if (roleIdDamageBuilder_ == null) {
+          roleIdDamage_ = builderForValue.build();
+          onChanged();
+        } else {
+          roleIdDamageBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.RoleIdDamage roleIdDamage = 1;</code>
+       */
+      public Builder mergeRoleIdDamage(RoleIdDamage value) {
+        if (roleIdDamageBuilder_ == null) {
+          if (roleIdDamage_ != null) {
+            roleIdDamage_ =
+              RoleIdDamage.newBuilder(roleIdDamage_).mergeFrom(value).buildPartial();
+          } else {
+            roleIdDamage_ = value;
+          }
+          onChanged();
+        } else {
+          roleIdDamageBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.RoleIdDamage roleIdDamage = 1;</code>
+       */
+      public Builder clearRoleIdDamage() {
+        if (roleIdDamageBuilder_ == null) {
+          roleIdDamage_ = null;
+          onChanged();
+        } else {
+          roleIdDamage_ = null;
+          roleIdDamageBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.RoleIdDamage roleIdDamage = 1;</code>
+       */
+      public RoleIdDamage.Builder getRoleIdDamageBuilder() {
+        
+        onChanged();
+        return getRoleIdDamageFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.RoleIdDamage roleIdDamage = 1;</code>
+       */
+      public RoleIdDamageOrBuilder getRoleIdDamageOrBuilder() {
+        if (roleIdDamageBuilder_ != null) {
+          return roleIdDamageBuilder_.getMessageOrBuilder();
+        } else {
+          return roleIdDamage_ == null ?
+              RoleIdDamage.getDefaultInstance() : roleIdDamage_;
+        }
+      }
+      /**
+       * <code>.RoleIdDamage roleIdDamage = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          RoleIdDamage, RoleIdDamage.Builder, RoleIdDamageOrBuilder>
+          getRoleIdDamageFieldBuilder() {
+        if (roleIdDamageBuilder_ == null) {
+          roleIdDamageBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              RoleIdDamage, RoleIdDamage.Builder, RoleIdDamageOrBuilder>(
+                  getRoleIdDamage(),
+                  getParentForChildren(),
+                  isClean());
+          roleIdDamage_ = null;
+        }
+        return roleIdDamageBuilder_;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:DamagesNoticeResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:DamagesNoticeResponse)
+    private static final DamagesNoticeResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new DamagesNoticeResponse();
+    }
+
+    public static DamagesNoticeResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<DamagesNoticeResponse>
+        PARSER = new com.google.protobuf.AbstractParser<DamagesNoticeResponse>() {
+      @Override
+      public DamagesNoticeResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new DamagesNoticeResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<DamagesNoticeResponse> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<DamagesNoticeResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public DamagesNoticeResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface RoleDTOOrBuilder extends
       // @@protoc_insertion_point(interface_extends:RoleDTO)
       com.google.protobuf.MessageOrBuilder {
@@ -10469,6 +11328,11 @@ public final class PlayModel {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_UseSkillResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_DamagesNoticeResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_DamagesNoticeResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_RoleDTO_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -10487,7 +11351,7 @@ public final class PlayModel {
       descriptor;
   static {
     String[] descriptorData = {
-      "\n\017PlayModel.proto\"\330\004\n\020PlayModelMessage\022-" +
+      "\n\017PlayModel.proto\"\254\005\n\020PlayModelMessage\022-" +
       "\n\tdata_type\030\001 \001(\0162\032.PlayModelMessage.Dat" +
       "eType\022%\n\014loginRequest\030\002 \001(\0132\r.LoginReque" +
       "stH\000\022+\n\017registerRequest\030\003 \001(\0132\020.Register" +
@@ -10497,32 +11361,36 @@ public final class PlayModel {
       "RegisterResponseH\000\022)\n\016logoutResponse\030\007 \001" +
       "(\0132\017.LogoutResponseH\000\022+\n\017useSkillRequest" +
       "\030\010 \001(\0132\020.UseSkillRequestH\000\022-\n\020useSkillRe" +
-      "sponse\030\t \001(\0132\021.UseSkillResponseH\000\"\254\001\n\010Da" +
-      "teType\022\020\n\014LoginRequest\020\000\022\023\n\017RegisterRequ" +
-      "est\020\001\022\021\n\rLogoutRequest\020\002\022\021\n\rLoginRespons" +
-      "e\020\003\022\024\n\020RegisterResponse\020\004\022\022\n\016LogoutRespo" +
-      "nse\020\005\022\023\n\017UseSkillRequest\020\006\022\024\n\020UseSkillRe" +
-      "sponse\020\007B\n\n\010dateBody\"2\n\014LoginRequest\022\020\n\010" +
-      "username\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\"G\n\017Regi" +
-      "sterRequest\022\020\n\010username\030\001 \001(\t\022\020\n\010passwor" +
-      "d\030\002 \001(\t\022\020\n\010rolename\030\003 \001(\t\";\n\rLoginRespon" +
-      "se\022\017\n\007sceneId\030\001 \001(\005\022\031\n\007roleDto\030\002 \001(\0132\010.R" +
-      "oleDTO\"6\n\020RegisterResponse\022\021\n\tstateCode\030" +
-      "\001 \001(\005\022\017\n\007message\030\002 \001(\t\"\017\n\rLogoutRequest\"" +
-      "+\n\016LogoutResponse\022\014\n\004code\030\001 \001(\005\022\013\n\003mxg\030\002" +
-      " \001(\t\"3\n\017UseSkillRequest\022\017\n\007skillId\030\001 \001(\005" +
-      "\022\017\n\007sceneId\030\002 \001(\005\"8\n\020UseSkillResponse\022$\n" +
-      "\rroleIdDamages\030\001 \003(\0132\r.RoleIdDamage\"\244\001\n\007" +
-      "RoleDTO\022\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\016\n\006sta" +
-      "tus\030\003 \001(\005\022\014\n\004type\030\004 \001(\005\022\020\n\010onStatus\030\005 \001(" +
-      "\005\022\r\n\005blood\030\006 \001(\005\022\020\n\010nowBlood\030\007 \001(\005\022\n\n\002mp" +
-      "\030\010 \001(\005\022\r\n\005nowMp\030\t \001(\005\022\023\n\013skillIdList\030\n \003" +
-      "(\005\"\275\001\n\014RoleIdDamage\022\022\n\nfromRoleId\030\001 \001(\005\022" +
-      "\020\n\010toRoleId\030\002 \001(\005\022\020\n\010bufferId\030\003 \001(\005\022\017\n\007s" +
-      "killId\030\004 \001(\005\022\023\n\013attackStyle\030\005 \001(\005\022\022\n\ndam" +
-      "ageType\030\006 \001(\005\022\016\n\006damage\030\007 \001(\005\022\020\n\010nowbloo" +
-      "d\030\010 \001(\005\022\n\n\002mp\030\t \001(\005\022\r\n\005State\030\n \001(\005B\013B\tPl" +
-      "ayModelb\006proto3"
+      "sponse\030\t \001(\0132\021.UseSkillResponseH\000\0227\n\025dam" +
+      "agesNoticeResponse\030\n \001(\0132\026.DamagesNotice" +
+      "ResponseH\000\"\307\001\n\010DateType\022\020\n\014LoginRequest\020" +
+      "\000\022\023\n\017RegisterRequest\020\001\022\021\n\rLogoutRequest\020" +
+      "\002\022\021\n\rLoginResponse\020\003\022\024\n\020RegisterResponse" +
+      "\020\004\022\022\n\016LogoutResponse\020\005\022\023\n\017UseSkillReques" +
+      "t\020\006\022\024\n\020UseSkillResponse\020\007\022\031\n\025DamagesNoti" +
+      "ceResponse\020\010B\n\n\010dateBody\"2\n\014LoginRequest" +
+      "\022\020\n\010username\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\"G\n\017" +
+      "RegisterRequest\022\020\n\010username\030\001 \001(\t\022\020\n\010pas" +
+      "sword\030\002 \001(\t\022\020\n\010rolename\030\003 \001(\t\";\n\rLoginRe" +
+      "sponse\022\017\n\007sceneId\030\001 \001(\005\022\031\n\007roleDto\030\002 \001(\013" +
+      "2\010.RoleDTO\"6\n\020RegisterResponse\022\021\n\tstateC" +
+      "ode\030\001 \001(\005\022\017\n\007message\030\002 \001(\t\"\017\n\rLogoutRequ" +
+      "est\"+\n\016LogoutResponse\022\014\n\004code\030\001 \001(\005\022\013\n\003m" +
+      "xg\030\002 \001(\t\"3\n\017UseSkillRequest\022\017\n\007skillId\030\001" +
+      " \001(\005\022\017\n\007sceneId\030\002 \001(\005\"8\n\020UseSkillRespons" +
+      "e\022$\n\rroleIdDamages\030\001 \003(\0132\r.RoleIdDamage\"" +
+      "<\n\025DamagesNoticeResponse\022#\n\014roleIdDamage" +
+      "\030\001 \001(\0132\r.RoleIdDamage\"\244\001\n\007RoleDTO\022\n\n\002id\030" +
+      "\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\016\n\006status\030\003 \001(\005\022\014\n\004t" +
+      "ype\030\004 \001(\005\022\020\n\010onStatus\030\005 \001(\005\022\r\n\005blood\030\006 \001" +
+      "(\005\022\020\n\010nowBlood\030\007 \001(\005\022\n\n\002mp\030\010 \001(\005\022\r\n\005nowM" +
+      "p\030\t \001(\005\022\023\n\013skillIdList\030\n \003(\005\"\275\001\n\014RoleIdD" +
+      "amage\022\022\n\nfromRoleId\030\001 \001(\005\022\020\n\010toRoleId\030\002 " +
+      "\001(\005\022\020\n\010bufferId\030\003 \001(\005\022\017\n\007skillId\030\004 \001(\005\022\023" +
+      "\n\013attackStyle\030\005 \001(\005\022\022\n\ndamageType\030\006 \001(\005\022" +
+      "\016\n\006damage\030\007 \001(\005\022\020\n\010nowblood\030\010 \001(\005\022\n\n\002mp\030" +
+      "\t \001(\005\022\r\n\005State\030\n \001(\005B\013B\tPlayModelb\006proto" +
+      "3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -10533,7 +11401,7 @@ public final class PlayModel {
     internal_static_PlayModelMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_PlayModelMessage_descriptor,
-        new String[] { "DataType", "LoginRequest", "RegisterRequest", "LogoutRequest", "LoginResponse", "RegisterResponse", "LogoutResponse", "UseSkillRequest", "UseSkillResponse", "DateBody", });
+        new String[] { "DataType", "LoginRequest", "RegisterRequest", "LogoutRequest", "LoginResponse", "RegisterResponse", "LogoutResponse", "UseSkillRequest", "UseSkillResponse", "DamagesNoticeResponse", "DateBody", });
     internal_static_LoginRequest_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_LoginRequest_fieldAccessorTable = new
@@ -10582,14 +11450,20 @@ public final class PlayModel {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_UseSkillResponse_descriptor,
         new String[] { "RoleIdDamages", });
-    internal_static_RoleDTO_descriptor =
+    internal_static_DamagesNoticeResponse_descriptor =
       getDescriptor().getMessageTypes().get(9);
+    internal_static_DamagesNoticeResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_DamagesNoticeResponse_descriptor,
+        new String[] { "RoleIdDamage", });
+    internal_static_RoleDTO_descriptor =
+      getDescriptor().getMessageTypes().get(10);
     internal_static_RoleDTO_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_RoleDTO_descriptor,
         new String[] { "Id", "Name", "Status", "Type", "OnStatus", "Blood", "NowBlood", "Mp", "NowMp", "SkillIdList", });
     internal_static_RoleIdDamage_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_RoleIdDamage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_RoleIdDamage_descriptor,

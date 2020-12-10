@@ -10,9 +10,11 @@ import com.liqihao.pojo.bean.MmoSimpleNPC;
 import com.liqihao.pojo.bean.MmoSimpleRole;
 import io.netty.channel.Channel;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * 缓存
@@ -25,6 +27,15 @@ public class MmoCache {
     private ConcurrentHashMap<Integer, MmoSimpleNPC> npcMessageConcurrentHashMap;
     private BaseRoleMessage baseRoleMessage;
     private ConcurrentHashMap<Integer,SkillMessage> skillMessageConcurrentHashMap;
+    private CopyOnWriteArrayList<Integer> NoMpRole;
+
+    public CopyOnWriteArrayList<Integer> getNoMpRole() {
+        return NoMpRole;
+    }
+
+    public void setNoMpRole(CopyOnWriteArrayList<Integer> noMpRole) {
+        NoMpRole = noMpRole;
+    }
 
     public ConcurrentHashMap<Integer, SkillMessage> getSkillMessageConcurrentHashMap() {
         return skillMessageConcurrentHashMap;
@@ -87,6 +98,7 @@ public class MmoCache {
         this.sceneMessageConcurrentHashMap=sceneMessageConcurrentHashMap;
         this.npcMessageConcurrentHashMap=npcMessageConcurrentHashMap;
         this.channelConcurrentHashMap=new ConcurrentHashMap<>();
+        this.NoMpRole=new CopyOnWriteArrayList<>();
     }
 
 

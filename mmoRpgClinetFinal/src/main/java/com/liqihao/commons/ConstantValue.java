@@ -34,6 +34,7 @@ public interface ConstantValue {
     //退出登陆请求
     int LOGOUT_REQUEST=2002;
     int USE_SKILL_REQUEST =2003;
+    int DAMAGES_NOTICE_RESPONSE=2504;
     //response
     //登陆响应
     int LOGIN_RESPONSE=2500;

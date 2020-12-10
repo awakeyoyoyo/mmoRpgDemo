@@ -11,4 +11,6 @@ public interface PlayService {
     void logoutResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException;
 
     void useSkillResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException;
+
+    void damagesNoticeResponse(NettyResponse nettyResponse)throws InvalidProtocolBufferException;
 }

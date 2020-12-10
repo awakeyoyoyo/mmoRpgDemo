@@ -13,6 +13,7 @@ message PlayModelMessage{
     LogoutResponse=5;
     UseSkillRequest=6;
     UseSkillResponse=7;
+    DamagesNoticeResponse=8;
   }
   //用date_type来标识传的是哪一个枚举类型
   DateType data_type=1;
@@ -26,6 +27,7 @@ message PlayModelMessage{
     LogoutResponse logoutResponse=7;
     UseSkillRequest useSkillRequest=8;
     UseSkillResponse useSkillResponse=9;
+    DamagesNoticeResponse damagesNoticeResponse=10;
   }
 }
 message LoginRequest{
@@ -59,7 +61,9 @@ message UseSkillRequest{
 message UseSkillResponse{
   repeated RoleIdDamage roleIdDamages=1;
 }
-
+message DamagesNoticeResponse{
+    RoleIdDamage roleIdDamage=1;
+}
 
 
 message RoleDTO{

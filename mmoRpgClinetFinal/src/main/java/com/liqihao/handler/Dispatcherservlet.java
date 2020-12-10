@@ -54,6 +54,9 @@ public class Dispatcherservlet {
                     case ConstantValue.USE_SKILL_RSPONSE:
                          playService.useSkillResponse(nettyResponse);
                          break;
+                    case ConstantValue.DAMAGES_NOTICE_RESPONSE:
+                         playService.damagesNoticeResponse(nettyResponse);
+                         break;
                     default:
                         System.out.println("handler:收到错误的数据包");
                 }
