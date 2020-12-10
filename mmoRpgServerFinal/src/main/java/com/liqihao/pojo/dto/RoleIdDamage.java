@@ -1,7 +1,5 @@
 package com.liqihao.pojo.dto;
 
-import com.sun.javafx.image.IntPixelGetter;
-
 public class RoleIdDamage {
     Integer fromRoleId;
 
@@ -11,7 +9,7 @@ public class RoleIdDamage {
 
     Integer skillId;
 
-    Integer attackStyle; //buff造成还是 攻击造成 使用技能
+    Integer attackStyle; //buff造成、攻击造成、使用技能、自动恢复
 
     //伤害类型 扣血 扣蓝
     Integer damageType;

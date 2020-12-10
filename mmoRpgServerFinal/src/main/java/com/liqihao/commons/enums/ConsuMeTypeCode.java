@@ -1,7 +1,7 @@
 package com.liqihao.commons.enums;
 
 public enum  ConsuMeTypeCode {
-    HP(0,"血量类型"),MP(1,"蓝量类型");
+    HP(0,"消耗血量"),MP(1,"消耗蓝量");
     private  int code;
     private  String value;
     ConsuMeTypeCode(int code,String name)
