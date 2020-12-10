@@ -22,9 +22,7 @@ import io.netty.channel.Channel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
@@ -132,7 +130,7 @@ public class PlayServiceImpl implements PlayService{
         simpleRole.setNowMp(baseRoleMessage.getMp());
         List<Integer> skillIds=CommonsUtil.split(simpleRole.getSkillIds());
         simpleRole.setSkillIdList(skillIds);
-        simpleRole.setCdMap(new HashMap<>());
+        simpleRole.setCdMap(new HashMap<Integer, Long>());
         rolesMap.put(role.getId(),simpleRole);
         //放入线程池中异步处理
         //数据库中人物状态         //todo 提交给线程池异步执行
@@ -225,6 +223,17 @@ public class PlayServiceImpl implements PlayService{
         Integer skillId=myMessage.getUseSkillRequest().getSkillId();
         Integer sceneId=myMessage.getUseSkillRequest().getSceneId();
         Integer roleId=CommonsUtil.getRoleIdByChannel(channel);
+        if (roleId==null){
+            return new NettyResponse(StateCode.FAIL,ConstantValue.USE_SKILL_RSPONSE, "未登陆".getBytes());
+        }
+        //判断cd
+        MmoSimpleRole mmoSimpleRole=MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap().get(roleId);
+        Long nextTime= mmoSimpleRole.getCdMap().get(skillId);
+        if (nextTime!=null){
+            if (System.currentTimeMillis()<nextTime){
+                return new NettyResponse(StateCode.FAIL,ConstantValue.USE_SKILL_RSPONSE, "该技能cd中。。".getBytes());
+            }
+        }
         //从缓存中查找出 怪物
         ConcurrentHashMap<Integer, MmoSimpleNPC> npcMap=MmoCache.getInstance().getNpcMessageConcurrentHashMap();
         ArrayList<MmoSimpleNPC> target=new ArrayList<>();
@@ -254,13 +263,13 @@ public class PlayServiceImpl implements PlayService{
         skillBean.setSkillName(skillMessage.getSkillName());
         //角色扣篮或者扣血
         //根据channel获取角色ID
-        MmoSimpleRole mmoSimpleRole=MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap().get(roleId);
+
         if (skillBean.getConsumeType().equals(ConsuMeTypeCode.HP.getCode())){
             //扣血
             //判断血量是否足够
             if (mmoSimpleRole.getNowBlood()<skillBean.getConsumeNum()){
                 //血量不够
-                return new NettyResponse(StateCode.FAIL,ConstantValue.USE_SKILL_RSPONSE, "蓝量不够无法使用该技能".getBytes());
+                return new NettyResponse(StateCode.FAIL,ConstantValue.USE_SKILL_RSPONSE, "血量不够无法使用该技能".getBytes());
             }
             mmoSimpleRole.setNowBlood(mmoSimpleRole.getNowBlood()-skillBean.getConsumeNum());
 
@@ -269,7 +278,7 @@ public class PlayServiceImpl implements PlayService{
             //判断蓝量是否足够
             if (mmoSimpleRole.getNowMp()<skillBean.getConsumeNum()){
                 //血量不够
-                return new NettyResponse(StateCode.FAIL,ConstantValue.USE_SKILL_RSPONSE, "血量不够无法使用该技能".getBytes());
+                return new NettyResponse(StateCode.FAIL,ConstantValue.USE_SKILL_RSPONSE, "蓝量不够无法使用该技能".getBytes());
             }
             mmoSimpleRole.setNowMp(mmoSimpleRole.getNowMp()-skillBean.getConsumeNum());
         }
@@ -309,6 +318,13 @@ public class PlayServiceImpl implements PlayService{
             damageR.setState(mmoSimpleNPC.getStatus());
             list.add(damageR.build());
         }
+        //cd
+        Map<Integer,Long> map=mmoSimpleRole.getCdMap();
+        Long time=System.currentTimeMillis();
+        int addTime=skillBean.getCd()*1000;
+        map.put(skillBean.getId(),time+addTime);
+
+
         //封装成nettyResponse
         PlayModel.PlayModelMessage.Builder myMessageBuilder=PlayModel.PlayModelMessage.newBuilder();
         myMessageBuilder.setDataType(PlayModel.PlayModelMessage.DateType.UseSkillResponse);
