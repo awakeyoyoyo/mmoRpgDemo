@@ -1,13 +1,13 @@
-package com.liqihao.commons;
+package com.liqihao.commons.enums;
 
 /**
- * 角色在线状态
+ * 角色生存状态
  */
-public enum  RoleOnStatusCode {
-    ONLINE(9527,"在线"),EXIT(7259,"离线");
+public enum  RoleStatusCode {
+    DIE(0,"死亡"),ALIVE(1,"存活");
     private  int code;
     private  String value;
-    RoleOnStatusCode(int code,String name)
+    RoleStatusCode(int code,String name)
     {
         this.code=code;
         this.value = name;
@@ -29,7 +29,7 @@ public enum  RoleOnStatusCode {
         return value;
     }
     public static String getValue(int code) {
-        for (RoleOnStatusCode ele : values()) {
+        for (RoleStatusCode ele : values()) {
             if(ele.getCode()==code){
                 return ele.getvalue();
             }

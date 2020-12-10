@@ -5,12 +5,14 @@ import com.liqihao.Cache.MmoCache;
 import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.*;
+import com.liqihao.commons.enums.*;
 import com.liqihao.dao.MmoRolePOJOMapper;
 import com.liqihao.dao.MmoScenePOJOMapper;
 import com.liqihao.dao.MmoUserPOJOMapper;
 import com.liqihao.pojo.*;
 import com.liqihao.pojo.baseMessage.BaseRoleMessage;
 import com.liqihao.pojo.baseMessage.SkillMessage;
+import com.liqihao.pojo.bean.MmoSimpleNPC;
 import com.liqihao.pojo.bean.MmoSimpleRole;
 import com.liqihao.pojo.bean.SkillBean;
 import com.liqihao.protobufObject.PlayModel;
@@ -20,6 +22,7 @@ import io.netty.channel.Channel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -126,6 +129,7 @@ public class PlayServiceImpl implements PlayService{
         simpleRole.setBlood(baseRoleMessage.getHp());
         simpleRole.setNowBlood(baseRoleMessage.getHp());
         simpleRole.setMp(baseRoleMessage.getMp());
+        simpleRole.setNowMp(baseRoleMessage.getMp());
         List<Integer> skillIds=CommonsUtil.split(simpleRole.getSkillIds());
         simpleRole.setSkillIdList(skillIds);
         simpleRole.setCdMap(new HashMap<>());
@@ -152,6 +156,7 @@ public class PlayServiceImpl implements PlayService{
                 .setNowBlood(simpleRole.getBlood())
                 .addAllSkillIdList(skillIds)
                 .setMp(simpleRole.getMp())
+                .setNowMp(simpleRole.getNowMp())
                 .build();
         loginResponseBuilder.setRoleDto(roleDTO);
         //场景信息
@@ -212,8 +217,117 @@ public class PlayServiceImpl implements PlayService{
     }
 
     @Override
+    @HandlerCmdTag(cmd = ConstantValue.USE_SKILL_REQUEST,module = ConstantValue.PLAY_MODULE)
     public NettyResponse useSkillRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
-        return null;
+        byte[] data=nettyRequest.getData();
+        PlayModel.PlayModelMessage myMessage;
+        myMessage=PlayModel.PlayModelMessage.parseFrom(data);
+        Integer skillId=myMessage.getUseSkillRequest().getSkillId();
+        Integer sceneId=myMessage.getUseSkillRequest().getSceneId();
+        Integer roleId=CommonsUtil.getRoleIdByChannel(channel);
+        //从缓存中查找出 怪物
+        ConcurrentHashMap<Integer, MmoSimpleNPC> npcMap=MmoCache.getInstance().getNpcMessageConcurrentHashMap();
+        ArrayList<MmoSimpleNPC> target=new ArrayList<>();
+        ArrayList<Integer> players=new ArrayList<>();
+        for (Integer npcId:npcMap.keySet()) {
+            MmoSimpleNPC npc=npcMap.get(npcId);
+            if (npc.getMmosceneid().equals(sceneId)&&npc.getType().equals(RoleTypeCode.ENEMY.getCode())){
+                target.add(npc);
+            }
+        }
+        ConcurrentHashMap<Integer, MmoSimpleRole> roleMap=MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
+        for (Integer npcId:roleMap.keySet()) {
+            MmoSimpleRole role=roleMap.get(npcId);
+            if (role.getMmosceneid().equals(sceneId)&&role.getType().equals(RoleTypeCode.PLAYER.getCode())&&!role.getId().equals(roleId)){
+                players.add(role.getId());
+            }
+        }
+        //从缓存中找出技能
+        SkillMessage skillMessage=MmoCache.getInstance().getSkillMessageConcurrentHashMap().get(skillId);
+        SkillBean skillBean=new SkillBean();
+        skillBean.setId(skillMessage.getId());
+        skillBean.setConsumeType(skillMessage.getConsumeType());
+        skillBean.setConsumeNum(skillMessage.getConsumeNum());
+        skillBean.setCd(skillMessage.getCd());
+        skillBean.setBufferIds(CommonsUtil.split(skillMessage.getBufferIds()));
+        skillBean.setBaseDamage(skillMessage.getBaseDamage());
+        skillBean.setSkillName(skillMessage.getSkillName());
+        //角色扣篮或者扣血
+        //根据channel获取角色ID
+        MmoSimpleRole mmoSimpleRole=MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap().get(roleId);
+        if (skillBean.getConsumeType().equals(ConsuMeTypeCode.HP.getCode())){
+            //扣血
+            //判断血量是否足够
+            if (mmoSimpleRole.getNowBlood()<skillBean.getConsumeNum()){
+                //血量不够
+                return new NettyResponse(StateCode.FAIL,ConstantValue.USE_SKILL_RSPONSE, "蓝量不够无法使用该技能".getBytes());
+            }
+            mmoSimpleRole.setNowBlood(mmoSimpleRole.getNowBlood()-skillBean.getConsumeNum());
+
+        }else {
+            //扣篮
+            //判断蓝量是否足够
+            if (mmoSimpleRole.getNowMp()<skillBean.getConsumeNum()){
+                //血量不够
+                return new NettyResponse(StateCode.FAIL,ConstantValue.USE_SKILL_RSPONSE, "血量不够无法使用该技能".getBytes());
+            }
+            mmoSimpleRole.setNowMp(mmoSimpleRole.getNowMp()-skillBean.getConsumeNum());
+        }
+        List<PlayModel.RoleIdDamage> list=new ArrayList<>();
+        // 生成一个角色扣血或者扣篮
+        PlayModel.RoleIdDamage.Builder damageU=PlayModel.RoleIdDamage.newBuilder();
+        damageU.setFromRoleId(roleId);
+        damageU.setToRoleId(roleId);
+        damageU.setAttackStyle(AttackStyleCode.USESKILL.getCode());
+        damageU.setBufferId(-1);
+        damageU.setDamage(skillBean.getConsumeNum());
+        damageU.setDamageType(skillBean.getConsumeType());
+        damageU.setMp(mmoSimpleRole.getNowMp());
+        damageU.setNowblood(mmoSimpleRole.getNowBlood());
+        damageU.setSkillId(skillBean.getId());
+        damageU.setState(mmoSimpleRole.getStatus());
+        list.add(damageU.build());
+        //攻击怪物
+        for (MmoSimpleNPC mmoSimpleNPC:target){
+            int hp=mmoSimpleNPC.getNowBlood()-skillBean.getBaseDamage();
+            if (hp<=0){
+                hp=0;
+                mmoSimpleNPC.setStatus(RoleStatusCode.DIE.getCode());
+            }
+            mmoSimpleNPC.setNowBlood(hp);
+            // 扣血伤害
+            PlayModel.RoleIdDamage.Builder damageR=PlayModel.RoleIdDamage.newBuilder();
+            damageR.setFromRoleId(roleId);
+            damageR.setToRoleId(mmoSimpleNPC.getId());
+            damageR.setAttackStyle(AttackStyleCode.ATTACK.getCode());
+            damageR.setBufferId(-1);
+            damageR.setDamage(skillBean.getBaseDamage());
+            damageR.setDamageType(DamageTypeCode.HP.getCode());
+            damageR.setMp(mmoSimpleNPC.getNowMp());
+            damageR.setNowblood(mmoSimpleNPC.getNowBlood());
+            damageR.setSkillId(skillBean.getId());
+            damageR.setState(mmoSimpleNPC.getStatus());
+            list.add(damageR.build());
+        }
+        //封装成nettyResponse
+        PlayModel.PlayModelMessage.Builder myMessageBuilder=PlayModel.PlayModelMessage.newBuilder();
+        myMessageBuilder.setDataType(PlayModel.PlayModelMessage.DateType.UseSkillResponse);
+        PlayModel.UseSkillResponse.Builder useSkillBuilder=PlayModel.UseSkillResponse.newBuilder();
+        useSkillBuilder.addAllRoleIdDamages(list);
+        myMessageBuilder.setUseSkillResponse(useSkillBuilder.build());
+        NettyResponse nettyResponse=new NettyResponse();
+        nettyResponse.setCmd(ConstantValue.USE_SKILL_RSPONSE);
+        nettyResponse.setStateCode(StateCode.SUCCESS);
+        nettyResponse.setData(myMessageBuilder.build().toByteArray());
+        //广播
+        for (Integer playerId:players){
+            ConcurrentHashMap<Integer,Channel> cMap=MmoCache.getInstance().getChannelConcurrentHashMap();
+            Channel c=cMap.get(playerId);
+            if (c!=null){
+                c.writeAndFlush(nettyResponse);
+            }
+        }
+        return  nettyResponse;
     }
 
 

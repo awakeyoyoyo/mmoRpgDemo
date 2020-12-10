@@ -71,14 +71,14 @@ skillMessages:
     skillName: "毒性射击"
     baseDamage: 10
     cd: 5
-    consumeType: 0
+    consumeType: 1
     consumeNum: 10
     bufferIds: "1"
   - id: 2
     skillName: "光芒余韵"
     baseDamage: 40
     cd: 15
-    consumeType: 0
+    consumeType: 1
     consumeNum: 30
     bufferIds: ""
 bufferMessage:

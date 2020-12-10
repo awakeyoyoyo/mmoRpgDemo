@@ -1,22 +1,22 @@
 package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.liqihao.commons.MmoCacheCilent;
-import com.liqihao.commons.NettyResponse;
-import com.liqihao.commons.StateCode;
+import com.liqihao.commons.*;
+import com.liqihao.commons.enums.DamageTypeCode;
+import com.liqihao.commons.enums.RoleStatusCode;
+import com.liqihao.commons.enums.RoleTypeCode;
+import com.liqihao.commons.enums.StateCode;
 import com.liqihao.pojo.MmoRole;
-import com.liqihao.pojo.MmoScene;
-import com.liqihao.pojo.MmoSimpleRole;
-import com.liqihao.pojo.MmoSimpleScene;
 import com.liqihao.pojo.baseMessage.SceneMessage;
+import com.liqihao.pojo.baseMessage.SkillMessage;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.service.PlayService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+
 @Service
 public class PlayServiceImpl implements PlayService {
     private static final Logger log = LoggerFactory.getLogger(PlayServiceImpl.class);
@@ -46,6 +46,7 @@ public class PlayServiceImpl implements PlayService {
         mmoRole.setBlood(roleDTO.getBlood());
         mmoRole.setName(roleDTO.getName());
         mmoRole.setNowBlood(roleDTO.getNowBlood());
+        mmoRole.setNowMp(roleDTO.getNowMp());
 //        mmoRole.setCdMap(roleDTO.get);
 //        mmoRole.setMmosceneid(roleDTO.g);
         mmoRole.setSkillIdList(roleDTO.getSkillIdListList());
@@ -58,7 +59,9 @@ public class PlayServiceImpl implements PlayService {
         //构建mmoscene对象
         SceneMessage s=MmoCacheCilent.getInstance().getSceneMessageConcurrentHashMap().get(mmoScene);
         //打印当前场景
-        log.info("当前角色: "+mmoRole.getName());
+        log.info("角色id："+roleDTO.getId()+" 角色名: "+roleDTO.getName()
+                +" 类型: "+ RoleTypeCode.getValue(roleDTO.getType())+" 状态: "+ RoleStatusCode.getValue(roleDTO.getStatus())
+                +" 血量： "+roleDTO.getNowBlood()+"/"+roleDTO.getBlood()+" 蓝量： "+roleDTO.getNowMp()+"/"+roleDTO.getMp());
         log.info("当前场景: "+s.getPlaceName());
         log.info("---------------------------------------------------");
     }
@@ -94,4 +97,52 @@ public class PlayServiceImpl implements PlayService {
         log.info("code: "+code+" message: "+msg);
         log.info("---------------------------------------------------");
     }
+
+    @Override
+    public void useSkillResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
+        if (nettyResponse.getStateCode()== StateCode.FAIL){
+            System.out.println(new String(nettyResponse.getData()));
+            return;
+        }
+        byte[] data=nettyResponse.getData();
+        PlayModel.PlayModelMessage myMessage;
+        myMessage=PlayModel.PlayModelMessage.parseFrom(data);
+        PlayModel.UseSkillResponse useSkillResponse=myMessage.getUseSkillResponse();
+        List<PlayModel.RoleIdDamage> roleIdDamages=useSkillResponse.getRoleIdDamagesList();
+        for (PlayModel.RoleIdDamage roleIdDamage: roleIdDamages) {
+            if (roleIdDamage.getFromRoleId()==roleIdDamage.getToRoleId()){
+                //施术者
+                MmoRole mmoRole=MmoCacheCilent.getInstance().getNowRole();
+                //判断减少的数据是啥
+                if(roleIdDamage.getDamageType()==DamageTypeCode.HP.getCode()){
+                    mmoRole.setNowBlood(roleIdDamage.getNowblood());
+                }else if (roleIdDamage.getDamageType()==DamageTypeCode.MP.getCode()){
+                    mmoRole.setNowMp(roleIdDamage.getMp());
+                }
+                SkillMessage skillMessage=MmoCacheCilent.getInstance().getSkillMessageConcurrentHashMap().get(roleIdDamage.getSkillId());
+                log.info("角色id："+mmoRole.getId()+" 角色名: "+mmoRole.getName()
+                        +" 类型: "+ RoleTypeCode.getValue(mmoRole.getType())+" 状态: "+ RoleStatusCode.getValue(mmoRole.getStatus())
+                        +" 血量： "+mmoRole.getNowBlood()+"/"+mmoRole.getBlood()+" 蓝量： "+mmoRole.getNowMp()+"/"+mmoRole.getMp()
+                        +" 使用了技能："+skillMessage.getSkillName()+" 减少了： "+DamageTypeCode.getValue(roleIdDamage.getDamageType())+"-"+
+                        roleIdDamage.getDamage());
+            }else{
+                //受伤
+                MmoRole mmoRole=MmoCacheCilent.getInstance().getRoleHashMap().get(roleIdDamage.getToRoleId());
+                //判断减少的数据是啥
+                if(roleIdDamage.getDamageType()==DamageTypeCode.HP.getCode()){
+                    mmoRole.setNowBlood(roleIdDamage.getNowblood());
+                }else if (roleIdDamage.getDamageType()==DamageTypeCode.MP.getCode()){
+                    mmoRole.setNowMp(roleIdDamage.getMp());
+                }
+                SkillMessage skillMessage=MmoCacheCilent.getInstance().getSkillMessageConcurrentHashMap().get(roleIdDamage.getSkillId());
+                log.info("角色id："+mmoRole.getId()+" 角色名: "+mmoRole.getName()
+                        +" 类型: "+ RoleTypeCode.getValue(mmoRole.getType())+" 状态: "+ RoleStatusCode.getValue(mmoRole.getStatus())
+                        +" 血量： "+mmoRole.getNowBlood()+"/"+mmoRole.getBlood()+" 蓝量： "+mmoRole.getNowMp()+"/"+mmoRole.getMp()
+                        +" 被：角色Id:"+roleIdDamage.getFromRoleId()+"的"+skillMessage.getSkillName()+"攻击 减少了： "+DamageTypeCode.getValue(roleIdDamage.getDamageType())+"-"+
+                        roleIdDamage.getDamage());
+            }
+        }
+        log.info("---------------------------------------------------");
+    }
+
 }

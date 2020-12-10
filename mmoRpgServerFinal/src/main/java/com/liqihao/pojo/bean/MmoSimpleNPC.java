@@ -1,11 +1,20 @@
 package com.liqihao.pojo.bean;
 
-import com.liqihao.commons.ConstantValue;
-import com.liqihao.commons.RoleStatusCode;
+import com.liqihao.commons.enums.RoleStatusCode;
 import com.liqihao.pojo.baseMessage.NPCMessage;
 
 public class MmoSimpleNPC extends NPCMessage {
     private Integer nowBlood;
+    private Integer nowMp;
+
+    public Integer getNowMp() {
+        return nowMp;
+    }
+
+    public void setNowMp(Integer nowMp) {
+        this.nowMp = nowMp;
+    }
+
     //判断是否死亡,并且更改状态
     public void checkDie(){
         if (nowBlood<=0){

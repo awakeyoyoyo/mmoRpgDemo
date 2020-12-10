@@ -7446,17 +7446,23 @@ public final class SceneModel {
     int getMp();
 
     /**
-     * <code>repeated int32 skillIdList = 9;</code>
+     * <code>int32 nowMp = 9;</code>
+     * @return The nowMp.
+     */
+    int getNowMp();
+
+    /**
+     * <code>repeated int32 skillIdList = 10;</code>
      * @return A list containing the skillIdList.
      */
     java.util.List<Integer> getSkillIdListList();
     /**
-     * <code>repeated int32 skillIdList = 9;</code>
+     * <code>repeated int32 skillIdList = 10;</code>
      * @return The count of skillIdList.
      */
     int getSkillIdListCount();
     /**
-     * <code>repeated int32 skillIdList = 9;</code>
+     * <code>repeated int32 skillIdList = 10;</code>
      * @param index The index of the element to return.
      * @return The skillIdList at the given index.
      */
@@ -7552,6 +7558,11 @@ public final class SceneModel {
               break;
             }
             case 72: {
+
+              nowMp_ = input.readInt32();
+              break;
+            }
+            case 80: {
               if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 skillIdList_ = newIntList();
                 mutable_bitField0_ |= 0x00000001;
@@ -7559,7 +7570,7 @@ public final class SceneModel {
               skillIdList_.addInt(input.readInt32());
               break;
             }
-            case 74: {
+            case 82: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
               if (!((mutable_bitField0_ & 0x00000001) != 0) && input.getBytesUntilLimit() > 0) {
@@ -7722,10 +7733,21 @@ public final class SceneModel {
       return mp_;
     }
 
-    public static final int SKILLIDLIST_FIELD_NUMBER = 9;
+    public static final int NOWMP_FIELD_NUMBER = 9;
+    private int nowMp_;
+    /**
+     * <code>int32 nowMp = 9;</code>
+     * @return The nowMp.
+     */
+    @Override
+    public int getNowMp() {
+      return nowMp_;
+    }
+
+    public static final int SKILLIDLIST_FIELD_NUMBER = 10;
     private com.google.protobuf.Internal.IntList skillIdList_;
     /**
-     * <code>repeated int32 skillIdList = 9;</code>
+     * <code>repeated int32 skillIdList = 10;</code>
      * @return A list containing the skillIdList.
      */
     @Override
@@ -7734,14 +7756,14 @@ public final class SceneModel {
       return skillIdList_;
     }
     /**
-     * <code>repeated int32 skillIdList = 9;</code>
+     * <code>repeated int32 skillIdList = 10;</code>
      * @return The count of skillIdList.
      */
     public int getSkillIdListCount() {
       return skillIdList_.size();
     }
     /**
-     * <code>repeated int32 skillIdList = 9;</code>
+     * <code>repeated int32 skillIdList = 10;</code>
      * @param index The index of the element to return.
      * @return The skillIdList at the given index.
      */
@@ -7789,8 +7811,11 @@ public final class SceneModel {
       if (mp_ != 0) {
         output.writeInt32(8, mp_);
       }
+      if (nowMp_ != 0) {
+        output.writeInt32(9, nowMp_);
+      }
       if (getSkillIdListList().size() > 0) {
-        output.writeUInt32NoTag(74);
+        output.writeUInt32NoTag(82);
         output.writeUInt32NoTag(skillIdListMemoizedSerializedSize);
       }
       for (int i = 0; i < skillIdList_.size(); i++) {
@@ -7835,6 +7860,10 @@ public final class SceneModel {
       if (mp_ != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(8, mp_);
+      }
+      if (nowMp_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(9, nowMp_);
       }
       {
         int dataSize = 0;
@@ -7881,6 +7910,8 @@ public final class SceneModel {
           != other.getNowBlood()) return false;
       if (getMp()
           != other.getMp()) return false;
+      if (getNowMp()
+          != other.getNowMp()) return false;
       if (!getSkillIdListList()
           .equals(other.getSkillIdListList())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
@@ -7910,6 +7941,8 @@ public final class SceneModel {
       hash = (53 * hash) + getNowBlood();
       hash = (37 * hash) + MP_FIELD_NUMBER;
       hash = (53 * hash) + getMp();
+      hash = (37 * hash) + NOWMP_FIELD_NUMBER;
+      hash = (53 * hash) + getNowMp();
       if (getSkillIdListCount() > 0) {
         hash = (37 * hash) + SKILLIDLIST_FIELD_NUMBER;
         hash = (53 * hash) + getSkillIdListList().hashCode();
@@ -8063,6 +8096,8 @@ public final class SceneModel {
 
         mp_ = 0;
 
+        nowMp_ = 0;
+
         skillIdList_ = emptyIntList();
         bitField0_ = (bitField0_ & ~0x00000001);
         return this;
@@ -8100,6 +8135,7 @@ public final class SceneModel {
         result.blood_ = blood_;
         result.nowBlood_ = nowBlood_;
         result.mp_ = mp_;
+        result.nowMp_ = nowMp_;
         if (((bitField0_ & 0x00000001) != 0)) {
           skillIdList_.makeImmutable();
           bitField0_ = (bitField0_ & ~0x00000001);
@@ -8177,6 +8213,9 @@ public final class SceneModel {
         }
         if (other.getMp() != 0) {
           setMp(other.getMp());
+        }
+        if (other.getNowMp() != 0) {
+          setNowMp(other.getNowMp());
         }
         if (!other.skillIdList_.isEmpty()) {
           if (skillIdList_.isEmpty()) {
@@ -8511,6 +8550,37 @@ public final class SceneModel {
         return this;
       }
 
+      private int nowMp_ ;
+      /**
+       * <code>int32 nowMp = 9;</code>
+       * @return The nowMp.
+       */
+      @Override
+      public int getNowMp() {
+        return nowMp_;
+      }
+      /**
+       * <code>int32 nowMp = 9;</code>
+       * @param value The nowMp to set.
+       * @return This builder for chaining.
+       */
+      public Builder setNowMp(int value) {
+        
+        nowMp_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 nowMp = 9;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearNowMp() {
+        
+        nowMp_ = 0;
+        onChanged();
+        return this;
+      }
+
       private com.google.protobuf.Internal.IntList skillIdList_ = emptyIntList();
       private void ensureSkillIdListIsMutable() {
         if (!((bitField0_ & 0x00000001) != 0)) {
@@ -8519,7 +8589,7 @@ public final class SceneModel {
          }
       }
       /**
-       * <code>repeated int32 skillIdList = 9;</code>
+       * <code>repeated int32 skillIdList = 10;</code>
        * @return A list containing the skillIdList.
        */
       public java.util.List<Integer>
@@ -8528,14 +8598,14 @@ public final class SceneModel {
                  java.util.Collections.unmodifiableList(skillIdList_) : skillIdList_;
       }
       /**
-       * <code>repeated int32 skillIdList = 9;</code>
+       * <code>repeated int32 skillIdList = 10;</code>
        * @return The count of skillIdList.
        */
       public int getSkillIdListCount() {
         return skillIdList_.size();
       }
       /**
-       * <code>repeated int32 skillIdList = 9;</code>
+       * <code>repeated int32 skillIdList = 10;</code>
        * @param index The index of the element to return.
        * @return The skillIdList at the given index.
        */
@@ -8543,7 +8613,7 @@ public final class SceneModel {
         return skillIdList_.getInt(index);
       }
       /**
-       * <code>repeated int32 skillIdList = 9;</code>
+       * <code>repeated int32 skillIdList = 10;</code>
        * @param index The index to set the value at.
        * @param value The skillIdList to set.
        * @return This builder for chaining.
@@ -8556,7 +8626,7 @@ public final class SceneModel {
         return this;
       }
       /**
-       * <code>repeated int32 skillIdList = 9;</code>
+       * <code>repeated int32 skillIdList = 10;</code>
        * @param value The skillIdList to add.
        * @return This builder for chaining.
        */
@@ -8567,7 +8637,7 @@ public final class SceneModel {
         return this;
       }
       /**
-       * <code>repeated int32 skillIdList = 9;</code>
+       * <code>repeated int32 skillIdList = 10;</code>
        * @param values The skillIdList to add.
        * @return This builder for chaining.
        */
@@ -8580,7 +8650,7 @@ public final class SceneModel {
         return this;
       }
       /**
-       * <code>repeated int32 skillIdList = 9;</code>
+       * <code>repeated int32 skillIdList = 10;</code>
        * @return This builder for chaining.
        */
       public Builder clearSkillIdList() {
@@ -9368,13 +9438,13 @@ public final class SceneModel {
       "Ids\030\001 \003(\005\"1\n\024FindAllRolesResponse\022\031\n\007rol" +
       "eDTO\030\001 \003(\0132\010.RoleDTO\":\n\014WentResponse\022\017\n\007" +
       "sceneId\030\001 \001(\005\022\031\n\007roleDTO\030\002 \003(\0132\010.RoleDTO" +
-      "\" \n\017TalkNPCResponse\022\r\n\005npcId\030\001 \001(\005\"\225\001\n\007R" +
+      "\" \n\017TalkNPCResponse\022\r\n\005npcId\030\001 \001(\005\"\244\001\n\007R" +
       "oleDTO\022\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\016\n\006stat" +
       "us\030\003 \001(\005\022\014\n\004type\030\004 \001(\005\022\020\n\010onStatus\030\005 \001(\005" +
       "\022\r\n\005blood\030\006 \001(\005\022\020\n\010nowBlood\030\007 \001(\005\022\n\n\002mp\030" +
-      "\010 \001(\005\022\023\n\013skillIdList\030\t \003(\005\"/\n\016MmoSimpleS" +
-      "cene\022\n\n\002id\030\001 \001(\005\022\021\n\tpalceName\030\002 \001(\tB\014B\nS" +
-      "ceneModelb\006proto3"
+      "\010 \001(\005\022\r\n\005nowMp\030\t \001(\005\022\023\n\013skillIdList\030\n \003(" +
+      "\005\"/\n\016MmoSimpleScene\022\n\n\002id\030\001 \001(\005\022\021\n\tpalce" +
+      "Name\030\002 \001(\tB\014B\nSceneModelb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -9439,7 +9509,7 @@ public final class SceneModel {
     internal_static_RoleDTO_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_RoleDTO_descriptor,
-        new String[] { "Id", "Name", "Status", "Type", "OnStatus", "Blood", "NowBlood", "Mp", "SkillIdList", });
+        new String[] { "Id", "Name", "Status", "Type", "OnStatus", "Blood", "NowBlood", "Mp", "NowMp", "SkillIdList", });
     internal_static_MmoSimpleScene_descriptor =
       getDescriptor().getMessageTypes().get(10);
     internal_static_MmoSimpleScene_fieldAccessorTable = new

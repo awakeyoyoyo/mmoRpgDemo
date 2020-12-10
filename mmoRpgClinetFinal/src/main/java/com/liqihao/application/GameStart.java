@@ -2,10 +2,12 @@ package com.liqihao.application;
 
 
 import com.liqihao.commons.MmoCacheCilent;
-import com.liqihao.commons.CmdCode;
+import com.liqihao.commons.enums.CmdCode;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyRequest;
+import com.liqihao.pojo.MmoRole;
 import com.liqihao.pojo.baseMessage.SceneMessage;
+import com.liqihao.pojo.baseMessage.SkillMessage;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.protobufObject.SceneModel;
 import com.liqihao.utils.CommonsUtil;
@@ -73,9 +75,33 @@ public class GameStart {
                     case ConstantValue.TALK_NPC_REQUEST:
                         talkNpcRequest(scanner);
                         break;
+                    case ConstantValue.USE_SKILL_REQUEST:
+                        useSkillRequest(scanner);
+                        break;
                     default:
                         System.out.println("GameStart-handler:收到错误cmd");
                 }
+    }
+
+    private void useSkillRequest(Scanner scanner) {
+        System.out.println("当前角色可使用的技能：");
+        MmoRole mmoRole=MmoCacheCilent.getInstance().getNowRole();
+        List<Integer> skills=mmoRole.getSkillIdList();
+        ConcurrentHashMap<Integer, SkillMessage> map=MmoCacheCilent.getInstance().getSkillMessageConcurrentHashMap();
+        for (Integer sId:skills) {
+            System.out.println("技能Id： "+map.get(sId).getId()+" 技能名称："+map.get(sId).getSkillName());
+        }
+        System.out.println("请输入你使用的技能id");
+        Integer skillId=scanner.nextInt();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.USE_SKILL_REQUEST);
+        PlayModel.PlayModelMessage myMessage;
+        myMessage=PlayModel.PlayModelMessage.newBuilder()
+                .setDataType(PlayModel.PlayModelMessage.DateType.UseSkillRequest)
+                .setUseSkillRequest(PlayModel.UseSkillRequest.newBuilder().setSkillId(skillId).setSceneId(MmoCacheCilent.getInstance().getNowSceneId()).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
     }
 
     private void talkNpcRequest(Scanner scanner) {

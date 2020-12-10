@@ -8,8 +8,17 @@ public class MmoSimpleRole extends MmoRolePOJO {
     private Integer Blood;
     private Integer nowBlood;
     private Integer mp;
+    private Integer nowMp;
     private HashMap<Integer,Long> cdMap;
     private List<Integer> skillIdList;
+
+    public Integer getNowMp() {
+        return nowMp;
+    }
+
+    public void setNowMp(Integer nowMp) {
+        this.nowMp = nowMp;
+    }
 
     public List<Integer> getSkillIdList() {
         return skillIdList;

@@ -125,6 +125,36 @@ public final class PlayModel {
      */
     LogoutResponseOrBuilder getLogoutResponseOrBuilder();
 
+    /**
+     * <code>.UseSkillRequest useSkillRequest = 8;</code>
+     * @return Whether the useSkillRequest field is set.
+     */
+    boolean hasUseSkillRequest();
+    /**
+     * <code>.UseSkillRequest useSkillRequest = 8;</code>
+     * @return The useSkillRequest.
+     */
+    UseSkillRequest getUseSkillRequest();
+    /**
+     * <code>.UseSkillRequest useSkillRequest = 8;</code>
+     */
+    UseSkillRequestOrBuilder getUseSkillRequestOrBuilder();
+
+    /**
+     * <code>.UseSkillResponse useSkillResponse = 9;</code>
+     * @return Whether the useSkillResponse field is set.
+     */
+    boolean hasUseSkillResponse();
+    /**
+     * <code>.UseSkillResponse useSkillResponse = 9;</code>
+     * @return The useSkillResponse.
+     */
+    UseSkillResponse getUseSkillResponse();
+    /**
+     * <code>.UseSkillResponse useSkillResponse = 9;</code>
+     */
+    UseSkillResponseOrBuilder getUseSkillResponseOrBuilder();
+
     public PlayModelMessage.DateBodyCase getDateBodyCase();
   }
   /**
@@ -267,6 +297,34 @@ public final class PlayModel {
               dateBodyCase_ = 7;
               break;
             }
+            case 66: {
+              UseSkillRequest.Builder subBuilder = null;
+              if (dateBodyCase_ == 8) {
+                subBuilder = ((UseSkillRequest) dateBody_).toBuilder();
+              }
+              dateBody_ =
+                  input.readMessage(UseSkillRequest.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((UseSkillRequest) dateBody_);
+                dateBody_ = subBuilder.buildPartial();
+              }
+              dateBodyCase_ = 8;
+              break;
+            }
+            case 74: {
+              UseSkillResponse.Builder subBuilder = null;
+              if (dateBodyCase_ == 9) {
+                subBuilder = ((UseSkillResponse) dateBody_).toBuilder();
+              }
+              dateBody_ =
+                  input.readMessage(UseSkillResponse.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((UseSkillResponse) dateBody_);
+                dateBody_ = subBuilder.buildPartial();
+              }
+              dateBodyCase_ = 9;
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -336,6 +394,14 @@ public final class PlayModel {
        * <code>LogoutResponse = 5;</code>
        */
       LogoutResponse(5),
+      /**
+       * <code>UseSkillRequest = 6;</code>
+       */
+      UseSkillRequest(6),
+      /**
+       * <code>UseSkillResponse = 7;</code>
+       */
+      UseSkillResponse(7),
       UNRECOGNIZED(-1),
       ;
 
@@ -367,6 +433,14 @@ public final class PlayModel {
        * <code>LogoutResponse = 5;</code>
        */
       public static final int LogoutResponse_VALUE = 5;
+      /**
+       * <code>UseSkillRequest = 6;</code>
+       */
+      public static final int UseSkillRequest_VALUE = 6;
+      /**
+       * <code>UseSkillResponse = 7;</code>
+       */
+      public static final int UseSkillResponse_VALUE = 7;
 
 
       public final int getNumber() {
@@ -399,6 +473,8 @@ public final class PlayModel {
           case 3: return LoginResponse;
           case 4: return RegisterResponse;
           case 5: return LogoutResponse;
+          case 6: return UseSkillRequest;
+          case 7: return UseSkillResponse;
           default: return null;
         }
       }
@@ -466,6 +542,8 @@ public final class PlayModel {
       LOGINRESPONSE(5),
       REGISTERRESPONSE(6),
       LOGOUTRESPONSE(7),
+      USESKILLREQUEST(8),
+      USESKILLRESPONSE(9),
       DATEBODY_NOT_SET(0);
       private final int value;
       private DateBodyCase(int value) {
@@ -489,6 +567,8 @@ public final class PlayModel {
           case 5: return LOGINRESPONSE;
           case 6: return REGISTERRESPONSE;
           case 7: return LOGOUTRESPONSE;
+          case 8: return USESKILLREQUEST;
+          case 9: return USESKILLRESPONSE;
           case 0: return DATEBODY_NOT_SET;
           default: return null;
         }
@@ -717,6 +797,68 @@ public final class PlayModel {
       return LogoutResponse.getDefaultInstance();
     }
 
+    public static final int USESKILLREQUEST_FIELD_NUMBER = 8;
+    /**
+     * <code>.UseSkillRequest useSkillRequest = 8;</code>
+     * @return Whether the useSkillRequest field is set.
+     */
+    @Override
+    public boolean hasUseSkillRequest() {
+      return dateBodyCase_ == 8;
+    }
+    /**
+     * <code>.UseSkillRequest useSkillRequest = 8;</code>
+     * @return The useSkillRequest.
+     */
+    @Override
+    public UseSkillRequest getUseSkillRequest() {
+      if (dateBodyCase_ == 8) {
+         return (UseSkillRequest) dateBody_;
+      }
+      return UseSkillRequest.getDefaultInstance();
+    }
+    /**
+     * <code>.UseSkillRequest useSkillRequest = 8;</code>
+     */
+    @Override
+    public UseSkillRequestOrBuilder getUseSkillRequestOrBuilder() {
+      if (dateBodyCase_ == 8) {
+         return (UseSkillRequest) dateBody_;
+      }
+      return UseSkillRequest.getDefaultInstance();
+    }
+
+    public static final int USESKILLRESPONSE_FIELD_NUMBER = 9;
+    /**
+     * <code>.UseSkillResponse useSkillResponse = 9;</code>
+     * @return Whether the useSkillResponse field is set.
+     */
+    @Override
+    public boolean hasUseSkillResponse() {
+      return dateBodyCase_ == 9;
+    }
+    /**
+     * <code>.UseSkillResponse useSkillResponse = 9;</code>
+     * @return The useSkillResponse.
+     */
+    @Override
+    public UseSkillResponse getUseSkillResponse() {
+      if (dateBodyCase_ == 9) {
+         return (UseSkillResponse) dateBody_;
+      }
+      return UseSkillResponse.getDefaultInstance();
+    }
+    /**
+     * <code>.UseSkillResponse useSkillResponse = 9;</code>
+     */
+    @Override
+    public UseSkillResponseOrBuilder getUseSkillResponseOrBuilder() {
+      if (dateBodyCase_ == 9) {
+         return (UseSkillResponse) dateBody_;
+      }
+      return UseSkillResponse.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -751,6 +893,12 @@ public final class PlayModel {
       }
       if (dateBodyCase_ == 7) {
         output.writeMessage(7, (LogoutResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 8) {
+        output.writeMessage(8, (UseSkillRequest) dateBody_);
+      }
+      if (dateBodyCase_ == 9) {
+        output.writeMessage(9, (UseSkillResponse) dateBody_);
       }
       unknownFields.writeTo(output);
     }
@@ -788,6 +936,14 @@ public final class PlayModel {
       if (dateBodyCase_ == 7) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(7, (LogoutResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 8) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(8, (UseSkillRequest) dateBody_);
+      }
+      if (dateBodyCase_ == 9) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(9, (UseSkillResponse) dateBody_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -831,6 +987,14 @@ public final class PlayModel {
           if (!getLogoutResponse()
               .equals(other.getLogoutResponse())) return false;
           break;
+        case 8:
+          if (!getUseSkillRequest()
+              .equals(other.getUseSkillRequest())) return false;
+          break;
+        case 9:
+          if (!getUseSkillResponse()
+              .equals(other.getUseSkillResponse())) return false;
+          break;
         case 0:
         default:
       }
@@ -871,6 +1035,14 @@ public final class PlayModel {
         case 7:
           hash = (37 * hash) + LOGOUTRESPONSE_FIELD_NUMBER;
           hash = (53 * hash) + getLogoutResponse().hashCode();
+          break;
+        case 8:
+          hash = (37 * hash) + USESKILLREQUEST_FIELD_NUMBER;
+          hash = (53 * hash) + getUseSkillRequest().hashCode();
+          break;
+        case 9:
+          hash = (37 * hash) + USESKILLRESPONSE_FIELD_NUMBER;
+          hash = (53 * hash) + getUseSkillResponse().hashCode();
           break;
         case 0:
         default:
@@ -1085,6 +1257,20 @@ public final class PlayModel {
             result.dateBody_ = logoutResponseBuilder_.build();
           }
         }
+        if (dateBodyCase_ == 8) {
+          if (useSkillRequestBuilder_ == null) {
+            result.dateBody_ = dateBody_;
+          } else {
+            result.dateBody_ = useSkillRequestBuilder_.build();
+          }
+        }
+        if (dateBodyCase_ == 9) {
+          if (useSkillResponseBuilder_ == null) {
+            result.dateBody_ = dateBody_;
+          } else {
+            result.dateBody_ = useSkillResponseBuilder_.build();
+          }
+        }
         result.dateBodyCase_ = dateBodyCase_;
         onBuilt();
         return result;
@@ -1160,6 +1346,14 @@ public final class PlayModel {
           }
           case LOGOUTRESPONSE: {
             mergeLogoutResponse(other.getLogoutResponse());
+            break;
+          }
+          case USESKILLREQUEST: {
+            mergeUseSkillRequest(other.getUseSkillRequest());
+            break;
+          }
+          case USESKILLRESPONSE: {
+            mergeUseSkillResponse(other.getUseSkillResponse());
             break;
           }
           case DATEBODY_NOT_SET: {
@@ -2128,6 +2322,288 @@ public final class PlayModel {
         dateBodyCase_ = 7;
         onChanged();;
         return logoutResponseBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          UseSkillRequest, UseSkillRequest.Builder, UseSkillRequestOrBuilder> useSkillRequestBuilder_;
+      /**
+       * <code>.UseSkillRequest useSkillRequest = 8;</code>
+       * @return Whether the useSkillRequest field is set.
+       */
+      @Override
+      public boolean hasUseSkillRequest() {
+        return dateBodyCase_ == 8;
+      }
+      /**
+       * <code>.UseSkillRequest useSkillRequest = 8;</code>
+       * @return The useSkillRequest.
+       */
+      @Override
+      public UseSkillRequest getUseSkillRequest() {
+        if (useSkillRequestBuilder_ == null) {
+          if (dateBodyCase_ == 8) {
+            return (UseSkillRequest) dateBody_;
+          }
+          return UseSkillRequest.getDefaultInstance();
+        } else {
+          if (dateBodyCase_ == 8) {
+            return useSkillRequestBuilder_.getMessage();
+          }
+          return UseSkillRequest.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.UseSkillRequest useSkillRequest = 8;</code>
+       */
+      public Builder setUseSkillRequest(UseSkillRequest value) {
+        if (useSkillRequestBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dateBody_ = value;
+          onChanged();
+        } else {
+          useSkillRequestBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 8;
+        return this;
+      }
+      /**
+       * <code>.UseSkillRequest useSkillRequest = 8;</code>
+       */
+      public Builder setUseSkillRequest(
+          UseSkillRequest.Builder builderForValue) {
+        if (useSkillRequestBuilder_ == null) {
+          dateBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          useSkillRequestBuilder_.setMessage(builderForValue.build());
+        }
+        dateBodyCase_ = 8;
+        return this;
+      }
+      /**
+       * <code>.UseSkillRequest useSkillRequest = 8;</code>
+       */
+      public Builder mergeUseSkillRequest(UseSkillRequest value) {
+        if (useSkillRequestBuilder_ == null) {
+          if (dateBodyCase_ == 8 &&
+              dateBody_ != UseSkillRequest.getDefaultInstance()) {
+            dateBody_ = UseSkillRequest.newBuilder((UseSkillRequest) dateBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dateBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dateBodyCase_ == 8) {
+            useSkillRequestBuilder_.mergeFrom(value);
+          }
+          useSkillRequestBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 8;
+        return this;
+      }
+      /**
+       * <code>.UseSkillRequest useSkillRequest = 8;</code>
+       */
+      public Builder clearUseSkillRequest() {
+        if (useSkillRequestBuilder_ == null) {
+          if (dateBodyCase_ == 8) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dateBodyCase_ == 8) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+          }
+          useSkillRequestBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.UseSkillRequest useSkillRequest = 8;</code>
+       */
+      public UseSkillRequest.Builder getUseSkillRequestBuilder() {
+        return getUseSkillRequestFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.UseSkillRequest useSkillRequest = 8;</code>
+       */
+      @Override
+      public UseSkillRequestOrBuilder getUseSkillRequestOrBuilder() {
+        if ((dateBodyCase_ == 8) && (useSkillRequestBuilder_ != null)) {
+          return useSkillRequestBuilder_.getMessageOrBuilder();
+        } else {
+          if (dateBodyCase_ == 8) {
+            return (UseSkillRequest) dateBody_;
+          }
+          return UseSkillRequest.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.UseSkillRequest useSkillRequest = 8;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          UseSkillRequest, UseSkillRequest.Builder, UseSkillRequestOrBuilder>
+          getUseSkillRequestFieldBuilder() {
+        if (useSkillRequestBuilder_ == null) {
+          if (!(dateBodyCase_ == 8)) {
+            dateBody_ = UseSkillRequest.getDefaultInstance();
+          }
+          useSkillRequestBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              UseSkillRequest, UseSkillRequest.Builder, UseSkillRequestOrBuilder>(
+                  (UseSkillRequest) dateBody_,
+                  getParentForChildren(),
+                  isClean());
+          dateBody_ = null;
+        }
+        dateBodyCase_ = 8;
+        onChanged();;
+        return useSkillRequestBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          UseSkillResponse, UseSkillResponse.Builder, UseSkillResponseOrBuilder> useSkillResponseBuilder_;
+      /**
+       * <code>.UseSkillResponse useSkillResponse = 9;</code>
+       * @return Whether the useSkillResponse field is set.
+       */
+      @Override
+      public boolean hasUseSkillResponse() {
+        return dateBodyCase_ == 9;
+      }
+      /**
+       * <code>.UseSkillResponse useSkillResponse = 9;</code>
+       * @return The useSkillResponse.
+       */
+      @Override
+      public UseSkillResponse getUseSkillResponse() {
+        if (useSkillResponseBuilder_ == null) {
+          if (dateBodyCase_ == 9) {
+            return (UseSkillResponse) dateBody_;
+          }
+          return UseSkillResponse.getDefaultInstance();
+        } else {
+          if (dateBodyCase_ == 9) {
+            return useSkillResponseBuilder_.getMessage();
+          }
+          return UseSkillResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.UseSkillResponse useSkillResponse = 9;</code>
+       */
+      public Builder setUseSkillResponse(UseSkillResponse value) {
+        if (useSkillResponseBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dateBody_ = value;
+          onChanged();
+        } else {
+          useSkillResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 9;
+        return this;
+      }
+      /**
+       * <code>.UseSkillResponse useSkillResponse = 9;</code>
+       */
+      public Builder setUseSkillResponse(
+          UseSkillResponse.Builder builderForValue) {
+        if (useSkillResponseBuilder_ == null) {
+          dateBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          useSkillResponseBuilder_.setMessage(builderForValue.build());
+        }
+        dateBodyCase_ = 9;
+        return this;
+      }
+      /**
+       * <code>.UseSkillResponse useSkillResponse = 9;</code>
+       */
+      public Builder mergeUseSkillResponse(UseSkillResponse value) {
+        if (useSkillResponseBuilder_ == null) {
+          if (dateBodyCase_ == 9 &&
+              dateBody_ != UseSkillResponse.getDefaultInstance()) {
+            dateBody_ = UseSkillResponse.newBuilder((UseSkillResponse) dateBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dateBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dateBodyCase_ == 9) {
+            useSkillResponseBuilder_.mergeFrom(value);
+          }
+          useSkillResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 9;
+        return this;
+      }
+      /**
+       * <code>.UseSkillResponse useSkillResponse = 9;</code>
+       */
+      public Builder clearUseSkillResponse() {
+        if (useSkillResponseBuilder_ == null) {
+          if (dateBodyCase_ == 9) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dateBodyCase_ == 9) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+          }
+          useSkillResponseBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.UseSkillResponse useSkillResponse = 9;</code>
+       */
+      public UseSkillResponse.Builder getUseSkillResponseBuilder() {
+        return getUseSkillResponseFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.UseSkillResponse useSkillResponse = 9;</code>
+       */
+      @Override
+      public UseSkillResponseOrBuilder getUseSkillResponseOrBuilder() {
+        if ((dateBodyCase_ == 9) && (useSkillResponseBuilder_ != null)) {
+          return useSkillResponseBuilder_.getMessageOrBuilder();
+        } else {
+          if (dateBodyCase_ == 9) {
+            return (UseSkillResponse) dateBody_;
+          }
+          return UseSkillResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.UseSkillResponse useSkillResponse = 9;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          UseSkillResponse, UseSkillResponse.Builder, UseSkillResponseOrBuilder>
+          getUseSkillResponseFieldBuilder() {
+        if (useSkillResponseBuilder_ == null) {
+          if (!(dateBodyCase_ == 9)) {
+            dateBody_ = UseSkillResponse.getDefaultInstance();
+          }
+          useSkillResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              UseSkillResponse, UseSkillResponse.Builder, UseSkillResponseOrBuilder>(
+                  (UseSkillResponse) dateBody_,
+                  getParentForChildren(),
+                  isClean());
+          dateBody_ = null;
+        }
+        dateBodyCase_ = 9;
+        onChanged();;
+        return useSkillResponseBuilder_;
       }
       @Override
       public final Builder setUnknownFields(
@@ -6153,6 +6629,1357 @@ public final class PlayModel {
 
   }
 
+  public interface UseSkillRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:UseSkillRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>int32 skillId = 1;</code>
+     * @return The skillId.
+     */
+    int getSkillId();
+
+    /**
+     * <code>int32 sceneId = 2;</code>
+     * @return The sceneId.
+     */
+    int getSceneId();
+  }
+  /**
+   * Protobuf type {@code UseSkillRequest}
+   */
+  public static final class UseSkillRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:UseSkillRequest)
+      UseSkillRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use UseSkillRequest.newBuilder() to construct.
+    private UseSkillRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private UseSkillRequest() {
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new UseSkillRequest();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private UseSkillRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+
+              skillId_ = input.readInt32();
+              break;
+            }
+            case 16: {
+
+              sceneId_ = input.readInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return PlayModel.internal_static_UseSkillRequest_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return PlayModel.internal_static_UseSkillRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              UseSkillRequest.class, Builder.class);
+    }
+
+    public static final int SKILLID_FIELD_NUMBER = 1;
+    private int skillId_;
+    /**
+     * <code>int32 skillId = 1;</code>
+     * @return The skillId.
+     */
+    @Override
+    public int getSkillId() {
+      return skillId_;
+    }
+
+    public static final int SCENEID_FIELD_NUMBER = 2;
+    private int sceneId_;
+    /**
+     * <code>int32 sceneId = 2;</code>
+     * @return The sceneId.
+     */
+    @Override
+    public int getSceneId() {
+      return sceneId_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (skillId_ != 0) {
+        output.writeInt32(1, skillId_);
+      }
+      if (sceneId_ != 0) {
+        output.writeInt32(2, sceneId_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (skillId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, skillId_);
+      }
+      if (sceneId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, sceneId_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof UseSkillRequest)) {
+        return super.equals(obj);
+      }
+      UseSkillRequest other = (UseSkillRequest) obj;
+
+      if (getSkillId()
+          != other.getSkillId()) return false;
+      if (getSceneId()
+          != other.getSceneId()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + SKILLID_FIELD_NUMBER;
+      hash = (53 * hash) + getSkillId();
+      hash = (37 * hash) + SCENEID_FIELD_NUMBER;
+      hash = (53 * hash) + getSceneId();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static UseSkillRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static UseSkillRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static UseSkillRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static UseSkillRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static UseSkillRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static UseSkillRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static UseSkillRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static UseSkillRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static UseSkillRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static UseSkillRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static UseSkillRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static UseSkillRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(UseSkillRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code UseSkillRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:UseSkillRequest)
+        UseSkillRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return PlayModel.internal_static_UseSkillRequest_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return PlayModel.internal_static_UseSkillRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                UseSkillRequest.class, Builder.class);
+      }
+
+      // Construct using PlayModel.UseSkillRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        skillId_ = 0;
+
+        sceneId_ = 0;
+
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return PlayModel.internal_static_UseSkillRequest_descriptor;
+      }
+
+      @Override
+      public UseSkillRequest getDefaultInstanceForType() {
+        return UseSkillRequest.getDefaultInstance();
+      }
+
+      @Override
+      public UseSkillRequest build() {
+        UseSkillRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public UseSkillRequest buildPartial() {
+        UseSkillRequest result = new UseSkillRequest(this);
+        result.skillId_ = skillId_;
+        result.sceneId_ = sceneId_;
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof UseSkillRequest) {
+          return mergeFrom((UseSkillRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(UseSkillRequest other) {
+        if (other == UseSkillRequest.getDefaultInstance()) return this;
+        if (other.getSkillId() != 0) {
+          setSkillId(other.getSkillId());
+        }
+        if (other.getSceneId() != 0) {
+          setSceneId(other.getSceneId());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        UseSkillRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (UseSkillRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private int skillId_ ;
+      /**
+       * <code>int32 skillId = 1;</code>
+       * @return The skillId.
+       */
+      @Override
+      public int getSkillId() {
+        return skillId_;
+      }
+      /**
+       * <code>int32 skillId = 1;</code>
+       * @param value The skillId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSkillId(int value) {
+        
+        skillId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 skillId = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSkillId() {
+        
+        skillId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int sceneId_ ;
+      /**
+       * <code>int32 sceneId = 2;</code>
+       * @return The sceneId.
+       */
+      @Override
+      public int getSceneId() {
+        return sceneId_;
+      }
+      /**
+       * <code>int32 sceneId = 2;</code>
+       * @param value The sceneId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSceneId(int value) {
+        
+        sceneId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 sceneId = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSceneId() {
+        
+        sceneId_ = 0;
+        onChanged();
+        return this;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:UseSkillRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:UseSkillRequest)
+    private static final UseSkillRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new UseSkillRequest();
+    }
+
+    public static UseSkillRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<UseSkillRequest>
+        PARSER = new com.google.protobuf.AbstractParser<UseSkillRequest>() {
+      @Override
+      public UseSkillRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new UseSkillRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<UseSkillRequest> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<UseSkillRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public UseSkillRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface UseSkillResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:UseSkillResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>repeated .RoleIdDamage roleIdDamages = 1;</code>
+     */
+    java.util.List<RoleIdDamage>
+        getRoleIdDamagesList();
+    /**
+     * <code>repeated .RoleIdDamage roleIdDamages = 1;</code>
+     */
+    RoleIdDamage getRoleIdDamages(int index);
+    /**
+     * <code>repeated .RoleIdDamage roleIdDamages = 1;</code>
+     */
+    int getRoleIdDamagesCount();
+    /**
+     * <code>repeated .RoleIdDamage roleIdDamages = 1;</code>
+     */
+    java.util.List<? extends RoleIdDamageOrBuilder>
+        getRoleIdDamagesOrBuilderList();
+    /**
+     * <code>repeated .RoleIdDamage roleIdDamages = 1;</code>
+     */
+    RoleIdDamageOrBuilder getRoleIdDamagesOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code UseSkillResponse}
+   */
+  public static final class UseSkillResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:UseSkillResponse)
+      UseSkillResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use UseSkillResponse.newBuilder() to construct.
+    private UseSkillResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private UseSkillResponse() {
+      roleIdDamages_ = java.util.Collections.emptyList();
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new UseSkillResponse();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private UseSkillResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+                roleIdDamages_ = new java.util.ArrayList<RoleIdDamage>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              roleIdDamages_.add(
+                  input.readMessage(RoleIdDamage.parser(), extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+          roleIdDamages_ = java.util.Collections.unmodifiableList(roleIdDamages_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return PlayModel.internal_static_UseSkillResponse_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return PlayModel.internal_static_UseSkillResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              UseSkillResponse.class, Builder.class);
+    }
+
+    public static final int ROLEIDDAMAGES_FIELD_NUMBER = 1;
+    private java.util.List<RoleIdDamage> roleIdDamages_;
+    /**
+     * <code>repeated .RoleIdDamage roleIdDamages = 1;</code>
+     */
+    @Override
+    public java.util.List<RoleIdDamage> getRoleIdDamagesList() {
+      return roleIdDamages_;
+    }
+    /**
+     * <code>repeated .RoleIdDamage roleIdDamages = 1;</code>
+     */
+    @Override
+    public java.util.List<? extends RoleIdDamageOrBuilder>
+        getRoleIdDamagesOrBuilderList() {
+      return roleIdDamages_;
+    }
+    /**
+     * <code>repeated .RoleIdDamage roleIdDamages = 1;</code>
+     */
+    @Override
+    public int getRoleIdDamagesCount() {
+      return roleIdDamages_.size();
+    }
+    /**
+     * <code>repeated .RoleIdDamage roleIdDamages = 1;</code>
+     */
+    @Override
+    public RoleIdDamage getRoleIdDamages(int index) {
+      return roleIdDamages_.get(index);
+    }
+    /**
+     * <code>repeated .RoleIdDamage roleIdDamages = 1;</code>
+     */
+    @Override
+    public RoleIdDamageOrBuilder getRoleIdDamagesOrBuilder(
+        int index) {
+      return roleIdDamages_.get(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      for (int i = 0; i < roleIdDamages_.size(); i++) {
+        output.writeMessage(1, roleIdDamages_.get(i));
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < roleIdDamages_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, roleIdDamages_.get(i));
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof UseSkillResponse)) {
+        return super.equals(obj);
+      }
+      UseSkillResponse other = (UseSkillResponse) obj;
+
+      if (!getRoleIdDamagesList()
+          .equals(other.getRoleIdDamagesList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (getRoleIdDamagesCount() > 0) {
+        hash = (37 * hash) + ROLEIDDAMAGES_FIELD_NUMBER;
+        hash = (53 * hash) + getRoleIdDamagesList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static UseSkillResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static UseSkillResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static UseSkillResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static UseSkillResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static UseSkillResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static UseSkillResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static UseSkillResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static UseSkillResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static UseSkillResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static UseSkillResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static UseSkillResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static UseSkillResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(UseSkillResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code UseSkillResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:UseSkillResponse)
+        UseSkillResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return PlayModel.internal_static_UseSkillResponse_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return PlayModel.internal_static_UseSkillResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                UseSkillResponse.class, Builder.class);
+      }
+
+      // Construct using PlayModel.UseSkillResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getRoleIdDamagesFieldBuilder();
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        if (roleIdDamagesBuilder_ == null) {
+          roleIdDamages_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          roleIdDamagesBuilder_.clear();
+        }
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return PlayModel.internal_static_UseSkillResponse_descriptor;
+      }
+
+      @Override
+      public UseSkillResponse getDefaultInstanceForType() {
+        return UseSkillResponse.getDefaultInstance();
+      }
+
+      @Override
+      public UseSkillResponse build() {
+        UseSkillResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public UseSkillResponse buildPartial() {
+        UseSkillResponse result = new UseSkillResponse(this);
+        int from_bitField0_ = bitField0_;
+        if (roleIdDamagesBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) != 0)) {
+            roleIdDamages_ = java.util.Collections.unmodifiableList(roleIdDamages_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.roleIdDamages_ = roleIdDamages_;
+        } else {
+          result.roleIdDamages_ = roleIdDamagesBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof UseSkillResponse) {
+          return mergeFrom((UseSkillResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(UseSkillResponse other) {
+        if (other == UseSkillResponse.getDefaultInstance()) return this;
+        if (roleIdDamagesBuilder_ == null) {
+          if (!other.roleIdDamages_.isEmpty()) {
+            if (roleIdDamages_.isEmpty()) {
+              roleIdDamages_ = other.roleIdDamages_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureRoleIdDamagesIsMutable();
+              roleIdDamages_.addAll(other.roleIdDamages_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.roleIdDamages_.isEmpty()) {
+            if (roleIdDamagesBuilder_.isEmpty()) {
+              roleIdDamagesBuilder_.dispose();
+              roleIdDamagesBuilder_ = null;
+              roleIdDamages_ = other.roleIdDamages_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              roleIdDamagesBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getRoleIdDamagesFieldBuilder() : null;
+            } else {
+              roleIdDamagesBuilder_.addAllMessages(other.roleIdDamages_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        UseSkillResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (UseSkillResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.util.List<RoleIdDamage> roleIdDamages_ =
+        java.util.Collections.emptyList();
+      private void ensureRoleIdDamagesIsMutable() {
+        if (!((bitField0_ & 0x00000001) != 0)) {
+          roleIdDamages_ = new java.util.ArrayList<RoleIdDamage>(roleIdDamages_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          RoleIdDamage, RoleIdDamage.Builder, RoleIdDamageOrBuilder> roleIdDamagesBuilder_;
+
+      /**
+       * <code>repeated .RoleIdDamage roleIdDamages = 1;</code>
+       */
+      public java.util.List<RoleIdDamage> getRoleIdDamagesList() {
+        if (roleIdDamagesBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(roleIdDamages_);
+        } else {
+          return roleIdDamagesBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .RoleIdDamage roleIdDamages = 1;</code>
+       */
+      public int getRoleIdDamagesCount() {
+        if (roleIdDamagesBuilder_ == null) {
+          return roleIdDamages_.size();
+        } else {
+          return roleIdDamagesBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .RoleIdDamage roleIdDamages = 1;</code>
+       */
+      public RoleIdDamage getRoleIdDamages(int index) {
+        if (roleIdDamagesBuilder_ == null) {
+          return roleIdDamages_.get(index);
+        } else {
+          return roleIdDamagesBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .RoleIdDamage roleIdDamages = 1;</code>
+       */
+      public Builder setRoleIdDamages(
+          int index, RoleIdDamage value) {
+        if (roleIdDamagesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRoleIdDamagesIsMutable();
+          roleIdDamages_.set(index, value);
+          onChanged();
+        } else {
+          roleIdDamagesBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .RoleIdDamage roleIdDamages = 1;</code>
+       */
+      public Builder setRoleIdDamages(
+          int index, RoleIdDamage.Builder builderForValue) {
+        if (roleIdDamagesBuilder_ == null) {
+          ensureRoleIdDamagesIsMutable();
+          roleIdDamages_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          roleIdDamagesBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .RoleIdDamage roleIdDamages = 1;</code>
+       */
+      public Builder addRoleIdDamages(RoleIdDamage value) {
+        if (roleIdDamagesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRoleIdDamagesIsMutable();
+          roleIdDamages_.add(value);
+          onChanged();
+        } else {
+          roleIdDamagesBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .RoleIdDamage roleIdDamages = 1;</code>
+       */
+      public Builder addRoleIdDamages(
+          int index, RoleIdDamage value) {
+        if (roleIdDamagesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRoleIdDamagesIsMutable();
+          roleIdDamages_.add(index, value);
+          onChanged();
+        } else {
+          roleIdDamagesBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .RoleIdDamage roleIdDamages = 1;</code>
+       */
+      public Builder addRoleIdDamages(
+          RoleIdDamage.Builder builderForValue) {
+        if (roleIdDamagesBuilder_ == null) {
+          ensureRoleIdDamagesIsMutable();
+          roleIdDamages_.add(builderForValue.build());
+          onChanged();
+        } else {
+          roleIdDamagesBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .RoleIdDamage roleIdDamages = 1;</code>
+       */
+      public Builder addRoleIdDamages(
+          int index, RoleIdDamage.Builder builderForValue) {
+        if (roleIdDamagesBuilder_ == null) {
+          ensureRoleIdDamagesIsMutable();
+          roleIdDamages_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          roleIdDamagesBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .RoleIdDamage roleIdDamages = 1;</code>
+       */
+      public Builder addAllRoleIdDamages(
+          Iterable<? extends RoleIdDamage> values) {
+        if (roleIdDamagesBuilder_ == null) {
+          ensureRoleIdDamagesIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, roleIdDamages_);
+          onChanged();
+        } else {
+          roleIdDamagesBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .RoleIdDamage roleIdDamages = 1;</code>
+       */
+      public Builder clearRoleIdDamages() {
+        if (roleIdDamagesBuilder_ == null) {
+          roleIdDamages_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          roleIdDamagesBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .RoleIdDamage roleIdDamages = 1;</code>
+       */
+      public Builder removeRoleIdDamages(int index) {
+        if (roleIdDamagesBuilder_ == null) {
+          ensureRoleIdDamagesIsMutable();
+          roleIdDamages_.remove(index);
+          onChanged();
+        } else {
+          roleIdDamagesBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .RoleIdDamage roleIdDamages = 1;</code>
+       */
+      public RoleIdDamage.Builder getRoleIdDamagesBuilder(
+          int index) {
+        return getRoleIdDamagesFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .RoleIdDamage roleIdDamages = 1;</code>
+       */
+      public RoleIdDamageOrBuilder getRoleIdDamagesOrBuilder(
+          int index) {
+        if (roleIdDamagesBuilder_ == null) {
+          return roleIdDamages_.get(index);  } else {
+          return roleIdDamagesBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .RoleIdDamage roleIdDamages = 1;</code>
+       */
+      public java.util.List<? extends RoleIdDamageOrBuilder>
+           getRoleIdDamagesOrBuilderList() {
+        if (roleIdDamagesBuilder_ != null) {
+          return roleIdDamagesBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(roleIdDamages_);
+        }
+      }
+      /**
+       * <code>repeated .RoleIdDamage roleIdDamages = 1;</code>
+       */
+      public RoleIdDamage.Builder addRoleIdDamagesBuilder() {
+        return getRoleIdDamagesFieldBuilder().addBuilder(
+            RoleIdDamage.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .RoleIdDamage roleIdDamages = 1;</code>
+       */
+      public RoleIdDamage.Builder addRoleIdDamagesBuilder(
+          int index) {
+        return getRoleIdDamagesFieldBuilder().addBuilder(
+            index, RoleIdDamage.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .RoleIdDamage roleIdDamages = 1;</code>
+       */
+      public java.util.List<RoleIdDamage.Builder>
+           getRoleIdDamagesBuilderList() {
+        return getRoleIdDamagesFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          RoleIdDamage, RoleIdDamage.Builder, RoleIdDamageOrBuilder>
+          getRoleIdDamagesFieldBuilder() {
+        if (roleIdDamagesBuilder_ == null) {
+          roleIdDamagesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              RoleIdDamage, RoleIdDamage.Builder, RoleIdDamageOrBuilder>(
+                  roleIdDamages_,
+                  ((bitField0_ & 0x00000001) != 0),
+                  getParentForChildren(),
+                  isClean());
+          roleIdDamages_ = null;
+        }
+        return roleIdDamagesBuilder_;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:UseSkillResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:UseSkillResponse)
+    private static final UseSkillResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new UseSkillResponse();
+    }
+
+    public static UseSkillResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<UseSkillResponse>
+        PARSER = new com.google.protobuf.AbstractParser<UseSkillResponse>() {
+      @Override
+      public UseSkillResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new UseSkillResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<UseSkillResponse> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<UseSkillResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public UseSkillResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface RoleDTOOrBuilder extends
       // @@protoc_insertion_point(interface_extends:RoleDTO)
       com.google.protobuf.MessageOrBuilder {
@@ -6212,17 +8039,23 @@ public final class PlayModel {
     int getMp();
 
     /**
-     * <code>repeated int32 skillIdList = 9;</code>
+     * <code>int32 nowMp = 9;</code>
+     * @return The nowMp.
+     */
+    int getNowMp();
+
+    /**
+     * <code>repeated int32 skillIdList = 10;</code>
      * @return A list containing the skillIdList.
      */
     java.util.List<Integer> getSkillIdListList();
     /**
-     * <code>repeated int32 skillIdList = 9;</code>
+     * <code>repeated int32 skillIdList = 10;</code>
      * @return The count of skillIdList.
      */
     int getSkillIdListCount();
     /**
-     * <code>repeated int32 skillIdList = 9;</code>
+     * <code>repeated int32 skillIdList = 10;</code>
      * @param index The index of the element to return.
      * @return The skillIdList at the given index.
      */
@@ -6318,6 +8151,11 @@ public final class PlayModel {
               break;
             }
             case 72: {
+
+              nowMp_ = input.readInt32();
+              break;
+            }
+            case 80: {
               if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 skillIdList_ = newIntList();
                 mutable_bitField0_ |= 0x00000001;
@@ -6325,7 +8163,7 @@ public final class PlayModel {
               skillIdList_.addInt(input.readInt32());
               break;
             }
-            case 74: {
+            case 82: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
               if (!((mutable_bitField0_ & 0x00000001) != 0) && input.getBytesUntilLimit() > 0) {
@@ -6488,10 +8326,21 @@ public final class PlayModel {
       return mp_;
     }
 
-    public static final int SKILLIDLIST_FIELD_NUMBER = 9;
+    public static final int NOWMP_FIELD_NUMBER = 9;
+    private int nowMp_;
+    /**
+     * <code>int32 nowMp = 9;</code>
+     * @return The nowMp.
+     */
+    @Override
+    public int getNowMp() {
+      return nowMp_;
+    }
+
+    public static final int SKILLIDLIST_FIELD_NUMBER = 10;
     private com.google.protobuf.Internal.IntList skillIdList_;
     /**
-     * <code>repeated int32 skillIdList = 9;</code>
+     * <code>repeated int32 skillIdList = 10;</code>
      * @return A list containing the skillIdList.
      */
     @Override
@@ -6500,14 +8349,14 @@ public final class PlayModel {
       return skillIdList_;
     }
     /**
-     * <code>repeated int32 skillIdList = 9;</code>
+     * <code>repeated int32 skillIdList = 10;</code>
      * @return The count of skillIdList.
      */
     public int getSkillIdListCount() {
       return skillIdList_.size();
     }
     /**
-     * <code>repeated int32 skillIdList = 9;</code>
+     * <code>repeated int32 skillIdList = 10;</code>
      * @param index The index of the element to return.
      * @return The skillIdList at the given index.
      */
@@ -6555,8 +8404,11 @@ public final class PlayModel {
       if (mp_ != 0) {
         output.writeInt32(8, mp_);
       }
+      if (nowMp_ != 0) {
+        output.writeInt32(9, nowMp_);
+      }
       if (getSkillIdListList().size() > 0) {
-        output.writeUInt32NoTag(74);
+        output.writeUInt32NoTag(82);
         output.writeUInt32NoTag(skillIdListMemoizedSerializedSize);
       }
       for (int i = 0; i < skillIdList_.size(); i++) {
@@ -6601,6 +8453,10 @@ public final class PlayModel {
       if (mp_ != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(8, mp_);
+      }
+      if (nowMp_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(9, nowMp_);
       }
       {
         int dataSize = 0;
@@ -6647,6 +8503,8 @@ public final class PlayModel {
           != other.getNowBlood()) return false;
       if (getMp()
           != other.getMp()) return false;
+      if (getNowMp()
+          != other.getNowMp()) return false;
       if (!getSkillIdListList()
           .equals(other.getSkillIdListList())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
@@ -6676,6 +8534,8 @@ public final class PlayModel {
       hash = (53 * hash) + getNowBlood();
       hash = (37 * hash) + MP_FIELD_NUMBER;
       hash = (53 * hash) + getMp();
+      hash = (37 * hash) + NOWMP_FIELD_NUMBER;
+      hash = (53 * hash) + getNowMp();
       if (getSkillIdListCount() > 0) {
         hash = (37 * hash) + SKILLIDLIST_FIELD_NUMBER;
         hash = (53 * hash) + getSkillIdListList().hashCode();
@@ -6829,6 +8689,8 @@ public final class PlayModel {
 
         mp_ = 0;
 
+        nowMp_ = 0;
+
         skillIdList_ = emptyIntList();
         bitField0_ = (bitField0_ & ~0x00000001);
         return this;
@@ -6866,6 +8728,7 @@ public final class PlayModel {
         result.blood_ = blood_;
         result.nowBlood_ = nowBlood_;
         result.mp_ = mp_;
+        result.nowMp_ = nowMp_;
         if (((bitField0_ & 0x00000001) != 0)) {
           skillIdList_.makeImmutable();
           bitField0_ = (bitField0_ & ~0x00000001);
@@ -6943,6 +8806,9 @@ public final class PlayModel {
         }
         if (other.getMp() != 0) {
           setMp(other.getMp());
+        }
+        if (other.getNowMp() != 0) {
+          setNowMp(other.getNowMp());
         }
         if (!other.skillIdList_.isEmpty()) {
           if (skillIdList_.isEmpty()) {
@@ -7277,6 +9143,37 @@ public final class PlayModel {
         return this;
       }
 
+      private int nowMp_ ;
+      /**
+       * <code>int32 nowMp = 9;</code>
+       * @return The nowMp.
+       */
+      @Override
+      public int getNowMp() {
+        return nowMp_;
+      }
+      /**
+       * <code>int32 nowMp = 9;</code>
+       * @param value The nowMp to set.
+       * @return This builder for chaining.
+       */
+      public Builder setNowMp(int value) {
+        
+        nowMp_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 nowMp = 9;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearNowMp() {
+        
+        nowMp_ = 0;
+        onChanged();
+        return this;
+      }
+
       private com.google.protobuf.Internal.IntList skillIdList_ = emptyIntList();
       private void ensureSkillIdListIsMutable() {
         if (!((bitField0_ & 0x00000001) != 0)) {
@@ -7285,7 +9182,7 @@ public final class PlayModel {
          }
       }
       /**
-       * <code>repeated int32 skillIdList = 9;</code>
+       * <code>repeated int32 skillIdList = 10;</code>
        * @return A list containing the skillIdList.
        */
       public java.util.List<Integer>
@@ -7294,14 +9191,14 @@ public final class PlayModel {
                  java.util.Collections.unmodifiableList(skillIdList_) : skillIdList_;
       }
       /**
-       * <code>repeated int32 skillIdList = 9;</code>
+       * <code>repeated int32 skillIdList = 10;</code>
        * @return The count of skillIdList.
        */
       public int getSkillIdListCount() {
         return skillIdList_.size();
       }
       /**
-       * <code>repeated int32 skillIdList = 9;</code>
+       * <code>repeated int32 skillIdList = 10;</code>
        * @param index The index of the element to return.
        * @return The skillIdList at the given index.
        */
@@ -7309,7 +9206,7 @@ public final class PlayModel {
         return skillIdList_.getInt(index);
       }
       /**
-       * <code>repeated int32 skillIdList = 9;</code>
+       * <code>repeated int32 skillIdList = 10;</code>
        * @param index The index to set the value at.
        * @param value The skillIdList to set.
        * @return This builder for chaining.
@@ -7322,7 +9219,7 @@ public final class PlayModel {
         return this;
       }
       /**
-       * <code>repeated int32 skillIdList = 9;</code>
+       * <code>repeated int32 skillIdList = 10;</code>
        * @param value The skillIdList to add.
        * @return This builder for chaining.
        */
@@ -7333,7 +9230,7 @@ public final class PlayModel {
         return this;
       }
       /**
-       * <code>repeated int32 skillIdList = 9;</code>
+       * <code>repeated int32 skillIdList = 10;</code>
        * @param values The skillIdList to add.
        * @return This builder for chaining.
        */
@@ -7346,7 +9243,7 @@ public final class PlayModel {
         return this;
       }
       /**
-       * <code>repeated int32 skillIdList = 9;</code>
+       * <code>repeated int32 skillIdList = 10;</code>
        * @return This builder for chaining.
        */
       public Builder clearSkillIdList() {
@@ -7408,6 +9305,1124 @@ public final class PlayModel {
 
   }
 
+  public interface RoleIdDamageOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:RoleIdDamage)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>int32 fromRoleId = 1;</code>
+     * @return The fromRoleId.
+     */
+    int getFromRoleId();
+
+    /**
+     * <code>int32 toRoleId = 2;</code>
+     * @return The toRoleId.
+     */
+    int getToRoleId();
+
+    /**
+     * <code>int32 bufferId = 3;</code>
+     * @return The bufferId.
+     */
+    int getBufferId();
+
+    /**
+     * <code>int32 skillId = 4;</code>
+     * @return The skillId.
+     */
+    int getSkillId();
+
+    /**
+     * <code>int32 attackStyle = 5;</code>
+     * @return The attackStyle.
+     */
+    int getAttackStyle();
+
+    /**
+     * <code>int32 damageType = 6;</code>
+     * @return The damageType.
+     */
+    int getDamageType();
+
+    /**
+     * <code>int32 damage = 7;</code>
+     * @return The damage.
+     */
+    int getDamage();
+
+    /**
+     * <code>int32 nowblood = 8;</code>
+     * @return The nowblood.
+     */
+    int getNowblood();
+
+    /**
+     * <code>int32 mp = 9;</code>
+     * @return The mp.
+     */
+    int getMp();
+
+    /**
+     * <code>int32 State = 10;</code>
+     * @return The state.
+     */
+    int getState();
+  }
+  /**
+   * Protobuf type {@code RoleIdDamage}
+   */
+  public static final class RoleIdDamage extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:RoleIdDamage)
+      RoleIdDamageOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use RoleIdDamage.newBuilder() to construct.
+    private RoleIdDamage(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private RoleIdDamage() {
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new RoleIdDamage();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private RoleIdDamage(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+
+              fromRoleId_ = input.readInt32();
+              break;
+            }
+            case 16: {
+
+              toRoleId_ = input.readInt32();
+              break;
+            }
+            case 24: {
+
+              bufferId_ = input.readInt32();
+              break;
+            }
+            case 32: {
+
+              skillId_ = input.readInt32();
+              break;
+            }
+            case 40: {
+
+              attackStyle_ = input.readInt32();
+              break;
+            }
+            case 48: {
+
+              damageType_ = input.readInt32();
+              break;
+            }
+            case 56: {
+
+              damage_ = input.readInt32();
+              break;
+            }
+            case 64: {
+
+              nowblood_ = input.readInt32();
+              break;
+            }
+            case 72: {
+
+              mp_ = input.readInt32();
+              break;
+            }
+            case 80: {
+
+              state_ = input.readInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return PlayModel.internal_static_RoleIdDamage_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return PlayModel.internal_static_RoleIdDamage_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              RoleIdDamage.class, Builder.class);
+    }
+
+    public static final int FROMROLEID_FIELD_NUMBER = 1;
+    private int fromRoleId_;
+    /**
+     * <code>int32 fromRoleId = 1;</code>
+     * @return The fromRoleId.
+     */
+    @Override
+    public int getFromRoleId() {
+      return fromRoleId_;
+    }
+
+    public static final int TOROLEID_FIELD_NUMBER = 2;
+    private int toRoleId_;
+    /**
+     * <code>int32 toRoleId = 2;</code>
+     * @return The toRoleId.
+     */
+    @Override
+    public int getToRoleId() {
+      return toRoleId_;
+    }
+
+    public static final int BUFFERID_FIELD_NUMBER = 3;
+    private int bufferId_;
+    /**
+     * <code>int32 bufferId = 3;</code>
+     * @return The bufferId.
+     */
+    @Override
+    public int getBufferId() {
+      return bufferId_;
+    }
+
+    public static final int SKILLID_FIELD_NUMBER = 4;
+    private int skillId_;
+    /**
+     * <code>int32 skillId = 4;</code>
+     * @return The skillId.
+     */
+    @Override
+    public int getSkillId() {
+      return skillId_;
+    }
+
+    public static final int ATTACKSTYLE_FIELD_NUMBER = 5;
+    private int attackStyle_;
+    /**
+     * <code>int32 attackStyle = 5;</code>
+     * @return The attackStyle.
+     */
+    @Override
+    public int getAttackStyle() {
+      return attackStyle_;
+    }
+
+    public static final int DAMAGETYPE_FIELD_NUMBER = 6;
+    private int damageType_;
+    /**
+     * <code>int32 damageType = 6;</code>
+     * @return The damageType.
+     */
+    @Override
+    public int getDamageType() {
+      return damageType_;
+    }
+
+    public static final int DAMAGE_FIELD_NUMBER = 7;
+    private int damage_;
+    /**
+     * <code>int32 damage = 7;</code>
+     * @return The damage.
+     */
+    @Override
+    public int getDamage() {
+      return damage_;
+    }
+
+    public static final int NOWBLOOD_FIELD_NUMBER = 8;
+    private int nowblood_;
+    /**
+     * <code>int32 nowblood = 8;</code>
+     * @return The nowblood.
+     */
+    @Override
+    public int getNowblood() {
+      return nowblood_;
+    }
+
+    public static final int MP_FIELD_NUMBER = 9;
+    private int mp_;
+    /**
+     * <code>int32 mp = 9;</code>
+     * @return The mp.
+     */
+    @Override
+    public int getMp() {
+      return mp_;
+    }
+
+    public static final int STATE_FIELD_NUMBER = 10;
+    private int state_;
+    /**
+     * <code>int32 State = 10;</code>
+     * @return The state.
+     */
+    @Override
+    public int getState() {
+      return state_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (fromRoleId_ != 0) {
+        output.writeInt32(1, fromRoleId_);
+      }
+      if (toRoleId_ != 0) {
+        output.writeInt32(2, toRoleId_);
+      }
+      if (bufferId_ != 0) {
+        output.writeInt32(3, bufferId_);
+      }
+      if (skillId_ != 0) {
+        output.writeInt32(4, skillId_);
+      }
+      if (attackStyle_ != 0) {
+        output.writeInt32(5, attackStyle_);
+      }
+      if (damageType_ != 0) {
+        output.writeInt32(6, damageType_);
+      }
+      if (damage_ != 0) {
+        output.writeInt32(7, damage_);
+      }
+      if (nowblood_ != 0) {
+        output.writeInt32(8, nowblood_);
+      }
+      if (mp_ != 0) {
+        output.writeInt32(9, mp_);
+      }
+      if (state_ != 0) {
+        output.writeInt32(10, state_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (fromRoleId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, fromRoleId_);
+      }
+      if (toRoleId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, toRoleId_);
+      }
+      if (bufferId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, bufferId_);
+      }
+      if (skillId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, skillId_);
+      }
+      if (attackStyle_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, attackStyle_);
+      }
+      if (damageType_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(6, damageType_);
+      }
+      if (damage_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(7, damage_);
+      }
+      if (nowblood_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(8, nowblood_);
+      }
+      if (mp_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(9, mp_);
+      }
+      if (state_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(10, state_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof RoleIdDamage)) {
+        return super.equals(obj);
+      }
+      RoleIdDamage other = (RoleIdDamage) obj;
+
+      if (getFromRoleId()
+          != other.getFromRoleId()) return false;
+      if (getToRoleId()
+          != other.getToRoleId()) return false;
+      if (getBufferId()
+          != other.getBufferId()) return false;
+      if (getSkillId()
+          != other.getSkillId()) return false;
+      if (getAttackStyle()
+          != other.getAttackStyle()) return false;
+      if (getDamageType()
+          != other.getDamageType()) return false;
+      if (getDamage()
+          != other.getDamage()) return false;
+      if (getNowblood()
+          != other.getNowblood()) return false;
+      if (getMp()
+          != other.getMp()) return false;
+      if (getState()
+          != other.getState()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + FROMROLEID_FIELD_NUMBER;
+      hash = (53 * hash) + getFromRoleId();
+      hash = (37 * hash) + TOROLEID_FIELD_NUMBER;
+      hash = (53 * hash) + getToRoleId();
+      hash = (37 * hash) + BUFFERID_FIELD_NUMBER;
+      hash = (53 * hash) + getBufferId();
+      hash = (37 * hash) + SKILLID_FIELD_NUMBER;
+      hash = (53 * hash) + getSkillId();
+      hash = (37 * hash) + ATTACKSTYLE_FIELD_NUMBER;
+      hash = (53 * hash) + getAttackStyle();
+      hash = (37 * hash) + DAMAGETYPE_FIELD_NUMBER;
+      hash = (53 * hash) + getDamageType();
+      hash = (37 * hash) + DAMAGE_FIELD_NUMBER;
+      hash = (53 * hash) + getDamage();
+      hash = (37 * hash) + NOWBLOOD_FIELD_NUMBER;
+      hash = (53 * hash) + getNowblood();
+      hash = (37 * hash) + MP_FIELD_NUMBER;
+      hash = (53 * hash) + getMp();
+      hash = (37 * hash) + STATE_FIELD_NUMBER;
+      hash = (53 * hash) + getState();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static RoleIdDamage parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static RoleIdDamage parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static RoleIdDamage parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static RoleIdDamage parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static RoleIdDamage parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static RoleIdDamage parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static RoleIdDamage parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static RoleIdDamage parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static RoleIdDamage parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static RoleIdDamage parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static RoleIdDamage parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static RoleIdDamage parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(RoleIdDamage prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code RoleIdDamage}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:RoleIdDamage)
+        RoleIdDamageOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return PlayModel.internal_static_RoleIdDamage_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return PlayModel.internal_static_RoleIdDamage_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                RoleIdDamage.class, Builder.class);
+      }
+
+      // Construct using PlayModel.RoleIdDamage.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        fromRoleId_ = 0;
+
+        toRoleId_ = 0;
+
+        bufferId_ = 0;
+
+        skillId_ = 0;
+
+        attackStyle_ = 0;
+
+        damageType_ = 0;
+
+        damage_ = 0;
+
+        nowblood_ = 0;
+
+        mp_ = 0;
+
+        state_ = 0;
+
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return PlayModel.internal_static_RoleIdDamage_descriptor;
+      }
+
+      @Override
+      public RoleIdDamage getDefaultInstanceForType() {
+        return RoleIdDamage.getDefaultInstance();
+      }
+
+      @Override
+      public RoleIdDamage build() {
+        RoleIdDamage result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public RoleIdDamage buildPartial() {
+        RoleIdDamage result = new RoleIdDamage(this);
+        result.fromRoleId_ = fromRoleId_;
+        result.toRoleId_ = toRoleId_;
+        result.bufferId_ = bufferId_;
+        result.skillId_ = skillId_;
+        result.attackStyle_ = attackStyle_;
+        result.damageType_ = damageType_;
+        result.damage_ = damage_;
+        result.nowblood_ = nowblood_;
+        result.mp_ = mp_;
+        result.state_ = state_;
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof RoleIdDamage) {
+          return mergeFrom((RoleIdDamage)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(RoleIdDamage other) {
+        if (other == RoleIdDamage.getDefaultInstance()) return this;
+        if (other.getFromRoleId() != 0) {
+          setFromRoleId(other.getFromRoleId());
+        }
+        if (other.getToRoleId() != 0) {
+          setToRoleId(other.getToRoleId());
+        }
+        if (other.getBufferId() != 0) {
+          setBufferId(other.getBufferId());
+        }
+        if (other.getSkillId() != 0) {
+          setSkillId(other.getSkillId());
+        }
+        if (other.getAttackStyle() != 0) {
+          setAttackStyle(other.getAttackStyle());
+        }
+        if (other.getDamageType() != 0) {
+          setDamageType(other.getDamageType());
+        }
+        if (other.getDamage() != 0) {
+          setDamage(other.getDamage());
+        }
+        if (other.getNowblood() != 0) {
+          setNowblood(other.getNowblood());
+        }
+        if (other.getMp() != 0) {
+          setMp(other.getMp());
+        }
+        if (other.getState() != 0) {
+          setState(other.getState());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        RoleIdDamage parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (RoleIdDamage) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private int fromRoleId_ ;
+      /**
+       * <code>int32 fromRoleId = 1;</code>
+       * @return The fromRoleId.
+       */
+      @Override
+      public int getFromRoleId() {
+        return fromRoleId_;
+      }
+      /**
+       * <code>int32 fromRoleId = 1;</code>
+       * @param value The fromRoleId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setFromRoleId(int value) {
+        
+        fromRoleId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 fromRoleId = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearFromRoleId() {
+        
+        fromRoleId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int toRoleId_ ;
+      /**
+       * <code>int32 toRoleId = 2;</code>
+       * @return The toRoleId.
+       */
+      @Override
+      public int getToRoleId() {
+        return toRoleId_;
+      }
+      /**
+       * <code>int32 toRoleId = 2;</code>
+       * @param value The toRoleId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setToRoleId(int value) {
+        
+        toRoleId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 toRoleId = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearToRoleId() {
+        
+        toRoleId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int bufferId_ ;
+      /**
+       * <code>int32 bufferId = 3;</code>
+       * @return The bufferId.
+       */
+      @Override
+      public int getBufferId() {
+        return bufferId_;
+      }
+      /**
+       * <code>int32 bufferId = 3;</code>
+       * @param value The bufferId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setBufferId(int value) {
+        
+        bufferId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 bufferId = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearBufferId() {
+        
+        bufferId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int skillId_ ;
+      /**
+       * <code>int32 skillId = 4;</code>
+       * @return The skillId.
+       */
+      @Override
+      public int getSkillId() {
+        return skillId_;
+      }
+      /**
+       * <code>int32 skillId = 4;</code>
+       * @param value The skillId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSkillId(int value) {
+        
+        skillId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 skillId = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSkillId() {
+        
+        skillId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int attackStyle_ ;
+      /**
+       * <code>int32 attackStyle = 5;</code>
+       * @return The attackStyle.
+       */
+      @Override
+      public int getAttackStyle() {
+        return attackStyle_;
+      }
+      /**
+       * <code>int32 attackStyle = 5;</code>
+       * @param value The attackStyle to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAttackStyle(int value) {
+        
+        attackStyle_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 attackStyle = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearAttackStyle() {
+        
+        attackStyle_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int damageType_ ;
+      /**
+       * <code>int32 damageType = 6;</code>
+       * @return The damageType.
+       */
+      @Override
+      public int getDamageType() {
+        return damageType_;
+      }
+      /**
+       * <code>int32 damageType = 6;</code>
+       * @param value The damageType to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDamageType(int value) {
+        
+        damageType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 damageType = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDamageType() {
+        
+        damageType_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int damage_ ;
+      /**
+       * <code>int32 damage = 7;</code>
+       * @return The damage.
+       */
+      @Override
+      public int getDamage() {
+        return damage_;
+      }
+      /**
+       * <code>int32 damage = 7;</code>
+       * @param value The damage to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDamage(int value) {
+        
+        damage_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 damage = 7;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDamage() {
+        
+        damage_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int nowblood_ ;
+      /**
+       * <code>int32 nowblood = 8;</code>
+       * @return The nowblood.
+       */
+      @Override
+      public int getNowblood() {
+        return nowblood_;
+      }
+      /**
+       * <code>int32 nowblood = 8;</code>
+       * @param value The nowblood to set.
+       * @return This builder for chaining.
+       */
+      public Builder setNowblood(int value) {
+        
+        nowblood_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 nowblood = 8;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearNowblood() {
+        
+        nowblood_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int mp_ ;
+      /**
+       * <code>int32 mp = 9;</code>
+       * @return The mp.
+       */
+      @Override
+      public int getMp() {
+        return mp_;
+      }
+      /**
+       * <code>int32 mp = 9;</code>
+       * @param value The mp to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMp(int value) {
+        
+        mp_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 mp = 9;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMp() {
+        
+        mp_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int state_ ;
+      /**
+       * <code>int32 State = 10;</code>
+       * @return The state.
+       */
+      @Override
+      public int getState() {
+        return state_;
+      }
+      /**
+       * <code>int32 State = 10;</code>
+       * @param value The state to set.
+       * @return This builder for chaining.
+       */
+      public Builder setState(int value) {
+        
+        state_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 State = 10;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearState() {
+        
+        state_ = 0;
+        onChanged();
+        return this;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:RoleIdDamage)
+    }
+
+    // @@protoc_insertion_point(class_scope:RoleIdDamage)
+    private static final RoleIdDamage DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new RoleIdDamage();
+    }
+
+    public static RoleIdDamage getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<RoleIdDamage>
+        PARSER = new com.google.protobuf.AbstractParser<RoleIdDamage>() {
+      @Override
+      public RoleIdDamage parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new RoleIdDamage(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<RoleIdDamage> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<RoleIdDamage> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public RoleIdDamage getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_PlayModelMessage_descriptor;
   private static final 
@@ -7444,10 +10459,25 @@ public final class PlayModel {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_LogoutResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_UseSkillRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_UseSkillRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_UseSkillResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_UseSkillResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_RoleDTO_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_RoleDTO_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_RoleIdDamage_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_RoleIdDamage_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -7457,7 +10487,7 @@ public final class PlayModel {
       descriptor;
   static {
     String[] descriptorData = {
-      "\n\017PlayModel.proto\"\321\003\n\020PlayModelMessage\022-" +
+      "\n\017PlayModel.proto\"\330\004\n\020PlayModelMessage\022-" +
       "\n\tdata_type\030\001 \001(\0162\032.PlayModelMessage.Dat" +
       "eType\022%\n\014loginRequest\030\002 \001(\0132\r.LoginReque" +
       "stH\000\022+\n\017registerRequest\030\003 \001(\0132\020.Register" +
@@ -7465,23 +10495,34 @@ public final class PlayModel {
       "tRequestH\000\022\'\n\rloginResponse\030\005 \001(\0132\016.Logi" +
       "nResponseH\000\022-\n\020registerResponse\030\006 \001(\0132\021." +
       "RegisterResponseH\000\022)\n\016logoutResponse\030\007 \001" +
-      "(\0132\017.LogoutResponseH\000\"\201\001\n\010DateType\022\020\n\014Lo" +
-      "ginRequest\020\000\022\023\n\017RegisterRequest\020\001\022\021\n\rLog" +
-      "outRequest\020\002\022\021\n\rLoginResponse\020\003\022\024\n\020Regis" +
-      "terResponse\020\004\022\022\n\016LogoutResponse\020\005B\n\n\010dat" +
-      "eBody\"2\n\014LoginRequest\022\020\n\010username\030\001 \001(\t\022" +
-      "\020\n\010password\030\002 \001(\t\"G\n\017RegisterRequest\022\020\n\010" +
-      "username\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\022\020\n\010role" +
-      "name\030\003 \001(\t\";\n\rLoginResponse\022\017\n\007sceneId\030\001" +
-      " \001(\005\022\031\n\007roleDto\030\002 \001(\0132\010.RoleDTO\"6\n\020Regis" +
-      "terResponse\022\021\n\tstateCode\030\001 \001(\005\022\017\n\007messag" +
-      "e\030\002 \001(\t\"\017\n\rLogoutRequest\"+\n\016LogoutRespon" +
-      "se\022\014\n\004code\030\001 \001(\005\022\013\n\003mxg\030\002 \001(\t\"\225\001\n\007RoleDT" +
-      "O\022\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\016\n\006status\030\003 " +
-      "\001(\005\022\014\n\004type\030\004 \001(\005\022\020\n\010onStatus\030\005 \001(\005\022\r\n\005b" +
-      "lood\030\006 \001(\005\022\020\n\010nowBlood\030\007 \001(\005\022\n\n\002mp\030\010 \001(\005" +
-      "\022\023\n\013skillIdList\030\t \003(\005B\013B\tPlayModelb\006prot" +
-      "o3"
+      "(\0132\017.LogoutResponseH\000\022+\n\017useSkillRequest" +
+      "\030\010 \001(\0132\020.UseSkillRequestH\000\022-\n\020useSkillRe" +
+      "sponse\030\t \001(\0132\021.UseSkillResponseH\000\"\254\001\n\010Da" +
+      "teType\022\020\n\014LoginRequest\020\000\022\023\n\017RegisterRequ" +
+      "est\020\001\022\021\n\rLogoutRequest\020\002\022\021\n\rLoginRespons" +
+      "e\020\003\022\024\n\020RegisterResponse\020\004\022\022\n\016LogoutRespo" +
+      "nse\020\005\022\023\n\017UseSkillRequest\020\006\022\024\n\020UseSkillRe" +
+      "sponse\020\007B\n\n\010dateBody\"2\n\014LoginRequest\022\020\n\010" +
+      "username\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\"G\n\017Regi" +
+      "sterRequest\022\020\n\010username\030\001 \001(\t\022\020\n\010passwor" +
+      "d\030\002 \001(\t\022\020\n\010rolename\030\003 \001(\t\";\n\rLoginRespon" +
+      "se\022\017\n\007sceneId\030\001 \001(\005\022\031\n\007roleDto\030\002 \001(\0132\010.R" +
+      "oleDTO\"6\n\020RegisterResponse\022\021\n\tstateCode\030" +
+      "\001 \001(\005\022\017\n\007message\030\002 \001(\t\"\017\n\rLogoutRequest\"" +
+      "+\n\016LogoutResponse\022\014\n\004code\030\001 \001(\005\022\013\n\003mxg\030\002" +
+      " \001(\t\"3\n\017UseSkillRequest\022\017\n\007skillId\030\001 \001(\005" +
+      "\022\017\n\007sceneId\030\002 \001(\005\"8\n\020UseSkillResponse\022$\n" +
+      "\rroleIdDamages\030\001 \003(\0132\r.RoleIdDamage\"\244\001\n\007" +
+      "RoleDTO\022\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\016\n\006sta" +
+      "tus\030\003 \001(\005\022\014\n\004type\030\004 \001(\005\022\020\n\010onStatus\030\005 \001(" +
+      "\005\022\r\n\005blood\030\006 \001(\005\022\020\n\010nowBlood\030\007 \001(\005\022\n\n\002mp" +
+      "\030\010 \001(\005\022\r\n\005nowMp\030\t \001(\005\022\023\n\013skillIdList\030\n \003" +
+      "(\005\"\275\001\n\014RoleIdDamage\022\022\n\nfromRoleId\030\001 \001(\005\022" +
+      "\020\n\010toRoleId\030\002 \001(\005\022\020\n\010bufferId\030\003 \001(\005\022\017\n\007s" +
+      "killId\030\004 \001(\005\022\023\n\013attackStyle\030\005 \001(\005\022\022\n\ndam" +
+      "ageType\030\006 \001(\005\022\016\n\006damage\030\007 \001(\005\022\020\n\010nowbloo" +
+      "d\030\010 \001(\005\022\n\n\002mp\030\t \001(\005\022\r\n\005State\030\n \001(\005B\013B\tPl" +
+      "ayModelb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -7492,7 +10533,7 @@ public final class PlayModel {
     internal_static_PlayModelMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_PlayModelMessage_descriptor,
-        new String[] { "DataType", "LoginRequest", "RegisterRequest", "LogoutRequest", "LoginResponse", "RegisterResponse", "LogoutResponse", "DateBody", });
+        new String[] { "DataType", "LoginRequest", "RegisterRequest", "LogoutRequest", "LoginResponse", "RegisterResponse", "LogoutResponse", "UseSkillRequest", "UseSkillResponse", "DateBody", });
     internal_static_LoginRequest_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_LoginRequest_fieldAccessorTable = new
@@ -7529,12 +10570,30 @@ public final class PlayModel {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_LogoutResponse_descriptor,
         new String[] { "Code", "Mxg", });
-    internal_static_RoleDTO_descriptor =
+    internal_static_UseSkillRequest_descriptor =
       getDescriptor().getMessageTypes().get(7);
+    internal_static_UseSkillRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_UseSkillRequest_descriptor,
+        new String[] { "SkillId", "SceneId", });
+    internal_static_UseSkillResponse_descriptor =
+      getDescriptor().getMessageTypes().get(8);
+    internal_static_UseSkillResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_UseSkillResponse_descriptor,
+        new String[] { "RoleIdDamages", });
+    internal_static_RoleDTO_descriptor =
+      getDescriptor().getMessageTypes().get(9);
     internal_static_RoleDTO_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_RoleDTO_descriptor,
-        new String[] { "Id", "Name", "Status", "Type", "OnStatus", "Blood", "NowBlood", "Mp", "SkillIdList", });
+        new String[] { "Id", "Name", "Status", "Type", "OnStatus", "Blood", "NowBlood", "Mp", "NowMp", "SkillIdList", });
+    internal_static_RoleIdDamage_descriptor =
+      getDescriptor().getMessageTypes().get(10);
+    internal_static_RoleIdDamage_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_RoleIdDamage_descriptor,
+        new String[] { "FromRoleId", "ToRoleId", "BufferId", "SkillId", "AttackStyle", "DamageType", "Damage", "Nowblood", "Mp", "State", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

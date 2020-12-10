@@ -1,4 +1,4 @@
-package com.liqihao.commons;
+package com.liqihao.commons.enums;
 
 /**
  * 角色类型

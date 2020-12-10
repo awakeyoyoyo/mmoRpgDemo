@@ -1,9 +1,10 @@
 package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.liqihao.commons.MmoCacheCilent;
-import com.liqihao.commons.NettyResponse;
-import com.liqihao.commons.StateCode;
+import com.liqihao.commons.*;
+import com.liqihao.commons.enums.RoleStatusCode;
+import com.liqihao.commons.enums.RoleTypeCode;
+import com.liqihao.commons.enums.StateCode;
 import com.liqihao.pojo.MmoRole;
 import com.liqihao.pojo.baseMessage.SceneMessage;
 import com.liqihao.protobufObject.SceneModel;
@@ -12,8 +13,6 @@ import com.liqihao.utils.CommonsUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -67,6 +66,7 @@ public class SceneServiceImpl implements SceneService {
             mmoRole.setNowBlood(roleDTO.getNowBlood());
             mmoRole.setSkillIdList(roleDTO.getSkillIdListList());
             mmoRole.setMp(roleDTO.getMp());
+            mmoRole.setNowMp(roleDTO.getNowMp());
             mmoRole.setOnstatus(roleDTO.getOnStatus());
             mmoRole.setStatus(roleDTO.getStatus());
             mmoRole.setType(roleDTO.getType());
@@ -80,6 +80,11 @@ public class SceneServiceImpl implements SceneService {
         log.info("已进入下一个场景");
         log.info("当前场景是: "+m.getPlaceName());
         log.info("当前场景角色数量是： "+(MmoCacheCilent.getInstance().getRoleHashMap().size()+1) );
+        for (SceneModel.RoleDTO roleDTO:roleDTOS) {
+            log.info("角色id："+roleDTO.getId()+" 角色名: "+roleDTO.getName()
+                    +" 类型: "+ RoleTypeCode.getValue(roleDTO.getType())+" 状态: "+ RoleStatusCode.getValue(roleDTO.getStatus())
+                    +" 血量： "+roleDTO.getNowBlood()+"/"+roleDTO.getBlood()+" 蓝量： "+roleDTO.getNowMp()+"/"+roleDTO.getMp());
+        }
         log.info("---------------------------------------------------");
     }
 
@@ -107,9 +112,12 @@ public class SceneServiceImpl implements SceneService {
             mmoRole.setMp(roleDTO.getMp());
             mmoRole.setOnstatus(roleDTO.getOnStatus());
             mmoRole.setStatus(roleDTO.getStatus());
+            mmoRole.setNowMp(roleDTO.getNowMp());
             mmoRole.setType(roleDTO.getType());
             roles.put(mmoRole.getId(),mmoRole);
-            log.info("角色id："+roleDTO.getId()+" 角色名: "+roleDTO.getName()+" 类型: "+roleDTO.getType()+" 状态: "+roleDTO.getStatus());
+            log.info("角色id："+roleDTO.getId()+" 角色名: "+roleDTO.getName()
+                    +" 类型: "+ RoleTypeCode.getValue(roleDTO.getType())+" 状态: "+ RoleStatusCode.getValue(roleDTO.getStatus())
+                    +" 血量： "+roleDTO.getNowBlood()+"/"+roleDTO.getBlood()+" 蓝量： "+roleDTO.getNowMp()+"/"+roleDTO.getMp());
         }
         MmoCacheCilent.getInstance().setRoleHashMap(roles);
         log.info("---------------------------------------------------");

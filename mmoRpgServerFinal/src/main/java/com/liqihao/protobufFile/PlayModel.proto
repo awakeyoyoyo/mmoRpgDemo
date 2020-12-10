@@ -11,6 +11,8 @@ message PlayModelMessage{
     LoginResponse=3;
     RegisterResponse=4;
     LogoutResponse=5;
+    UseSkillRequest=6;
+    UseSkillResponse=7;
   }
   //用date_type来标识传的是哪一个枚举类型
   DateType data_type=1;
@@ -22,6 +24,8 @@ message PlayModelMessage{
     LoginResponse loginResponse=5;
     RegisterResponse registerResponse=6;
     LogoutResponse logoutResponse=7;
+    UseSkillRequest useSkillRequest=8;
+    UseSkillResponse useSkillResponse=9;
   }
 }
 message LoginRequest{
@@ -48,6 +52,16 @@ message LogoutResponse{
   int32 code=1;
   string mxg=2;
 }
+message UseSkillRequest{
+  int32 skillId=1;
+  int32 sceneId=2;
+}
+message UseSkillResponse{
+  repeated RoleIdDamage roleIdDamages=1;
+}
+
+
+
 message RoleDTO{
   int32 id=1;
   string name=2;
@@ -57,5 +71,18 @@ message RoleDTO{
   int32 blood=6;
   int32 nowBlood=7;
   int32 mp=8;
-  repeated int32 skillIdList=9;
+  int32 nowMp=9;
+  repeated int32 skillIdList=10;
+}
+message RoleIdDamage{
+  int32 fromRoleId=1;
+  int32 toRoleId=2;
+  int32 bufferId=3;
+  int32 skillId=4;
+  int32 attackStyle=5;
+  int32 damageType=6;
+  int32 damage=7;
+  int32 nowblood=8;
+  int32 mp=9;
+  int32 State=10;
 }

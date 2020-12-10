@@ -33,7 +33,7 @@ public interface ConstantValue {
     int REGISTER_REQUEST=2001;
     //退出登陆请求
     int LOGOUT_REQUEST=2002;
-
+    int USE_SKILL_REQUEST =2003;
     //response
     //登陆响应
     int LOGIN_RESPONSE=2500;
@@ -41,7 +41,7 @@ public interface ConstantValue {
     int REGISTER_RESPONSE=2501;
     //退出登陆响应
     int LOGOUT_RESPONSE=2502;
-
+    int USE_SKILL_RSPONSE =2503;
     //游戏系统模块
     String GAME_SYSTEM_MODULE="gameSystemServiceImpl";
     //客户端超时请求
@@ -64,4 +64,6 @@ public interface ConstantValue {
     String LOGOUT_REQUEST_CMD="logout";
     //退出登陆
     String TALK_NPC_REQUEST_CMD="talk";
+    //使用技能
+    String USE_SKILL_REQUEST_CMD="skill";
 }

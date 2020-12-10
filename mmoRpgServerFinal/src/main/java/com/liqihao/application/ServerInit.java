@@ -44,6 +44,7 @@ public class ServerInit{
             npc.setBlood(n.getBlood());
             npc.setNowBlood(n.getBlood());
             npc.setMp(n.getMp());
+            npc.setNowMp(n.getMp());
             npcMap.put(n.getId(),npc);
         }
         //初始化NPC 和场景

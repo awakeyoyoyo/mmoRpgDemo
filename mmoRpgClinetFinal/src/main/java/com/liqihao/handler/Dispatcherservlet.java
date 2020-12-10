@@ -2,9 +2,7 @@ package com.liqihao.handler;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.liqihao.commons.ConstantValue;
-import com.liqihao.commons.NettyRequest;
 import com.liqihao.commons.NettyResponse;
-import com.liqihao.commons.StateCode;
 import com.liqihao.service.GameService;
 import com.liqihao.service.PlayService;
 import com.liqihao.service.SceneService;
@@ -53,6 +51,9 @@ public class Dispatcherservlet {
                     case ConstantValue.TALK_NPC_RESPONSE:
                         sceneService.talkNPCResponse(nettyResponse);
                         break;
+                    case ConstantValue.USE_SKILL_RSPONSE:
+                         playService.useSkillResponse(nettyResponse);
+                         break;
                     default:
                         System.out.println("handler:收到错误的数据包");
                 }

@@ -1,4 +1,6 @@
-package com.liqihao.commons;
+package com.liqihao.commons.enums;
+
+import com.liqihao.commons.ConstantValue;
 
 public enum  CmdCode {
     ASK_CAN_REQUEST_CMD(ConstantValue.ASK_CAN_REQUEST,ConstantValue.ASK_CAN_REQUEST_CMD),
@@ -7,6 +9,7 @@ public enum  CmdCode {
     LOGIN_REQUEST_CMD(ConstantValue.LOGIN_REQUEST,ConstantValue.LOGIN_REQUEST_CMD),
     REGISTER_REQUEST_CMD(ConstantValue.REGISTER_REQUEST,ConstantValue.REGISTER_REQUEST_CMD),
     LOGOUT_REQUEST_CMD(ConstantValue.LOGOUT_REQUEST,ConstantValue.LOGOUT_REQUEST_CMD),
+    USE_SKILL_REQUEST_CMD(ConstantValue.USE_SKILL_REQUEST,ConstantValue.USE_SKILL_REQUEST_CMD),
     TALK_NPC_CMD(ConstantValue.TALK_NPC_REQUEST,ConstantValue.TALK_NPC_REQUEST_CMD);
     private  int cmd;
     private  String option;

@@ -22,9 +22,19 @@ public class MmoRole {
 
     private Integer mp;
 
+    private Integer nowMp;
+
     private HashMap<Integer,Long> cdMap;
 
     private List<Integer> skillIdList;
+
+    public Integer getNowMp() {
+        return nowMp;
+    }
+
+    public void setNowMp(Integer nowMp) {
+        this.nowMp = nowMp;
+    }
 
     public Integer getId() {
         return id;

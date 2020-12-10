@@ -1,7 +1,5 @@
 package com.liqihao.pojo.dto;
 
-import com.sun.javafx.image.IntPixelGetter;
-
 public class RoleIdDamage {
     Integer fromRoleId;
 

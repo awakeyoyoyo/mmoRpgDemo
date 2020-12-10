@@ -5,6 +5,7 @@ import com.liqihao.Cache.MmoCache;
 import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.*;
+import com.liqihao.commons.enums.StateCode;
 import com.liqihao.dao.MmoRolePOJOMapper;
 import com.liqihao.dao.MmoScenePOJOMapper;
 import com.liqihao.pojo.*;
@@ -170,6 +171,7 @@ public class SceneServiceImpl implements SceneService {
             msr.setBlood(mmoRole.getBlood());
             msr.setNowBlood(mmoRole.getNowBlood());
             msr.setMp(mmoRole.getMp());
+            msr.setNowMp(mmoRole.getNowMp());
             SceneModel.RoleDTO msrobject=msr.build();
             roleDTOS.add(msrobject);
         }
@@ -206,6 +208,8 @@ public class SceneServiceImpl implements SceneService {
                 roleTemp.setBlood(temp.getBlood());
                 roleTemp.setNowBlood(temp.getNowBlood());
                 roleTemp.setMp(temp.getMp());
+                roleTemp.setNowMp(temp.getNowMp());
+                roleTemp.setMmosceneid(temp.getMmosceneid());
                 nextSceneRoles.add(roleTemp);
             }
         }
@@ -230,8 +234,9 @@ public class SceneServiceImpl implements SceneService {
                     .setStatus(m.getStatus())
                     .setType(m.getType())
                     .setBlood(m.getBlood())
-                    .setNowBlood(m.getBlood())
+                    .setNowBlood(m.getNowBlood())
                     .setMp(m.getMp())
+                    .setNowMp(m.getNowMp())
                     .build();
             roleDTOS.add(msr);
         }
