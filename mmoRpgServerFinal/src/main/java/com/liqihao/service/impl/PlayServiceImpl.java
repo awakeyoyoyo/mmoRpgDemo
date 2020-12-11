@@ -11,13 +11,13 @@ import com.liqihao.dao.MmoScenePOJOMapper;
 import com.liqihao.dao.MmoUserPOJOMapper;
 import com.liqihao.pojo.*;
 import com.liqihao.pojo.baseMessage.BaseRoleMessage;
+import com.liqihao.pojo.baseMessage.BufferMessage;
 import com.liqihao.pojo.baseMessage.SkillMessage;
-import com.liqihao.pojo.bean.MmoSimpleNPC;
-import com.liqihao.pojo.bean.MmoSimpleRole;
-import com.liqihao.pojo.bean.SkillBean;
+import com.liqihao.pojo.bean.*;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.service.PlayService;
 import com.liqihao.util.CommonsUtil;
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import io.netty.channel.Channel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -131,6 +131,7 @@ public class PlayServiceImpl implements PlayService{
         List<Integer> skillIds=CommonsUtil.split(simpleRole.getSkillIds());
         simpleRole.setSkillIdList(skillIds);
         simpleRole.setCdMap(new HashMap<Integer, Long>());
+        simpleRole.setBufferManager(new BufferManager());
         rolesMap.put(role.getId(),simpleRole);
         //放入线程池中异步处理
         //数据库中人物状态         //todo 提交给线程池异步执行
@@ -241,7 +242,10 @@ public class PlayServiceImpl implements PlayService{
         for (Integer npcId:npcMap.keySet()) {
             MmoSimpleNPC npc=npcMap.get(npcId);
             if (npc.getMmosceneid().equals(sceneId)&&npc.getType().equals(RoleTypeCode.ENEMY.getCode())){
-                target.add(npc);
+                if (npc.getStatus().equals(RoleStatusCode.ALIVE.getCode())){
+                    target.add(npc);
+                }
+
             }
         }
         ConcurrentHashMap<Integer, MmoSimpleRole> roleMap=MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
@@ -318,6 +322,38 @@ public class PlayServiceImpl implements PlayService{
             damageR.setSkillId(skillBean.getId());
             damageR.setState(mmoSimpleNPC.getStatus());
             list.add(damageR.build());
+        }
+
+        //查看是否有buffer
+        List<Integer> buffers=skillBean.getBufferIds();
+        List<BufferBean> bufferBeans=new ArrayList<>();
+        for (Integer buffId:buffers) {
+            BufferMessage b=MmoCache.getInstance().getBufferMessageConcurrentHashMap().get(buffId);
+            for (MmoSimpleNPC mmoSimpleNPC:target) {
+                //生成buffer类
+                BufferBean bufferBean=new BufferBean();
+                bufferBean.setFromRoleId(roleId);
+                bufferBean.setToRoleId(mmoSimpleNPC.getId());
+                bufferBean.setBuffNum(b.getBuffNum());
+                bufferBean.setBuffType(b.getBuffType());
+                bufferBean.setName(b.getName());
+                bufferBean.setId(b.getId());
+                bufferBean.setLastTime(b.getLastTime());
+                bufferBean.setSpaceTime(b.getSpaceTime());
+                bufferBean.setCreateTime(System.currentTimeMillis());
+                bufferBeans.add(bufferBean);
+                //增加bufferid
+                mmoSimpleNPC.getBufferManager().getBufferBeans().add(bufferBean);
+                ConcurrentHashMap<Integer, BufferManager> managerConcurrentHashMap=MmoCache.getInstance().getBufferManagerConcurrentHashMap();
+                synchronized (managerConcurrentHashMap) {
+                    //添加到身上有buffer的集合中
+                    BufferManager bufferManager=managerConcurrentHashMap.get(mmoSimpleNPC);
+                    if (bufferManager == null) {
+                        //无则代表他不在buffer集合中，有的话manager是同一个对象 可以直接添加
+                        managerConcurrentHashMap.put(mmoSimpleNPC.getId(),mmoSimpleNPC.getBufferManager());
+                    }
+                }
+            }
         }
         //cd
         Map<Integer,Long> map=mmoSimpleRole.getCdMap();

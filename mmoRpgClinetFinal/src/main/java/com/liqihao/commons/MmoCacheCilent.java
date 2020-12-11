@@ -1,6 +1,7 @@
 package com.liqihao.commons;
 
 import com.liqihao.pojo.MmoRole;
+import com.liqihao.pojo.baseMessage.BufferMessage;
 import com.liqihao.pojo.baseMessage.NPCMessage;
 import com.liqihao.pojo.baseMessage.SceneMessage;
 import com.liqihao.pojo.baseMessage.SkillMessage;
@@ -17,6 +18,16 @@ public class MmoCacheCilent {
     private ConcurrentHashMap<Integer, SceneMessage> sceneMessageConcurrentHashMap;
     private ConcurrentHashMap<Integer, NPCMessage> npcMessageConcurrentHashMap;
     private ConcurrentHashMap<Integer, SkillMessage> skillMessageConcurrentHashMap;
+    //buffer的基本信息
+    private ConcurrentHashMap<Integer, BufferMessage> bufferMessageConcurrentHashMap;
+
+    public ConcurrentHashMap<Integer, BufferMessage> getBufferMessageConcurrentHashMap() {
+        return bufferMessageConcurrentHashMap;
+    }
+
+    public void setBufferMessageConcurrentHashMap(ConcurrentHashMap<Integer, BufferMessage> bufferMessageConcurrentHashMap) {
+        this.bufferMessageConcurrentHashMap = bufferMessageConcurrentHashMap;
+    }
 
     public ConcurrentHashMap<Integer, SkillMessage> getSkillMessageConcurrentHashMap() {
         return skillMessageConcurrentHashMap;

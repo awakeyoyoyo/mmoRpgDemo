@@ -76,12 +76,12 @@ skillMessages:
     consumeNum: 30
     bufferIds: ""
 bufferMessage:
-  id: 1
-  name: "中毒"
-  buffType: 0
-  buffNum : 5
-  lastTime : 12
-  spaceTime : 4
+  - id: 1
+    name: "中毒"
+    buffType: 0
+    buffNum : 5
+    lastTime : 12
+    spaceTime : 4
 baseRoleMessage:
   hp: 1000
   mp: 200

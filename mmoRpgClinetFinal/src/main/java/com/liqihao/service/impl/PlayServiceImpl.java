@@ -4,6 +4,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.liqihao.commons.*;
 import com.liqihao.commons.enums.*;
 import com.liqihao.pojo.MmoRole;
+import com.liqihao.pojo.baseMessage.BufferMessage;
 import com.liqihao.pojo.baseMessage.SceneMessage;
 import com.liqihao.pojo.baseMessage.SkillMessage;
 import com.liqihao.protobufObject.PlayModel;
@@ -155,23 +156,31 @@ public class PlayServiceImpl implements PlayService {
         myMessage=PlayModel.PlayModelMessage.parseFrom(data);
         PlayModel.DamagesNoticeResponse damagesNoticeResponse=myMessage.getDamagesNoticeResponse();
         PlayModel.RoleIdDamage roleIdDamage=damagesNoticeResponse.getRoleIdDamage();
+        //场景中的角色
         MmoRole mmoRole=MmoCacheCilent.getInstance().getNowRole();
         HashMap<Integer, MmoRole> roleHashMap=MmoCacheCilent.getInstance().getRoleHashMap();
-        if (mmoRole.getId()==roleIdDamage.getToRoleId()){
-            if(roleIdDamage.getDamageType()==DamageTypeCode.HP.getCode()){
-                mmoRole.setNowBlood(roleIdDamage.getNowblood());
-            }else if (roleIdDamage.getDamageType()==DamageTypeCode.MP.getCode()){
-                mmoRole.setNowMp(roleIdDamage.getMp());
-            }
-            if (roleIdDamage.getAttackStyle()== AttackStyleCode.AUTORE.getCode()) {
-                log.info("角色id：" + mmoRole.getId() + " 角色名: " + mmoRole.getName()
-                        + " 类型: " + RoleTypeCode.getValue(mmoRole.getType()) + " 状态: " + RoleStatusCode.getValue(mmoRole.getStatus())
-                        + " 血量： " + mmoRole.getNowBlood() + "/" + mmoRole.getBlood() + " 蓝量： " + mmoRole.getNowMp() + "/" + mmoRole.getMp()
-                        + " 恢复：" + DamageTypeCode.getValue(roleIdDamage.getDamageType()) +" 恢复了"+
-                        roleIdDamage.getDamage());
-            }else if (roleIdDamage.getAttackStyle()== AttackStyleCode.BUFFER.getCode()){
-                //todo
-            }
+        if (mmoRole.getId()!=roleIdDamage.getToRoleId()){
+            mmoRole=roleHashMap.get(roleIdDamage.getToRoleId());
+        }
+        if(roleIdDamage.getDamageType()==DamageTypeCode.HP.getCode()){
+            mmoRole.setNowBlood(roleIdDamage.getNowblood());
+        }else if (roleIdDamage.getDamageType()==DamageTypeCode.MP.getCode()){
+            mmoRole.setNowMp(roleIdDamage.getMp());
+        }
+        if (roleIdDamage.getAttackStyle()== AttackStyleCode.AUTORE.getCode()) {
+            log.info("角色id：" + mmoRole.getId() + " 角色名: " + mmoRole.getName()
+                    + " 类型: " + RoleTypeCode.getValue(mmoRole.getType()) + " 状态: " + RoleStatusCode.getValue(roleIdDamage.getState())
+                    + " 血量： " + mmoRole.getNowBlood() + "/" + mmoRole.getBlood() + " 蓝量： " + mmoRole.getNowMp() + "/" + mmoRole.getMp()
+                    + " 恢复：" + DamageTypeCode.getValue(roleIdDamage.getDamageType()) +" 恢复了"+
+                    roleIdDamage.getDamage());
+        }else if (roleIdDamage.getAttackStyle()== AttackStyleCode.BUFFER.getCode()){
+            BufferMessage bufferMessage=MmoCacheCilent.getInstance().getBufferMessageConcurrentHashMap().get(roleIdDamage.getBufferId());
+
+            log.info("角色id：" + mmoRole.getId() + " 角色名: " + mmoRole.getName()
+                    + " 类型: " + RoleTypeCode.getValue(mmoRole.getType()) + " 状态: " + RoleStatusCode.getValue(roleIdDamage.getState())
+                    + " 血量： " + mmoRole.getNowBlood() + "/" + mmoRole.getBlood() + " 蓝量： " + mmoRole.getNowMp() + "/" + mmoRole.getMp()
+                    + " 受到了buffer：" + bufferMessage.getName() + "收到了伤害"+DamageTypeCode.getValue(roleIdDamage.getDamageType())+"-"+
+                    roleIdDamage.getDamage());
         }
     }
 

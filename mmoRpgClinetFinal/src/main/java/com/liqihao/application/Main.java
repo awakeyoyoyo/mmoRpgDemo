@@ -3,10 +3,7 @@ package com.liqihao.application;
 import com.liqihao.commons.MmoCacheCilent;
 import com.liqihao.netty.NettyTcpClient;
 import com.liqihao.pojo.MmoRole;
-import com.liqihao.pojo.baseMessage.BaseMessage;
-import com.liqihao.pojo.baseMessage.NPCMessage;
-import com.liqihao.pojo.baseMessage.SceneMessage;
-import com.liqihao.pojo.baseMessage.SkillMessage;
+import com.liqihao.pojo.baseMessage.*;
 import com.liqihao.utils.YmlUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -36,7 +33,17 @@ public class Main {
             skillMessageConcurrentHashMap.put(s.getId(),s);
         }
         MmoCacheCilent.init(null,null,new HashMap<Integer, MmoRole>(),scmMap,npcMap);
+
+
+        ConcurrentHashMap<Integer, BufferMessage> bufferMessageConcurrentHashMap=new ConcurrentHashMap<>();
+        List<BufferMessage> bufferMessage=baseMessage.getBufferMessage();
+        for (BufferMessage b:bufferMessage) {
+            bufferMessageConcurrentHashMap.put(b.getId(),b);
+        }
+        MmoCacheCilent.getInstance().setBufferMessageConcurrentHashMap(bufferMessageConcurrentHashMap);
+
         MmoCacheCilent.getInstance().setSkillMessageConcurrentHashMap(skillMessageConcurrentHashMap);
         nettyTcpServer.run();
+
     }
 }

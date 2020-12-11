@@ -2,10 +2,9 @@ package com.liqihao.Cache;
 
 import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.pojo.MmoRolePOJO;
-import com.liqihao.pojo.baseMessage.BaseRoleMessage;
-import com.liqihao.pojo.baseMessage.NPCMessage;
-import com.liqihao.pojo.baseMessage.SceneMessage;
-import com.liqihao.pojo.baseMessage.SkillMessage;
+import com.liqihao.pojo.baseMessage.*;
+import com.liqihao.pojo.bean.BufferBean;
+import com.liqihao.pojo.bean.BufferManager;
 import com.liqihao.pojo.bean.MmoSimpleNPC;
 import com.liqihao.pojo.bean.MmoSimpleRole;
 import io.netty.channel.Channel;
@@ -21,13 +20,40 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class MmoCache {
     private volatile static MmoCache instance ;
+    //在线用户
     private ConcurrentHashMap<Integer, MmoSimpleRole> mmoSimpleRoleConcurrentHashMap;
+    //channle
     private ConcurrentHashMap<Integer, Channel> channelConcurrentHashMap;
+    //场景基本信息
     private ConcurrentHashMap<Integer, SceneMessage> sceneMessageConcurrentHashMap;
+    //npc的基本信息
     private ConcurrentHashMap<Integer, MmoSimpleNPC> npcMessageConcurrentHashMap;
+    //用户角色的基本信息
     private BaseRoleMessage baseRoleMessage;
+    //技能的基本信息
     private ConcurrentHashMap<Integer,SkillMessage> skillMessageConcurrentHashMap;
+    //buffer的基本信息
+    private ConcurrentHashMap<Integer, BufferMessage> bufferMessageConcurrentHashMap;
+    //蓝量不满的用户
     private CopyOnWriteArrayList<Integer> NoMpRole;
+    //中了buffer的用户id与bufferMessage
+    private ConcurrentHashMap<Integer, BufferManager> bufferManagerConcurrentHashMap;
+
+    public ConcurrentHashMap<Integer, BufferManager> getBufferManagerConcurrentHashMap() {
+        return bufferManagerConcurrentHashMap;
+    }
+
+    public void setBufferManagerConcurrentHashMap(ConcurrentHashMap<Integer, BufferManager> bufferManagerConcurrentHashMap) {
+        this.bufferManagerConcurrentHashMap = bufferManagerConcurrentHashMap;
+    }
+
+    public ConcurrentHashMap<Integer, BufferMessage> getBufferMessageConcurrentHashMap() {
+        return bufferMessageConcurrentHashMap;
+    }
+
+    public void setBufferMessageConcurrentHashMap(ConcurrentHashMap<Integer, BufferMessage> bufferMessageConcurrentHashMap) {
+        this.bufferMessageConcurrentHashMap = bufferMessageConcurrentHashMap;
+    }
 
     public CopyOnWriteArrayList<Integer> getNoMpRole() {
         return NoMpRole;

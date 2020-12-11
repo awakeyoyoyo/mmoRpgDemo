@@ -3,6 +3,7 @@ package com.liqihao.pojo.bean;
 import com.liqihao.pojo.MmoRolePOJO;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MmoSimpleRole extends MmoRolePOJO {
     private Integer Blood;
@@ -11,7 +12,15 @@ public class MmoSimpleRole extends MmoRolePOJO {
     private Integer nowMp;
     private HashMap<Integer,Long> cdMap;
     private List<Integer> skillIdList;
+    private BufferManager bufferManager;
 
+    public BufferManager getBufferManager() {
+        return bufferManager;
+    }
+
+    public void setBufferManager(BufferManager bufferManager) {
+        this.bufferManager = bufferManager;
+    }
     public Integer getNowMp() {
         return nowMp;
     }

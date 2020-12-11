@@ -3,10 +3,8 @@ package com.liqihao.application;
 import com.liqihao.Cache.MmoCache;
 import com.liqihao.commons.enums.AttackStyleCode;
 import com.liqihao.commons.enums.DamageTypeCode;
-import com.liqihao.pojo.baseMessage.BaseMessage;
-import com.liqihao.pojo.baseMessage.NPCMessage;
-import com.liqihao.pojo.baseMessage.SceneMessage;
-import com.liqihao.pojo.baseMessage.SkillMessage;
+import com.liqihao.pojo.baseMessage.*;
+import com.liqihao.pojo.bean.BufferManager;
 import com.liqihao.pojo.bean.MmoSimpleNPC;
 import com.liqihao.pojo.bean.MmoSimpleRole;
 import com.liqihao.pojo.bean.SkillBean;
@@ -53,19 +51,26 @@ public class ServerInit{
             npc.setNowBlood(n.getBlood());
             npc.setMp(n.getMp());
             npc.setNowMp(n.getMp());
+            npc.setBufferManager(new BufferManager());
             npcMap.put(n.getId(),npc);
         }
         //初始化NPC 和场景
         MmoCache.init(scmMap,npcMap);
-        ThreadPools.init();
         MmoCache.getInstance().setBaseRoleMessage(baseMessage.getBaseRoleMessage());
+        MmoCache.getInstance().setBufferManagerConcurrentHashMap(new ConcurrentHashMap<Integer, BufferManager>());
         ConcurrentHashMap<Integer, SkillMessage> skillMessageConcurrentHashMap=new ConcurrentHashMap<>();
+        ConcurrentHashMap<Integer, BufferMessage> bufferMessageConcurrentHashMap=new ConcurrentHashMap<>();
         List<SkillMessage> skillMessages=baseMessage.getSkillMessages();
         for (SkillMessage s:skillMessages) {
             skillMessageConcurrentHashMap.put(s.getId(),s);
         }
-
+        List<BufferMessage> bufferMessage=baseMessage.getBufferMessage();
+        for (BufferMessage b:bufferMessage) {
+            bufferMessageConcurrentHashMap.put(b.getId(),b);
+        }
         MmoCache.getInstance().setSkillMessageConcurrentHashMap(skillMessageConcurrentHashMap);
+        MmoCache.getInstance().setBufferMessageConcurrentHashMap(bufferMessageConcurrentHashMap);
+        ThreadPools.init();
     }
 
 

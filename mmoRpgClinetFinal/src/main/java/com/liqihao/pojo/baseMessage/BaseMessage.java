@@ -6,14 +6,14 @@ public class BaseMessage {
     List<SceneMessage> sceneMessages;
     List<NPCMessage> npcMessages;
     List<SkillMessage> skillMessages;
-    BufferMessage bufferMessage;
+    List<BufferMessage> bufferMessage;
     BaseRoleMessage baseRoleMessage;
 
-    public BufferMessage getBufferMessage() {
+    public List<BufferMessage> getBufferMessage() {
         return bufferMessage;
     }
 
-    public void setBufferMessage(BufferMessage bufferMessage) {
+    public void setBufferMessage(List<BufferMessage> bufferMessage) {
         this.bufferMessage = bufferMessage;
     }
 
