@@ -3,7 +3,6 @@ package com.liqihao.pojo.bean;
 import com.liqihao.commons.enums.RoleStatusCode;
 import com.liqihao.pojo.baseMessage.NPCMessage;
 
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MmoSimpleNPC extends NPCMessage {
     private Integer nowBlood;

@@ -36,6 +36,7 @@ public class MmoCache {
     private ConcurrentHashMap<Integer, BufferMessage> bufferMessageConcurrentHashMap;
     //蓝量不满的用户
     private CopyOnWriteArrayList<Integer> NoMpRole;
+
     //中了buffer的用户id与bufferMessage
     private ConcurrentHashMap<Integer, BufferManager> bufferManagerConcurrentHashMap;
 
@@ -120,7 +121,7 @@ public class MmoCache {
                     ConcurrentHashMap<Integer, MmoSimpleNPC> npcMessageConcurrentHashMap
     )
     {
-        this.mmoSimpleRoleConcurrentHashMap = new ConcurrentHashMap<>();;
+        this.mmoSimpleRoleConcurrentHashMap = new ConcurrentHashMap<>();
         this.sceneMessageConcurrentHashMap=sceneMessageConcurrentHashMap;
         this.npcMessageConcurrentHashMap=npcMessageConcurrentHashMap;
         this.channelConcurrentHashMap=new ConcurrentHashMap<>();

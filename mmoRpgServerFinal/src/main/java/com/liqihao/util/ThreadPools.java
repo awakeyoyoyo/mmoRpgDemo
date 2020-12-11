@@ -30,7 +30,7 @@ public class ThreadPools {
     private static Logger logger = Logger.getLogger(ThreadPools.class);
     private static ExecutorService executorService;
     //线程池初始化大小
-    private static int poolSize = 8;
+    private static int poolSize = 5;
 
     //任务队列长度
     public static void init() {
@@ -60,7 +60,6 @@ public class ThreadPools {
 
     public static void shutdown() {
         executorService.shutdown();
-        ;
     }
 
     private static void autoReMp() {
