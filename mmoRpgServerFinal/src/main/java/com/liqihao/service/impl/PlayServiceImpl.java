@@ -17,13 +17,14 @@ import com.liqihao.pojo.bean.*;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.service.PlayService;
 import com.liqihao.util.CommonsUtil;
+import com.liqihao.util.ScheduledThreadPoolUtil;
 import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import io.netty.channel.Channel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.*;
 
 @Service
 @HandlerServiceTag
@@ -131,13 +132,14 @@ public class PlayServiceImpl implements PlayService{
         List<Integer> skillIds=CommonsUtil.split(simpleRole.getSkillIds());
         simpleRole.setSkillIdList(skillIds);
         simpleRole.setCdMap(new HashMap<Integer, Long>());
-        simpleRole.setBufferManager(new BufferManager());
+        simpleRole.setBufferBeans(new CopyOnWriteArrayList<>());
         rolesMap.put(role.getId(),simpleRole);
         //放入线程池中异步处理
         //数据库中人物状态         //todo 提交给线程池异步执行
         mmoRolePOJOMapper.updateByPrimaryKeySelective(role);
         //将channel绑定用户信息存储
         ConcurrentHashMap<Integer, Channel> channelConcurrentHashMap= MmoCache.getInstance().getChannelConcurrentHashMap();
+        MmoCache.getInstance().getIdChannelConcurrentHashMap().put(channel,role.getId());
         channelConcurrentHashMap.put(role.getId(),channel);
 
         //protobuf 生成loginResponse
@@ -199,7 +201,7 @@ public class PlayServiceImpl implements PlayService{
         //缓存角色集合删除
         ConcurrentHashMap<Integer,MmoSimpleRole> rolesMap= MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
         rolesMap.remove(roleId);
-
+        MmoCache.getInstance().getIdChannelConcurrentHashMap().remove(channel);
         //protobuf生成消息
         PlayModel.PlayModelMessage.Builder myMessageBuilder=PlayModel.PlayModelMessage.newBuilder();
         myMessageBuilder.setDataType(PlayModel.PlayModelMessage.DateType.LogoutResponse);
@@ -223,7 +225,7 @@ public class PlayServiceImpl implements PlayService{
         myMessage=PlayModel.PlayModelMessage.parseFrom(data);
         Integer skillId=myMessage.getUseSkillRequest().getSkillId();
         Integer sceneId=myMessage.getUseSkillRequest().getSceneId();
-        Integer roleId=CommonsUtil.getRoleIdByChannel(channel);
+        Integer roleId=MmoCache.getInstance().getIdChannelConcurrentHashMap().get(channel);
         if (roleId==null){
             return new NettyResponse(StateCode.FAIL,ConstantValue.USE_SKILL_RSPONSE, "未登陆".getBytes());
         }
@@ -285,7 +287,15 @@ public class PlayServiceImpl implements PlayService{
                 return new NettyResponse(StateCode.FAIL,ConstantValue.USE_SKILL_RSPONSE, "蓝量不够无法使用该技能".getBytes());
             }
             mmoSimpleRole.setNowMp(mmoSimpleRole.getNowMp()-skillBean.getConsumeNum());
-            MmoCache.getInstance().getNoMpRole().add(mmoSimpleRole.getId());
+            //判断是否已经有自动回蓝任务
+            ConcurrentHashMap<Integer, ScheduledFuture<?>> replyMpRoleMap=ScheduledThreadPoolUtil.getReplyMpRole();
+            if (!replyMpRoleMap.containsKey(roleId)) {
+                //number为空 代表着自动回蓝
+                ScheduledThreadPoolUtil.ReplyMpTask replyMpTask = new ScheduledThreadPoolUtil.ReplyMpTask(roleId, null);
+                // 周期性执行，每5秒执行一次
+                ScheduledFuture<?> t=ScheduledThreadPoolUtil.getScheduledExecutorService().scheduleAtFixedRate(replyMpTask, 0, 5, TimeUnit.SECONDS);
+                replyMpRoleMap.put(roleId,t);
+            }
         }
         List<PlayModel.RoleIdDamage> list=new ArrayList<>();
         // 生成一个角色扣血或者扣篮
@@ -333,7 +343,6 @@ public class PlayServiceImpl implements PlayService{
                 //生成buffer类
                 BufferBean bufferBean=new BufferBean();
                 bufferBean.setFromRoleId(roleId);
-                bufferBean.setToRoleId(mmoSimpleNPC.getId());
                 bufferBean.setBuffNum(b.getBuffNum());
                 bufferBean.setBuffType(b.getBuffType());
                 bufferBean.setName(b.getName());
@@ -342,17 +351,20 @@ public class PlayServiceImpl implements PlayService{
                 bufferBean.setSpaceTime(b.getSpaceTime());
                 bufferBean.setCreateTime(System.currentTimeMillis());
                 bufferBeans.add(bufferBean);
+                bufferBean.setToRoleId(mmoSimpleNPC.getId());
+                Integer count=bufferBean.getLastTime()/bufferBean.getSpaceTime();
                 //增加bufferid
-                mmoSimpleNPC.getBufferManager().getBufferBeans().add(bufferBean);
-                ConcurrentHashMap<Integer, BufferManager> managerConcurrentHashMap=MmoCache.getInstance().getBufferManagerConcurrentHashMap();
-                synchronized (managerConcurrentHashMap) {
-                    //添加到身上有buffer的集合中
-                    BufferManager bufferManager=managerConcurrentHashMap.get(mmoSimpleNPC);
-                    if (bufferManager == null) {
-                        //无则代表他不在buffer集合中，有的话manager是同一个对象 可以直接添加
-                        managerConcurrentHashMap.put(mmoSimpleNPC.getId(),mmoSimpleNPC.getBufferManager());
-                    }
+                mmoSimpleNPC.getBufferBeans().add(bufferBean);
+                //线程池中放入任务
+                ScheduledThreadPoolUtil.BufferTask bufferTask = new ScheduledThreadPoolUtil.BufferTask(bufferBean, count);
+                //查看是否已经有了该buffer 有则覆盖无则直接加入
+                Integer key=Integer.parseInt(mmoSimpleNPC.getId().toString()+bufferBean.getId().toString());
+                ConcurrentHashMap<Integer,ScheduledFuture<?>> bufferRole=ScheduledThreadPoolUtil.getBufferRole();
+                if (bufferRole.containsKey(key)){
+                    bufferRole.get(key).cancel(false);
                 }
+                ScheduledFuture<?> t =ScheduledThreadPoolUtil.getScheduledExecutorService().scheduleAtFixedRate(bufferTask,0,bufferBean.getSpaceTime(),TimeUnit.SECONDS);
+                bufferRole.put(key,t);
             }
         }
         //cd

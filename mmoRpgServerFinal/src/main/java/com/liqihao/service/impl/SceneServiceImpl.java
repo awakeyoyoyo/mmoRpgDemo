@@ -214,7 +214,7 @@ public class SceneServiceImpl implements SceneService {
             }
         }
         //ROLES
-        Integer roleId=CommonsUtil.getRoleIdByChannel(channel);
+        Integer roleId=MmoCache.getInstance().getIdChannelConcurrentHashMap().get(channel);
         Iterator<MmoSimpleRole> roleItor=roleMsgMap.values().iterator();
         while(roleItor.hasNext()){
             MmoSimpleRole temp=roleItor.next();

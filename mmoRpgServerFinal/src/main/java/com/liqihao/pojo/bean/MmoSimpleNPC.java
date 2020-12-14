@@ -3,18 +3,20 @@ package com.liqihao.pojo.bean;
 import com.liqihao.commons.enums.RoleStatusCode;
 import com.liqihao.pojo.baseMessage.NPCMessage;
 
+import java.util.concurrent.CopyOnWriteArrayList;
+
 
 public class MmoSimpleNPC extends NPCMessage {
     private Integer nowBlood;
     private Integer nowMp;
-    private BufferManager bufferManager;
+    private CopyOnWriteArrayList<BufferBean> bufferBeans;
 
-    public BufferManager getBufferManager() {
-        return bufferManager;
+    public CopyOnWriteArrayList<BufferBean> getBufferBeans() {
+        return bufferBeans;
     }
 
-    public void setBufferManager(BufferManager bufferManager) {
-        this.bufferManager = bufferManager;
+    public void setBufferBeans(CopyOnWriteArrayList<BufferBean> bufferBeans) {
+        this.bufferBeans = bufferBeans;
     }
 
     public Integer getNowMp() {

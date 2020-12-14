@@ -22,8 +22,10 @@ public class MmoCache {
     private volatile static MmoCache instance ;
     //在线用户
     private ConcurrentHashMap<Integer, MmoSimpleRole> mmoSimpleRoleConcurrentHashMap;
-    //channle
+    //id--channle
     private ConcurrentHashMap<Integer, Channel> channelConcurrentHashMap;
+    //channle--id
+    private ConcurrentHashMap<Channel, Integer> idChannelConcurrentHashMap;
     //场景基本信息
     private ConcurrentHashMap<Integer, SceneMessage> sceneMessageConcurrentHashMap;
     //npc的基本信息
@@ -34,18 +36,13 @@ public class MmoCache {
     private ConcurrentHashMap<Integer,SkillMessage> skillMessageConcurrentHashMap;
     //buffer的基本信息
     private ConcurrentHashMap<Integer, BufferMessage> bufferMessageConcurrentHashMap;
-    //蓝量不满的用户
-    private CopyOnWriteArrayList<Integer> NoMpRole;
 
-    //中了buffer的用户id与bufferMessage
-    private ConcurrentHashMap<Integer, BufferManager> bufferManagerConcurrentHashMap;
-
-    public ConcurrentHashMap<Integer, BufferManager> getBufferManagerConcurrentHashMap() {
-        return bufferManagerConcurrentHashMap;
+    public ConcurrentHashMap<Channel, Integer> getIdChannelConcurrentHashMap() {
+        return idChannelConcurrentHashMap;
     }
 
-    public void setBufferManagerConcurrentHashMap(ConcurrentHashMap<Integer, BufferManager> bufferManagerConcurrentHashMap) {
-        this.bufferManagerConcurrentHashMap = bufferManagerConcurrentHashMap;
+    public void setIdChannelConcurrentHashMap(ConcurrentHashMap<Channel, Integer> idChannelConcurrentHashMap) {
+        this.idChannelConcurrentHashMap = idChannelConcurrentHashMap;
     }
 
     public ConcurrentHashMap<Integer, BufferMessage> getBufferMessageConcurrentHashMap() {
@@ -54,14 +51,6 @@ public class MmoCache {
 
     public void setBufferMessageConcurrentHashMap(ConcurrentHashMap<Integer, BufferMessage> bufferMessageConcurrentHashMap) {
         this.bufferMessageConcurrentHashMap = bufferMessageConcurrentHashMap;
-    }
-
-    public CopyOnWriteArrayList<Integer> getNoMpRole() {
-        return NoMpRole;
-    }
-
-    public void setNoMpRole(CopyOnWriteArrayList<Integer> noMpRole) {
-        NoMpRole = noMpRole;
     }
 
     public ConcurrentHashMap<Integer, SkillMessage> getSkillMessageConcurrentHashMap() {
@@ -125,7 +114,7 @@ public class MmoCache {
         this.sceneMessageConcurrentHashMap=sceneMessageConcurrentHashMap;
         this.npcMessageConcurrentHashMap=npcMessageConcurrentHashMap;
         this.channelConcurrentHashMap=new ConcurrentHashMap<>();
-        this.NoMpRole=new CopyOnWriteArrayList<>();
+        this.idChannelConcurrentHashMap=new ConcurrentHashMap<>();
     }
 
 

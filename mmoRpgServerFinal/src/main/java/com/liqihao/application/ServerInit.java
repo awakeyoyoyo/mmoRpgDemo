@@ -1,18 +1,11 @@
 package com.liqihao.application;
 
 import com.liqihao.Cache.MmoCache;
-import com.liqihao.commons.enums.AttackStyleCode;
-import com.liqihao.commons.enums.DamageTypeCode;
 import com.liqihao.pojo.baseMessage.*;
-import com.liqihao.pojo.bean.BufferManager;
 import com.liqihao.pojo.bean.MmoSimpleNPC;
-import com.liqihao.pojo.bean.MmoSimpleRole;
-import com.liqihao.pojo.bean.SkillBean;
-import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.util.CommonsUtil;
-import com.liqihao.util.ThreadPools;
+import com.liqihao.util.ScheduledThreadPoolUtil;
 import com.liqihao.util.YmlUtils;
-import com.sun.javafx.image.IntPixelGetter;
 import org.springframework.stereotype.Component;
 import java.io.FileNotFoundException;
 import java.util.List;
@@ -34,11 +27,11 @@ public class ServerInit{
         ConcurrentHashMap<Integer, SceneMessage> scmMap=new ConcurrentHashMap<>();
         ConcurrentHashMap<Integer, MmoSimpleNPC> npcMap=new ConcurrentHashMap<>();
         //读取配置文件
-        BaseMessage baseMessage=YmlUtils.getBaseMessage();
-        for (SceneMessage s:baseMessage.getSceneMessages()) {
+        BaseRoleMessage baseRoleMessage=YmlUtils.getBaseRoleMessage();
+        for (SceneMessage s:YmlUtils.getSceneMessage()) {
             scmMap.put(s.getId(),s);
         }
-        for (NPCMessage n:baseMessage.getNpcMessages()) {
+        for (NPCMessage n:YmlUtils.getNpcMessage()) {
             MmoSimpleNPC npc=new MmoSimpleNPC();
             npc.setId(n.getId());
             npc.setType(n.getType());
@@ -51,26 +44,25 @@ public class ServerInit{
             npc.setNowBlood(n.getBlood());
             npc.setMp(n.getMp());
             npc.setNowMp(n.getMp());
-            npc.setBufferManager(new BufferManager());
+            npc.setBufferBeans(new CopyOnWriteArrayList<>());
             npcMap.put(n.getId(),npc);
         }
         //初始化NPC 和场景
         MmoCache.init(scmMap,npcMap);
-        MmoCache.getInstance().setBaseRoleMessage(baseMessage.getBaseRoleMessage());
-        MmoCache.getInstance().setBufferManagerConcurrentHashMap(new ConcurrentHashMap<Integer, BufferManager>());
+        MmoCache.getInstance().setBaseRoleMessage(baseRoleMessage);
         ConcurrentHashMap<Integer, SkillMessage> skillMessageConcurrentHashMap=new ConcurrentHashMap<>();
         ConcurrentHashMap<Integer, BufferMessage> bufferMessageConcurrentHashMap=new ConcurrentHashMap<>();
-        List<SkillMessage> skillMessages=baseMessage.getSkillMessages();
+        List<SkillMessage> skillMessages=YmlUtils.getSkillMessage();
         for (SkillMessage s:skillMessages) {
             skillMessageConcurrentHashMap.put(s.getId(),s);
         }
-        List<BufferMessage> bufferMessage=baseMessage.getBufferMessage();
+        List<BufferMessage> bufferMessage=YmlUtils.getBufferMessage();
         for (BufferMessage b:bufferMessage) {
             bufferMessageConcurrentHashMap.put(b.getId(),b);
         }
         MmoCache.getInstance().setSkillMessageConcurrentHashMap(skillMessageConcurrentHashMap);
         MmoCache.getInstance().setBufferMessageConcurrentHashMap(bufferMessageConcurrentHashMap);
-        ThreadPools.init();
+        ScheduledThreadPoolUtil.init();
     }
 
 

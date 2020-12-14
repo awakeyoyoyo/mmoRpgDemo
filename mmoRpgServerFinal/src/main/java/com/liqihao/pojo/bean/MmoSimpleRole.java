@@ -12,15 +12,16 @@ public class MmoSimpleRole extends MmoRolePOJO {
     private Integer nowMp;
     private HashMap<Integer,Long> cdMap;
     private List<Integer> skillIdList;
-    private BufferManager bufferManager;
+    private CopyOnWriteArrayList<BufferBean> bufferBeans;
 
-    public BufferManager getBufferManager() {
-        return bufferManager;
+    public CopyOnWriteArrayList<BufferBean> getBufferBeans() {
+        return bufferBeans;
     }
 
-    public void setBufferManager(BufferManager bufferManager) {
-        this.bufferManager = bufferManager;
+    public void setBufferBeans(CopyOnWriteArrayList<BufferBean> bufferBeans) {
+        this.bufferBeans = bufferBeans;
     }
+
     public Integer getNowMp() {
         return nowMp;
     }

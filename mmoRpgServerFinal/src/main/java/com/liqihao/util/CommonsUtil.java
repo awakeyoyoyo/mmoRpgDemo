@@ -33,32 +33,6 @@ public class CommonsUtil {
         return roleTemp;
     }
 
-
-
-
-
-    /**
-     * 根据channel获取Id
-     * @param channel
-     * @return
-     */
-    public static Integer getRoleIdByChannel(Channel channel) {
-        ConcurrentHashMap<Integer,Channel> channelConcurrentHashMap=MmoCache.getInstance().getChannelConcurrentHashMap();
-        Iterator<Integer> ids=channelConcurrentHashMap.keySet().iterator();
-        Integer id=null;
-        while (ids.hasNext()){
-            id=ids.next();
-            //加锁 是为了防止 判断成功后，用户断开连接的情况 貌似无所谓
-            if (channel.equals(channelConcurrentHashMap.get(id))){
-                return id;
-            }
-        }
-        return id;
-    }
-
-
-
-
     /**
      * 分割字符串返回id集合
      * @param str
