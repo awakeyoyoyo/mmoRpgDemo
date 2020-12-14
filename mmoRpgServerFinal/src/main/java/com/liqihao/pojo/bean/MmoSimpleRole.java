@@ -13,7 +13,14 @@ public class MmoSimpleRole extends MmoRolePOJO {
     private HashMap<Integer,Long> cdMap;
     private List<Integer> skillIdList;
     private CopyOnWriteArrayList<BufferBean> bufferBeans;
+    private Integer attack;
+    public Integer getAttack() {
+        return attack;
+    }
 
+    public void setAttack(Integer attack) {
+        this.attack = attack;
+    }
     public CopyOnWriteArrayList<BufferBean> getBufferBeans() {
         return bufferBeans;
     }

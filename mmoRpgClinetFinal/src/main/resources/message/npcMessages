@@ -1,16 +1,3 @@
-sceneMessages:
-  - id: 1
-    placeName: "启始之地"
-    canScene: 2
-  - id: 2
-    placeName: "村子"
-    canScene: 1,3,4
-  - id: 3
-    placeName: "森林"
-    canScene: 2
-  - id: 4
-    placeName: "城堡"
-    canScene: 2
 npcMessages:
   - id: 1000
     name: "舒华路滋"
@@ -20,6 +7,8 @@ npcMessages:
     onstatus: 9527
     talk: "乖乖地。-不用给意见。"
     blood: 100
+    mp: 100
+    attack: 1
   - id: 1001
     name: "柯拉"
     mmosceneid: 2
@@ -28,6 +17,8 @@ npcMessages:
     onstatus: 9527
     talk: "我有一个天大得好消息。-和一个很小得坏消息要告诉你。"
     blood: 100
+    mp: 100
+    attack: 1
   - id: 1002
     name: "和治"
     mmosceneid: 1
@@ -36,6 +27,8 @@ npcMessages:
     onstatus: 9527
     talk: "祝贺吧。-穿越时空，能知过去未来，收集所有蒙面超人的力量。-他就是蒙面超人时王!"
     blood: 100
+    mp: 100
+    attack: 1
   - id: 1003
     name: "异类Build"
     mmosceneid: 3
@@ -44,6 +37,8 @@ npcMessages:
     onstatus: 9527
     talk: "我系异类Build。"
     blood: 100
+    mp: 100
+    attack: 1
   - id: 1004
     name: "异类Ghost"
     mmosceneid: 3
@@ -52,6 +47,8 @@ npcMessages:
     onstatus: 9527
     talk: "我系异类Ghost。"
     blood: 100
+    mp: 100
+    attack: 1
   - id: 1005
     name: "异类Zio"
     mmosceneid: 4
@@ -60,28 +57,5 @@ npcMessages:
     onstatus: 9527
     talk: "我系异类Zio。"
     blood: 100
-skillMessages:
-  - id: 1
-    skillName: "毒性射击"
-    baseDamage: 10
-    cd: 5
-    consumeType: 0
-    consumeNum: 10
-    bufferIds: "1"
-  - id: 2
-    skillName: "光芒余韵"
-    baseDamage: 40
-    cd: 15
-    consumeType: 0
-    consumeNum: 30
-    bufferIds: ""
-bufferMessage:
-  - id: 1
-    name: "中毒"
-    buffType: 0
-    buffNum : 5
-    lastTime : 12
-    spaceTime : 4
-baseRoleMessage:
-  hp: 1000
-  mp: 200
+    mp: 100
+    attack: 1

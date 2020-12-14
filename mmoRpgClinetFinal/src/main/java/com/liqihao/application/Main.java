@@ -20,23 +20,22 @@ public class Main {
         ConcurrentHashMap<Integer, SceneMessage> scmMap=new ConcurrentHashMap<>();
         ConcurrentHashMap<Integer, NPCMessage> npcMap=new ConcurrentHashMap<>();
         //读取配置文件
-        BaseMessage baseMessage=YmlUtils.getBaseMessage();
-        for (SceneMessage s:baseMessage.getSceneMessages()) {
+
+        for (SceneMessage s:YmlUtils.getSceneMessage()) {
             scmMap.put(s.getId(),s);
         }
-        for (NPCMessage n:baseMessage.getNpcMessages()) {
+        for (NPCMessage n:YmlUtils.getNpcMessage()) {
             npcMap.put(n.getId(),n);
         }
         ConcurrentHashMap<Integer, SkillMessage> skillMessageConcurrentHashMap=new ConcurrentHashMap<>();
-        List<SkillMessage> skillMessages=baseMessage.getSkillMessages();
+        List<SkillMessage> skillMessages=YmlUtils.getSkillMessage();
         for (SkillMessage s:skillMessages) {
             skillMessageConcurrentHashMap.put(s.getId(),s);
         }
         MmoCacheCilent.init(null,null,new HashMap<Integer, MmoRole>(),scmMap,npcMap);
 
-
         ConcurrentHashMap<Integer, BufferMessage> bufferMessageConcurrentHashMap=new ConcurrentHashMap<>();
-        List<BufferMessage> bufferMessage=baseMessage.getBufferMessage();
+        List<BufferMessage> bufferMessage=YmlUtils.getBufferMessage();
         for (BufferMessage b:bufferMessage) {
             bufferMessageConcurrentHashMap.put(b.getId(),b);
         }

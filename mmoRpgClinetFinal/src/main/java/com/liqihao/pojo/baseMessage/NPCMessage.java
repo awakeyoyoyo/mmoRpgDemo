@@ -17,7 +17,25 @@ public class NPCMessage {
 
     private Integer blood;
 
+    private Integer mp;
 
+    private Integer attack;
+
+    public Integer getAttack() {
+        return attack;
+    }
+
+    public void setAttack(Integer attack) {
+        this.attack = attack;
+    }
+
+    public Integer getMp() {
+        return mp;
+    }
+
+    public void setMp(Integer mp) {
+        this.mp = mp;
+    }
 
     @Override
     public String toString() {

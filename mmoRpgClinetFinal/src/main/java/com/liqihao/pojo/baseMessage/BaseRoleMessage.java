@@ -3,6 +3,15 @@ package com.liqihao.pojo.baseMessage;
 public class BaseRoleMessage {
     private Integer hp;
     private Integer mp;
+    private Integer attack;
+
+    public Integer getAttack() {
+        return attack;
+    }
+
+    public void setAttack(Integer attack) {
+        this.attack = attack;
+    }
 
     public Integer getHp() {
         return hp;

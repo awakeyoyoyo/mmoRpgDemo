@@ -29,6 +29,7 @@ public class CommonsUtil {
         roleTemp.setBlood(npc.getBlood());
         roleTemp.setNowBlood(npc.getNowBlood());
         roleTemp.setMp(npc.getNowBlood());
+        roleTemp.setAttack(npc.getAttack());
         roleTemp.setNowMp(npc.getNowMp());
         return roleTemp;
     }

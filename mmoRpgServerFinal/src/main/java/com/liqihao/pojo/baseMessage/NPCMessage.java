@@ -19,6 +19,16 @@ public class NPCMessage {
 
     private Integer mp;
 
+    private Integer attack;
+
+    public Integer getAttack() {
+        return attack;
+    }
+
+    public void setAttack(Integer attack) {
+        this.attack = attack;
+    }
+
     public Integer getMp() {
         return mp;
     }

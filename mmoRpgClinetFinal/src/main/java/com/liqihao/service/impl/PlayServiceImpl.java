@@ -128,6 +128,11 @@ public class PlayServiceImpl implements PlayService {
             }else{
                 //受伤
                 MmoRole mmoRole=MmoCacheCilent.getInstance().getRoleHashMap().get(roleIdDamage.getToRoleId());
+                if (mmoRole==null){
+                    if (roleIdDamage.getToRoleId()==MmoCacheCilent.getInstance().getNowRole().getId()){
+                        mmoRole=MmoCacheCilent.getInstance().getNowRole();
+                    }
+                }
                 //判断减少的数据是啥
                 if(roleIdDamage.getDamageType()==DamageTypeCode.HP.getCode()){
                     mmoRole.setNowBlood(roleIdDamage.getNowblood());

@@ -129,6 +129,7 @@ public class PlayServiceImpl implements PlayService{
         simpleRole.setNowBlood(baseRoleMessage.getHp());
         simpleRole.setMp(baseRoleMessage.getMp());
         simpleRole.setNowMp(baseRoleMessage.getMp());
+        simpleRole.setAttack(baseRoleMessage.getAttack());
         List<Integer> skillIds=CommonsUtil.split(simpleRole.getSkillIds());
         simpleRole.setSkillIdList(skillIds);
         simpleRole.setCdMap(new HashMap<Integer, Long>());
@@ -268,8 +269,6 @@ public class PlayServiceImpl implements PlayService{
         skillBean.setBaseDamage(skillMessage.getBaseDamage());
         skillBean.setSkillName(skillMessage.getSkillName());
         //角色扣篮或者扣血
-        //根据channel获取角色ID
-
         if (skillBean.getConsumeType().equals(ConsuMeTypeCode.HP.getCode())){
             //扣血
             //判断血量是否足够
@@ -332,6 +331,10 @@ public class PlayServiceImpl implements PlayService{
             damageR.setSkillId(skillBean.getId());
             damageR.setState(mmoSimpleNPC.getStatus());
             list.add(damageR.build());
+            //怪物攻击本人
+            if (!mmoSimpleNPC.getStatus().equals(RoleStatusCode.DIE.getCode())){
+                npcAttack(mmoSimpleNPC.getId(),roleId);
+            }
         }
 
         //查看是否有buffer
@@ -395,5 +398,15 @@ public class PlayServiceImpl implements PlayService{
         return  nettyResponse;
     }
 
-
+    public void npcAttack(Integer npcId,Integer roleId){
+        ScheduledFuture<?> t=ScheduledThreadPoolUtil.getNpcTaskMap().get(npcId);
+        if (t!=null){
+            //代表着该npc正在攻击一个目标
+            return;
+        }else{
+            ScheduledThreadPoolUtil.NpcAttackTask npcAttackTask=new ScheduledThreadPoolUtil.NpcAttackTask(roleId,npcId);
+            t=ScheduledThreadPoolUtil.getScheduledExecutorService().scheduleAtFixedRate(npcAttackTask,0,6,TimeUnit.SECONDS);
+            ScheduledThreadPoolUtil.getNpcTaskMap().put(npcId,t);
+        }
+    }
 }

@@ -44,6 +44,7 @@ public class ServerInit{
             npc.setNowBlood(n.getBlood());
             npc.setMp(n.getMp());
             npc.setNowMp(n.getMp());
+            npc.setAttack(n.getAttack());
             npc.setBufferBeans(new CopyOnWriteArrayList<>());
             npcMap.put(n.getId(),npc);
         }
