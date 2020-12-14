@@ -1,0 +1,15 @@
+medicineMessages:
+  - id: 1
+    name: "普通血药"
+    singleFlag: false
+    articleType: 0
+    description: "5秒内缓慢恢复50血量"
+    damageType: 0
+    damageValue: 50
+  - id: 2
+    name: "普通蓝药"
+    singleFlag: false
+    articleType: 0
+    description: "5秒内缓慢恢复50蓝量"
+    damageType: 1
+    damageValue: 50

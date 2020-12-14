@@ -8,7 +8,24 @@ public class SkillMessage {
     private Integer consumeType;
     private Integer consumeNum;
     private String bufferIds;
+    private Integer skillType;
+    private double addPercon;
 
+    public double getAddPercon() {
+        return addPercon;
+    }
+
+    public void setAddPercon(double addPercon) {
+        this.addPercon = addPercon;
+    }
+
+    public Integer getSkillType() {
+        return skillType;
+    }
+
+    public void setSkillType(Integer skillType) {
+        this.skillType = skillType;
+    }
     public Integer getId() {
         return id;
     }

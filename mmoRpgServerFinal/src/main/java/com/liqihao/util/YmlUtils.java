@@ -20,6 +20,8 @@ public class YmlUtils {
     private static String sceneMessage_file = "classpath:message/sceneMessages";
     private static String skillMessage_file = "classpath:message/skillMessages";
     private static String bufferMessage_file = "classpath:message/bufferMessage";
+    private static String medicineMessage_file = "classpath:message/medicineMessage";
+    private static String equipmentMessage_file = "classpath:message/equipmentMessage";
     public static BaseRoleMessage getBaseRoleMessage() throws FileNotFoundException {
         InputStream in = null;
         File file = ResourceUtils.getFile(baseRoleMessage_file);
@@ -59,5 +61,21 @@ public class YmlUtils {
         Yaml props = new Yaml(new Constructor(BaseMessage.class));
         BaseMessage obj = props.load(in);
         return obj.getBufferMessage();
+    }
+    public static List<MedicineMessage> getMedicineMessages() throws FileNotFoundException {
+        InputStream in = null;
+        File file = ResourceUtils.getFile(medicineMessage_file);
+        in = new BufferedInputStream(new FileInputStream(file));
+        Yaml props = new Yaml(new Constructor(BaseMessage.class));
+        BaseMessage obj = props.load(in);
+        return obj.getMedicineMessages();
+    }
+    public static List<EquipmentMessage> getEquipmentMessages() throws FileNotFoundException {
+        InputStream in = null;
+        File file = ResourceUtils.getFile(equipmentMessage_file);
+        in = new BufferedInputStream(new FileInputStream(file));
+        Yaml props = new Yaml(new Constructor(BaseMessage.class));
+        BaseMessage obj = props.load(in);
+        return obj.getEquipmentMessages();
     }
 }

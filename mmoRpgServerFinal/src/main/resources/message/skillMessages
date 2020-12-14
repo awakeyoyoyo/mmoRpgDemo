@@ -5,6 +5,8 @@ skillMessages:
     cd: 10
     consumeType: 1
     consumeNum: 10
+    skillType: 0
+    addPercon: 0
     bufferIds: "1"
   - id: 2
     skillName: "光芒余韵"
@@ -12,6 +14,8 @@ skillMessages:
     cd: 20
     consumeType: 1
     consumeNum: 30
+    skillType: 1
+    addPercon: 0.5
     bufferIds: ""
   - id: 3
     skillName: "普通攻击"
@@ -19,4 +23,6 @@ skillMessages:
     cd: 1
     consumeType: 2
     consumeNum: 0
+    skillType: 1
+    addPercon: 0.1
     bufferIds: ""

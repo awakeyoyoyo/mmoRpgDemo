@@ -1,4 +1,4 @@
 baseRoleMessage:
   hp: 1000
   mp: 50
-  attack: 3
+  attack: 30

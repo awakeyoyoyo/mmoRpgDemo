@@ -36,6 +36,26 @@ public class MmoCache {
     private ConcurrentHashMap<Integer,SkillMessage> skillMessageConcurrentHashMap;
     //buffer的基本信息
     private ConcurrentHashMap<Integer, BufferMessage> bufferMessageConcurrentHashMap;
+    //药品基本信息
+    private ConcurrentHashMap<Integer, MedicineMessage> medicineMessageConcurrentHashMap;
+    //装备基本信息
+    private ConcurrentHashMap<Integer, EquipmentMessage> equipmentMessageConcurrentHashMap;
+
+    public ConcurrentHashMap<Integer, MedicineMessage> getMedicineMessageConcurrentHashMap() {
+        return medicineMessageConcurrentHashMap;
+    }
+
+    public void setMedicineMessageConcurrentHashMap(ConcurrentHashMap<Integer, MedicineMessage> medicineMessageConcurrentHashMap) {
+        this.medicineMessageConcurrentHashMap = medicineMessageConcurrentHashMap;
+    }
+
+    public ConcurrentHashMap<Integer, EquipmentMessage> getEquipmentMessageConcurrentHashMap() {
+        return equipmentMessageConcurrentHashMap;
+    }
+
+    public void setEquipmentMessageConcurrentHashMap(ConcurrentHashMap<Integer, EquipmentMessage> equipmentMessageConcurrentHashMap) {
+        this.equipmentMessageConcurrentHashMap = equipmentMessageConcurrentHashMap;
+    }
 
     public ConcurrentHashMap<Channel, Integer> getIdChannelConcurrentHashMap() {
         return idChannelConcurrentHashMap;
@@ -102,7 +122,6 @@ public class MmoCache {
         return instance;
     }
     public MmoCache() {
-
     }
 
     public MmoCache(

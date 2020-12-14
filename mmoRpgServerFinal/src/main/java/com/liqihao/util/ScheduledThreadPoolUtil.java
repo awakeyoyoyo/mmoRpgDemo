@@ -280,7 +280,6 @@ public class ScheduledThreadPoolUtil {
                 npcTaskMap.remove(npcId);
                 return;
             }else {
-                Integer nowBood=mmoSimpleRole.getNowBlood();
                 //npc默认使用普通攻击
                 //从缓存中找出技能
                 SkillMessage skillMessage=MmoCache.getInstance().getSkillMessageConcurrentHashMap().get(3);
@@ -292,14 +291,28 @@ public class ScheduledThreadPoolUtil {
                 skillBean.setBufferIds(CommonsUtil.split(skillMessage.getBufferIds()));
                 skillBean.setBaseDamage(skillMessage.getBaseDamage());
                 skillBean.setSkillName(skillMessage.getSkillName());
-                Integer reduce=skillBean.getBaseDamage()+npc.getAttack();
-                nowBood-=reduce;
-                if (nowBood<=0){
-                    reduce=reduce+nowBood;
-                    nowBood=0;
+                skillBean.setAddPercon(skillMessage.getAddPercon());
+                skillBean.setSkillType(skillMessage.getSkillType());
+                Integer hp=mmoSimpleRole.getNowBlood();
+                Integer reduce=0;
+                if (skillBean.getSkillType().equals(SkillTypeCode.FIED.getCode())){
+                    //固伤 只有技能伤害
+                    hp-=skillBean.getBaseDamage();
+                    reduce=skillBean.getBaseDamage();
+                }
+                if(skillBean.getSkillType().equals(SkillTypeCode.PERCENTAGE.getCode())){
+                    //百分比 增加攻击力的10%
+                    Integer damage=skillBean.getBaseDamage();
+                    damage=(int)Math.ceil(damage+mmoSimpleRole.getAttack()*skillBean.getAddPercon());
+                    hp=hp-damage;
+                    reduce=damage;
+                }
+                if (hp<=0){
+                    reduce=reduce+hp;
+                    hp=0;
                     mmoSimpleRole.setStatus(RoleStatusCode.DIE.getCode());
                 }
-                mmoSimpleRole.setNowBlood(nowBood);
+                mmoSimpleRole.setNowBlood(hp);
                 //广播
                 // 生成一个角色扣血或者扣篮
                 List<PlayModel.RoleIdDamage> list=new ArrayList<>();

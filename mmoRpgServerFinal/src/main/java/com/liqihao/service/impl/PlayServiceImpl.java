@@ -268,6 +268,8 @@ public class PlayServiceImpl implements PlayService{
         skillBean.setBufferIds(CommonsUtil.split(skillMessage.getBufferIds()));
         skillBean.setBaseDamage(skillMessage.getBaseDamage());
         skillBean.setSkillName(skillMessage.getSkillName());
+        skillBean.setAddPercon(skillMessage.getAddPercon());
+        skillBean.setSkillType(skillMessage.getSkillType());
         //角色扣篮或者扣血
         if (skillBean.getConsumeType().equals(ConsuMeTypeCode.HP.getCode())){
             //扣血
@@ -312,8 +314,23 @@ public class PlayServiceImpl implements PlayService{
         list.add(damageU.build());
         //攻击怪物
         for (MmoSimpleNPC mmoSimpleNPC:target){
-            int hp=mmoSimpleNPC.getNowBlood()-skillBean.getBaseDamage();
+
+            Integer hp=mmoSimpleNPC.getNowBlood();
+            Integer reduce=0;
+            if (skillBean.getSkillType().equals(SkillTypeCode.FIED.getCode())){
+                //固伤 只有技能伤害
+                hp-=skillBean.getBaseDamage();
+                reduce=skillBean.getBaseDamage();
+            }
+            if(skillBean.getSkillType().equals(SkillTypeCode.PERCENTAGE.getCode())){
+                //百分比 按照攻击力比例增加
+                Integer damage=skillBean.getBaseDamage();
+                damage=(int)Math.ceil(damage+mmoSimpleNPC.getAttack()*skillBean.getAddPercon());
+                hp=hp-damage;
+                reduce=damage;
+            }
             if (hp<=0){
+                reduce=reduce+hp;
                 hp=0;
                 mmoSimpleNPC.setStatus(RoleStatusCode.DIE.getCode());
             }
@@ -324,7 +341,7 @@ public class PlayServiceImpl implements PlayService{
             damageR.setToRoleId(mmoSimpleNPC.getId());
             damageR.setAttackStyle(AttackStyleCode.ATTACK.getCode());
             damageR.setBufferId(-1);
-            damageR.setDamage(skillBean.getBaseDamage());
+            damageR.setDamage(reduce);
             damageR.setDamageType(DamageTypeCode.HP.getCode());
             damageR.setMp(mmoSimpleNPC.getNowMp());
             damageR.setNowblood(mmoSimpleNPC.getNowBlood());

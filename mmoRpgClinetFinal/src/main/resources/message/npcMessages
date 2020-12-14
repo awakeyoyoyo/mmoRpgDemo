@@ -8,7 +8,7 @@ npcMessages:
     talk: "乖乖地。-不用给意见。"
     blood: 100
     mp: 100
-    attack: 1
+    attack: 10
   - id: 1001
     name: "柯拉"
     mmosceneid: 2
@@ -28,7 +28,7 @@ npcMessages:
     talk: "祝贺吧。-穿越时空，能知过去未来，收集所有蒙面超人的力量。-他就是蒙面超人时王!"
     blood: 100
     mp: 100
-    attack: 1
+    attack: 10
   - id: 1003
     name: "异类Build"
     mmosceneid: 3
@@ -38,7 +38,7 @@ npcMessages:
     talk: "我系异类Build。"
     blood: 100
     mp: 100
-    attack: 1
+    attack: 10
   - id: 1004
     name: "异类Ghost"
     mmosceneid: 3
@@ -48,7 +48,7 @@ npcMessages:
     talk: "我系异类Ghost。"
     blood: 100
     mp: 100
-    attack: 1
+    attack: 10
   - id: 1005
     name: "异类Zio"
     mmosceneid: 4
@@ -58,4 +58,4 @@ npcMessages:
     talk: "我系异类Zio。"
     blood: 100
     mp: 100
-    attack: 1
+    attack: 10

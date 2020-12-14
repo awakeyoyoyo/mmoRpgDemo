@@ -53,13 +53,26 @@ public class ServerInit{
         MmoCache.getInstance().setBaseRoleMessage(baseRoleMessage);
         ConcurrentHashMap<Integer, SkillMessage> skillMessageConcurrentHashMap=new ConcurrentHashMap<>();
         ConcurrentHashMap<Integer, BufferMessage> bufferMessageConcurrentHashMap=new ConcurrentHashMap<>();
+        ConcurrentHashMap<Integer, MedicineMessage> medicineMessageConcurrentHashMap=new ConcurrentHashMap<>();
+        ConcurrentHashMap<Integer, EquipmentMessage> equipmentMessageConcurrentHashMap=new ConcurrentHashMap<>();
         List<SkillMessage> skillMessages=YmlUtils.getSkillMessage();
         for (SkillMessage s:skillMessages) {
             skillMessageConcurrentHashMap.put(s.getId(),s);
         }
+        //buffer信息
         List<BufferMessage> bufferMessage=YmlUtils.getBufferMessage();
         for (BufferMessage b:bufferMessage) {
             bufferMessageConcurrentHashMap.put(b.getId(),b);
+        }
+        //药品信息
+        List<MedicineMessage> medicineMessages=YmlUtils.getMedicineMessages();
+        for (MedicineMessage medicineMessage:medicineMessages) {
+            medicineMessageConcurrentHashMap.put(medicineMessage.getId(),medicineMessage);
+        }
+        //装备信息
+        List<EquipmentMessage> equipmentMessages=YmlUtils.getEquipmentMessages();
+        for (EquipmentMessage equipmentMessage:equipmentMessages) {
+            equipmentMessageConcurrentHashMap.put(equipmentMessage.getId(),equipmentMessage);
         }
         MmoCache.getInstance().setSkillMessageConcurrentHashMap(skillMessageConcurrentHashMap);
         MmoCache.getInstance().setBufferMessageConcurrentHashMap(bufferMessageConcurrentHashMap);
