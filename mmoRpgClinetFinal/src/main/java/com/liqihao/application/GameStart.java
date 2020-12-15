@@ -275,13 +275,12 @@ public class GameStart {
 
     private void askCanRequest(Scanner scanner) {
         System.out.println("稍等片刻。等待数据传输");
-        Integer sceneId= MmoCacheCilent.getInstance().getNowSceneId();
         NettyRequest nettyRequest=new NettyRequest();
         nettyRequest.setCmd(ConstantValue.ASK_CAN_REQUEST);
         SceneModel.SceneModelMessage myMessage;
         myMessage=SceneModel.SceneModelMessage.newBuilder()
                 .setDataType(SceneModel.SceneModelMessage.DateType.AskCanRequest)
-                .setAskCanRequest(SceneModel.AskCanRequest.newBuilder().setSceneId(sceneId).build()).build();
+                .setAskCanRequest(SceneModel.AskCanRequest.newBuilder().build()).build();
         byte[] data=myMessage.toByteArray();
         nettyRequest.setData(data);
         channel.writeAndFlush(nettyRequest);

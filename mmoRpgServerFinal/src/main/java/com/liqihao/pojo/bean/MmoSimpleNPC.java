@@ -2,8 +2,11 @@ package com.liqihao.pojo.bean;
 
 import com.liqihao.commons.enums.RoleStatusCode;
 import com.liqihao.pojo.baseMessage.NPCMessage;
+import com.liqihao.util.ScheduledThreadPoolUtil;
 
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 
 public class MmoSimpleNPC extends NPCMessage {
@@ -55,4 +58,17 @@ public class MmoSimpleNPC extends NPCMessage {
     public void setNowBlood(Integer nowBlood) {
         this.nowBlood = nowBlood;
     }
+
+    public void npcAttack(Integer roleId){
+        ScheduledFuture<?> t= ScheduledThreadPoolUtil.getNpcTaskMap().get(getId());
+        if (t!=null){
+            //代表着该npc正在攻击一个目标
+            return;
+        }else{
+            ScheduledThreadPoolUtil.NpcAttackTask npcAttackTask=new ScheduledThreadPoolUtil.NpcAttackTask(roleId,getId());
+            t=ScheduledThreadPoolUtil.getScheduledExecutorService().scheduleAtFixedRate(npcAttackTask,0,6, TimeUnit.SECONDS);
+            ScheduledThreadPoolUtil.getNpcTaskMap().put(getId(),t);
+        }
+    }
+
 }

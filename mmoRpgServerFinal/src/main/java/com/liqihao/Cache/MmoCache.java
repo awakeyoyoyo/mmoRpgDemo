@@ -3,6 +3,7 @@ package com.liqihao.Cache;
 import com.liqihao.pojo.baseMessage.*;
 import com.liqihao.pojo.bean.MmoSimpleNPC;
 import com.liqihao.pojo.bean.MmoSimpleRole;
+import com.liqihao.pojo.bean.SceneBean;
 import io.netty.channel.Channel;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -16,6 +17,8 @@ public class MmoCache {
     private ConcurrentHashMap<Integer, MmoSimpleRole> mmoSimpleRoleConcurrentHashMap;
     //id--channle
     private ConcurrentHashMap<Integer, Channel> channelConcurrentHashMap;
+    //实例场景
+    private ConcurrentHashMap<Integer, SceneBean> sceneBeanConcurrentHashMap;
     //场景基本信息
     private ConcurrentHashMap<Integer, SceneMessage> sceneMessageConcurrentHashMap;
     //npc
@@ -30,6 +33,14 @@ public class MmoCache {
     private ConcurrentHashMap<Integer, MedicineMessage> medicineMessageConcurrentHashMap;
     //装备基本信息
     private ConcurrentHashMap<Integer, EquipmentMessage> equipmentMessageConcurrentHashMap;
+
+    public ConcurrentHashMap<Integer, SceneBean> getSceneBeanConcurrentHashMap() {
+        return sceneBeanConcurrentHashMap;
+    }
+
+    public void setSceneBeanConcurrentHashMap(ConcurrentHashMap<Integer, SceneBean> sceneBeanConcurrentHashMap) {
+        this.sceneBeanConcurrentHashMap = sceneBeanConcurrentHashMap;
+    }
 
     public ConcurrentHashMap<Integer, MedicineMessage> getMedicineMessageConcurrentHashMap() {
         return medicineMessageConcurrentHashMap;

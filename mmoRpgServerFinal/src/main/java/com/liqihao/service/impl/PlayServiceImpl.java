@@ -121,7 +121,8 @@ public class PlayServiceImpl implements PlayService{
         simpleRole.setOnstatus(role.getOnstatus());
         simpleRole.setStatus(role.getStatus());
         simpleRole.setType(role.getType());
-        simpleRole.setSkillIds(role.getSkillIds());
+        List<SkillBean> skillBeans=CommonsUtil.skillIdsToSkillBeans(role.getSkillIds());
+        simpleRole.setSkillBeans(skillBeans);
         //从基础信息获取
         BaseRoleMessage baseRoleMessage=MmoCache.getInstance().getBaseRoleMessage();
         simpleRole.setBlood(baseRoleMessage.getHp());
@@ -169,7 +170,7 @@ public class PlayServiceImpl implements PlayService{
                 .setType(simpleRole.getType())
                 .setBlood(simpleRole.getBlood())
                 .setNowBlood(simpleRole.getBlood())
-                .addAllSkillIdList(skillIds)
+                .addAllSkillIdList(simpleRole.getSkillIdList())
                 .setMp(simpleRole.getMp())
                 .setNowMp(simpleRole.getNowMp())
                 .build();
@@ -230,23 +231,39 @@ public class PlayServiceImpl implements PlayService{
         PlayModel.PlayModelMessage myMessage;
         myMessage=PlayModel.PlayModelMessage.parseFrom(data);
         Integer skillId=myMessage.getUseSkillRequest().getSkillId();
-        Integer sceneId=myMessage.getUseSkillRequest().getSceneId();
         Integer roleId=CommonsUtil.getRoleIdByChannel(channel);
+        MmoSimpleRole mmoSimpleRole=MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap().get(roleId);
+        Integer sceneId=mmoSimpleRole.getMmosceneid();
         if (roleId==null){
             return new NettyResponse(StateCode.FAIL,ConstantValue.USE_SKILL_RSPONSE, "未登陆".getBytes());
         }
         //判断cd
-        MmoSimpleRole mmoSimpleRole=MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap().get(roleId);
         Long nextTime= mmoSimpleRole.getCdMap().get(skillId);
         if (nextTime!=null){
             if (System.currentTimeMillis()<nextTime){
                 return new NettyResponse(StateCode.FAIL,ConstantValue.USE_SKILL_RSPONSE, "该技能cd中。。".getBytes());
             }
         }
+        //判断蓝是否够
+        SkillMessage skillMessage=MmoCache.getInstance().getSkillMessageConcurrentHashMap().get(skillId);
+        if (skillMessage.getConsumeType().equals(ConsuMeTypeCode.HP.getCode())) {
+            //扣血
+            //判断血量是否足够
+            if (mmoSimpleRole.getNowBlood() < skillMessage.getConsumeNum()) {
+                //血量不够
+                return new NettyResponse(StateCode.FAIL, ConstantValue.USE_SKILL_RSPONSE, "血量不够无法使用该技能".getBytes());
+            }
+        }else {
+            //扣篮
+            //判断蓝量是否足够
+            if (mmoSimpleRole.getNowMp()<skillMessage.getConsumeNum()){
+                //蓝量不够
+                return new NettyResponse(StateCode.FAIL,ConstantValue.USE_SKILL_RSPONSE, "蓝量不够无法使用该技能".getBytes());
+            }
+        }
         //从缓存中查找出 怪物
         ConcurrentHashMap<Integer, MmoSimpleNPC> npcMap=MmoCache.getInstance().getNpcMessageConcurrentHashMap();
         ArrayList<MmoSimpleNPC> target=new ArrayList<>();
-        ArrayList<Integer> players=new ArrayList<>();
         for (Integer npcId:npcMap.keySet()) {
             MmoSimpleNPC npc=npcMap.get(npcId);
             if (npc.getMmosceneid().equals(sceneId)&&npc.getType().equals(RoleTypeCode.ENEMY.getCode())){
@@ -256,149 +273,9 @@ public class PlayServiceImpl implements PlayService{
 
             }
         }
-        ConcurrentHashMap<Integer, MmoSimpleRole> roleMap=MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
-        for (Integer npcId:roleMap.keySet()) {
-            MmoSimpleRole role=roleMap.get(npcId);
-            if (role.getMmosceneid().equals(sceneId)&&role.getType().equals(RoleTypeCode.PLAYER.getCode())&&!role.getId().equals(roleId)){
-                players.add(role.getId());
-            }
-        }
-        //从缓存中找出技能
-        SkillMessage skillMessage=MmoCache.getInstance().getSkillMessageConcurrentHashMap().get(skillId);
-        SkillBean skillBean=new SkillBean();
-        skillBean.setId(skillMessage.getId());
-        skillBean.setConsumeType(skillMessage.getConsumeType());
-        skillBean.setConsumeNum(skillMessage.getConsumeNum());
-        skillBean.setCd(skillMessage.getCd());
-        skillBean.setBufferIds(CommonsUtil.split(skillMessage.getBufferIds()));
-        skillBean.setBaseDamage(skillMessage.getBaseDamage());
-        skillBean.setSkillName(skillMessage.getSkillName());
-        skillBean.setAddPercon(skillMessage.getAddPercon());
-        skillBean.setSkillType(skillMessage.getSkillType());
-        //角色扣篮或者扣血
-        if (skillBean.getConsumeType().equals(ConsuMeTypeCode.HP.getCode())){
-            //扣血
-            //判断血量是否足够
-            if (mmoSimpleRole.getNowBlood()<skillBean.getConsumeNum()){
-                //血量不够
-                return new NettyResponse(StateCode.FAIL,ConstantValue.USE_SKILL_RSPONSE, "血量不够无法使用该技能".getBytes());
-            }
-            mmoSimpleRole.setNowBlood(mmoSimpleRole.getNowBlood()-skillBean.getConsumeNum());
 
-        }else {
-            //扣篮
-            //判断蓝量是否足够
-            if (mmoSimpleRole.getNowMp()<skillBean.getConsumeNum()){
-                //蓝量不够
-                return new NettyResponse(StateCode.FAIL,ConstantValue.USE_SKILL_RSPONSE, "蓝量不够无法使用该技能".getBytes());
-            }
-            mmoSimpleRole.setNowMp(mmoSimpleRole.getNowMp()-skillBean.getConsumeNum());
-            //判断是否已经有自动回蓝任务
-            ConcurrentHashMap<String, ScheduledFuture<?>> replyMpRoleMap=ScheduledThreadPoolUtil.getReplyMpRole();
-            //自动回蓝任务的key
-            String key=roleId+"AUTOMP";
-            if (!replyMpRoleMap.containsKey(key)) {
-                //number为空 代表着自动回蓝
-                ScheduledThreadPoolUtil.ReplyMpTask replyMpTask = new ScheduledThreadPoolUtil.ReplyMpTask(roleId, null,DamageTypeCode.MP.getCode(),key);
-                // 周期性执行，每5秒执行一次
-                ScheduledFuture<?> t=ScheduledThreadPoolUtil.getScheduledExecutorService().scheduleAtFixedRate(replyMpTask, 0, 5, TimeUnit.SECONDS);
-                replyMpRoleMap.put(key,t);
-            }
-        }
-        List<PlayModel.RoleIdDamage> list=new ArrayList<>();
-        // 生成一个角色扣血或者扣篮
-        PlayModel.RoleIdDamage.Builder damageU=PlayModel.RoleIdDamage.newBuilder();
-        damageU.setFromRoleId(roleId);
-        damageU.setToRoleId(roleId);
-        damageU.setAttackStyle(AttackStyleCode.USESKILL.getCode());
-        damageU.setBufferId(-1);
-        damageU.setDamage(skillBean.getConsumeNum());
-        damageU.setDamageType(skillBean.getConsumeType());
-        damageU.setMp(mmoSimpleRole.getNowMp());
-        damageU.setNowblood(mmoSimpleRole.getNowBlood());
-        damageU.setSkillId(skillBean.getId());
-        damageU.setState(mmoSimpleRole.getStatus());
-        list.add(damageU.build());
-        //攻击怪物
-        for (MmoSimpleNPC mmoSimpleNPC:target){
-            Integer hp=mmoSimpleNPC.getNowBlood();
-            Integer reduce=0;
-            if (skillBean.getSkillType().equals(SkillTypeCode.FIED.getCode())){
-                //固伤 只有技能伤害
-                hp-=skillBean.getBaseDamage();
-                reduce=skillBean.getBaseDamage();
-            }
-            if(skillBean.getSkillType().equals(SkillTypeCode.PERCENTAGE.getCode())){
-                //百分比 按照攻击力比例增加
-                Integer damage=skillBean.getBaseDamage();
-                damage=(int)Math.ceil(damage+mmoSimpleNPC.getAttack()*skillBean.getAddPercon());
-                hp=hp-damage;
-                reduce=damage;
-            }
-            if (hp<=0){
-                reduce=reduce+hp;
-                hp=0;
-                mmoSimpleNPC.setStatus(RoleStatusCode.DIE.getCode());
-            }
-            mmoSimpleNPC.setNowBlood(hp);
-            // 扣血伤害
-            PlayModel.RoleIdDamage.Builder damageR=PlayModel.RoleIdDamage.newBuilder();
-            damageR.setFromRoleId(roleId);
-            damageR.setToRoleId(mmoSimpleNPC.getId());
-            damageR.setAttackStyle(AttackStyleCode.ATTACK.getCode());
-            damageR.setBufferId(-1);
-            damageR.setDamage(reduce);
-            damageR.setDamageType(DamageTypeCode.HP.getCode());
-            damageR.setMp(mmoSimpleNPC.getNowMp());
-            damageR.setNowblood(mmoSimpleNPC.getNowBlood());
-            damageR.setSkillId(skillBean.getId());
-            damageR.setState(mmoSimpleNPC.getStatus());
-            list.add(damageR.build());
-            //怪物攻击本人
-            if (!mmoSimpleNPC.getStatus().equals(RoleStatusCode.DIE.getCode())){
-                npcAttack(mmoSimpleNPC.getId(),roleId);
-            }
-        }
-
-        //查看是否有buffer
-        List<Integer> buffers=skillBean.getBufferIds();
-        List<BufferBean> bufferBeans=new ArrayList<>();
-        for (Integer buffId:buffers) {
-            BufferMessage b=MmoCache.getInstance().getBufferMessageConcurrentHashMap().get(buffId);
-            for (MmoSimpleNPC mmoSimpleNPC:target) {
-                //生成buffer类
-                BufferBean bufferBean=new BufferBean();
-                bufferBean.setFromRoleId(roleId);
-                bufferBean.setBuffNum(b.getBuffNum());
-                bufferBean.setBuffType(b.getBuffType());
-                bufferBean.setName(b.getName());
-                bufferBean.setId(b.getId());
-                bufferBean.setLastTime(b.getLastTime());
-                bufferBean.setSpaceTime(b.getSpaceTime());
-                bufferBean.setCreateTime(System.currentTimeMillis());
-                bufferBeans.add(bufferBean);
-                bufferBean.setToRoleId(mmoSimpleNPC.getId());
-                Integer count=bufferBean.getLastTime()/bufferBean.getSpaceTime();
-                //增加bufferid
-                mmoSimpleNPC.getBufferBeans().add(bufferBean);
-                //线程池中放入任务
-                ScheduledThreadPoolUtil.BufferTask bufferTask = new ScheduledThreadPoolUtil.BufferTask(bufferBean, count);
-                //查看是否已经有了该buffer 有则覆盖无则直接加入
-                Integer key=Integer.parseInt(mmoSimpleNPC.getId().toString()+bufferBean.getId().toString());
-                ConcurrentHashMap<Integer,ScheduledFuture<?>> bufferRole=ScheduledThreadPoolUtil.getBufferRole();
-                if (bufferRole.containsKey(key)){
-                    bufferRole.get(key).cancel(false);
-                }
-                ScheduledFuture<?> t =ScheduledThreadPoolUtil.getScheduledExecutorService().scheduleAtFixedRate(bufferTask,0,bufferBean.getSpaceTime(),TimeUnit.SECONDS);
-                bufferRole.put(key,t);
-            }
-        }
-        //cd
-        Map<Integer,Long> map=mmoSimpleRole.getCdMap();
-        Long time=System.currentTimeMillis();
-        int addTime=skillBean.getCd()*1000;
-        map.put(skillBean.getId(),time+addTime);
-
+        //使用技能
+        List<PlayModel.RoleIdDamage> list=mmoSimpleRole.useSkill(target,skillId);
 
         //封装成nettyResponse
         PlayModel.PlayModelMessage.Builder myMessageBuilder=PlayModel.PlayModelMessage.newBuilder();
@@ -411,6 +288,14 @@ public class PlayServiceImpl implements PlayService{
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
         //广播
+        ArrayList<Integer> players=new ArrayList<>();
+        ConcurrentHashMap<Integer, MmoSimpleRole> roleMap=MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
+        for (Integer npcId:roleMap.keySet()) {
+            MmoSimpleRole role=roleMap.get(npcId);
+            if (role.getMmosceneid().equals(sceneId)&&role.getType().equals(RoleTypeCode.PLAYER.getCode())&&!role.getId().equals(roleId)){
+                players.add(role.getId());
+            }
+        }
         for (Integer playerId:players){
             ConcurrentHashMap<Integer,Channel> cMap=MmoCache.getInstance().getChannelConcurrentHashMap();
             Channel c=cMap.get(playerId);
@@ -421,15 +306,4 @@ public class PlayServiceImpl implements PlayService{
         return  nettyResponse;
     }
 
-    public void npcAttack(Integer npcId,Integer roleId){
-        ScheduledFuture<?> t=ScheduledThreadPoolUtil.getNpcTaskMap().get(npcId);
-        if (t!=null){
-            //代表着该npc正在攻击一个目标
-            return;
-        }else{
-            ScheduledThreadPoolUtil.NpcAttackTask npcAttackTask=new ScheduledThreadPoolUtil.NpcAttackTask(roleId,npcId);
-            t=ScheduledThreadPoolUtil.getScheduledExecutorService().scheduleAtFixedRate(npcAttackTask,0,6,TimeUnit.SECONDS);
-            ScheduledThreadPoolUtil.getNpcTaskMap().put(npcId,t);
-        }
-    }
 }

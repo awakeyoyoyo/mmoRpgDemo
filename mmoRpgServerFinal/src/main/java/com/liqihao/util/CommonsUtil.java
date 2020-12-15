@@ -4,10 +4,9 @@ package com.liqihao.util;
 import com.liqihao.Cache.MmoCache;
 import com.liqihao.pojo.baseMessage.EquipmentMessage;
 import com.liqihao.pojo.baseMessage.MedicineMessage;
-import com.liqihao.pojo.bean.EquipmentBean;
-import com.liqihao.pojo.bean.MedicineBean;
-import com.liqihao.pojo.bean.MmoSimpleNPC;
-import com.liqihao.pojo.bean.MmoSimpleRole;
+import com.liqihao.pojo.baseMessage.SceneMessage;
+import com.liqihao.pojo.baseMessage.SkillMessage;
+import com.liqihao.pojo.bean.*;
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
 
@@ -150,5 +149,40 @@ public class CommonsUtil {
         System.out.println(splitToStringList(str).get(2));
         System.out.println(splitToStringList(str2));
         System.out.println(splitToStringList(str3));
+    }
+
+    public static SceneBean sceneMessageToSceneBean(SceneMessage m) {
+        SceneBean sceneBean=new SceneBean();
+        sceneBean.setId(m.getId());
+        sceneBean.setName(m.getPlaceName());
+        sceneBean.setCanScenes(split(m.getCanScene()));
+        sceneBean.setRoles(new ArrayList<>());
+        List<Integer> npcs=new ArrayList<>();
+        for (MmoSimpleNPC mpc:MmoCache.getInstance().getNpcMessageConcurrentHashMap().values()) {
+            if (mpc.getMmosceneid().equals(m.getId())){
+                npcs.add(mpc.getId());
+            }
+        }
+        sceneBean.setNpcs(npcs);
+        return sceneBean;
+    }
+
+    public static List<SkillBean> skillIdsToSkillBeans(String skillIds) {
+        List<SkillBean> list=new ArrayList<>();
+        for (Integer id:split(skillIds)) {
+            SkillMessage message=MmoCache.getInstance().getSkillMessageConcurrentHashMap().get(id);
+            SkillBean skillBean=new SkillBean();
+            skillBean.setId(message.getId());
+            skillBean.setSkillType(message.getSkillType());
+            skillBean.setAddPercon(message.getAddPercon());
+            skillBean.setConsumeType(message.getConsumeType());
+            skillBean.setSkillName(message.getSkillName());
+            skillBean.setBaseDamage(message.getBaseDamage());
+            skillBean.setConsumeNum(message.getConsumeNum());
+            skillBean.setCd(message.getCd());
+            skillBean.setBufferIds(split(message.getBufferIds()));
+            list.add(skillBean);
+        }
+        return list;
     }
 }
