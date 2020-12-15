@@ -76,6 +76,8 @@ public class ServerInit{
         }
         MmoCache.getInstance().setSkillMessageConcurrentHashMap(skillMessageConcurrentHashMap);
         MmoCache.getInstance().setBufferMessageConcurrentHashMap(bufferMessageConcurrentHashMap);
+        MmoCache.getInstance().setEquipmentMessageConcurrentHashMap(equipmentMessageConcurrentHashMap);
+        MmoCache.getInstance().setMedicineMessageConcurrentHashMap(medicineMessageConcurrentHashMap);
         ScheduledThreadPoolUtil.init();
     }
 

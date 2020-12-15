@@ -1,0 +1,53 @@
+syntax ="proto3";
+option java_outer_classname="BackPackModel";
+message BackPackModelMessage{
+  //定义枚举类型
+  enum DateType{
+    AbandonRequest=0;//在proto3 要求enum的编号从0开始
+    BackPackRequest=1;
+    UseRequest=2;
+    AbandonResponse=3;
+    BackPackResponse=4;
+    UseResponse=5;
+  }
+  //用date_type来标识传的是哪一个枚举类型
+  DateType data_type=1;
+  //表示每次枚举类型最多只能出现其中一个，节省空间
+  oneof dateBody{
+    BackPackRequest backPackRequest=2;
+    AbandonRequest abandonRequest=3;
+    UseRequest useRequest=4;
+    AbandonResponse abandonResponse=5;
+    BackPackResponse backPackResponse=6;
+    UseResponse useResponse=7;
+
+  }
+}
+message AbandonRequest{
+  int32 articleId=1;
+  int32 number=2;
+}
+message BackPackRequest{
+}
+message UseRequest{
+  int32 articleId=1;
+}
+
+message AbandonResponse{
+}
+message BackPackResponse{
+  repeated ArticleDto articleDtos=1;
+}
+message UseResponse{
+}
+
+message ArticleDto{
+  //背包中物品id
+  int32 articleId=1;
+  //物品id
+  int32 id=2;
+  //数量
+  int32 quantity=3;
+  //物品类型
+  int32 articleType=4;
+}

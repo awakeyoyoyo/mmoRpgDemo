@@ -39,8 +39,19 @@ public class Main {
         for (BufferMessage b:bufferMessage) {
             bufferMessageConcurrentHashMap.put(b.getId(),b);
         }
+        ConcurrentHashMap<Integer, MedicineMessage> medicineMessageConcurrentHashMap=new ConcurrentHashMap<>();
+        List<MedicineMessage> medicineMessages=YmlUtils.getMedicineMessages();
+        for (MedicineMessage m:medicineMessages) {
+            medicineMessageConcurrentHashMap.put(m.getId(),m);
+        }
+        ConcurrentHashMap<Integer, EquipmentMessage> equipmentMessageConcurrentHashMap=new ConcurrentHashMap<>();
+        List<EquipmentMessage> equipmentMessages=YmlUtils.getEquipmentMessages();
+        for (EquipmentMessage e:equipmentMessages) {
+            equipmentMessageConcurrentHashMap.put(e.getId(),e);
+        }
+        MmoCacheCilent.getInstance().setMedicineMessageConcurrentHashMap(medicineMessageConcurrentHashMap);
+        MmoCacheCilent.getInstance().setEquipmentMessageConcurrentHashMap(equipmentMessageConcurrentHashMap);
         MmoCacheCilent.getInstance().setBufferMessageConcurrentHashMap(bufferMessageConcurrentHashMap);
-
         MmoCacheCilent.getInstance().setSkillMessageConcurrentHashMap(skillMessageConcurrentHashMap);
         nettyTcpServer.run();
 

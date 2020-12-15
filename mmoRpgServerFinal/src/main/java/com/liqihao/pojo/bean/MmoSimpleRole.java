@@ -1,5 +1,6 @@
 package com.liqihao.pojo.bean;
 
+import com.liqihao.commons.enums.ArticleTypeCode;
 import com.liqihao.pojo.MmoRolePOJO;
 import java.util.HashMap;
 import java.util.List;
@@ -12,8 +13,39 @@ public class MmoSimpleRole extends MmoRolePOJO {
     private Integer nowMp;
     private HashMap<Integer,Long> cdMap;
     private List<Integer> skillIdList;
+    private List<SkillBean> skillBeans;
     private CopyOnWriteArrayList<BufferBean> bufferBeans;
     private Integer attack;
+    private SceneBean nowScene;
+    private BackPackManager backpackManager;
+    public BackPackManager getBackpackManager() {
+        return backpackManager;
+    }
+
+    public void setBackpackManager(BackPackManager backpackManager) {
+        this.backpackManager = backpackManager;
+    }
+
+    public SceneBean getNowScene() {
+        return nowScene;
+    }
+
+    public void setNowScene(SceneBean nowScene) {
+        this.nowScene = nowScene;
+    }
+
+
+
+    public List<SkillBean> getSkillBeans() {
+        return skillBeans;
+    }
+
+    public void setSkillBeans(List<SkillBean> skillBeans) {
+        this.skillBeans = skillBeans;
+    }
+
+
+
     public Integer getAttack() {
         return attack;
     }
@@ -77,6 +109,24 @@ public class MmoSimpleRole extends MmoRolePOJO {
 
     public void setCdMap(HashMap<Integer, Long> cdMap) {
         this.cdMap = cdMap;
+    }
+
+    public Boolean useArticle(Integer articleId) {
+        Article article=backpackManager.getArticleByArticleId(articleId);
+        if (article!=null&&article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())){
+            //药品
+            MedicineBean medicineBean=(MedicineBean) article;
+            //删减
+            backpackManager.useOrAbandanArticle(articleId,1);
+            Boolean flag=medicineBean.useMedicene(getId());
+            return flag;
+        }else if (article!=null&&article.getArticleTypeCode().equals(ArticleTypeCode.EQUIPMENT.getCode())){
+            //todo 装备
+            return false;
+        }else{
+            return false;
+        }
+
     }
     //使用技能
 }

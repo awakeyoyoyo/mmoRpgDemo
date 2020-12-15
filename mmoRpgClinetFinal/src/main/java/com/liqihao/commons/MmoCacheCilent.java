@@ -1,10 +1,7 @@
 package com.liqihao.commons;
 
 import com.liqihao.pojo.MmoRole;
-import com.liqihao.pojo.baseMessage.BufferMessage;
-import com.liqihao.pojo.baseMessage.NPCMessage;
-import com.liqihao.pojo.baseMessage.SceneMessage;
-import com.liqihao.pojo.baseMessage.SkillMessage;
+import com.liqihao.pojo.baseMessage.*;
 import com.liqihao.protobufObject.PlayModel;
 
 import java.util.HashMap;
@@ -20,6 +17,26 @@ public class MmoCacheCilent {
     private ConcurrentHashMap<Integer, SkillMessage> skillMessageConcurrentHashMap;
     //buffer的基本信息
     private ConcurrentHashMap<Integer, BufferMessage> bufferMessageConcurrentHashMap;
+    //药品基本信息
+    private ConcurrentHashMap<Integer, MedicineMessage> medicineMessageConcurrentHashMap;
+    //装备基本信息
+    private ConcurrentHashMap<Integer, EquipmentMessage> equipmentMessageConcurrentHashMap;
+
+    public ConcurrentHashMap<Integer, MedicineMessage> getMedicineMessageConcurrentHashMap() {
+        return medicineMessageConcurrentHashMap;
+    }
+
+    public void setMedicineMessageConcurrentHashMap(ConcurrentHashMap<Integer, MedicineMessage> medicineMessageConcurrentHashMap) {
+        this.medicineMessageConcurrentHashMap = medicineMessageConcurrentHashMap;
+    }
+
+    public ConcurrentHashMap<Integer, EquipmentMessage> getEquipmentMessageConcurrentHashMap() {
+        return equipmentMessageConcurrentHashMap;
+    }
+
+    public void setEquipmentMessageConcurrentHashMap(ConcurrentHashMap<Integer, EquipmentMessage> equipmentMessageConcurrentHashMap) {
+        this.equipmentMessageConcurrentHashMap = equipmentMessageConcurrentHashMap;
+    }
 
     public ConcurrentHashMap<Integer, BufferMessage> getBufferMessageConcurrentHashMap() {
         return bufferMessageConcurrentHashMap;

@@ -2,7 +2,9 @@ package com.liqihao.commons;
 
 public interface ConstantValue {
     //包头
-      int FLAG=6617329;
+    int FLAG=6617329;
+
+    int BAG_MAX_VALUE=99;
 
     //场景模块
      String SCENE_MODULE="sceneServiceImpl";
@@ -48,5 +50,14 @@ public interface ConstantValue {
     int NET_IO_OUTTIME=3000;
     //客户端超市响应
     int OUT_RIME_RESPONSE=3500;
+    //背包模块
+    String BAKCPACK_MODULE="backpackServiceImpl";
+    int BACKPACK_MSG_REQUEST=4000;
+    int USE_REQUEST=4001;
+    int ABANDON_REQUEST=4002;
+
+    int BACKPACK_MSG_RESPONSE=4500;
+    int USE_RESPONSE=4501;
+    int ABANDON_RESPONSE=4502;
 
 }

@@ -4,6 +4,8 @@ public interface ConstantValue {
     //包头
     int FLAG=6617329;
 
+    int BAG_MAX_VALUE=99;
+
     //场景模块
      String SCENE_MODULE="sceneServiceImpl";
     //请求部分
@@ -24,7 +26,6 @@ public interface ConstantValue {
     int WENT_RESPONSE=1502;
     //与npc对话响应
     int TALK_NPC_RESPONSE=1503;
-
     //玩家模块
     String PLAY_MODULE="playServiceImpl";
     //登陆请求
@@ -34,7 +35,6 @@ public interface ConstantValue {
     //退出登陆请求
     int LOGOUT_REQUEST=2002;
     int USE_SKILL_REQUEST =2003;
-    int DAMAGES_NOTICE_RESPONSE=2504;
     //response
     //登陆响应
     int LOGIN_RESPONSE=2500;
@@ -43,28 +43,31 @@ public interface ConstantValue {
     //退出登陆响应
     int LOGOUT_RESPONSE=2502;
     int USE_SKILL_RSPONSE =2503;
+    int DAMAGES_NOTICE_RESPONSE=2504;
     //游戏系统模块
     String GAME_SYSTEM_MODULE="gameSystemServiceImpl";
     //客户端超时请求
     int NET_IO_OUTTIME=3000;
     //客户端超市响应
     int OUT_RIME_RESPONSE=3500;
-
-    //客户端指令
-    //请求可前往的场景
+    //背包模块
+    String BAKCPACK_MODULE="backpackServiceImpl";
+    int BACKPACK_MSG_REQUEST=4000;
+    int USE_REQUEST=4001;
+    int ABANDON_REQUEST=4002;
+    int BACKPACK_MSG_RESPONSE=4500;
+    int USE_RESPONSE=4501;
+    int ABANDON_RESPONSE=4502;
     String ASK_CAN_REQUEST_CMD="askCan";
-    //请求当前场景的所有角色
     String FIND_ALL_ROLES_REQUEST_CMD="findAllRoles";
-    //请求可前往的
     String WENT_REQUEST_CMD="went";
-    //登陆
     String LOGIN_REQUEST_CMD="login";
-    //注册
     String REGISTER_REQUEST_CMD="register";
-    //退出登陆
-    String LOGOUT_REQUEST_CMD="logout";
-    //退出登陆
-    String TALK_NPC_REQUEST_CMD="talk";
-    //使用技能
+    String  LOGOUT_REQUEST_CMD="logout";
     String USE_SKILL_REQUEST_CMD="skill";
+    String TALK_NPC_REQUEST_CMD="talk";
+    String BACKPACK_MSG_REQUEST_CMD="bag";
+    String USE_REQUEST_CMD="use";
+    String ABANDON_REQUEST_CMD="abandon";
+
 }

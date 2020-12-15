@@ -8,6 +8,24 @@ public class BaseMessage {
     List<SkillMessage> skillMessages;
     List<BufferMessage> bufferMessage;
     BaseRoleMessage baseRoleMessage;
+    List<MedicineMessage> medicineMessages;
+    List<EquipmentMessage> equipmentMessages;
+
+    public List<MedicineMessage> getMedicineMessages() {
+        return medicineMessages;
+    }
+
+    public void setMedicineMessages(List<MedicineMessage> propMessages) {
+        this.medicineMessages = propMessages;
+    }
+
+    public List<EquipmentMessage> getEquipmentMessages() {
+        return equipmentMessages;
+    }
+
+    public void setEquipmentMessages(List<EquipmentMessage> equipmentMessages) {
+        this.equipmentMessages = equipmentMessages;
+    }
 
     public List<BufferMessage> getBufferMessage() {
         return bufferMessage;

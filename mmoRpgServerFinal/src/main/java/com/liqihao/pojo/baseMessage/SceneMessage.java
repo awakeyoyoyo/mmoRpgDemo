@@ -1,7 +1,4 @@
 package com.liqihao.pojo.baseMessage;
-
-import java.util.List;
-
 public class SceneMessage {
     private Integer id;
 

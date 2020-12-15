@@ -2,9 +2,14 @@ package com.liqihao.util;
 
 
 import com.liqihao.Cache.MmoCache;
+import com.liqihao.pojo.baseMessage.EquipmentMessage;
+import com.liqihao.pojo.baseMessage.MedicineMessage;
+import com.liqihao.pojo.bean.EquipmentBean;
+import com.liqihao.pojo.bean.MedicineBean;
 import com.liqihao.pojo.bean.MmoSimpleNPC;
 import com.liqihao.pojo.bean.MmoSimpleRole;
 import io.netty.channel.Channel;
+import io.netty.util.AttributeKey;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,6 +22,49 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author awakeyoyoyo
  */
 public class CommonsUtil {
+
+    public static Integer getRoleIdByChannel(Channel channel){
+        AttributeKey<Integer> key = AttributeKey.valueOf("roleId");
+        if (channel.hasAttr(key) && channel.attr(key).get() != null)
+        {
+            return channel.attr(key).get();
+        }
+        return null;
+    }
+    public static MedicineBean medicineMessageToMedicineBean(MedicineMessage medicineMessage){
+        MedicineBean bean=new MedicineBean();
+        bean.setArticleId(null);
+        bean.setCd(medicineMessage.getCd());
+        bean.setLastTime(medicineMessage.getLastTime());
+        bean.setMedicineType(medicineMessage.getMedicineType());
+        bean.setSecondValue(medicineMessage.getSecondValue());
+        bean.setQuantity(2);
+        bean.setArticleType(medicineMessage.getArticleType());
+        bean.setDescription(medicineMessage.getDescription());
+        bean.setId(medicineMessage.getId());
+        bean.setName(medicineMessage.getName());
+        bean.setSingleFlag(medicineMessage.getSingleFlag());
+        bean.setDamageType(medicineMessage.getDamageType());
+        bean.setDamageValue(medicineMessage.getDamageValue());
+        return bean;
+    }
+
+    public static EquipmentBean equipmentMessageToEquipmentBean(EquipmentMessage equipmentMessage){
+        EquipmentBean bean=new EquipmentBean();
+        bean.setArticleId(null);
+        bean.setAttackAdd(equipmentMessage.getAttackAdd());
+        bean.setNowDurability(equipmentMessage.getDurability());
+        bean.setQuantity(1);
+        bean.setArticleType(equipmentMessage.getArticleType());
+        bean.setDamageAdd(equipmentMessage.getDamageAdd());
+        bean.setDescription(equipmentMessage.getDescription());
+        bean.setDurability(equipmentMessage.getDurability());
+        bean.setId(equipmentMessage.getId());
+        bean.setName(equipmentMessage.getName());
+        bean.setPosition(equipmentMessage.getPosition());
+        bean.setSingleFlag(equipmentMessage.getSingleFlag());
+        return bean;
+    }
 
     public static MmoSimpleRole NpcToMmoSimpleRole(MmoSimpleNPC npc) {
         MmoSimpleRole roleTemp = new MmoSimpleRole();

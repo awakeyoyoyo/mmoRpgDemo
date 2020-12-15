@@ -25,7 +25,7 @@ import java.util.concurrent.*;
 public class ScheduledThreadPoolUtil {
     private static ScheduledThreadPoolExecutor scheduledExecutorService;
     //存储了正在调度线程池中执行的回蓝的角色id
-    private static ConcurrentHashMap<Integer, ScheduledFuture<?>> replyMpRole = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<String, ScheduledFuture<?>> replyMpRole = new ConcurrentHashMap<>();
     //存储了正在调度线程池中执行的buffer的角色id
     private static ConcurrentHashMap<Integer, ScheduledFuture<?>> bufferRole = new ConcurrentHashMap<>();
     //存储了正在调度线程池中执行的buffer的npc id限定一个npc只能攻击一个人
@@ -62,11 +62,11 @@ public class ScheduledThreadPoolUtil {
         ScheduledThreadPoolUtil.scheduledExecutorService = scheduledExecutorService;
     }
 
-    public static ConcurrentHashMap<Integer, ScheduledFuture<?>> getReplyMpRole() {
+    public static ConcurrentHashMap<String, ScheduledFuture<?>> getReplyMpRole() {
         return replyMpRole;
     }
 
-    public static void setReplyMpRole(ConcurrentHashMap<Integer, ScheduledFuture<?>> replyMpRole) {
+    public static void setReplyMpRole(ConcurrentHashMap<String, ScheduledFuture<?>> replyMpRole) {
         ScheduledThreadPoolUtil.replyMpRole = replyMpRole;
     }
 
@@ -74,9 +74,27 @@ public class ScheduledThreadPoolUtil {
         private Logger logger = Logger.getLogger(ReplyMpTask.class);
         private Integer roleId;
         private Integer number;
+        private Integer damageTypeCode;
+        private String key;
+        private Integer times;
+
+        public ReplyMpTask(Integer roleId, Integer number, Integer damageTypeCode, String key) {
+            this.roleId = roleId;
+            this.number = number;
+            this.damageTypeCode=damageTypeCode;
+            this.key=key;
+        }
 
         public Logger getLogger() {
             return logger;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public void setKey(String key) {
+            this.key = key;
         }
 
         public void setLogger(Logger logger) {
@@ -99,39 +117,69 @@ public class ScheduledThreadPoolUtil {
             this.number = number;
         }
 
-        public ReplyMpTask(Integer roleId, Integer number) {
+        public ReplyMpTask(Integer roleId, Integer number,Integer damageTypeCode,String key,Integer times) {
             this.roleId = roleId;
             this.number = number;
+            this.damageTypeCode=damageTypeCode;
+            this.key=key;
+            this.times=times;
         }
 
         @Override
         public void run() {
-            logger.info("回蓝线程-------------------"+Thread.currentThread().getName());
+            logger.info("回蓝/血线程-------------------"+Thread.currentThread().getName());
             MmoSimpleRole mmoSimpleRole = MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap().get(roleId);
-            Integer oldMp = mmoSimpleRole.getNowMp();
-            Integer addMp;
+            Integer addNumber;
+            Integer attackStyleCode;
+            if (times!=null&&times<=0){
+                replyMpRole.get(key).cancel(false);
+                replyMpRole.remove(key);
+                return;
+            }
             if (number == null) {
                 //number没有传入 代表着这是自动回蓝
-                addMp = (int) Math.ceil(mmoSimpleRole.getMp() * 0.05);
+                addNumber = (int) Math.ceil(mmoSimpleRole.getMp() * 0.05);
+                attackStyleCode=AttackStyleCode.AUTORE.getCode();
             } else {
                 //传入则代表着是吃药
-                addMp = number;
+                addNumber = number;
+                attackStyleCode=AttackStyleCode.MEDICENE.getCode();
+
             }
-            Integer newMp = oldMp + addMp;
             PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();
-            if (newMp > mmoSimpleRole.getMp()) {
-                mmoSimpleRole.setNowMp(mmoSimpleRole.getMp());
-                addMp=mmoSimpleRole.getMp()-oldMp;
-                //发送数据包
-            } else {
-                mmoSimpleRole.setNowMp(newMp);
+            if (damageTypeCode.equals(DamageTypeCode.MP.getCode())) {
+                Integer oldMp = mmoSimpleRole.getNowMp();
+                Integer newNumber = oldMp + addNumber;
+                if (newNumber > mmoSimpleRole.getMp()) {
+                    mmoSimpleRole.setNowMp(mmoSimpleRole.getMp());
+                    addNumber = mmoSimpleRole.getMp() - oldMp;
+                    //发送数据包
+                } else {
+                    mmoSimpleRole.setNowMp(newNumber);
+                }
+                if (times!=null) {
+                    times--;
+                }
+            }else{
+                Integer oldHP = mmoSimpleRole.getNowBlood();
+                Integer newNumber = oldHP + addNumber;
+                if (newNumber > mmoSimpleRole.getBlood()) {
+                    mmoSimpleRole.setNowBlood(mmoSimpleRole.getBlood());
+                    addNumber = mmoSimpleRole.getBlood() - oldHP;
+                    //发送数据包
+                } else {
+                    mmoSimpleRole.setNowBlood(newNumber);
+                }
+                if (times!=null) {
+                    times--;
+                }
             }
             damageU.setFromRoleId(mmoSimpleRole.getId());
             damageU.setToRoleId(mmoSimpleRole.getId());
-            damageU.setAttackStyle(AttackStyleCode.AUTORE.getCode());
+            damageU.setAttackStyle(attackStyleCode);
             damageU.setBufferId(-1);
-            damageU.setDamage(addMp);
-            damageU.setDamageType(DamageTypeCode.MP.getCode());
+            damageU.setDamage(addNumber);
+            damageU.setDamageType(damageTypeCode);
             damageU.setMp(mmoSimpleRole.getNowMp());
             damageU.setNowblood(mmoSimpleRole.getNowBlood());
             damageU.setSkillId(-1);
@@ -162,9 +210,11 @@ public class ScheduledThreadPoolUtil {
                 }
             }
             //判断任务是否以及完成即 人物蓝是否满了
-            if (mmoSimpleRole.getNowMp().equals(mmoSimpleRole.getMp())) {
-                replyMpRole.get(roleId).cancel(false);
-                replyMpRole.remove(roleId);
+            if (number==null) {
+                if (mmoSimpleRole.getNowMp().equals(mmoSimpleRole.getMp())) {
+                    replyMpRole.get(key).cancel(false);
+                    replyMpRole.remove(key);
+                }
             }
         }
     }
@@ -359,4 +409,5 @@ public class ScheduledThreadPoolUtil {
             }
         }
     }
+
 }

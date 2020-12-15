@@ -17,6 +17,7 @@ import com.liqihao.protobufObject.SceneModel;
 import com.liqihao.service.SceneService;
 import com.liqihao.util.CommonsUtil;
 import io.netty.channel.Channel;
+import io.netty.util.AttributeKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -214,7 +215,7 @@ public class SceneServiceImpl implements SceneService {
             }
         }
         //ROLES
-        Integer roleId=MmoCache.getInstance().getIdChannelConcurrentHashMap().get(channel);
+        Integer roleId=CommonsUtil.getRoleIdByChannel(channel);
         Iterator<MmoSimpleRole> roleItor=roleMsgMap.values().iterator();
         while(roleItor.hasNext()){
             MmoSimpleRole temp=roleItor.next();

@@ -30,4 +30,5 @@ public class BufferBean extends BufferMessage {
     public void setToRoleId(Integer toRoleId) {
         this.toRoleId = toRoleId;
     }
+
 }

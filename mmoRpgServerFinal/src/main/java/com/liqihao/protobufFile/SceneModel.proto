@@ -56,7 +56,6 @@ message WentResponse{
 message TalkNPCResponse{
   int32 npcId=1;
 }
-
 message RoleDTO{
   int32 id=1;
   string name=2;

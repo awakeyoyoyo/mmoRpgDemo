@@ -1,14 +1,15 @@
 package com.liqihao.commons.enums;
 
-public enum AttackStyleCode {
-    BUFFER(0,"buffer伤害"),
-    ATTACK(1,"攻击&技能伤害"),
-    USESKILL(2,"使用技能造成"),
-    AUTORE(3,"自动恢复"),
-    MEDICENE(4,"药品恢复");
+public enum PositionCode {
+    CAP(1,"帽子"),
+    COAT(2,"上衣"),
+    BELT(3,"腰带"),
+    PANTS(4,"裤子"),
+    SHOES(5,"腰带"),
+    ARMS(6,"武器");
     private  int code;
     private  String value;
-    AttackStyleCode(int code,String name)
+    PositionCode(int code,String name)
     {
         this.code=code;
         this.value = name;
@@ -30,7 +31,7 @@ public enum AttackStyleCode {
         return value;
     }
     public static String getValue(int code) {
-        for (AttackStyleCode ele : values()) {
+        for (PositionCode ele : values()) {
             if(ele.getCode()==code){
                 return ele.getvalue();
             }

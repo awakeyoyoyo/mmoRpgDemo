@@ -10,9 +10,7 @@ import com.liqihao.dao.MmoRolePOJOMapper;
 import com.liqihao.dao.MmoScenePOJOMapper;
 import com.liqihao.dao.MmoUserPOJOMapper;
 import com.liqihao.pojo.*;
-import com.liqihao.pojo.baseMessage.BaseRoleMessage;
-import com.liqihao.pojo.baseMessage.BufferMessage;
-import com.liqihao.pojo.baseMessage.SkillMessage;
+import com.liqihao.pojo.baseMessage.*;
 import com.liqihao.pojo.bean.*;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.service.PlayService;
@@ -20,6 +18,7 @@ import com.liqihao.util.CommonsUtil;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import io.netty.channel.Channel;
+import io.netty.util.AttributeKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -134,15 +133,29 @@ public class PlayServiceImpl implements PlayService{
         simpleRole.setSkillIdList(skillIds);
         simpleRole.setCdMap(new HashMap<Integer, Long>());
         simpleRole.setBufferBeans(new CopyOnWriteArrayList<>());
+        BackPackManager backPackManager=new BackPackManager(50);
+        //固定没人上线就送每种要5瓶，装备各一副
+        ConcurrentHashMap<Integer, EquipmentMessage> equipmentMessageConcurrentHashMap=MmoCache.getInstance().getEquipmentMessageConcurrentHashMap();
+        for (EquipmentMessage message:equipmentMessageConcurrentHashMap.values()) {
+            EquipmentBean equipmentBean= CommonsUtil.equipmentMessageToEquipmentBean(message);
+            backPackManager.put(equipmentBean);
+        }
+        ConcurrentHashMap<Integer, MedicineMessage> medicineMessageConcurrentHashMap=MmoCache.getInstance().getMedicineMessageConcurrentHashMap();
+        for (MedicineMessage message:medicineMessageConcurrentHashMap.values()) {
+            MedicineBean medicineBean= CommonsUtil.medicineMessageToMedicineBean(message);
+            backPackManager.put(medicineBean);
+        }
+        simpleRole.setBackpackManager(backPackManager);
         rolesMap.put(role.getId(),simpleRole);
         //放入线程池中异步处理
         //数据库中人物状态         //todo 提交给线程池异步执行
         mmoRolePOJOMapper.updateByPrimaryKeySelective(role);
         //将channel绑定用户信息存储
         ConcurrentHashMap<Integer, Channel> channelConcurrentHashMap= MmoCache.getInstance().getChannelConcurrentHashMap();
-        MmoCache.getInstance().getIdChannelConcurrentHashMap().put(channel,role.getId());
         channelConcurrentHashMap.put(role.getId(),channel);
-
+        //channle绑定roleId
+        AttributeKey<Integer> key = AttributeKey.valueOf("roleId");
+        channel.attr(key).set(role.getId());
         //protobuf 生成loginResponse
         PlayModel.PlayModelMessage.Builder messageData=PlayModel.PlayModelMessage.newBuilder();
         messageData.setDataType(PlayModel.PlayModelMessage.DateType.LoginResponse);
@@ -176,17 +189,10 @@ public class PlayServiceImpl implements PlayService{
     @HandlerCmdTag(cmd = ConstantValue.LOGOUT_REQUEST,module = ConstantValue.PLAY_MODULE)
     public NettyResponse logoutRequest(NettyRequest nettyRequest,Channel channel) throws InvalidProtocolBufferException {
         ConcurrentHashMap<Integer,Channel> channelConcurrentHashMap= MmoCache.getInstance().getChannelConcurrentHashMap();
-        Integer roleId=null;
-        synchronized (channelConcurrentHashMap) {
-            for (Integer key : channelConcurrentHashMap.keySet()) {
-                if (channelConcurrentHashMap.get(key).equals(channel)) {
-                    roleId = key;
-                }
-            }
-            if (roleId != null) {
-                //删除缓存中 channel绑定的信息
-                channelConcurrentHashMap.remove(roleId);
-            }
+        Integer roleId=CommonsUtil.getRoleIdByChannel(channel);
+        if (roleId != null) {
+            //删除缓存中 channel绑定的信息
+            channelConcurrentHashMap.remove(roleId);
         }
         if (roleId==null){
             NettyResponse errotResponse=new NettyResponse(StateCode.FAIL,ConstantValue.LOGOUT_RESPONSE,"请先登录".getBytes());
@@ -202,7 +208,6 @@ public class PlayServiceImpl implements PlayService{
         //缓存角色集合删除
         ConcurrentHashMap<Integer,MmoSimpleRole> rolesMap= MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
         rolesMap.remove(roleId);
-        MmoCache.getInstance().getIdChannelConcurrentHashMap().remove(channel);
         //protobuf生成消息
         PlayModel.PlayModelMessage.Builder myMessageBuilder=PlayModel.PlayModelMessage.newBuilder();
         myMessageBuilder.setDataType(PlayModel.PlayModelMessage.DateType.LogoutResponse);
@@ -226,7 +231,7 @@ public class PlayServiceImpl implements PlayService{
         myMessage=PlayModel.PlayModelMessage.parseFrom(data);
         Integer skillId=myMessage.getUseSkillRequest().getSkillId();
         Integer sceneId=myMessage.getUseSkillRequest().getSceneId();
-        Integer roleId=MmoCache.getInstance().getIdChannelConcurrentHashMap().get(channel);
+        Integer roleId=CommonsUtil.getRoleIdByChannel(channel);
         if (roleId==null){
             return new NettyResponse(StateCode.FAIL,ConstantValue.USE_SKILL_RSPONSE, "未登陆".getBytes());
         }
@@ -289,13 +294,15 @@ public class PlayServiceImpl implements PlayService{
             }
             mmoSimpleRole.setNowMp(mmoSimpleRole.getNowMp()-skillBean.getConsumeNum());
             //判断是否已经有自动回蓝任务
-            ConcurrentHashMap<Integer, ScheduledFuture<?>> replyMpRoleMap=ScheduledThreadPoolUtil.getReplyMpRole();
-            if (!replyMpRoleMap.containsKey(roleId)) {
+            ConcurrentHashMap<String, ScheduledFuture<?>> replyMpRoleMap=ScheduledThreadPoolUtil.getReplyMpRole();
+            //自动回蓝任务的key
+            String key=roleId+"AUTOMP";
+            if (!replyMpRoleMap.containsKey(key)) {
                 //number为空 代表着自动回蓝
-                ScheduledThreadPoolUtil.ReplyMpTask replyMpTask = new ScheduledThreadPoolUtil.ReplyMpTask(roleId, null);
+                ScheduledThreadPoolUtil.ReplyMpTask replyMpTask = new ScheduledThreadPoolUtil.ReplyMpTask(roleId, null,DamageTypeCode.MP.getCode(),key);
                 // 周期性执行，每5秒执行一次
                 ScheduledFuture<?> t=ScheduledThreadPoolUtil.getScheduledExecutorService().scheduleAtFixedRate(replyMpTask, 0, 5, TimeUnit.SECONDS);
-                replyMpRoleMap.put(roleId,t);
+                replyMpRoleMap.put(key,t);
             }
         }
         List<PlayModel.RoleIdDamage> list=new ArrayList<>();
@@ -314,7 +321,6 @@ public class PlayServiceImpl implements PlayService{
         list.add(damageU.build());
         //攻击怪物
         for (MmoSimpleNPC mmoSimpleNPC:target){
-
             Integer hp=mmoSimpleNPC.getNowBlood();
             Integer reduce=0;
             if (skillBean.getSkillType().equals(SkillTypeCode.FIED.getCode())){

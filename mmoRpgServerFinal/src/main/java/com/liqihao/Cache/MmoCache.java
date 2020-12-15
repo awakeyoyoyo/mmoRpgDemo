@@ -1,19 +1,11 @@
 package com.liqihao.Cache;
 
-import com.liqihao.annotation.HandlerCmdTag;
-import com.liqihao.pojo.MmoRolePOJO;
 import com.liqihao.pojo.baseMessage.*;
-import com.liqihao.pojo.bean.BufferBean;
-import com.liqihao.pojo.bean.BufferManager;
 import com.liqihao.pojo.bean.MmoSimpleNPC;
 import com.liqihao.pojo.bean.MmoSimpleRole;
 import io.netty.channel.Channel;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
+
 
 /**
  * 缓存
@@ -24,11 +16,9 @@ public class MmoCache {
     private ConcurrentHashMap<Integer, MmoSimpleRole> mmoSimpleRoleConcurrentHashMap;
     //id--channle
     private ConcurrentHashMap<Integer, Channel> channelConcurrentHashMap;
-    //channle--id
-    private ConcurrentHashMap<Channel, Integer> idChannelConcurrentHashMap;
     //场景基本信息
     private ConcurrentHashMap<Integer, SceneMessage> sceneMessageConcurrentHashMap;
-    //npc的基本信息
+    //npc
     private ConcurrentHashMap<Integer, MmoSimpleNPC> npcMessageConcurrentHashMap;
     //用户角色的基本信息
     private BaseRoleMessage baseRoleMessage;
@@ -55,14 +45,6 @@ public class MmoCache {
 
     public void setEquipmentMessageConcurrentHashMap(ConcurrentHashMap<Integer, EquipmentMessage> equipmentMessageConcurrentHashMap) {
         this.equipmentMessageConcurrentHashMap = equipmentMessageConcurrentHashMap;
-    }
-
-    public ConcurrentHashMap<Channel, Integer> getIdChannelConcurrentHashMap() {
-        return idChannelConcurrentHashMap;
-    }
-
-    public void setIdChannelConcurrentHashMap(ConcurrentHashMap<Channel, Integer> idChannelConcurrentHashMap) {
-        this.idChannelConcurrentHashMap = idChannelConcurrentHashMap;
     }
 
     public ConcurrentHashMap<Integer, BufferMessage> getBufferMessageConcurrentHashMap() {
@@ -133,7 +115,6 @@ public class MmoCache {
         this.sceneMessageConcurrentHashMap=sceneMessageConcurrentHashMap;
         this.npcMessageConcurrentHashMap=npcMessageConcurrentHashMap;
         this.channelConcurrentHashMap=new ConcurrentHashMap<>();
-        this.idChannelConcurrentHashMap=new ConcurrentHashMap<>();
     }
 
 

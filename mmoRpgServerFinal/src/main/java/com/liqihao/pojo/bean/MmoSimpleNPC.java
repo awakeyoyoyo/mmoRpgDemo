@@ -10,6 +10,15 @@ public class MmoSimpleNPC extends NPCMessage {
     private Integer nowBlood;
     private Integer nowMp;
     private CopyOnWriteArrayList<BufferBean> bufferBeans;
+    private SceneBean nowScene;
+
+    public SceneBean getNowScene() {
+        return nowScene;
+    }
+
+    public void setNowScene(SceneBean nowScene) {
+        this.nowScene = nowScene;
+    }
 
     public CopyOnWriteArrayList<BufferBean> getBufferBeans() {
         return bufferBeans;

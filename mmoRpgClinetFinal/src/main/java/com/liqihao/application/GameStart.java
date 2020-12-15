@@ -8,6 +8,7 @@ import com.liqihao.commons.NettyRequest;
 import com.liqihao.pojo.MmoRole;
 import com.liqihao.pojo.baseMessage.SceneMessage;
 import com.liqihao.pojo.baseMessage.SkillMessage;
+import com.liqihao.protobufObject.BackPackModel;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.protobufObject.SceneModel;
 import com.liqihao.utils.CommonsUtil;
@@ -78,9 +79,60 @@ public class GameStart {
                     case ConstantValue.USE_SKILL_REQUEST:
                         useSkillRequest(scanner);
                         break;
+                    case ConstantValue.ABANDON_REQUEST:
+                        abandonRequest(scanner);
+                        break;
+                    case ConstantValue.BACKPACK_MSG_REQUEST:
+                        backPackMsgRequest(scanner);
+                        break;
+                    case ConstantValue.USE_REQUEST:
+                        useRequest(scanner);
+                        break;
                     default:
                         System.out.println("GameStart-handler:收到错误cmd");
                 }
+    }
+
+    private void backPackMsgRequest(Scanner scanner) {
+        NettyRequest nettyRequest=new NettyRequest();
+        BackPackModel.BackPackModelMessage myMessage;
+        nettyRequest.setCmd(ConstantValue.BACKPACK_MSG_REQUEST);
+        myMessage=BackPackModel.BackPackModelMessage.newBuilder()
+                .setDataType(BackPackModel.BackPackModelMessage.DateType.BackPackRequest)
+                .setBackPackRequest(BackPackModel.BackPackRequest.newBuilder().build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void useRequest(Scanner scanner) {
+        System.out.println("请输入使用物品的背包栏id");
+        Integer articleId=scanner.nextInt();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.USE_REQUEST);
+        BackPackModel.BackPackModelMessage myMessage;
+        myMessage=BackPackModel.BackPackModelMessage.newBuilder()
+                .setDataType(BackPackModel.BackPackModelMessage.DateType.UseRequest)
+                .setUseRequest(BackPackModel.UseRequest.newBuilder().setArticleId(articleId).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void abandonRequest(Scanner scanner) {
+        System.out.println("请输入丢弃物品的背包栏id");
+        Integer articleId=scanner.nextInt();
+        System.out.println("请输入丢弃数量");
+        Integer number=scanner.nextInt();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.ABANDON_REQUEST);
+        BackPackModel.BackPackModelMessage myMessage;
+        myMessage=BackPackModel.BackPackModelMessage.newBuilder()
+                .setDataType(BackPackModel.BackPackModelMessage.DateType.AbandonRequest)
+                .setAbandonRequest(BackPackModel.AbandonRequest.newBuilder().setNumber(number).setArticleId(articleId).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
     }
 
     private void useSkillRequest(Scanner scanner) {
