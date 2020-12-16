@@ -28,6 +28,17 @@ public class MmoSimpleRole extends MmoRolePOJO {
     private CopyOnWriteArrayList<BufferBean> bufferBeans;
     private Integer attack;
     private BackPackManager backpackManager;
+    //装备栏
+    private HashMap<Integer,EquipmentBean> equipmentBeanHashMap;
+
+    public HashMap<Integer, EquipmentBean> getEquipmentBeanHashMap() {
+        return equipmentBeanHashMap;
+    }
+
+    public void setEquipmentBeanHashMap(HashMap<Integer, EquipmentBean> equipmentBeanHashMap) {
+        this.equipmentBeanHashMap = equipmentBeanHashMap;
+    }
+
     public BackPackManager getBackpackManager() {
         return backpackManager;
     }
@@ -127,6 +138,16 @@ public class MmoSimpleRole extends MmoRolePOJO {
             return false;
         }
 
+    }
+    //穿装备 or替换装备
+    private Boolean useEquitment(){
+        //todo
+        return false;
+    }
+    //脱装备
+    private Boolean unUseEquitment(){
+        //todo
+        return false;
     }
 
     private  SkillBean getSkillBeanBySkillId(Integer skillId){

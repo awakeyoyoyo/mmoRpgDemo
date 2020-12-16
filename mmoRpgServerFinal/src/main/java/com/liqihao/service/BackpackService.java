@@ -9,5 +9,6 @@ public interface BackpackService {
     NettyResponse abandonRquest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException;
     NettyResponse backPackMsgRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException;
     NettyResponse useRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException;
+    NettyResponse addArticleRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException;
 
 }

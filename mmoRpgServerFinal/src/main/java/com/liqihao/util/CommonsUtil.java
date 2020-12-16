@@ -18,9 +18,19 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 字符串处理类
- * @author awakeyoyoyo
+ * @author lqhao
  */
 public class CommonsUtil {
+
+    /**
+     * 计算伤害
+     * @param
+     * @return
+     */
+    public static Integer calculateDamage(){
+        //todo
+        return 0;
+    }
 
     public static Integer getRoleIdByChannel(Channel channel){
         AttributeKey<Integer> key = AttributeKey.valueOf("roleId");

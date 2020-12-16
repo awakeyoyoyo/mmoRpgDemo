@@ -9,6 +9,25 @@ public class EquipmentBean extends EquipmentMessage implements Article{
     private Integer nowDurability;
     private Integer quantity;
     private Integer articleId;
+
+    /**
+     * 减耐久度
+     * @return
+     */
+    public boolean reduceDurability(){
+        //todo
+        return false;
+    }
+
+    /**
+     * 修复
+     * @return
+     */
+    public boolean changeDurability(){
+        //todo
+        return false;
+    }
+
     public Integer getArticleId() {
         return articleId;
     }

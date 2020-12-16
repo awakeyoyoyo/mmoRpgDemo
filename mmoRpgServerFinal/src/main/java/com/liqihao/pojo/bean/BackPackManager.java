@@ -68,12 +68,20 @@ public class BackPackManager {
             }
             //表明背包中没有该物品或者该物品的数量都是99或者是剩余的 新建
             if (number!=0){
-                MedicineBean newMedicine = new MedicineBean();
-                BeanUtils.copyProperties(medicineBean,newMedicine);
-                newMedicine.setQuantity(number);
-                newMedicine.setArticleId(getNewArticleId());
-                backpacks.add(newMedicine);
-                nowSize++;
+                while (number>0) {
+                    MedicineBean newMedicine = new MedicineBean();
+                    BeanUtils.copyProperties(medicineBean, newMedicine);
+                    if (number>99) {
+                        newMedicine.setQuantity(99);
+                        number-=99;
+                    }else {
+                        newMedicine.setQuantity(number);
+                        number=0;
+                    }
+                    newMedicine.setArticleId(getNewArticleId());
+                    backpacks.add(newMedicine);
+                    nowSize++;
+                }
                 return true;
             }
 

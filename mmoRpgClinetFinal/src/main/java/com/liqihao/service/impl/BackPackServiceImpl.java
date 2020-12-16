@@ -75,4 +75,16 @@ public class BackPackServiceImpl implements BackPackService {
         myMessage=BackPackModel.BackPackModelMessage.parseFrom(data);
         System.out.println("丢弃成功");
     }
+
+    @Override
+    public void addArticleResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
+        if (nettyResponse.getStateCode()== StateCode.FAIL){
+            System.out.println(new String(nettyResponse.getData()));
+            return;
+        }
+        byte[] data=nettyResponse.getData();
+        BackPackModel.BackPackModelMessage myMessage;
+        myMessage=BackPackModel.BackPackModelMessage.parseFrom(data);
+        System.out.println("增加成功");
+    }
 }

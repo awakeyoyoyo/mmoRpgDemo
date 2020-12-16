@@ -70,6 +70,9 @@ public class Dispatcherservlet {
             case ConstantValue.BACKPACK_MSG_RESPONSE:
                 backPackService.backPackMsgResponse(nettyResponse);
                 break;
+            case ConstantValue.ADD_ARTICLE_RESPONSE:
+                backPackService.addArticleResponse(nettyResponse);
+                break;
             default:
                 System.out.println("handler:收到错误的数据包");
         }

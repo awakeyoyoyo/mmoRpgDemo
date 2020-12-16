@@ -88,9 +88,29 @@ public class GameStart {
                     case ConstantValue.USE_REQUEST:
                         useRequest(scanner);
                         break;
+                    case ConstantValue.ADD_ARTICLE_REQUEST:
+                        addArticleRquest(scanner);
                     default:
                         System.out.println("GameStart-handler:收到错误cmd");
                 }
+    }
+
+    private void addArticleRquest(Scanner scanner) {
+        System.out.println("请输入增加物品的id");
+        Integer id=scanner.nextInt();
+        System.out.println("请输入增加物品的类型code");
+        Integer articleType=scanner.nextInt();
+        System.out.println("请输入增加物品的数量");
+        Integer number=scanner.nextInt();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.ADD_ARTICLE_REQUEST);
+        BackPackModel.BackPackModelMessage myMessage;
+        myMessage=BackPackModel.BackPackModelMessage.newBuilder()
+                .setDataType(BackPackModel.BackPackModelMessage.DateType.AddArticleRequest)
+                .setAddArticleRequest(BackPackModel.AddArticleRequest.newBuilder().setId(id).setArticleType(articleType).setNumber(number).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
     }
 
     private void backPackMsgRequest(Scanner scanner) {

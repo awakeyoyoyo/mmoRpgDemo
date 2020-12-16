@@ -55,9 +55,11 @@ public interface ConstantValue {
     int BACKPACK_MSG_REQUEST=4000;
     int USE_REQUEST=4001;
     int ABANDON_REQUEST=4002;
+    int ADD_ARTICLE_REQUEST=4003;
     int BACKPACK_MSG_RESPONSE=4500;
     int USE_RESPONSE=4501;
     int ABANDON_RESPONSE=4502;
+    int ADD_ARTICLE_RESPONSE=4503;
     String ASK_CAN_REQUEST_CMD="askCan";
     String FIND_ALL_ROLES_REQUEST_CMD="findAllRoles";
     String WENT_REQUEST_CMD="went";
@@ -69,5 +71,6 @@ public interface ConstantValue {
     String BACKPACK_MSG_REQUEST_CMD="bag";
     String USE_REQUEST_CMD="use";
     String ABANDON_REQUEST_CMD="abandon";
+    String ADD_ARTICLE_REQUEST_CMD="addArticle";
 
 }

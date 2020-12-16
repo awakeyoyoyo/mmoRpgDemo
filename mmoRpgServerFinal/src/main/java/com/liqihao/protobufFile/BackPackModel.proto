@@ -9,6 +9,8 @@ message BackPackModelMessage{
     AbandonResponse=3;
     BackPackResponse=4;
     UseResponse=5;
+    AddArticleRequest=6;
+    AddArticleResponse=7;
   }
   //用date_type来标识传的是哪一个枚举类型
   DateType data_type=1;
@@ -20,7 +22,8 @@ message BackPackModelMessage{
     AbandonResponse abandonResponse=5;
     BackPackResponse backPackResponse=6;
     UseResponse useResponse=7;
-
+    AddArticleRequest addArticleRequest=8;
+    AddArticleResponse addArticleResponse=9;
   }
 }
 message AbandonRequest{
@@ -40,7 +43,14 @@ message BackPackResponse{
 }
 message UseResponse{
 }
+message AddArticleRequest{
+  int32 id=1;
+  int32 articleType=2;
+  int32 number=3;
+}
+message AddArticleResponse{
 
+}
 message ArticleDto{
   //背包中物品id
   int32 articleId=1;
