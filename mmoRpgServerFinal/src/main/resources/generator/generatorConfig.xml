@@ -36,7 +36,7 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
         <!-- 要生成的表 tableName 是数据库中的表名或视图名 domainObjectName 是实体类名-->
-        <table tableName="mmo_role" domainObjectName="MmoRolePOJO" enableCountByExample="false"
+        <table tableName="mmo_bag" domainObjectName="MmoBagPOJO" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>
 <!--        <table tableName="mmo_scene" domainObjectName="MmoScenePOJO" enableCountByExample="false"-->

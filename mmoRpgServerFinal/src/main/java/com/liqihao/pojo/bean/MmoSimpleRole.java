@@ -132,7 +132,7 @@ public class MmoSimpleRole extends MmoRolePOJO {
             Boolean flag=medicineBean.useMedicene(getId());
             return flag;
         }else if (article!=null&&article.getArticleTypeCode().equals(ArticleTypeCode.EQUIPMENT.getCode())){
-            //todo 装备
+            // todo 装备
             return false;
         }else{
             return false;

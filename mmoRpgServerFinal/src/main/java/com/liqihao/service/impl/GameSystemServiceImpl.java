@@ -9,6 +9,7 @@ import com.liqihao.commons.enums.StateCode;
 import com.liqihao.dao.MmoRolePOJOMapper;
 import com.liqihao.pojo.bean.MmoSimpleRole;
 import com.liqihao.protobufObject.GameSystemModel;
+import com.liqihao.util.CommonsUtil;
 import io.netty.channel.Channel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,20 +25,14 @@ public class GameSystemServiceImpl implements com.liqihao.service.GameSystemServ
     public NettyResponse netIoOutTime(NettyRequest nettyRequest, Channel channel) {
         //获取相同的channel对应的roleId 然后根据其删除缓存中的信息
         ConcurrentHashMap<Integer,Channel> channelConcurrentHashMap= MmoCache.getInstance().getChannelConcurrentHashMap();
-        Integer roleId=null;
-        synchronized (channelConcurrentHashMap) {
-            for (Integer key : channelConcurrentHashMap.keySet()) {
-                   if (channelConcurrentHashMap.get(key).equals(channel)) {
-                       roleId = key;
-                   }
-               }
-               if (roleId != null) {
-                channelConcurrentHashMap.remove(roleId);
-               }
-         }
+        Integer roleId=CommonsUtil.getRoleIdByChannel(channel);
         //删除缓存中的信息
         if (roleId!=null) {
             ConcurrentHashMap<Integer, MmoSimpleRole> mmsHashMap = MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
+            //保存背包信息入数据库
+            MmoSimpleRole mmoSimpleRole=MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap().get(roleId);
+            CommonsUtil.bagIntoDataBase(mmoSimpleRole.getBackpackManager(),roleId);
+            // 直接获取即可 父类
             MmoSimpleRole mmoRolePOJO=mmsHashMap.get(roleId);
             mmsHashMap.remove(roleId);
             //修改数据库

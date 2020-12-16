@@ -18,7 +18,15 @@ public class MedicineBean extends MedicineMessage implements Article{
 
     private Integer quantity;
     private Integer articleId;
+    private Integer bagId;//数据库行记录id
 
+    public Integer getBagId() {
+        return bagId;
+    }
+
+    public void setBagId(Integer bagId) {
+        this.bagId = bagId;
+    }
 
 
     public boolean useMedicene(Integer roleId){

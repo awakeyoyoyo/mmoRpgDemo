@@ -19,7 +19,7 @@ import java.util.concurrent.*;
 /**
  * @author awakeyoyoyo
  * @className ScheduledThreadPoolUtil
- * @description TODO
+ * @description
  * @date 2020-12-13 18:59
  */
 public class ScheduledThreadPoolUtil {

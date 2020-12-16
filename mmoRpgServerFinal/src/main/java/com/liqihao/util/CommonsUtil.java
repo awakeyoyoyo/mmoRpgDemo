@@ -2,13 +2,22 @@ package com.liqihao.util;
 
 
 import com.liqihao.Cache.MmoCache;
+import com.liqihao.dao.MmoBagPOJOMapper;
+import com.liqihao.pojo.MmoBagPOJO;
 import com.liqihao.pojo.baseMessage.EquipmentMessage;
 import com.liqihao.pojo.baseMessage.MedicineMessage;
 import com.liqihao.pojo.baseMessage.SceneMessage;
 import com.liqihao.pojo.baseMessage.SkillMessage;
 import com.liqihao.pojo.bean.*;
+import com.liqihao.pojo.dto.ArticleDto;
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,7 +29,47 @@ import java.util.concurrent.ConcurrentHashMap;
  * 字符串处理类
  * @author lqhao
  */
-public class CommonsUtil {
+@Component
+public class CommonsUtil implements ApplicationContextAware {
+
+
+    private static ApplicationContext applicationContext;
+
+    @Override
+    public void setApplicationContext(ApplicationContext context) throws BeansException {
+        applicationContext = context;
+        mmoBagPOJOMapper=(MmoBagPOJOMapper)context.getBean("mmoBagPOJOMapper");
+    }
+    private static MmoBagPOJOMapper mmoBagPOJOMapper;
+
+    public static  void bagIntoDataBase(BackPackManager backPackManager,Integer roleId){
+        List<ArticleDto> articles=backPackManager.getBackpacks();
+        //需要修改或者新增的记录
+        for (ArticleDto a:articles) {
+            if (a.getBagId()!=null){
+                MmoBagPOJO mmoBagPOJO=new MmoBagPOJO();
+                mmoBagPOJO.setBagId(a.getBagId());
+                mmoBagPOJO.setArticletype(a.getArticleType());
+                mmoBagPOJO.setNumber(a.getQuantity());
+                mmoBagPOJO.setRoleId(roleId);
+                mmoBagPOJO.setwId(a.getId());
+                mmoBagPOJOMapper.updateByPrimaryKey(mmoBagPOJO);
+            }else{
+                //新的
+                MmoBagPOJO mmoBagPOJO=new MmoBagPOJO();
+                mmoBagPOJO.setArticletype(a.getArticleType());
+                mmoBagPOJO.setNumber(a.getQuantity());
+                mmoBagPOJO.setRoleId(roleId);
+                mmoBagPOJO.setwId(a.getId());
+                mmoBagPOJOMapper.insert(mmoBagPOJO);
+            }
+        }
+        //需要删除的记录
+        List<Integer> bagIds=backPackManager.getNeedDeleteBagId();
+        for (Integer id:bagIds){
+            mmoBagPOJOMapper.deleteByPrimaryKey(id);
+        }
+    }
 
     /**
      * 计算伤害
@@ -47,7 +96,6 @@ public class CommonsUtil {
         bean.setLastTime(medicineMessage.getLastTime());
         bean.setMedicineType(medicineMessage.getMedicineType());
         bean.setSecondValue(medicineMessage.getSecondValue());
-        bean.setQuantity(2);
         bean.setArticleType(medicineMessage.getArticleType());
         bean.setDescription(medicineMessage.getDescription());
         bean.setId(medicineMessage.getId());
@@ -63,7 +111,6 @@ public class CommonsUtil {
         bean.setArticleId(null);
         bean.setAttackAdd(equipmentMessage.getAttackAdd());
         bean.setNowDurability(equipmentMessage.getDurability());
-        bean.setQuantity(1);
         bean.setArticleType(equipmentMessage.getArticleType());
         bean.setDamageAdd(equipmentMessage.getDamageAdd());
         bean.setDescription(equipmentMessage.getDescription());
@@ -195,4 +242,6 @@ public class CommonsUtil {
         }
         return list;
     }
+
+
 }

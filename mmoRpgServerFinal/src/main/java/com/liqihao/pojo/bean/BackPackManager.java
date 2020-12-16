@@ -15,6 +15,15 @@ public class BackPackManager {
     private Integer size;
     private Integer nowSize=0;
     private Integer articleId=0;
+    private List<Integer> needDeleteBagId=new ArrayList<>();
+
+    public List<Integer> getNeedDeleteBagId() {
+        return needDeleteBagId;
+    }
+
+    public void setNeedDeleteBagId(List<Integer> needDeleteBagId) {
+        this.needDeleteBagId = needDeleteBagId;
+    }
 
     public BackPackManager() {
     }
@@ -117,6 +126,8 @@ public class BackPackManager {
                             medicineBean.setQuantity(medicineBean.getQuantity()-number);
                             //判断是否数量为0 为0则删除
                             if (medicineBean.getQuantity()==0){
+                                //需要删除数据库的记录
+                                needDeleteBagId.add(medicineBean.getBagId());
                                 backpacks.remove(a);
                                 nowSize--;
                             }
@@ -128,6 +139,8 @@ public class BackPackManager {
             }else{
                 EquipmentBean equipmentBean=(EquipmentBean)a;
                 if (equipmentBean.getArticleId().equals(articleId)){
+                    //需要删除数据库的记录
+                    needDeleteBagId.add(equipmentBean.getBagId());
                     backpacks.remove(a);
                     nowSize--;
                     return a;
@@ -183,12 +196,14 @@ public class BackPackManager {
                 articleDto.setId(medicineBean.getId());
                 articleDto.setArticleType(medicineBean.getArticleType());
                 articleDto.setQuantity(medicineBean.getQuantity());
+                articleDto.setBagId(medicineBean.getBagId());
             }else {
                 EquipmentBean equipmentBean=(EquipmentBean)article;
                 articleDto.setArticleId(equipmentBean.getArticleId());
                 articleDto.setId(equipmentBean.getId());
                 articleDto.setArticleType(equipmentBean.getArticleType());
                 articleDto.setQuantity(equipmentBean.getQuantity());
+                articleDto.setBagId(equipmentBean.getBagId());
             }
             articleDtos.add(articleDto);
         }

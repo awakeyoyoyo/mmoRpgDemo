@@ -6,12 +6,14 @@ import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.*;
 import com.liqihao.commons.enums.*;
+import com.liqihao.dao.MmoBagPOJOMapper;
 import com.liqihao.dao.MmoRolePOJOMapper;
 import com.liqihao.dao.MmoScenePOJOMapper;
 import com.liqihao.dao.MmoUserPOJOMapper;
 import com.liqihao.pojo.*;
 import com.liqihao.pojo.baseMessage.*;
 import com.liqihao.pojo.bean.*;
+import com.liqihao.pojo.dto.ArticleDto;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.service.PlayService;
 import com.liqihao.util.CommonsUtil;
@@ -34,7 +36,8 @@ public class PlayServiceImpl implements PlayService{
     private MmoUserPOJOMapper mmoUserPOJOMapper;
     @Autowired
     private MmoScenePOJOMapper mmoScenePOJOMapper;
-
+    @Autowired
+    private MmoBagPOJOMapper mmoBagPOJOMapper;
     @Override
     @HandlerCmdTag(cmd = ConstantValue.REGISTER_REQUEST,module = ConstantValue.PLAY_MODULE)
     public NettyResponse registerRequest(NettyRequest nettyRequest,Channel channel) throws InvalidProtocolBufferException {
@@ -137,19 +140,27 @@ public class PlayServiceImpl implements PlayService{
         BackPackManager backPackManager=new BackPackManager(50);
         //固定没人上线就送每种要5瓶，装备各一副
         ConcurrentHashMap<Integer, EquipmentMessage> equipmentMessageConcurrentHashMap=MmoCache.getInstance().getEquipmentMessageConcurrentHashMap();
-        for (EquipmentMessage message:equipmentMessageConcurrentHashMap.values()) {
-            EquipmentBean equipmentBean= CommonsUtil.equipmentMessageToEquipmentBean(message);
-            backPackManager.put(equipmentBean);
-        }
         ConcurrentHashMap<Integer, MedicineMessage> medicineMessageConcurrentHashMap=MmoCache.getInstance().getMedicineMessageConcurrentHashMap();
-        for (MedicineMessage message:medicineMessageConcurrentHashMap.values()) {
-            MedicineBean medicineBean= CommonsUtil.medicineMessageToMedicineBean(message);
-            backPackManager.put(medicineBean);
+        List<MmoBagPOJO> mmoBagPOJOS=mmoBagPOJOMapper.selectByRoleId(role.getId());
+        for (MmoBagPOJO mmoBagPOJO:mmoBagPOJOS){
+            if (mmoBagPOJO.getArticletype().equals(ArticleTypeCode.EQUIPMENT.getCode())){
+                EquipmentMessage message=equipmentMessageConcurrentHashMap.get(mmoBagPOJO.getwId());
+                EquipmentBean equipmentBean= CommonsUtil.equipmentMessageToEquipmentBean(message);
+                equipmentBean.setQuantity(mmoBagPOJO.getNumber());
+                equipmentBean.setBagId(mmoBagPOJO.getBagId());
+                backPackManager.put(equipmentBean);
+            }else if (mmoBagPOJO.getArticletype().equals(ArticleTypeCode.MEDICINE.getCode())){
+                MedicineMessage message=medicineMessageConcurrentHashMap.get(mmoBagPOJO.getwId());
+                MedicineBean medicineBean= CommonsUtil.medicineMessageToMedicineBean(message);
+                medicineBean.setQuantity(mmoBagPOJO.getNumber());
+                medicineBean.setBagId(mmoBagPOJO.getBagId());
+                backPackManager.put(medicineBean);
+            }else{ }
         }
         simpleRole.setBackpackManager(backPackManager);
         rolesMap.put(role.getId(),simpleRole);
         //放入线程池中异步处理
-        //数据库中人物状态         //todo 提交给线程池异步执行
+        //数据库中人物状态
         mmoRolePOJOMapper.updateByPrimaryKeySelective(role);
         //将channel绑定用户信息存储
         ConcurrentHashMap<Integer, Channel> channelConcurrentHashMap= MmoCache.getInstance().getChannelConcurrentHashMap();
@@ -191,6 +202,9 @@ public class PlayServiceImpl implements PlayService{
     public NettyResponse logoutRequest(NettyRequest nettyRequest,Channel channel) throws InvalidProtocolBufferException {
         ConcurrentHashMap<Integer,Channel> channelConcurrentHashMap= MmoCache.getInstance().getChannelConcurrentHashMap();
         Integer roleId=CommonsUtil.getRoleIdByChannel(channel);
+
+
+
         if (roleId != null) {
             //删除缓存中 channel绑定的信息
             channelConcurrentHashMap.remove(roleId);
@@ -199,9 +213,12 @@ public class PlayServiceImpl implements PlayService{
             NettyResponse errotResponse=new NettyResponse(StateCode.FAIL,ConstantValue.LOGOUT_RESPONSE,"请先登录".getBytes());
             return  errotResponse;
         }
-        //将数据库中设置为离线
-        //todo 提交给线程池异步执行
 
+
+        //保存背包信息入数据库
+        MmoSimpleRole mmoSimpleRole=MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap().get(roleId);
+        CommonsUtil.bagIntoDataBase(mmoSimpleRole.getBackpackManager(),roleId);
+        //将数据库中设置为离线
         MmoRolePOJO mmoRolePOJO=mmoRolePOJOMapper.selectByPrimaryKey(roleId);
         mmoRolePOJO.setOnstatus(RoleOnStatusCode.EXIT.getCode());
         mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO);
@@ -209,6 +226,7 @@ public class PlayServiceImpl implements PlayService{
         //缓存角色集合删除
         ConcurrentHashMap<Integer,MmoSimpleRole> rolesMap= MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
         rolesMap.remove(roleId);
+
         //protobuf生成消息
         PlayModel.PlayModelMessage.Builder myMessageBuilder=PlayModel.PlayModelMessage.newBuilder();
         myMessageBuilder.setDataType(PlayModel.PlayModelMessage.DateType.LogoutResponse);
@@ -305,5 +323,6 @@ public class PlayServiceImpl implements PlayService{
         }
         return  nettyResponse;
     }
+
 
 }

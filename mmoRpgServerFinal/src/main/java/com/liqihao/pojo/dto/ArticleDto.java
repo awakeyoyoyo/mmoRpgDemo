@@ -9,6 +9,15 @@ public class ArticleDto {
     private Integer quantity;
     //物品类型
     private Integer articleType;
+    private Integer bagId;
+
+    public Integer getBagId() {
+        return bagId;
+    }
+
+    public void setBagId(Integer bagId) {
+        this.bagId = bagId;
+    }
 
     public Integer getArticleId() {
         return articleId;

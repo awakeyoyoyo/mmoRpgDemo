@@ -9,6 +9,8 @@ import com.liqihao.commons.NettyRequest;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.enums.ArticleTypeCode;
 import com.liqihao.commons.enums.StateCode;
+import com.liqihao.dao.MmoBagPOJOMapper;
+import com.liqihao.pojo.MmoBagPOJO;
 import com.liqihao.pojo.baseMessage.EquipmentMessage;
 import com.liqihao.pojo.baseMessage.MedicineMessage;
 import com.liqihao.pojo.bean.*;
@@ -17,6 +19,7 @@ import com.liqihao.protobufObject.BackPackModel;
 import com.liqihao.service.BackpackService;
 import com.liqihao.util.CommonsUtil;
 import io.netty.channel.Channel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

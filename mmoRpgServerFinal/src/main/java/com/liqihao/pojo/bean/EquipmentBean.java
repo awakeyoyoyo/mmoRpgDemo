@@ -9,6 +9,15 @@ public class EquipmentBean extends EquipmentMessage implements Article{
     private Integer nowDurability;
     private Integer quantity;
     private Integer articleId;
+    private Integer bagId;//数据库行记录id
+
+    public Integer getBagId() {
+        return bagId;
+    }
+
+    public void setBagId(Integer bagId) {
+        this.bagId = bagId;
+    }
 
     /**
      * 减耐久度
