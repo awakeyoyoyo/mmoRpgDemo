@@ -114,11 +114,9 @@ public class PlayServiceImpl implements PlayService {
                 //施术者
                 MmoRole mmoRole = MmoCacheCilent.getInstance().getNowRole();
                 //判断减少的数据是啥
-                if (roleIdDamage.getDamageType() == DamageTypeCode.HP.getCode()) {
-                    mmoRole.setNowBlood(roleIdDamage.getNowblood());
-                } else if (roleIdDamage.getDamageType() == DamageTypeCode.MP.getCode()) {
-                    mmoRole.setNowMp(roleIdDamage.getMp());
-                }
+                mmoRole.setNowBlood(roleIdDamage.getNowblood());
+                mmoRole.setNowMp(roleIdDamage.getMp());
+                mmoRole.setStatus(roleIdDamage.getState());
                 SkillMessage skillMessage = MmoCacheCilent.getInstance().getSkillMessageConcurrentHashMap().get(roleIdDamage.getSkillId());
                 log.info("角色id：" + mmoRole.getId() + " 角色名: " + mmoRole.getName()
                         + " 类型: " + RoleTypeCode.getValue(mmoRole.getType()) + " 状态: " + RoleStatusCode.getValue(mmoRole.getStatus())
@@ -134,11 +132,9 @@ public class PlayServiceImpl implements PlayService {
                     }
                 }
                 //判断减少的数据是啥
-                if (roleIdDamage.getDamageType() == DamageTypeCode.HP.getCode()) {
-                    mmoRole.setNowBlood(roleIdDamage.getNowblood());
-                } else if (roleIdDamage.getDamageType() == DamageTypeCode.MP.getCode()) {
-                    mmoRole.setNowMp(roleIdDamage.getMp());
-                }
+                mmoRole.setNowBlood(roleIdDamage.getNowblood());
+                mmoRole.setNowMp(roleIdDamage.getMp());
+                mmoRole.setStatus(roleIdDamage.getState());
                 SkillMessage skillMessage = MmoCacheCilent.getInstance().getSkillMessageConcurrentHashMap().get(roleIdDamage.getSkillId());
                 log.info("角色id：" + mmoRole.getId() + " 角色名: " + mmoRole.getName()
                         + " 类型: " + RoleTypeCode.getValue(mmoRole.getType()) + " 状态: " + RoleStatusCode.getValue(mmoRole.getStatus())
@@ -169,7 +165,7 @@ public class PlayServiceImpl implements PlayService {
         }
 
         mmoRole.setNowBlood(roleIdDamage.getNowblood());
-
+        mmoRole.setStatus(roleIdDamage.getState());
         mmoRole.setNowMp(roleIdDamage.getMp());
 
         if (roleIdDamage.getAttackStyle() == AttackStyleCode.AUTORE.getCode()) {

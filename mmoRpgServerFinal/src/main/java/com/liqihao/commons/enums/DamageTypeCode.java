@@ -1,7 +1,7 @@
 package com.liqihao.commons.enums;
 
 public enum  DamageTypeCode {
-    HP(0,"血量类型"),MP(1,"蓝量类型");
+    HP(0,"血量类型"),MP(1,"蓝量类型"),NOTHING(2,"无消耗");
     private  int code;
     private  String value;
     DamageTypeCode(int code,String name)

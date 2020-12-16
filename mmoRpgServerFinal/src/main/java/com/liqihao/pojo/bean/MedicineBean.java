@@ -43,7 +43,7 @@ public class MedicineBean extends MedicineMessage implements Article{
                     addNumber = mmoSimpleRole.getBlood() - oldHP;
                     //发送数据包
                 } else {
-                    mmoSimpleRole.setNowMp(newNumber);
+                    mmoSimpleRole.setNowBlood(newNumber);
                 }
             }
             PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();

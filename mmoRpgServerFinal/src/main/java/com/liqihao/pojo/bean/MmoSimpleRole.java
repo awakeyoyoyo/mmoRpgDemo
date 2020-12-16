@@ -129,9 +129,14 @@ public class MmoSimpleRole extends MmoRolePOJO {
 
     }
 
-
+    private  SkillBean getSkillBeanBySkillId(Integer skillId){
+        for (SkillBean b:getSkillBeans()) {
+            if (b.getId().equals(skillId)){ return b;}
+        }
+        return null;
+    }
     public List<PlayModel.RoleIdDamage> useSkill(List<MmoSimpleNPC> target, Integer skillId) {
-        SkillBean skillBean= getSkillBeans().get(skillId);
+        SkillBean skillBean= getSkillBeanBySkillId(skillId);
         if (skillBean.getConsumeType().equals(ConsuMeTypeCode.HP.getCode())){
             //扣血
             setNowBlood(getNowBlood()-skillBean.getConsumeNum());

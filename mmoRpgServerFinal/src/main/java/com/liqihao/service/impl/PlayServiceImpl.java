@@ -130,7 +130,7 @@ public class PlayServiceImpl implements PlayService{
         simpleRole.setMp(baseRoleMessage.getMp());
         simpleRole.setNowMp(baseRoleMessage.getMp());
         simpleRole.setAttack(baseRoleMessage.getAttack());
-        List<Integer> skillIds=CommonsUtil.split(simpleRole.getSkillIds());
+        List<Integer> skillIds=CommonsUtil.split(role.getSkillIds());
         simpleRole.setSkillIdList(skillIds);
         simpleRole.setCdMap(new HashMap<Integer, Long>());
         simpleRole.setBufferBeans(new CopyOnWriteArrayList<>());

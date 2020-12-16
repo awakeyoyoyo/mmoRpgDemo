@@ -24,7 +24,7 @@ public class RequestDecoder  extends ByteToMessageDecoder {
         logger.info("Server:RequestDecoder readableBytes:"+byteBuf.readableBytes());
         if (byteBuf.readableBytes()>=BASE_LENGTH){
             //记录开始读取的index
-            int beginReader =byteBuf.writerIndex();
+            byteBuf.markReaderIndex();
             //可以处理
             //读到不正确包头 断开通道连接 避免恶意telnet或者攻击
             Integer flag=byteBuf.readInt();
@@ -38,7 +38,7 @@ public class RequestDecoder  extends ByteToMessageDecoder {
             if (byteBuf.readableBytes()<len){
                 //等待后面的数据包来
                 //但需要将之前读取的12字节的东西还原回去
-                byteBuf.readerIndex(beginReader);
+                byteBuf.resetReaderIndex();
                 return;
             }
             byte[] data=new byte[len];

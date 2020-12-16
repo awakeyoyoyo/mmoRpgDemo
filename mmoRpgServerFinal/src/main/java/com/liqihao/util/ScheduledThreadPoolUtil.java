@@ -131,7 +131,7 @@ public class ScheduledThreadPoolUtil {
             MmoSimpleRole mmoSimpleRole = MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap().get(roleId);
             Integer addNumber;
             Integer attackStyleCode;
-            if (times!=null&&times<=0){
+            if (times!=null&&times<=0||mmoSimpleRole.getStatus().equals(RoleStatusCode.DIE.getCode())){
                 replyMpRole.get(key).cancel(false);
                 replyMpRole.remove(key);
                 return;
@@ -318,7 +318,10 @@ public class ScheduledThreadPoolUtil {
         public void run() {
             MmoSimpleRole mmoSimpleRole=MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap().get(targetRoleId);
             MmoSimpleNPC npc=MmoCache.getInstance().getNpcMessageConcurrentHashMap().get(npcId);
-            if (mmoSimpleRole==null||!npc.getMmosceneid().equals(mmoSimpleRole.getMmosceneid())||mmoSimpleRole.getStatus().equals(RoleStatusCode.DIE)){
+            if (mmoSimpleRole==null||
+                    !npc.getMmosceneid().equals(mmoSimpleRole.getMmosceneid())||
+                    mmoSimpleRole.getStatus().equals(RoleStatusCode.DIE.getCode())||
+                    npc.getStatus().equals(RoleStatusCode.DIE.getCode())){
                 //中止任务  用户离线了 用户跑去别的场景了 死了
                 npcTaskMap.get(npcId).cancel(false);
                 npcTaskMap.remove(npcId);
