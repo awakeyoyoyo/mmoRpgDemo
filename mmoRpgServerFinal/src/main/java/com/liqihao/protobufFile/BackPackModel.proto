@@ -60,4 +60,6 @@ message ArticleDto{
   int32 quantity=3;
   //物品类型
   int32 articleType=4;
+  //耐久度
+  int32  nowDurability=5;
 }

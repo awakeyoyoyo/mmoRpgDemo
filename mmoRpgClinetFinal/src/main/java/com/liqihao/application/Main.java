@@ -53,6 +53,8 @@ public class Main {
         MmoCacheCilent.getInstance().setEquipmentMessageConcurrentHashMap(equipmentMessageConcurrentHashMap);
         MmoCacheCilent.getInstance().setBufferMessageConcurrentHashMap(bufferMessageConcurrentHashMap);
         MmoCacheCilent.getInstance().setSkillMessageConcurrentHashMap(skillMessageConcurrentHashMap);
+        BaseDetailMessage baseDetailMessage=YmlUtils.getBaseDetailMessage();
+        MmoCacheCilent.getInstance().setBaseDetailMessage(baseDetailMessage);
         nettyTcpServer.run();
 
     }

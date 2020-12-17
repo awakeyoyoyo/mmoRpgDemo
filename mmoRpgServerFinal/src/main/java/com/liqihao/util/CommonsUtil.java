@@ -2,28 +2,30 @@ package com.liqihao.util;
 
 
 import com.liqihao.Cache.MmoCache;
+import com.liqihao.commons.enums.ArticleTypeCode;
 import com.liqihao.dao.MmoBagPOJOMapper;
+import com.liqihao.dao.MmoEquipmentBagPOJOMapper;
+import com.liqihao.dao.MmoEquipmentPOJOMapper;
 import com.liqihao.pojo.MmoBagPOJO;
+import com.liqihao.pojo.MmoEquipmentBagPOJO;
+import com.liqihao.pojo.MmoEquipmentPOJO;
 import com.liqihao.pojo.baseMessage.EquipmentMessage;
 import com.liqihao.pojo.baseMessage.MedicineMessage;
 import com.liqihao.pojo.baseMessage.SceneMessage;
 import com.liqihao.pojo.baseMessage.SkillMessage;
 import com.liqihao.pojo.bean.*;
 import com.liqihao.pojo.dto.ArticleDto;
+import com.liqihao.pojo.dto.EquipmentDto;
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 字符串处理类
@@ -39,28 +41,29 @@ public class CommonsUtil implements ApplicationContextAware {
     public void setApplicationContext(ApplicationContext context) throws BeansException {
         applicationContext = context;
         mmoBagPOJOMapper=(MmoBagPOJOMapper)context.getBean("mmoBagPOJOMapper");
+        mmoEquipmentPOJOMapper=(MmoEquipmentPOJOMapper)context.getBean("mmoEquipmentPOJOMapper");
+        equipmentBagPOJOMapper=(MmoEquipmentBagPOJOMapper)context.getBean("mmoEquipmentBagPOJOMapper");
     }
     private static MmoBagPOJOMapper mmoBagPOJOMapper;
-
+    private static MmoEquipmentPOJOMapper mmoEquipmentPOJOMapper;
+    private static MmoEquipmentBagPOJOMapper equipmentBagPOJOMapper;
     public static  void bagIntoDataBase(BackPackManager backPackManager,Integer roleId){
         List<ArticleDto> articles=backPackManager.getBackpacks();
         //需要修改或者新增的记录
         for (ArticleDto a:articles) {
+            MmoBagPOJO mmoBagPOJO=new MmoBagPOJO();
+            mmoBagPOJO.setArticletype(a.getArticleType());
+            mmoBagPOJO.setNumber(a.getQuantity());
+            mmoBagPOJO.setRoleId(roleId);
+            mmoBagPOJO.setwId(a.getId());
+            if (a.getArticleType()== ArticleTypeCode.EQUIPMENT.getCode()) {
+                mmoBagPOJO.setNowdurability(a.getNowdurability());
+            }
             if (a.getBagId()!=null){
-                MmoBagPOJO mmoBagPOJO=new MmoBagPOJO();
                 mmoBagPOJO.setBagId(a.getBagId());
-                mmoBagPOJO.setArticletype(a.getArticleType());
-                mmoBagPOJO.setNumber(a.getQuantity());
-                mmoBagPOJO.setRoleId(roleId);
-                mmoBagPOJO.setwId(a.getId());
                 mmoBagPOJOMapper.updateByPrimaryKey(mmoBagPOJO);
             }else{
                 //新的
-                MmoBagPOJO mmoBagPOJO=new MmoBagPOJO();
-                mmoBagPOJO.setArticletype(a.getArticleType());
-                mmoBagPOJO.setNumber(a.getQuantity());
-                mmoBagPOJO.setRoleId(roleId);
-                mmoBagPOJO.setwId(a.getId());
                 mmoBagPOJOMapper.insert(mmoBagPOJO);
             }
         }
@@ -71,6 +74,29 @@ public class CommonsUtil implements ApplicationContextAware {
         }
     }
 
+    public static void equipmentIntoDataBase(MmoSimpleRole mmoSimpleRole){
+        List<EquipmentDto> dtos=mmoSimpleRole.getEquipments();
+        for (EquipmentDto e:dtos) {
+            MmoEquipmentBagPOJO equipmentBagPOJO = new MmoEquipmentBagPOJO();
+            //装备栏
+            equipmentBagPOJO.setEquipmentId(e.getEquipmentId());
+            equipmentBagPOJO.setRoleid(mmoSimpleRole.getId());
+            if (e.getEquipmentBagId()!=null) {
+                //主键
+                equipmentBagPOJO.setEquipmentbagId(e.getEquipmentBagId());
+                equipmentBagPOJOMapper.updateByPrimaryKey(equipmentBagPOJO);
+            }else{
+                equipmentBagPOJOMapper.insert(equipmentBagPOJO);
+            }
+            //装备入库
+//            MmoEquipmentPOJO equipmentPOJO=new MmoEquipmentPOJO();
+        }
+        //需要删除的记录
+        List<Integer> equBagIds=mmoSimpleRole.getNeedDeleteEquipmentIds();
+        for (Integer id:equBagIds){
+            equipmentBagPOJOMapper.deleteByPrimaryKey(id);
+        }
+    }
     /**
      * 计算伤害
      * @param
@@ -114,6 +140,7 @@ public class CommonsUtil implements ApplicationContextAware {
         bean.setArticleType(equipmentMessage.getArticleType());
         bean.setDamageAdd(equipmentMessage.getDamageAdd());
         bean.setDescription(equipmentMessage.getDescription());
+        bean.setQuantity(1);
         bean.setDurability(equipmentMessage.getDurability());
         bean.setId(equipmentMessage.getId());
         bean.setName(equipmentMessage.getName());

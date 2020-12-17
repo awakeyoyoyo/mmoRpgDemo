@@ -6832,6 +6832,16 @@ public final class BackPackModel {
      * @return The articleType.
      */
     int getArticleType();
+
+    /**
+     * <pre>
+     *耐久度
+     * </pre>
+     *
+     * <code>int32 nowDurability = 5;</code>
+     * @return The nowDurability.
+     */
+    int getNowDurability();
   }
   /**
    * Protobuf type {@code ArticleDto}
@@ -6896,6 +6906,11 @@ public final class BackPackModel {
             case 32: {
 
               articleType_ = input.readInt32();
+              break;
+            }
+            case 40: {
+
+              nowDurability_ = input.readInt32();
               break;
             }
             default: {
@@ -6990,6 +7005,21 @@ public final class BackPackModel {
       return articleType_;
     }
 
+    public static final int NOWDURABILITY_FIELD_NUMBER = 5;
+    private int nowDurability_;
+    /**
+     * <pre>
+     *耐久度
+     * </pre>
+     *
+     * <code>int32 nowDurability = 5;</code>
+     * @return The nowDurability.
+     */
+    @Override
+    public int getNowDurability() {
+      return nowDurability_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -7016,6 +7046,9 @@ public final class BackPackModel {
       if (articleType_ != 0) {
         output.writeInt32(4, articleType_);
       }
+      if (nowDurability_ != 0) {
+        output.writeInt32(5, nowDurability_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -7041,6 +7074,10 @@ public final class BackPackModel {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(4, articleType_);
       }
+      if (nowDurability_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, nowDurability_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -7064,6 +7101,8 @@ public final class BackPackModel {
           != other.getQuantity()) return false;
       if (getArticleType()
           != other.getArticleType()) return false;
+      if (getNowDurability()
+          != other.getNowDurability()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -7083,6 +7122,8 @@ public final class BackPackModel {
       hash = (53 * hash) + getQuantity();
       hash = (37 * hash) + ARTICLETYPE_FIELD_NUMBER;
       hash = (53 * hash) + getArticleType();
+      hash = (37 * hash) + NOWDURABILITY_FIELD_NUMBER;
+      hash = (53 * hash) + getNowDurability();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -7224,6 +7265,8 @@ public final class BackPackModel {
 
         articleType_ = 0;
 
+        nowDurability_ = 0;
+
         return this;
       }
 
@@ -7254,6 +7297,7 @@ public final class BackPackModel {
         result.id_ = id_;
         result.quantity_ = quantity_;
         result.articleType_ = articleType_;
+        result.nowDurability_ = nowDurability_;
         onBuilt();
         return result;
       }
@@ -7313,6 +7357,9 @@ public final class BackPackModel {
         }
         if (other.getArticleType() != 0) {
           setArticleType(other.getArticleType());
+        }
+        if (other.getNowDurability() != 0) {
+          setNowDurability(other.getNowDurability());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -7514,6 +7561,49 @@ public final class BackPackModel {
         onChanged();
         return this;
       }
+
+      private int nowDurability_ ;
+      /**
+       * <pre>
+       *耐久度
+       * </pre>
+       *
+       * <code>int32 nowDurability = 5;</code>
+       * @return The nowDurability.
+       */
+      @Override
+      public int getNowDurability() {
+        return nowDurability_;
+      }
+      /**
+       * <pre>
+       *耐久度
+       * </pre>
+       *
+       * <code>int32 nowDurability = 5;</code>
+       * @param value The nowDurability to set.
+       * @return This builder for chaining.
+       */
+      public Builder setNowDurability(int value) {
+        
+        nowDurability_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       *耐久度
+       * </pre>
+       *
+       * <code>int32 nowDurability = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearNowDurability() {
+        
+        nowDurability_ = 0;
+        onChanged();
+        return this;
+      }
       @Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -7649,9 +7739,10 @@ public final class BackPackModel {
       "\003(\0132\013.ArticleDto\"\r\n\013UseResponse\"D\n\021AddAr" +
       "ticleRequest\022\n\n\002id\030\001 \001(\005\022\023\n\013articleType\030" +
       "\002 \001(\005\022\016\n\006number\030\003 \001(\005\"\024\n\022AddArticleRespo" +
-      "nse\"R\n\nArticleDto\022\021\n\tarticleId\030\001 \001(\005\022\n\n\002" +
+      "nse\"i\n\nArticleDto\022\021\n\tarticleId\030\001 \001(\005\022\n\n\002" +
       "id\030\002 \001(\005\022\020\n\010quantity\030\003 \001(\005\022\023\n\013articleTyp" +
-      "e\030\004 \001(\005B\017B\rBackPackModelb\006proto3"
+      "e\030\004 \001(\005\022\025\n\rnowDurability\030\005 \001(\005B\017B\rBackPa" +
+      "ckModelb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -7716,7 +7807,7 @@ public final class BackPackModel {
     internal_static_ArticleDto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ArticleDto_descriptor,
-        new String[] { "ArticleId", "Id", "Quantity", "ArticleType", });
+        new String[] { "ArticleId", "Id", "Quantity", "ArticleType", "NowDurability", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

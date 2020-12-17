@@ -6,10 +6,7 @@ import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.*;
 import com.liqihao.commons.enums.*;
-import com.liqihao.dao.MmoBagPOJOMapper;
-import com.liqihao.dao.MmoRolePOJOMapper;
-import com.liqihao.dao.MmoScenePOJOMapper;
-import com.liqihao.dao.MmoUserPOJOMapper;
+import com.liqihao.dao.*;
 import com.liqihao.pojo.*;
 import com.liqihao.pojo.baseMessage.*;
 import com.liqihao.pojo.bean.*;
@@ -38,6 +35,10 @@ public class PlayServiceImpl implements PlayService{
     private MmoScenePOJOMapper mmoScenePOJOMapper;
     @Autowired
     private MmoBagPOJOMapper mmoBagPOJOMapper;
+    @Autowired
+    private MmoEquipmentPOJOMapper equipmentPOJOMapper;
+    @Autowired
+    private MmoEquipmentBagPOJOMapper equipmentBagPOJOMapper;
     @Override
     @HandlerCmdTag(cmd = ConstantValue.REGISTER_REQUEST,module = ConstantValue.PLAY_MODULE)
     public NettyResponse registerRequest(NettyRequest nettyRequest,Channel channel) throws InvalidProtocolBufferException {
@@ -137,17 +138,21 @@ public class PlayServiceImpl implements PlayService{
         simpleRole.setSkillIdList(skillIds);
         simpleRole.setCdMap(new HashMap<Integer, Long>());
         simpleRole.setBufferBeans(new CopyOnWriteArrayList<>());
-        BackPackManager backPackManager=new BackPackManager(50);
+        simpleRole.setEquipmentBeanHashMap(new HashMap<>());
+        BackPackManager backPackManager=new BackPackManager(MmoCache.getInstance().getBaseDetailMessage().getBagSize());
         //固定没人上线就送每种要5瓶，装备各一副
         ConcurrentHashMap<Integer, EquipmentMessage> equipmentMessageConcurrentHashMap=MmoCache.getInstance().getEquipmentMessageConcurrentHashMap();
         ConcurrentHashMap<Integer, MedicineMessage> medicineMessageConcurrentHashMap=MmoCache.getInstance().getMedicineMessageConcurrentHashMap();
         List<MmoBagPOJO> mmoBagPOJOS=mmoBagPOJOMapper.selectByRoleId(role.getId());
         for (MmoBagPOJO mmoBagPOJO:mmoBagPOJOS){
             if (mmoBagPOJO.getArticletype().equals(ArticleTypeCode.EQUIPMENT.getCode())){
-                EquipmentMessage message=equipmentMessageConcurrentHashMap.get(mmoBagPOJO.getwId());
+                MmoEquipmentPOJO mmoEquipmentPOJO=equipmentPOJOMapper.selectByPrimaryKey(mmoBagPOJO.getwId());
+                EquipmentMessage message=equipmentMessageConcurrentHashMap.get(mmoEquipmentPOJO.getMessageId());
                 EquipmentBean equipmentBean= CommonsUtil.equipmentMessageToEquipmentBean(message);
                 equipmentBean.setQuantity(mmoBagPOJO.getNumber());
+                equipmentBean.setEquipmentId(mmoEquipmentPOJO.getMessageId());
                 equipmentBean.setBagId(mmoBagPOJO.getBagId());
+                equipmentBean.setNowDurability(mmoEquipmentPOJO.getNowdurability());
                 backPackManager.put(equipmentBean);
             }else if (mmoBagPOJO.getArticletype().equals(ArticleTypeCode.MEDICINE.getCode())){
                 MedicineMessage message=medicineMessageConcurrentHashMap.get(mmoBagPOJO.getwId());
@@ -158,6 +163,18 @@ public class PlayServiceImpl implements PlayService{
             }else{ }
         }
         simpleRole.setBackpackManager(backPackManager);
+        //初始化装备栏
+        List<MmoEquipmentBagPOJO> equipmentBagPOJOS=equipmentBagPOJOMapper.selectByRoleId(role.getId());
+        HashMap<Integer,EquipmentBean> equipmentBeanConcurrentHashMap=simpleRole.getEquipmentBeanHashMap();
+        for (MmoEquipmentBagPOJO m:equipmentBagPOJOS) {
+            MmoEquipmentPOJO mmoEquipmentPOJO=equipmentPOJOMapper.selectByPrimaryKey(m.getEquipmentId());
+            EquipmentMessage message=equipmentMessageConcurrentHashMap.get(mmoEquipmentPOJO.getMessageId());
+            EquipmentBean equipmentBean= CommonsUtil.equipmentMessageToEquipmentBean(message);
+            equipmentBean.setNowDurability(mmoEquipmentPOJO.getNowdurability());
+            equipmentBean.setEquipmentId(m.getEquipmentId());
+            equipmentBean.setEquipmentBagId(m.getEquipmentbagId());
+            equipmentBeanConcurrentHashMap.put(equipmentBean.getPosition(),equipmentBean);
+        }
         rolesMap.put(role.getId(),simpleRole);
         //放入线程池中异步处理
         //数据库中人物状态
@@ -218,6 +235,7 @@ public class PlayServiceImpl implements PlayService{
         //保存背包信息入数据库
         MmoSimpleRole mmoSimpleRole=MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap().get(roleId);
         CommonsUtil.bagIntoDataBase(mmoSimpleRole.getBackpackManager(),roleId);
+        CommonsUtil.equipmentIntoDataBase(mmoSimpleRole);
         //将数据库中设置为离线
         MmoRolePOJO mmoRolePOJO=mmoRolePOJOMapper.selectByPrimaryKey(roleId);
         mmoRolePOJO.setOnstatus(RoleOnStatusCode.EXIT.getCode());

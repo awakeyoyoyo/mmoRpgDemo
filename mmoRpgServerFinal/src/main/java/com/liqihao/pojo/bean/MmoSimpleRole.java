@@ -1,12 +1,12 @@
 package com.liqihao.pojo.bean;
 
-import com.liqihao.Cache.MmoCache;
-import com.liqihao.commons.ConstantValue;
-import com.liqihao.commons.NettyResponse;
+
 import com.liqihao.commons.enums.*;
 import com.liqihao.pojo.MmoRolePOJO;
+import com.liqihao.pojo.dto.EquipmentDto;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.util.ScheduledThreadPoolUtil;
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,6 +17,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * 缓存中存储的人物类
+ */
 public class MmoSimpleRole extends MmoRolePOJO {
     private Integer Blood;
     private Integer nowBlood;
@@ -28,6 +31,16 @@ public class MmoSimpleRole extends MmoRolePOJO {
     private CopyOnWriteArrayList<BufferBean> bufferBeans;
     private Integer attack;
     private BackPackManager backpackManager;
+    private List<Integer> needDeleteEquipmentIds=new ArrayList<>();
+
+    public List<Integer> getNeedDeleteEquipmentIds() {
+        return needDeleteEquipmentIds;
+    }
+
+    public void setNeedDeleteEquipmentIds(List<Integer> needDeleteEquipmentIds) {
+        this.needDeleteEquipmentIds = needDeleteEquipmentIds;
+    }
+
     //装备栏
     private HashMap<Integer,EquipmentBean> equipmentBeanHashMap;
 
@@ -121,7 +134,7 @@ public class MmoSimpleRole extends MmoRolePOJO {
     public void setCdMap(HashMap<Integer, Long> cdMap) {
         this.cdMap = cdMap;
     }
-
+    //使用道具
     public Boolean useArticle(Integer articleId) {
         Article article=backpackManager.getArticleByArticleId(articleId);
         if (article!=null&&article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())){
@@ -132,25 +145,68 @@ public class MmoSimpleRole extends MmoRolePOJO {
             Boolean flag=medicineBean.useMedicene(getId());
             return flag;
         }else if (article!=null&&article.getArticleTypeCode().equals(ArticleTypeCode.EQUIPMENT.getCode())){
-            // todo 装备
-            return false;
+            //装备
+            EquipmentBean equipmentBean=(EquipmentBean) article;
+            //删减
+            backpackManager.useOrAbandanArticle(articleId,1);
+            //穿
+            return useEquipment(equipmentBean);
         }else{
             return false;
         }
 
     }
     //穿装备 or替换装备
-    private Boolean useEquitment(){
-        //todo
-        return false;
+    private Boolean useEquipment(EquipmentBean equipmentBean){
+        //判断该位置是否有装备
+        EquipmentBean oldBean =getEquipmentBeanHashMap().get(equipmentBean.getPosition());
+        if (oldBean!=null){
+            //放回背包内
+            //背包新增数据
+            backpackManager.put(oldBean);
+        }
+        //背包减少装备
+        backpackManager.useOrAbandanArticle(equipmentBean.getArticleId(),1);
+        //装备栏增加装备
+        equipmentBeanHashMap.put(equipmentBean.getPosition(),equipmentBean);
+        return true;
     }
     //脱装备
-    private Boolean unUseEquitment(){
-        //todo
-        return false;
+    public Boolean unUseEquipment(Integer position){
+        //判断该位置是否有装备
+        EquipmentBean equipmentBean =getEquipmentBeanHashMap().get(position);
+        if (equipmentBean==null){
+            //无装备
+            return false;
+        }else{
+            equipmentBeanHashMap.remove(position);
+            //装备栏数据库减少该装备
+            if (equipmentBean.getEquipmentBagId()!=null) {
+                needDeleteEquipmentIds.add(equipmentBean.getEquipmentBagId());
+            }
+            //装备栏id为null
+            equipmentBean.setEquipmentBagId(null);
+            //放入背包
+            backpackManager.put(equipmentBean);
+            return  true;
+        }
     }
-
-    private  SkillBean getSkillBeanBySkillId(Integer skillId){
+    //获取装备栏所有信息
+    public List<EquipmentDto> getEquipments(){
+        List<EquipmentDto> equipmentDtos=new ArrayList<>();
+        for (EquipmentBean bean:equipmentBeanHashMap.values()) {
+            EquipmentDto equipmentDto=new EquipmentDto();
+            equipmentDto.setId(bean.getId());
+            equipmentDto.setNowdurability(bean.getNowDurability());
+            equipmentDto.setPosition(bean.getPosition());
+            equipmentDto.setEquipmentBagId(bean.getEquipmentBagId());
+            equipmentDto.setEquipmentId(bean.getEquipmentId());
+            equipmentDtos.add(equipmentDto);
+        }
+        return equipmentDtos;
+    }
+    //根据skillI获取技能
+    public  SkillBean getSkillBeanBySkillId(Integer skillId){
         for (SkillBean b:getSkillBeans()) {
             if (b.getId().equals(skillId)){ return b;}
         }
@@ -240,4 +296,5 @@ public class MmoSimpleRole extends MmoRolePOJO {
         skillBean.useBuffer(target,getId());
         return  list;
     }
+
 }

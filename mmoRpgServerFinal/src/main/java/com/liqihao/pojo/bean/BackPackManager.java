@@ -111,6 +111,22 @@ public class BackPackManager {
         }
         return false;
     }
+    //背包放入东西 按照数据库格式来存放
+    public void putOnDatabase(Article article) {
+        if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())) {
+            MedicineBean medicineBean = (MedicineBean) article;
+            medicineBean.setArticleId(getNewArticleId());
+            backpacks.add(medicineBean);
+            nowSize++;
+        } else if ((article.getArticleTypeCode().equals(ArticleTypeCode.EQUIPMENT.getCode()))) {
+            //判断背包大小
+            EquipmentBean equipmentBean = (EquipmentBean) article;
+            //设置背包物品id
+            equipmentBean.setArticleId(getNewArticleId());
+            nowSize++;
+            backpacks.add(equipmentBean);
+        }
+    }
     //判断背包是否存在某样东西
     public boolean contains(Article a){
         return backpacks.contains(a);
@@ -128,6 +144,7 @@ public class BackPackManager {
                             if (medicineBean.getQuantity()==0){
                                 //需要删除数据库的记录
                                 needDeleteBagId.add(medicineBean.getBagId());
+                                ((MedicineBean) a).setBagId(null);
                                 backpacks.remove(a);
                                 nowSize--;
                             }
@@ -141,6 +158,7 @@ public class BackPackManager {
                 if (equipmentBean.getArticleId().equals(articleId)){
                     //需要删除数据库的记录
                     needDeleteBagId.add(equipmentBean.getBagId());
+                    ((EquipmentBean) a).setBagId(null);
                     backpacks.remove(a);
                     nowSize--;
                     return a;
@@ -204,6 +222,7 @@ public class BackPackManager {
                 articleDto.setArticleType(equipmentBean.getArticleType());
                 articleDto.setQuantity(equipmentBean.getQuantity());
                 articleDto.setBagId(equipmentBean.getBagId());
+                articleDto.setNowdurability(equipmentBean.getNowDurability());
             }
             articleDtos.add(articleDto);
         }

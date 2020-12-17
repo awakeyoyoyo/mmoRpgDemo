@@ -33,6 +33,16 @@ public class MmoCache {
     private ConcurrentHashMap<Integer, MedicineMessage> medicineMessageConcurrentHashMap;
     //装备基本信息
     private ConcurrentHashMap<Integer, EquipmentMessage> equipmentMessageConcurrentHashMap;
+    //基础配置信息
+    private BaseDetailMessage baseDetailMessage;
+
+    public BaseDetailMessage getBaseDetailMessage() {
+        return baseDetailMessage;
+    }
+
+    public void setBaseDetailMessage(BaseDetailMessage baseDetailMessage) {
+        this.baseDetailMessage = baseDetailMessage;
+    }
 
     public ConcurrentHashMap<Integer, SceneBean> getSceneBeanConcurrentHashMap() {
         return sceneBeanConcurrentHashMap;

@@ -36,13 +36,13 @@ public class BackPackServiceImpl implements BackPackService {
                 //装备
                 EquipmentMessage equipmentMessage=equipmentMessageConcurrentHashMap.get(a.getId());
                 System.out.println("背包中的id: "+a.getArticleId()+" 物品id: "+a.getId()+" 物品数量: "+a.getQuantity()
-                    +" 名字: "+equipmentMessage.getName()+" 描述: "+equipmentMessage.getDescription()
+                    +" 名字: "+equipmentMessage.getName()+" 耐久度： "+a.getNowDurability()+" 描述: "+equipmentMessage.getDescription()
                 );
             }else if (a.getArticleType()== ArticleTypeCode.MEDICINE.getCode()){
                 //药品
                 MedicineMessage medicineMessage=medicineMessageConcurrentHashMap.get(a.getId());
                 System.out.println("背包中的id: "+a.getArticleId()+" 物品id: "+a.getId()+" 物品数量: "+a.getQuantity()
-                        +" 名字: "+medicineMessage.getName()+" 描述: "+medicineMessage.getDescription()
+                        +" 名字: "+medicineMessage.getName()+ "描述: "+medicineMessage.getDescription()
                 );
             }else {
                 System.out.println("什么鬼东西？？？");

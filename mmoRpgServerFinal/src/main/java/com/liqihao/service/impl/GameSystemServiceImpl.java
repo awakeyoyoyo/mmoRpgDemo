@@ -31,6 +31,7 @@ public class GameSystemServiceImpl implements com.liqihao.service.GameSystemServ
             ConcurrentHashMap<Integer, MmoSimpleRole> mmsHashMap = MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
             //保存背包信息入数据库
             MmoSimpleRole mmoSimpleRole=MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap().get(roleId);
+            CommonsUtil.equipmentIntoDataBase(mmoSimpleRole);
             CommonsUtil.bagIntoDataBase(mmoSimpleRole.getBackpackManager(),roleId);
             // 直接获取即可 父类
             MmoSimpleRole mmoRolePOJO=mmsHashMap.get(roleId);

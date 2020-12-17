@@ -10,6 +10,15 @@ public class BaseMessage {
     BaseRoleMessage baseRoleMessage;
     List<MedicineMessage> medicineMessages;
     List<EquipmentMessage> equipmentMessages;
+    BaseDetailMessage baseDetailMessage;
+
+    public BaseDetailMessage getBaseDetailMessage() {
+        return baseDetailMessage;
+    }
+
+    public void setBaseDetailMessage(BaseDetailMessage baseDetailMessage) {
+        this.baseDetailMessage = baseDetailMessage;
+    }
 
     public List<MedicineMessage> getMedicineMessages() {
         return medicineMessages;

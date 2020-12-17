@@ -11,6 +11,8 @@ public class MmoBagPOJO {
 
     private Integer roleId;
 
+    private Integer nowdurability;
+
     public Integer getBagId() {
         return bagId;
     }
@@ -49,5 +51,13 @@ public class MmoBagPOJO {
 
     public void setRoleId(Integer roleId) {
         this.roleId = roleId;
+    }
+
+    public Integer getNowdurability() {
+        return nowdurability;
+    }
+
+    public void setNowdurability(Integer nowdurability) {
+        this.nowdurability = nowdurability;
     }
 }

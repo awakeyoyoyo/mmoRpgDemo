@@ -9,7 +9,18 @@ public class ArticleDto {
     private Integer quantity;
     //物品类型
     private Integer articleType;
+    //数据库行id
     private Integer bagId;
+    //当前耐久度
+    private Integer nowDurability;
+
+    public Integer getNowdurability() {
+        return nowDurability;
+    }
+
+    public void setNowdurability(Integer nowdurability) {
+        nowDurability = nowdurability;
+    }
 
     public Integer getBagId() {
         return bagId;

@@ -3,6 +3,7 @@ package com.liqihao.commons.enums;
 import com.liqihao.commons.ConstantValue;
 
 public enum  CmdCode {
+    //
     ASK_CAN_REQUEST_CMD(ConstantValue.ASK_CAN_REQUEST,ConstantValue.ASK_CAN_REQUEST_CMD),
     FIND_ALL_ROLES_REQUEST_CMD(ConstantValue.FIND_ALL_ROLES_REQUEST,ConstantValue.FIND_ALL_ROLES_REQUEST_CMD),
     WENT_REQUEST_CMD(ConstantValue.WENT_REQUEST,ConstantValue.WENT_REQUEST_CMD),
@@ -14,6 +15,9 @@ public enum  CmdCode {
     BACKPACK_MSG_REQUEST_CMD(ConstantValue.BACKPACK_MSG_REQUEST,ConstantValue.BACKPACK_MSG_REQUEST_CMD),
     USE_REQUEST_CMD(ConstantValue.USE_REQUEST,ConstantValue.USE_REQUEST_CMD),
     ADD_ARTICLE_REQUEST_CMD(ConstantValue.ADD_ARTICLE_REQUEST,ConstantValue.ADD_ARTICLE_REQUEST_CMD),
+    ADD_EQUIPMENT_REQUEST_CMD(ConstantValue.ADD_EQUIPMENT_REQUEST,ConstantValue.ADD_EQUIPMENT_REQUEST_CMD),
+    REDUCE_EQUIPMENT_REQUEST_CMD(ConstantValue.REDUCE_EQUIPMENT_REQUEST,ConstantValue.REDUCE_EQUIPMENT_REQUEST_CMD),
+    EQUIPMENT_MSG_REQUEST_CMD(ConstantValue.EQUIPMENT_MSG_REQUEST,ConstantValue.EQUIPMENT_MSG_REQUEST_CMD),
     ABANDON_REQUEST_CMD(ConstantValue.ABANDON_REQUEST,ConstantValue.ABANDON_REQUEST_CMD);
     private  int cmd;
     private  String option;

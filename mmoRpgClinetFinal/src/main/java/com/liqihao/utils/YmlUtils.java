@@ -23,6 +23,7 @@ public class YmlUtils {
     private static String bufferMessage_file = "classpath:message/bufferMessage";
     private static String medicineMessage_file = "classpath:message/medicineMessage";
     private static String equipmentMessage_file = "classpath:message/equipmentMessage";
+    private static String baseDetailMessage_file = "classpath:message/baseDetailMessage";
     public static BaseRoleMessage getBaseRoleMessage() throws FileNotFoundException {
         InputStream in = null;
         File file = ResourceUtils.getFile(baseRoleMessage_file);
@@ -78,5 +79,14 @@ public class YmlUtils {
         Yaml props = new Yaml(new Constructor(BaseMessage.class));
         BaseMessage obj = props.load(in);
         return obj.getEquipmentMessages();
+    }
+
+    public static BaseDetailMessage getBaseDetailMessage() throws FileNotFoundException {
+        InputStream in = null;
+        File file = ResourceUtils.getFile(baseDetailMessage_file);
+        in = new BufferedInputStream(new FileInputStream(file));
+        Yaml props = new Yaml(new Constructor(BaseMessage.class));
+        BaseMessage obj = props.load(in);
+        return obj.getBaseDetailMessage();
     }
 }

@@ -9,6 +9,7 @@ import com.liqihao.pojo.MmoRole;
 import com.liqihao.pojo.baseMessage.SceneMessage;
 import com.liqihao.pojo.baseMessage.SkillMessage;
 import com.liqihao.protobufObject.BackPackModel;
+import com.liqihao.protobufObject.EquipmentModel;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.protobufObject.SceneModel;
 import com.liqihao.utils.CommonsUtil;
@@ -55,6 +56,7 @@ public class GameStart {
     }
     public void handler(Scanner scanner,int cmd){
                 switch (cmd){
+                    //
                     case ConstantValue.ASK_CAN_REQUEST:
                         askCanRequest(scanner);
                         break;
@@ -90,9 +92,61 @@ public class GameStart {
                         break;
                     case ConstantValue.ADD_ARTICLE_REQUEST:
                         addArticleRquest(scanner);
+                        break;
+                    case ConstantValue.ADD_EQUIPMENT_REQUEST:
+                        addEquipmentReuqest(scanner);
+                        break;
+                    case ConstantValue.REDUCE_EQUIPMENT_REQUEST:
+                        reduceEquipmentRequest(scanner);
+                        break;
+                    case ConstantValue.EQUIPMENT_MSG_REQUEST:
+                        equipmentMsgRequest(scanner);
+                        break;
                     default:
                         System.out.println("GameStart-handler:收到错误cmd");
                 }
+    }
+
+    private void addEquipmentReuqest(Scanner scanner) {
+        System.out.println("请输入装备物品栏id");
+        Integer articleId=scanner.nextInt();
+
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.ADD_EQUIPMENT_REQUEST);
+        EquipmentModel.EquipmentModelMessage myMessage;
+        myMessage=EquipmentModel.EquipmentModelMessage.newBuilder()
+                .setDataType(EquipmentModel.EquipmentModelMessage.DateType.AddEquipmentRequest)
+                .setAddEquipmentRequest(EquipmentModel.AddEquipmentRequest.newBuilder().setArticleId(articleId).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void reduceEquipmentRequest(Scanner scanner) {
+        System.out.println("请输入脱落部位id");
+        Integer position=scanner.nextInt();
+
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.REDUCE_EQUIPMENT_REQUEST);
+        EquipmentModel.EquipmentModelMessage myMessage;
+        myMessage=EquipmentModel.EquipmentModelMessage.newBuilder()
+                .setDataType(EquipmentModel.EquipmentModelMessage.DateType.ReduceEquipmentRequest)
+                .setReduceEquipmentRequest(EquipmentModel.ReduceEquipmentRequest.newBuilder().setPosition(position).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void equipmentMsgRequest(Scanner scanner) {
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.EQUIPMENT_MSG_REQUEST);
+        EquipmentModel.EquipmentModelMessage myMessage;
+        myMessage=EquipmentModel.EquipmentModelMessage.newBuilder()
+                .setDataType(EquipmentModel.EquipmentModelMessage.DateType.EquipmentMsgRequest)
+                .setEquipmentMsgRequest(EquipmentModel.EquipmentMsgRequest.newBuilder().build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
     }
 
     private void addArticleRquest(Scanner scanner) {

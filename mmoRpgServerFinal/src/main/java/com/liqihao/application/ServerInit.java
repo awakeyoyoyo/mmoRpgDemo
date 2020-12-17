@@ -26,6 +26,7 @@ public class ServerInit{
         ConcurrentHashMap<Integer, MmoSimpleNPC> npcMap=new ConcurrentHashMap<>();
         //读取配置文件
         BaseRoleMessage baseRoleMessage=YmlUtils.getBaseRoleMessage();
+        BaseDetailMessage baseDetailMessage=YmlUtils.getBaseDetailMessage();
         List<SceneMessage> sceneMessages=YmlUtils.getSceneMessage();
         for (SceneMessage s:sceneMessages) {
             scmMap.put(s.getId(),s);
@@ -86,6 +87,7 @@ public class ServerInit{
         MmoCache.getInstance().setEquipmentMessageConcurrentHashMap(equipmentMessageConcurrentHashMap);
         MmoCache.getInstance().setMedicineMessageConcurrentHashMap(medicineMessageConcurrentHashMap);
         MmoCache.getInstance().setSceneBeanConcurrentHashMap(sceneBeanConcurrentHashMap);
+        MmoCache.getInstance().setBaseDetailMessage(baseDetailMessage);
         ScheduledThreadPoolUtil.init();
     }
 

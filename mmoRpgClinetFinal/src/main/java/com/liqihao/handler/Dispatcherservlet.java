@@ -3,10 +3,7 @@ package com.liqihao.handler;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
-import com.liqihao.service.BackPackService;
-import com.liqihao.service.GameService;
-import com.liqihao.service.PlayService;
-import com.liqihao.service.SceneService;
+import com.liqihao.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +17,8 @@ public class Dispatcherservlet {
     private GameService gameService;
     @Autowired
     private BackPackService backPackService;
-
+    @Autowired
+    private EquipmentService equipmentService;
     /**
      * 根据model和cmd转发到不同的service
      *
@@ -72,6 +70,15 @@ public class Dispatcherservlet {
                 break;
             case ConstantValue.ADD_ARTICLE_RESPONSE:
                 backPackService.addArticleResponse(nettyResponse);
+                break;
+            case ConstantValue.ADD_EQUIPMENT_RESPONSE:
+                equipmentService.addEquipmentResponse(nettyResponse);
+                break;
+            case ConstantValue.REDUCE_EQUIPMENT_RESPONSE:
+                equipmentService.reduceEquipmentResponse(nettyResponse);
+                break;
+            case ConstantValue.EQUIPMENT_MSG_RESPONSE:
+                equipmentService.equipmentMsgResponse(nettyResponse);
                 break;
             default:
                 System.out.println("handler:收到错误的数据包");

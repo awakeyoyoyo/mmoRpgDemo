@@ -9,8 +9,6 @@ import com.liqihao.commons.NettyRequest;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.enums.ArticleTypeCode;
 import com.liqihao.commons.enums.StateCode;
-import com.liqihao.dao.MmoBagPOJOMapper;
-import com.liqihao.pojo.MmoBagPOJO;
 import com.liqihao.pojo.baseMessage.EquipmentMessage;
 import com.liqihao.pojo.baseMessage.MedicineMessage;
 import com.liqihao.pojo.bean.*;
@@ -19,7 +17,6 @@ import com.liqihao.protobufObject.BackPackModel;
 import com.liqihao.service.BackpackService;
 import com.liqihao.util.CommonsUtil;
 import io.netty.channel.Channel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -81,6 +78,9 @@ public class BackpackServiceImpl implements BackpackService {
                     .setId(a.getId())
                     .setArticleType(a.getArticleType())
                     .setQuantity(a.getQuantity());
+            if (a.getArticleType().equals(ArticleTypeCode.EQUIPMENT.getCode())){
+                dtoBuilder.setNowDurability(a.getNowdurability());
+            }
             articleDtoList.add(dtoBuilder.build());
         }
         NettyResponse nettyResponse=new NettyResponse();

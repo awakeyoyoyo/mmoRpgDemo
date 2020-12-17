@@ -1,6 +1,8 @@
 package com.liqihao.pojo.bean;
 
+import com.liqihao.Cache.MmoCache;
 import com.liqihao.pojo.baseMessage.EquipmentMessage;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @author Administrator
@@ -8,8 +10,26 @@ import com.liqihao.pojo.baseMessage.EquipmentMessage;
 public class EquipmentBean extends EquipmentMessage implements Article{
     private Integer nowDurability;
     private Integer quantity;
-    private Integer articleId;
-    private Integer bagId;//数据库行记录id
+    private Integer articleId;//缓存中背包id
+    private Integer bagId;//背包数据库 数据库行记录id
+    private Integer equipmentId; //装备数据库id
+    private Integer equipmentBagId;//装备栏数据库id
+
+    public Integer getEquipmentBagId() {
+        return equipmentBagId;
+    }
+
+    public void setEquipmentBagId(Integer equipmentBagId) {
+        this.equipmentBagId = equipmentBagId;
+    }
+
+    public Integer getEquipmentId() {
+        return equipmentId;
+    }
+
+    public void setEquipmentId(Integer equipmentId) {
+        this.equipmentId = equipmentId;
+    }
 
     public Integer getBagId() {
         return bagId;
@@ -25,6 +45,11 @@ public class EquipmentBean extends EquipmentMessage implements Article{
      */
     public boolean reduceDurability(){
         //todo
+        Integer num= MmoCache.getInstance().getBaseDetailMessage().getReduceDurability();
+        if (nowDurability>num){
+            nowDurability-=num;
+            return true;
+        }
         return false;
     }
 
@@ -32,9 +57,12 @@ public class EquipmentBean extends EquipmentMessage implements Article{
      * 修复
      * @return
      */
-    public boolean changeDurability(){
-        //todo
-        return false;
+    public Integer changeDurability(int number){
+        nowDurability+=number;
+        if (nowDurability>getDurability()) {
+            nowDurability=getDurability();
+        }
+        return nowDurability;
     }
 
     public Integer getArticleId() {

@@ -11,4 +11,5 @@ public interface BackPackService {
     void abandonResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException;
 
     void addArticleResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException;
+
 }
