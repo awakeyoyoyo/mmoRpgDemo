@@ -83,7 +83,7 @@ public class SceneServiceImpl implements SceneService {
         for (SceneModel.RoleDTO roleDTO:roleDTOS) {
             log.info("角色id："+roleDTO.getId()+" 角色名: "+roleDTO.getName()
                     +" 类型: "+ RoleTypeCode.getValue(roleDTO.getType())+" 状态: "+ RoleStatusCode.getValue(roleDTO.getStatus())
-                    +" 血量： "+roleDTO.getNowBlood()+"/"+roleDTO.getBlood()+" 蓝量： "+roleDTO.getNowMp()+"/"+roleDTO.getMp());
+                    +" 血量： "+roleDTO.getNowBlood()+"/"+roleDTO.getBlood()+" 蓝量： "+roleDTO.getNowMp()+"/"+roleDTO.getMp()+" 攻击力： "+roleDTO.getAttack()+" 技能伤害加成: "+roleDTO.getAttackAdd());
         }
         log.info("---------------------------------------------------");
     }
@@ -117,7 +117,7 @@ public class SceneServiceImpl implements SceneService {
             roles.put(mmoRole.getId(),mmoRole);
             log.info("角色id："+roleDTO.getId()+" 角色名: "+roleDTO.getName()
                     +" 类型: "+ RoleTypeCode.getValue(roleDTO.getType())+" 状态: "+ RoleStatusCode.getValue(roleDTO.getStatus())
-                    +" 血量： "+roleDTO.getNowBlood()+"/"+roleDTO.getBlood()+" 蓝量： "+roleDTO.getNowMp()+"/"+roleDTO.getMp());
+                    +" 血量： "+roleDTO.getNowBlood()+"/"+roleDTO.getBlood()+" 蓝量： "+roleDTO.getNowMp()+"/"+roleDTO.getMp()+" 攻击力： "+roleDTO.getAttack()+" 技能伤害加成: "+roleDTO.getAttackAdd());
         }
         MmoCacheCilent.getInstance().setRoleHashMap(roles);
         log.info("---------------------------------------------------");

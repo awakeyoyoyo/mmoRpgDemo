@@ -61,7 +61,7 @@ public class PlayServiceImpl implements PlayService {
         //打印当前场景
         log.info("角色id：" + roleDTO.getId() + " 角色名: " + roleDTO.getName()
                 + " 类型: " + RoleTypeCode.getValue(roleDTO.getType()) + " 状态: " + RoleStatusCode.getValue(roleDTO.getStatus())
-                + " 血量： " + roleDTO.getNowBlood() + "/" + roleDTO.getBlood() + " 蓝量： " + roleDTO.getNowMp() + "/" + roleDTO.getMp());
+                + " 血量： " + roleDTO.getNowBlood() + "/" + roleDTO.getBlood() + " 蓝量： " + roleDTO.getNowMp() + "/" + roleDTO.getMp()+" 攻击力： "+roleDTO.getAttack()+" 技能伤害加成: "+roleDTO.getAttackAdd());
         log.info("当前场景: " + s.getPlaceName());
         log.info("---------------------------------------------------");
     }

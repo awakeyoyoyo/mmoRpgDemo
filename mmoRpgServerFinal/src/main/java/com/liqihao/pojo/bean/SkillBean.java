@@ -57,7 +57,15 @@ public class SkillBean {
             }
         }
     }
+    /**
+     * 计算伤害
+     * @param
+     * @return
+     */
+    private Integer calculateDamage(){
 
+        return 0;
+    }
 
     public double getAddPercon() {
         return addPercon;

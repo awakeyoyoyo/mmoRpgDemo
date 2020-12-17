@@ -132,6 +132,7 @@ public class PlayServiceImpl implements PlayService{
         simpleRole.setBlood(baseRoleMessage.getHp());
         simpleRole.setNowBlood(baseRoleMessage.getHp());
         simpleRole.setMp(baseRoleMessage.getMp());
+        simpleRole.setDamageAdd(baseRoleMessage.getDamageAdd());
         simpleRole.setNowMp(baseRoleMessage.getMp());
         simpleRole.setAttack(baseRoleMessage.getAttack());
         List<Integer> skillIds=CommonsUtil.split(role.getSkillIds());
@@ -140,9 +141,9 @@ public class PlayServiceImpl implements PlayService{
         simpleRole.setBufferBeans(new CopyOnWriteArrayList<>());
         simpleRole.setEquipmentBeanHashMap(new HashMap<>());
         BackPackManager backPackManager=new BackPackManager(MmoCache.getInstance().getBaseDetailMessage().getBagSize());
-        //固定没人上线就送每种要5瓶，装备各一副
         ConcurrentHashMap<Integer, EquipmentMessage> equipmentMessageConcurrentHashMap=MmoCache.getInstance().getEquipmentMessageConcurrentHashMap();
         ConcurrentHashMap<Integer, MedicineMessage> medicineMessageConcurrentHashMap=MmoCache.getInstance().getMedicineMessageConcurrentHashMap();
+       //初始化背包
         List<MmoBagPOJO> mmoBagPOJOS=mmoBagPOJOMapper.selectByRoleId(role.getId());
         for (MmoBagPOJO mmoBagPOJO:mmoBagPOJOS){
             if (mmoBagPOJO.getArticletype().equals(ArticleTypeCode.EQUIPMENT.getCode())){
@@ -174,6 +175,9 @@ public class PlayServiceImpl implements PlayService{
             equipmentBean.setEquipmentId(m.getEquipmentId());
             equipmentBean.setEquipmentBagId(m.getEquipmentbagId());
             equipmentBeanConcurrentHashMap.put(equipmentBean.getPosition(),equipmentBean);
+            //修改人物属性
+            simpleRole.setAttack(simpleRole.getAttack()+equipmentBean.getAttackAdd());
+            simpleRole.setDamageAdd(simpleRole.getDamageAdd()+equipmentBean.getDamageAdd());
         }
         rolesMap.put(role.getId(),simpleRole);
         //放入线程池中异步处理
@@ -201,10 +205,13 @@ public class PlayServiceImpl implements PlayService{
                 .addAllSkillIdList(simpleRole.getSkillIdList())
                 .setMp(simpleRole.getMp())
                 .setNowMp(simpleRole.getNowMp())
+                .setAttack(simpleRole.getAttack())
+                .setAttackAdd(simpleRole.getDamageAdd())
                 .build();
         loginResponseBuilder.setRoleDto(roleDTO);
         //场景信息
         loginResponseBuilder.setSceneId(role.getMmosceneid());
+        MmoCache.getInstance().getSceneBeanConcurrentHashMap().get(role.getMmosceneid()).getRoles().add(role.getId());
         //打包成messageData
         messageData.setLoginResponse(loginResponseBuilder.build());
         NettyResponse nettyResponse=new NettyResponse();

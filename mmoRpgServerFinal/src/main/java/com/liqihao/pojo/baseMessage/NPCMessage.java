@@ -21,6 +21,16 @@ public class NPCMessage {
 
     private Integer attack;
 
+    private double damageAdd;
+
+    public double getDamageAdd() {
+        return damageAdd;
+    }
+
+    public void setDamageAdd(double damageAdd) {
+        this.damageAdd = damageAdd;
+    }
+
     public Integer getAttack() {
         return attack;
     }

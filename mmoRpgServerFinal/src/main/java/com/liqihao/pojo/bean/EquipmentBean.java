@@ -44,7 +44,6 @@ public class EquipmentBean extends EquipmentMessage implements Article{
      * @return
      */
     public boolean reduceDurability(){
-        //todo
         Integer num= MmoCache.getInstance().getBaseDetailMessage().getReduceDurability();
         if (nowDurability>num){
             nowDurability-=num;

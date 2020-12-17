@@ -7467,6 +7467,18 @@ public final class SceneModel {
      * @return The skillIdList at the given index.
      */
     int getSkillIdList(int index);
+
+    /**
+     * <code>int32 attack = 11;</code>
+     * @return The attack.
+     */
+    int getAttack();
+
+    /**
+     * <code>double attackAdd = 12;</code>
+     * @return The attackAdd.
+     */
+    double getAttackAdd();
   }
   /**
    * Protobuf type {@code RoleDTO}
@@ -7581,6 +7593,16 @@ public final class SceneModel {
                 skillIdList_.addInt(input.readInt32());
               }
               input.popLimit(limit);
+              break;
+            }
+            case 88: {
+
+              attack_ = input.readInt32();
+              break;
+            }
+            case 97: {
+
+              attackAdd_ = input.readDouble();
               break;
             }
             default: {
@@ -7772,6 +7794,28 @@ public final class SceneModel {
     }
     private int skillIdListMemoizedSerializedSize = -1;
 
+    public static final int ATTACK_FIELD_NUMBER = 11;
+    private int attack_;
+    /**
+     * <code>int32 attack = 11;</code>
+     * @return The attack.
+     */
+    @Override
+    public int getAttack() {
+      return attack_;
+    }
+
+    public static final int ATTACKADD_FIELD_NUMBER = 12;
+    private double attackAdd_;
+    /**
+     * <code>double attackAdd = 12;</code>
+     * @return The attackAdd.
+     */
+    @Override
+    public double getAttackAdd() {
+      return attackAdd_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -7820,6 +7864,12 @@ public final class SceneModel {
       }
       for (int i = 0; i < skillIdList_.size(); i++) {
         output.writeInt32NoTag(skillIdList_.getInt(i));
+      }
+      if (attack_ != 0) {
+        output.writeInt32(11, attack_);
+      }
+      if (attackAdd_ != 0D) {
+        output.writeDouble(12, attackAdd_);
       }
       unknownFields.writeTo(output);
     }
@@ -7879,6 +7929,14 @@ public final class SceneModel {
         }
         skillIdListMemoizedSerializedSize = dataSize;
       }
+      if (attack_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(11, attack_);
+      }
+      if (attackAdd_ != 0D) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(12, attackAdd_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -7914,6 +7972,11 @@ public final class SceneModel {
           != other.getNowMp()) return false;
       if (!getSkillIdListList()
           .equals(other.getSkillIdListList())) return false;
+      if (getAttack()
+          != other.getAttack()) return false;
+      if (Double.doubleToLongBits(getAttackAdd())
+          != Double.doubleToLongBits(
+              other.getAttackAdd())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -7947,6 +8010,11 @@ public final class SceneModel {
         hash = (37 * hash) + SKILLIDLIST_FIELD_NUMBER;
         hash = (53 * hash) + getSkillIdListList().hashCode();
       }
+      hash = (37 * hash) + ATTACK_FIELD_NUMBER;
+      hash = (53 * hash) + getAttack();
+      hash = (37 * hash) + ATTACKADD_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          Double.doubleToLongBits(getAttackAdd()));
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -8100,6 +8168,10 @@ public final class SceneModel {
 
         skillIdList_ = emptyIntList();
         bitField0_ = (bitField0_ & ~0x00000001);
+        attack_ = 0;
+
+        attackAdd_ = 0D;
+
         return this;
       }
 
@@ -8141,6 +8213,8 @@ public final class SceneModel {
           bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.skillIdList_ = skillIdList_;
+        result.attack_ = attack_;
+        result.attackAdd_ = attackAdd_;
         onBuilt();
         return result;
       }
@@ -8226,6 +8300,12 @@ public final class SceneModel {
             skillIdList_.addAll(other.skillIdList_);
           }
           onChanged();
+        }
+        if (other.getAttack() != 0) {
+          setAttack(other.getAttack());
+        }
+        if (other.getAttackAdd() != 0D) {
+          setAttackAdd(other.getAttackAdd());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -8656,6 +8736,68 @@ public final class SceneModel {
       public Builder clearSkillIdList() {
         skillIdList_ = emptyIntList();
         bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
+        return this;
+      }
+
+      private int attack_ ;
+      /**
+       * <code>int32 attack = 11;</code>
+       * @return The attack.
+       */
+      @Override
+      public int getAttack() {
+        return attack_;
+      }
+      /**
+       * <code>int32 attack = 11;</code>
+       * @param value The attack to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAttack(int value) {
+        
+        attack_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 attack = 11;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearAttack() {
+        
+        attack_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private double attackAdd_ ;
+      /**
+       * <code>double attackAdd = 12;</code>
+       * @return The attackAdd.
+       */
+      @Override
+      public double getAttackAdd() {
+        return attackAdd_;
+      }
+      /**
+       * <code>double attackAdd = 12;</code>
+       * @param value The attackAdd to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAttackAdd(double value) {
+        
+        attackAdd_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>double attackAdd = 12;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearAttackAdd() {
+        
+        attackAdd_ = 0D;
         onChanged();
         return this;
       }
@@ -9438,13 +9580,14 @@ public final class SceneModel {
       "Ids\030\001 \003(\005\"1\n\024FindAllRolesResponse\022\031\n\007rol" +
       "eDTO\030\001 \003(\0132\010.RoleDTO\":\n\014WentResponse\022\017\n\007" +
       "sceneId\030\001 \001(\005\022\031\n\007roleDTO\030\002 \003(\0132\010.RoleDTO" +
-      "\" \n\017TalkNPCResponse\022\r\n\005npcId\030\001 \001(\005\"\244\001\n\007R" +
+      "\" \n\017TalkNPCResponse\022\r\n\005npcId\030\001 \001(\005\"\307\001\n\007R" +
       "oleDTO\022\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\016\n\006stat" +
       "us\030\003 \001(\005\022\014\n\004type\030\004 \001(\005\022\020\n\010onStatus\030\005 \001(\005" +
       "\022\r\n\005blood\030\006 \001(\005\022\020\n\010nowBlood\030\007 \001(\005\022\n\n\002mp\030" +
       "\010 \001(\005\022\r\n\005nowMp\030\t \001(\005\022\023\n\013skillIdList\030\n \003(" +
-      "\005\"/\n\016MmoSimpleScene\022\n\n\002id\030\001 \001(\005\022\021\n\tpalce" +
-      "Name\030\002 \001(\tB\014B\nSceneModelb\006proto3"
+      "\005\022\016\n\006attack\030\013 \001(\005\022\021\n\tattackAdd\030\014 \001(\001\"/\n\016" +
+      "MmoSimpleScene\022\n\n\002id\030\001 \001(\005\022\021\n\tpalceName\030" +
+      "\002 \001(\tB\014B\nSceneModelb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -9509,7 +9652,7 @@ public final class SceneModel {
     internal_static_RoleDTO_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_RoleDTO_descriptor,
-        new String[] { "Id", "Name", "Status", "Type", "OnStatus", "Blood", "NowBlood", "Mp", "NowMp", "SkillIdList", });
+        new String[] { "Id", "Name", "Status", "Type", "OnStatus", "Blood", "NowBlood", "Mp", "NowMp", "SkillIdList", "Attack", "AttackAdd", });
     internal_static_MmoSimpleScene_descriptor =
       getDescriptor().getMessageTypes().get(10);
     internal_static_MmoSimpleScene_fieldAccessorTable = new

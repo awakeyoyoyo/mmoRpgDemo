@@ -8919,6 +8919,18 @@ public final class PlayModel {
      * @return The skillIdList at the given index.
      */
     int getSkillIdList(int index);
+
+    /**
+     * <code>int32 attack = 11;</code>
+     * @return The attack.
+     */
+    int getAttack();
+
+    /**
+     * <code>double attackAdd = 12;</code>
+     * @return The attackAdd.
+     */
+    double getAttackAdd();
   }
   /**
    * Protobuf type {@code RoleDTO}
@@ -9033,6 +9045,16 @@ public final class PlayModel {
                 skillIdList_.addInt(input.readInt32());
               }
               input.popLimit(limit);
+              break;
+            }
+            case 88: {
+
+              attack_ = input.readInt32();
+              break;
+            }
+            case 97: {
+
+              attackAdd_ = input.readDouble();
               break;
             }
             default: {
@@ -9224,6 +9246,28 @@ public final class PlayModel {
     }
     private int skillIdListMemoizedSerializedSize = -1;
 
+    public static final int ATTACK_FIELD_NUMBER = 11;
+    private int attack_;
+    /**
+     * <code>int32 attack = 11;</code>
+     * @return The attack.
+     */
+    @Override
+    public int getAttack() {
+      return attack_;
+    }
+
+    public static final int ATTACKADD_FIELD_NUMBER = 12;
+    private double attackAdd_;
+    /**
+     * <code>double attackAdd = 12;</code>
+     * @return The attackAdd.
+     */
+    @Override
+    public double getAttackAdd() {
+      return attackAdd_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -9272,6 +9316,12 @@ public final class PlayModel {
       }
       for (int i = 0; i < skillIdList_.size(); i++) {
         output.writeInt32NoTag(skillIdList_.getInt(i));
+      }
+      if (attack_ != 0) {
+        output.writeInt32(11, attack_);
+      }
+      if (attackAdd_ != 0D) {
+        output.writeDouble(12, attackAdd_);
       }
       unknownFields.writeTo(output);
     }
@@ -9331,6 +9381,14 @@ public final class PlayModel {
         }
         skillIdListMemoizedSerializedSize = dataSize;
       }
+      if (attack_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(11, attack_);
+      }
+      if (attackAdd_ != 0D) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(12, attackAdd_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -9366,6 +9424,11 @@ public final class PlayModel {
           != other.getNowMp()) return false;
       if (!getSkillIdListList()
           .equals(other.getSkillIdListList())) return false;
+      if (getAttack()
+          != other.getAttack()) return false;
+      if (Double.doubleToLongBits(getAttackAdd())
+          != Double.doubleToLongBits(
+              other.getAttackAdd())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -9399,6 +9462,11 @@ public final class PlayModel {
         hash = (37 * hash) + SKILLIDLIST_FIELD_NUMBER;
         hash = (53 * hash) + getSkillIdListList().hashCode();
       }
+      hash = (37 * hash) + ATTACK_FIELD_NUMBER;
+      hash = (53 * hash) + getAttack();
+      hash = (37 * hash) + ATTACKADD_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          Double.doubleToLongBits(getAttackAdd()));
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -9552,6 +9620,10 @@ public final class PlayModel {
 
         skillIdList_ = emptyIntList();
         bitField0_ = (bitField0_ & ~0x00000001);
+        attack_ = 0;
+
+        attackAdd_ = 0D;
+
         return this;
       }
 
@@ -9593,6 +9665,8 @@ public final class PlayModel {
           bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.skillIdList_ = skillIdList_;
+        result.attack_ = attack_;
+        result.attackAdd_ = attackAdd_;
         onBuilt();
         return result;
       }
@@ -9678,6 +9752,12 @@ public final class PlayModel {
             skillIdList_.addAll(other.skillIdList_);
           }
           onChanged();
+        }
+        if (other.getAttack() != 0) {
+          setAttack(other.getAttack());
+        }
+        if (other.getAttackAdd() != 0D) {
+          setAttackAdd(other.getAttackAdd());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -10108,6 +10188,68 @@ public final class PlayModel {
       public Builder clearSkillIdList() {
         skillIdList_ = emptyIntList();
         bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
+        return this;
+      }
+
+      private int attack_ ;
+      /**
+       * <code>int32 attack = 11;</code>
+       * @return The attack.
+       */
+      @Override
+      public int getAttack() {
+        return attack_;
+      }
+      /**
+       * <code>int32 attack = 11;</code>
+       * @param value The attack to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAttack(int value) {
+        
+        attack_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 attack = 11;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearAttack() {
+        
+        attack_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private double attackAdd_ ;
+      /**
+       * <code>double attackAdd = 12;</code>
+       * @return The attackAdd.
+       */
+      @Override
+      public double getAttackAdd() {
+        return attackAdd_;
+      }
+      /**
+       * <code>double attackAdd = 12;</code>
+       * @param value The attackAdd to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAttackAdd(double value) {
+        
+        attackAdd_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>double attackAdd = 12;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearAttackAdd() {
+        
+        attackAdd_ = 0D;
         onChanged();
         return this;
       }
@@ -11380,17 +11522,17 @@ public final class PlayModel {
       " \001(\005\022\017\n\007sceneId\030\002 \001(\005\"8\n\020UseSkillRespons" +
       "e\022$\n\rroleIdDamages\030\001 \003(\0132\r.RoleIdDamage\"" +
       "<\n\025DamagesNoticeResponse\022#\n\014roleIdDamage" +
-      "\030\001 \001(\0132\r.RoleIdDamage\"\244\001\n\007RoleDTO\022\n\n\002id\030" +
+      "\030\001 \001(\0132\r.RoleIdDamage\"\307\001\n\007RoleDTO\022\n\n\002id\030" +
       "\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\016\n\006status\030\003 \001(\005\022\014\n\004t" +
       "ype\030\004 \001(\005\022\020\n\010onStatus\030\005 \001(\005\022\r\n\005blood\030\006 \001" +
       "(\005\022\020\n\010nowBlood\030\007 \001(\005\022\n\n\002mp\030\010 \001(\005\022\r\n\005nowM" +
-      "p\030\t \001(\005\022\023\n\013skillIdList\030\n \003(\005\"\275\001\n\014RoleIdD" +
-      "amage\022\022\n\nfromRoleId\030\001 \001(\005\022\020\n\010toRoleId\030\002 " +
-      "\001(\005\022\020\n\010bufferId\030\003 \001(\005\022\017\n\007skillId\030\004 \001(\005\022\023" +
-      "\n\013attackStyle\030\005 \001(\005\022\022\n\ndamageType\030\006 \001(\005\022" +
-      "\016\n\006damage\030\007 \001(\005\022\020\n\010nowblood\030\010 \001(\005\022\n\n\002mp\030" +
-      "\t \001(\005\022\r\n\005State\030\n \001(\005B\013B\tPlayModelb\006proto" +
-      "3"
+      "p\030\t \001(\005\022\023\n\013skillIdList\030\n \003(\005\022\016\n\006attack\030\013" +
+      " \001(\005\022\021\n\tattackAdd\030\014 \001(\001\"\275\001\n\014RoleIdDamage" +
+      "\022\022\n\nfromRoleId\030\001 \001(\005\022\020\n\010toRoleId\030\002 \001(\005\022\020" +
+      "\n\010bufferId\030\003 \001(\005\022\017\n\007skillId\030\004 \001(\005\022\023\n\013att" +
+      "ackStyle\030\005 \001(\005\022\022\n\ndamageType\030\006 \001(\005\022\016\n\006da" +
+      "mage\030\007 \001(\005\022\020\n\010nowblood\030\010 \001(\005\022\n\n\002mp\030\t \001(\005" +
+      "\022\r\n\005State\030\n \001(\005B\013B\tPlayModelb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -11461,7 +11603,7 @@ public final class PlayModel {
     internal_static_RoleDTO_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_RoleDTO_descriptor,
-        new String[] { "Id", "Name", "Status", "Type", "OnStatus", "Blood", "NowBlood", "Mp", "NowMp", "SkillIdList", });
+        new String[] { "Id", "Name", "Status", "Type", "OnStatus", "Blood", "NowBlood", "Mp", "NowMp", "SkillIdList", "Attack", "AttackAdd", });
     internal_static_RoleIdDamage_descriptor =
       getDescriptor().getMessageTypes().get(11);
     internal_static_RoleIdDamage_fieldAccessorTable = new

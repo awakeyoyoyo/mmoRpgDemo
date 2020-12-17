@@ -9,6 +9,7 @@ npcMessages:
     blood: 100
     mp: 100
     attack: 10
+    damageAdd: 0
   - id: 1001
     name: "柯拉"
     mmosceneid: 2
@@ -19,6 +20,7 @@ npcMessages:
     blood: 100
     mp: 100
     attack: 1
+    damageAdd: 0
   - id: 1002
     name: "和治"
     mmosceneid: 1
@@ -29,6 +31,7 @@ npcMessages:
     blood: 100
     mp: 100
     attack: 10
+    damageAdd: 0
   - id: 1003
     name: "异类Build"
     mmosceneid: 3
@@ -39,6 +42,7 @@ npcMessages:
     blood: 100
     mp: 100
     attack: 10
+    damageAdd: 0
   - id: 1004
     name: "异类Ghost"
     mmosceneid: 3
@@ -49,6 +53,7 @@ npcMessages:
     blood: 100
     mp: 100
     attack: 10
+    damageAdd: 0
   - id: 1005
     name: "异类Zio"
     mmosceneid: 4
@@ -59,3 +64,4 @@ npcMessages:
     blood: 100
     mp: 100
     attack: 10
+    damageAdd: 0

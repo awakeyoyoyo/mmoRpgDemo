@@ -32,7 +32,15 @@ public class MmoSimpleRole extends MmoRolePOJO {
     private Integer attack;
     private BackPackManager backpackManager;
     private List<Integer> needDeleteEquipmentIds=new ArrayList<>();
+    private double damageAdd;
 
+    public double getDamageAdd() {
+        return damageAdd;
+    }
+
+    public void setDamageAdd(double damageAdd) {
+        this.damageAdd = damageAdd;
+    }
     public List<Integer> getNeedDeleteEquipmentIds() {
         return needDeleteEquipmentIds;
     }
@@ -163,12 +171,18 @@ public class MmoSimpleRole extends MmoRolePOJO {
         if (oldBean!=null){
             //放回背包内
             //背包新增数据
+            //修改人物属性
+            setAttack(getAttack()-oldBean.getAttackAdd());
+            setDamageAdd(getDamageAdd()-oldBean.getDamageAdd());
             backpackManager.put(oldBean);
         }
         //背包减少装备
         backpackManager.useOrAbandanArticle(equipmentBean.getArticleId(),1);
         //装备栏增加装备
         equipmentBeanHashMap.put(equipmentBean.getPosition(),equipmentBean);
+        //人物属性
+        setAttack(getAttack()+equipmentBean.getAttackAdd());
+        setDamageAdd(getDamageAdd()+equipmentBean.getDamageAdd());
         return true;
     }
     //脱装备
@@ -188,6 +202,8 @@ public class MmoSimpleRole extends MmoRolePOJO {
             equipmentBean.setEquipmentBagId(null);
             //放入背包
             backpackManager.put(equipmentBean);
+            setAttack(getAttack()-equipmentBean.getAttackAdd());
+            setDamageAdd(getDamageAdd()-equipmentBean.getDamageAdd());
             return  true;
         }
     }

@@ -108,6 +108,8 @@ public class SceneServiceImpl implements SceneService {
         player.setMmosceneid(nextSceneId);
         cacheRoles.put(player.getId(),player);
         //修改scene
+        MmoCache.getInstance().getSceneBeanConcurrentHashMap().get(nowSceneId).getRoles().remove(roleId);
+        MmoCache.getInstance().getSceneBeanConcurrentHashMap().get(nextSceneId).getRoles().add(roleId);
         //数据库中新场景中增加该角色
         MmoScenePOJO nextScenePOJO=mmoScenePOJOMapper.selectByPrimaryKey(nextSceneId);
         List<Integer> rolesIds=CommonsUtil.split(nextScenePOJO.getRoles());
@@ -165,6 +167,8 @@ public class SceneServiceImpl implements SceneService {
             msr.setNowBlood(mmoRole.getNowBlood());
             msr.setMp(mmoRole.getMp());
             msr.setNowMp(mmoRole.getNowMp());
+            msr.setAttack(mmoRole.getAttack());
+            msr.setAttackAdd(mmoRole.getDamageAdd());
             SceneModel.RoleDTO msrobject=msr.build();
             roleDTOS.add(msrobject);
         }
@@ -184,7 +188,7 @@ public class SceneServiceImpl implements SceneService {
         SceneModel.SceneModelMessage myMessage;
         myMessage=SceneModel.SceneModelMessage.parseFrom(data);
         Integer sceneId=myMessage.getFindAllRolesRequest().getSceneId();
-        List<MmoSimpleRole> nextSceneRoles=new ArrayList<>();
+        List<MmoSimpleRole> sceneRoles=new ArrayList<>();
         SceneBean sceneBean=MmoCache.getInstance().getSceneBeanConcurrentHashMap().get(sceneId);
         List<Integer> mmoSimpleRoles=sceneBean.getRoles();
         List<Integer> npcs=sceneBean.getNpcs();
@@ -202,19 +206,21 @@ public class SceneServiceImpl implements SceneService {
             roleTemp.setMp(temp.getMp());
             roleTemp.setNowMp(temp.getNowMp());
             roleTemp.setMmosceneid(temp.getMmosceneid());
-            nextSceneRoles.add(roleTemp);
+            roleTemp.setAttack(temp.getAttack());
+            roleTemp.setDamageAdd(temp.getDamageAdd());
+            sceneRoles.add(roleTemp);
         }
         //ROLES
         for (Integer id:mmoSimpleRoles){
             MmoSimpleRole temp=MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap().get(id);
-            nextSceneRoles.add(temp);
+            sceneRoles.add(temp);
         }
         //protobuf
         SceneModel.SceneModelMessage.Builder messagedataBuilder=SceneModel.SceneModelMessage.newBuilder();
         messagedataBuilder.setDataType(SceneModel.SceneModelMessage.DateType.FindAllRolesResponse);
         SceneModel.FindAllRolesResponse.Builder findAllRolesResponseBuilder=SceneModel.FindAllRolesResponse.newBuilder();
         List<SceneModel.RoleDTO> roleDTOS=new ArrayList<>();
-        for (MmoSimpleRole m :nextSceneRoles) {
+        for (MmoSimpleRole m :sceneRoles) {
             SceneModel.RoleDTO msr=SceneModel.RoleDTO.newBuilder().setId(m.getId())
                     .setName(m.getName())
                     .setOnStatus(m.getOnstatus())
@@ -224,6 +230,8 @@ public class SceneServiceImpl implements SceneService {
                     .setNowBlood(m.getNowBlood())
                     .setMp(m.getMp())
                     .setNowMp(m.getNowMp())
+                    .setAttack(m.getAttack())
+                    .setAttackAdd(m.getDamageAdd())
                     .build();
             roleDTOS.add(msr);
         }

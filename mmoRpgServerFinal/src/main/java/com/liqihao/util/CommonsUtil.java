@@ -97,15 +97,7 @@ public class CommonsUtil implements ApplicationContextAware {
             equipmentBagPOJOMapper.deleteByPrimaryKey(id);
         }
     }
-    /**
-     * 计算伤害
-     * @param
-     * @return
-     */
-    public static Integer calculateDamage(){
-        //todo
-        return 0;
-    }
+
 
     public static Integer getRoleIdByChannel(Channel channel){
         AttributeKey<Integer> key = AttributeKey.valueOf("roleId");

@@ -67,6 +67,8 @@ message RoleDTO{
   int32 mp=8;
   int32 nowMp=9;
   repeated int32 skillIdList=10;
+  int32 attack=11;
+  double attackAdd=12;
 }
 message MmoSimpleScene{
    int32 id=1;
