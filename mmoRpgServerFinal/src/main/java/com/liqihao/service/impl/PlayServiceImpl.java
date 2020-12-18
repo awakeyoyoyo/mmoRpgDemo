@@ -251,7 +251,7 @@ public class PlayServiceImpl implements PlayService{
         //缓存角色集合删除
         ConcurrentHashMap<Integer,MmoSimpleRole> rolesMap= MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
         rolesMap.remove(roleId);
-
+        MmoCache.getInstance().getSceneBeanConcurrentHashMap().get(mmoSimpleRole.getMmosceneid()).getRoles().remove(mmoSimpleRole.getId());
         //protobuf生成消息
         PlayModel.PlayModelMessage.Builder myMessageBuilder=PlayModel.PlayModelMessage.newBuilder();
         myMessageBuilder.setDataType(PlayModel.PlayModelMessage.DateType.LogoutResponse);

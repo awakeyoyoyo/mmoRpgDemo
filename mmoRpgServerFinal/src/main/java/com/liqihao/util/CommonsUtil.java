@@ -56,9 +56,6 @@ public class CommonsUtil implements ApplicationContextAware {
             mmoBagPOJO.setNumber(a.getQuantity());
             mmoBagPOJO.setRoleId(roleId);
             mmoBagPOJO.setwId(a.getId());
-            if (a.getArticleType()== ArticleTypeCode.EQUIPMENT.getCode()) {
-                mmoBagPOJO.setNowdurability(a.getNowdurability());
-            }
             if (a.getBagId()!=null){
                 mmoBagPOJO.setBagId(a.getBagId());
                 mmoBagPOJOMapper.updateByPrimaryKey(mmoBagPOJO);
