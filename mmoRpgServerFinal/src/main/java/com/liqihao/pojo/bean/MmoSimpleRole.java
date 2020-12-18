@@ -269,8 +269,8 @@ public class MmoSimpleRole extends MmoRolePOJO {
             Integer reduce=0;
             if (skillBean.getSkillType().equals(SkillTypeCode.FIED.getCode())){
                 //固伤 只有技能伤害
-                hp-=skillBean.getBaseDamage();
-                reduce=skillBean.getBaseDamage();
+                reduce=(int)Math.ceil(skillBean.getBaseDamage()*(1+this.getDamageAdd()));
+                hp-=reduce;
             }
             if(skillBean.getSkillType().equals(SkillTypeCode.PERCENTAGE.getCode())){
                 //百分比 按照攻击力比例增加

@@ -35,7 +35,7 @@ public class ScheduledThreadPoolUtil {
         replyMpRole = new ConcurrentHashMap<>();
         bufferRole = new ConcurrentHashMap<>();
         npcTaskMap = new ConcurrentHashMap<>();
-        scheduledExecutorService = new ScheduledThreadPoolExecutor(4);
+        scheduledExecutorService = new ScheduledThreadPoolExecutor(6);
     }
 
     public static ConcurrentHashMap<Integer, ScheduledFuture<?>> getNpcTaskMap() {
@@ -316,6 +316,7 @@ public class ScheduledThreadPoolUtil {
 
         @Override
         public void run() {
+
             MmoSimpleRole mmoSimpleRole=MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap().get(targetRoleId);
             MmoSimpleNPC npc=MmoCache.getInstance().getNpcMessageConcurrentHashMap().get(npcId);
             if (mmoSimpleRole==null||
