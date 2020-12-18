@@ -137,6 +137,36 @@ public final class EquipmentModel {
      */
     ReduceEquipmentResponseOrBuilder getReduceEquipmentResponseOrBuilder();
 
+    /**
+     * <code>.FixEquipmentRequest fixEquipmentRequest = 8;</code>
+     * @return Whether the fixEquipmentRequest field is set.
+     */
+    boolean hasFixEquipmentRequest();
+    /**
+     * <code>.FixEquipmentRequest fixEquipmentRequest = 8;</code>
+     * @return The fixEquipmentRequest.
+     */
+    FixEquipmentRequest getFixEquipmentRequest();
+    /**
+     * <code>.FixEquipmentRequest fixEquipmentRequest = 8;</code>
+     */
+    FixEquipmentRequestOrBuilder getFixEquipmentRequestOrBuilder();
+
+    /**
+     * <code>.FixEquipmentResponse fixEquipmentResponse = 9;</code>
+     * @return Whether the fixEquipmentResponse field is set.
+     */
+    boolean hasFixEquipmentResponse();
+    /**
+     * <code>.FixEquipmentResponse fixEquipmentResponse = 9;</code>
+     * @return The fixEquipmentResponse.
+     */
+    FixEquipmentResponse getFixEquipmentResponse();
+    /**
+     * <code>.FixEquipmentResponse fixEquipmentResponse = 9;</code>
+     */
+    FixEquipmentResponseOrBuilder getFixEquipmentResponseOrBuilder();
+
     public EquipmentModelMessage.DateBodyCase getDateBodyCase();
   }
   /**
@@ -275,6 +305,34 @@ public final class EquipmentModel {
               dateBodyCase_ = 7;
               break;
             }
+            case 66: {
+              FixEquipmentRequest.Builder subBuilder = null;
+              if (dateBodyCase_ == 8) {
+                subBuilder = ((FixEquipmentRequest) dateBody_).toBuilder();
+              }
+              dateBody_ =
+                  input.readMessage(FixEquipmentRequest.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((FixEquipmentRequest) dateBody_);
+                dateBody_ = subBuilder.buildPartial();
+              }
+              dateBodyCase_ = 8;
+              break;
+            }
+            case 74: {
+              FixEquipmentResponse.Builder subBuilder = null;
+              if (dateBodyCase_ == 9) {
+                subBuilder = ((FixEquipmentResponse) dateBody_).toBuilder();
+              }
+              dateBody_ =
+                  input.readMessage(FixEquipmentResponse.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((FixEquipmentResponse) dateBody_);
+                dateBody_ = subBuilder.buildPartial();
+              }
+              dateBodyCase_ = 9;
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -344,6 +402,14 @@ public final class EquipmentModel {
        * <code>ReduceEquipmentResponse = 5;</code>
        */
       ReduceEquipmentResponse(5),
+      /**
+       * <code>FixEquipmentRequest = 6;</code>
+       */
+      FixEquipmentRequest(6),
+      /**
+       * <code>FixEquipmentResponse = 7;</code>
+       */
+      FixEquipmentResponse(7),
       UNRECOGNIZED(-1),
       ;
 
@@ -375,6 +441,14 @@ public final class EquipmentModel {
        * <code>ReduceEquipmentResponse = 5;</code>
        */
       public static final int ReduceEquipmentResponse_VALUE = 5;
+      /**
+       * <code>FixEquipmentRequest = 6;</code>
+       */
+      public static final int FixEquipmentRequest_VALUE = 6;
+      /**
+       * <code>FixEquipmentResponse = 7;</code>
+       */
+      public static final int FixEquipmentResponse_VALUE = 7;
 
 
       public final int getNumber() {
@@ -407,6 +481,8 @@ public final class EquipmentModel {
           case 3: return AddEquipmentResponse;
           case 4: return EquipmentMsgResponse;
           case 5: return ReduceEquipmentResponse;
+          case 6: return FixEquipmentRequest;
+          case 7: return FixEquipmentResponse;
           default: return null;
         }
       }
@@ -474,6 +550,8 @@ public final class EquipmentModel {
       ADDEQUIPMENTRESPONSE(5),
       EQUIPMENTMSGRESPONSE(6),
       REDUCEEQUIPMENTRESPONSE(7),
+      FIXEQUIPMENTREQUEST(8),
+      FIXEQUIPMENTRESPONSE(9),
       DATEBODY_NOT_SET(0);
       private final int value;
       private DateBodyCase(int value) {
@@ -497,6 +575,8 @@ public final class EquipmentModel {
           case 5: return ADDEQUIPMENTRESPONSE;
           case 6: return EQUIPMENTMSGRESPONSE;
           case 7: return REDUCEEQUIPMENTRESPONSE;
+          case 8: return FIXEQUIPMENTREQUEST;
+          case 9: return FIXEQUIPMENTRESPONSE;
           case 0: return DATEBODY_NOT_SET;
           default: return null;
         }
@@ -737,6 +817,68 @@ public final class EquipmentModel {
       return ReduceEquipmentResponse.getDefaultInstance();
     }
 
+    public static final int FIXEQUIPMENTREQUEST_FIELD_NUMBER = 8;
+    /**
+     * <code>.FixEquipmentRequest fixEquipmentRequest = 8;</code>
+     * @return Whether the fixEquipmentRequest field is set.
+     */
+    @Override
+    public boolean hasFixEquipmentRequest() {
+      return dateBodyCase_ == 8;
+    }
+    /**
+     * <code>.FixEquipmentRequest fixEquipmentRequest = 8;</code>
+     * @return The fixEquipmentRequest.
+     */
+    @Override
+    public FixEquipmentRequest getFixEquipmentRequest() {
+      if (dateBodyCase_ == 8) {
+         return (FixEquipmentRequest) dateBody_;
+      }
+      return FixEquipmentRequest.getDefaultInstance();
+    }
+    /**
+     * <code>.FixEquipmentRequest fixEquipmentRequest = 8;</code>
+     */
+    @Override
+    public FixEquipmentRequestOrBuilder getFixEquipmentRequestOrBuilder() {
+      if (dateBodyCase_ == 8) {
+         return (FixEquipmentRequest) dateBody_;
+      }
+      return FixEquipmentRequest.getDefaultInstance();
+    }
+
+    public static final int FIXEQUIPMENTRESPONSE_FIELD_NUMBER = 9;
+    /**
+     * <code>.FixEquipmentResponse fixEquipmentResponse = 9;</code>
+     * @return Whether the fixEquipmentResponse field is set.
+     */
+    @Override
+    public boolean hasFixEquipmentResponse() {
+      return dateBodyCase_ == 9;
+    }
+    /**
+     * <code>.FixEquipmentResponse fixEquipmentResponse = 9;</code>
+     * @return The fixEquipmentResponse.
+     */
+    @Override
+    public FixEquipmentResponse getFixEquipmentResponse() {
+      if (dateBodyCase_ == 9) {
+         return (FixEquipmentResponse) dateBody_;
+      }
+      return FixEquipmentResponse.getDefaultInstance();
+    }
+    /**
+     * <code>.FixEquipmentResponse fixEquipmentResponse = 9;</code>
+     */
+    @Override
+    public FixEquipmentResponseOrBuilder getFixEquipmentResponseOrBuilder() {
+      if (dateBodyCase_ == 9) {
+         return (FixEquipmentResponse) dateBody_;
+      }
+      return FixEquipmentResponse.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -771,6 +913,12 @@ public final class EquipmentModel {
       }
       if (dateBodyCase_ == 7) {
         output.writeMessage(7, (ReduceEquipmentResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 8) {
+        output.writeMessage(8, (FixEquipmentRequest) dateBody_);
+      }
+      if (dateBodyCase_ == 9) {
+        output.writeMessage(9, (FixEquipmentResponse) dateBody_);
       }
       unknownFields.writeTo(output);
     }
@@ -808,6 +956,14 @@ public final class EquipmentModel {
       if (dateBodyCase_ == 7) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(7, (ReduceEquipmentResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 8) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(8, (FixEquipmentRequest) dateBody_);
+      }
+      if (dateBodyCase_ == 9) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(9, (FixEquipmentResponse) dateBody_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -851,6 +1007,14 @@ public final class EquipmentModel {
           if (!getReduceEquipmentResponse()
               .equals(other.getReduceEquipmentResponse())) return false;
           break;
+        case 8:
+          if (!getFixEquipmentRequest()
+              .equals(other.getFixEquipmentRequest())) return false;
+          break;
+        case 9:
+          if (!getFixEquipmentResponse()
+              .equals(other.getFixEquipmentResponse())) return false;
+          break;
         case 0:
         default:
       }
@@ -891,6 +1055,14 @@ public final class EquipmentModel {
         case 7:
           hash = (37 * hash) + REDUCEEQUIPMENTRESPONSE_FIELD_NUMBER;
           hash = (53 * hash) + getReduceEquipmentResponse().hashCode();
+          break;
+        case 8:
+          hash = (37 * hash) + FIXEQUIPMENTREQUEST_FIELD_NUMBER;
+          hash = (53 * hash) + getFixEquipmentRequest().hashCode();
+          break;
+        case 9:
+          hash = (37 * hash) + FIXEQUIPMENTRESPONSE_FIELD_NUMBER;
+          hash = (53 * hash) + getFixEquipmentResponse().hashCode();
           break;
         case 0:
         default:
@@ -1101,6 +1273,20 @@ public final class EquipmentModel {
             result.dateBody_ = reduceEquipmentResponseBuilder_.build();
           }
         }
+        if (dateBodyCase_ == 8) {
+          if (fixEquipmentRequestBuilder_ == null) {
+            result.dateBody_ = dateBody_;
+          } else {
+            result.dateBody_ = fixEquipmentRequestBuilder_.build();
+          }
+        }
+        if (dateBodyCase_ == 9) {
+          if (fixEquipmentResponseBuilder_ == null) {
+            result.dateBody_ = dateBody_;
+          } else {
+            result.dateBody_ = fixEquipmentResponseBuilder_.build();
+          }
+        }
         result.dateBodyCase_ = dateBodyCase_;
         onBuilt();
         return result;
@@ -1176,6 +1362,14 @@ public final class EquipmentModel {
           }
           case REDUCEEQUIPMENTRESPONSE: {
             mergeReduceEquipmentResponse(other.getReduceEquipmentResponse());
+            break;
+          }
+          case FIXEQUIPMENTREQUEST: {
+            mergeFixEquipmentRequest(other.getFixEquipmentRequest());
+            break;
+          }
+          case FIXEQUIPMENTRESPONSE: {
+            mergeFixEquipmentResponse(other.getFixEquipmentResponse());
             break;
           }
           case DATEBODY_NOT_SET: {
@@ -2181,6 +2375,288 @@ public final class EquipmentModel {
         onChanged();;
         return reduceEquipmentResponseBuilder_;
       }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          FixEquipmentRequest, FixEquipmentRequest.Builder, FixEquipmentRequestOrBuilder> fixEquipmentRequestBuilder_;
+      /**
+       * <code>.FixEquipmentRequest fixEquipmentRequest = 8;</code>
+       * @return Whether the fixEquipmentRequest field is set.
+       */
+      @Override
+      public boolean hasFixEquipmentRequest() {
+        return dateBodyCase_ == 8;
+      }
+      /**
+       * <code>.FixEquipmentRequest fixEquipmentRequest = 8;</code>
+       * @return The fixEquipmentRequest.
+       */
+      @Override
+      public FixEquipmentRequest getFixEquipmentRequest() {
+        if (fixEquipmentRequestBuilder_ == null) {
+          if (dateBodyCase_ == 8) {
+            return (FixEquipmentRequest) dateBody_;
+          }
+          return FixEquipmentRequest.getDefaultInstance();
+        } else {
+          if (dateBodyCase_ == 8) {
+            return fixEquipmentRequestBuilder_.getMessage();
+          }
+          return FixEquipmentRequest.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.FixEquipmentRequest fixEquipmentRequest = 8;</code>
+       */
+      public Builder setFixEquipmentRequest(FixEquipmentRequest value) {
+        if (fixEquipmentRequestBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dateBody_ = value;
+          onChanged();
+        } else {
+          fixEquipmentRequestBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 8;
+        return this;
+      }
+      /**
+       * <code>.FixEquipmentRequest fixEquipmentRequest = 8;</code>
+       */
+      public Builder setFixEquipmentRequest(
+          FixEquipmentRequest.Builder builderForValue) {
+        if (fixEquipmentRequestBuilder_ == null) {
+          dateBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          fixEquipmentRequestBuilder_.setMessage(builderForValue.build());
+        }
+        dateBodyCase_ = 8;
+        return this;
+      }
+      /**
+       * <code>.FixEquipmentRequest fixEquipmentRequest = 8;</code>
+       */
+      public Builder mergeFixEquipmentRequest(FixEquipmentRequest value) {
+        if (fixEquipmentRequestBuilder_ == null) {
+          if (dateBodyCase_ == 8 &&
+              dateBody_ != FixEquipmentRequest.getDefaultInstance()) {
+            dateBody_ = FixEquipmentRequest.newBuilder((FixEquipmentRequest) dateBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dateBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dateBodyCase_ == 8) {
+            fixEquipmentRequestBuilder_.mergeFrom(value);
+          }
+          fixEquipmentRequestBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 8;
+        return this;
+      }
+      /**
+       * <code>.FixEquipmentRequest fixEquipmentRequest = 8;</code>
+       */
+      public Builder clearFixEquipmentRequest() {
+        if (fixEquipmentRequestBuilder_ == null) {
+          if (dateBodyCase_ == 8) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dateBodyCase_ == 8) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+          }
+          fixEquipmentRequestBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.FixEquipmentRequest fixEquipmentRequest = 8;</code>
+       */
+      public FixEquipmentRequest.Builder getFixEquipmentRequestBuilder() {
+        return getFixEquipmentRequestFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.FixEquipmentRequest fixEquipmentRequest = 8;</code>
+       */
+      @Override
+      public FixEquipmentRequestOrBuilder getFixEquipmentRequestOrBuilder() {
+        if ((dateBodyCase_ == 8) && (fixEquipmentRequestBuilder_ != null)) {
+          return fixEquipmentRequestBuilder_.getMessageOrBuilder();
+        } else {
+          if (dateBodyCase_ == 8) {
+            return (FixEquipmentRequest) dateBody_;
+          }
+          return FixEquipmentRequest.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.FixEquipmentRequest fixEquipmentRequest = 8;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          FixEquipmentRequest, FixEquipmentRequest.Builder, FixEquipmentRequestOrBuilder>
+          getFixEquipmentRequestFieldBuilder() {
+        if (fixEquipmentRequestBuilder_ == null) {
+          if (!(dateBodyCase_ == 8)) {
+            dateBody_ = FixEquipmentRequest.getDefaultInstance();
+          }
+          fixEquipmentRequestBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              FixEquipmentRequest, FixEquipmentRequest.Builder, FixEquipmentRequestOrBuilder>(
+                  (FixEquipmentRequest) dateBody_,
+                  getParentForChildren(),
+                  isClean());
+          dateBody_ = null;
+        }
+        dateBodyCase_ = 8;
+        onChanged();;
+        return fixEquipmentRequestBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          FixEquipmentResponse, FixEquipmentResponse.Builder, FixEquipmentResponseOrBuilder> fixEquipmentResponseBuilder_;
+      /**
+       * <code>.FixEquipmentResponse fixEquipmentResponse = 9;</code>
+       * @return Whether the fixEquipmentResponse field is set.
+       */
+      @Override
+      public boolean hasFixEquipmentResponse() {
+        return dateBodyCase_ == 9;
+      }
+      /**
+       * <code>.FixEquipmentResponse fixEquipmentResponse = 9;</code>
+       * @return The fixEquipmentResponse.
+       */
+      @Override
+      public FixEquipmentResponse getFixEquipmentResponse() {
+        if (fixEquipmentResponseBuilder_ == null) {
+          if (dateBodyCase_ == 9) {
+            return (FixEquipmentResponse) dateBody_;
+          }
+          return FixEquipmentResponse.getDefaultInstance();
+        } else {
+          if (dateBodyCase_ == 9) {
+            return fixEquipmentResponseBuilder_.getMessage();
+          }
+          return FixEquipmentResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.FixEquipmentResponse fixEquipmentResponse = 9;</code>
+       */
+      public Builder setFixEquipmentResponse(FixEquipmentResponse value) {
+        if (fixEquipmentResponseBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dateBody_ = value;
+          onChanged();
+        } else {
+          fixEquipmentResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 9;
+        return this;
+      }
+      /**
+       * <code>.FixEquipmentResponse fixEquipmentResponse = 9;</code>
+       */
+      public Builder setFixEquipmentResponse(
+          FixEquipmentResponse.Builder builderForValue) {
+        if (fixEquipmentResponseBuilder_ == null) {
+          dateBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          fixEquipmentResponseBuilder_.setMessage(builderForValue.build());
+        }
+        dateBodyCase_ = 9;
+        return this;
+      }
+      /**
+       * <code>.FixEquipmentResponse fixEquipmentResponse = 9;</code>
+       */
+      public Builder mergeFixEquipmentResponse(FixEquipmentResponse value) {
+        if (fixEquipmentResponseBuilder_ == null) {
+          if (dateBodyCase_ == 9 &&
+              dateBody_ != FixEquipmentResponse.getDefaultInstance()) {
+            dateBody_ = FixEquipmentResponse.newBuilder((FixEquipmentResponse) dateBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dateBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dateBodyCase_ == 9) {
+            fixEquipmentResponseBuilder_.mergeFrom(value);
+          }
+          fixEquipmentResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 9;
+        return this;
+      }
+      /**
+       * <code>.FixEquipmentResponse fixEquipmentResponse = 9;</code>
+       */
+      public Builder clearFixEquipmentResponse() {
+        if (fixEquipmentResponseBuilder_ == null) {
+          if (dateBodyCase_ == 9) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dateBodyCase_ == 9) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+          }
+          fixEquipmentResponseBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.FixEquipmentResponse fixEquipmentResponse = 9;</code>
+       */
+      public FixEquipmentResponse.Builder getFixEquipmentResponseBuilder() {
+        return getFixEquipmentResponseFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.FixEquipmentResponse fixEquipmentResponse = 9;</code>
+       */
+      @Override
+      public FixEquipmentResponseOrBuilder getFixEquipmentResponseOrBuilder() {
+        if ((dateBodyCase_ == 9) && (fixEquipmentResponseBuilder_ != null)) {
+          return fixEquipmentResponseBuilder_.getMessageOrBuilder();
+        } else {
+          if (dateBodyCase_ == 9) {
+            return (FixEquipmentResponse) dateBody_;
+          }
+          return FixEquipmentResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.FixEquipmentResponse fixEquipmentResponse = 9;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          FixEquipmentResponse, FixEquipmentResponse.Builder, FixEquipmentResponseOrBuilder>
+          getFixEquipmentResponseFieldBuilder() {
+        if (fixEquipmentResponseBuilder_ == null) {
+          if (!(dateBodyCase_ == 9)) {
+            dateBody_ = FixEquipmentResponse.getDefaultInstance();
+          }
+          fixEquipmentResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              FixEquipmentResponse, FixEquipmentResponse.Builder, FixEquipmentResponseOrBuilder>(
+                  (FixEquipmentResponse) dateBody_,
+                  getParentForChildren(),
+                  isClean());
+          dateBody_ = null;
+        }
+        dateBodyCase_ = 9;
+        onChanged();;
+        return fixEquipmentResponseBuilder_;
+      }
       @Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -2717,6 +3193,912 @@ public final class EquipmentModel {
 
     @Override
     public AddEquipmentRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface FixEquipmentRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:FixEquipmentRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>int32 articleId = 1;</code>
+     * @return The articleId.
+     */
+    int getArticleId();
+  }
+  /**
+   * Protobuf type {@code FixEquipmentRequest}
+   */
+  public static final class FixEquipmentRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:FixEquipmentRequest)
+      FixEquipmentRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use FixEquipmentRequest.newBuilder() to construct.
+    private FixEquipmentRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private FixEquipmentRequest() {
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new FixEquipmentRequest();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private FixEquipmentRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+
+              articleId_ = input.readInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return EquipmentModel.internal_static_FixEquipmentRequest_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return EquipmentModel.internal_static_FixEquipmentRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              FixEquipmentRequest.class, Builder.class);
+    }
+
+    public static final int ARTICLEID_FIELD_NUMBER = 1;
+    private int articleId_;
+    /**
+     * <code>int32 articleId = 1;</code>
+     * @return The articleId.
+     */
+    @Override
+    public int getArticleId() {
+      return articleId_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (articleId_ != 0) {
+        output.writeInt32(1, articleId_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (articleId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, articleId_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof FixEquipmentRequest)) {
+        return super.equals(obj);
+      }
+      FixEquipmentRequest other = (FixEquipmentRequest) obj;
+
+      if (getArticleId()
+          != other.getArticleId()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + ARTICLEID_FIELD_NUMBER;
+      hash = (53 * hash) + getArticleId();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static FixEquipmentRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static FixEquipmentRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static FixEquipmentRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static FixEquipmentRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static FixEquipmentRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static FixEquipmentRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static FixEquipmentRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static FixEquipmentRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static FixEquipmentRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static FixEquipmentRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static FixEquipmentRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static FixEquipmentRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(FixEquipmentRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code FixEquipmentRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:FixEquipmentRequest)
+        FixEquipmentRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return EquipmentModel.internal_static_FixEquipmentRequest_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return EquipmentModel.internal_static_FixEquipmentRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                FixEquipmentRequest.class, Builder.class);
+      }
+
+      // Construct using EquipmentModel.FixEquipmentRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        articleId_ = 0;
+
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return EquipmentModel.internal_static_FixEquipmentRequest_descriptor;
+      }
+
+      @Override
+      public FixEquipmentRequest getDefaultInstanceForType() {
+        return FixEquipmentRequest.getDefaultInstance();
+      }
+
+      @Override
+      public FixEquipmentRequest build() {
+        FixEquipmentRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public FixEquipmentRequest buildPartial() {
+        FixEquipmentRequest result = new FixEquipmentRequest(this);
+        result.articleId_ = articleId_;
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof FixEquipmentRequest) {
+          return mergeFrom((FixEquipmentRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(FixEquipmentRequest other) {
+        if (other == FixEquipmentRequest.getDefaultInstance()) return this;
+        if (other.getArticleId() != 0) {
+          setArticleId(other.getArticleId());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        FixEquipmentRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (FixEquipmentRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private int articleId_ ;
+      /**
+       * <code>int32 articleId = 1;</code>
+       * @return The articleId.
+       */
+      @Override
+      public int getArticleId() {
+        return articleId_;
+      }
+      /**
+       * <code>int32 articleId = 1;</code>
+       * @param value The articleId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setArticleId(int value) {
+        
+        articleId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 articleId = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearArticleId() {
+        
+        articleId_ = 0;
+        onChanged();
+        return this;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:FixEquipmentRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:FixEquipmentRequest)
+    private static final FixEquipmentRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new FixEquipmentRequest();
+    }
+
+    public static FixEquipmentRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<FixEquipmentRequest>
+        PARSER = new com.google.protobuf.AbstractParser<FixEquipmentRequest>() {
+      @Override
+      public FixEquipmentRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new FixEquipmentRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<FixEquipmentRequest> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<FixEquipmentRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public FixEquipmentRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface FixEquipmentResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:FixEquipmentResponse)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code FixEquipmentResponse}
+   */
+  public static final class FixEquipmentResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:FixEquipmentResponse)
+      FixEquipmentResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use FixEquipmentResponse.newBuilder() to construct.
+    private FixEquipmentResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private FixEquipmentResponse() {
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new FixEquipmentResponse();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private FixEquipmentResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return EquipmentModel.internal_static_FixEquipmentResponse_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return EquipmentModel.internal_static_FixEquipmentResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              FixEquipmentResponse.class, Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof FixEquipmentResponse)) {
+        return super.equals(obj);
+      }
+      FixEquipmentResponse other = (FixEquipmentResponse) obj;
+
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static FixEquipmentResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static FixEquipmentResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static FixEquipmentResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static FixEquipmentResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static FixEquipmentResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static FixEquipmentResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static FixEquipmentResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static FixEquipmentResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static FixEquipmentResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static FixEquipmentResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static FixEquipmentResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static FixEquipmentResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(FixEquipmentResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code FixEquipmentResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:FixEquipmentResponse)
+        FixEquipmentResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return EquipmentModel.internal_static_FixEquipmentResponse_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return EquipmentModel.internal_static_FixEquipmentResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                FixEquipmentResponse.class, Builder.class);
+      }
+
+      // Construct using EquipmentModel.FixEquipmentResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return EquipmentModel.internal_static_FixEquipmentResponse_descriptor;
+      }
+
+      @Override
+      public FixEquipmentResponse getDefaultInstanceForType() {
+        return FixEquipmentResponse.getDefaultInstance();
+      }
+
+      @Override
+      public FixEquipmentResponse build() {
+        FixEquipmentResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public FixEquipmentResponse buildPartial() {
+        FixEquipmentResponse result = new FixEquipmentResponse(this);
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof FixEquipmentResponse) {
+          return mergeFrom((FixEquipmentResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(FixEquipmentResponse other) {
+        if (other == FixEquipmentResponse.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        FixEquipmentResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (FixEquipmentResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:FixEquipmentResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:FixEquipmentResponse)
+    private static final FixEquipmentResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new FixEquipmentResponse();
+    }
+
+    public static FixEquipmentResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<FixEquipmentResponse>
+        PARSER = new com.google.protobuf.AbstractParser<FixEquipmentResponse>() {
+      @Override
+      public FixEquipmentResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new FixEquipmentResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<FixEquipmentResponse> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<FixEquipmentResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public FixEquipmentResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -3631,12 +5013,6 @@ public final class EquipmentModel {
   public interface AddEquipmentResponseOrBuilder extends
       // @@protoc_insertion_point(interface_extends:AddEquipmentResponse)
       com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>int32 articleId = 1;</code>
-     * @return The articleId.
-     */
-    int getArticleId();
   }
   /**
    * Protobuf type {@code AddEquipmentResponse}
@@ -3683,11 +5059,6 @@ public final class EquipmentModel {
             case 0:
               done = true;
               break;
-            case 8: {
-
-              articleId_ = input.readInt32();
-              break;
-            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -3720,17 +5091,6 @@ public final class EquipmentModel {
               AddEquipmentResponse.class, Builder.class);
     }
 
-    public static final int ARTICLEID_FIELD_NUMBER = 1;
-    private int articleId_;
-    /**
-     * <code>int32 articleId = 1;</code>
-     * @return The articleId.
-     */
-    @Override
-    public int getArticleId() {
-      return articleId_;
-    }
-
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -3745,9 +5105,6 @@ public final class EquipmentModel {
     @Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (articleId_ != 0) {
-        output.writeInt32(1, articleId_);
-      }
       unknownFields.writeTo(output);
     }
 
@@ -3757,10 +5114,6 @@ public final class EquipmentModel {
       if (size != -1) return size;
 
       size = 0;
-      if (articleId_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, articleId_);
-      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -3776,8 +5129,6 @@ public final class EquipmentModel {
       }
       AddEquipmentResponse other = (AddEquipmentResponse) obj;
 
-      if (getArticleId()
-          != other.getArticleId()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -3789,8 +5140,6 @@ public final class EquipmentModel {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + ARTICLEID_FIELD_NUMBER;
-      hash = (53 * hash) + getArticleId();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -3924,8 +5273,6 @@ public final class EquipmentModel {
       @Override
       public Builder clear() {
         super.clear();
-        articleId_ = 0;
-
         return this;
       }
 
@@ -3952,7 +5299,6 @@ public final class EquipmentModel {
       @Override
       public AddEquipmentResponse buildPartial() {
         AddEquipmentResponse result = new AddEquipmentResponse(this);
-        result.articleId_ = articleId_;
         onBuilt();
         return result;
       }
@@ -4001,9 +5347,6 @@ public final class EquipmentModel {
 
       public Builder mergeFrom(AddEquipmentResponse other) {
         if (other == AddEquipmentResponse.getDefaultInstance()) return this;
-        if (other.getArticleId() != 0) {
-          setArticleId(other.getArticleId());
-        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -4030,37 +5373,6 @@ public final class EquipmentModel {
             mergeFrom(parsedMessage);
           }
         }
-        return this;
-      }
-
-      private int articleId_ ;
-      /**
-       * <code>int32 articleId = 1;</code>
-       * @return The articleId.
-       */
-      @Override
-      public int getArticleId() {
-        return articleId_;
-      }
-      /**
-       * <code>int32 articleId = 1;</code>
-       * @param value The articleId to set.
-       * @return This builder for chaining.
-       */
-      public Builder setArticleId(int value) {
-        
-        articleId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>int32 articleId = 1;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearArticleId() {
-        
-        articleId_ = 0;
-        onChanged();
         return this;
       }
       @Override
@@ -4912,12 +6224,6 @@ public final class EquipmentModel {
   public interface ReduceEquipmentResponseOrBuilder extends
       // @@protoc_insertion_point(interface_extends:ReduceEquipmentResponse)
       com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>int32 position = 1;</code>
-     * @return The position.
-     */
-    int getPosition();
   }
   /**
    * Protobuf type {@code ReduceEquipmentResponse}
@@ -4964,11 +6270,6 @@ public final class EquipmentModel {
             case 0:
               done = true;
               break;
-            case 8: {
-
-              position_ = input.readInt32();
-              break;
-            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -5001,17 +6302,6 @@ public final class EquipmentModel {
               ReduceEquipmentResponse.class, Builder.class);
     }
 
-    public static final int POSITION_FIELD_NUMBER = 1;
-    private int position_;
-    /**
-     * <code>int32 position = 1;</code>
-     * @return The position.
-     */
-    @Override
-    public int getPosition() {
-      return position_;
-    }
-
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -5026,9 +6316,6 @@ public final class EquipmentModel {
     @Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (position_ != 0) {
-        output.writeInt32(1, position_);
-      }
       unknownFields.writeTo(output);
     }
 
@@ -5038,10 +6325,6 @@ public final class EquipmentModel {
       if (size != -1) return size;
 
       size = 0;
-      if (position_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, position_);
-      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -5057,8 +6340,6 @@ public final class EquipmentModel {
       }
       ReduceEquipmentResponse other = (ReduceEquipmentResponse) obj;
 
-      if (getPosition()
-          != other.getPosition()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -5070,8 +6351,6 @@ public final class EquipmentModel {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + POSITION_FIELD_NUMBER;
-      hash = (53 * hash) + getPosition();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -5205,8 +6484,6 @@ public final class EquipmentModel {
       @Override
       public Builder clear() {
         super.clear();
-        position_ = 0;
-
         return this;
       }
 
@@ -5233,7 +6510,6 @@ public final class EquipmentModel {
       @Override
       public ReduceEquipmentResponse buildPartial() {
         ReduceEquipmentResponse result = new ReduceEquipmentResponse(this);
-        result.position_ = position_;
         onBuilt();
         return result;
       }
@@ -5282,9 +6558,6 @@ public final class EquipmentModel {
 
       public Builder mergeFrom(ReduceEquipmentResponse other) {
         if (other == ReduceEquipmentResponse.getDefaultInstance()) return this;
-        if (other.getPosition() != 0) {
-          setPosition(other.getPosition());
-        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -5311,37 +6584,6 @@ public final class EquipmentModel {
             mergeFrom(parsedMessage);
           }
         }
-        return this;
-      }
-
-      private int position_ ;
-      /**
-       * <code>int32 position = 1;</code>
-       * @return The position.
-       */
-      @Override
-      public int getPosition() {
-        return position_;
-      }
-      /**
-       * <code>int32 position = 1;</code>
-       * @param value The position to set.
-       * @return This builder for chaining.
-       */
-      public Builder setPosition(int value) {
-        
-        position_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>int32 position = 1;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearPosition() {
-        
-        position_ = 0;
-        onChanged();
         return this;
       }
       @Override
@@ -6096,6 +7338,16 @@ public final class EquipmentModel {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_AddEquipmentRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_FixEquipmentRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_FixEquipmentRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_FixEquipmentResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_FixEquipmentResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_EquipmentMsgRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -6134,7 +7386,7 @@ public final class EquipmentModel {
       descriptor;
   static {
     String[] descriptorData = {
-      "\n\024EquipmentModel.proto\"\323\004\n\025EquipmentMode" +
+      "\n\024EquipmentModel.proto\"\362\005\n\025EquipmentMode" +
       "lMessage\0222\n\tdata_type\030\001 \001(\0162\037.EquipmentM" +
       "odelMessage.DateType\0223\n\023addEquipmentRequ" +
       "est\030\002 \001(\0132\024.AddEquipmentRequestH\000\0223\n\023equ" +
@@ -6144,21 +7396,25 @@ public final class EquipmentModel {
       "tResponse\030\005 \001(\0132\025.AddEquipmentResponseH\000" +
       "\0225\n\024equipmentMsgResponse\030\006 \001(\0132\025.Equipme" +
       "ntMsgResponseH\000\022;\n\027reduceEquipmentRespon" +
-      "se\030\007 \001(\0132\030.ReduceEquipmentResponseH\000\"\251\001\n" +
-      "\010DateType\022\027\n\023AddEquipmentRequest\020\000\022\027\n\023Eq" +
-      "uipmentMsgRequest\020\001\022\032\n\026ReduceEquipmentRe" +
-      "quest\020\002\022\030\n\024AddEquipmentResponse\020\003\022\030\n\024Equ" +
-      "ipmentMsgResponse\020\004\022\033\n\027ReduceEquipmentRe" +
-      "sponse\020\005B\n\n\010dateBody\"(\n\023AddEquipmentRequ" +
-      "est\022\021\n\tarticleId\030\001 \001(\005\"\025\n\023EquipmentMsgRe" +
-      "quest\"*\n\026ReduceEquipmentRequest\022\020\n\010posit" +
-      "ion\030\001 \001(\005\")\n\024AddEquipmentResponse\022\021\n\tart" +
-      "icleId\030\001 \001(\005\"9\n\024EquipmentMsgResponse\022!\n\n" +
-      "equipments\030\001 \003(\0132\r.EquipmentDto\"+\n\027Reduc" +
-      "eEquipmentResponse\022\020\n\010position\030\001 \001(\005\"C\n\014" +
-      "EquipmentDto\022\n\n\002id\030\001 \001(\005\022\020\n\010position\030\002 \001" +
-      "(\005\022\025\n\rnowDurability\030\003 \001(\005B\020B\016EquipmentMo" +
-      "delb\006proto3"
+      "se\030\007 \001(\0132\030.ReduceEquipmentResponseH\000\0223\n\023" +
+      "fixEquipmentRequest\030\010 \001(\0132\024.FixEquipment" +
+      "RequestH\000\0225\n\024fixEquipmentResponse\030\t \001(\0132" +
+      "\025.FixEquipmentResponseH\000\"\334\001\n\010DateType\022\027\n" +
+      "\023AddEquipmentRequest\020\000\022\027\n\023EquipmentMsgRe" +
+      "quest\020\001\022\032\n\026ReduceEquipmentRequest\020\002\022\030\n\024A" +
+      "ddEquipmentResponse\020\003\022\030\n\024EquipmentMsgRes" +
+      "ponse\020\004\022\033\n\027ReduceEquipmentResponse\020\005\022\027\n\023" +
+      "FixEquipmentRequest\020\006\022\030\n\024FixEquipmentRes" +
+      "ponse\020\007B\n\n\010dateBody\"(\n\023AddEquipmentReque" +
+      "st\022\021\n\tarticleId\030\001 \001(\005\"(\n\023FixEquipmentReq" +
+      "uest\022\021\n\tarticleId\030\001 \001(\005\"\026\n\024FixEquipmentR" +
+      "esponse\"\025\n\023EquipmentMsgRequest\"*\n\026Reduce" +
+      "EquipmentRequest\022\020\n\010position\030\001 \001(\005\"\026\n\024Ad" +
+      "dEquipmentResponse\"9\n\024EquipmentMsgRespon" +
+      "se\022!\n\nequipments\030\001 \003(\0132\r.EquipmentDto\"\031\n" +
+      "\027ReduceEquipmentResponse\"C\n\014EquipmentDto" +
+      "\022\n\n\002id\030\001 \001(\005\022\020\n\010position\030\002 \001(\005\022\025\n\rnowDur" +
+      "ability\030\003 \001(\005B\020B\016EquipmentModelb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -6169,45 +7425,57 @@ public final class EquipmentModel {
     internal_static_EquipmentModelMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_EquipmentModelMessage_descriptor,
-        new String[] { "DataType", "AddEquipmentRequest", "EquipmentMsgRequest", "ReduceEquipmentRequest", "AddEquipmentResponse", "EquipmentMsgResponse", "ReduceEquipmentResponse", "DateBody", });
+        new String[] { "DataType", "AddEquipmentRequest", "EquipmentMsgRequest", "ReduceEquipmentRequest", "AddEquipmentResponse", "EquipmentMsgResponse", "ReduceEquipmentResponse", "FixEquipmentRequest", "FixEquipmentResponse", "DateBody", });
     internal_static_AddEquipmentRequest_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_AddEquipmentRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_AddEquipmentRequest_descriptor,
         new String[] { "ArticleId", });
-    internal_static_EquipmentMsgRequest_descriptor =
+    internal_static_FixEquipmentRequest_descriptor =
       getDescriptor().getMessageTypes().get(2);
+    internal_static_FixEquipmentRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_FixEquipmentRequest_descriptor,
+        new String[] { "ArticleId", });
+    internal_static_FixEquipmentResponse_descriptor =
+      getDescriptor().getMessageTypes().get(3);
+    internal_static_FixEquipmentResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_FixEquipmentResponse_descriptor,
+        new String[] { });
+    internal_static_EquipmentMsgRequest_descriptor =
+      getDescriptor().getMessageTypes().get(4);
     internal_static_EquipmentMsgRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_EquipmentMsgRequest_descriptor,
         new String[] { });
     internal_static_ReduceEquipmentRequest_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_ReduceEquipmentRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ReduceEquipmentRequest_descriptor,
         new String[] { "Position", });
     internal_static_AddEquipmentResponse_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_AddEquipmentResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_AddEquipmentResponse_descriptor,
-        new String[] { "ArticleId", });
+        new String[] { });
     internal_static_EquipmentMsgResponse_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_EquipmentMsgResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_EquipmentMsgResponse_descriptor,
         new String[] { "Equipments", });
     internal_static_ReduceEquipmentResponse_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_ReduceEquipmentResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ReduceEquipmentResponse_descriptor,
-        new String[] { "Position", });
+        new String[] { });
     internal_static_EquipmentDto_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_EquipmentDto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_EquipmentDto_descriptor,

@@ -9,6 +9,8 @@ message EquipmentModelMessage{
       AddEquipmentResponse=3;
       EquipmentMsgResponse=4;
       ReduceEquipmentResponse=5;
+      FixEquipmentRequest=6;
+      FixEquipmentResponse=7;
   }
   //用date_type来标识传的是哪一个枚举类型
   DateType data_type=1;
@@ -20,11 +22,18 @@ message EquipmentModelMessage{
     AddEquipmentResponse addEquipmentResponse=5;
     EquipmentMsgResponse equipmentMsgResponse=6;
     ReduceEquipmentResponse reduceEquipmentResponse=7;
+    FixEquipmentRequest fixEquipmentRequest=8;
+    FixEquipmentResponse fixEquipmentResponse=9;
   }
 }
 
 message AddEquipmentRequest{
   int32 articleId=1;
+}
+message FixEquipmentRequest{
+  int32 articleId=1;
+}
+message FixEquipmentResponse{
 }
 message EquipmentMsgRequest{
 }

@@ -102,9 +102,26 @@ public class GameStart {
                     case ConstantValue.EQUIPMENT_MSG_REQUEST:
                         equipmentMsgRequest(scanner);
                         break;
+                    case ConstantValue.FIX_EQUIPMENT_REQUEST:
+                        fixEquipmentRequest(scanner);
                     default:
                         System.out.println("GameStart-handler:收到错误cmd");
                 }
+    }
+
+    private void fixEquipmentRequest(Scanner scanner) {
+        System.out.println("请输入需修复装备的物品栏id");
+        Integer articleId=scanner.nextInt();
+
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.FIX_EQUIPMENT_REQUEST);
+        EquipmentModel.EquipmentModelMessage myMessage;
+        myMessage=EquipmentModel.EquipmentModelMessage.newBuilder()
+                .setDataType(EquipmentModel.EquipmentModelMessage.DateType.FixEquipmentRequest)
+                .setFixEquipmentRequest(EquipmentModel.FixEquipmentRequest.newBuilder().setArticleId(articleId).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
     }
 
     private void addEquipmentReuqest(Scanner scanner) {

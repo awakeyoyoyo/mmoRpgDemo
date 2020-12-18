@@ -66,13 +66,15 @@ public interface ConstantValue {
     int ADD_EQUIPMENT_REQUEST=5000;
     int EQUIPMENT_MSG_REQUEST=5001;
     int REDUCE_EQUIPMENT_REQUEST=5002;
+    int FIX_EQUIPMENT_REQUEST=5003;
 
     int ADD_EQUIPMENT_RESPONSE=5500;
     int EQUIPMENT_MSG_RESPONSE=5501;
     int REDUCE_EQUIPMENT_RESPONSE=5502;
-    String ADD_EQUIPMENT_REQUEST_CMD="addEquipment";
-    String EQUIPMENT_MSG_REQUEST_CMD="equipmentMsg";
-    String REDUCE_EQUIPMENT_REQUEST_CMD="reduceEquipment";
+    int FIX_EQUIPMENT_RESPONSE=5503;
+    String ADD_EQUIPMENT_REQUEST_CMD="addE";
+    String EQUIPMENT_MSG_REQUEST_CMD="EMsg";
+    String REDUCE_EQUIPMENT_REQUEST_CMD="reduceE";
     String ASK_CAN_REQUEST_CMD="askCan";
     String FIND_ALL_ROLES_REQUEST_CMD="findAllRoles";
     String WENT_REQUEST_CMD="went";
@@ -82,8 +84,9 @@ public interface ConstantValue {
     String USE_SKILL_REQUEST_CMD="skill";
     String TALK_NPC_REQUEST_CMD="talk";
     String BACKPACK_MSG_REQUEST_CMD="bag";
-    String USE_REQUEST_CMD="use";
+    String USE_REQUEST_CMD="useA";
     String ABANDON_REQUEST_CMD="abandon";
-    String ADD_ARTICLE_REQUEST_CMD="addArticle";
+    String ADD_ARTICLE_REQUEST_CMD="addA";
+    String FIX_EQUIPMENT_REQUEST_CMD="fixE";
 
 }

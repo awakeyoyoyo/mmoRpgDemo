@@ -20,6 +20,7 @@ import com.liqihao.service.EquipmentService;
 import com.liqihao.util.CommonsUtil;
 import io.netty.channel.Channel;
 import org.springframework.stereotype.Service;
+import sun.misc.Cache;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -106,6 +107,37 @@ public class EquipmentServiceImpl implements EquipmentService {
         EquipmentModel.EquipmentModelMessage.Builder messageBuilder=EquipmentModel.EquipmentModelMessage.newBuilder();
         messageBuilder.setDataType(EquipmentModel.EquipmentModelMessage.DateType.ReduceEquipmentResponse);
         messageBuilder.setReduceEquipmentResponse(EquipmentModel.ReduceEquipmentResponse.newBuilder().build());
+        nettyResponse.setData(messageBuilder.build().toByteArray());
+        return nettyResponse;
+    }
+
+    @Override
+    @HandlerCmdTag(cmd = ConstantValue.FIX_EQUIPMENT_REQUEST,module = ConstantValue.EQUIPMENT_MODULE)
+    public NettyResponse fixEquipmentRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
+        byte[] data=nettyRequest.getData();
+        EquipmentModel.EquipmentModelMessage myMessage;
+        myMessage=EquipmentModel.EquipmentModelMessage.parseFrom(data);
+        Integer articleId=myMessage.getFixEquipmentRequest().getArticleId();
+        Integer roleId=CommonsUtil.getRoleIdByChannel(channel);
+        MmoSimpleRole mmoSimpleRole= MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap().get(roleId);
+        Article article=mmoSimpleRole.getBackpackManager().getArticleByArticleId(articleId);
+        if (article.getArticleTypeCode()!=ArticleTypeCode.EQUIPMENT.getCode()){
+            NettyResponse nettyResponse=new NettyResponse();
+            nettyResponse.setCmd(ConstantValue.FIX_EQUIPMENT_RESPONSE);
+            nettyResponse.setStateCode(StateCode.FAIL);
+            //protobuf 生成registerResponse
+            nettyResponse.setData("该物品不是装备".getBytes());
+            return nettyResponse;
+        }
+        EquipmentBean equipmentBean= (EquipmentBean) article;
+        //修复武器
+        equipmentBean.fixDurability();
+        NettyResponse nettyResponse=new NettyResponse();
+        nettyResponse.setCmd(ConstantValue.FIX_EQUIPMENT_RESPONSE);
+        nettyResponse.setStateCode(StateCode.SUCCESS);
+        EquipmentModel.EquipmentModelMessage.Builder messageBuilder=EquipmentModel.EquipmentModelMessage.newBuilder();
+        messageBuilder.setDataType(EquipmentModel.EquipmentModelMessage.DateType.FixEquipmentResponse);
+        messageBuilder.setFixEquipmentResponse(EquipmentModel.FixEquipmentResponse.newBuilder().build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
         return nettyResponse;
     }

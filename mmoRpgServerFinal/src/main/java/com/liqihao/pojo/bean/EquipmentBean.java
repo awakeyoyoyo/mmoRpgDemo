@@ -56,11 +56,8 @@ public class EquipmentBean extends EquipmentMessage implements Article{
      * 修复
      * @return
      */
-    public Integer changeDurability(int number){
-        nowDurability+=number;
-        if (nowDurability>getDurability()) {
-            nowDurability=getDurability();
-        }
+    public Integer fixDurability(){
+        nowDurability=getDurability();
         return nowDurability;
     }
 

@@ -9,4 +9,5 @@ public interface EquipmentService {
     NettyResponse addEquipmentRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException;
     NettyResponse equipmentMasRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException;
     NettyResponse reduceEquipmentRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException;
+    NettyResponse fixEquipmentRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException;
 }

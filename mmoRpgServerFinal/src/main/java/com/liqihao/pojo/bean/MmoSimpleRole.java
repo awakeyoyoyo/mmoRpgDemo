@@ -230,6 +230,14 @@ public class MmoSimpleRole extends MmoRolePOJO {
     }
     public List<PlayModel.RoleIdDamage> useSkill(List<MmoSimpleNPC> target, Integer skillId) {
         SkillBean skillBean= getSkillBeanBySkillId(skillId);
+        //武器耐久度-2
+        EquipmentBean equipmentBean=this.getEquipmentBeanHashMap().get(6);
+        if (equipmentBean!=null){
+            equipmentBean.setNowDurability(equipmentBean.getNowDurability()-2);
+            if (equipmentBean.getNowDurability()<0){
+                equipmentBean.setNowDurability(0);
+            }
+        }
         if (skillBean.getConsumeType().equals(ConsuMeTypeCode.HP.getCode())){
             //扣血
             setNowBlood(getNowBlood()-skillBean.getConsumeNum());

@@ -56,4 +56,16 @@ public class EquipmentServiceImpl implements EquipmentService{
         myMessage=EquipmentModel.EquipmentModelMessage.parseFrom(data);
         System.out.println("穿装备成功");
     }
+
+    @Override
+    public void fixEquipmentResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
+        if (nettyResponse.getStateCode()== StateCode.FAIL){
+            System.out.println(new String(nettyResponse.getData()));
+            return;
+        }
+        byte[] data=nettyResponse.getData();
+        EquipmentModel.EquipmentModelMessage myMessage;
+        myMessage=EquipmentModel.EquipmentModelMessage.parseFrom(data);
+        System.out.println("修复装备成功");
+    }
 }

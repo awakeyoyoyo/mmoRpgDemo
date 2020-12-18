@@ -9,4 +9,6 @@ public interface EquipmentService {
     void reduceEquipmentResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException;
 
     void addEquipmentResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException;
+
+    void fixEquipmentResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException;
 }

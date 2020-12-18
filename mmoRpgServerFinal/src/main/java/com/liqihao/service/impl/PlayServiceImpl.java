@@ -304,6 +304,10 @@ public class PlayServiceImpl implements PlayService{
                 return new NettyResponse(StateCode.FAIL,ConstantValue.USE_SKILL_RSPONSE, "蓝量不够无法使用该技能".getBytes());
             }
         }
+        //判断武器耐久是否足够
+        if (mmoSimpleRole.getEquipmentBeanHashMap().get(6).getNowDurability()<=0){
+            return new NettyResponse(StateCode.FAIL,ConstantValue.USE_SKILL_RSPONSE, "武器耐久度为0，请脱落武器再攻击".getBytes());
+        }
         //从缓存中查找出 怪物
         ConcurrentHashMap<Integer, MmoSimpleNPC> npcMap=MmoCache.getInstance().getNpcMessageConcurrentHashMap();
         ArrayList<MmoSimpleNPC> target=new ArrayList<>();

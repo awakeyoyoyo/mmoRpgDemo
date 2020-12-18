@@ -80,6 +80,9 @@ public class Dispatcherservlet {
             case ConstantValue.EQUIPMENT_MSG_RESPONSE:
                 equipmentService.equipmentMsgResponse(nettyResponse);
                 break;
+            case ConstantValue.FIX_EQUIPMENT_RESPONSE:
+                equipmentService.fixEquipmentResponse(nettyResponse);
+                break;
             default:
                 System.out.println("handler:收到错误的数据包");
         }
