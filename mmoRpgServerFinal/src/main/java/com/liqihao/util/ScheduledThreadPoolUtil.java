@@ -1,6 +1,6 @@
 package com.liqihao.util;
 
-import com.liqihao.Cache.MmoCache;
+import com.liqihao.Cache.*;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.enums.*;
@@ -128,7 +128,7 @@ public class ScheduledThreadPoolUtil {
         @Override
         public void run() {
             logger.info("回蓝/血线程-------------------"+Thread.currentThread().getName());
-            MmoSimpleRole mmoSimpleRole = MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap().get(roleId);
+            MmoSimpleRole mmoSimpleRole = OnlineRoleMessageCache.getInstance().get(roleId);
             Integer addNumber;
             Integer attackStyleCode;
             if (times!=null&&times<=0||mmoSimpleRole.getStatus().equals(RoleStatusCode.DIE.getCode())){
@@ -193,18 +193,11 @@ public class ScheduledThreadPoolUtil {
             nettyResponse.setCmd(ConstantValue.DAMAGES_NOTICE_RESPONSE);
             nettyResponse.setStateCode(StateCode.SUCCESS);
             nettyResponse.setData(myMessageBuilder.build().toByteArray());
-            ConcurrentHashMap<Integer, MmoSimpleRole> roleMap = MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
             Integer sceneId = mmoSimpleRole.getMmosceneid();
-            ArrayList<Integer> players = new ArrayList<>();
-            for (Integer npcId : roleMap.keySet()) {
-                MmoSimpleRole role = roleMap.get(npcId);
-                if (role.getMmosceneid().equals(sceneId) && role.getType().equals(RoleTypeCode.PLAYER.getCode())) {
-                    players.add(role.getId());
-                }
-            }
+
+            List<Integer> players = SceneBeanMessageCache.getInstance().get(sceneId).getRoles();
             for (Integer playerId : players) {
-                ConcurrentHashMap<Integer, Channel> cMap = MmoCache.getInstance().getChannelConcurrentHashMap();
-                Channel cc = cMap.get(playerId);
+                Channel cc = ChannelMessageCache.getInstance().get(playerId);
                 if (cc != null) {
                     cc.writeAndFlush(nettyResponse);
                 }
@@ -241,7 +234,7 @@ public class ScheduledThreadPoolUtil {
                     bufferType.equals(BufferTypeCode.ADDMP.getCode()) ||
                     bufferType.equals(BufferTypeCode.REDUCEMP.getCode())) {
                 Integer ToroleId = bufferBean.getToRoleId();
-                MmoSimpleNPC npc = MmoCache.getInstance().getNpcMessageConcurrentHashMap().get(ToroleId);
+                MmoSimpleNPC npc = NpcMessageCache.getInstance().get(ToroleId);
                 if (npc == null || npc.getStatus().equals(RoleStatusCode.DIE.getCode()) || count <= 0) {
                     //删除该buffer
                     String taskId=ToroleId.toString()+bufferBean.getId().toString();
@@ -253,6 +246,7 @@ public class ScheduledThreadPoolUtil {
                         Integer hp = npc.getNowBlood() - bufferBean.getBuffNum();
                         if (hp <= 0) {
                             hp = 0;
+                            npc.setStatus(RoleStatusCode.DIE.getCode());
                         }
                         npc.setNowBlood(hp);
                     } else if (bufferBean.getBuffType().equals(BufferTypeCode.REDUCEMP.getCode())) {
@@ -263,15 +257,8 @@ public class ScheduledThreadPoolUtil {
                         npc.setNowMp(mp);
                     }
                     //广播信息
-                    ConcurrentHashMap<Integer, MmoSimpleRole> roleMap = MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
-                    Integer sceneId = roleMap.get(bufferBean.getFromRoleId()).getMmosceneid();
-                    ArrayList<Integer> players = new ArrayList<>();
-                    for (Integer npcId : roleMap.keySet()) {
-                        MmoSimpleRole role = roleMap.get(npcId);
-                        if (role.getMmosceneid().equals(sceneId) && role.getType().equals(RoleTypeCode.PLAYER.getCode())) {
-                            players.add(role.getId());
-                        }
-                    }
+                    Integer sceneId = OnlineRoleMessageCache.getInstance().get(bufferBean.getFromRoleId()).getMmosceneid();
+                    List<Integer> players = SceneBeanMessageCache.getInstance().get(sceneId).getRoles();
                     //生成数据包
                     PlayModel.PlayModelMessage.Builder myMessageBuilder = PlayModel.PlayModelMessage.newBuilder();
                     myMessageBuilder.setDataType(PlayModel.PlayModelMessage.DateType.DamagesNoticeResponse);
@@ -287,8 +274,7 @@ public class ScheduledThreadPoolUtil {
                     nettyResponse.setStateCode(StateCode.SUCCESS);
                     nettyResponse.setData(myMessageBuilder.build().toByteArray());
                     for (Integer playerId : players) {
-                        ConcurrentHashMap<Integer, Channel> cMap = MmoCache.getInstance().getChannelConcurrentHashMap();
-                        Channel c = cMap.get(playerId);
+                        Channel c = ChannelMessageCache.getInstance().get(playerId);
                         if (c != null) {
                             c.writeAndFlush(nettyResponse);
                         }
@@ -305,6 +291,7 @@ public class ScheduledThreadPoolUtil {
     public static class NpcAttackTask implements Runnable{
         private Integer targetRoleId;
         private Integer npcId;
+        private Logger logger = Logger.getLogger(NpcAttackTask.class);
 
         public NpcAttackTask() {
         }
@@ -316,9 +303,9 @@ public class ScheduledThreadPoolUtil {
 
         @Override
         public void run() {
-
-            MmoSimpleRole mmoSimpleRole=MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap().get(targetRoleId);
-            MmoSimpleNPC npc=MmoCache.getInstance().getNpcMessageConcurrentHashMap().get(npcId);
+            logger.info("npc攻击线程");
+            MmoSimpleRole mmoSimpleRole=OnlineRoleMessageCache.getInstance().get(targetRoleId);
+            MmoSimpleNPC npc=NpcMessageCache.getInstance().get(npcId);
             if (mmoSimpleRole==null||
                     !npc.getMmosceneid().equals(mmoSimpleRole.getMmosceneid())||
                     mmoSimpleRole.getStatus().equals(RoleStatusCode.DIE.getCode())||
@@ -336,7 +323,7 @@ public class ScheduledThreadPoolUtil {
             }else {
                 //npc默认使用普通攻击
                 //从缓存中找出技能
-                SkillMessage skillMessage=MmoCache.getInstance().getSkillMessageConcurrentHashMap().get(3);
+                SkillMessage skillMessage= SkillMessageCache.getInstance().get(3);
                 SkillBean skillBean=new SkillBean();
                 skillBean.setId(skillMessage.getId());
                 skillBean.setConsumeType(skillMessage.getConsumeType());
@@ -394,18 +381,10 @@ public class ScheduledThreadPoolUtil {
                 nettyResponse.setStateCode(StateCode.SUCCESS);
                 nettyResponse.setData(myMessageBuilder.build().toByteArray());
                 //广播
-                ConcurrentHashMap<Integer, MmoSimpleRole> roleMap=MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
                 Integer sceneId=mmoSimpleRole.getMmosceneid();
-                ArrayList<Integer> players=new ArrayList<>();
-                for (Integer npcId:roleMap.keySet()) {
-                    MmoSimpleRole role=roleMap.get(npcId);
-                    if (role.getMmosceneid().equals(sceneId)&&role.getType().equals(RoleTypeCode.PLAYER.getCode())){
-                        players.add(role.getId());
-                    }
-                }
+                List<Integer> players=SceneBeanMessageCache.getInstance().get(sceneId).getRoles();
                 for (Integer playerId:players){
-                    ConcurrentHashMap<Integer,Channel> cMap=MmoCache.getInstance().getChannelConcurrentHashMap();
-                    Channel c=cMap.get(playerId);
+                    Channel c=ChannelMessageCache.getInstance().get(playerId);
                     if (c!=null){
                         c.writeAndFlush(nettyResponse);
                     }

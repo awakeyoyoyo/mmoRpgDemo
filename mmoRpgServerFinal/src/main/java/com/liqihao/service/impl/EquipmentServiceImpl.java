@@ -1,7 +1,7 @@
 package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.liqihao.Cache.MmoCache;
+import com.liqihao.Cache.OnlineRoleMessageCache;
 import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.ConstantValue;
@@ -9,18 +9,15 @@ import com.liqihao.commons.NettyRequest;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.enums.ArticleTypeCode;
 import com.liqihao.commons.enums.StateCode;
-import com.liqihao.pojo.baseMessage.EquipmentMessage;
 import com.liqihao.pojo.bean.Article;
 import com.liqihao.pojo.bean.EquipmentBean;
 import com.liqihao.pojo.bean.MmoSimpleRole;
 import com.liqihao.pojo.dto.EquipmentDto;
-import com.liqihao.protobufObject.BackPackModel;
 import com.liqihao.protobufObject.EquipmentModel;
 import com.liqihao.service.EquipmentService;
 import com.liqihao.util.CommonsUtil;
 import io.netty.channel.Channel;
 import org.springframework.stereotype.Service;
-import sun.misc.Cache;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +33,7 @@ public class EquipmentServiceImpl implements EquipmentService {
         myMessage=EquipmentModel.EquipmentModelMessage.parseFrom(data);
         Integer articleId=myMessage.getAddEquipmentRequest().getArticleId();
         Integer roleId= CommonsUtil.getRoleIdByChannel(channel);
-        MmoSimpleRole mmoSimpleRole= MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap().get(roleId);
+        MmoSimpleRole mmoSimpleRole= OnlineRoleMessageCache.getInstance().get(roleId);
         Article article=mmoSimpleRole.getBackpackManager().getArticleByArticleId(articleId);
         if (article==null||!article.getArticleTypeCode().equals(ArticleTypeCode.EQUIPMENT.getCode())){
             //不是装备
@@ -63,7 +60,7 @@ public class EquipmentServiceImpl implements EquipmentService {
     @HandlerCmdTag(cmd = ConstantValue.EQUIPMENT_MSG_REQUEST,module = ConstantValue.EQUIPMENT_MODULE)
     public NettyResponse equipmentMasRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
         Integer roleId= CommonsUtil.getRoleIdByChannel(channel);
-        MmoSimpleRole mmoSimpleRole= MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap().get(roleId);
+        MmoSimpleRole mmoSimpleRole= OnlineRoleMessageCache.getInstance().get(roleId);
         List<EquipmentDto> equipmentDtos=mmoSimpleRole.getEquipments();
         //转化为protobuf
         List<EquipmentModel.EquipmentDto> equipmentDtoList=new ArrayList<>();
@@ -90,7 +87,7 @@ public class EquipmentServiceImpl implements EquipmentService {
         myMessage=EquipmentModel.EquipmentModelMessage.parseFrom(data);
         Integer position=myMessage.getReduceEquipmentRequest().getPosition();
         Integer roleId= CommonsUtil.getRoleIdByChannel(channel);
-        MmoSimpleRole mmoSimpleRole= MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap().get(roleId);
+        MmoSimpleRole mmoSimpleRole= OnlineRoleMessageCache.getInstance().get(roleId);
         boolean flag=mmoSimpleRole.unUseEquipment(position);
         if (!flag){
             //不是装备
@@ -119,7 +116,7 @@ public class EquipmentServiceImpl implements EquipmentService {
         myMessage=EquipmentModel.EquipmentModelMessage.parseFrom(data);
         Integer articleId=myMessage.getFixEquipmentRequest().getArticleId();
         Integer roleId=CommonsUtil.getRoleIdByChannel(channel);
-        MmoSimpleRole mmoSimpleRole= MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap().get(roleId);
+        MmoSimpleRole mmoSimpleRole= OnlineRoleMessageCache.getInstance().get(roleId);
         Article article=mmoSimpleRole.getBackpackManager().getArticleByArticleId(articleId);
         if (article.getArticleTypeCode()!=ArticleTypeCode.EQUIPMENT.getCode()){
             NettyResponse nettyResponse=new NettyResponse();

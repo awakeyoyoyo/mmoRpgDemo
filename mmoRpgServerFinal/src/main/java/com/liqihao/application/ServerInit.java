@@ -1,6 +1,6 @@
 package com.liqihao.application;
 
-import com.liqihao.Cache.MmoCache;
+import com.liqihao.Cache.*;
 import com.liqihao.pojo.baseMessage.*;
 import com.liqihao.pojo.bean.MmoSimpleNPC;
 import com.liqihao.pojo.bean.SceneBean;
@@ -20,17 +20,13 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class ServerInit{
     public void init() throws FileNotFoundException {
 //        //初始化线程池
-        //分解出可用scene
         //初始化缓存
-        ConcurrentHashMap<Integer, SceneMessage> scmMap=new ConcurrentHashMap<>();
-        ConcurrentHashMap<Integer, MmoSimpleNPC> npcMap=new ConcurrentHashMap<>();
-        //读取配置文件
+        //基本信息
         BaseRoleMessage baseRoleMessage=YmlUtils.getBaseRoleMessage();
         BaseDetailMessage baseDetailMessage=YmlUtils.getBaseDetailMessage();
-        List<SceneMessage> sceneMessages=YmlUtils.getSceneMessage();
-        for (SceneMessage s:sceneMessages) {
-            scmMap.put(s.getId(),s);
-        }
+        MmoBaseMessageCache.init(baseRoleMessage,baseDetailMessage);
+        //NPC
+        ConcurrentHashMap<Integer, MmoSimpleNPC> npcMap=new ConcurrentHashMap<>();
         for (NPCMessage n:YmlUtils.getNpcMessage()) {
             MmoSimpleNPC npc=new MmoSimpleNPC();
             npc.setId(n.getId());
@@ -48,46 +44,48 @@ public class ServerInit{
             npc.setBufferBeans(new CopyOnWriteArrayList<>());
             npcMap.put(n.getId(),npc);
         }
-        //初始化NPC 和场景
-        MmoCache.init(scmMap,npcMap);
-        MmoCache.getInstance().setBaseRoleMessage(baseRoleMessage);
+        NpcMessageCache.init(npcMap);
         ConcurrentHashMap<Integer, SceneBean> sceneBeanConcurrentHashMap=new ConcurrentHashMap<>();
         ConcurrentHashMap<Integer, SkillMessage> skillMessageConcurrentHashMap=new ConcurrentHashMap<>();
         ConcurrentHashMap<Integer, BufferMessage> bufferMessageConcurrentHashMap=new ConcurrentHashMap<>();
         ConcurrentHashMap<Integer, MedicineMessage> medicineMessageConcurrentHashMap=new ConcurrentHashMap<>();
         ConcurrentHashMap<Integer, EquipmentMessage> equipmentMessageConcurrentHashMap=new ConcurrentHashMap<>();
         //场景今昔
+        List<SceneMessage> sceneMessages=YmlUtils.getSceneMessage();
         for (SceneMessage m:sceneMessages){
             SceneBean sceneBean;
             sceneBean=CommonsUtil.sceneMessageToSceneBean(m);
             sceneBeanConcurrentHashMap.put(sceneBean.getId(),sceneBean);
         }
+        SceneBeanMessageCache.init(sceneBeanConcurrentHashMap);
         //技能信息
         List<SkillMessage> skillMessages=YmlUtils.getSkillMessage();
         for (SkillMessage s:skillMessages) {
             skillMessageConcurrentHashMap.put(s.getId(),s);
         }
+        SkillMessageCache.init(skillMessageConcurrentHashMap);
         //buffer信息
         List<BufferMessage> bufferMessage=YmlUtils.getBufferMessage();
         for (BufferMessage b:bufferMessage) {
             bufferMessageConcurrentHashMap.put(b.getId(),b);
         }
+        BufferMessageCache.init(bufferMessageConcurrentHashMap);
         //药品信息
         List<MedicineMessage> medicineMessages=YmlUtils.getMedicineMessages();
         for (MedicineMessage medicineMessage:medicineMessages) {
             medicineMessageConcurrentHashMap.put(medicineMessage.getId(),medicineMessage);
         }
+        MediceneMessageCache.init(medicineMessageConcurrentHashMap);
         //装备信息
         List<EquipmentMessage> equipmentMessages=YmlUtils.getEquipmentMessages();
         for (EquipmentMessage equipmentMessage:equipmentMessages) {
             equipmentMessageConcurrentHashMap.put(equipmentMessage.getId(),equipmentMessage);
         }
-        MmoCache.getInstance().setSkillMessageConcurrentHashMap(skillMessageConcurrentHashMap);
-        MmoCache.getInstance().setBufferMessageConcurrentHashMap(bufferMessageConcurrentHashMap);
-        MmoCache.getInstance().setEquipmentMessageConcurrentHashMap(equipmentMessageConcurrentHashMap);
-        MmoCache.getInstance().setMedicineMessageConcurrentHashMap(medicineMessageConcurrentHashMap);
-        MmoCache.getInstance().setSceneBeanConcurrentHashMap(sceneBeanConcurrentHashMap);
-        MmoCache.getInstance().setBaseDetailMessage(baseDetailMessage);
+        EquipmentMessageCache.init(equipmentMessageConcurrentHashMap);
+        //在线用户
+        OnlineRoleMessageCache.init(new ConcurrentHashMap<>());
+        //channel
+        ChannelMessageCache.init(new ConcurrentHashMap<>());
         ScheduledThreadPoolUtil.init();
     }
 

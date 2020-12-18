@@ -1,8 +1,7 @@
 package com.liqihao.pojo.bean;
 
-import com.liqihao.Cache.MmoCache;
+import com.liqihao.Cache.MmoBaseMessageCache;
 import com.liqihao.pojo.baseMessage.EquipmentMessage;
-import org.apache.ibatis.annotations.Param;
 
 /**
  * @author Administrator
@@ -44,7 +43,7 @@ public class EquipmentBean extends EquipmentMessage implements Article{
      * @return
      */
     public boolean reduceDurability(){
-        Integer num= MmoCache.getInstance().getBaseDetailMessage().getReduceDurability();
+        Integer num= MmoBaseMessageCache.getInstance().getBaseDetailMessage().getReduceDurability();
         if (nowDurability>num){
             nowDurability-=num;
             return true;

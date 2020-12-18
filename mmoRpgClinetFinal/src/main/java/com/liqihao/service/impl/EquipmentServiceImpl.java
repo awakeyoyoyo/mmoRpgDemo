@@ -3,6 +3,7 @@ package com.liqihao.service.impl;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.liqihao.commons.MmoCacheCilent;
 import com.liqihao.commons.NettyResponse;
+import com.liqihao.commons.enums.PositionCode;
 import com.liqihao.commons.enums.StateCode;
 import com.liqihao.pojo.baseMessage.EquipmentMessage;
 import com.liqihao.protobufObject.BackPackModel;
@@ -27,7 +28,7 @@ public class EquipmentServiceImpl implements EquipmentService{
         for (EquipmentModel.EquipmentDto dto:dtos) {
             EquipmentMessage message= MmoCacheCilent.getInstance().getEquipmentMessageConcurrentHashMap().get(dto.getId());
             System.out.println("装备名字: "+message.getName());
-            System.out.println("装备部位: "+dto.getPosition());
+            System.out.println("装备部位: "+ PositionCode.getValue(dto.getPosition()));
             System.out.println("装备耐久度: "+dto.getNowDurability());
         }
 

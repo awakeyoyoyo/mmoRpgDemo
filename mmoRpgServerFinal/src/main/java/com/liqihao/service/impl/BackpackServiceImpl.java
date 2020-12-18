@@ -1,7 +1,9 @@
 package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.liqihao.Cache.MmoCache;
+import com.liqihao.Cache.EquipmentMessageCache;
+import com.liqihao.Cache.MediceneMessageCache;
+import com.liqihao.Cache.OnlineRoleMessageCache;
 import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.ConstantValue;
@@ -38,7 +40,7 @@ public class BackpackServiceImpl implements BackpackService {
         Integer articleId=myMessage.getAbandonRequest().getArticleId();
         Integer number=myMessage.getAbandonRequest().getNumber();
         Integer roleId= CommonsUtil.getRoleIdByChannel(channel);
-        MmoSimpleRole mmoSimpleRole=MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap().get(roleId);
+        MmoSimpleRole mmoSimpleRole= OnlineRoleMessageCache.getInstance().get(roleId);
         BackPackManager manager=mmoSimpleRole.getBackpackManager();
         Article article=manager.useOrAbandanArticle(articleId,number);
         if (article==null){
@@ -69,7 +71,7 @@ public class BackpackServiceImpl implements BackpackService {
     @HandlerCmdTag(cmd = ConstantValue.BACKPACK_MSG_REQUEST,module = ConstantValue.BAKCPACK_MODULE)
     public NettyResponse backPackMsgRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
         Integer roleId= CommonsUtil.getRoleIdByChannel(channel);
-        MmoSimpleRole mmoSimpleRole=MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap().get(roleId);
+        MmoSimpleRole mmoSimpleRole=OnlineRoleMessageCache.getInstance().get(roleId);
         List<ArticleDto> articles=mmoSimpleRole.getBackpackManager().getBackpacks();
         List<BackPackModel.ArticleDto> articleDtoList=new ArrayList<>();
         for (ArticleDto a:articles) {
@@ -104,7 +106,7 @@ public class BackpackServiceImpl implements BackpackService {
         myMessage=BackPackModel.BackPackModelMessage.parseFrom(data);
         Integer article=myMessage.getUseRequest().getArticleId();
         Integer roleId=CommonsUtil.getRoleIdByChannel(channel);
-        MmoSimpleRole mmoSimpleRole=MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap().get(roleId);
+        MmoSimpleRole mmoSimpleRole=OnlineRoleMessageCache.getInstance().get(roleId);
         boolean flag=mmoSimpleRole.useArticle(article);
         NettyResponse nettyResponse=new NettyResponse();
         nettyResponse.setCmd(ConstantValue.USE_RESPONSE);
@@ -133,11 +135,11 @@ public class BackpackServiceImpl implements BackpackService {
         Integer articleType=myMessage.getAddArticleRequest().getArticleType();
         Integer number=myMessage.getAddArticleRequest().getNumber();
         Integer roleId=CommonsUtil.getRoleIdByChannel(channel);
-        MmoSimpleRole mmoSimpleRole=MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap().get(roleId);
+        MmoSimpleRole mmoSimpleRole=OnlineRoleMessageCache.getInstance().get(roleId);
         //根据 articleType判断 然后生成物品对象存
         Article article;
         if (articleType.equals(ArticleTypeCode.MEDICINE.getCode())){
-            MedicineMessage medicineMessage=MmoCache.getInstance().getMedicineMessageConcurrentHashMap().get(id);
+            MedicineMessage medicineMessage= MediceneMessageCache.getInstance().get(id);
             if (medicineMessage==null) {
                 NettyResponse nettyResponse=new NettyResponse();
                 nettyResponse.setCmd(ConstantValue.ADD_ARTICLE_RESPONSE);
@@ -150,7 +152,7 @@ public class BackpackServiceImpl implements BackpackService {
             medicineBean.setQuantity(number);
             article=medicineBean;
         }else if (articleType.equals(ArticleTypeCode.EQUIPMENT.getCode())){
-            EquipmentMessage equipmentMessage=MmoCache.getInstance().getEquipmentMessageConcurrentHashMap().get(id);
+            EquipmentMessage equipmentMessage= EquipmentMessageCache.getInstance().get(id);
             if (equipmentMessage ==null) {
                 NettyResponse nettyResponse=new NettyResponse();
                 nettyResponse.setCmd(ConstantValue.ADD_ARTICLE_RESPONSE);

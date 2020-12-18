@@ -1,6 +1,8 @@
 package com.liqihao.pojo.bean;
 
-import com.liqihao.Cache.MmoCache;
+import com.liqihao.Cache.ChannelMessageCache;
+import com.liqihao.Cache.OnlineRoleMessageCache;
+import com.liqihao.Cache.SceneBeanMessageCache;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.enums.*;
@@ -10,6 +12,7 @@ import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -32,7 +35,7 @@ public class MedicineBean extends MedicineMessage implements Article{
     public boolean useMedicene(Integer roleId){
         //判断是瞬间恢复还是持续性恢复
         if (getMedicineType().equals(MedicineTypeCode.MOMENT.getCode())){
-            MmoSimpleRole mmoSimpleRole= MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap().get(roleId);
+            MmoSimpleRole mmoSimpleRole= OnlineRoleMessageCache.getInstance().get(roleId);
             Integer addNumber=getDamageValue();
             if (getDamageType().equals(DamageTypeCode.MP.getCode())) {
                 Integer oldMp = mmoSimpleRole.getNowMp();
@@ -74,18 +77,11 @@ public class MedicineBean extends MedicineMessage implements Article{
             nettyResponse.setCmd(ConstantValue.DAMAGES_NOTICE_RESPONSE);
             nettyResponse.setStateCode(StateCode.SUCCESS);
             nettyResponse.setData(myMessageBuilder.build().toByteArray());
-            ConcurrentHashMap<Integer, MmoSimpleRole> roleMap = MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
+
             Integer sceneId = mmoSimpleRole.getMmosceneid();
-            ArrayList<Integer> players = new ArrayList<>();
-            for (Integer npcId : roleMap.keySet()) {
-                MmoSimpleRole role = roleMap.get(npcId);
-                if (role.getMmosceneid().equals(sceneId) && role.getType().equals(RoleTypeCode.PLAYER.getCode())) {
-                    players.add(role.getId());
-                }
-            }
+            List<Integer> players = SceneBeanMessageCache.getInstance().get(sceneId).getRoles();
             for (Integer playerId : players) {
-                ConcurrentHashMap<Integer, Channel> cMap = MmoCache.getInstance().getChannelConcurrentHashMap();
-                Channel cc = cMap.get(playerId);
+                Channel cc = ChannelMessageCache.getInstance().get(playerId);
                 if (cc != null) {
                     cc.writeAndFlush(nettyResponse);
                 }

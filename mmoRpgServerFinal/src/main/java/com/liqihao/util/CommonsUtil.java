@@ -1,14 +1,13 @@
 package com.liqihao.util;
 
 
-import com.liqihao.Cache.MmoCache;
-import com.liqihao.commons.enums.ArticleTypeCode;
+import com.liqihao.Cache.NpcMessageCache;
+import com.liqihao.Cache.SkillMessageCache;
 import com.liqihao.dao.MmoBagPOJOMapper;
 import com.liqihao.dao.MmoEquipmentBagPOJOMapper;
 import com.liqihao.dao.MmoEquipmentPOJOMapper;
 import com.liqihao.pojo.MmoBagPOJO;
 import com.liqihao.pojo.MmoEquipmentBagPOJO;
-import com.liqihao.pojo.MmoEquipmentPOJO;
 import com.liqihao.pojo.baseMessage.EquipmentMessage;
 import com.liqihao.pojo.baseMessage.MedicineMessage;
 import com.liqihao.pojo.baseMessage.SceneMessage;
@@ -231,7 +230,7 @@ public class CommonsUtil implements ApplicationContextAware {
         sceneBean.setCanScenes(split(m.getCanScene()));
         sceneBean.setRoles(new ArrayList<>());
         List<Integer> npcs=new ArrayList<>();
-        for (MmoSimpleNPC mpc:MmoCache.getInstance().getNpcMessageConcurrentHashMap().values()) {
+        for (MmoSimpleNPC mpc: NpcMessageCache.getInstance().values()) {
             if (mpc.getMmosceneid().equals(m.getId())){
                 npcs.add(mpc.getId());
             }
@@ -243,7 +242,7 @@ public class CommonsUtil implements ApplicationContextAware {
     public static List<SkillBean> skillIdsToSkillBeans(String skillIds) {
         List<SkillBean> list=new ArrayList<>();
         for (Integer id:split(skillIds)) {
-            SkillMessage message=MmoCache.getInstance().getSkillMessageConcurrentHashMap().get(id);
+            SkillMessage message= SkillMessageCache.getInstance().get(id);
             SkillBean skillBean=new SkillBean();
             skillBean.setId(message.getId());
             skillBean.setSkillType(message.getSkillType());

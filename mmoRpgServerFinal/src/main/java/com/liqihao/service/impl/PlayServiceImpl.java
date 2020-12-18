@@ -1,7 +1,7 @@
 package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.liqihao.Cache.MmoCache;
+import com.liqihao.Cache.*;
 import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.*;
@@ -10,12 +10,9 @@ import com.liqihao.dao.*;
 import com.liqihao.pojo.*;
 import com.liqihao.pojo.baseMessage.*;
 import com.liqihao.pojo.bean.*;
-import com.liqihao.pojo.dto.ArticleDto;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.service.PlayService;
 import com.liqihao.util.CommonsUtil;
-import com.liqihao.util.ScheduledThreadPoolUtil;
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,7 +114,6 @@ public class PlayServiceImpl implements PlayService{
         MmoRolePOJO role=mmoRolePOJOMapper.selectByPrimaryKey(Integer.parseInt(mmoUserPOJO.getUserroleid()));
         role.setOnstatus(RoleOnStatusCode.ONLINE.getCode());
         //缓存
-        ConcurrentHashMap<Integer, MmoSimpleRole> rolesMap= MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
         MmoSimpleRole simpleRole=new MmoSimpleRole();
         simpleRole.setId(role.getId());
         simpleRole.setMmosceneid(role.getMmosceneid());
@@ -128,7 +124,7 @@ public class PlayServiceImpl implements PlayService{
         List<SkillBean> skillBeans=CommonsUtil.skillIdsToSkillBeans(role.getSkillIds());
         simpleRole.setSkillBeans(skillBeans);
         //从基础信息获取
-        BaseRoleMessage baseRoleMessage=MmoCache.getInstance().getBaseRoleMessage();
+        BaseRoleMessage baseRoleMessage= MmoBaseMessageCache.getInstance().getBaseRoleMessage();
         simpleRole.setBlood(baseRoleMessage.getHp());
         simpleRole.setNowBlood(baseRoleMessage.getHp());
         simpleRole.setMp(baseRoleMessage.getMp());
@@ -140,15 +136,13 @@ public class PlayServiceImpl implements PlayService{
         simpleRole.setCdMap(new HashMap<Integer, Long>());
         simpleRole.setBufferBeans(new CopyOnWriteArrayList<>());
         simpleRole.setEquipmentBeanHashMap(new HashMap<>());
-        BackPackManager backPackManager=new BackPackManager(MmoCache.getInstance().getBaseDetailMessage().getBagSize());
-        ConcurrentHashMap<Integer, EquipmentMessage> equipmentMessageConcurrentHashMap=MmoCache.getInstance().getEquipmentMessageConcurrentHashMap();
-        ConcurrentHashMap<Integer, MedicineMessage> medicineMessageConcurrentHashMap=MmoCache.getInstance().getMedicineMessageConcurrentHashMap();
+        BackPackManager backPackManager=new BackPackManager(MmoBaseMessageCache.getInstance().getBaseDetailMessage().getBagSize());
        //初始化背包
         List<MmoBagPOJO> mmoBagPOJOS=mmoBagPOJOMapper.selectByRoleId(role.getId());
         for (MmoBagPOJO mmoBagPOJO:mmoBagPOJOS){
             if (mmoBagPOJO.getArticletype().equals(ArticleTypeCode.EQUIPMENT.getCode())){
                 MmoEquipmentPOJO mmoEquipmentPOJO=equipmentPOJOMapper.selectByPrimaryKey(mmoBagPOJO.getwId());
-                EquipmentMessage message=equipmentMessageConcurrentHashMap.get(mmoEquipmentPOJO.getMessageId());
+                EquipmentMessage message= EquipmentMessageCache.getInstance().get(mmoEquipmentPOJO.getMessageId());
                 EquipmentBean equipmentBean= CommonsUtil.equipmentMessageToEquipmentBean(message);
                 equipmentBean.setQuantity(mmoBagPOJO.getNumber());
                 equipmentBean.setEquipmentId(mmoEquipmentPOJO.getMessageId());
@@ -156,7 +150,7 @@ public class PlayServiceImpl implements PlayService{
                 equipmentBean.setNowDurability(mmoEquipmentPOJO.getNowdurability());
                 backPackManager.put(equipmentBean);
             }else if (mmoBagPOJO.getArticletype().equals(ArticleTypeCode.MEDICINE.getCode())){
-                MedicineMessage message=medicineMessageConcurrentHashMap.get(mmoBagPOJO.getwId());
+                MedicineMessage message=MediceneMessageCache.getInstance().get(mmoBagPOJO.getwId());
                 MedicineBean medicineBean= CommonsUtil.medicineMessageToMedicineBean(message);
                 medicineBean.setQuantity(mmoBagPOJO.getNumber());
                 medicineBean.setBagId(mmoBagPOJO.getBagId());
@@ -169,7 +163,7 @@ public class PlayServiceImpl implements PlayService{
         HashMap<Integer,EquipmentBean> equipmentBeanConcurrentHashMap=simpleRole.getEquipmentBeanHashMap();
         for (MmoEquipmentBagPOJO m:equipmentBagPOJOS) {
             MmoEquipmentPOJO mmoEquipmentPOJO=equipmentPOJOMapper.selectByPrimaryKey(m.getEquipmentId());
-            EquipmentMessage message=equipmentMessageConcurrentHashMap.get(mmoEquipmentPOJO.getMessageId());
+            EquipmentMessage message=EquipmentMessageCache.getInstance().get(mmoEquipmentPOJO.getMessageId());
             EquipmentBean equipmentBean= CommonsUtil.equipmentMessageToEquipmentBean(message);
             equipmentBean.setNowDurability(mmoEquipmentPOJO.getNowdurability());
             equipmentBean.setEquipmentId(m.getEquipmentId());
@@ -179,13 +173,11 @@ public class PlayServiceImpl implements PlayService{
             simpleRole.setAttack(simpleRole.getAttack()+equipmentBean.getAttackAdd());
             simpleRole.setDamageAdd(simpleRole.getDamageAdd()+equipmentBean.getDamageAdd());
         }
-        rolesMap.put(role.getId(),simpleRole);
-        //放入线程池中异步处理
+        OnlineRoleMessageCache.getInstance().put(role.getId(),simpleRole);
         //数据库中人物状态
         mmoRolePOJOMapper.updateByPrimaryKeySelective(role);
         //将channel绑定用户信息存储
-        ConcurrentHashMap<Integer, Channel> channelConcurrentHashMap= MmoCache.getInstance().getChannelConcurrentHashMap();
-        channelConcurrentHashMap.put(role.getId(),channel);
+        ChannelMessageCache.getInstance().put(role.getId(),channel);
         //channle绑定roleId
         AttributeKey<Integer> key = AttributeKey.valueOf("roleId");
         channel.attr(key).set(role.getId());
@@ -211,7 +203,7 @@ public class PlayServiceImpl implements PlayService{
         loginResponseBuilder.setRoleDto(roleDTO);
         //场景信息
         loginResponseBuilder.setSceneId(role.getMmosceneid());
-        MmoCache.getInstance().getSceneBeanConcurrentHashMap().get(role.getMmosceneid()).getRoles().add(role.getId());
+        SceneBeanMessageCache.getInstance().get(role.getMmosceneid()).getRoles().add(role.getId());
         //打包成messageData
         messageData.setLoginResponse(loginResponseBuilder.build());
         NettyResponse nettyResponse=new NettyResponse();
@@ -224,23 +216,17 @@ public class PlayServiceImpl implements PlayService{
     @Override
     @HandlerCmdTag(cmd = ConstantValue.LOGOUT_REQUEST,module = ConstantValue.PLAY_MODULE)
     public NettyResponse logoutRequest(NettyRequest nettyRequest,Channel channel) throws InvalidProtocolBufferException {
-        ConcurrentHashMap<Integer,Channel> channelConcurrentHashMap= MmoCache.getInstance().getChannelConcurrentHashMap();
         Integer roleId=CommonsUtil.getRoleIdByChannel(channel);
-
-
-
         if (roleId != null) {
             //删除缓存中 channel绑定的信息
-            channelConcurrentHashMap.remove(roleId);
+            ChannelMessageCache.getInstance().remove(roleId);
         }
         if (roleId==null){
             NettyResponse errotResponse=new NettyResponse(StateCode.FAIL,ConstantValue.LOGOUT_RESPONSE,"请先登录".getBytes());
             return  errotResponse;
         }
-
-
         //保存背包信息入数据库
-        MmoSimpleRole mmoSimpleRole=MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap().get(roleId);
+        MmoSimpleRole mmoSimpleRole= OnlineRoleMessageCache.getInstance().get(roleId);
         CommonsUtil.bagIntoDataBase(mmoSimpleRole.getBackpackManager(),roleId);
         CommonsUtil.equipmentIntoDataBase(mmoSimpleRole);
         //将数据库中设置为离线
@@ -249,9 +235,8 @@ public class PlayServiceImpl implements PlayService{
         mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO);
         MmoScenePOJO mmoScenePOJO=mmoScenePOJOMapper.selectByPrimaryKey(mmoRolePOJO.getMmosceneid());
         //缓存角色集合删除
-        ConcurrentHashMap<Integer,MmoSimpleRole> rolesMap= MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
-        rolesMap.remove(roleId);
-        MmoCache.getInstance().getSceneBeanConcurrentHashMap().get(mmoSimpleRole.getMmosceneid()).getRoles().remove(mmoSimpleRole.getId());
+        OnlineRoleMessageCache.getInstance().remove(roleId);
+        SceneBeanMessageCache.getInstance().get(mmoSimpleRole.getMmosceneid()).getRoles().remove(mmoSimpleRole.getId());
         //protobuf生成消息
         PlayModel.PlayModelMessage.Builder myMessageBuilder=PlayModel.PlayModelMessage.newBuilder();
         myMessageBuilder.setDataType(PlayModel.PlayModelMessage.DateType.LogoutResponse);
@@ -275,7 +260,7 @@ public class PlayServiceImpl implements PlayService{
         myMessage=PlayModel.PlayModelMessage.parseFrom(data);
         Integer skillId=myMessage.getUseSkillRequest().getSkillId();
         Integer roleId=CommonsUtil.getRoleIdByChannel(channel);
-        MmoSimpleRole mmoSimpleRole=MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap().get(roleId);
+        MmoSimpleRole mmoSimpleRole=OnlineRoleMessageCache.getInstance().get(roleId);
         Integer sceneId=mmoSimpleRole.getMmosceneid();
         if (roleId==null){
             return new NettyResponse(StateCode.FAIL,ConstantValue.USE_SKILL_RSPONSE, "未登陆".getBytes());
@@ -288,7 +273,7 @@ public class PlayServiceImpl implements PlayService{
             }
         }
         //判断蓝是否够
-        SkillMessage skillMessage=MmoCache.getInstance().getSkillMessageConcurrentHashMap().get(skillId);
+        SkillMessage skillMessage=SkillMessageCache.getInstance().get(skillId);
         if (skillMessage.getConsumeType().equals(ConsuMeTypeCode.HP.getCode())) {
             //扣血
             //判断血量是否足够
@@ -305,19 +290,18 @@ public class PlayServiceImpl implements PlayService{
             }
         }
         //判断武器耐久是否足够
-        if (mmoSimpleRole.getEquipmentBeanHashMap().get(6).getNowDurability()<=0){
+        if (mmoSimpleRole.getEquipmentBeanHashMap().get(PositionCode.ARMS.getCode())!=null&&mmoSimpleRole.getEquipmentBeanHashMap().get(PositionCode.ARMS.getCode()).getNowDurability()<=0){
             return new NettyResponse(StateCode.FAIL,ConstantValue.USE_SKILL_RSPONSE, "武器耐久度为0，请脱落武器再攻击".getBytes());
         }
         //从缓存中查找出 怪物
-        ConcurrentHashMap<Integer, MmoSimpleNPC> npcMap=MmoCache.getInstance().getNpcMessageConcurrentHashMap();
+        List<Integer> npcs=SceneBeanMessageCache.getInstance().get(sceneId).getNpcs();
         ArrayList<MmoSimpleNPC> target=new ArrayList<>();
-        for (Integer npcId:npcMap.keySet()) {
-            MmoSimpleNPC npc=npcMap.get(npcId);
-            if (npc.getMmosceneid().equals(sceneId)&&npc.getType().equals(RoleTypeCode.ENEMY.getCode())){
+        for (Integer npcId:npcs) {
+            MmoSimpleNPC npc=NpcMessageCache.getInstance().get(npcId);
+            if (npc.getType().equals(RoleTypeCode.ENEMY.getCode())){
                 if (npc.getStatus().equals(RoleStatusCode.ALIVE.getCode())){
                     target.add(npc);
                 }
-
             }
         }
 
@@ -335,17 +319,12 @@ public class PlayServiceImpl implements PlayService{
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
         //广播
-        ArrayList<Integer> players=new ArrayList<>();
-        ConcurrentHashMap<Integer, MmoSimpleRole> roleMap=MmoCache.getInstance().getMmoSimpleRoleConcurrentHashMap();
-        for (Integer npcId:roleMap.keySet()) {
-            MmoSimpleRole role=roleMap.get(npcId);
-            if (role.getMmosceneid().equals(sceneId)&&role.getType().equals(RoleTypeCode.PLAYER.getCode())&&!role.getId().equals(roleId)){
-                players.add(role.getId());
-            }
-        }
+        List<Integer> players=SceneBeanMessageCache.getInstance().get(sceneId).getRoles();
         for (Integer playerId:players){
-            ConcurrentHashMap<Integer,Channel> cMap=MmoCache.getInstance().getChannelConcurrentHashMap();
-            Channel c=cMap.get(playerId);
+            if (playerId.equals(roleId)){
+                continue;
+            }
+            Channel c= ChannelMessageCache.getInstance().get(playerId);
             if (c!=null){
                 c.writeAndFlush(nettyResponse);
             }

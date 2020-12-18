@@ -1,6 +1,6 @@
 package com.liqihao.pojo.bean;
 
-import com.liqihao.Cache.MmoCache;
+import com.liqihao.Cache.BufferMessageCache;
 import com.liqihao.pojo.baseMessage.BufferMessage;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 
@@ -27,7 +27,7 @@ public class SkillBean {
         List<Integer> buffers=getBufferIds();
         List<BufferBean> bufferBeans=new ArrayList<>();
         for (Integer buffId:buffers) {
-            BufferMessage b= MmoCache.getInstance().getBufferMessageConcurrentHashMap().get(buffId);
+            BufferMessage b= BufferMessageCache.getInstance().get(buffId);
             for (MmoSimpleNPC mmoSimpleNPC:target) {
                 //生成buffer类
                 BufferBean bufferBean=new BufferBean();
