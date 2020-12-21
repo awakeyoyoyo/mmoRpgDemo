@@ -6,9 +6,9 @@ import com.liqihao.commons.NettyResponse;
 import io.netty.channel.Channel;
 
 public interface BackpackService {
-    NettyResponse abandonRquest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException;
-    NettyResponse backPackMsgRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException;
-    NettyResponse useRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException;
-    NettyResponse addArticleRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException;
+    void abandonRquest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException;
+    void backPackMsgRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException;
+    void useRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException;
+    void addArticleRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException;
 
 }

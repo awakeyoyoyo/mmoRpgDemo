@@ -9,8 +9,8 @@ import com.liqihao.commons.NettyResponse;
 import io.netty.channel.Channel;
 
 public interface SceneService {
-    NettyResponse askCanRequest(NettyRequest nettyRequest,Channel channel) throws InvalidProtocolBufferException;
-    NettyResponse wentRequest(NettyRequest nettyRequest,Channel channel) throws InvalidProtocolBufferException;
-    NettyResponse findAllRolesRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException;
-    NettyResponse talkNpcRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException;
+    void askCanRequest(NettyRequest nettyRequest,Channel channel) throws InvalidProtocolBufferException;
+    void wentRequest(NettyRequest nettyRequest,Channel channel) throws InvalidProtocolBufferException;
+    void findAllRolesRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException;
+    void talkNpcRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException;
 }

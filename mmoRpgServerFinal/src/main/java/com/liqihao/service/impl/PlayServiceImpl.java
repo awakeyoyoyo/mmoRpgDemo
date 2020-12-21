@@ -38,7 +38,7 @@ public class PlayServiceImpl implements PlayService{
     private MmoEquipmentBagPOJOMapper equipmentBagPOJOMapper;
     @Override
     @HandlerCmdTag(cmd = ConstantValue.REGISTER_REQUEST,module = ConstantValue.PLAY_MODULE)
-    public NettyResponse registerRequest(NettyRequest nettyRequest,Channel channel) throws InvalidProtocolBufferException {
+    public void registerRequest(NettyRequest nettyRequest,Channel channel) throws InvalidProtocolBufferException {
         byte[] data=nettyRequest.getData();
         PlayModel.PlayModelMessage myMessage;
         myMessage=PlayModel.PlayModelMessage.parseFrom(data);
@@ -61,7 +61,8 @@ public class PlayServiceImpl implements PlayService{
             registerResponseBuilder.setStateCode(StateCode.FAIL);
             messageData.setRegisterResponse(registerResponseBuilder.build());
             nettyResponse.setData(messageData.build().toByteArray());
-            return nettyResponse;
+            channel.writeAndFlush(nettyResponse);
+            return;
         }
         //注册成功 数据库插入账号信息
         MmoRolePOJO mmoRolePOJO=new MmoRolePOJO();
@@ -89,12 +90,13 @@ public class PlayServiceImpl implements PlayService{
         registerResponseBuilder.setStateCode(200);
         messageData.setRegisterResponse(registerResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
-        return nettyResponse;
+        channel.writeAndFlush(nettyResponse);
+        return;
     }
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.LOGIN_REQUEST,module = ConstantValue.PLAY_MODULE)
-    public NettyResponse loginRequest(NettyRequest nettyRequest,Channel channel) throws InvalidProtocolBufferException {
+    public void loginRequest(NettyRequest nettyRequest,Channel channel) throws InvalidProtocolBufferException {
         byte[] data=nettyRequest.getData();
         PlayModel.PlayModelMessage myMessage;
         myMessage=PlayModel.PlayModelMessage.parseFrom(data);
@@ -106,7 +108,8 @@ public class PlayServiceImpl implements PlayService{
             nettyResponse.setCmd(ConstantValue.LOGIN_RESPONSE);
             nettyResponse.setStateCode(StateCode.FAIL);
             nettyResponse.setData("密码错误or账号错误".getBytes());
-            return nettyResponse;
+            channel.writeAndFlush(nettyResponse);
+            return;
         }
         //将角色设置为在线模式
         MmoUserPOJO mmoUserPOJO=mmoUserPOJOMapper.selectByPrimaryKey(mmoUserId);
@@ -210,12 +213,13 @@ public class PlayServiceImpl implements PlayService{
         nettyResponse.setData(messageData.build().toByteArray());
         nettyResponse.setCmd(ConstantValue.LOGIN_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        return nettyResponse;
+        channel.writeAndFlush(nettyResponse);
+        return;
     }
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.LOGOUT_REQUEST,module = ConstantValue.PLAY_MODULE)
-    public NettyResponse logoutRequest(NettyRequest nettyRequest,Channel channel) throws InvalidProtocolBufferException {
+    public void logoutRequest(NettyRequest nettyRequest,Channel channel) throws InvalidProtocolBufferException {
         Integer roleId=CommonsUtil.getRoleIdByChannel(channel);
         if (roleId != null) {
             //删除缓存中 channel绑定的信息
@@ -223,7 +227,8 @@ public class PlayServiceImpl implements PlayService{
         }
         if (roleId==null){
             NettyResponse errotResponse=new NettyResponse(StateCode.FAIL,ConstantValue.LOGOUT_RESPONSE,"请先登录".getBytes());
-            return  errotResponse;
+            channel.writeAndFlush(errotResponse);
+            return;
         }
         //保存背包信息入数据库
         MmoSimpleRole mmoSimpleRole= OnlineRoleMessageCache.getInstance().get(roleId);
@@ -249,12 +254,13 @@ public class PlayServiceImpl implements PlayService{
         nettyResponse.setCmd(ConstantValue.LOGOUT_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
-        return  nettyResponse;
+        channel.writeAndFlush(nettyResponse);
+        return;
     }
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.USE_SKILL_REQUEST,module = ConstantValue.PLAY_MODULE)
-    public NettyResponse useSkillRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
+    public void useSkillRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
         byte[] data=nettyRequest.getData();
         PlayModel.PlayModelMessage myMessage;
         myMessage=PlayModel.PlayModelMessage.parseFrom(data);
@@ -263,13 +269,13 @@ public class PlayServiceImpl implements PlayService{
         MmoSimpleRole mmoSimpleRole=OnlineRoleMessageCache.getInstance().get(roleId);
         Integer sceneId=mmoSimpleRole.getMmosceneid();
         if (roleId==null){
-            return new NettyResponse(StateCode.FAIL,ConstantValue.USE_SKILL_RSPONSE, "未登陆".getBytes());
+            channel.writeAndFlush(new NettyResponse(StateCode.FAIL,ConstantValue.USE_SKILL_RSPONSE, "未登陆".getBytes()));
         }
         //判断cd
         Long nextTime= mmoSimpleRole.getCdMap().get(skillId);
         if (nextTime!=null){
             if (System.currentTimeMillis()<nextTime){
-                return new NettyResponse(StateCode.FAIL,ConstantValue.USE_SKILL_RSPONSE, "该技能cd中。。".getBytes());
+               channel.writeAndFlush(new NettyResponse(StateCode.FAIL,ConstantValue.USE_SKILL_RSPONSE, "该技能cd中。。".getBytes()));
             }
         }
         //判断蓝是否够
@@ -279,19 +285,19 @@ public class PlayServiceImpl implements PlayService{
             //判断血量是否足够
             if (mmoSimpleRole.getNowBlood() < skillMessage.getConsumeNum()) {
                 //血量不够
-                return new NettyResponse(StateCode.FAIL, ConstantValue.USE_SKILL_RSPONSE, "血量不够无法使用该技能".getBytes());
+                channel.writeAndFlush(new NettyResponse(StateCode.FAIL, ConstantValue.USE_SKILL_RSPONSE, "血量不够无法使用该技能".getBytes()));
             }
         }else {
             //扣篮
             //判断蓝量是否足够
             if (mmoSimpleRole.getNowMp()<skillMessage.getConsumeNum()){
                 //蓝量不够
-                return new NettyResponse(StateCode.FAIL,ConstantValue.USE_SKILL_RSPONSE, "蓝量不够无法使用该技能".getBytes());
+                channel.writeAndFlush(new NettyResponse(StateCode.FAIL,ConstantValue.USE_SKILL_RSPONSE, "蓝量不够无法使用该技能".getBytes()));
             }
         }
         //判断武器耐久是否足够
         if (mmoSimpleRole.getEquipmentBeanHashMap().get(PositionCode.ARMS.getCode())!=null&&mmoSimpleRole.getEquipmentBeanHashMap().get(PositionCode.ARMS.getCode()).getNowDurability()<=0){
-            return new NettyResponse(StateCode.FAIL,ConstantValue.USE_SKILL_RSPONSE, "武器耐久度为0，请脱落武器再攻击".getBytes());
+            channel.writeAndFlush(new NettyResponse(StateCode.FAIL,ConstantValue.USE_SKILL_RSPONSE, "武器耐久度为0，请脱落武器再攻击".getBytes()));
         }
         //从缓存中查找出 怪物
         List<Integer> npcs=SceneBeanMessageCache.getInstance().get(sceneId).getNpcs();
@@ -329,7 +335,8 @@ public class PlayServiceImpl implements PlayService{
                 c.writeAndFlush(nettyResponse);
             }
         }
-        return  nettyResponse;
+        channel.writeAndFlush(nettyResponse);
+        return;
     }
 
 

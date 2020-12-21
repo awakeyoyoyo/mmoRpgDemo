@@ -40,7 +40,7 @@ public class SceneServiceImpl implements SceneService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.ASK_CAN_REQUEST,module = ConstantValue.SCENE_MODULE)
-    public NettyResponse askCanRequest(NettyRequest request,Channel channel) throws InvalidProtocolBufferException {
+    public void askCanRequest(NettyRequest request,Channel channel) throws InvalidProtocolBufferException {
         byte[] data=request.getData();
         SceneModel.SceneModelMessage myMessage;
         myMessage=SceneModel.SceneModelMessage.parseFrom(data);
@@ -61,12 +61,13 @@ public class SceneServiceImpl implements SceneService {
         response.setStateCode(StateCode.SUCCESS);
         byte[] data2=Messagedata.toByteArray();
         response.setData(data2);
-        return response;
+        channel.writeAndFlush(response);
+        return;
     }
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.WENT_REQUEST,module = ConstantValue.SCENE_MODULE)
-    public NettyResponse wentRequest(NettyRequest nettyRequest,Channel channel) throws InvalidProtocolBufferException {
+    public void wentRequest(NettyRequest nettyRequest,Channel channel) throws InvalidProtocolBufferException {
         byte[] data=nettyRequest.getData();
         SceneModel.SceneModelMessage myMessage;
         myMessage=SceneModel.SceneModelMessage.parseFrom(data);
@@ -74,7 +75,8 @@ public class SceneServiceImpl implements SceneService {
         Integer roleId=CommonsUtil.getRoleIdByChannel(channel);
         if (roleId==null){
             NettyResponse errotResponse=new NettyResponse(StateCode.FAIL,ConstantValue.WENT_RESPONSE,"请先登录".getBytes());
-            return  errotResponse;
+            channel.writeAndFlush(errotResponse);
+            return;
         }
         //先查询palyId所在场景
         MmoSimpleRole mmoSimpleRole= OnlineRoleMessageCache.getInstance().get(roleId);
@@ -92,7 +94,8 @@ public class SceneServiceImpl implements SceneService {
         if (!canFlag){
             //不包含 即不可进入
             NettyResponse errotResponse=new NettyResponse(StateCode.FAIL,ConstantValue.WENT_RESPONSE,"无法前往该场景".getBytes());
-            return  errotResponse;
+            channel.writeAndFlush(errotResponse);
+            return;
         }
         //进入场景，修改数据库 player 和scene
         MmoRolePOJO mmoRolePOJO1=new MmoRolePOJO();
@@ -168,12 +171,13 @@ public class SceneServiceImpl implements SceneService {
         byte[] data2=builder.build().toByteArray();
         nettyResponse.setData(data2);
         log.info("wentRequest:"+data2.length);
-        return nettyResponse;
+        channel.writeAndFlush(nettyResponse);
+        return;
     }
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.FIND_ALL_ROLES_REQUEST,module = ConstantValue.SCENE_MODULE)
-    public NettyResponse findAllRolesRequest(NettyRequest nettyRequest,Channel channel) throws InvalidProtocolBufferException {
+    public void findAllRolesRequest(NettyRequest nettyRequest,Channel channel) throws InvalidProtocolBufferException {
         byte[] data=nettyRequest.getData();
         SceneModel.SceneModelMessage myMessage;
         myMessage=SceneModel.SceneModelMessage.parseFrom(data);
@@ -232,12 +236,13 @@ public class SceneServiceImpl implements SceneService {
         nettyResponse.setCmd(ConstantValue.FIND_ALL_ROLES_RESPONSE);
         nettyResponse.setStateCode(200);
         nettyResponse.setData(data2);
-        return nettyResponse;
+        channel.writeAndFlush(nettyResponse);
+        return;
     }
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.TALK_NPC_REQUEST,module = ConstantValue.SCENE_MODULE)
-    public NettyResponse talkNpcRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
+    public void talkNpcRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
         byte[] data=nettyRequest.getData();
         SceneModel.SceneModelMessage myMessage;
         myMessage=SceneModel.SceneModelMessage.parseFrom(data);
@@ -245,13 +250,13 @@ public class SceneServiceImpl implements SceneService {
         //判断是否与角色在同一场景
         Integer roleId=CommonsUtil.getRoleIdByChannel(channel);
         if (roleId==null){
-            return new NettyResponse(StateCode.FAIL,ConstantValue.TALK_NPC_RESPONSE,"未登录".getBytes());
+            channel.writeAndFlush(new NettyResponse(StateCode.FAIL,ConstantValue.TALK_NPC_RESPONSE,"未登录".getBytes()));
         }
         //缓存中获取NPC
         NPCMessage npc=NpcMessageCache.getInstance().get(npcId);
         MmoRolePOJO role=OnlineRoleMessageCache.getInstance().get(roleId);
         if (!npc.getMmosceneid().equals(role.getMmosceneid())){
-            return new NettyResponse(StateCode.FAIL,ConstantValue.TALK_NPC_RESPONSE,"该NPC不在当前场景".getBytes());
+            channel.writeAndFlush(new NettyResponse(StateCode.FAIL,ConstantValue.TALK_NPC_RESPONSE,"该NPC不在当前场景".getBytes()));
         }
         //无问题 返回npcId
         SceneModel.SceneModelMessage Messagedata;
@@ -264,7 +269,8 @@ public class SceneServiceImpl implements SceneService {
         response.setStateCode(StateCode.SUCCESS);
         byte[] data2=Messagedata.toByteArray();
         response.setData(data2);
-        return response;
+        channel.writeAndFlush(response);
+        return;
     }
 
 }

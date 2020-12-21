@@ -1,14 +1,18 @@
 package com.liqihao.netty;
 
+import com.google.protobuf.InvalidProtocolBufferException;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyRequest;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.handler.Dispatcherservlet;
+import com.liqihao.util.LogicTreadPoolUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.timeout.IdleStateEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * nettyHandler
@@ -37,8 +41,21 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
         log.info("Server:channelRead");
         readIdleTimes=0;
         NettyRequest request= (NettyRequest) msg;
-        NettyResponse response=dispatcherservlet.handler(request,ctx.channel());
-        ctx.writeAndFlush(response);
+        LogicTreadPoolUtil.getLogicThreadPool().execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    dispatcherservlet.handler(request,ctx.channel());
+                } catch (InvalidProtocolBufferException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
     }
 
     @Override
@@ -72,8 +89,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
             log.error(" [server]读空闲超过3次，关闭连接");
             NettyRequest nettyRequest=new NettyRequest();
             nettyRequest.setCmd(ConstantValue.NET_IO_OUTTIME);
-            NettyResponse response=dispatcherservlet.handler(nettyRequest,ctx.channel());
-            ctx.channel().writeAndFlush(response);
+            dispatcherservlet.handler(nettyRequest,ctx.channel());
             ctx.channel().close();
         }
     }

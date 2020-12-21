@@ -6,8 +6,8 @@ import com.liqihao.commons.NettyResponse;
 import io.netty.channel.Channel;
 
 public interface EquipmentService {
-    NettyResponse addEquipmentRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException;
-    NettyResponse equipmentMasRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException;
-    NettyResponse reduceEquipmentRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException;
-    NettyResponse fixEquipmentRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException;
+    void addEquipmentRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException;
+    void equipmentMasRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException;
+    void reduceEquipmentRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException;
+    void fixEquipmentRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException;
 }

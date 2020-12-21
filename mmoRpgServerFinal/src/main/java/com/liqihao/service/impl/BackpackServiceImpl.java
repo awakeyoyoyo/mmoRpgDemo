@@ -33,7 +33,7 @@ import java.util.List;
 public class BackpackServiceImpl implements BackpackService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.ABANDON_REQUEST,module = ConstantValue.BAKCPACK_MODULE)
-    public NettyResponse abandonRquest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
+    public void abandonRquest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
         byte[] data=nettyRequest.getData();
         BackPackModel.BackPackModelMessage myMessage;
         myMessage=BackPackModel.BackPackModelMessage.parseFrom(data);
@@ -51,7 +51,8 @@ public class BackpackServiceImpl implements BackpackService {
             nettyResponse.setStateCode(StateCode.FAIL);
             //protobuf 生成registerResponse
             nettyResponse.setData("使用失败，无该物品或者数量不足".getBytes());
-            return nettyResponse;
+            channel.writeAndFlush(nettyResponse);
+            return;
         }else{
             //返回成功的数据包
             NettyResponse nettyResponse=new NettyResponse();
@@ -63,13 +64,14 @@ public class BackpackServiceImpl implements BackpackService {
             BackPackModel.AbandonResponse.Builder abandonResponseBuilder=BackPackModel.AbandonResponse.newBuilder();
             messageData.setAbandonResponse(abandonResponseBuilder.build());
             nettyResponse.setData(messageData.build().toByteArray());
-            return nettyResponse;
+            channel.writeAndFlush(nettyResponse);
+            return;
         }
     }
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.BACKPACK_MSG_REQUEST,module = ConstantValue.BAKCPACK_MODULE)
-    public NettyResponse backPackMsgRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
+    public void backPackMsgRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
         Integer roleId= CommonsUtil.getRoleIdByChannel(channel);
         MmoSimpleRole mmoSimpleRole=OnlineRoleMessageCache.getInstance().get(roleId);
         List<ArticleDto> articles=mmoSimpleRole.getBackpackManager().getBackpacks();
@@ -95,12 +97,13 @@ public class BackpackServiceImpl implements BackpackService {
         backPackResponse.addAllArticleDtos(articleDtoList);
         messageData.setBackPackResponse(backPackResponse.build());
         nettyResponse.setData(messageData.build().toByteArray());
-        return nettyResponse;
+        channel.writeAndFlush(nettyResponse);
+        return;
     }
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.USE_REQUEST,module = ConstantValue.BAKCPACK_MODULE)
-    public NettyResponse useRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
+    public void useRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
         byte[] data=nettyRequest.getData();
         BackPackModel.BackPackModelMessage myMessage;
         myMessage=BackPackModel.BackPackModelMessage.parseFrom(data);
@@ -123,11 +126,12 @@ public class BackpackServiceImpl implements BackpackService {
             //protobuf 生成registerResponse
             nettyResponse.setData("使用道具失败".getBytes());
         }
-        return nettyResponse;
+        channel.writeAndFlush(nettyResponse);
+        return;
     }
     @Override
     @HandlerCmdTag(cmd = ConstantValue.ADD_ARTICLE_REQUEST,module = ConstantValue.BAKCPACK_MODULE)
-    public NettyResponse addArticleRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
+    public void addArticleRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
         byte[] data=nettyRequest.getData();
         BackPackModel.BackPackModelMessage myMessage;
         myMessage=BackPackModel.BackPackModelMessage.parseFrom(data);
@@ -146,7 +150,8 @@ public class BackpackServiceImpl implements BackpackService {
                 nettyResponse.setStateCode(StateCode.FAIL);
                 //protobuf 生成registerResponse
                 nettyResponse.setData("存入错误物品id".getBytes());
-                return nettyResponse;
+                channel.writeAndFlush(nettyResponse);
+                return;
             }
             MedicineBean medicineBean=CommonsUtil.medicineMessageToMedicineBean(medicineMessage);
             medicineBean.setQuantity(number);
@@ -159,7 +164,8 @@ public class BackpackServiceImpl implements BackpackService {
                 nettyResponse.setStateCode(StateCode.FAIL);
                 //protobuf 生成registerResponse
                 nettyResponse.setData("存入错误物品id".getBytes());
-                return nettyResponse;
+                channel.writeAndFlush(nettyResponse);
+                return;
             }
             EquipmentBean equipmentBean=CommonsUtil.equipmentMessageToEquipmentBean(equipmentMessage);
             equipmentBean.setQuantity(number);
@@ -171,7 +177,8 @@ public class BackpackServiceImpl implements BackpackService {
             nettyResponse.setStateCode(StateCode.FAIL);
             //protobuf 生成registerResponse
             nettyResponse.setData("未知物品不能存储".getBytes());
-            return nettyResponse;
+            channel.writeAndFlush(nettyResponse);
+            return;
         }
         if (!mmoSimpleRole.getBackpackManager().put(article)){
             NettyResponse nettyResponse=new NettyResponse();
@@ -179,7 +186,8 @@ public class BackpackServiceImpl implements BackpackService {
             nettyResponse.setStateCode(StateCode.FAIL);
             //protobuf 生成registerResponse
             nettyResponse.setData("背包已满".getBytes());
-            return nettyResponse;
+            channel.writeAndFlush(nettyResponse);
+            return;
         }
         NettyResponse nettyResponse=new NettyResponse();
         nettyResponse.setCmd(ConstantValue.ADD_ARTICLE_RESPONSE);
@@ -190,6 +198,7 @@ public class BackpackServiceImpl implements BackpackService {
         messageData.setAddArticleResponse(addArticleResponse.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //protobuf 生成registerResponse
-        return nettyResponse;
+        channel.writeAndFlush(nettyResponse);
+        return;
     }
 }

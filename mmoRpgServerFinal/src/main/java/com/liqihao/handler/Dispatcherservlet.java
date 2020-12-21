@@ -37,14 +37,16 @@ public class Dispatcherservlet implements ApplicationContextAware {
      * @param nettyRequest
      * @return
      */
-    public NettyResponse handler(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException, InvocationTargetException, IllegalAccessException {
+    public void handler(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException, InvocationTargetException, IllegalAccessException {
         int cmd = nettyRequest.getCmd();
         Method m = methodHashMap.get(cmd);
         if (m != null) {
             String beanName = m.getAnnotation(HandlerCmdTag.class).module();
-            return (NettyResponse) m.invoke(services.get(beanName), nettyRequest, channel);
+            m.invoke(services.get(beanName), nettyRequest, channel);
+            return;
         }
-        return new NettyResponse(StateCode.FAIL, 444, "传入错误的cmd".getBytes());
+        channel.writeAndFlush(new NettyResponse(StateCode.FAIL, 444, "传入错误的cmd".getBytes()));
+        return;
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.liqihao.pojo.bean.MmoSimpleNPC;
 import com.liqihao.pojo.bean.SceneBean;
 import com.liqihao.util.CommonsUtil;
 import com.liqihao.util.ExcelReaderUtil;
+import com.liqihao.util.LogicTreadPoolUtil;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 import org.springframework.stereotype.Component;
 
@@ -99,6 +100,7 @@ public class ServerInit{
         //channel
         ChannelMessageCache.init(new ConcurrentHashMap<>());
         ScheduledThreadPoolUtil.init();
+        LogicTreadPoolUtil.init();
     }
 
 

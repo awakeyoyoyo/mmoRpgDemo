@@ -27,7 +27,7 @@ import java.util.List;
 public class EquipmentServiceImpl implements EquipmentService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.ADD_EQUIPMENT_REQUEST,module = ConstantValue.EQUIPMENT_MODULE)
-    public NettyResponse addEquipmentRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
+    public void addEquipmentRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
         byte[] data=nettyRequest.getData();
         EquipmentModel.EquipmentModelMessage myMessage;
         myMessage=EquipmentModel.EquipmentModelMessage.parseFrom(data);
@@ -42,7 +42,8 @@ public class EquipmentServiceImpl implements EquipmentService {
             nettyResponse.setStateCode(StateCode.FAIL);
             //protobuf 生成registerResponse
             nettyResponse.setData("该物品不是装备or找不到该装备".getBytes());
-            return nettyResponse;
+            channel.writeAndFlush(nettyResponse);
+            return;
         }
         mmoSimpleRole.useArticle(articleId);
         NettyResponse nettyResponse=new NettyResponse();
@@ -53,12 +54,13 @@ public class EquipmentServiceImpl implements EquipmentService {
         messageBuilder.setDataType(EquipmentModel.EquipmentModelMessage.DateType.AddEquipmentResponse);
         messageBuilder.setAddEquipmentResponse(EquipmentModel.AddEquipmentResponse.newBuilder().build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
-        return nettyResponse;
+        channel.writeAndFlush(nettyResponse);
+        return;
     }
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.EQUIPMENT_MSG_REQUEST,module = ConstantValue.EQUIPMENT_MODULE)
-    public NettyResponse equipmentMasRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
+    public void equipmentMasRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
         Integer roleId= CommonsUtil.getRoleIdByChannel(channel);
         MmoSimpleRole mmoSimpleRole= OnlineRoleMessageCache.getInstance().get(roleId);
         List<EquipmentDto> equipmentDtos=mmoSimpleRole.getEquipments();
@@ -76,12 +78,13 @@ public class EquipmentServiceImpl implements EquipmentService {
         messageBuilder.setDataType(EquipmentModel.EquipmentModelMessage.DateType.EquipmentMsgResponse);
         messageBuilder.setEquipmentMsgResponse(EquipmentModel.EquipmentMsgResponse.newBuilder().addAllEquipments(equipmentDtoList).build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
-        return nettyResponse;
+        channel.writeAndFlush(nettyResponse);
+        return;
     }
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.REDUCE_EQUIPMENT_REQUEST,module = ConstantValue.EQUIPMENT_MODULE)
-    public NettyResponse reduceEquipmentRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
+    public void reduceEquipmentRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
         byte[] data=nettyRequest.getData();
         EquipmentModel.EquipmentModelMessage myMessage;
         myMessage=EquipmentModel.EquipmentModelMessage.parseFrom(data);
@@ -96,7 +99,8 @@ public class EquipmentServiceImpl implements EquipmentService {
             nettyResponse.setStateCode(StateCode.FAIL);
             //protobuf 生成registerResponse
             nettyResponse.setData("该部位没有装备".getBytes());
-            return nettyResponse;
+            channel.writeAndFlush(nettyResponse);
+            return;
         }
         NettyResponse nettyResponse=new NettyResponse();
         nettyResponse.setCmd(ConstantValue.REDUCE_EQUIPMENT_RESPONSE);
@@ -105,12 +109,13 @@ public class EquipmentServiceImpl implements EquipmentService {
         messageBuilder.setDataType(EquipmentModel.EquipmentModelMessage.DateType.ReduceEquipmentResponse);
         messageBuilder.setReduceEquipmentResponse(EquipmentModel.ReduceEquipmentResponse.newBuilder().build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
-        return nettyResponse;
+        channel.writeAndFlush(nettyResponse);
+        return;
     }
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.FIX_EQUIPMENT_REQUEST,module = ConstantValue.EQUIPMENT_MODULE)
-    public NettyResponse fixEquipmentRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
+    public void fixEquipmentRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
         byte[] data=nettyRequest.getData();
         EquipmentModel.EquipmentModelMessage myMessage;
         myMessage=EquipmentModel.EquipmentModelMessage.parseFrom(data);
@@ -124,7 +129,8 @@ public class EquipmentServiceImpl implements EquipmentService {
             nettyResponse.setStateCode(StateCode.FAIL);
             //protobuf 生成registerResponse
             nettyResponse.setData("该物品不是装备".getBytes());
-            return nettyResponse;
+            channel.writeAndFlush(nettyResponse);
+            return;
         }
         EquipmentBean equipmentBean= (EquipmentBean) article;
         //修复武器
@@ -136,6 +142,7 @@ public class EquipmentServiceImpl implements EquipmentService {
         messageBuilder.setDataType(EquipmentModel.EquipmentModelMessage.DateType.FixEquipmentResponse);
         messageBuilder.setFixEquipmentResponse(EquipmentModel.FixEquipmentResponse.newBuilder().build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
-        return nettyResponse;
+        channel.writeAndFlush(nettyResponse);
+        return;
     }
 }

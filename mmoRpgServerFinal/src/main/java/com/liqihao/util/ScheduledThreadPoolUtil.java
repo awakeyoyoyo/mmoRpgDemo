@@ -35,7 +35,7 @@ public class ScheduledThreadPoolUtil {
         replyMpRole = new ConcurrentHashMap<>();
         bufferRole = new ConcurrentHashMap<>();
         npcTaskMap = new ConcurrentHashMap<>();
-        scheduledExecutorService = new ScheduledThreadPoolExecutor(6);
+        scheduledExecutorService = new ScheduledThreadPoolExecutor(4);
     }
 
     public static ConcurrentHashMap<Integer, ScheduledFuture<?>> getNpcTaskMap() {
