@@ -2,25 +2,15 @@ package com.liqihao.pojo.baseMessage;
 
 public class NPCMessage {
     private Integer id;
-
-    private Integer status;
-
     private String name;
-
-    private Integer type;
-
     private Integer mmosceneid;
-
+    private Integer status;
+    private Integer type;
     private Integer onstatus;
-
     private String talk;
-
     private Integer blood;
-
     private Integer mp;
-
     private Integer attack;
-
     private double damageAdd;
 
     public double getDamageAdd() {

@@ -17,7 +17,6 @@ public class ChannelMessageCache extends CommonsCache<Channel>{
         return instance;
     }
     public ChannelMessageCache() {
-
     }
     public static void init(ConcurrentHashMap<Integer, Channel> map){
         if (instance==null){

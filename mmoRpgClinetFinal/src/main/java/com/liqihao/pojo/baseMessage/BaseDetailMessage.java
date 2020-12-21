@@ -4,6 +4,14 @@ public class BaseDetailMessage {
     private Integer bagSize;
     private Integer reduceDurability;
 
+    @Override
+    public String toString() {
+        return "BaseDetailMessage{" +
+                "bagSize=" + bagSize +
+                ", reduceDurability=" + reduceDurability +
+                '}';
+    }
+
     public Integer getBagSize() {
         return bagSize;
     }

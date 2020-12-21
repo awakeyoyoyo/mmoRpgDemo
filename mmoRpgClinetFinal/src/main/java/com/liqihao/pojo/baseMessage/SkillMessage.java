@@ -11,6 +11,21 @@ public class SkillMessage {
     private Integer skillType;
     private double addPercon;
 
+    @Override
+    public String toString() {
+        return "SkillMessage{" +
+                "id=" + id +
+                ", skillName='" + skillName + '\'' +
+                ", baseDamage=" + baseDamage +
+                ", cd=" + cd +
+                ", consumeType=" + consumeType +
+                ", consumeNum=" + consumeNum +
+                ", bufferIds='" + bufferIds + '\'' +
+                ", skillType=" + skillType +
+                ", addPercon=" + addPercon +
+                '}';
+    }
+
     public double getAddPercon() {
         return addPercon;
     }
@@ -18,6 +33,7 @@ public class SkillMessage {
     public void setAddPercon(double addPercon) {
         this.addPercon = addPercon;
     }
+
     public Integer getSkillType() {
         return skillType;
     }
@@ -25,7 +41,6 @@ public class SkillMessage {
     public void setSkillType(Integer skillType) {
         this.skillType = skillType;
     }
-
     public Integer getId() {
         return id;
     }

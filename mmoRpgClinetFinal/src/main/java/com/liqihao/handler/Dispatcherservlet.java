@@ -4,6 +4,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.service.*;
+import com.sun.org.apache.xpath.internal.operations.String;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -84,7 +85,8 @@ public class Dispatcherservlet {
                 equipmentService.fixEquipmentResponse(nettyResponse);
                 break;
             default:
-                System.out.println("handler:收到错误的数据包");
+                System.out.println("handler:收到");
+                System.out.println(new java.lang.String(nettyResponse.getData()));
         }
 
 

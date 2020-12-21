@@ -1,7 +1,0 @@
-bufferMessage:
-  - id: 1
-    name: "中毒"
-    buffType: 1
-    buffNum : 5
-    lastTime : 12
-    spaceTime : 4

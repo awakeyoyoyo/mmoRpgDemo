@@ -174,6 +174,7 @@ public class MmoSimpleRole extends MmoRolePOJO {
             //修改人物属性
             setAttack(getAttack()-oldBean.getAttackAdd());
             setDamageAdd(getDamageAdd()-oldBean.getDamageAdd());
+            needDeleteEquipmentIds.add(oldBean.getEquipmentBagId());
             backpackManager.put(oldBean);
         }
         //背包减少装备

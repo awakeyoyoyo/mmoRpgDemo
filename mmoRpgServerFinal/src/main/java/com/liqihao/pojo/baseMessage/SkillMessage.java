@@ -11,6 +11,21 @@ public class SkillMessage {
     private Integer skillType;
     private double addPercon;
 
+    @Override
+    public String toString() {
+        return "SkillMessage{" +
+                "id=" + id +
+                ", skillName='" + skillName + '\'' +
+                ", baseDamage=" + baseDamage +
+                ", cd=" + cd +
+                ", consumeType=" + consumeType +
+                ", consumeNum=" + consumeNum +
+                ", bufferIds='" + bufferIds + '\'' +
+                ", skillType=" + skillType +
+                ", addPercon=" + addPercon +
+                '}';
+    }
+
     public double getAddPercon() {
         return addPercon;
     }
