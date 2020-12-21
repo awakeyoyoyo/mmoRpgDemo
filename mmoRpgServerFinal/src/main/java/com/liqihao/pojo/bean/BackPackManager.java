@@ -8,15 +8,16 @@ import org.springframework.beans.BeanUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.stream.Collectors;
 
 public class BackPackManager {
     private CopyOnWriteArrayList<Article> backpacks;
     private Integer size;
-    private Integer nowSize=0;
-    private Integer articleId=0;
+    private volatile Integer nowSize=0;
+    private volatile Integer articleId=0;
     private List<Integer> needDeleteBagId=new ArrayList<>();
-
+    final ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
     public List<Integer> getNeedDeleteBagId() {
         return needDeleteBagId;
     }
@@ -47,6 +48,7 @@ public class BackPackManager {
     //背包放入东西
     public boolean put(Article article) {
         //判断物品类型
+        rwl.readLock().lock();
         if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())) {
             //查找背包中是否有
             MedicineBean medicineBean = (MedicineBean) article;
@@ -65,18 +67,24 @@ public class BackPackManager {
                     Integer nowNum = temp.getQuantity();
                     Integer sum = nowNum + number;
                     //判断加上后是否已经超过99
+                    rwl.readLock().unlock();
+                    rwl.writeLock().lock();
                     if (sum <= ConstantValue.BAG_MAX_VALUE) {
                         //不超过加上
                         temp.setQuantity(sum);
+                        rwl.writeLock().unlock();
                         return true;
                     }else {
                         number=number-(ConstantValue.BAG_MAX_VALUE-temp.getQuantity());
                         temp.setQuantity(ConstantValue.BAG_MAX_VALUE);
+                        rwl.writeLock().unlock();
                     }
                 }
             }
             //表明背包中没有该物品或者该物品的数量都是99或者是剩余的 新建
             if (number!=0){
+                rwl.readLock().unlock();
+                rwl.writeLock().lock();
                 while (number>0) {
                     MedicineBean newMedicine = new MedicineBean();
                     BeanUtils.copyProperties(medicineBean, newMedicine);
@@ -91,28 +99,33 @@ public class BackPackManager {
                     backpacks.add(newMedicine);
                     nowSize++;
                 }
+                rwl.writeLock().unlock();
                 return true;
             }
-
-
         } else if ((article.getArticleTypeCode().equals(ArticleTypeCode.EQUIPMENT.getCode()))){
             //判断背包大小
             if ((size-nowSize)<=0){
                 //背包一个格子的空间都没有 无法存放
+                rwl.readLock().unlock();
                 return false;
             }else {
+                rwl.readLock().unlock();
+                rwl.writeLock().lock();
                 EquipmentBean equipmentBean=(EquipmentBean) article;
                 //设置背包物品id
                 equipmentBean.setArticleId(getNewArticleId());
                 nowSize++;
                 backpacks.add(equipmentBean);
+                rwl.writeLock().unlock();
                 return true;
             }
         }
+        rwl.readLock().unlock();
         return false;
     }
     //背包放入东西 按照数据库格式来存放
     public void putOnDatabase(Article article) {
+        rwl.writeLock().lock();
         if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())) {
             MedicineBean medicineBean = (MedicineBean) article;
             medicineBean.setArticleId(getNewArticleId());
@@ -126,6 +139,7 @@ public class BackPackManager {
             nowSize++;
             backpacks.add(equipmentBean);
         }
+        rwl.writeLock().unlock();
     }
     //判断背包是否存在某样东西
     public boolean contains(Article a){
@@ -133,11 +147,14 @@ public class BackPackManager {
     }
     //减少某样物品数量/丢弃装备
     public Article useOrAbandanArticle(Integer articleId,Integer number){
+        rwl.readLock().lock();
         for (Article a:backpacks){
             if (a.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())){
                     MedicineBean medicineBean=(MedicineBean)a;
                     if (medicineBean.getArticleId().equals(articleId)){
                         if (number<=medicineBean.getQuantity()){
+                            rwl.readLock().unlock();
+                            rwl.writeLock().lock();
                             //可以丢弃
                             medicineBean.setQuantity(medicineBean.getQuantity()-number);
                             //判断是否数量为0 为0则删除
@@ -148,12 +165,16 @@ public class BackPackManager {
                                 backpacks.remove(a);
                                 nowSize--;
                             }
+                            rwl.writeLock().unlock();
                             return medicineBean;
                         }else {
+                            rwl.readLock().unlock();
                             return null;
                         }
                     }
             }else{
+                rwl.readLock().unlock();
+                rwl.writeLock().lock();
                 EquipmentBean equipmentBean=(EquipmentBean)a;
                 if (equipmentBean.getArticleId().equals(articleId)){
                     //需要删除数据库的记录
@@ -161,10 +182,13 @@ public class BackPackManager {
                     ((EquipmentBean) a).setBagId(null);
                     backpacks.remove(a);
                     nowSize--;
+                    rwl.writeLock().unlock();
                     return a;
                 }
+                rwl.writeLock().unlock();
             }
         }
+        rwl.readLock().unlock();
         return null;
     }
 
@@ -188,6 +212,7 @@ public class BackPackManager {
     }
     //根据articleId获取物品信息
     public Article getArticleByArticleId(Integer articleId) {
+        rwl.readLock().lock();
         for (Article article:backpacks){
             Integer id=null;
             if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())){
@@ -198,13 +223,16 @@ public class BackPackManager {
                 id=equipmentBean.getArticleId();
             }
             if (id.equals(articleId)){
+                rwl.readLock().unlock();
                 return article;
             }
         }
+        rwl.readLock().unlock();
         return null;
     }
     //获取背包内物品信息
     public ArrayList<ArticleDto> getBackpacks() {
+        rwl.readLock().lock();
         ArrayList<ArticleDto> articleDtos=new ArrayList<>();
         for (Article article:backpacks) {
             ArticleDto articleDto=new ArticleDto();
@@ -226,6 +254,7 @@ public class BackPackManager {
             }
             articleDtos.add(articleDto);
         }
+        rwl.readLock().unlock();
         return articleDtos;
     }
 

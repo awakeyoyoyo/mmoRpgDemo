@@ -16,16 +16,17 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * 缓存中存储的人物类
  */
 public class MmoSimpleRole extends MmoRolePOJO {
     private Integer Blood;
-    private Integer nowBlood;
+    private volatile Integer nowBlood;
     private Integer mp;
-    private Integer nowMp;
-    private HashMap<Integer,Long> cdMap;
+    private volatile Integer nowMp;
+    private volatile HashMap<Integer,Long> cdMap;
     private List<Integer> skillIdList;
     private List<SkillBean> skillBeans;
     private CopyOnWriteArrayList<BufferBean> bufferBeans;
@@ -33,6 +34,8 @@ public class MmoSimpleRole extends MmoRolePOJO {
     private BackPackManager backpackManager;
     private List<Integer> needDeleteEquipmentIds=new ArrayList<>();
     private double damageAdd;
+    public final ReentrantReadWriteLock hpRwLock = new ReentrantReadWriteLock();
+    public final ReentrantReadWriteLock mpRwLock = new ReentrantReadWriteLock();
 
     public double getDamageAdd() {
         return damageAdd;
@@ -241,10 +244,14 @@ public class MmoSimpleRole extends MmoRolePOJO {
         }
         if (skillBean.getConsumeType().equals(ConsuMeTypeCode.HP.getCode())){
             //扣血
+            hpRwLock.writeLock().lock();
             setNowBlood(getNowBlood()-skillBean.getConsumeNum());
+            hpRwLock.writeLock().unlock();
         }else {
             //扣篮
+            mpRwLock.writeLock().lock();
             setNowMp(getNowMp()-skillBean.getConsumeNum());
+            mpRwLock.writeLock().unlock();
             //判断是否已经有自动回蓝任务
             ConcurrentHashMap<String, ScheduledFuture<?>> replyMpRoleMap=ScheduledThreadPoolUtil.getReplyMpRole();
             //自动回蓝任务的key
@@ -274,6 +281,7 @@ public class MmoSimpleRole extends MmoRolePOJO {
         //攻击怪物
 
         for (MmoSimpleNPC mmoSimpleNPC:target){
+            mmoSimpleNPC.hpRwLock.writeLock().lock();
             Integer hp=mmoSimpleNPC.getNowBlood();
             Integer reduce=0;
             if (skillBean.getSkillType().equals(SkillTypeCode.FIED.getCode())){
@@ -294,6 +302,7 @@ public class MmoSimpleRole extends MmoRolePOJO {
                 mmoSimpleNPC.setStatus(RoleStatusCode.DIE.getCode());
             }
             mmoSimpleNPC.setNowBlood(hp);
+            mmoSimpleNPC.hpRwLock.writeLock().unlock();
             // 扣血伤害
             PlayModel.RoleIdDamage.Builder damageR=PlayModel.RoleIdDamage.newBuilder();
             damageR.setFromRoleId(getId());

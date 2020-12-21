@@ -7,14 +7,16 @@ import com.liqihao.util.ScheduledThreadPoolUtil;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 
 public class MmoSimpleNPC extends NPCMessage {
-    private Integer nowBlood;
-    private Integer nowMp;
+    private volatile Integer nowBlood;
+    private volatile Integer nowMp;
     private CopyOnWriteArrayList<BufferBean> bufferBeans;
     private SceneBean nowScene;
-
+    public final ReentrantReadWriteLock hpRwLock = new ReentrantReadWriteLock();
+    public final ReentrantReadWriteLock mpRwLock = new ReentrantReadWriteLock();
     public SceneBean getNowScene() {
         return nowScene;
     }
