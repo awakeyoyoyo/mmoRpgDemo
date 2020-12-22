@@ -3,9 +3,8 @@ package com.liqihao.netty;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyRequest;
-import com.liqihao.commons.NettyResponse;
 import com.liqihao.handler.Dispatcherservlet;
-import com.liqihao.util.LogicTreadPoolUtil;
+import com.liqihao.util.LogicThreadPool;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.timeout.IdleStateEvent;
@@ -41,7 +40,24 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
         log.info("Server:channelRead");
         readIdleTimes=0;
         NettyRequest request= (NettyRequest) msg;
-        LogicTreadPoolUtil.getLogicThreadPool().execute(new Runnable() {
+//        LogicTreadPoolUtil.getLogicThreadPool().execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    dispatcherservlet.handler(request,ctx.channel());
+//                } catch (InvalidProtocolBufferException e) {
+//                    e.printStackTrace();
+//                } catch (InvocationTargetException e) {
+//                    e.printStackTrace();
+//                } catch (IllegalAccessException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+        //根据channel计算index
+        int threadSize=LogicThreadPool.getInstance().getThreadSize();
+        Integer index=ctx.channel().hashCode()&(threadSize-1);
+        LogicThreadPool.getInstance().execute(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -54,8 +70,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
                     e.printStackTrace();
                 }
             }
-        });
-
+        },index);
     }
 
     @Override

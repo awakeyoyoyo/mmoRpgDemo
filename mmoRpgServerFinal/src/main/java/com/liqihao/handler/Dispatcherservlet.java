@@ -38,6 +38,7 @@ public class Dispatcherservlet implements ApplicationContextAware {
      * @return
      */
     public void handler(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException, InvocationTargetException, IllegalAccessException {
+        logger.info("线程："+Thread.currentThread().getName()+" 正在处理该请求");
         int cmd = nettyRequest.getCmd();
         Method m = methodHashMap.get(cmd);
         if (m != null) {

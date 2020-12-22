@@ -1,19 +1,11 @@
 package com.liqihao.application;
 
-import com.liqihao.Cache.*;
-import com.liqihao.pojo.baseMessage.*;
-import com.liqihao.pojo.bean.MmoSimpleNPC;
-import com.liqihao.pojo.bean.SceneBean;
 import com.liqihao.util.CommonsUtil;
-import com.liqihao.util.ExcelReaderUtil;
-import com.liqihao.util.LogicTreadPoolUtil;
+import com.liqihao.util.LogicThreadPool;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 @Component
 /**
@@ -22,7 +14,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class ServerInit{
     public void init() throws IOException, IllegalAccessException, InstantiationException {
         ScheduledThreadPoolUtil.init();
-        LogicTreadPoolUtil.init();
+        LogicThreadPool.init(6);
     }
 
 
