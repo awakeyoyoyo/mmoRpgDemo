@@ -39,8 +39,7 @@ public class BackpackServiceImpl implements BackpackService {
         myMessage=BackPackModel.BackPackModelMessage.parseFrom(data);
         Integer articleId=myMessage.getAbandonRequest().getArticleId();
         Integer number=myMessage.getAbandonRequest().getNumber();
-        Integer roleId= CommonsUtil.getRoleIdByChannel(channel);
-        MmoSimpleRole mmoSimpleRole= OnlineRoleMessageCache.getInstance().get(roleId);
+        MmoSimpleRole mmoSimpleRole= CommonsUtil.getRoleByChannel(channel);
         BackPackManager manager=mmoSimpleRole.getBackpackManager();
         Article article=manager.useOrAbandanArticle(articleId,number);
         if (article==null){
@@ -72,8 +71,7 @@ public class BackpackServiceImpl implements BackpackService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.BACKPACK_MSG_REQUEST,module = ConstantValue.BAKCPACK_MODULE)
     public void backPackMsgRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
-        Integer roleId= CommonsUtil.getRoleIdByChannel(channel);
-        MmoSimpleRole mmoSimpleRole=OnlineRoleMessageCache.getInstance().get(roleId);
+        MmoSimpleRole mmoSimpleRole= CommonsUtil.getRoleByChannel(channel);
         List<ArticleDto> articles=mmoSimpleRole.getBackpackManager().getBackpacks();
         List<BackPackModel.ArticleDto> articleDtoList=new ArrayList<>();
         for (ArticleDto a:articles) {
@@ -108,8 +106,7 @@ public class BackpackServiceImpl implements BackpackService {
         BackPackModel.BackPackModelMessage myMessage;
         myMessage=BackPackModel.BackPackModelMessage.parseFrom(data);
         Integer article=myMessage.getUseRequest().getArticleId();
-        Integer roleId=CommonsUtil.getRoleIdByChannel(channel);
-        MmoSimpleRole mmoSimpleRole=OnlineRoleMessageCache.getInstance().get(roleId);
+        MmoSimpleRole mmoSimpleRole=CommonsUtil.getRoleByChannel(channel);
         boolean flag=mmoSimpleRole.useArticle(article);
         NettyResponse nettyResponse=new NettyResponse();
         nettyResponse.setCmd(ConstantValue.USE_RESPONSE);
@@ -138,8 +135,7 @@ public class BackpackServiceImpl implements BackpackService {
         Integer id=myMessage.getAddArticleRequest().getId();
         Integer articleType=myMessage.getAddArticleRequest().getArticleType();
         Integer number=myMessage.getAddArticleRequest().getNumber();
-        Integer roleId=CommonsUtil.getRoleIdByChannel(channel);
-        MmoSimpleRole mmoSimpleRole=OnlineRoleMessageCache.getInstance().get(roleId);
+        MmoSimpleRole mmoSimpleRole=CommonsUtil.getRoleByChannel(channel);
         //根据 articleType判断 然后生成物品对象存
         Article article;
         if (articleType.equals(ArticleTypeCode.MEDICINE.getCode())){

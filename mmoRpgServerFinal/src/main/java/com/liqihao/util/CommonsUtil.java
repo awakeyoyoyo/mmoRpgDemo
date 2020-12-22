@@ -95,8 +95,8 @@ public class CommonsUtil implements ApplicationContextAware {
     }
 
 
-    public static Integer getRoleIdByChannel(Channel channel){
-        AttributeKey<Integer> key = AttributeKey.valueOf("roleId");
+    public static MmoSimpleRole getRoleByChannel(Channel channel){
+        AttributeKey<MmoSimpleRole> key = AttributeKey.valueOf("role");
         if (channel.hasAttr(key) && channel.attr(key).get() != null)
         {
             return channel.attr(key).get();

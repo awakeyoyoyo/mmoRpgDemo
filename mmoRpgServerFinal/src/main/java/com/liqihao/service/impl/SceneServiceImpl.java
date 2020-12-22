@@ -44,8 +44,7 @@ public class SceneServiceImpl implements SceneService {
         byte[] data=request.getData();
         SceneModel.SceneModelMessage myMessage;
         myMessage=SceneModel.SceneModelMessage.parseFrom(data);
-        Integer roleId=CommonsUtil.getRoleIdByChannel(channel);
-        MmoSimpleRole mmoSimpleRole= OnlineRoleMessageCache.getInstance().get(roleId);
+        MmoSimpleRole mmoSimpleRole= CommonsUtil.getRoleByChannel(channel);
         Integer sceneId=mmoSimpleRole.getMmosceneid();
         log.info("SceneService accept sceneId: "+sceneId);
         //从缓存中读取
@@ -72,14 +71,13 @@ public class SceneServiceImpl implements SceneService {
         SceneModel.SceneModelMessage myMessage;
         myMessage=SceneModel.SceneModelMessage.parseFrom(data);
         Integer nextSceneId=myMessage.getWentRequest().getSceneId();
-        Integer roleId=CommonsUtil.getRoleIdByChannel(channel);
-        if (roleId==null){
+        MmoSimpleRole mmoSimpleRole= CommonsUtil.getRoleByChannel(channel);
+        if (mmoSimpleRole==null){
             NettyResponse errotResponse=new NettyResponse(StateCode.FAIL,ConstantValue.WENT_RESPONSE,"请先登录".getBytes());
             channel.writeAndFlush(errotResponse);
             return;
         }
         //先查询palyId所在场景
-        MmoSimpleRole mmoSimpleRole= OnlineRoleMessageCache.getInstance().get(roleId);
         //查询该场景可进入的场景与sceneId判断
         Integer nowSceneId=mmoSimpleRole.getMmosceneid();
         SceneBean sceneBean=SceneBeanMessageCache.getInstance().get(nowSceneId);
@@ -99,20 +97,20 @@ public class SceneServiceImpl implements SceneService {
         }
         //进入场景，修改数据库 player 和scene
         MmoRolePOJO mmoRolePOJO1=new MmoRolePOJO();
-        mmoRolePOJO1.setId(roleId);
+        mmoRolePOJO1.setId(mmoSimpleRole.getId());
         mmoRolePOJO1.setMmosceneid(nextSceneId);
         mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO1);
         //修改缓存中角色
-        MmoSimpleRole player=OnlineRoleMessageCache.getInstance().get(roleId);
+        MmoSimpleRole player=OnlineRoleMessageCache.getInstance().get(mmoSimpleRole.getId());
         player.setMmosceneid(nextSceneId);
         OnlineRoleMessageCache.getInstance().put(player.getId(),player);
         //修改scene
-        SceneBeanMessageCache.getInstance().get(nowSceneId).getRoles().remove(roleId);
-        SceneBeanMessageCache.getInstance().get(nextSceneId).getRoles().add(roleId);
+        SceneBeanMessageCache.getInstance().get(nowSceneId).getRoles().remove(mmoSimpleRole.getId());
+        SceneBeanMessageCache.getInstance().get(nextSceneId).getRoles().add(mmoSimpleRole.getId());
         //数据库中新场景中增加该角色
         MmoScenePOJO nextScenePOJO=mmoScenePOJOMapper.selectByPrimaryKey(nextSceneId);
         List<Integer> rolesIds=CommonsUtil.split(nextScenePOJO.getRoles());
-        rolesIds.add(roleId);
+        rolesIds.add(mmoSimpleRole.getId());
         String newRoles=CommonsUtil.listToString(rolesIds);
         nextScenePOJO.setRoles(newRoles);
         mmoScenePOJOMapper.updateByPrimaryKeySelective(nextScenePOJO);
@@ -120,7 +118,7 @@ public class SceneServiceImpl implements SceneService {
         MmoScenePOJO nowScenePOJO=mmoScenePOJOMapper.selectByPrimaryKey(nowSceneId);
         String  nowRoles=nowScenePOJO.getRoles();
         List<Integer> nowrolesIds=CommonsUtil.split(nowRoles);
-        nowrolesIds.remove(roleId);
+        nowrolesIds.remove(mmoSimpleRole.getId());
         nowScenePOJO.setRoles(CommonsUtil.listToString(nowrolesIds));
         mmoScenePOJOMapper.updateByPrimaryKeySelective(nowScenePOJO);
         //查询出npc 和SimpleRole
@@ -248,13 +246,12 @@ public class SceneServiceImpl implements SceneService {
         myMessage=SceneModel.SceneModelMessage.parseFrom(data);
         Integer npcId=myMessage.getTalkNPCRequest().getRoleId();
         //判断是否与角色在同一场景
-        Integer roleId=CommonsUtil.getRoleIdByChannel(channel);
-        if (roleId==null){
+        MmoSimpleRole role=CommonsUtil.getRoleByChannel(channel);
+        if (role==null){
             channel.writeAndFlush(new NettyResponse(StateCode.FAIL,ConstantValue.TALK_NPC_RESPONSE,"未登录".getBytes()));
         }
         //缓存中获取NPC
         NPCMessage npc=NpcMessageCache.getInstance().get(npcId);
-        MmoRolePOJO role=OnlineRoleMessageCache.getInstance().get(roleId);
         if (!npc.getMmosceneid().equals(role.getMmosceneid())){
             channel.writeAndFlush(new NettyResponse(StateCode.FAIL,ConstantValue.TALK_NPC_RESPONSE,"该NPC不在当前场景".getBytes()));
         }

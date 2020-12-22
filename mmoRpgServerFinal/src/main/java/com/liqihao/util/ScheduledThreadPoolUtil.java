@@ -148,35 +148,42 @@ public class ScheduledThreadPoolUtil {
             PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();
             if (damageTypeCode.equals(DamageTypeCode.MP.getCode())) {
                 mmoSimpleRole.mpRwLock.writeLock().lock();
-                Integer oldMp = mmoSimpleRole.getNowMp();
-                Integer newNumber = oldMp + addNumber;
-                if (newNumber > mmoSimpleRole.getMp()) {
-                    mmoSimpleRole.setNowMp(mmoSimpleRole.getMp());
-                    addNumber = mmoSimpleRole.getMp() - oldMp;
-                    //发送数据包
-                } else {
-                    mmoSimpleRole.setNowMp(newNumber);
-                }
-                mmoSimpleRole.mpRwLock.writeLock().unlock();
-                if (times!=null) {
-                    times--;
+                try {
+                    Integer oldMp = mmoSimpleRole.getNowMp();
+                    Integer newNumber = oldMp + addNumber;
+                    if (newNumber > mmoSimpleRole.getMp()) {
+                        mmoSimpleRole.setNowMp(mmoSimpleRole.getMp());
+                        addNumber = mmoSimpleRole.getMp() - oldMp;
+                        //发送数据包
+                    } else {
+                        mmoSimpleRole.setNowMp(newNumber);
+                    }
+                    if (times != null) {
+                        times--;
+                    }
+                }finally {
+                    mmoSimpleRole.mpRwLock.writeLock().unlock();
                 }
             }else{
                 mmoSimpleRole.hpRwLock.writeLock().lock();
-                Integer oldHP = mmoSimpleRole.getNowBlood();
-                Integer newNumber = oldHP + addNumber;
-                if (newNumber > mmoSimpleRole.getBlood()) {
-                    mmoSimpleRole.setNowBlood(mmoSimpleRole.getBlood());
-                    addNumber = mmoSimpleRole.getBlood() - oldHP;
-                    //发送数据包
-                } else {
-                    mmoSimpleRole.setNowBlood(newNumber);
+                try {
+                    Integer oldHP = mmoSimpleRole.getNowBlood();
+                    Integer newNumber = oldHP + addNumber;
+                    if (newNumber > mmoSimpleRole.getBlood()) {
+                        mmoSimpleRole.setNowBlood(mmoSimpleRole.getBlood());
+                        addNumber = mmoSimpleRole.getBlood() - oldHP;
+                        //发送数据包
+                    } else {
+                        mmoSimpleRole.setNowBlood(newNumber);
 
+                    }
+                    if (times!=null) {
+                        times--;
+                    }
+                }finally {
+                    mmoSimpleRole.hpRwLock.writeLock().unlock();
                 }
-                mmoSimpleRole.hpRwLock.writeLock().unlock();
-                if (times!=null) {
-                    times--;
-                }
+
             }
             damageU.setFromRoleId(mmoSimpleRole.getId());
             damageU.setToRoleId(mmoSimpleRole.getId());
@@ -248,21 +255,28 @@ public class ScheduledThreadPoolUtil {
                     //根据buffer类型扣血扣蓝
                     if (bufferBean.getBuffType().equals(BufferTypeCode.REDUCEHP.getCode())) {
                         npc.hpRwLock.writeLock().lock();
-                        Integer hp = npc.getNowBlood() - bufferBean.getBuffNum();
-                        if (hp <= 0) {
-                            hp = 0;
-                            npc.setStatus(RoleStatusCode.DIE.getCode());
+                        try {
+                            Integer hp = npc.getNowBlood() - bufferBean.getBuffNum();
+                            if (hp <= 0) {
+                                hp = 0;
+                                npc.setStatus(RoleStatusCode.DIE.getCode());
+                            }
+                            npc.setNowBlood(hp);
+                        }finally {
+                            npc.hpRwLock.writeLock().unlock();
                         }
-                        npc.setNowBlood(hp);
-                        npc.hpRwLock.writeLock().unlock();
+
                     } else if (bufferBean.getBuffType().equals(BufferTypeCode.REDUCEMP.getCode())) {
                         npc.mpRwLock.writeLock().lock();
-                        Integer mp = npc.getNowMp() - bufferBean.getBuffNum();
-                        if (mp <= 0) {
-                            mp = 0;
+                        try {
+                            Integer mp = npc.getNowMp() - bufferBean.getBuffNum();
+                            if (mp <= 0) {
+                                mp = 0;
+                            }
+                            npc.setNowMp(mp);
+                        }finally {
+                            npc.mpRwLock.writeLock().unlock();
                         }
-                        npc.setNowMp(mp);
-                        npc.mpRwLock.writeLock().unlock();
                     }
                     //广播信息
                     Integer sceneId = OnlineRoleMessageCache.getInstance().get(bufferBean.getFromRoleId()).getMmosceneid();
@@ -343,30 +357,30 @@ public class ScheduledThreadPoolUtil {
                 skillBean.setAddPercon(skillMessage.getAddPercon());
                 skillBean.setSkillType(skillMessage.getSkillType());
                 mmoSimpleRole.hpRwLock.writeLock().lock();
-                Integer hp=mmoSimpleRole.getNowBlood();
-                Integer reduce=0;
-                if (skillBean.getSkillType().equals(SkillTypeCode.FIED.getCode())){
-                    //固伤 只有技能伤害
-                    hp-=skillBean.getBaseDamage();
-                    reduce=skillBean.getBaseDamage();
-                }
-                if(skillBean.getSkillType().equals(SkillTypeCode.PERCENTAGE.getCode())){
-                    //百分比 增加攻击力的10%
-                    Integer damage=skillBean.getBaseDamage();
-                    damage=(int)Math.ceil(damage+mmoSimpleRole.getAttack()*skillBean.getAddPercon());
-                    hp=hp-damage;
-                    reduce=damage;
-                }
-                if (hp<=0){
-                    reduce=reduce+hp;
-                    hp=0;
-                    mmoSimpleRole.setStatus(RoleStatusCode.DIE.getCode());
-                }
-                mmoSimpleRole.setNowBlood(hp);
-                mmoSimpleRole.hpRwLock.writeLock().unlock();
+                List<PlayModel.RoleIdDamage> list=new ArrayList<>();
+                try {
+                    Integer hp = mmoSimpleRole.getNowBlood();
+                    Integer reduce = 0;
+                    if (skillBean.getSkillType().equals(SkillTypeCode.FIED.getCode())) {
+                        //固伤 只有技能伤害
+                        hp -= skillBean.getBaseDamage();
+                        reduce = skillBean.getBaseDamage();
+                    }
+                    if (skillBean.getSkillType().equals(SkillTypeCode.PERCENTAGE.getCode())) {
+                        //百分比 增加攻击力的10%
+                        Integer damage = skillBean.getBaseDamage();
+                        damage = (int) Math.ceil(damage + mmoSimpleRole.getAttack() * skillBean.getAddPercon());
+                        hp = hp - damage;
+                        reduce = damage;
+                    }
+                    if (hp <= 0) {
+                        reduce = reduce + hp;
+                        hp = 0;
+                        mmoSimpleRole.setStatus(RoleStatusCode.DIE.getCode());
+                    }
+                    mmoSimpleRole.setNowBlood(hp);
                 //广播
                 // 生成一个角色扣血或者扣篮
-                List<PlayModel.RoleIdDamage> list=new ArrayList<>();
                 PlayModel.RoleIdDamage.Builder damageU=PlayModel.RoleIdDamage.newBuilder();
                 damageU.setFromRoleId(npcId);
                 damageU.setToRoleId(targetRoleId);
@@ -379,6 +393,9 @@ public class ScheduledThreadPoolUtil {
                 damageU.setSkillId(skillBean.getId());
                 damageU.setState(mmoSimpleRole.getStatus());
                 list.add(damageU.build());
+                }finally {
+                    mmoSimpleRole.hpRwLock.writeLock().unlock();
+                }
                 //生成数据包
                 //封装成nettyResponse
                 PlayModel.PlayModelMessage.Builder myMessageBuilder=PlayModel.PlayModelMessage.newBuilder();

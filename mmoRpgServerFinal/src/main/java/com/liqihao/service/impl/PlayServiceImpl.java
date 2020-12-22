@@ -182,8 +182,8 @@ public class PlayServiceImpl implements PlayService{
         //将channel绑定用户信息存储
         ChannelMessageCache.getInstance().put(role.getId(),channel);
         //channle绑定roleId
-        AttributeKey<Integer> key = AttributeKey.valueOf("roleId");
-        channel.attr(key).set(role.getId());
+        AttributeKey<MmoSimpleRole> key = AttributeKey.valueOf("role");
+        channel.attr(key).set(simpleRole);
         //protobuf 生成loginResponse
         PlayModel.PlayModelMessage.Builder messageData=PlayModel.PlayModelMessage.newBuilder();
         messageData.setDataType(PlayModel.PlayModelMessage.DateType.LoginResponse);
@@ -220,27 +220,27 @@ public class PlayServiceImpl implements PlayService{
     @Override
     @HandlerCmdTag(cmd = ConstantValue.LOGOUT_REQUEST,module = ConstantValue.PLAY_MODULE)
     public void logoutRequest(NettyRequest nettyRequest,Channel channel) throws InvalidProtocolBufferException {
-        Integer roleId=CommonsUtil.getRoleIdByChannel(channel);
-        if (roleId != null) {
+        MmoSimpleRole role=CommonsUtil.getRoleByChannel(channel);
+        if (role != null) {
             //删除缓存中 channel绑定的信息
-            ChannelMessageCache.getInstance().remove(roleId);
+            ChannelMessageCache.getInstance().remove(role.getId());
         }
-        if (roleId==null){
+        if (role==null){
             NettyResponse errotResponse=new NettyResponse(StateCode.FAIL,ConstantValue.LOGOUT_RESPONSE,"请先登录".getBytes());
             channel.writeAndFlush(errotResponse);
             return;
         }
         //保存背包信息入数据库
-        MmoSimpleRole mmoSimpleRole= OnlineRoleMessageCache.getInstance().get(roleId);
-        CommonsUtil.bagIntoDataBase(mmoSimpleRole.getBackpackManager(),roleId);
+        MmoSimpleRole mmoSimpleRole= OnlineRoleMessageCache.getInstance().get(role.getId());
+        CommonsUtil.bagIntoDataBase(mmoSimpleRole.getBackpackManager(),role.getId());
         CommonsUtil.equipmentIntoDataBase(mmoSimpleRole);
         //将数据库中设置为离线
-        MmoRolePOJO mmoRolePOJO=mmoRolePOJOMapper.selectByPrimaryKey(roleId);
+        MmoRolePOJO mmoRolePOJO=mmoRolePOJOMapper.selectByPrimaryKey(role.getId());
         mmoRolePOJO.setOnstatus(RoleOnStatusCode.EXIT.getCode());
         mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO);
         MmoScenePOJO mmoScenePOJO=mmoScenePOJOMapper.selectByPrimaryKey(mmoRolePOJO.getMmosceneid());
         //缓存角色集合删除
-        OnlineRoleMessageCache.getInstance().remove(roleId);
+        OnlineRoleMessageCache.getInstance().remove(role.getId());
         SceneBeanMessageCache.getInstance().get(mmoSimpleRole.getMmosceneid()).getRoles().remove(mmoSimpleRole.getId());
         //protobuf生成消息
         PlayModel.PlayModelMessage.Builder myMessageBuilder=PlayModel.PlayModelMessage.newBuilder();
@@ -265,10 +265,9 @@ public class PlayServiceImpl implements PlayService{
         PlayModel.PlayModelMessage myMessage;
         myMessage=PlayModel.PlayModelMessage.parseFrom(data);
         Integer skillId=myMessage.getUseSkillRequest().getSkillId();
-        Integer roleId=CommonsUtil.getRoleIdByChannel(channel);
-        MmoSimpleRole mmoSimpleRole=OnlineRoleMessageCache.getInstance().get(roleId);
+        MmoSimpleRole mmoSimpleRole=CommonsUtil.getRoleByChannel(channel);
         Integer sceneId=mmoSimpleRole.getMmosceneid();
-        if (roleId==null){
+        if (mmoSimpleRole==null){
             channel.writeAndFlush(new NettyResponse(StateCode.FAIL,ConstantValue.USE_SKILL_RSPONSE, "未登陆".getBytes()));
         }
         //判断cd
@@ -327,7 +326,7 @@ public class PlayServiceImpl implements PlayService{
         //广播
         List<Integer> players=SceneBeanMessageCache.getInstance().get(sceneId).getRoles();
         for (Integer playerId:players){
-            if (playerId.equals(roleId)){
+            if (playerId.equals(mmoSimpleRole.getId())){
                 continue;
             }
             Channel c= ChannelMessageCache.getInstance().get(playerId);
@@ -338,6 +337,4 @@ public class PlayServiceImpl implements PlayService{
         channel.writeAndFlush(nettyResponse);
         return;
     }
-
-
 }

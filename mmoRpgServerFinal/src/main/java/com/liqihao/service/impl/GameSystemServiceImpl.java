@@ -24,10 +24,11 @@ public class GameSystemServiceImpl implements com.liqihao.service.GameSystemServ
     @HandlerCmdTag(cmd = ConstantValue.NET_IO_OUTTIME,module = ConstantValue.GAME_SYSTEM_MODULE)
     public void netIoOutTime(NettyRequest nettyRequest, Channel channel) {
         //获取相同的channel对应的roleId 然后根据其删除缓存中的信息
-        Integer roleId=CommonsUtil.getRoleIdByChannel(channel);
+        MmoSimpleRole role=CommonsUtil.getRoleByChannel(channel);
         //删除缓存中的信息
-        if (roleId!=null) {
+        if (role!=null) {
             //保存背包信息入数据库
+            Integer roleId=role.getId();
             MmoSimpleRole mmoSimpleRole=OnlineRoleMessageCache.getInstance().get(roleId);
             CommonsUtil.equipmentIntoDataBase(mmoSimpleRole);
             CommonsUtil.bagIntoDataBase(mmoSimpleRole.getBackpackManager(),roleId);

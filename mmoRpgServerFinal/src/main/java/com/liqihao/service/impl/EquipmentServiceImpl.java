@@ -32,8 +32,7 @@ public class EquipmentServiceImpl implements EquipmentService {
         EquipmentModel.EquipmentModelMessage myMessage;
         myMessage=EquipmentModel.EquipmentModelMessage.parseFrom(data);
         Integer articleId=myMessage.getAddEquipmentRequest().getArticleId();
-        Integer roleId= CommonsUtil.getRoleIdByChannel(channel);
-        MmoSimpleRole mmoSimpleRole= OnlineRoleMessageCache.getInstance().get(roleId);
+        MmoSimpleRole mmoSimpleRole= CommonsUtil.getRoleByChannel(channel);
         Article article=mmoSimpleRole.getBackpackManager().getArticleByArticleId(articleId);
         if (article==null||!article.getArticleTypeCode().equals(ArticleTypeCode.EQUIPMENT.getCode())){
             //不是装备
@@ -61,8 +60,7 @@ public class EquipmentServiceImpl implements EquipmentService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.EQUIPMENT_MSG_REQUEST,module = ConstantValue.EQUIPMENT_MODULE)
     public void equipmentMasRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
-        Integer roleId= CommonsUtil.getRoleIdByChannel(channel);
-        MmoSimpleRole mmoSimpleRole= OnlineRoleMessageCache.getInstance().get(roleId);
+        MmoSimpleRole mmoSimpleRole= CommonsUtil.getRoleByChannel(channel);
         List<EquipmentDto> equipmentDtos=mmoSimpleRole.getEquipments();
         //转化为protobuf
         List<EquipmentModel.EquipmentDto> equipmentDtoList=new ArrayList<>();
@@ -89,8 +87,7 @@ public class EquipmentServiceImpl implements EquipmentService {
         EquipmentModel.EquipmentModelMessage myMessage;
         myMessage=EquipmentModel.EquipmentModelMessage.parseFrom(data);
         Integer position=myMessage.getReduceEquipmentRequest().getPosition();
-        Integer roleId= CommonsUtil.getRoleIdByChannel(channel);
-        MmoSimpleRole mmoSimpleRole= OnlineRoleMessageCache.getInstance().get(roleId);
+        MmoSimpleRole mmoSimpleRole= CommonsUtil.getRoleByChannel(channel);
         boolean flag=mmoSimpleRole.unUseEquipment(position);
         if (!flag){
             //不是装备
@@ -120,8 +117,7 @@ public class EquipmentServiceImpl implements EquipmentService {
         EquipmentModel.EquipmentModelMessage myMessage;
         myMessage=EquipmentModel.EquipmentModelMessage.parseFrom(data);
         Integer articleId=myMessage.getFixEquipmentRequest().getArticleId();
-        Integer roleId=CommonsUtil.getRoleIdByChannel(channel);
-        MmoSimpleRole mmoSimpleRole= OnlineRoleMessageCache.getInstance().get(roleId);
+        MmoSimpleRole mmoSimpleRole= CommonsUtil.getRoleByChannel(channel);
         Article article=mmoSimpleRole.getBackpackManager().getArticleByArticleId(articleId);
         if (article.getArticleTypeCode()!=ArticleTypeCode.EQUIPMENT.getCode()){
             NettyResponse nettyResponse=new NettyResponse();

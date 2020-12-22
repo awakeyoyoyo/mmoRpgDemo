@@ -1,23 +1,18 @@
 package com.liqihao.Cache;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 /**
  * Cache基类
  * @author lqhao
  */
 public class CommonsCache<T>{
-    private ConcurrentHashMap<Integer,T> concurrentHashMap;
+    protected ConcurrentHashMap<Integer,T> concurrentHashMap;
     public CommonsCache() {
     }
-
     public CommonsCache(ConcurrentHashMap<Integer, T> concurrentHashMap) {
         this.concurrentHashMap = concurrentHashMap;
     }
-
     public T get(Integer id){
         return concurrentHashMap.get(id);
     }

@@ -1,14 +1,17 @@
 package com.liqihao.Cache;
 
-import com.liqihao.pojo.bean.MmoSimpleNPC;
-import com.liqihao.pojo.bean.MmoSimpleRole;
 
+import com.liqihao.pojo.bean.MmoSimpleRole;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 在线用户缓存
  * @author lqhao
  */
+@Component
 public class OnlineRoleMessageCache extends CommonsCache<MmoSimpleRole> {
     private volatile static OnlineRoleMessageCache instance;
 
@@ -19,10 +22,10 @@ public class OnlineRoleMessageCache extends CommonsCache<MmoSimpleRole> {
     public OnlineRoleMessageCache() {
 
     }
-    public static void init(ConcurrentHashMap<Integer, MmoSimpleRole> map) {
-        if (instance == null) {
-            instance = new OnlineRoleMessageCache(map);
-        }
+    @PostConstruct
+    public void init() {
+        instance=this;
+        this.concurrentHashMap=new ConcurrentHashMap<>();
     }
     private OnlineRoleMessageCache(ConcurrentHashMap<Integer, MmoSimpleRole> map) {
         super(map);
