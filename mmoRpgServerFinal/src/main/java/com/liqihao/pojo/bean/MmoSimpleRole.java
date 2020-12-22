@@ -1,12 +1,19 @@
 package com.liqihao.pojo.bean;
 
 
+import com.liqihao.Cache.ChannelMessageCache;
+import com.liqihao.Cache.SceneBeanMessageCache;
+import com.liqihao.commons.ConstantValue;
+import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.enums.*;
 import com.liqihao.pojo.MmoRolePOJO;
 import com.liqihao.pojo.dto.EquipmentDto;
 import com.liqihao.protobufObject.PlayModel;
+import com.liqihao.util.CommonsUtil;
+import com.liqihao.util.LogicThreadPool;
 import com.liqihao.util.ScheduledThreadPoolUtil;
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
+import io.netty.channel.Channel;
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,6 +24,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+
 
 /**
  * 缓存中存储的人物类
@@ -127,6 +135,7 @@ public class MmoSimpleRole extends MmoRolePOJO {
 
     public void setBlood(Integer blood) {
         Blood = blood;
+
     }
 
     public Integer getNowBlood() {
@@ -240,6 +249,7 @@ public class MmoSimpleRole extends MmoRolePOJO {
         return null;
     }
 
+    //使用技能
     public List<PlayModel.RoleIdDamage> useSkill(List<MmoSimpleNPC> target, Integer skillId) {
         SkillBean skillBean = getSkillBeanBySkillId(skillId);
         //武器耐久度-2
@@ -348,5 +358,183 @@ public class MmoSimpleRole extends MmoRolePOJO {
         skillBean.useBuffer(target, getId());
         return list;
     }
+    //扣血
+    public void changeNowBlood(int number,PlayModel.RoleIdDamage.Builder damageU,int type){
+        //获取对应线程的下标
+        Channel channel= ChannelMessageCache.getInstance().get(getId());
+        Integer index= CommonsUtil.getIndexByChannel(channel);
+        if (type==AttackStyleCode.USESKILL.getCode()) {
+            LogicThreadPool.getInstance().execute(new ChangeHpByAttackTask(number, this, damageU), index);
+        }else {
+            LogicThreadPool.getInstance().execute(new ChangeHpByMedicineTask(number, this, damageU), index);
+        }
+    }
+    //扣蓝
+    public void changeMp(int number,PlayModel.RoleIdDamage.Builder damageU){
+        Channel channel= ChannelMessageCache.getInstance().get(getId());
+        Integer index= CommonsUtil.getIndexByChannel(channel);
+        LogicThreadPool.getInstance().execute(new ChangeMpTask(number,this,damageU),index);
+    }
 
+    private class ChangeHpByMedicineTask implements Runnable{
+        Logger logger=Logger.getLogger(ChangeMpTask.class);
+        private int number;
+        private MmoSimpleRole mmoSimpleRole;
+        private PlayModel.RoleIdDamage.Builder damageU;
+        public ChangeHpByMedicineTask() {
+        }
+
+        public ChangeHpByMedicineTask(int number, MmoSimpleRole mmoSimpleRole, PlayModel.RoleIdDamage.Builder damageU) {
+            this.number = number;
+            this.mmoSimpleRole = mmoSimpleRole;
+            this.damageU=damageU;
+        }
+
+        @Override
+        public void run() {
+            logger.info("当前changeHp线程是："+Thread.currentThread().getName()+" 操作的角色是： "+mmoSimpleRole.getName());
+            Integer oldHp = mmoSimpleRole.getNowBlood();
+            Integer newNumber = oldHp + number;
+            if (newNumber > getNowBlood()) {
+                mmoSimpleRole.setNowBlood(getBlood());
+                newNumber=getBlood()-oldHp;
+            } else {
+                mmoSimpleRole.setNowBlood(newNumber);
+            }
+            if (mmoSimpleRole.getNowBlood() <= 0) {
+                newNumber=getNowBlood()+Math.abs(number);
+                mmoSimpleRole.setStatus(RoleStatusCode.DIE.getCode());
+            }
+            //生成数据包
+            damageU.setDamage(newNumber);
+            damageU.setMp(mmoSimpleRole.getNowMp());
+            damageU.setNowblood(mmoSimpleRole.getNowBlood());
+            damageU.setState(mmoSimpleRole.getStatus());
+            PlayModel.PlayModelMessage.Builder myMessageBuilder = PlayModel.PlayModelMessage.newBuilder();
+            myMessageBuilder.setDataType(PlayModel.PlayModelMessage.DateType.DamagesNoticeResponse);
+            PlayModel.DamagesNoticeResponse.Builder damagesNoticeBuilder = PlayModel.DamagesNoticeResponse.newBuilder();
+            damagesNoticeBuilder.setRoleIdDamage(damageU);
+            myMessageBuilder.setDamagesNoticeResponse(damagesNoticeBuilder.build());
+            NettyResponse nettyResponse = new NettyResponse();
+            nettyResponse.setCmd(ConstantValue.DAMAGES_NOTICE_RESPONSE);
+            nettyResponse.setStateCode(StateCode.SUCCESS);
+            nettyResponse.setData(myMessageBuilder.build().toByteArray());
+            Integer sceneId = mmoSimpleRole.getMmosceneid();
+            List<Integer> players = SceneBeanMessageCache.getInstance().get(sceneId).getRoles();
+            for (Integer playerId : players) {
+                Channel cc = ChannelMessageCache.getInstance().get(playerId);
+                if (cc != null) {
+                    cc.writeAndFlush(nettyResponse);
+                }
+            }
+        }
+    }
+    private class ChangeHpByAttackTask implements Runnable{
+        Logger logger=Logger.getLogger(ChangeHpByMedicineTask.class);
+        private int number;
+        private MmoSimpleRole mmoSimpleRole;
+        private PlayModel.RoleIdDamage.Builder damageU;
+        public ChangeHpByAttackTask() {
+        }
+
+        public ChangeHpByAttackTask(int number, MmoSimpleRole mmoSimpleRole, PlayModel.RoleIdDamage.Builder damageU) {
+            this.number = number;
+            this.mmoSimpleRole = mmoSimpleRole;
+            this.damageU=damageU;
+        }
+
+        @Override
+        public void run() {
+            logger.info("当前changeHpByAttack线程是："+Thread.currentThread().getName()+" 操作的角色是： "+mmoSimpleRole.getName());
+            Integer oldHp = mmoSimpleRole.getNowBlood();
+            Integer newNumber = oldHp + number;
+            if (newNumber > getNowBlood()) {
+                mmoSimpleRole.setNowBlood(getBlood());
+                newNumber=getBlood()-oldHp;
+            } else {
+                mmoSimpleRole.setNowBlood(newNumber);
+                newNumber=number;
+            }
+            if (mmoSimpleRole.getNowBlood() <= 0) {
+                newNumber=getNowBlood()+Math.abs(number);
+                mmoSimpleRole.setNowBlood(0);
+                mmoSimpleRole.setStatus(RoleStatusCode.DIE.getCode());
+            }
+            //生成数据包
+            List<PlayModel.RoleIdDamage> list=new ArrayList<>();
+            damageU.setDamage(newNumber);
+            damageU.setMp(mmoSimpleRole.getNowMp());
+            damageU.setNowblood(mmoSimpleRole.getNowBlood());
+            damageU.setState(mmoSimpleRole.getStatus());
+            list.add(damageU.build());
+            //封装成nettyResponse
+            PlayModel.PlayModelMessage.Builder myMessageBuilder = PlayModel.PlayModelMessage.newBuilder();
+            myMessageBuilder.setDataType(PlayModel.PlayModelMessage.DateType.UseSkillResponse);
+            PlayModel.UseSkillResponse.Builder useSkillBuilder = PlayModel.UseSkillResponse.newBuilder();
+            useSkillBuilder.addAllRoleIdDamages(list);
+            myMessageBuilder.setUseSkillResponse(useSkillBuilder.build());
+            NettyResponse nettyResponse = new NettyResponse();
+            nettyResponse.setCmd(ConstantValue.USE_SKILL_RSPONSE);
+            nettyResponse.setStateCode(StateCode.SUCCESS);
+            nettyResponse.setData(myMessageBuilder.build().toByteArray());
+            //广播
+            Integer sceneId = mmoSimpleRole.getMmosceneid();
+            List<Integer> players = SceneBeanMessageCache.getInstance().get(sceneId).getRoles();
+            for (Integer playerId : players) {
+                Channel c = ChannelMessageCache.getInstance().get(playerId);
+                if (c != null) {
+                    c.writeAndFlush(nettyResponse);
+                }
+            }
+
+        }
+    }
+    private class ChangeMpTask implements Runnable{
+        Logger logger=Logger.getLogger(ChangeMpTask.class);
+        private int number;
+        private MmoSimpleRole mmoSimpleRole;
+        private PlayModel.RoleIdDamage.Builder damageU;
+        public ChangeMpTask() {
+        }
+
+        public ChangeMpTask(int number, MmoSimpleRole mmoSimpleRole, PlayModel.RoleIdDamage.Builder damageU) {
+            this.number = number;
+            this.mmoSimpleRole = mmoSimpleRole;
+            this.damageU=damageU;
+        }
+
+        @Override
+        public void run() {
+            logger.info("当前changeMp线程是："+Thread.currentThread().getName()+" 操作的角色是： "+mmoSimpleRole.getName());
+            Integer oldMp = mmoSimpleRole.getNowMp();
+            Integer newNumber = oldMp + number;
+            if (newNumber > getMp()) {
+                mmoSimpleRole.setNowMp(getMp());
+                number=getMp()-oldMp;
+            } else {
+                mmoSimpleRole.setNowMp(newNumber);
+            }
+            damageU.setDamage(number);
+            damageU.setMp(mmoSimpleRole.getNowMp());
+            damageU.setNowblood(mmoSimpleRole.getNowBlood());
+            damageU.setState(mmoSimpleRole.getStatus());
+            PlayModel.PlayModelMessage.Builder myMessageBuilder = PlayModel.PlayModelMessage.newBuilder();
+            myMessageBuilder.setDataType(PlayModel.PlayModelMessage.DateType.DamagesNoticeResponse);
+            PlayModel.DamagesNoticeResponse.Builder damagesNoticeBuilder = PlayModel.DamagesNoticeResponse.newBuilder();
+            damagesNoticeBuilder.setRoleIdDamage(damageU);
+            myMessageBuilder.setDamagesNoticeResponse(damagesNoticeBuilder.build());
+            NettyResponse nettyResponse = new NettyResponse();
+            nettyResponse.setCmd(ConstantValue.DAMAGES_NOTICE_RESPONSE);
+            nettyResponse.setStateCode(StateCode.SUCCESS);
+            nettyResponse.setData(myMessageBuilder.build().toByteArray());
+            Integer sceneId = mmoSimpleRole.getMmosceneid();
+            List<Integer> players = SceneBeanMessageCache.getInstance().get(sceneId).getRoles();
+            for (Integer playerId : players) {
+                Channel cc = ChannelMessageCache.getInstance().get(playerId);
+                if (cc != null) {
+                    cc.writeAndFlush(nettyResponse);
+                }
+            }
+        }
+    }
 }

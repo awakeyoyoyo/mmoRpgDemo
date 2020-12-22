@@ -105,7 +105,7 @@ public class PlayServiceImpl implements PlayService{
         Integer mmoUserId=mmoUserPOJOMapper.checkByUernameAndPassword(username,password);
         if (null==mmoUserId||mmoUserId<0){
             NettyResponse nettyResponse=new NettyResponse();
-            nettyResponse.setCmd(ConstantValue.LOGIN_RESPONSE);
+            nettyResponse.setCmd(ConstantValue.FAIL_RESPONSE);
             nettyResponse.setStateCode(StateCode.FAIL);
             nettyResponse.setData("密码错误or账号错误".getBytes());
             channel.writeAndFlush(nettyResponse);
@@ -220,20 +220,15 @@ public class PlayServiceImpl implements PlayService{
     @Override
     @HandlerCmdTag(cmd = ConstantValue.LOGOUT_REQUEST,module = ConstantValue.PLAY_MODULE)
     public void logoutRequest(NettyRequest nettyRequest,Channel channel) throws InvalidProtocolBufferException {
-        MmoSimpleRole role=CommonsUtil.getRoleByChannel(channel);
-        if (role != null) {
-            //删除缓存中 channel绑定的信息
+        MmoSimpleRole role=CommonsUtil.checkLogin(channel);
+        if (role==null){
+            return;
+        }else {
             ChannelMessageCache.getInstance().remove(role.getId());
         }
-        if (role==null){
-            NettyResponse errotResponse=new NettyResponse(StateCode.FAIL,ConstantValue.LOGOUT_RESPONSE,"请先登录".getBytes());
-            channel.writeAndFlush(errotResponse);
-            return;
-        }
         //保存背包信息入数据库
-        MmoSimpleRole mmoSimpleRole= OnlineRoleMessageCache.getInstance().get(role.getId());
-        CommonsUtil.bagIntoDataBase(mmoSimpleRole.getBackpackManager(),role.getId());
-        CommonsUtil.equipmentIntoDataBase(mmoSimpleRole);
+        CommonsUtil.bagIntoDataBase(role.getBackpackManager(),role.getId());
+        CommonsUtil.equipmentIntoDataBase(role);
         //将数据库中设置为离线
         MmoRolePOJO mmoRolePOJO=mmoRolePOJOMapper.selectByPrimaryKey(role.getId());
         mmoRolePOJO.setOnstatus(RoleOnStatusCode.EXIT.getCode());
@@ -241,7 +236,7 @@ public class PlayServiceImpl implements PlayService{
         MmoScenePOJO mmoScenePOJO=mmoScenePOJOMapper.selectByPrimaryKey(mmoRolePOJO.getMmosceneid());
         //缓存角色集合删除
         OnlineRoleMessageCache.getInstance().remove(role.getId());
-        SceneBeanMessageCache.getInstance().get(mmoSimpleRole.getMmosceneid()).getRoles().remove(mmoSimpleRole.getId());
+        SceneBeanMessageCache.getInstance().get(role.getMmosceneid()).getRoles().remove(role.getId());
         //protobuf生成消息
         PlayModel.PlayModelMessage.Builder myMessageBuilder=PlayModel.PlayModelMessage.newBuilder();
         myMessageBuilder.setDataType(PlayModel.PlayModelMessage.DateType.LogoutResponse);
@@ -265,38 +260,46 @@ public class PlayServiceImpl implements PlayService{
         PlayModel.PlayModelMessage myMessage;
         myMessage=PlayModel.PlayModelMessage.parseFrom(data);
         Integer skillId=myMessage.getUseSkillRequest().getSkillId();
-        MmoSimpleRole mmoSimpleRole=CommonsUtil.getRoleByChannel(channel);
-        Integer sceneId=mmoSimpleRole.getMmosceneid();
+        MmoSimpleRole mmoSimpleRole=CommonsUtil.checkLogin(channel);
         if (mmoSimpleRole==null){
-            channel.writeAndFlush(new NettyResponse(StateCode.FAIL,ConstantValue.USE_SKILL_RSPONSE, "未登陆".getBytes()));
+           return;
         }
+        Integer sceneId=mmoSimpleRole.getMmosceneid();
         //判断cd
         Long nextTime= mmoSimpleRole.getCdMap().get(skillId);
         if (nextTime!=null){
             if (System.currentTimeMillis()<nextTime){
-               channel.writeAndFlush(new NettyResponse(StateCode.FAIL,ConstantValue.USE_SKILL_RSPONSE, "该技能cd中。。".getBytes()));
+               channel.writeAndFlush(new NettyResponse(StateCode.FAIL,ConstantValue.FAIL_RESPONSE, "该技能cd中。。".getBytes()));
+                return;
             }
         }
         //判断蓝是否够
         SkillMessage skillMessage=SkillMessageCache.getInstance().get(skillId);
+        if (skillMessage==null){
+            channel.writeAndFlush(new NettyResponse(StateCode.FAIL,ConstantValue.FAIL_RESPONSE, "没有该技能。。".getBytes()));
+            return;
+        }
         if (skillMessage.getConsumeType().equals(ConsuMeTypeCode.HP.getCode())) {
             //扣血
             //判断血量是否足够
             if (mmoSimpleRole.getNowBlood() < skillMessage.getConsumeNum()) {
                 //血量不够
-                channel.writeAndFlush(new NettyResponse(StateCode.FAIL, ConstantValue.USE_SKILL_RSPONSE, "血量不够无法使用该技能".getBytes()));
+                channel.writeAndFlush(new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE, "血量不够无法使用该技能".getBytes()));
+                return;
             }
         }else {
             //扣篮
             //判断蓝量是否足够
             if (mmoSimpleRole.getNowMp()<skillMessage.getConsumeNum()){
                 //蓝量不够
-                channel.writeAndFlush(new NettyResponse(StateCode.FAIL,ConstantValue.USE_SKILL_RSPONSE, "蓝量不够无法使用该技能".getBytes()));
+                channel.writeAndFlush(new NettyResponse(StateCode.FAIL,ConstantValue.FAIL_RESPONSE, "蓝量不够无法使用该技能".getBytes()));
+                return;
             }
         }
         //判断武器耐久是否足够
         if (mmoSimpleRole.getEquipmentBeanHashMap().get(PositionCode.ARMS.getCode())!=null&&mmoSimpleRole.getEquipmentBeanHashMap().get(PositionCode.ARMS.getCode()).getNowDurability()<=0){
-            channel.writeAndFlush(new NettyResponse(StateCode.FAIL,ConstantValue.USE_SKILL_RSPONSE, "武器耐久度为0，请脱落武器再攻击".getBytes()));
+            channel.writeAndFlush(new NettyResponse(StateCode.FAIL,ConstantValue.FAIL_RESPONSE, "武器耐久度为0，请脱落武器再攻击".getBytes()));
+            return;
         }
         //从缓存中查找出 怪物
         List<Integer> npcs=SceneBeanMessageCache.getInstance().get(sceneId).getNpcs();

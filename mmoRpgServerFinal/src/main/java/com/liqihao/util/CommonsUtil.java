@@ -3,11 +3,15 @@ package com.liqihao.util;
 
 import com.liqihao.Cache.NpcMessageCache;
 import com.liqihao.Cache.SkillMessageCache;
+import com.liqihao.commons.ConstantValue;
+import com.liqihao.commons.NettyResponse;
+import com.liqihao.commons.enums.StateCode;
 import com.liqihao.dao.MmoBagPOJOMapper;
 import com.liqihao.dao.MmoEquipmentBagPOJOMapper;
 import com.liqihao.dao.MmoEquipmentPOJOMapper;
 import com.liqihao.pojo.MmoBagPOJO;
 import com.liqihao.pojo.MmoEquipmentBagPOJO;
+import com.liqihao.pojo.MmoEquipmentPOJO;
 import com.liqihao.pojo.baseMessage.EquipmentMessage;
 import com.liqihao.pojo.baseMessage.MedicineMessage;
 import com.liqihao.pojo.baseMessage.SceneMessage;
@@ -46,6 +50,37 @@ public class CommonsUtil implements ApplicationContextAware {
     private static MmoBagPOJOMapper mmoBagPOJOMapper;
     private static MmoEquipmentPOJOMapper mmoEquipmentPOJOMapper;
     private static MmoEquipmentBagPOJOMapper equipmentBagPOJOMapper;
+
+    /**
+     * 根据channle获取线程池线程下表
+     */
+    public static int getIndexByChannel(Channel channel) {
+        int threadSize = LogicThreadPool.getInstance().getThreadSize();
+        Integer index = channel.hashCode() & (threadSize - 1);
+        return index;
+    }
+    /**
+     * 判断是否登陆
+     * @param channel
+     * @return
+     */
+    public static MmoSimpleRole checkLogin(Channel channel){
+        MmoSimpleRole mmoSimpleRole= CommonsUtil.getRoleByChannel(channel);
+        if (mmoSimpleRole==null){
+            NettyResponse errotResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"请先登录".getBytes());
+            channel.writeAndFlush(errotResponse);
+            return null;
+        }
+        return mmoSimpleRole;
+    }
+
+
+
+    /**
+     * 背包入库
+     * @param backPackManager
+     * @param roleId
+     */
     public static  void bagIntoDataBase(BackPackManager backPackManager,Integer roleId){
         List<ArticleDto> articles=backPackManager.getBackpacks();
         //需要修改或者新增的记录
@@ -70,6 +105,10 @@ public class CommonsUtil implements ApplicationContextAware {
         }
     }
 
+    /**
+     * 装备入库
+     * @param mmoSimpleRole
+     */
     public static void equipmentIntoDataBase(MmoSimpleRole mmoSimpleRole){
         List<EquipmentDto> dtos=mmoSimpleRole.getEquipments();
         for (EquipmentDto e:dtos) {
@@ -85,7 +124,11 @@ public class CommonsUtil implements ApplicationContextAware {
                 equipmentBagPOJOMapper.insert(equipmentBagPOJO);
             }
             //装备入库
-//            MmoEquipmentPOJO equipmentPOJO=new MmoEquipmentPOJO();
+            MmoEquipmentPOJO equipmentPOJO=new MmoEquipmentPOJO();
+            equipmentPOJO.setId(e.getEquipmentId());
+            equipmentPOJO.setMessageId(e.getId());
+            equipmentPOJO.setNowdurability(e.getNowdurability());
+            mmoEquipmentPOJOMapper.updateByPrimaryKey(equipmentPOJO);
         }
         //需要删除的记录
         List<Integer> equBagIds=mmoSimpleRole.getNeedDeleteEquipmentIds();
@@ -94,7 +137,11 @@ public class CommonsUtil implements ApplicationContextAware {
         }
     }
 
-
+    /**
+     * 根据channel获取role
+     * @param channel
+     * @return
+     */
     public static MmoSimpleRole getRoleByChannel(Channel channel){
         AttributeKey<MmoSimpleRole> key = AttributeKey.valueOf("role");
         if (channel.hasAttr(key) && channel.attr(key).get() != null)
@@ -103,6 +150,12 @@ public class CommonsUtil implements ApplicationContextAware {
         }
         return null;
     }
+
+    /**
+     * 药物信息类转化为药物bean
+     * @param medicineMessage
+     * @return
+     */
     public static MedicineBean medicineMessageToMedicineBean(MedicineMessage medicineMessage){
         MedicineBean bean=new MedicineBean();
         bean.setArticleId(null);
@@ -120,6 +173,11 @@ public class CommonsUtil implements ApplicationContextAware {
         return bean;
     }
 
+    /**
+     * 装备信息转化为装备bean
+     * @param equipmentMessage
+     * @return
+     */
     public static EquipmentBean equipmentMessageToEquipmentBean(EquipmentMessage equipmentMessage){
         EquipmentBean bean=new EquipmentBean();
         bean.setArticleId(null);
@@ -239,6 +297,11 @@ public class CommonsUtil implements ApplicationContextAware {
         return sceneBean;
     }
 
+    /**
+     * 根据技能ids获取技能beans
+     * @param skillIds
+     * @return
+     */
     public static List<SkillBean> skillIdsToSkillBeans(String skillIds) {
         List<SkillBean> list=new ArrayList<>();
         for (Integer id:split(skillIds)) {

@@ -39,14 +39,17 @@ public class BackpackServiceImpl implements BackpackService {
         myMessage=BackPackModel.BackPackModelMessage.parseFrom(data);
         Integer articleId=myMessage.getAbandonRequest().getArticleId();
         Integer number=myMessage.getAbandonRequest().getNumber();
-        MmoSimpleRole mmoSimpleRole= CommonsUtil.getRoleByChannel(channel);
+        MmoSimpleRole mmoSimpleRole=CommonsUtil.checkLogin(channel);
+        if (mmoSimpleRole==null){
+            return;
+        }
         BackPackManager manager=mmoSimpleRole.getBackpackManager();
         Article article=manager.useOrAbandanArticle(articleId,number);
         if (article==null){
             //使用失败，无该物品或者该数量超过
             //返回成功的数据包
             NettyResponse nettyResponse=new NettyResponse();
-            nettyResponse.setCmd(ConstantValue.ABANDON_RESPONSE);
+            nettyResponse.setCmd(ConstantValue.FAIL_RESPONSE);
             nettyResponse.setStateCode(StateCode.FAIL);
             //protobuf 生成registerResponse
             nettyResponse.setData("使用失败，无该物品或者数量不足".getBytes());
@@ -71,7 +74,10 @@ public class BackpackServiceImpl implements BackpackService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.BACKPACK_MSG_REQUEST,module = ConstantValue.BAKCPACK_MODULE)
     public void backPackMsgRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
-        MmoSimpleRole mmoSimpleRole= CommonsUtil.getRoleByChannel(channel);
+        MmoSimpleRole mmoSimpleRole=CommonsUtil.checkLogin(channel);
+        if (mmoSimpleRole==null){
+            return;
+        }
         List<ArticleDto> articles=mmoSimpleRole.getBackpackManager().getBackpacks();
         List<BackPackModel.ArticleDto> articleDtoList=new ArrayList<>();
         for (ArticleDto a:articles) {
@@ -106,7 +112,10 @@ public class BackpackServiceImpl implements BackpackService {
         BackPackModel.BackPackModelMessage myMessage;
         myMessage=BackPackModel.BackPackModelMessage.parseFrom(data);
         Integer article=myMessage.getUseRequest().getArticleId();
-        MmoSimpleRole mmoSimpleRole=CommonsUtil.getRoleByChannel(channel);
+        MmoSimpleRole mmoSimpleRole=CommonsUtil.checkLogin(channel);
+        if (mmoSimpleRole==null){
+            return;
+        }
         boolean flag=mmoSimpleRole.useArticle(article);
         NettyResponse nettyResponse=new NettyResponse();
         nettyResponse.setCmd(ConstantValue.USE_RESPONSE);
@@ -120,6 +129,7 @@ public class BackpackServiceImpl implements BackpackService {
             nettyResponse.setData(messageData.build().toByteArray());
         }else{
             nettyResponse.setStateCode(StateCode.FAIL);
+            nettyResponse.setCmd(ConstantValue.FAIL_RESPONSE);
             //protobuf 生成registerResponse
             nettyResponse.setData("使用道具失败".getBytes());
         }
@@ -135,14 +145,17 @@ public class BackpackServiceImpl implements BackpackService {
         Integer id=myMessage.getAddArticleRequest().getId();
         Integer articleType=myMessage.getAddArticleRequest().getArticleType();
         Integer number=myMessage.getAddArticleRequest().getNumber();
-        MmoSimpleRole mmoSimpleRole=CommonsUtil.getRoleByChannel(channel);
+        MmoSimpleRole mmoSimpleRole=CommonsUtil.checkLogin(channel);
+        if (mmoSimpleRole==null){
+            return;
+        }
         //根据 articleType判断 然后生成物品对象存
         Article article;
         if (articleType.equals(ArticleTypeCode.MEDICINE.getCode())){
             MedicineMessage medicineMessage= MediceneMessageCache.getInstance().get(id);
             if (medicineMessage==null) {
                 NettyResponse nettyResponse=new NettyResponse();
-                nettyResponse.setCmd(ConstantValue.ADD_ARTICLE_RESPONSE);
+                nettyResponse.setCmd(ConstantValue.FAIL_RESPONSE);
                 nettyResponse.setStateCode(StateCode.FAIL);
                 //protobuf 生成registerResponse
                 nettyResponse.setData("存入错误物品id".getBytes());
@@ -156,7 +169,7 @@ public class BackpackServiceImpl implements BackpackService {
             EquipmentMessage equipmentMessage= EquipmentMessageCache.getInstance().get(id);
             if (equipmentMessage ==null) {
                 NettyResponse nettyResponse=new NettyResponse();
-                nettyResponse.setCmd(ConstantValue.ADD_ARTICLE_RESPONSE);
+                nettyResponse.setCmd(ConstantValue.FAIL_RESPONSE);
                 nettyResponse.setStateCode(StateCode.FAIL);
                 //protobuf 生成registerResponse
                 nettyResponse.setData("存入错误物品id".getBytes());
@@ -169,7 +182,7 @@ public class BackpackServiceImpl implements BackpackService {
         }else{
             //未知物品
             NettyResponse nettyResponse=new NettyResponse();
-            nettyResponse.setCmd(ConstantValue.ADD_ARTICLE_RESPONSE);
+            nettyResponse.setCmd(ConstantValue.FAIL_RESPONSE);
             nettyResponse.setStateCode(StateCode.FAIL);
             //protobuf 生成registerResponse
             nettyResponse.setData("未知物品不能存储".getBytes());
@@ -178,7 +191,7 @@ public class BackpackServiceImpl implements BackpackService {
         }
         if (!mmoSimpleRole.getBackpackManager().put(article)){
             NettyResponse nettyResponse=new NettyResponse();
-            nettyResponse.setCmd(ConstantValue.ADD_ARTICLE_RESPONSE);
+            nettyResponse.setCmd(ConstantValue.FAIL_RESPONSE);
             nettyResponse.setStateCode(StateCode.FAIL);
             //protobuf 生成registerResponse
             nettyResponse.setData("背包已满".getBytes());

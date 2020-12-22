@@ -70,4 +70,6 @@ public interface ConstantValue {
     int EQUIPMENT_MSG_RESPONSE=5501;
     int REDUCE_EQUIPMENT_RESPONSE=5502;
     int FIX_EQUIPMENT_RESPONSE=5503;
+
+    int FAIL_RESPONSE=9999;
 }

@@ -4,6 +4,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyRequest;
 import com.liqihao.handler.Dispatcherservlet;
+import com.liqihao.util.CommonsUtil;
 import com.liqihao.util.LogicThreadPool;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -55,8 +56,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 //            }
 //        });
         //根据channel计算index
-        int threadSize=LogicThreadPool.getInstance().getThreadSize();
-        Integer index=ctx.channel().hashCode()&(threadSize-1);
+        Integer index= CommonsUtil.getIndexByChannel(ctx.channel());
         LogicThreadPool.getInstance().execute(new Runnable() {
             @Override
             public void run() {

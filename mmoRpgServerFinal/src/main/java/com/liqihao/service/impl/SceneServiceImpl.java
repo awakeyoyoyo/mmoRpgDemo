@@ -44,7 +44,10 @@ public class SceneServiceImpl implements SceneService {
         byte[] data=request.getData();
         SceneModel.SceneModelMessage myMessage;
         myMessage=SceneModel.SceneModelMessage.parseFrom(data);
-        MmoSimpleRole mmoSimpleRole= CommonsUtil.getRoleByChannel(channel);
+        MmoSimpleRole mmoSimpleRole=CommonsUtil.checkLogin(channel);
+        if (mmoSimpleRole==null){
+            return;
+        }
         Integer sceneId=mmoSimpleRole.getMmosceneid();
         log.info("SceneService accept sceneId: "+sceneId);
         //从缓存中读取
@@ -71,10 +74,8 @@ public class SceneServiceImpl implements SceneService {
         SceneModel.SceneModelMessage myMessage;
         myMessage=SceneModel.SceneModelMessage.parseFrom(data);
         Integer nextSceneId=myMessage.getWentRequest().getSceneId();
-        MmoSimpleRole mmoSimpleRole= CommonsUtil.getRoleByChannel(channel);
+        MmoSimpleRole mmoSimpleRole=CommonsUtil.checkLogin(channel);
         if (mmoSimpleRole==null){
-            NettyResponse errotResponse=new NettyResponse(StateCode.FAIL,ConstantValue.WENT_RESPONSE,"请先登录".getBytes());
-            channel.writeAndFlush(errotResponse);
             return;
         }
         //先查询palyId所在场景
@@ -91,7 +92,7 @@ public class SceneServiceImpl implements SceneService {
         }
         if (!canFlag){
             //不包含 即不可进入
-            NettyResponse errotResponse=new NettyResponse(StateCode.FAIL,ConstantValue.WENT_RESPONSE,"无法前往该场景".getBytes());
+            NettyResponse errotResponse=new NettyResponse(StateCode.FAIL,ConstantValue.FAIL_RESPONSE,"无法前往该场景".getBytes());
             channel.writeAndFlush(errotResponse);
             return;
         }
@@ -180,8 +181,20 @@ public class SceneServiceImpl implements SceneService {
         SceneModel.SceneModelMessage myMessage;
         myMessage=SceneModel.SceneModelMessage.parseFrom(data);
         Integer sceneId=myMessage.getFindAllRolesRequest().getSceneId();
+        MmoSimpleRole mmoSimpleRole=CommonsUtil.checkLogin(channel);
+        if (mmoSimpleRole==null){
+            return;
+        }
+        if (sceneId==null){
+            channel.writeAndFlush(new NettyResponse(StateCode.FAIL,ConstantValue.FAIL_RESPONSE,"传入场景id为空".getBytes()));
+            return;
+        }
         List<MmoSimpleRole> sceneRoles=new ArrayList<>();
         SceneBean sceneBean=SceneBeanMessageCache.getInstance().get(sceneId);
+        if (sceneBean==null){
+            channel.writeAndFlush(new NettyResponse(StateCode.FAIL,ConstantValue.FAIL_RESPONSE,"传入场景id为无效id".getBytes()));
+            return;
+        }
         List<Integer> mmoSimpleRoles=sceneBean.getRoles();
         List<Integer> npcs=sceneBean.getNpcs();
         //NPC
@@ -244,16 +257,22 @@ public class SceneServiceImpl implements SceneService {
         byte[] data=nettyRequest.getData();
         SceneModel.SceneModelMessage myMessage;
         myMessage=SceneModel.SceneModelMessage.parseFrom(data);
+
         Integer npcId=myMessage.getTalkNPCRequest().getRoleId();
+        if (npcId==null){
+            channel.writeAndFlush(new NettyResponse(StateCode.FAIL,ConstantValue.FAIL_RESPONSE,"传入的参数为空".getBytes()));
+            return;
+        }
         //判断是否与角色在同一场景
-        MmoSimpleRole role=CommonsUtil.getRoleByChannel(channel);
+        MmoSimpleRole role=CommonsUtil.checkLogin(channel);
         if (role==null){
-            channel.writeAndFlush(new NettyResponse(StateCode.FAIL,ConstantValue.TALK_NPC_RESPONSE,"未登录".getBytes()));
+            return;
         }
         //缓存中获取NPC
         NPCMessage npc=NpcMessageCache.getInstance().get(npcId);
         if (!npc.getMmosceneid().equals(role.getMmosceneid())){
-            channel.writeAndFlush(new NettyResponse(StateCode.FAIL,ConstantValue.TALK_NPC_RESPONSE,"该NPC不在当前场景".getBytes()));
+            channel.writeAndFlush(new NettyResponse(StateCode.FAIL,ConstantValue.FAIL_RESPONSE,"该NPC不在当前场景".getBytes()));
+            return;
         }
         //无问题 返回npcId
         SceneModel.SceneModelMessage Messagedata;
@@ -269,5 +288,6 @@ public class SceneServiceImpl implements SceneService {
         channel.writeAndFlush(response);
         return;
     }
+
 
 }

@@ -32,12 +32,15 @@ public class EquipmentServiceImpl implements EquipmentService {
         EquipmentModel.EquipmentModelMessage myMessage;
         myMessage=EquipmentModel.EquipmentModelMessage.parseFrom(data);
         Integer articleId=myMessage.getAddEquipmentRequest().getArticleId();
-        MmoSimpleRole mmoSimpleRole= CommonsUtil.getRoleByChannel(channel);
+        MmoSimpleRole mmoSimpleRole=CommonsUtil.checkLogin(channel);
+        if (mmoSimpleRole==null){
+            return;
+        }
         Article article=mmoSimpleRole.getBackpackManager().getArticleByArticleId(articleId);
         if (article==null||!article.getArticleTypeCode().equals(ArticleTypeCode.EQUIPMENT.getCode())){
             //不是装备
             NettyResponse nettyResponse=new NettyResponse();
-            nettyResponse.setCmd(ConstantValue.ADD_EQUIPMENT_RESPONSE);
+            nettyResponse.setCmd(ConstantValue.FAIL_RESPONSE);
             nettyResponse.setStateCode(StateCode.FAIL);
             //protobuf 生成registerResponse
             nettyResponse.setData("该物品不是装备or找不到该装备".getBytes());
@@ -60,7 +63,10 @@ public class EquipmentServiceImpl implements EquipmentService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.EQUIPMENT_MSG_REQUEST,module = ConstantValue.EQUIPMENT_MODULE)
     public void equipmentMasRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
-        MmoSimpleRole mmoSimpleRole= CommonsUtil.getRoleByChannel(channel);
+        MmoSimpleRole mmoSimpleRole=CommonsUtil.checkLogin(channel);
+        if (mmoSimpleRole==null){
+            return;
+        }
         List<EquipmentDto> equipmentDtos=mmoSimpleRole.getEquipments();
         //转化为protobuf
         List<EquipmentModel.EquipmentDto> equipmentDtoList=new ArrayList<>();
@@ -87,12 +93,20 @@ public class EquipmentServiceImpl implements EquipmentService {
         EquipmentModel.EquipmentModelMessage myMessage;
         myMessage=EquipmentModel.EquipmentModelMessage.parseFrom(data);
         Integer position=myMessage.getReduceEquipmentRequest().getPosition();
-        MmoSimpleRole mmoSimpleRole= CommonsUtil.getRoleByChannel(channel);
+        MmoSimpleRole mmoSimpleRole=CommonsUtil.checkLogin(channel);
+        if (mmoSimpleRole==null){
+            return;
+        }
+        if (position>6||position<=0){
+            NettyResponse errotResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"传入无效的部位id".getBytes());
+            channel.writeAndFlush(errotResponse);
+            return;
+        }
         boolean flag=mmoSimpleRole.unUseEquipment(position);
         if (!flag){
             //不是装备
             NettyResponse nettyResponse=new NettyResponse();
-            nettyResponse.setCmd(ConstantValue.REDUCE_EQUIPMENT_RESPONSE);
+            nettyResponse.setCmd(ConstantValue.FAIL_RESPONSE);
             nettyResponse.setStateCode(StateCode.FAIL);
             //protobuf 生成registerResponse
             nettyResponse.setData("该部位没有装备".getBytes());
@@ -117,11 +131,19 @@ public class EquipmentServiceImpl implements EquipmentService {
         EquipmentModel.EquipmentModelMessage myMessage;
         myMessage=EquipmentModel.EquipmentModelMessage.parseFrom(data);
         Integer articleId=myMessage.getFixEquipmentRequest().getArticleId();
-        MmoSimpleRole mmoSimpleRole= CommonsUtil.getRoleByChannel(channel);
+        MmoSimpleRole mmoSimpleRole=CommonsUtil.checkLogin(channel);
+        if (mmoSimpleRole==null){
+            return;
+        }
         Article article=mmoSimpleRole.getBackpackManager().getArticleByArticleId(articleId);
+        if (article==null){
+            NettyResponse errotResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"传入无效物品id".getBytes());
+            channel.writeAndFlush(errotResponse);
+            return;
+        }
         if (article.getArticleTypeCode()!=ArticleTypeCode.EQUIPMENT.getCode()){
             NettyResponse nettyResponse=new NettyResponse();
-            nettyResponse.setCmd(ConstantValue.FIX_EQUIPMENT_RESPONSE);
+            nettyResponse.setCmd(ConstantValue.FAIL_RESPONSE);
             nettyResponse.setStateCode(StateCode.FAIL);
             //protobuf 生成registerResponse
             nettyResponse.setData("该物品不是装备".getBytes());

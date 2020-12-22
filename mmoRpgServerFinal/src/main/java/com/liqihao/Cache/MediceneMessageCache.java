@@ -1,6 +1,4 @@
 package com.liqihao.Cache;
-
-import com.liqihao.pojo.baseMessage.BufferMessage;
 import com.liqihao.pojo.baseMessage.MedicineMessage;
 import com.liqihao.util.ExcelReaderUtil;
 import org.springframework.stereotype.Component;

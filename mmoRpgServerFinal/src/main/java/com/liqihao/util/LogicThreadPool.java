@@ -4,10 +4,8 @@ import com.liqihao.netty.ServerHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.Collections;
+
 import java.util.LinkedList;
-import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -33,11 +31,12 @@ public class LogicThreadPool<Job extends Runnable>implements ThreadPool<Job> {
     public void setThreadSize(int threadSize) {
         this.threadSize = threadSize;
     }
-
     public static LogicThreadPool getInstance() {
         return instance;
     }
-    //工作者列表
+    /**
+     * 工作者列表
+     */
     private final CopyOnWriteArrayList<Worker> workers=new CopyOnWriteArrayList<>();
     // 线程编号生成
     private AtomicLong threadNum = new AtomicLong();

@@ -84,6 +84,9 @@ public class Dispatcherservlet {
             case ConstantValue.FIX_EQUIPMENT_RESPONSE:
                 equipmentService.fixEquipmentResponse(nettyResponse);
                 break;
+            case ConstantValue.FAIL_RESPONSE:
+                System.out.println(new java.lang.String(nettyResponse.getData()));
+                break;
             default:
                 System.out.println("handler:收到");
                 System.out.println(new java.lang.String(nettyResponse.getData()));

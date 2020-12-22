@@ -89,4 +89,5 @@ public interface ConstantValue {
     String ADD_ARTICLE_REQUEST_CMD="addA";
     String FIX_EQUIPMENT_REQUEST_CMD="fixE";
 
+    int FAIL_RESPONSE=9999;
 }

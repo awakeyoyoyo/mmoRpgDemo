@@ -320,8 +320,11 @@ public class GameStart {
     }
 
     private void findAllRolesRequest(Scanner scanner) {
-        System.out.println("稍等片刻。等待数据传输");
         Integer sceneId= MmoCacheCilent.getInstance().getNowSceneId();
+        if (sceneId==null){
+            System.out.println("请先登录");
+            return;
+        }
         NettyRequest nettyRequest=new NettyRequest();
         nettyRequest.setCmd(ConstantValue.FIND_ALL_ROLES_REQUEST);
         SceneModel.SceneModelMessage myMessage;
