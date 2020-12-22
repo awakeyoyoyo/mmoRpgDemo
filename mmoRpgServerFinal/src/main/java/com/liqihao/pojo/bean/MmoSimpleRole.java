@@ -44,8 +44,8 @@ public class MmoSimpleRole extends MmoRolePOJO {
     private BackPackManager backpackManager;
     private List<Integer> needDeleteEquipmentIds = new ArrayList<>();
     private double damageAdd;
-    public final ReentrantReadWriteLock hpRwLock = new ReentrantReadWriteLock();
-    public final ReentrantReadWriteLock mpRwLock = new ReentrantReadWriteLock();
+//    public final ReentrantReadWriteLock hpRwLock = new ReentrantReadWriteLock();
+//    public final ReentrantReadWriteLock mpRwLock = new ReentrantReadWriteLock();
 
     public double getDamageAdd() {
         return damageAdd;
@@ -264,21 +264,11 @@ public class MmoSimpleRole extends MmoRolePOJO {
         }
         if (skillBean.getConsumeType().equals(ConsuMeTypeCode.HP.getCode())) {
             //扣血
-            hpRwLock.writeLock().lock();
-            try {
-                setNowBlood(getNowBlood() - skillBean.getConsumeNum());
-            } finally {
-                hpRwLock.writeLock().unlock();
-            }
+            setNowBlood(getNowBlood() - skillBean.getConsumeNum());
+
         } else {
             //扣篮
-            mpRwLock.writeLock().lock();
-            try {
-                setNowMp(getNowMp() - skillBean.getConsumeNum());
-            } finally {
-                mpRwLock.writeLock().unlock();
-            }
-
+            setNowMp(getNowMp() - skillBean.getConsumeNum());
             //判断是否已经有自动回蓝任务
             ConcurrentHashMap<String, ScheduledFuture<?>> replyMpRoleMap = ScheduledThreadPoolUtil.getReplyMpRole();
             //自动回蓝任务的key
@@ -308,44 +298,39 @@ public class MmoSimpleRole extends MmoRolePOJO {
         //攻击怪物
 
         for (MmoSimpleNPC mmoSimpleNPC : target) {
-            mmoSimpleNPC.hpRwLock.writeLock().lock();
-            try {
-                Integer hp = mmoSimpleNPC.getNowBlood();
-                Integer reduce = 0;
-                if (skillBean.getSkillType().equals(SkillTypeCode.FIED.getCode())) {
-                    //固伤 只有技能伤害
-                    reduce = (int) Math.ceil(skillBean.getBaseDamage() * (1 + this.getDamageAdd()));
-                    hp -= reduce;
-                }
-                if (skillBean.getSkillType().equals(SkillTypeCode.PERCENTAGE.getCode())) {
-                    //百分比 按照攻击力比例增加
-                    Integer damage = skillBean.getBaseDamage();
-                    damage = (int) Math.ceil(damage + mmoSimpleNPC.getAttack() * skillBean.getAddPercon());
-                    hp = hp - damage;
-                    reduce = damage;
-                }
-                if (hp <= 0) {
-                    reduce = reduce + hp;
-                    hp = 0;
-                    mmoSimpleNPC.setStatus(RoleStatusCode.DIE.getCode());
-                }
-                mmoSimpleNPC.setNowBlood(hp);
-                // 扣血伤害
-                PlayModel.RoleIdDamage.Builder damageR = PlayModel.RoleIdDamage.newBuilder();
-                damageR.setFromRoleId(getId());
-                damageR.setToRoleId(mmoSimpleNPC.getId());
-                damageR.setAttackStyle(AttackStyleCode.ATTACK.getCode());
-                damageR.setBufferId(-1);
-                damageR.setDamage(reduce);
-                damageR.setDamageType(DamageTypeCode.HP.getCode());
-                damageR.setMp(mmoSimpleNPC.getNowMp());
-                damageR.setNowblood(mmoSimpleNPC.getNowBlood());
-                damageR.setSkillId(skillBean.getId());
-                damageR.setState(mmoSimpleNPC.getStatus());
-                list.add(damageR.build());
-            } finally {
-                mmoSimpleNPC.hpRwLock.writeLock().unlock();
+            Integer hp = mmoSimpleNPC.getNowBlood();
+            Integer reduce = 0;
+            if (skillBean.getSkillType().equals(SkillTypeCode.FIED.getCode())) {
+                //固伤 只有技能伤害
+                reduce = (int) Math.ceil(skillBean.getBaseDamage() * (1 + this.getDamageAdd()));
+                hp -= reduce;
             }
+            if (skillBean.getSkillType().equals(SkillTypeCode.PERCENTAGE.getCode())) {
+                //百分比 按照攻击力比例增加
+                Integer damage = skillBean.getBaseDamage();
+                damage = (int) Math.ceil(damage + mmoSimpleNPC.getAttack() * skillBean.getAddPercon());
+                hp = hp - damage;
+                reduce = damage;
+            }
+            if (hp <= 0) {
+                reduce = reduce + hp;
+                hp = 0;
+                mmoSimpleNPC.setStatus(RoleStatusCode.DIE.getCode());
+            }
+            mmoSimpleNPC.setNowBlood(hp);
+            // 扣血伤害
+            PlayModel.RoleIdDamage.Builder damageR = PlayModel.RoleIdDamage.newBuilder();
+            damageR.setFromRoleId(getId());
+            damageR.setToRoleId(mmoSimpleNPC.getId());
+            damageR.setAttackStyle(AttackStyleCode.ATTACK.getCode());
+            damageR.setBufferId(-1);
+            damageR.setDamage(reduce);
+            damageR.setDamageType(DamageTypeCode.HP.getCode());
+            damageR.setMp(mmoSimpleNPC.getNowMp());
+            damageR.setNowblood(mmoSimpleNPC.getNowBlood());
+            damageR.setSkillId(skillBean.getId());
+            damageR.setState(mmoSimpleNPC.getStatus());
+            list.add(damageR.build());
             //怪物攻击本人
             if (!mmoSimpleNPC.getStatus().equals(RoleStatusCode.DIE.getCode())) {
                 mmoSimpleNPC.npcAttack(getId());
@@ -360,51 +345,54 @@ public class MmoSimpleRole extends MmoRolePOJO {
         skillBean.useBuffer(target, getId());
         return list;
     }
+
     //扣血
-    public void changeNowBlood(int number,PlayModel.RoleIdDamage.Builder damageU,int type){
+    public void changeNowBlood(int number, PlayModel.RoleIdDamage.Builder damageU, int type) {
         //获取对应线程的下标
-        Channel channel= ChannelMessageCache.getInstance().get(getId());
-        Integer index= CommonsUtil.getIndexByChannel(channel);
-        if (type==AttackStyleCode.USESKILL.getCode()) {
+        Channel channel = ChannelMessageCache.getInstance().get(getId());
+        Integer index = CommonsUtil.getIndexByChannel(channel);
+        if (type == AttackStyleCode.USESKILL.getCode()) {
             LogicThreadPool.getInstance().execute(new ChangeHpByAttackTask(number, this, damageU), index);
-        }else {
+        } else {
             LogicThreadPool.getInstance().execute(new ChangeHpByMedicineTask(number, this, damageU), index);
         }
     }
+
     //扣蓝
-    public void changeMp(int number,PlayModel.RoleIdDamage.Builder damageU){
-        Channel channel= ChannelMessageCache.getInstance().get(getId());
-        Integer index= CommonsUtil.getIndexByChannel(channel);
-        LogicThreadPool.getInstance().execute(new ChangeMpTask(number,this,damageU),index);
+    public void changeMp(int number, PlayModel.RoleIdDamage.Builder damageU) {
+        Channel channel = ChannelMessageCache.getInstance().get(getId());
+        Integer index = CommonsUtil.getIndexByChannel(channel);
+        LogicThreadPool.getInstance().execute(new ChangeMpTask(number, this, damageU), index);
     }
 
-    private class ChangeHpByMedicineTask implements Runnable{
-        Logger logger=Logger.getLogger(ChangeMpTask.class);
+    private class ChangeHpByMedicineTask implements Runnable {
+        Logger logger = Logger.getLogger(ChangeMpTask.class);
         private int number;
         private MmoSimpleRole mmoSimpleRole;
         private PlayModel.RoleIdDamage.Builder damageU;
+
         public ChangeHpByMedicineTask() {
         }
 
         public ChangeHpByMedicineTask(int number, MmoSimpleRole mmoSimpleRole, PlayModel.RoleIdDamage.Builder damageU) {
             this.number = number;
             this.mmoSimpleRole = mmoSimpleRole;
-            this.damageU=damageU;
+            this.damageU = damageU;
         }
 
         @Override
         public void run() {
-            logger.info("当前changeHp线程是："+Thread.currentThread().getName()+" 操作的角色是： "+mmoSimpleRole.getName());
+            logger.info("当前changeHp线程是：" + Thread.currentThread().getName() + " 操作的角色是： " + mmoSimpleRole.getName());
             Integer oldHp = mmoSimpleRole.getNowBlood();
             Integer newNumber = oldHp + number;
             if (newNumber > getNowBlood()) {
                 mmoSimpleRole.setNowBlood(getBlood());
-                newNumber=getBlood()-oldHp;
+                newNumber = getBlood() - oldHp;
             } else {
                 mmoSimpleRole.setNowBlood(newNumber);
             }
             if (mmoSimpleRole.getNowBlood() <= 0) {
-                newNumber=getNowBlood()+Math.abs(number);
+                newNumber = getNowBlood() + Math.abs(number);
                 mmoSimpleRole.setStatus(RoleStatusCode.DIE.getCode());
             }
             //生成数据包
@@ -431,39 +419,41 @@ public class MmoSimpleRole extends MmoRolePOJO {
             }
         }
     }
-    private class ChangeHpByAttackTask implements Runnable{
-        Logger logger=Logger.getLogger(ChangeHpByMedicineTask.class);
+
+    private class ChangeHpByAttackTask implements Runnable {
+        Logger logger = Logger.getLogger(ChangeHpByMedicineTask.class);
         private int number;
         private MmoSimpleRole mmoSimpleRole;
         private PlayModel.RoleIdDamage.Builder damageU;
+
         public ChangeHpByAttackTask() {
         }
 
         public ChangeHpByAttackTask(int number, MmoSimpleRole mmoSimpleRole, PlayModel.RoleIdDamage.Builder damageU) {
             this.number = number;
             this.mmoSimpleRole = mmoSimpleRole;
-            this.damageU=damageU;
+            this.damageU = damageU;
         }
 
         @Override
         public void run() {
-            logger.info("当前changeHpByAttack线程是："+Thread.currentThread().getName()+" 操作的角色是： "+mmoSimpleRole.getName());
+            logger.info("当前changeHpByAttack线程是：" + Thread.currentThread().getName() + " 操作的角色是： " + mmoSimpleRole.getName());
             Integer oldHp = mmoSimpleRole.getNowBlood();
             Integer newNumber = oldHp + number;
             if (newNumber > getNowBlood()) {
                 mmoSimpleRole.setNowBlood(getBlood());
-                newNumber=getBlood()-oldHp;
+                newNumber = getBlood() - oldHp;
             } else {
                 mmoSimpleRole.setNowBlood(newNumber);
-                newNumber=number;
+                newNumber = number;
             }
             if (mmoSimpleRole.getNowBlood() <= 0) {
-                newNumber=getNowBlood()+Math.abs(number);
+                newNumber = getNowBlood() + Math.abs(number);
                 mmoSimpleRole.setNowBlood(0);
                 mmoSimpleRole.setStatus(RoleStatusCode.DIE.getCode());
             }
             //生成数据包
-            List<PlayModel.RoleIdDamage> list=new ArrayList<>();
+            List<PlayModel.RoleIdDamage> list = new ArrayList<>();
             damageU.setDamage(newNumber);
             damageU.setMp(mmoSimpleRole.getNowMp());
             damageU.setNowblood(mmoSimpleRole.getNowBlood());
@@ -491,28 +481,30 @@ public class MmoSimpleRole extends MmoRolePOJO {
 
         }
     }
-    private class ChangeMpTask implements Runnable{
-        Logger logger=Logger.getLogger(ChangeMpTask.class);
+
+    private class ChangeMpTask implements Runnable {
+        Logger logger = Logger.getLogger(ChangeMpTask.class);
         private int number;
         private MmoSimpleRole mmoSimpleRole;
         private PlayModel.RoleIdDamage.Builder damageU;
+
         public ChangeMpTask() {
         }
 
         public ChangeMpTask(int number, MmoSimpleRole mmoSimpleRole, PlayModel.RoleIdDamage.Builder damageU) {
             this.number = number;
             this.mmoSimpleRole = mmoSimpleRole;
-            this.damageU=damageU;
+            this.damageU = damageU;
         }
 
         @Override
         public void run() {
-            logger.info("当前changeMp线程是："+Thread.currentThread().getName()+" 操作的角色是： "+mmoSimpleRole.getName());
+            logger.info("当前changeMp线程是：" + Thread.currentThread().getName() + " 操作的角色是： " + mmoSimpleRole.getName());
             Integer oldMp = mmoSimpleRole.getNowMp();
             Integer newNumber = oldMp + number;
             if (newNumber > getMp()) {
                 mmoSimpleRole.setNowMp(getMp());
-                number=getMp()-oldMp;
+                number = getMp() - oldMp;
             } else {
                 mmoSimpleRole.setNowMp(newNumber);
             }
