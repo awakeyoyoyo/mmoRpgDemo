@@ -2,6 +2,10 @@ package com.liqihao.pojo.bean;
 
 import com.liqihao.pojo.baseMessage.BufferMessage;
 
+/**
+ * buffer Bean
+ * @author lqhao
+ */
 public class BufferBean extends BufferMessage {
     private Integer fromRoleId;
     private Integer toRoleId;

@@ -17,11 +17,19 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * medicine bean
+ *
+ * @author lqhao
+ */
 public class MedicineBean extends MedicineMessage implements Article{
 
     private Integer quantity;
     private Integer articleId;
-    private Integer bagId;//数据库行记录id
+    /**
+     * //数据库行记录id
+     */
+    private Integer bagId;
 
     public Integer getBagId() {
         return bagId;

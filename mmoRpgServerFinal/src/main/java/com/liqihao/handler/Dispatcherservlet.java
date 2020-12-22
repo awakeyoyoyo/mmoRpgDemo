@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 
 /**
  * 根据module分发请求
+ * @author lqhao
  */
 @Component
 public class Dispatcherservlet implements ApplicationContextAware {

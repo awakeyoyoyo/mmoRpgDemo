@@ -21,6 +21,10 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 import java.util.concurrent.*;
 
+/**
+ * 用户模块
+ * @author lqhao
+ */
 @Service
 @HandlerServiceTag
 public class PlayServiceImpl implements PlayService{

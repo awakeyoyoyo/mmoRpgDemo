@@ -10,6 +10,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * 技能bean
+ * @author lqhao
+ */
 public class SkillBean {
     private Integer id;
     private String  skillName;

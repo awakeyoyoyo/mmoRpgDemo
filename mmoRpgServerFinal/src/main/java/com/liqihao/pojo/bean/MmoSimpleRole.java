@@ -28,6 +28,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * 缓存中存储的人物类
+ *
+ * @author lqhao
  */
 public class MmoSimpleRole extends MmoRolePOJO {
     private Integer Blood;

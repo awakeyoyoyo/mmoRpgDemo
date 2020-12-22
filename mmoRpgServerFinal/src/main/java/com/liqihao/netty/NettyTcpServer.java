@@ -19,6 +19,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * nettyServer
+ * @author lqhao
  */
 @Component
 public class NettyTcpServer {

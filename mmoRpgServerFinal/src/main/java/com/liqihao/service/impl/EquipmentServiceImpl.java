@@ -22,6 +22,10 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 装备模块
+ * @author lqhao
+ */
 @Service
 @HandlerServiceTag
 public class EquipmentServiceImpl implements EquipmentService {

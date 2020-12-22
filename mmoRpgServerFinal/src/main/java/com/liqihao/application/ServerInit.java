@@ -10,6 +10,7 @@ import java.io.IOException;
 @Component
 /**
  * 初始化服务器类
+ * @author lqhao
  */
 public class ServerInit{
     public void init() throws IOException, IllegalAccessException, InstantiationException {

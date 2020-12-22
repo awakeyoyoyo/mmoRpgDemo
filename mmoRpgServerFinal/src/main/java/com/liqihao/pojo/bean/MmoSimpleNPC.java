@@ -10,6 +10,10 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 
+/**
+ * npc
+ * @author lqhao
+ */
 public class MmoSimpleNPC extends NPCMessage {
     private volatile Integer nowBlood;
     private volatile Integer nowMp;
@@ -41,7 +45,9 @@ public class MmoSimpleNPC extends NPCMessage {
         this.nowMp = nowMp;
     }
 
-    //判断是否死亡,并且更改状态
+    /**
+     *     判断是否死亡,并且更改状态
+     */
     public void checkDie(){
         if (nowBlood<=0){
             super.setStatus(RoleStatusCode.DIE.getCode());

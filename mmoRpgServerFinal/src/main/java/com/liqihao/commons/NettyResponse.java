@@ -1,5 +1,9 @@
 package com.liqihao.commons;
 
+/**
+ * 响应
+ * @author lqhao
+ */
 public class NettyResponse {
     /**
      * 状态码

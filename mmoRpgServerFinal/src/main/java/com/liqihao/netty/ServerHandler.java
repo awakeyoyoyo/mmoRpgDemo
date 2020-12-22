@@ -16,6 +16,7 @@ import java.lang.reflect.InvocationTargetException;
 
 /**
  * nettyHandler
+ * @author lqhao
  */
 public class ServerHandler extends ChannelInboundHandlerAdapter {
     private Dispatcherservlet dispatcherservlet;

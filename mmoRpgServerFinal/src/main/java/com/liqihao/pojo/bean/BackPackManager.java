@@ -11,6 +11,11 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.stream.Collectors;
 
+/**
+ * 背包管理类
+ * @author lqhao
+ *
+ */
 public class BackPackManager {
     private CopyOnWriteArrayList<Article> backpacks;
     private Integer size;

@@ -38,10 +38,15 @@ public class LogicThreadPool<Job extends Runnable>implements ThreadPool<Job> {
      * 工作者列表
      */
     private final CopyOnWriteArrayList<Worker> workers=new CopyOnWriteArrayList<>();
-    // 线程编号生成
+    /**
+     *线程编号生成
+     */
+
     private AtomicLong threadNum = new AtomicLong();
 
-    //初始化线程工作者
+    /**
+     * 初始化线程工作者
+     */
     private void initializeWorkers(int num) {
         for (int i = 0; i < num; i++) {
             Worker worker = new Worker();

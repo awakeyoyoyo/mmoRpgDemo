@@ -4,15 +4,28 @@ import com.liqihao.Cache.MmoBaseMessageCache;
 import com.liqihao.pojo.baseMessage.EquipmentMessage;
 
 /**
+ * Equipment Bean
  * @author Administrator
  */
 public class EquipmentBean extends EquipmentMessage implements Article{
     private Integer nowDurability;
     private Integer quantity;
-    private Integer articleId;//缓存中背包id
-    private Integer bagId;//背包数据库 数据库行记录id
-    private Integer equipmentId; //装备数据库id
-    private Integer equipmentBagId;//装备栏数据库id
+    /**
+     * 缓存中背包id
+     */
+    private Integer articleId;
+    /**
+     * 背包数据库 数据库行记录id
+     */
+    private Integer bagId;
+    /**
+     * 装备数据库id
+     */
+    private Integer equipmentId;
+    /**
+     * 装备栏数据库id
+     */
+    private Integer equipmentBagId;
 
     public Integer getEquipmentBagId() {
         return equipmentBagId;

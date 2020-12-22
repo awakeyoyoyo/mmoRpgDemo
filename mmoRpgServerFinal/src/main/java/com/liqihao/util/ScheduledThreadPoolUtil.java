@@ -25,11 +25,19 @@ import java.util.concurrent.*;
  */
 public class ScheduledThreadPoolUtil {
     private static ScheduledThreadPoolExecutor scheduledExecutorService;
-    //存储了正在调度线程池中执行的回蓝的角色id
+    /**
+     * 存储了正在调度线程池中执行的回蓝的角色id
+     */
     private static ConcurrentHashMap<String, ScheduledFuture<?>> replyMpRole = new ConcurrentHashMap<>();
-    //存储了正在调度线程池中执行的buffer的角色id
+    /**
+     *  存储了正在调度线程池中执行的buffer的角色id
+     */
+
     private static ConcurrentHashMap<Integer, ScheduledFuture<?>> bufferRole = new ConcurrentHashMap<>();
-    //存储了正在调度线程池中执行的buffer的npc id限定一个npc只能攻击一个人
+    /**
+     *  存储了正在调度线程池中执行的buffer的npc id限定一个npc只能攻击一个人
+     */
+
     private static ConcurrentHashMap<Integer, ScheduledFuture<?>> npcTaskMap = new ConcurrentHashMap<>();
 
     public static void init() {

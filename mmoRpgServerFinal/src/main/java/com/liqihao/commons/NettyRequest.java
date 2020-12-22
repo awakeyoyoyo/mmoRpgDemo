@@ -1,5 +1,9 @@
 package com.liqihao.commons;
 
+/**
+ * 请求
+ * @author lqhao
+ */
 public class NettyRequest {
     /**
      * 请求命令

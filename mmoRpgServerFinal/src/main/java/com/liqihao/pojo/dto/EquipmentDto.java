@@ -5,15 +5,30 @@ package com.liqihao.pojo.dto;
  * @author lqhao
  */
 public class EquipmentDto {
-    //物品id
+    /**
+     * 物品id
+     */
+
     private Integer id;
-    //部位
+    /**
+     *   部位
+     */
+
     private Integer position;
-    //当前耐久度
+    /**
+     *  当前耐久度
+     */
+
     private Integer Nowdurability;
-    //装备栏id
+    /**
+     *   装备栏id
+     */
+
     private Integer equipmentBagId;
-    //装备数据库id
+    /**
+     * 装备数据库id
+     */
+
     private Integer equipmentId;
 
     public Integer getEquipmentId() {

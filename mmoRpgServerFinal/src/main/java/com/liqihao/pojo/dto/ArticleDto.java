@@ -1,17 +1,34 @@
 package com.liqihao.pojo.dto;
 
+/**
+ * 传输背包物品dto
+ * @author lqhao
+ */
 public class ArticleDto {
-    //背包中物品id
+    /**
+     * 背包中物品id
+     */
     private Integer articleId;
-    //物品id
+    /**
+     *   物品id
+     */
     private Integer id;
-    //数量
+    /**
+     *   数量
+     */
     private Integer quantity;
-    //物品类型
+    /**
+     * 物品类型
+     */
     private Integer articleType;
-    //数据库行id
+    /**
+     *  数据库行id
+     */
+
     private Integer bagId;
-    //当前耐久度
+    /**
+     *  当前耐久度
+     */
     private Integer nowDurability;
 
     public Integer getNowdurability() {

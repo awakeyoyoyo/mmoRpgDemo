@@ -1,5 +1,9 @@
 package com.liqihao.commons;
 
+/**
+ * 常量
+ * @author lqhao
+ */
 public interface ConstantValue {
     //包头
     int FLAG=6617329;

@@ -15,6 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * 游戏系统模块
+ * @author lqhao
+ */
 @Service
 @HandlerServiceTag
 public class GameSystemServiceImpl implements com.liqihao.service.GameSystemService {

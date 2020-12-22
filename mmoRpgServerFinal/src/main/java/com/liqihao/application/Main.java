@@ -4,6 +4,10 @@ import com.liqihao.netty.NettyTcpServer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+/**
+ * 启动类
+ * @author lqhao
+ */
 public class Main {
 
     public static void main(String[] args) throws Exception {

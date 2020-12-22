@@ -28,6 +28,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * 场景模块
+ * @author lqhao
+ */
 @Service
 @HandlerServiceTag
 public class SceneServiceImpl implements SceneService {

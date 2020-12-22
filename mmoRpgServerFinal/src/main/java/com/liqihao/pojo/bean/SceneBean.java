@@ -2,6 +2,10 @@ package com.liqihao.pojo.bean;
 
 import java.util.List;
 
+/**
+ * 场景bean
+ * @author lqhao
+ */
 public class SceneBean {
     private  Integer id;
     private String name;

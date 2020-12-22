@@ -1,5 +1,9 @@
 package com.liqihao.pojo.dto;
 
+/**
+ * 伤害传输dto
+ * @author lqhao
+ */
 public class RoleIdDamage {
     Integer fromRoleId;
 
@@ -8,14 +12,19 @@ public class RoleIdDamage {
     Integer bufferId;
 
     Integer skillId;
-
-    Integer attackStyle; //buff造成、攻击造成、使用技能、自动恢复
-
-    //伤害类型 扣血 扣蓝
+    /**
+     * buff造成、攻击造成、使用技能、自动恢复
+     */
+    Integer attackStyle;
+    /**
+     *   伤害类型 扣血 扣蓝
+     */
     Integer damageType;
 
     Integer damage;
-    //boss当前血量或者角色血量
+    /**
+     * boss当前血量或者角色血量
+     */
     Integer nowblood;
 
     Integer mp;
