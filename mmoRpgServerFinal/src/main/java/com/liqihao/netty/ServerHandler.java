@@ -42,20 +42,6 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
         log.info("Server:channelRead");
         readIdleTimes=0;
         NettyRequest request= (NettyRequest) msg;
-//        LogicTreadPoolUtil.getLogicThreadPool().execute(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    dispatcherservlet.handler(request,ctx.channel());
-//                } catch (InvalidProtocolBufferException e) {
-//                    e.printStackTrace();
-//                } catch (InvocationTargetException e) {
-//                    e.printStackTrace();
-//                } catch (IllegalAccessException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
         //根据channel计算index
         Integer index= CommonsUtil.getIndexByChannel(ctx.channel());
         LogicThreadPool.getInstance().execute(new Runnable() {

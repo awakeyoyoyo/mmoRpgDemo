@@ -1,6 +1,7 @@
 package com.liqihao.service.impl;
 
 import com.liqihao.Cache.OnlineRoleMessageCache;
+import com.liqihao.Cache.SceneBeanMessageCache;
 import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.*;
@@ -42,6 +43,9 @@ public class GameSystemServiceImpl implements com.liqihao.service.GameSystemServ
             //修改数据库
             mmoRolePOJO.setOnstatus(RoleOnStatusCode.EXIT.getCode());
             mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO);
+            //删除缓存中角色
+            OnlineRoleMessageCache.getInstance().remove(role.getId());
+            SceneBeanMessageCache.getInstance().get(role.getMmosceneid()).getRoles().remove(role.getId());
         }
         //用户下线
         NettyResponse response=new NettyResponse();
