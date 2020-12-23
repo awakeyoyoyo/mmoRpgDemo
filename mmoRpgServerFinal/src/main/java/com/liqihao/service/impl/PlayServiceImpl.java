@@ -120,31 +120,13 @@ public class PlayServiceImpl implements PlayService{
         //从数据库中读取角色,且修改其为在线模式，放入角色在线集合
         MmoRolePOJO role=mmoRolePOJOMapper.selectByPrimaryKey(Integer.parseInt(mmoUserPOJO.getUserroleid()));
         role.setOnstatus(RoleOnStatusCode.ONLINE.getCode());
-        //缓存
+        //初始化基础信息获取
         MmoSimpleRole simpleRole=new MmoSimpleRole();
-        simpleRole.setId(role.getId());
-        simpleRole.setMmosceneid(role.getMmosceneid());
-        simpleRole.setName(role.getName());
-        simpleRole.setOnstatus(role.getOnstatus());
-        simpleRole.setStatus(role.getStatus());
-        simpleRole.setType(role.getType());
-        List<SkillBean> skillBeans=CommonsUtil.skillIdsToSkillBeans(role.getSkillIds());
-        simpleRole.setSkillBeans(skillBeans);
-        //从基础信息获取
+        role.setStatus(RoleStatusCode.ALIVE.getCode());
         BaseRoleMessage baseRoleMessage= MmoBaseMessageCache.getInstance().getBaseRoleMessage();
-        simpleRole.setBlood(baseRoleMessage.getHp());
-        simpleRole.setNowBlood(baseRoleMessage.getHp());
-        simpleRole.setMp(baseRoleMessage.getMp());
-        simpleRole.setDamageAdd(baseRoleMessage.getDamageAdd());
-        simpleRole.setNowMp(baseRoleMessage.getMp());
-        simpleRole.setAttack(baseRoleMessage.getAttack());
-        List<Integer> skillIds=CommonsUtil.split(role.getSkillIds());
-        simpleRole.setSkillIdList(skillIds);
-        simpleRole.setCdMap(new HashMap<Integer, Long>());
-        simpleRole.setBufferBeans(new CopyOnWriteArrayList<>());
-        simpleRole.setEquipmentBeanHashMap(new HashMap<>());
+        simpleRole.init(role,baseRoleMessage);
         BackPackManager backPackManager=new BackPackManager(MmoBaseMessageCache.getInstance().getBaseDetailMessage().getBagSize());
-       //初始化背包
+        //初始化背包
         List<MmoBagPOJO> mmoBagPOJOS=mmoBagPOJOMapper.selectByRoleId(role.getId());
         for (MmoBagPOJO mmoBagPOJO:mmoBagPOJOS){
             if (mmoBagPOJO.getArticletype().equals(ArticleTypeCode.EQUIPMENT.getCode())){

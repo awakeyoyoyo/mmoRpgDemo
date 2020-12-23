@@ -1,12 +1,14 @@
 package com.liqihao.pojo.bean;
 
 
-import com.liqihao.Cache.ChannelMessageCache;
-import com.liqihao.Cache.SceneBeanMessageCache;
+import com.liqihao.Cache.*;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.enums.*;
-import com.liqihao.pojo.MmoRolePOJO;
+import com.liqihao.pojo.*;
+import com.liqihao.pojo.baseMessage.BaseRoleMessage;
+import com.liqihao.pojo.baseMessage.EquipmentMessage;
+import com.liqihao.pojo.baseMessage.MedicineMessage;
 import com.liqihao.pojo.dto.EquipmentDto;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.util.CommonsUtil;
@@ -157,6 +159,32 @@ public class MmoSimpleRole extends MmoRolePOJO {
         this.cdMap = cdMap;
     }
 
+    /**
+     * 初始化对象
+     * @param role
+     * @param baseRoleMessage
+     */
+    public void init(MmoRolePOJO role, BaseRoleMessage baseRoleMessage){
+        setId(role.getId());
+        setMmosceneid(role.getMmosceneid());
+        setName(role.getName());
+        setOnstatus(role.getOnstatus());
+        setStatus(role.getStatus());
+        setType(role.getType());
+        List<SkillBean> skillBeans=CommonsUtil.skillIdsToSkillBeans(role.getSkillIds());
+        setSkillBeans(skillBeans);
+        setBlood(baseRoleMessage.getHp());
+        setNowBlood(baseRoleMessage.getHp());
+        setMp(baseRoleMessage.getMp());
+        setDamageAdd(baseRoleMessage.getDamageAdd());
+        setNowMp(baseRoleMessage.getMp());
+        setAttack(baseRoleMessage.getAttack());
+        List<Integer> skillIds=CommonsUtil.split(role.getSkillIds());
+        setSkillIdList(skillIds);
+        setCdMap(new HashMap<Integer, Long>());
+        setBufferBeans(new CopyOnWriteArrayList<>());
+        setEquipmentBeanHashMap(new HashMap<>());
+    }
     //使用道具
     public Boolean useArticle(Integer articleId) {
         Article article = backpackManager.getArticleByArticleId(articleId);
@@ -385,11 +413,12 @@ public class MmoSimpleRole extends MmoRolePOJO {
             logger.info("当前changeHp线程是：" + Thread.currentThread().getName() + " 操作的角色是： " + mmoSimpleRole.getName());
             Integer oldHp = mmoSimpleRole.getNowBlood();
             Integer newNumber = oldHp + number;
-            if (newNumber > getNowBlood()) {
+            if (newNumber > getBlood()) {
                 mmoSimpleRole.setNowBlood(getBlood());
                 newNumber = getBlood() - oldHp;
             } else {
                 mmoSimpleRole.setNowBlood(newNumber);
+                newNumber=number;
             }
             if (mmoSimpleRole.getNowBlood() <= 0) {
                 newNumber = getNowBlood() + Math.abs(number);

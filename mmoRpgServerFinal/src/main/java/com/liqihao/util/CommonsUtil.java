@@ -205,7 +205,7 @@ public class CommonsUtil implements ApplicationContextAware {
         roleTemp.setOnstatus(npc.getOnstatus());
         roleTemp.setBlood(npc.getBlood());
         roleTemp.setNowBlood(npc.getNowBlood());
-        roleTemp.setMp(npc.getNowBlood());
+        roleTemp.setMp(npc.getMp());
         roleTemp.setAttack(npc.getAttack());
         roleTemp.setNowMp(npc.getNowMp());
         return roleTemp;
