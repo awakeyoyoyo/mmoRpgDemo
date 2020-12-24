@@ -10,6 +10,15 @@ public class SkillMessage {
     private String bufferIds;
     private Integer skillType;
     private double addPercon;
+    private Integer skillAttackType;
+
+    public Integer getSkillAttackType() {
+        return skillAttackType;
+    }
+
+    public void setSkillAttackType(Integer skillAttackType) {
+        this.skillAttackType = skillAttackType;
+    }
 
     @Override
     public String toString() {

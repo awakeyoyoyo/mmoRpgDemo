@@ -5,17 +5,19 @@ import com.liqihao.Cache.NpcMessageCache;
 import com.liqihao.Cache.SkillMessageCache;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
-import com.liqihao.commons.enums.StateCode;
+import com.liqihao.commons.StateCode;
+import com.liqihao.commons.enums.CopySceneStatusCode;
+import com.liqihao.commons.enums.RoleStatusCode;
+import com.liqihao.commons.enums.RoleTypeCode;
 import com.liqihao.dao.MmoBagPOJOMapper;
 import com.liqihao.dao.MmoEquipmentBagPOJOMapper;
 import com.liqihao.dao.MmoEquipmentPOJOMapper;
+import com.liqihao.dao.MmoRolePOJOMapper;
 import com.liqihao.pojo.MmoBagPOJO;
 import com.liqihao.pojo.MmoEquipmentBagPOJO;
 import com.liqihao.pojo.MmoEquipmentPOJO;
-import com.liqihao.pojo.baseMessage.EquipmentMessage;
-import com.liqihao.pojo.baseMessage.MedicineMessage;
-import com.liqihao.pojo.baseMessage.SceneMessage;
-import com.liqihao.pojo.baseMessage.SkillMessage;
+import com.liqihao.pojo.MmoRolePOJO;
+import com.liqihao.pojo.baseMessage.*;
 import com.liqihao.pojo.bean.*;
 import com.liqihao.pojo.dto.ArticleDto;
 import com.liqihao.pojo.dto.EquipmentDto;
@@ -28,7 +30,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * 字符串处理类
@@ -40,17 +45,56 @@ public class CommonsUtil implements ApplicationContextAware {
 
     private static ApplicationContext applicationContext;
 
+
+
     @Override
     public void setApplicationContext(ApplicationContext context) throws BeansException {
         applicationContext = context;
         mmoBagPOJOMapper=(MmoBagPOJOMapper)context.getBean("mmoBagPOJOMapper");
         mmoEquipmentPOJOMapper=(MmoEquipmentPOJOMapper)context.getBean("mmoEquipmentPOJOMapper");
         equipmentBagPOJOMapper=(MmoEquipmentBagPOJOMapper)context.getBean("mmoEquipmentBagPOJOMapper");
+        mmoRolePOJOMapper=(MmoRolePOJOMapper)context.getBean("mmoRolePOJOMapper");
     }
     private static MmoBagPOJOMapper mmoBagPOJOMapper;
     private static MmoEquipmentPOJOMapper mmoEquipmentPOJOMapper;
     private static MmoEquipmentBagPOJOMapper equipmentBagPOJOMapper;
+    private static MmoRolePOJOMapper mmoRolePOJOMapper;
+    public static CopySceneBean copySceneMessageToCopySceneBean(CopySceneMessage copySceneMessage) {
+        CopySceneBean copySceneBean=new CopySceneBean();
+        copySceneBean.setCreateTime(System.currentTimeMillis());
+        copySceneBean.setEndTime(System.currentTimeMillis()+1000*copySceneMessage.getLastTime());
+        copySceneBean.setMmoSimpleRoles(new CopyOnWriteArrayList<>());
+        copySceneBean.setStatus(CopySceneStatusCode.ONDOING.getCode());
+        copySceneBean.setBossIds(copySceneMessage.getBossIds());
+        copySceneBean.setId(copySceneMessage.getId());
+        copySceneBean.setLastTime(copySceneMessage.getLastTime());
+        copySceneBean.setName(copySceneMessage.getName());
+        return copySceneBean;
+    }
 
+    public static BossBean bossMessageToBossBean(BossMessage bossMessage) {
+        BossBean bossBean=new BossBean();
+        bossBean.setBufferBeans(new CopyOnWriteArrayList<BufferBean>());
+        bossBean.setCdMap(new HashMap<>());
+        bossBean.setHatredMap(new ConcurrentHashMap<>());
+        bossBean.setNowBlood(bossMessage.getBlood());
+        bossBean.setNowMp(bossMessage.getMp());
+        bossBean.setRoleStatus(RoleStatusCode.ALIVE.getCode());
+        bossBean.setRoleType(RoleTypeCode.ENEMY.getCode());
+        bossBean.setAttack(bossMessage.getAttack());
+        bossBean.setBlood(bossMessage.getBlood());
+        bossBean.setDamageAdd(bossMessage.getDamageAdd());
+        bossBean.setId(bossMessage.getId());
+        bossBean.setEquipmentIds(bossMessage.getEquipmentIds());
+        bossBean.setMedicines(bossMessage.getMedicines());
+        bossBean.setMoney(bossMessage.getMoney());
+        bossBean.setMp(bossMessage.getMp());
+        bossBean.setName(bossMessage.getName());
+        bossBean.setSkillIds(bossMessage.getSkillIds());
+        List<SkillBean> skillBeans=skillIdsToSkillBeans(bossMessage.getSkillIds());
+        bossBean.setSkillBeans(skillBeans);
+        return bossBean;
+    }
     /**
      * 根据channle获取线程池线程下表
      */
@@ -74,8 +118,20 @@ public class CommonsUtil implements ApplicationContextAware {
         return mmoSimpleRole;
     }
 
-
-
+    /**
+     * 人物信息入库
+     */
+    public static  void RoleInfoIntoDataBase(MmoSimpleRole mmoSimpleRole){
+        MmoRolePOJO mmoRolePOJO=new MmoRolePOJO();
+        mmoRolePOJO.setId(mmoSimpleRole.getId());
+        mmoRolePOJO.setStatus(mmoSimpleRole.getStatus());
+        mmoRolePOJO.setOnstatus(mmoSimpleRole.getOnstatus());
+        mmoRolePOJO.setMmosceneid(mmoSimpleRole.getMmosceneid());
+        mmoRolePOJO.setName(mmoSimpleRole.getName());
+        mmoRolePOJO.setSkillIds(mmoSimpleRole.getSkillIds());
+        mmoRolePOJO.setType(mmoSimpleRole.getType());
+        mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO);
+    }
     /**
      * 背包入库
      * @param backPackManager

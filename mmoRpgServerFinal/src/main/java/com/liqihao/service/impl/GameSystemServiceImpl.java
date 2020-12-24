@@ -6,7 +6,7 @@ import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.*;
 import com.liqihao.commons.enums.RoleOnStatusCode;
-import com.liqihao.commons.enums.StateCode;
+import com.liqihao.commons.StateCode;
 import com.liqihao.dao.MmoRolePOJOMapper;
 import com.liqihao.pojo.bean.MmoSimpleRole;
 import com.liqihao.protobufObject.GameSystemModel;
@@ -14,7 +14,6 @@ import com.liqihao.util.CommonsUtil;
 import io.netty.channel.Channel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 游戏系统模块
@@ -37,6 +36,7 @@ public class GameSystemServiceImpl implements com.liqihao.service.GameSystemServ
             MmoSimpleRole mmoSimpleRole=OnlineRoleMessageCache.getInstance().get(roleId);
             CommonsUtil.equipmentIntoDataBase(mmoSimpleRole);
             CommonsUtil.bagIntoDataBase(mmoSimpleRole.getBackpackManager(),roleId);
+            CommonsUtil.RoleInfoIntoDataBase(role);
             // 直接获取即可 父类
             MmoSimpleRole mmoRolePOJO= OnlineRoleMessageCache.getInstance().get(roleId);
             OnlineRoleMessageCache.getInstance().remove(roleId);

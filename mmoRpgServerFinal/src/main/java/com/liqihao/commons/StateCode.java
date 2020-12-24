@@ -1,4 +1,4 @@
-package com.liqihao.commons.enums;
+package com.liqihao.commons;
 
 /**
  * 响应状态

@@ -23,7 +23,7 @@ public class EquipmentBean extends EquipmentMessage implements Article{
      */
     private Integer equipmentId;
     /**
-     * 装备栏数据库id
+     * 装备栏 数据库id
      */
     private Integer equipmentBagId;
 

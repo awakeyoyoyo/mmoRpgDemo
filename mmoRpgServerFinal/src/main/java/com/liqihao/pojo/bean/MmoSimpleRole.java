@@ -4,28 +4,25 @@ package com.liqihao.pojo.bean;
 import com.liqihao.Cache.*;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
+import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.*;
 import com.liqihao.pojo.*;
 import com.liqihao.pojo.baseMessage.BaseRoleMessage;
-import com.liqihao.pojo.baseMessage.EquipmentMessage;
-import com.liqihao.pojo.baseMessage.MedicineMessage;
 import com.liqihao.pojo.dto.EquipmentDto;
 import com.liqihao.protobufObject.PlayModel;
+import com.liqihao.protobufObject.SceneModel;
+import com.liqihao.provider.TeamServiceProvider;
+import com.liqihao.service.TeamService;
 import com.liqihao.util.CommonsUtil;
 import com.liqihao.util.LogicThreadPool;
 import com.liqihao.util.ScheduledThreadPoolUtil;
+import com.sun.scenario.effect.impl.prism.PrImage;
 import io.netty.channel.Channel;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -46,7 +43,75 @@ public class MmoSimpleRole extends MmoRolePOJO {
     private BackPackManager backpackManager;
     private List<Integer> needDeleteEquipmentIds = new ArrayList<>();
     private double damageAdd;
-//    public final ReentrantReadWriteLock hpRwLock = new ReentrantReadWriteLock();
+    private Integer teamId;
+    private Integer lastSceneId;
+    private Integer teamApplyOrInviteSize;
+    /**
+     * 装备栏
+     */
+    private HashMap<Integer, EquipmentBean> equipmentBeanHashMap;
+    /**
+     * 非副本beanId 而是副本基本信息id
+     */
+    private Integer copySceneId;
+    /**
+     * 队伍邀请函
+     */
+    private ConcurrentLinkedQueue<TeamApplyOrInviteBean> teamApplyOrInviteBeans=new ConcurrentLinkedQueue<>();
+
+    public Integer getTeamApplyOrInviteSize() {
+        return teamApplyOrInviteSize;
+    }
+
+    public void setTeamApplyOrInviteSize(Integer teamApplyOrInviteSize) {
+        this.teamApplyOrInviteSize = teamApplyOrInviteSize;
+    }
+
+
+
+    public void addTeamApplyOrInviteBean(TeamApplyOrInviteBean teamApplyOrInviteBean) {
+        checkOutTime();
+        //邀请的大小，先进先出咯
+        if (teamApplyOrInviteBeans.size()>=teamApplyOrInviteSize){
+            teamApplyOrInviteBeans.poll();
+        }
+        teamApplyOrInviteBeans.add(teamApplyOrInviteBean);
+    }
+
+
+    public ConcurrentLinkedQueue<TeamApplyOrInviteBean> getTeamApplyOrInviteBeans() {
+        return teamApplyOrInviteBeans;
+    }
+
+    public void setTeamApplyOrInviteBeans(ConcurrentLinkedQueue<TeamApplyOrInviteBean> teamApplyOrInviteBeans) {
+        this.teamApplyOrInviteBeans = teamApplyOrInviteBeans;
+    }
+
+    public Integer getLastSceneId() {
+        return lastSceneId;
+    }
+
+    public void setLastSceneId(Integer lastSceneId) {
+        this.lastSceneId = lastSceneId;
+    }
+
+
+    public Integer getCopySceneId() {
+        return copySceneId;
+    }
+
+    public void setCopySceneId(Integer copySceneId) {
+        this.copySceneId = copySceneId;
+    }
+
+    public Integer getTeamId() {
+        return teamId;
+    }
+
+    public void setTeamId(Integer teamId) {
+        this.teamId = teamId;
+    }
+    //    public final ReentrantReadWriteLock hpRwLock = new ReentrantReadWriteLock();
 //    public final ReentrantReadWriteLock mpRwLock = new ReentrantReadWriteLock();
 
     public double getDamageAdd() {
@@ -65,8 +130,6 @@ public class MmoSimpleRole extends MmoRolePOJO {
         this.needDeleteEquipmentIds = needDeleteEquipmentIds;
     }
 
-    //装备栏
-    private HashMap<Integer, EquipmentBean> equipmentBeanHashMap;
 
     public HashMap<Integer, EquipmentBean> getEquipmentBeanHashMap() {
         return equipmentBeanHashMap;
@@ -159,6 +222,19 @@ public class MmoSimpleRole extends MmoRolePOJO {
         this.cdMap = cdMap;
     }
 
+    /**
+     * 检测邀请过时
+     */
+    private void checkOutTime(){
+        Iterator iterator=teamApplyOrInviteBeans.iterator();
+        //每次插入都删除申请过时或者
+        while (iterator.hasNext()){
+            TeamApplyOrInviteBean bean= (TeamApplyOrInviteBean) iterator.next();
+            if (bean.endTime<System.currentTimeMillis()){
+                teamApplyOrInviteBeans.remove(bean);
+            }
+        }
+    }
     /**
      * 初始化对象
      * @param role
@@ -392,6 +468,77 @@ public class MmoSimpleRole extends MmoRolePOJO {
         Integer index = CommonsUtil.getIndexByChannel(channel);
         LogicThreadPool.getInstance().execute(new ChangeMpTask(number, this, damageU), index);
     }
+
+    public List<MmoSimpleRole> wentScene(Integer nextSceneId) {
+        //修改scene 如果为null 则是刚从副本中出来
+        if (getMmosceneid()!=null) {
+            SceneBeanMessageCache.getInstance().get(getMmosceneid()).getRoles().remove(getId());
+        }
+        SceneBeanMessageCache.getInstance().get(nextSceneId).getRoles().add(getId());
+        setMmosceneid(nextSceneId);
+        //查询出npc 和SimpleRole
+        List<MmoSimpleRole> nextSceneRoles=new ArrayList<>();
+        SceneBean nextScene=SceneBeanMessageCache.getInstance().get(nextSceneId);
+        List<Integer> roles=nextScene.getRoles();
+        List<Integer> npcs=nextScene.getNpcs();
+        //NPC
+        for (Integer npcId:npcs){
+            MmoSimpleNPC temp= NpcMessageCache.getInstance().get(npcId);
+            nextSceneRoles.add(CommonsUtil.NpcToMmoSimpleRole(temp));
+        }
+        //ROLES
+        for (Integer rId:roles){
+            MmoSimpleRole role=OnlineRoleMessageCache.getInstance().get(rId);
+            nextSceneRoles.add(role);
+        }
+        return nextSceneRoles;
+    }
+
+    /**
+     * 获取邀请信息
+     * @return
+     */
+    public List<TeamApplyOrInviteBean> getInviteBeans() {
+        checkOutTime();
+       return teamApplyOrInviteBeans.stream().filter(e->e.getType().equals(TeamApplyInviteCode.INVITE.getCode())).collect(Collectors.toList());
+    }
+    /**
+     * 拒绝邀请
+     */
+    public void refuseInvite(Integer teamId,Long createTime) {
+        checkOutTime();
+        Iterator iterator=teamApplyOrInviteBeans.iterator();
+        TeamApplyOrInviteBean teamApplyOrInviteBean=null;
+        while (iterator.hasNext()){
+            teamApplyOrInviteBean= (TeamApplyOrInviteBean) iterator.next();
+            if (teamApplyOrInviteBean.getTeamId().equals(teamId)&&
+                    teamApplyOrInviteBean.getType().equals(TeamApplyInviteCode.INVITE.getCode())
+            &&createTime.equals(teamApplyOrInviteBean.getCreateTime())){
+                teamApplyOrInviteBeans.remove(teamApplyOrInviteBean);
+                getTeamApplyOrInviteBeans().remove(teamApplyOrInviteBean);
+                TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(teamId);
+                Integer leaderId=teamBean.getLeaderId();
+                //todo 发送拒绝邀请给leader
+                break;
+            }
+        }
+    }
+
+    public TeamApplyOrInviteBean constainsInvite(Integer teamId, Long createTime) {
+        checkOutTime();
+        Iterator iterator=teamApplyOrInviteBeans.iterator();
+        TeamApplyOrInviteBean teamApplyOrInviteBean=null;
+        while (iterator.hasNext()){
+            teamApplyOrInviteBean= (TeamApplyOrInviteBean) iterator.next();
+            if (teamApplyOrInviteBean.getTeamId().equals(teamId)&&
+                    teamApplyOrInviteBean.getType().equals(TeamApplyInviteCode.INVITE.getCode())
+                    &&createTime.equals(teamApplyOrInviteBean.getCreateTime())){
+                return teamApplyOrInviteBean;
+            }
+        }
+        return null;
+    }
+
 
     private class ChangeHpByMedicineTask implements Runnable {
         Logger logger = Logger.getLogger(ChangeMpTask.class);

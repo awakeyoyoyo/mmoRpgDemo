@@ -3,6 +3,24 @@ package com.liqihao.pojo.baseMessage;
 public class BaseDetailMessage {
     private Integer bagSize;
     private Integer reduceDurability;
+    private Integer teamApplyOrInviteSize;
+    private Integer teamRoleSize;
+
+    public Integer getTeamRoleSize() {
+        return teamRoleSize;
+    }
+
+    public void setTeamRoleSize(Integer teamRoleSize) {
+        this.teamRoleSize = teamRoleSize;
+    }
+
+    public Integer getTeamApplyOrInviteSize() {
+        return teamApplyOrInviteSize;
+    }
+
+    public void setTeamApplyOrInviteSize(Integer teamApplyOrInviteSize) {
+        this.teamApplyOrInviteSize = teamApplyOrInviteSize;
+    }
 
     @Override
     public String toString() {

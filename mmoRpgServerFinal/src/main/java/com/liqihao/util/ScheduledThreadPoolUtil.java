@@ -3,6 +3,7 @@ package com.liqihao.util;
 import com.liqihao.Cache.*;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
+import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.*;
 import com.liqihao.pojo.baseMessage.SkillMessage;
 import com.liqihao.pojo.bean.BufferBean;
@@ -13,7 +14,6 @@ import com.liqihao.protobufObject.PlayModel;
 import io.netty.channel.Channel;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
 

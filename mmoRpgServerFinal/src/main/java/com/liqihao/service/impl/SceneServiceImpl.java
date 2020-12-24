@@ -1,16 +1,16 @@
 package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.liqihao.Cache.ChannelMessageCache;
 import com.liqihao.Cache.NpcMessageCache;
 import com.liqihao.Cache.OnlineRoleMessageCache;
 import com.liqihao.Cache.SceneBeanMessageCache;
 import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.*;
-import com.liqihao.commons.enums.StateCode;
+import com.liqihao.commons.StateCode;
 import com.liqihao.dao.MmoRolePOJOMapper;
-import com.liqihao.dao.MmoScenePOJOMapper;
-import com.liqihao.pojo.*;
+import com.liqihao.pojo.MmoRolePOJO;
 import com.liqihao.pojo.baseMessage.NPCMessage;
 import com.liqihao.pojo.bean.MmoSimpleNPC;
 import com.liqihao.pojo.bean.MmoSimpleRole;
@@ -24,9 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 场景模块
@@ -36,8 +34,6 @@ import java.util.concurrent.ConcurrentHashMap;
 @HandlerServiceTag
 public class SceneServiceImpl implements SceneService {
     private static final Logger log = LoggerFactory.getLogger(SceneServiceImpl.class);
-    @Autowired
-    private MmoScenePOJOMapper mmoScenePOJOMapper;
     @Autowired
     private MmoRolePOJOMapper mmoRolePOJOMapper;
 
@@ -100,55 +96,16 @@ public class SceneServiceImpl implements SceneService {
             channel.writeAndFlush(errotResponse);
             return;
         }
+
         //进入场景，修改数据库 player 和scene
-        MmoRolePOJO mmoRolePOJO1=new MmoRolePOJO();
-        mmoRolePOJO1.setId(mmoSimpleRole.getId());
-        mmoRolePOJO1.setMmosceneid(nextSceneId);
-        mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO1);
-        //修改缓存中角色
-        MmoSimpleRole player=OnlineRoleMessageCache.getInstance().get(mmoSimpleRole.getId());
-        player.setMmosceneid(nextSceneId);
-        OnlineRoleMessageCache.getInstance().put(player.getId(),player);
-        //修改scene
-        SceneBeanMessageCache.getInstance().get(nowSceneId).getRoles().remove(mmoSimpleRole.getId());
-        SceneBeanMessageCache.getInstance().get(nextSceneId).getRoles().add(mmoSimpleRole.getId());
-        //数据库中新场景中增加该角色
-        MmoScenePOJO nextScenePOJO=mmoScenePOJOMapper.selectByPrimaryKey(nextSceneId);
-        List<Integer> rolesIds=CommonsUtil.split(nextScenePOJO.getRoles());
-        rolesIds.add(mmoSimpleRole.getId());
-        String newRoles=CommonsUtil.listToString(rolesIds);
-        nextScenePOJO.setRoles(newRoles);
-        mmoScenePOJOMapper.updateByPrimaryKeySelective(nextScenePOJO);
-        //旧场景
-        MmoScenePOJO nowScenePOJO=mmoScenePOJOMapper.selectByPrimaryKey(nowSceneId);
-        String  nowRoles=nowScenePOJO.getRoles();
-        List<Integer> nowrolesIds=CommonsUtil.split(nowRoles);
-        nowrolesIds.remove(mmoSimpleRole.getId());
-        nowScenePOJO.setRoles(CommonsUtil.listToString(nowrolesIds));
-        mmoScenePOJOMapper.updateByPrimaryKeySelective(nowScenePOJO);
-        //查询出npc 和SimpleRole
-        List<MmoSimpleRole> nextSceneRoles=new ArrayList<>();
-        SceneBean nextScene=SceneBeanMessageCache.getInstance().get(nextSceneId);
-        List<Integer> roles=nextScene.getRoles();
-        List<Integer> npcs=nextScene.getNpcs();
-        //NPC
-       for (Integer npcId:npcs){
-            MmoSimpleNPC temp= NpcMessageCache.getInstance().get(npcId);
-            nextSceneRoles.add(CommonsUtil.NpcToMmoSimpleRole(temp));
-        }
-        //ROLES
-        for (Integer rId:roles){
-            MmoSimpleRole role=OnlineRoleMessageCache.getInstance().get(rId);
-            nextSceneRoles.add(role);
-        }
+        List<MmoSimpleRole> nextSceneRoles=mmoSimpleRole.wentScene(nextSceneId);
+        //ptotobuf生成wentResponse
         //生成response返回
         NettyResponse nettyResponse=new NettyResponse();
         nettyResponse.setCmd(ConstantValue.WENT_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        //ptotobuf生成wentResponse
         SceneModel.SceneModelMessage.Builder builder=SceneModel.SceneModelMessage.newBuilder();
         builder.setDataType(SceneModel.SceneModelMessage.DateType.WentResponse);
-
         SceneModel.WentResponse.Builder wentResponsebuilder=SceneModel.WentResponse.newBuilder();
         //simpleRole
         List<SceneModel.RoleDTO> roleDTOS=new ArrayList<>();
@@ -173,9 +130,7 @@ public class SceneServiceImpl implements SceneService {
         builder.setWentResponse(wentResponsebuilder.build());
         byte[] data2=builder.build().toByteArray();
         nettyResponse.setData(data2);
-        log.info("wentRequest:"+data2.length);
         channel.writeAndFlush(nettyResponse);
-        return;
     }
 
     @Override

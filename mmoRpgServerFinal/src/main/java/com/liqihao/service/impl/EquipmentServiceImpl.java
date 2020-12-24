@@ -1,14 +1,13 @@
 package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.liqihao.Cache.OnlineRoleMessageCache;
 import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyRequest;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.enums.ArticleTypeCode;
-import com.liqihao.commons.enums.StateCode;
+import com.liqihao.commons.StateCode;
 import com.liqihao.pojo.bean.Article;
 import com.liqihao.pojo.bean.EquipmentBean;
 import com.liqihao.pojo.bean.MmoSimpleRole;

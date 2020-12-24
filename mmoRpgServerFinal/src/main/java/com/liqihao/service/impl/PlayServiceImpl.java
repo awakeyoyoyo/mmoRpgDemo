@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.concurrent.*;
 
 /**
  * 用户模块
@@ -32,8 +31,6 @@ public class PlayServiceImpl implements PlayService{
     private MmoRolePOJOMapper mmoRolePOJOMapper;
     @Autowired
     private MmoUserPOJOMapper mmoUserPOJOMapper;
-    @Autowired
-    private MmoScenePOJOMapper mmoScenePOJOMapper;
     @Autowired
     private MmoBagPOJOMapper mmoBagPOJOMapper;
     @Autowired
@@ -123,6 +120,8 @@ public class PlayServiceImpl implements PlayService{
         //初始化基础信息获取
         MmoSimpleRole simpleRole=new MmoSimpleRole();
         role.setStatus(RoleStatusCode.ALIVE.getCode());
+        BaseDetailMessage baseDetailMessage=MmoBaseMessageCache.getInstance().getBaseDetailMessage();
+        simpleRole.setTeamApplyOrInviteSize(baseDetailMessage.getTeamApplyOrInviteSize());
         BaseRoleMessage baseRoleMessage= MmoBaseMessageCache.getInstance().getBaseRoleMessage();
         simpleRole.init(role,baseRoleMessage);
         BackPackManager backPackManager=new BackPackManager(MmoBaseMessageCache.getInstance().getBaseDetailMessage().getBagSize());
@@ -215,11 +214,11 @@ public class PlayServiceImpl implements PlayService{
         //保存背包信息入数据库
         CommonsUtil.bagIntoDataBase(role.getBackpackManager(),role.getId());
         CommonsUtil.equipmentIntoDataBase(role);
+        CommonsUtil.RoleInfoIntoDataBase(role);
         //将数据库中设置为离线
         MmoRolePOJO mmoRolePOJO=mmoRolePOJOMapper.selectByPrimaryKey(role.getId());
         mmoRolePOJO.setOnstatus(RoleOnStatusCode.EXIT.getCode());
         mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO);
-        MmoScenePOJO mmoScenePOJO=mmoScenePOJOMapper.selectByPrimaryKey(mmoRolePOJO.getMmosceneid());
         //缓存角色集合删除
         OnlineRoleMessageCache.getInstance().remove(role.getId());
         SceneBeanMessageCache.getInstance().get(role.getMmosceneid()).getRoles().remove(role.getId());
