@@ -20,6 +20,8 @@ public class Dispatcherservlet {
     private BackPackService backPackService;
     @Autowired
     private EquipmentService equipmentService;
+    @Autowired
+    private TeamService teamService;
     /**
      * 根据model和cmd转发到不同的service
      *
@@ -86,6 +88,9 @@ public class Dispatcherservlet {
                 break;
             case ConstantValue.FAIL_RESPONSE:
                 System.out.println(new java.lang.String(nettyResponse.getData()));
+                break;
+            case ConstantValue.TEAM_MESSAGE_RESPONSE:
+                teamService.teamMessageResponse(nettyResponse);
                 break;
             default:
                 System.out.println("handler:收到");

@@ -1,0 +1,44 @@
+syntax ="proto3";
+
+option java_outer_classname="TeamModel";
+//protoful 可以使用message 管理其他的mssage
+message TeamModelMessage{
+  //定义枚举类型
+  enum DateType{
+    CreateTeamRequest=0;//在proto3 要求enum的编号从0开始
+    TeamMessageRequest=2;
+    TeamMessageResponse=3;
+  }
+  //用date_type来标识传的是哪一个枚举类型
+  DateType data_type=1;
+  //表示每次枚举类型最多只能出现其中一个，节省空间
+  oneof dateBody{
+    CreateTeamRequest createTeamRequest=2;
+    TeamMessageRequest teamMessageRequest=4;
+    TeamMessageResponse teamMessageResponse=5;
+  }
+}
+message CreateTeamRequest{
+  string name=1;
+}
+message TeamMessageRequest{
+
+}
+message TeamMessageResponse{
+    TeamBeanDto teamBeanDto=1;
+}
+message TeamBeanDto{
+  int32 teamId=1;
+  repeated RoleDto roleDtos=2;
+  int32 leaderId=3;
+  string teamName=4;
+}
+message RoleDto{
+  int32 id=1;
+  string name=2;
+  int32 hp=3;
+  int32 mp=4;
+  int32 nowHp=5;
+  int32 nowMP=6;
+  int32 teamId=7;
+}

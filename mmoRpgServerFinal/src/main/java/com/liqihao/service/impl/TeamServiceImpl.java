@@ -3,6 +3,7 @@ package com.liqihao.service.impl;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.liqihao.Cache.ChannelMessageCache;
 import com.liqihao.Cache.OnlineRoleMessageCache;
+import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyRequest;
@@ -11,12 +12,17 @@ import com.liqihao.commons.StateCode;
 import com.liqihao.pojo.bean.MmoSimpleRole;
 import com.liqihao.pojo.bean.TeamApplyOrInviteBean;
 import com.liqihao.pojo.bean.TeamBean;
+import com.liqihao.protobufObject.SceneModel;
+import com.liqihao.protobufObject.TeamModel;
 import com.liqihao.provider.TeamServiceProvider;
 import com.liqihao.service.TeamService;
 import com.liqihao.util.CommonsUtil;
 import io.netty.channel.Channel;
+import org.springframework.beans.factory.support.ManagedMap;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -93,9 +99,18 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
+    @HandlerCmdTag(cmd = ConstantValue.CREATE_TEAM_REQUEST,module = ConstantValue.TEAM_MODULE)
     public void createTeamRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
-        //todo 结束数据
         //判断是否在线 并且返回玩家对象
+        byte[] data=nettyRequest.getData();
+        TeamModel.TeamModelMessage myMessage;
+        myMessage=TeamModel.TeamModelMessage.parseFrom(data);
+        String teamName=myMessage.getCreateTeamRequest().getName();
+        if (teamName==null){
+            NettyResponse errotResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"请输入参数".getBytes());
+            channel.writeAndFlush(errotResponse);
+            return;
+        }
         MmoSimpleRole mmoSimpleRole= CommonsUtil.checkLogin(channel);
         if (mmoSimpleRole==null) {
             return;
@@ -106,8 +121,27 @@ public class TeamServiceImpl implements TeamService {
             channel.writeAndFlush(errotResponse);
             return;
         }
-        TeamBean teamBean=TeamServiceProvider.createNewTeamBean(mmoSimpleRole);
-        //todo 返回创建结果
+        TeamBean teamBean=TeamServiceProvider.createNewTeamBean(mmoSimpleRole,teamName);
+        mmoSimpleRole.setTeamId(teamBean.getTeamId());
+        TeamModel.RoleDto role=TeamModel.RoleDto.newBuilder().setId(mmoSimpleRole.getId())
+                .setHp(mmoSimpleRole.getBlood()).setMp(mmoSimpleRole.getMp())
+                .setName(mmoSimpleRole.getName()).setNowHp(mmoSimpleRole.getNowBlood())
+                .setTeamId(mmoSimpleRole.getTeamId())
+                .setNowMP(mmoSimpleRole.getNowMp()).build();
+        List<TeamModel.RoleDto> roles=new ArrayList<>();
+        roles.add(role);
+        TeamModel.TeamBeanDto teamBeanDto=TeamModel.TeamBeanDto.newBuilder().addAllRoleDtos(roles)
+                .setLeaderId(teamBean.getLeaderId()).setTeamName(teamBean.getTeamName())
+                .setTeamId(teamBean.getTeamId()).build();
+        TeamModel.TeamMessageResponse teamMessageResponse=TeamModel.TeamMessageResponse.newBuilder().setTeamBeanDto(teamBeanDto).build();
+        TeamModel.TeamModelMessage.Builder teamMessageBuilder=TeamModel.TeamModelMessage.newBuilder();
+        teamMessageBuilder.setDataType(TeamModel.TeamModelMessage.DateType.TeamMessageResponse);
+        teamMessageBuilder.setTeamMessageResponse(teamMessageResponse);
+        NettyResponse nettyResponse=new NettyResponse();
+        nettyResponse.setStateCode(StateCode.SUCCESS);
+        nettyResponse.setCmd(ConstantValue.TEAM_MESSAGE_RESPONSE);
+        nettyResponse.setData(teamMessageBuilder.build().toByteArray());
+        channel.writeAndFlush(nettyResponse);
     }
 
     @Override
@@ -305,5 +339,42 @@ public class TeamServiceImpl implements TeamService {
         }
         List<TeamApplyOrInviteBean> inviteBeanList=mmoSimpleRole.getInviteBeans();
         //todo 发送给角色
+    }
+
+    @Override
+    @HandlerCmdTag(cmd = ConstantValue.TEAM_MESSAGE_REQUEST,module = ConstantValue.TEAM_MODULE)
+    public void teamMessageRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
+        MmoSimpleRole mmoSimpleRole= CommonsUtil.checkLogin(channel);
+        if (mmoSimpleRole==null) {
+            return;
+        }
+        Integer teamId=mmoSimpleRole.getTeamId();
+        if (teamId==null){
+            NettyResponse errotResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"没有进入任何队伍".getBytes());
+            channel.writeAndFlush(errotResponse);
+            return;
+        }
+        TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(teamId);
+        List<TeamModel.RoleDto> roles=new ArrayList<>();
+        for (MmoSimpleRole simpleRole:teamBean.getMmoSimpleRoles()) {
+            TeamModel.RoleDto role = TeamModel.RoleDto.newBuilder().setId(simpleRole.getId())
+                    .setHp(simpleRole.getBlood()).setMp(simpleRole.getMp())
+                    .setTeamId(mmoSimpleRole.getTeamId())
+                    .setName(simpleRole.getName()).setNowHp(simpleRole.getNowBlood())
+                    .setNowMP(simpleRole.getNowMp()).build();
+            roles.add(role);
+        }
+        TeamModel.TeamBeanDto teamBeanDto=TeamModel.TeamBeanDto.newBuilder().addAllRoleDtos(roles)
+                .setLeaderId(teamBean.getLeaderId()).setTeamName(teamBean.getTeamName())
+                .setTeamId(teamBean.getTeamId()).build();
+        TeamModel.TeamMessageResponse teamMessageResponse=TeamModel.TeamMessageResponse.newBuilder().setTeamBeanDto(teamBeanDto).build();
+        TeamModel.TeamModelMessage.Builder teamMessageBuilder=TeamModel.TeamModelMessage.newBuilder();
+        teamMessageBuilder.setDataType(TeamModel.TeamModelMessage.DateType.TeamMessageResponse);
+        teamMessageBuilder.setTeamMessageResponse(teamMessageResponse);
+        NettyResponse nettyResponse=new NettyResponse();
+        nettyResponse.setStateCode(StateCode.SUCCESS);
+        nettyResponse.setCmd(ConstantValue.TEAM_MESSAGE_RESPONSE);
+        nettyResponse.setData(teamMessageBuilder.build().toByteArray());
+        channel.writeAndFlush(nettyResponse);
     }
 }

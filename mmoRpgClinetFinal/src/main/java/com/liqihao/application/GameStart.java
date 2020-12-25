@@ -8,10 +8,7 @@ import com.liqihao.commons.NettyRequest;
 import com.liqihao.pojo.MmoRole;
 import com.liqihao.pojo.baseMessage.SceneMessage;
 import com.liqihao.pojo.baseMessage.SkillMessage;
-import com.liqihao.protobufObject.BackPackModel;
-import com.liqihao.protobufObject.EquipmentModel;
-import com.liqihao.protobufObject.PlayModel;
-import com.liqihao.protobufObject.SceneModel;
+import com.liqihao.protobufObject.*;
 import com.liqihao.utils.CommonsUtil;
 import io.netty.channel.Channel;
 
@@ -104,9 +101,42 @@ public class GameStart {
                         break;
                     case ConstantValue.FIX_EQUIPMENT_REQUEST:
                         fixEquipmentRequest(scanner);
+                        break;
+                    case ConstantValue.TEAM_MESSAGE_REQUEST:
+                        teamMessageRequest(scanner);
+                        break;
+                    case ConstantValue.CREATE_TEAM_REQUEST:
+                        createTeamRequest(scanner);
+                        break;
                     default:
                         System.out.println("GameStart-handler:收到错误cmd");
                 }
+    }
+
+    private void createTeamRequest(Scanner scanner) {
+        System.out.println("请输入创建的队伍名字");
+        String teamName=scanner.nextLine();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.CREATE_TEAM_REQUEST);
+        TeamModel.TeamModelMessage myMessage;
+        myMessage=TeamModel.TeamModelMessage.newBuilder()
+                .setDataType(TeamModel.TeamModelMessage.DateType.CreateTeamRequest)
+                .setCreateTeamRequest(TeamModel.CreateTeamRequest.newBuilder().setName(teamName).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void teamMessageRequest(Scanner scanner) {
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.TEAM_MESSAGE_REQUEST);
+        TeamModel.TeamModelMessage myMessage;
+        myMessage=TeamModel.TeamModelMessage.newBuilder()
+                .setDataType(TeamModel.TeamModelMessage.DateType.TeamMessageRequest)
+                .setTeamMessageRequest(TeamModel.TeamMessageRequest.newBuilder().build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
     }
 
     private void fixEquipmentRequest(Scanner scanner) {

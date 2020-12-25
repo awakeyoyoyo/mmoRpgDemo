@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
  */
 public class TeamBean {
     private Integer teamId;
+    private String teamName;
     private ConcurrentHashMap<Integer,MmoSimpleRole> mmoSimpleRolesMap;
     private Integer copySceneBeanId;
     private Integer leaderId;
@@ -32,6 +33,14 @@ public class TeamBean {
     private ConcurrentLinkedQueue<TeamApplyOrInviteBean> teamApplyOrInviteBeans;
     private Integer teamApplyOrInviteSize;
     private Integer teamRoleSize;
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
+    }
 
     public Integer getTeamRoleSize() {
         return teamRoleSize;

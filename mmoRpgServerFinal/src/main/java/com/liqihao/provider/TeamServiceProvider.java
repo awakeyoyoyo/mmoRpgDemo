@@ -15,12 +15,13 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author lqhao
  */
 public class TeamServiceProvider {
-    private static ConcurrentHashMap<Integer,TeamBean> teamBeans;
+    private static ConcurrentHashMap<Integer,TeamBean> teamBeans=new ConcurrentHashMap<>();
     private static AtomicInteger teamBeanIdAuto=new AtomicInteger(0);
-    public static TeamBean createNewTeamBean(MmoSimpleRole leader){
+    public static TeamBean createNewTeamBean(MmoSimpleRole leader,String teamName){
         TeamBean teamBean=new TeamBean();
         teamBean.setTeamId(teamBeanIdAuto.incrementAndGet());
         teamBean.setCopySceneBeanId(null);
+        teamBean.setTeamName(teamName);
         ConcurrentHashMap<Integer,MmoSimpleRole> mmoRoleMap=new ConcurrentHashMap<>();
         mmoRoleMap.put(leader.getId(),leader);
         teamBean.setMmoSimpleRolesMap(mmoRoleMap);

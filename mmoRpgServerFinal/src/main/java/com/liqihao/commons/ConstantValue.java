@@ -74,6 +74,12 @@ public interface ConstantValue {
     int EQUIPMENT_MSG_RESPONSE=5501;
     int REDUCE_EQUIPMENT_RESPONSE=5502;
     int FIX_EQUIPMENT_RESPONSE=5503;
+    //组队系统
+    String TEAM_MODULE="teamServiceImpl";
+    int CREATE_TEAM_REQUEST=6000;
+    int TEAM_MESSAGE_REQUEST=6001;
+
+    int TEAM_MESSAGE_RESPONSE=6500;
 
     int FAIL_RESPONSE=9999;
 }
