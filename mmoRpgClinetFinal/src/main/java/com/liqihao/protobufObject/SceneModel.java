@@ -7479,6 +7479,12 @@ public final class SceneModel {
      * @return The attackAdd.
      */
     double getAttackAdd();
+
+    /**
+     * <code>int32 teamId = 13;</code>
+     * @return The teamId.
+     */
+    int getTeamId();
   }
   /**
    * Protobuf type {@code RoleDTO}
@@ -7603,6 +7609,11 @@ public final class SceneModel {
             case 97: {
 
               attackAdd_ = input.readDouble();
+              break;
+            }
+            case 104: {
+
+              teamId_ = input.readInt32();
               break;
             }
             default: {
@@ -7816,6 +7827,17 @@ public final class SceneModel {
       return attackAdd_;
     }
 
+    public static final int TEAMID_FIELD_NUMBER = 13;
+    private int teamId_;
+    /**
+     * <code>int32 teamId = 13;</code>
+     * @return The teamId.
+     */
+    @Override
+    public int getTeamId() {
+      return teamId_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -7870,6 +7892,9 @@ public final class SceneModel {
       }
       if (attackAdd_ != 0D) {
         output.writeDouble(12, attackAdd_);
+      }
+      if (teamId_ != 0) {
+        output.writeInt32(13, teamId_);
       }
       unknownFields.writeTo(output);
     }
@@ -7937,6 +7962,10 @@ public final class SceneModel {
         size += com.google.protobuf.CodedOutputStream
           .computeDoubleSize(12, attackAdd_);
       }
+      if (teamId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(13, teamId_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -7977,6 +8006,8 @@ public final class SceneModel {
       if (Double.doubleToLongBits(getAttackAdd())
           != Double.doubleToLongBits(
               other.getAttackAdd())) return false;
+      if (getTeamId()
+          != other.getTeamId()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -8015,6 +8046,8 @@ public final class SceneModel {
       hash = (37 * hash) + ATTACKADD_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           Double.doubleToLongBits(getAttackAdd()));
+      hash = (37 * hash) + TEAMID_FIELD_NUMBER;
+      hash = (53 * hash) + getTeamId();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -8172,6 +8205,8 @@ public final class SceneModel {
 
         attackAdd_ = 0D;
 
+        teamId_ = 0;
+
         return this;
       }
 
@@ -8215,6 +8250,7 @@ public final class SceneModel {
         result.skillIdList_ = skillIdList_;
         result.attack_ = attack_;
         result.attackAdd_ = attackAdd_;
+        result.teamId_ = teamId_;
         onBuilt();
         return result;
       }
@@ -8306,6 +8342,9 @@ public final class SceneModel {
         }
         if (other.getAttackAdd() != 0D) {
           setAttackAdd(other.getAttackAdd());
+        }
+        if (other.getTeamId() != 0) {
+          setTeamId(other.getTeamId());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -8798,6 +8837,37 @@ public final class SceneModel {
       public Builder clearAttackAdd() {
         
         attackAdd_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private int teamId_ ;
+      /**
+       * <code>int32 teamId = 13;</code>
+       * @return The teamId.
+       */
+      @Override
+      public int getTeamId() {
+        return teamId_;
+      }
+      /**
+       * <code>int32 teamId = 13;</code>
+       * @param value The teamId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTeamId(int value) {
+        
+        teamId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 teamId = 13;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTeamId() {
+        
+        teamId_ = 0;
         onChanged();
         return this;
       }
@@ -9580,14 +9650,15 @@ public final class SceneModel {
       "Ids\030\001 \003(\005\"1\n\024FindAllRolesResponse\022\031\n\007rol" +
       "eDTO\030\001 \003(\0132\010.RoleDTO\":\n\014WentResponse\022\017\n\007" +
       "sceneId\030\001 \001(\005\022\031\n\007roleDTO\030\002 \003(\0132\010.RoleDTO" +
-      "\" \n\017TalkNPCResponse\022\r\n\005npcId\030\001 \001(\005\"\307\001\n\007R" +
+      "\" \n\017TalkNPCResponse\022\r\n\005npcId\030\001 \001(\005\"\327\001\n\007R" +
       "oleDTO\022\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\016\n\006stat" +
       "us\030\003 \001(\005\022\014\n\004type\030\004 \001(\005\022\020\n\010onStatus\030\005 \001(\005" +
       "\022\r\n\005blood\030\006 \001(\005\022\020\n\010nowBlood\030\007 \001(\005\022\n\n\002mp\030" +
       "\010 \001(\005\022\r\n\005nowMp\030\t \001(\005\022\023\n\013skillIdList\030\n \003(" +
-      "\005\022\016\n\006attack\030\013 \001(\005\022\021\n\tattackAdd\030\014 \001(\001\"/\n\016" +
-      "MmoSimpleScene\022\n\n\002id\030\001 \001(\005\022\021\n\tpalceName\030" +
-      "\002 \001(\tB\014B\nSceneModelb\006proto3"
+      "\005\022\016\n\006attack\030\013 \001(\005\022\021\n\tattackAdd\030\014 \001(\001\022\016\n\006" +
+      "teamId\030\r \001(\005\"/\n\016MmoSimpleScene\022\n\n\002id\030\001 \001" +
+      "(\005\022\021\n\tpalceName\030\002 \001(\tB\014B\nSceneModelb\006pro" +
+      "to3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -9652,7 +9723,7 @@ public final class SceneModel {
     internal_static_RoleDTO_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_RoleDTO_descriptor,
-        new String[] { "Id", "Name", "Status", "Type", "OnStatus", "Blood", "NowBlood", "Mp", "NowMp", "SkillIdList", "Attack", "AttackAdd", });
+        new String[] { "Id", "Name", "Status", "Type", "OnStatus", "Blood", "NowBlood", "Mp", "NowMp", "SkillIdList", "Attack", "AttackAdd", "TeamId", });
     internal_static_MmoSimpleScene_descriptor =
       getDescriptor().getMessageTypes().get(10);
     internal_static_MmoSimpleScene_fieldAccessorTable = new

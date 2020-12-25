@@ -185,6 +185,7 @@ public class PlayServiceImpl implements PlayService{
                 .addAllSkillIdList(simpleRole.getSkillIdList())
                 .setMp(simpleRole.getMp())
                 .setNowMp(simpleRole.getNowMp())
+                .setTeamId(simpleRole.getTeamId()==null?-1:simpleRole.getTeamId())
                 .setAttack(simpleRole.getAttack())
                 .setAttackAdd(simpleRole.getDamageAdd())
                 .build();

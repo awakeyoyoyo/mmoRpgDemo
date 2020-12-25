@@ -79,6 +79,7 @@ message RoleDTO{
   repeated int32 skillIdList=10;
   int32 attack=11;
   double attackAdd=12;
+  int32 teamId=13;
 }
 message RoleIdDamage{
   int32 fromRoleId=1;

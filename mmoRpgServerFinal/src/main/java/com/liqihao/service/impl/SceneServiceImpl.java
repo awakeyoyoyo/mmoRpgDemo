@@ -34,10 +34,6 @@ import java.util.List;
 @HandlerServiceTag
 public class SceneServiceImpl implements SceneService {
     private static final Logger log = LoggerFactory.getLogger(SceneServiceImpl.class);
-    @Autowired
-    private MmoRolePOJOMapper mmoRolePOJOMapper;
-
-
     @Override
     @HandlerCmdTag(cmd = ConstantValue.ASK_CAN_REQUEST,module = ConstantValue.SCENE_MODULE)
     public void askCanRequest(NettyRequest request,Channel channel) throws InvalidProtocolBufferException {
@@ -120,6 +116,7 @@ public class SceneServiceImpl implements SceneService {
             msr.setNowBlood(mmoRole.getNowBlood());
             msr.setMp(mmoRole.getMp());
             msr.setNowMp(mmoRole.getNowMp());
+            msr.setTeamId(mmoRole.getTeamId()==null?-1:mmoRole.getTeamId());
             msr.setAttack(mmoRole.getAttack());
             msr.setAttackAdd(mmoRole.getDamageAdd());
             SceneModel.RoleDTO msrobject=msr.build();
@@ -193,6 +190,7 @@ public class SceneServiceImpl implements SceneService {
                     .setBlood(m.getBlood())
                     .setNowBlood(m.getNowBlood())
                     .setMp(m.getMp())
+                    .setTeamId(m.getTeamId()==null?-1:m.getTeamId())
                     .setNowMp(m.getNowMp())
                     .setAttack(m.getAttack())
                     .setAttackAdd(m.getDamageAdd())
