@@ -7,6 +7,7 @@ import com.liqihao.pojo.bean.TeamBean;
 import org.apache.poi.ss.formula.functions.T;
 
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -29,6 +30,7 @@ public class TeamServiceProvider {
         teamBean.setTeamApplyOrInviteSize(MmoBaseMessageCache.getInstance().getBaseDetailMessage().getTeamApplyOrInviteSize());
         teamBean.setTeamRoleSize(MmoBaseMessageCache.getInstance().getBaseDetailMessage().getTeamRoleSize());
         teamBean.setLeaderId(leader.getId());
+        teamBean.setTeamApplyOrInviteBeans(new ConcurrentLinkedQueue<>());
         teamBeans.put(teamBean.getTeamId(),teamBean);
         return teamBean;
     }

@@ -92,6 +92,18 @@ public class Dispatcherservlet {
             case ConstantValue.TEAM_MESSAGE_RESPONSE:
                 teamService.teamMessageResponse(nettyResponse);
                 break;
+            case ConstantValue.APPLY_FOR_TEAM_RESPONSE:
+                teamService.applyForTeamResponse(nettyResponse);
+                break;
+            case ConstantValue.INVITE_PEOPLE_RESPONSE:
+                teamService.invitePeopleResponse(nettyResponse);
+                break;
+            case ConstantValue.APPLY_MESSAGE_RESPONSE:
+                teamService.applyMessageResponse(nettyResponse);
+                break;
+            case ConstantValue.INVITE_MESSAGE_RESPONSE:
+                teamService.inviteMessageResponse(nettyResponse);
+                break;
             default:
                 System.out.println("handler:收到");
                 System.out.println(new java.lang.String(nettyResponse.getData()));

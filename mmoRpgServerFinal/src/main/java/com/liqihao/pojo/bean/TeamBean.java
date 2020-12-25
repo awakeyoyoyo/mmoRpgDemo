@@ -208,32 +208,32 @@ public class TeamBean {
     /**
      * 邀请玩家进队伍
      */
-    public void invitePeople(MmoSimpleRole mmoSimpleRole) {
+    public TeamApplyOrInviteBean invitePeople(MmoSimpleRole mmoSimpleRole) {
 
         TeamApplyOrInviteBean teamApplyOrInviteBean=new TeamApplyOrInviteBean();
         teamApplyOrInviteBean.setCreateTime(System.currentTimeMillis());
         teamApplyOrInviteBean.setEndTime(System.currentTimeMillis()+5*1000*60);
         teamApplyOrInviteBean.setType(TeamApplyInviteCode.INVITE.getCode());
         teamApplyOrInviteBean.setRoleId(mmoSimpleRole.getId());
+        teamApplyOrInviteBean.setTeamId(teamId);
         //用户方面添加邀请
         mmoSimpleRole.addTeamApplyOrInviteBean(teamApplyOrInviteBean);
-        //发送邀请给玩家 TODO
-        //返回一个成功的响应给 邀请者
+        return teamApplyOrInviteBean;
     }
 
     /**
      * 申请入队
      */
-    public void applyTeam(MmoSimpleRole mmoSimpleRole) {
+    public TeamApplyOrInviteBean applyTeam(MmoSimpleRole mmoSimpleRole) {
         TeamApplyOrInviteBean teamApplyOrInviteBean=new TeamApplyOrInviteBean();
         teamApplyOrInviteBean.setCreateTime(System.currentTimeMillis());
         teamApplyOrInviteBean.setEndTime(System.currentTimeMillis()+5*1000*60);
         teamApplyOrInviteBean.setType(TeamApplyInviteCode.APPLY.getCode());
         teamApplyOrInviteBean.setRoleId(mmoSimpleRole.getId());
+        teamApplyOrInviteBean.setTeamId(teamId);
         //队伍增加申请
         addTeamApplyOrInviteBean(teamApplyOrInviteBean);
-        //发送邀请给玩家 TODO
-        //返回一个成功的响应给 申请者
+        return  teamApplyOrInviteBean;
     }
 
     /**
@@ -260,7 +260,7 @@ public class TeamBean {
      */
     public List<TeamApplyOrInviteBean> getTeamApplyBean(){
         checkOutTime();
-        return teamApplyOrInviteBeans.stream().filter(e->e.getType().equals(TeamApplyInviteCode.APPLY)).collect(Collectors.toList());
+        return teamApplyOrInviteBeans.stream().filter(e->e.getType().equals(TeamApplyInviteCode.APPLY.getCode())).collect(Collectors.toList());
     }
 
     /**

@@ -8,6 +8,14 @@ message TeamModelMessage{
     CreateTeamRequest=0;//在proto3 要求enum的编号从0开始
     TeamMessageRequest=2;
     TeamMessageResponse=3;
+      ApplyForTeamRequest=4;
+      ApplyForTeamResponse=5;
+      InvitePeopleRequest=6;
+      InvitePeopleResponse=7;
+      ApplyMessageRequest=8;
+      ApplyMessageResponse=9;
+      InviteMessageResponse=10;
+      InviteMessageRequest=11;
   }
   //用date_type来标识传的是哪一个枚举类型
   DateType data_type=1;
@@ -16,6 +24,14 @@ message TeamModelMessage{
     CreateTeamRequest createTeamRequest=2;
     TeamMessageRequest teamMessageRequest=4;
     TeamMessageResponse teamMessageResponse=5;
+    ApplyForTeamRequest applyForTeamRequest=6;
+    ApplyForTeamResponse applyForTeamResponse=7;
+    InvitePeopleRequest invitePeopleRequest=8;
+    InvitePeopleResponse invitePeopleResponse=9;
+    ApplyMessageRequest applyMessageRequest=10;
+    ApplyMessageResponse applyMessageResponse=11;
+    InviteMessageResponse inviteMessageResponse=12;
+    InviteMessageRequest inviteMessageRequest=13;
   }
 }
 message CreateTeamRequest{
@@ -27,12 +43,45 @@ message TeamMessageRequest{
 message TeamMessageResponse{
     TeamBeanDto teamBeanDto=1;
 }
+message ApplyForTeamRequest{
+  int32 teamId=1;
+}
+message ApplyForTeamResponse{
+  ApplyInviteBeanDto applyInviteBeanDtos=1;
+}
+message InvitePeopleRequest{
+  int32 roleId=1;
+}
+message InvitePeopleResponse{
+  ApplyInviteBeanDto applyInviteBeanDtos=1;
+}
+message ApplyMessageRequest{
+}
+message InviteMessageRequest{
+
+}
+message ApplyMessageResponse{
+   repeated ApplyInviteBeanDto applyInviteBeanDtos=1;
+}
+message InviteMessageResponse{
+  repeated ApplyInviteBeanDto applyInviteBeanDtos=1;
+}
+message ApplyInviteBeanDto{
+  int32 roleId=1;
+  int32 type=2;
+  int32 teamId=3;
+  string teamName=4;
+  sint64 endTime=5;
+  sint64 createTime=6;
+}
+
 message TeamBeanDto{
   int32 teamId=1;
   repeated RoleDto roleDtos=2;
   int32 leaderId=3;
   string teamName=4;
 }
+
 message RoleDto{
   int32 id=1;
   string name=2;

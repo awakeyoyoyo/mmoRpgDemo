@@ -87,7 +87,7 @@ public interface TeamService {
      * @param channel
      * @throws InvalidProtocolBufferException
      */
-    void roleInviteMessage(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException;
+    void inviteMessage(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException;
     /**
      * 获取队伍信息
      * @param nettyRequest

@@ -108,9 +108,75 @@ public class GameStart {
                     case ConstantValue.CREATE_TEAM_REQUEST:
                         createTeamRequest(scanner);
                         break;
+                    case ConstantValue.APPLY_FOR_TEAM_REQUEST:
+                        applyForTeamRequest(scanner);
+                        break;
+                    case ConstantValue.INVITE_PEOPLE_REQUEST:
+                        invitePeopleRequest(scanner);
+                        break;
+                    case ConstantValue.APPLY_MESSAGE_REQUEST:
+                        applyMessageRequest(scanner);
+                        break;
+                    case ConstantValue.INVITE_MESSAGE_REQUEST:
+                        inviteMessageRequest(scanner);
+                        break;
                     default:
                         System.out.println("GameStart-handler:收到错误cmd");
                 }
+    }
+
+    private void applyForTeamRequest(Scanner scanner) {
+        System.out.println("请输入你要加入的队伍的id");
+        Integer teamId=scanner.nextInt();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.APPLY_FOR_TEAM_REQUEST);
+        TeamModel.TeamModelMessage myMessage;
+        myMessage=TeamModel.TeamModelMessage.newBuilder()
+                .setDataType(TeamModel.TeamModelMessage.DateType.ApplyForTeamRequest)
+                .setApplyForTeamRequest(TeamModel.ApplyForTeamRequest.newBuilder().setTeamId(teamId).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void applyMessageRequest(Scanner scanner) {
+
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.APPLY_MESSAGE_REQUEST);
+        TeamModel.TeamModelMessage myMessage;
+        myMessage=TeamModel.TeamModelMessage.newBuilder()
+                .setDataType(TeamModel.TeamModelMessage.DateType.ApplyMessageRequest)
+                .setApplyMessageRequest(TeamModel.ApplyMessageRequest.newBuilder().build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void invitePeopleRequest(Scanner scanner) {
+        System.out.println("请输入你要邀请的玩家id");
+        Integer roleId=scanner.nextInt();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.INVITE_PEOPLE_REQUEST);
+        TeamModel.TeamModelMessage myMessage;
+        myMessage=TeamModel.TeamModelMessage.newBuilder()
+                .setDataType(TeamModel.TeamModelMessage.DateType.InvitePeopleRequest)
+                .setInvitePeopleRequest(TeamModel.InvitePeopleRequest.newBuilder().setRoleId(roleId).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void inviteMessageRequest(Scanner scanner) {
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.INVITE_MESSAGE_REQUEST);
+        TeamModel.TeamModelMessage myMessage;
+        myMessage=TeamModel.TeamModelMessage.newBuilder()
+                .setDataType(TeamModel.TeamModelMessage.DateType.InviteMessageRequest)
+                .setInviteMessageRequest(TeamModel.InviteMessageRequest.newBuilder().build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+
     }
 
     private void createTeamRequest(Scanner scanner) {
