@@ -5,6 +5,7 @@ import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.TeamApplyInviteCode;
+import com.liqihao.protobufObject.TeamModel;
 import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.provider.TeamServiceProvider;
 import io.netty.channel.Channel;
@@ -154,11 +155,8 @@ public class TeamBean {
         //判断退出队伍者是否是leader
         MmoSimpleRole mmoSimpleRole=mmoSimpleRolesMap.get(roleId);
         if (getLeaderId().equals(roleId)) {
-            mmoSimpleRolesMap.remove(mmoSimpleRole.getId());
             if (mmoSimpleRolesMap.values().isEmpty()){
                 //没人了
-                //发送信息给退出队伍者 且队伍已经解散
-                //TODO
                 //判断是否在副本中
                 checkInCopyScene(mmoSimpleRole);
                 //解散队伍
@@ -169,13 +167,30 @@ public class TeamBean {
                 MmoSimpleRole nextLeader = mmoSimpleRolesMap.values().iterator().next();
                 setLeaderId(nextLeader.getId());
             }
+            mmoSimpleRolesMap.remove(mmoSimpleRole.getId());
         }
         //判断退出队伍者是否在副本中
         checkInCopyScene(mmoSimpleRole);
         mmoSimpleRole.setTeamId(null);
-        //TODO 发送信息给退出队伍者
-
-        //TODO 广播队伍里面的人少了人
+        TeamModel.RoleDto roleDto=TeamModel.RoleDto.newBuilder().setId(mmoSimpleRole.getId()).setHp(mmoSimpleRole.getBlood())
+                .setMp(mmoSimpleRole.getMp()).setName(mmoSimpleRole.getName()).setNowHp(mmoSimpleRole.getNowBlood())
+                .setNowMP(mmoSimpleRole.getNowMp()).setTeamId(mmoSimpleRole.getTeamId()).build();
+        TeamModel.ExitTeamResponse exitTeamResponse=TeamModel.ExitTeamResponse.newBuilder().setRoleDto(roleDto).build();
+        TeamModel.TeamModelMessage.Builder teamMessageBuilder=TeamModel.TeamModelMessage.newBuilder();
+        teamMessageBuilder.setDataType(TeamModel.TeamModelMessage.DateType.ExitTeamResponse);
+        teamMessageBuilder.setExitTeamResponse(exitTeamResponse);
+        NettyResponse nettyResponse=new NettyResponse();
+        nettyResponse.setStateCode(StateCode.SUCCESS);
+        nettyResponse.setCmd(ConstantValue.EXIT_TEAM_RESPONSE);
+        nettyResponse.setData(teamMessageBuilder.build().toByteArray());
+        // 发送信息给退出队伍者
+        Channel c=ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        c.writeAndFlush(nettyResponse);
+        // 广播队伍里面的人少了人
+        for (MmoSimpleRole m:mmoSimpleRolesMap.values()) {
+            c=ChannelMessageCache.getInstance().get(m.getId());
+            c.writeAndFlush(nettyResponse);
+        }
     }
 
     private void checkInCopyScene(MmoSimpleRole mmoSimpleRole){
@@ -286,10 +301,27 @@ public class TeamBean {
         }
         mmoSimpleRolesMap.put(mmoSimpleRole.getId(),mmoSimpleRole);
         mmoSimpleRole.setTeamId(getTeamId());
-        //todo 广播给各个队友
+        // 广播给各个队友
+        TeamModel.RoleDto roleDto=TeamModel.RoleDto.newBuilder().setId(mmoSimpleRole.getId()).setHp(mmoSimpleRole.getBlood())
+                .setMp(mmoSimpleRole.getMp()).setName(mmoSimpleRole.getName()).setNowHp(mmoSimpleRole.getNowBlood())
+                .setNowMP(mmoSimpleRole.getNowMp()).setTeamId(mmoSimpleRole.getTeamId()).build();
+        TeamModel.EntryPeopleResponse entryPeopleResponse=TeamModel.EntryPeopleResponse.newBuilder().setRoleDto(roleDto).build();
+        TeamModel.TeamModelMessage.Builder teamMessageBuilder=TeamModel.TeamModelMessage.newBuilder();
+        teamMessageBuilder.setDataType(TeamModel.TeamModelMessage.DateType.EntryPeopleResponse);
+        teamMessageBuilder.setEntryPeopleResponse(entryPeopleResponse);
+        NettyResponse nettyResponse=new NettyResponse();
+        nettyResponse.setStateCode(StateCode.SUCCESS);
+        nettyResponse.setCmd(ConstantValue.ENTRY_PEOPLE_RESPONSE);
+        nettyResponse.setData(teamMessageBuilder.build().toByteArray());
+        for (MmoSimpleRole m:mmoSimpleRolesMap.values()) {
+            Channel c=ChannelMessageCache.getInstance().get(m.getId());
+            if (c!=null){
+                c.writeAndFlush(nettyResponse);
+            }
+        }
     }
 
-    public TeamApplyOrInviteBean constainsInvite(Integer roleId, Long createTime) {
+    public TeamApplyOrInviteBean constainsInvite(Integer roleId) {
         checkOutTime();
         Iterator iterator=teamApplyOrInviteBeans.iterator();
         TeamApplyOrInviteBean teamApplyOrInviteBean=null;
@@ -297,10 +329,10 @@ public class TeamBean {
             teamApplyOrInviteBean= (TeamApplyOrInviteBean) iterator.next();
             if (teamApplyOrInviteBean.getRoleId().equals(roleId)
                     &&teamApplyOrInviteBean.getType().equals(TeamApplyInviteCode.APPLY.getCode())
-                    &&createTime.equals(teamApplyOrInviteBean.getCreateTime())){
+                    ){
                 return teamApplyOrInviteBean;
             }
         }
-        return null;
+        return teamApplyOrInviteBean;
     }
 }

@@ -1,6 +1,4 @@
-package com.liqihao.commons.enums;
-
-import com.liqihao.commons.ConstantValue;
+package com.liqihao.commons;
 
 public enum  CmdCode {
     //
@@ -27,6 +25,9 @@ public enum  CmdCode {
     REFUSE_APPLY_REQUEST_CMD(ConstantValue.REFUSE_APPLY_REQUEST,ConstantValue.REFUSE_APPLY_REQUEST_CMD),
     REFUSE_INVITE_REQUEST_CMD(ConstantValue.REFUSE_INVITE_REQUEST,ConstantValue.REFUSE_INVITE_REQUEST_CMD),
     INVITE_MESSAGE_REQUEST_CMD(ConstantValue.INVITE_MESSAGE_REQUEST,ConstantValue.INVITE_MESSAGE_REQUEST_CMD),
+    ENTRY_INVITE_PEOPLE_REQUEST_CMD(ConstantValue.ENTRY_PEOPLE_REQUEST,ConstantValue.ENTRY_INVITE_PEOPLE_REQUEST_CMD),
+    ENTRY_APPLY_PEOPLE_REQUEST_CMD(ConstantValue.ENTRY_PEOPLE_REQUEST,ConstantValue.ENTRY_APPLY_PEOPLE_REQUEST_CMD),
+    EXIT_TEAM_REQUEST_CMD(ConstantValue.EXIT_TEAM_REQUEST,ConstantValue.EXIT_TEAM_REQUEST_CMD),
     ABANDON_REQUEST_CMD(ConstantValue.ABANDON_REQUEST,ConstantValue.ABANDON_REQUEST_CMD);
     private  int cmd;
     private  String option;

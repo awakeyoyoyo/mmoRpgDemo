@@ -20,28 +20,50 @@ message TeamModelMessage{
     RefuseApplyResponse=12;
     RefuseInviteResponse=13;
     RefuseInviteRequest=14;
+    EntryPeopleRequest=15;
+    EntryPeopleResponse=16;
+    ExitTeamRequest=17;
+    ExitTeamResponse=18;
   }
   //用date_type来标识传的是哪一个枚举类型
   DateType data_type=1;
   //表示每次枚举类型最多只能出现其中一个，节省空间
   oneof dateBody{
     CreateTeamRequest createTeamRequest=2;
-    TeamMessageRequest teamMessageRequest=4;
-    TeamMessageResponse teamMessageResponse=5;
-    ApplyForTeamRequest applyForTeamRequest=6;
-    ApplyForTeamResponse applyForTeamResponse=7;
-    InvitePeopleRequest invitePeopleRequest=8;
-    InvitePeopleResponse invitePeopleResponse=9;
-    ApplyMessageRequest applyMessageRequest=10;
-    ApplyMessageResponse applyMessageResponse=11;
-    InviteMessageResponse inviteMessageResponse=12;
-    InviteMessageRequest inviteMessageRequest=13;
-    RefuseApplyRequest refuseApplyRequest=14;
-    RefuseApplyResponse refuseApplyResponse=15;
-    RefuseInviteResponse refuseInviteResponse=16;
-    RefuseInviteRequest refuseInviteRequest=17;
+    TeamMessageRequest teamMessageRequest=3;
+    TeamMessageResponse teamMessageResponse=4;
+    ApplyForTeamRequest applyForTeamRequest=5;
+    ApplyForTeamResponse applyForTeamResponse=6;
+    InvitePeopleRequest invitePeopleRequest=7;
+    InvitePeopleResponse invitePeopleResponse=8;
+    ApplyMessageRequest applyMessageRequest=9;
+    ApplyMessageResponse applyMessageResponse=10;
+    InviteMessageResponse inviteMessageResponse=11;
+    InviteMessageRequest inviteMessageRequest=12;
+    RefuseApplyRequest refuseApplyRequest=13;
+    RefuseApplyResponse refuseApplyResponse=14;
+    RefuseInviteResponse refuseInviteResponse=15;
+    RefuseInviteRequest refuseInviteRequest=16;
+    EntryPeopleRequest entryPeopleRequest=17;
+    EntryPeopleResponse entryPeopleResponse=18;
+    ExitTeamRequest exitTeamRequest=19;
+    ExitTeamResponse exitTeamResponse=20;
   }
 }
+message EntryPeopleRequest{
+  int32 roleId=1;
+  int32 teamId=2;
+}
+message EntryPeopleResponse{
+  RoleDto roleDto=1;
+}
+message ExitTeamRequest{
+
+}
+message ExitTeamResponse{
+  RoleDto roleDto=1;
+}
+
 message CreateTeamRequest{
   string name=1;
 }

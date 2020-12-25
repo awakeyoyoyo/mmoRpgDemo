@@ -110,6 +110,12 @@ public class Dispatcherservlet {
             case ConstantValue.REFUSE_APPLY_RESPONSE:
                 teamService.refuseApplyResponse(nettyResponse);
                 break;
+            case ConstantValue.ENTRY_PEOPLE_RESPONSE:
+                teamService.entryPeopleResponse(nettyResponse);
+                break;
+            case ConstantValue.EXIT_TEAM_RESPONSE:
+                teamService.exitTeamResponse(nettyResponse);
+                break;
             default:
                 System.out.println("handler:收到");
                 System.out.println(new java.lang.String(nettyResponse.getData()));

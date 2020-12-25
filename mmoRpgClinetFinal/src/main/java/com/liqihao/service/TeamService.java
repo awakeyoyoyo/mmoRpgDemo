@@ -17,4 +17,8 @@ public interface TeamService {
     void refuseInviteResponse(NettyResponse nettyResponse)throws InvalidProtocolBufferException ;
 
     void refuseApplyResponse(NettyResponse nettyResponse)throws InvalidProtocolBufferException ;
+
+    void exitTeamResponse(NettyResponse nettyResponse)throws InvalidProtocolBufferException ;
+
+    void entryPeopleResponse(NettyResponse nettyResponse)throws InvalidProtocolBufferException ;
 }

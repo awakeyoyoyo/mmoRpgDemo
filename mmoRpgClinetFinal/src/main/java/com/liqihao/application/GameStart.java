@@ -2,7 +2,7 @@ package com.liqihao.application;
 
 
 import com.liqihao.commons.MmoCacheCilent;
-import com.liqihao.commons.enums.CmdCode;
+import com.liqihao.commons.CmdCode;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyRequest;
 import com.liqihao.pojo.MmoRole;
@@ -126,9 +126,62 @@ public class GameStart {
                     case ConstantValue.REFUSE_INVITE_REQUEST:
                         refuseInviteRequest(scanner);
                         break;
+                    case ConstantValue.ENTRY_PEOPLE_REQUEST_APPLY:
+                        entryApplyPeopleRequest(scanner);
+                        break;
+                    case ConstantValue.ENTRY_PEOPLE_REQUEST_INVITE:
+                        entryInvitePeopleRequest(scanner);
+                        break;
+                    case ConstantValue.EXIT_TEAM_REQUEST:
+                        exitTeamRequest(scanner);
+                        break;
                     default:
                         System.out.println("GameStart-handler:收到错误cmd");
                 }
+    }
+
+    private void entryInvitePeopleRequest(Scanner scanner) {
+        System.out.println("请输入要接收的队伍id");
+        Integer teamId=scanner.nextInt();
+        Integer roleId=MmoCacheCilent.getInstance().getNowRole().getId();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.ENTRY_PEOPLE_REQUEST);
+        TeamModel.TeamModelMessage myMessage;
+        myMessage=TeamModel.TeamModelMessage.newBuilder()
+                .setDataType(TeamModel.TeamModelMessage.DateType.EntryPeopleRequest)
+                .setEntryPeopleRequest(TeamModel.EntryPeopleRequest.newBuilder().setRoleId(roleId).setTeamId(teamId).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    //todo 分开来是申请还是邀请
+    private void entryApplyPeopleRequest(Scanner scanner) {
+        System.out.println("请输入同意入队的用户id");
+        Integer roleId=scanner.nextInt();
+        System.out.println("请输入本队伍id");
+        Integer teamId=scanner.nextInt();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.ENTRY_PEOPLE_REQUEST);
+        TeamModel.TeamModelMessage myMessage;
+        myMessage=TeamModel.TeamModelMessage.newBuilder()
+                .setDataType(TeamModel.TeamModelMessage.DateType.EntryPeopleRequest)
+                .setEntryPeopleRequest(TeamModel.EntryPeopleRequest.newBuilder().setRoleId(roleId).setTeamId(teamId).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void exitTeamRequest(Scanner scanner) {
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.EXIT_TEAM_REQUEST);
+        TeamModel.TeamModelMessage myMessage;
+        myMessage=TeamModel.TeamModelMessage.newBuilder()
+                .setDataType(TeamModel.TeamModelMessage.DateType.ExitTeamRequest)
+                .setExitTeamRequest(TeamModel.ExitTeamRequest.newBuilder().build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
     }
 
     private void refuseInviteRequest(Scanner scanner) {

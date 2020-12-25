@@ -521,19 +521,18 @@ public class MmoSimpleRole extends MmoRolePOJO {
         return null;
     }
 
-    public TeamApplyOrInviteBean constainsInvite(Integer teamId, Long createTime) {
+    public TeamApplyOrInviteBean constainsInvite(Integer teamId) {
         checkOutTime();
         Iterator iterator=teamApplyOrInviteBeans.iterator();
         TeamApplyOrInviteBean teamApplyOrInviteBean=null;
         while (iterator.hasNext()){
             teamApplyOrInviteBean= (TeamApplyOrInviteBean) iterator.next();
             if (teamApplyOrInviteBean.getTeamId().equals(teamId)&&
-                    teamApplyOrInviteBean.getType().equals(TeamApplyInviteCode.INVITE.getCode())
-                    &&createTime.equals(teamApplyOrInviteBean.getCreateTime())){
+                    teamApplyOrInviteBean.getType().equals(TeamApplyInviteCode.INVITE.getCode())){
                 return teamApplyOrInviteBean;
             }
         }
-        return null;
+        return teamApplyOrInviteBean;
     }
 
 

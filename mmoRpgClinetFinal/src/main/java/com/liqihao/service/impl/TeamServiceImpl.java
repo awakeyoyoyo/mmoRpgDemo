@@ -127,4 +127,30 @@ public class TeamServiceImpl implements TeamService {
         System.out.println("队伍： "+teamName+" 拒绝了你的队伍申请");
         System.out.println("--------------------------------------------------------");
     }
+
+    @Override
+    public void exitTeamResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
+        byte[] data = nettyResponse.getData();
+        TeamModel.TeamModelMessage myMessage;
+        myMessage = TeamModel.TeamModelMessage.parseFrom(data);
+        TeamModel.RoleDto r = myMessage.getExitTeamResponse().getRoleDto();
+        System.out.println("--------------------------------------------------------");
+        System.out.println("角色id： " + r.getId() + "角色名称： " + r.getName() + "  Hp:" + r.getNowHp() + "/" + r.getHp()
+                + "  Mp:" + r.getNowMP() + "/" + r.getMp() + " 所在队伍id： " + r.getTeamId()+"离开了当前队伍"
+        );
+        System.out.println("--------------------------------------------------------");
+    }
+
+    @Override
+    public void entryPeopleResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
+        byte[] data = nettyResponse.getData();
+        TeamModel.TeamModelMessage myMessage;
+        myMessage = TeamModel.TeamModelMessage.parseFrom(data);
+        TeamModel.RoleDto r = myMessage.getEntryPeopleResponse().getRoleDto();
+        System.out.println("--------------------------------------------------------");
+        System.out.println("角色id： " + r.getId() + "角色名称： " + r.getName() + "  Hp:" + r.getNowHp() + "/" + r.getHp()
+                + "  Mp:" + r.getNowMP() + "/" + r.getMp() + " 所在队伍id： " + r.getTeamId()+"进入了当前队伍"
+        );
+        System.out.println("--------------------------------------------------------");
+    }
 }
