@@ -120,9 +120,43 @@ public class GameStart {
                     case ConstantValue.INVITE_MESSAGE_REQUEST:
                         inviteMessageRequest(scanner);
                         break;
+                    case ConstantValue.REFUSE_APPLY_REQUEST:
+                        refuseApplyRequest(scanner);
+                        break;
+                    case ConstantValue.REFUSE_INVITE_REQUEST:
+                        refuseInviteRequest(scanner);
+                        break;
                     default:
                         System.out.println("GameStart-handler:收到错误cmd");
                 }
+    }
+
+    private void refuseInviteRequest(Scanner scanner) {
+        System.out.println("请输入你要拒绝的队伍Id");
+        Integer teamId=scanner.nextInt();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.REFUSE_INVITE_REQUEST);
+        TeamModel.TeamModelMessage myMessage;
+        myMessage=TeamModel.TeamModelMessage.newBuilder()
+                .setDataType(TeamModel.TeamModelMessage.DateType.RefuseInviteRequest)
+                .setRefuseInviteRequest(TeamModel.RefuseInviteRequest.newBuilder().setTeamId(teamId).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void refuseApplyRequest(Scanner scanner) {
+        System.out.println("请输入你要拒绝的用户id");
+        Integer roleId=scanner.nextInt();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.REFUSE_APPLY_REQUEST);
+        TeamModel.TeamModelMessage myMessage;
+        myMessage=TeamModel.TeamModelMessage.newBuilder()
+                .setDataType(TeamModel.TeamModelMessage.DateType.RefuseApplyRequest)
+                .setRefuseApplyRequest(TeamModel.RefuseApplyRequest.newBuilder().setRoleId(roleId).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
     }
 
     private void applyForTeamRequest(Scanner scanner) {

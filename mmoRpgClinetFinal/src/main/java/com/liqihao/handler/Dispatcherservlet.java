@@ -104,6 +104,12 @@ public class Dispatcherservlet {
             case ConstantValue.INVITE_MESSAGE_RESPONSE:
                 teamService.inviteMessageResponse(nettyResponse);
                 break;
+            case ConstantValue.REFUSE_INVITE_RESPONSE:
+                teamService.refuseInviteResponse(nettyResponse);
+                break;
+            case ConstantValue.REFUSE_APPLY_RESPONSE:
+                teamService.refuseApplyResponse(nettyResponse);
+                break;
             default:
                 System.out.println("handler:收到");
                 System.out.println(new java.lang.String(nettyResponse.getData()));

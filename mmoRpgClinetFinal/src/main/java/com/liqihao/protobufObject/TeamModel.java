@@ -200,6 +200,66 @@ public final class TeamModel {
      */
     InviteMessageRequestOrBuilder getInviteMessageRequestOrBuilder();
 
+    /**
+     * <code>.RefuseApplyRequest refuseApplyRequest = 14;</code>
+     * @return Whether the refuseApplyRequest field is set.
+     */
+    boolean hasRefuseApplyRequest();
+    /**
+     * <code>.RefuseApplyRequest refuseApplyRequest = 14;</code>
+     * @return The refuseApplyRequest.
+     */
+    RefuseApplyRequest getRefuseApplyRequest();
+    /**
+     * <code>.RefuseApplyRequest refuseApplyRequest = 14;</code>
+     */
+    RefuseApplyRequestOrBuilder getRefuseApplyRequestOrBuilder();
+
+    /**
+     * <code>.RefuseApplyResponse refuseApplyResponse = 15;</code>
+     * @return Whether the refuseApplyResponse field is set.
+     */
+    boolean hasRefuseApplyResponse();
+    /**
+     * <code>.RefuseApplyResponse refuseApplyResponse = 15;</code>
+     * @return The refuseApplyResponse.
+     */
+    RefuseApplyResponse getRefuseApplyResponse();
+    /**
+     * <code>.RefuseApplyResponse refuseApplyResponse = 15;</code>
+     */
+    RefuseApplyResponseOrBuilder getRefuseApplyResponseOrBuilder();
+
+    /**
+     * <code>.RefuseInviteResponse refuseInviteResponse = 16;</code>
+     * @return Whether the refuseInviteResponse field is set.
+     */
+    boolean hasRefuseInviteResponse();
+    /**
+     * <code>.RefuseInviteResponse refuseInviteResponse = 16;</code>
+     * @return The refuseInviteResponse.
+     */
+    RefuseInviteResponse getRefuseInviteResponse();
+    /**
+     * <code>.RefuseInviteResponse refuseInviteResponse = 16;</code>
+     */
+    RefuseInviteResponseOrBuilder getRefuseInviteResponseOrBuilder();
+
+    /**
+     * <code>.RefuseInviteRequest refuseInviteRequest = 17;</code>
+     * @return Whether the refuseInviteRequest field is set.
+     */
+    boolean hasRefuseInviteRequest();
+    /**
+     * <code>.RefuseInviteRequest refuseInviteRequest = 17;</code>
+     * @return The refuseInviteRequest.
+     */
+    RefuseInviteRequest getRefuseInviteRequest();
+    /**
+     * <code>.RefuseInviteRequest refuseInviteRequest = 17;</code>
+     */
+    RefuseInviteRequestOrBuilder getRefuseInviteRequestOrBuilder();
+
     public TeamModelMessage.DateBodyCase getDateBodyCase();
   }
   /**
@@ -412,6 +472,62 @@ public final class TeamModel {
               dateBodyCase_ = 13;
               break;
             }
+            case 114: {
+              RefuseApplyRequest.Builder subBuilder = null;
+              if (dateBodyCase_ == 14) {
+                subBuilder = ((RefuseApplyRequest) dateBody_).toBuilder();
+              }
+              dateBody_ =
+                  input.readMessage(RefuseApplyRequest.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((RefuseApplyRequest) dateBody_);
+                dateBody_ = subBuilder.buildPartial();
+              }
+              dateBodyCase_ = 14;
+              break;
+            }
+            case 122: {
+              RefuseApplyResponse.Builder subBuilder = null;
+              if (dateBodyCase_ == 15) {
+                subBuilder = ((RefuseApplyResponse) dateBody_).toBuilder();
+              }
+              dateBody_ =
+                  input.readMessage(RefuseApplyResponse.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((RefuseApplyResponse) dateBody_);
+                dateBody_ = subBuilder.buildPartial();
+              }
+              dateBodyCase_ = 15;
+              break;
+            }
+            case 130: {
+              RefuseInviteResponse.Builder subBuilder = null;
+              if (dateBodyCase_ == 16) {
+                subBuilder = ((RefuseInviteResponse) dateBody_).toBuilder();
+              }
+              dateBody_ =
+                  input.readMessage(RefuseInviteResponse.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((RefuseInviteResponse) dateBody_);
+                dateBody_ = subBuilder.buildPartial();
+              }
+              dateBodyCase_ = 16;
+              break;
+            }
+            case 138: {
+              RefuseInviteRequest.Builder subBuilder = null;
+              if (dateBodyCase_ == 17) {
+                subBuilder = ((RefuseInviteRequest) dateBody_).toBuilder();
+              }
+              dateBody_ =
+                  input.readMessage(RefuseInviteRequest.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((RefuseInviteRequest) dateBody_);
+                dateBody_ = subBuilder.buildPartial();
+              }
+              dateBodyCase_ = 17;
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -462,45 +578,61 @@ public final class TeamModel {
        */
       CreateTeamRequest(0),
       /**
-       * <code>TeamMessageRequest = 2;</code>
+       * <code>TeamMessageRequest = 1;</code>
        */
-      TeamMessageRequest(2),
+      TeamMessageRequest(1),
       /**
-       * <code>TeamMessageResponse = 3;</code>
+       * <code>TeamMessageResponse = 2;</code>
        */
-      TeamMessageResponse(3),
+      TeamMessageResponse(2),
       /**
-       * <code>ApplyForTeamRequest = 4;</code>
+       * <code>ApplyForTeamRequest = 3;</code>
        */
-      ApplyForTeamRequest(4),
+      ApplyForTeamRequest(3),
       /**
-       * <code>ApplyForTeamResponse = 5;</code>
+       * <code>ApplyForTeamResponse = 4;</code>
        */
-      ApplyForTeamResponse(5),
+      ApplyForTeamResponse(4),
       /**
-       * <code>InvitePeopleRequest = 6;</code>
+       * <code>InvitePeopleRequest = 5;</code>
        */
-      InvitePeopleRequest(6),
+      InvitePeopleRequest(5),
       /**
-       * <code>InvitePeopleResponse = 7;</code>
+       * <code>InvitePeopleResponse = 6;</code>
        */
-      InvitePeopleResponse(7),
+      InvitePeopleResponse(6),
       /**
-       * <code>ApplyMessageRequest = 8;</code>
+       * <code>ApplyMessageRequest = 7;</code>
        */
-      ApplyMessageRequest(8),
+      ApplyMessageRequest(7),
       /**
-       * <code>ApplyMessageResponse = 9;</code>
+       * <code>ApplyMessageResponse = 8;</code>
        */
-      ApplyMessageResponse(9),
+      ApplyMessageResponse(8),
       /**
-       * <code>InviteMessageResponse = 10;</code>
+       * <code>InviteMessageResponse = 9;</code>
        */
-      InviteMessageResponse(10),
+      InviteMessageResponse(9),
       /**
-       * <code>InviteMessageRequest = 11;</code>
+       * <code>InviteMessageRequest = 10;</code>
        */
-      InviteMessageRequest(11),
+      InviteMessageRequest(10),
+      /**
+       * <code>RefuseApplyRequest = 11;</code>
+       */
+      RefuseApplyRequest(11),
+      /**
+       * <code>RefuseApplyResponse = 12;</code>
+       */
+      RefuseApplyResponse(12),
+      /**
+       * <code>RefuseInviteResponse = 13;</code>
+       */
+      RefuseInviteResponse(13),
+      /**
+       * <code>RefuseInviteRequest = 14;</code>
+       */
+      RefuseInviteRequest(14),
       UNRECOGNIZED(-1),
       ;
 
@@ -513,45 +645,61 @@ public final class TeamModel {
        */
       public static final int CreateTeamRequest_VALUE = 0;
       /**
-       * <code>TeamMessageRequest = 2;</code>
+       * <code>TeamMessageRequest = 1;</code>
        */
-      public static final int TeamMessageRequest_VALUE = 2;
+      public static final int TeamMessageRequest_VALUE = 1;
       /**
-       * <code>TeamMessageResponse = 3;</code>
+       * <code>TeamMessageResponse = 2;</code>
        */
-      public static final int TeamMessageResponse_VALUE = 3;
+      public static final int TeamMessageResponse_VALUE = 2;
       /**
-       * <code>ApplyForTeamRequest = 4;</code>
+       * <code>ApplyForTeamRequest = 3;</code>
        */
-      public static final int ApplyForTeamRequest_VALUE = 4;
+      public static final int ApplyForTeamRequest_VALUE = 3;
       /**
-       * <code>ApplyForTeamResponse = 5;</code>
+       * <code>ApplyForTeamResponse = 4;</code>
        */
-      public static final int ApplyForTeamResponse_VALUE = 5;
+      public static final int ApplyForTeamResponse_VALUE = 4;
       /**
-       * <code>InvitePeopleRequest = 6;</code>
+       * <code>InvitePeopleRequest = 5;</code>
        */
-      public static final int InvitePeopleRequest_VALUE = 6;
+      public static final int InvitePeopleRequest_VALUE = 5;
       /**
-       * <code>InvitePeopleResponse = 7;</code>
+       * <code>InvitePeopleResponse = 6;</code>
        */
-      public static final int InvitePeopleResponse_VALUE = 7;
+      public static final int InvitePeopleResponse_VALUE = 6;
       /**
-       * <code>ApplyMessageRequest = 8;</code>
+       * <code>ApplyMessageRequest = 7;</code>
        */
-      public static final int ApplyMessageRequest_VALUE = 8;
+      public static final int ApplyMessageRequest_VALUE = 7;
       /**
-       * <code>ApplyMessageResponse = 9;</code>
+       * <code>ApplyMessageResponse = 8;</code>
        */
-      public static final int ApplyMessageResponse_VALUE = 9;
+      public static final int ApplyMessageResponse_VALUE = 8;
       /**
-       * <code>InviteMessageResponse = 10;</code>
+       * <code>InviteMessageResponse = 9;</code>
        */
-      public static final int InviteMessageResponse_VALUE = 10;
+      public static final int InviteMessageResponse_VALUE = 9;
       /**
-       * <code>InviteMessageRequest = 11;</code>
+       * <code>InviteMessageRequest = 10;</code>
        */
-      public static final int InviteMessageRequest_VALUE = 11;
+      public static final int InviteMessageRequest_VALUE = 10;
+      /**
+       * <code>RefuseApplyRequest = 11;</code>
+       */
+      public static final int RefuseApplyRequest_VALUE = 11;
+      /**
+       * <code>RefuseApplyResponse = 12;</code>
+       */
+      public static final int RefuseApplyResponse_VALUE = 12;
+      /**
+       * <code>RefuseInviteResponse = 13;</code>
+       */
+      public static final int RefuseInviteResponse_VALUE = 13;
+      /**
+       * <code>RefuseInviteRequest = 14;</code>
+       */
+      public static final int RefuseInviteRequest_VALUE = 14;
 
 
       public final int getNumber() {
@@ -579,16 +727,20 @@ public final class TeamModel {
       public static DateType forNumber(int value) {
         switch (value) {
           case 0: return CreateTeamRequest;
-          case 2: return TeamMessageRequest;
-          case 3: return TeamMessageResponse;
-          case 4: return ApplyForTeamRequest;
-          case 5: return ApplyForTeamResponse;
-          case 6: return InvitePeopleRequest;
-          case 7: return InvitePeopleResponse;
-          case 8: return ApplyMessageRequest;
-          case 9: return ApplyMessageResponse;
-          case 10: return InviteMessageResponse;
-          case 11: return InviteMessageRequest;
+          case 1: return TeamMessageRequest;
+          case 2: return TeamMessageResponse;
+          case 3: return ApplyForTeamRequest;
+          case 4: return ApplyForTeamResponse;
+          case 5: return InvitePeopleRequest;
+          case 6: return InvitePeopleResponse;
+          case 7: return ApplyMessageRequest;
+          case 8: return ApplyMessageResponse;
+          case 9: return InviteMessageResponse;
+          case 10: return InviteMessageRequest;
+          case 11: return RefuseApplyRequest;
+          case 12: return RefuseApplyResponse;
+          case 13: return RefuseInviteResponse;
+          case 14: return RefuseInviteRequest;
           default: return null;
         }
       }
@@ -661,6 +813,10 @@ public final class TeamModel {
       APPLYMESSAGERESPONSE(11),
       INVITEMESSAGERESPONSE(12),
       INVITEMESSAGEREQUEST(13),
+      REFUSEAPPLYREQUEST(14),
+      REFUSEAPPLYRESPONSE(15),
+      REFUSEINVITERESPONSE(16),
+      REFUSEINVITEREQUEST(17),
       DATEBODY_NOT_SET(0);
       private final int value;
       private DateBodyCase(int value) {
@@ -689,6 +845,10 @@ public final class TeamModel {
           case 11: return APPLYMESSAGERESPONSE;
           case 12: return INVITEMESSAGERESPONSE;
           case 13: return INVITEMESSAGEREQUEST;
+          case 14: return REFUSEAPPLYREQUEST;
+          case 15: return REFUSEAPPLYRESPONSE;
+          case 16: return REFUSEINVITERESPONSE;
+          case 17: return REFUSEINVITEREQUEST;
           case 0: return DATEBODY_NOT_SET;
           default: return null;
         }
@@ -1072,6 +1232,130 @@ public final class TeamModel {
       return InviteMessageRequest.getDefaultInstance();
     }
 
+    public static final int REFUSEAPPLYREQUEST_FIELD_NUMBER = 14;
+    /**
+     * <code>.RefuseApplyRequest refuseApplyRequest = 14;</code>
+     * @return Whether the refuseApplyRequest field is set.
+     */
+    @Override
+    public boolean hasRefuseApplyRequest() {
+      return dateBodyCase_ == 14;
+    }
+    /**
+     * <code>.RefuseApplyRequest refuseApplyRequest = 14;</code>
+     * @return The refuseApplyRequest.
+     */
+    @Override
+    public RefuseApplyRequest getRefuseApplyRequest() {
+      if (dateBodyCase_ == 14) {
+         return (RefuseApplyRequest) dateBody_;
+      }
+      return RefuseApplyRequest.getDefaultInstance();
+    }
+    /**
+     * <code>.RefuseApplyRequest refuseApplyRequest = 14;</code>
+     */
+    @Override
+    public RefuseApplyRequestOrBuilder getRefuseApplyRequestOrBuilder() {
+      if (dateBodyCase_ == 14) {
+         return (RefuseApplyRequest) dateBody_;
+      }
+      return RefuseApplyRequest.getDefaultInstance();
+    }
+
+    public static final int REFUSEAPPLYRESPONSE_FIELD_NUMBER = 15;
+    /**
+     * <code>.RefuseApplyResponse refuseApplyResponse = 15;</code>
+     * @return Whether the refuseApplyResponse field is set.
+     */
+    @Override
+    public boolean hasRefuseApplyResponse() {
+      return dateBodyCase_ == 15;
+    }
+    /**
+     * <code>.RefuseApplyResponse refuseApplyResponse = 15;</code>
+     * @return The refuseApplyResponse.
+     */
+    @Override
+    public RefuseApplyResponse getRefuseApplyResponse() {
+      if (dateBodyCase_ == 15) {
+         return (RefuseApplyResponse) dateBody_;
+      }
+      return RefuseApplyResponse.getDefaultInstance();
+    }
+    /**
+     * <code>.RefuseApplyResponse refuseApplyResponse = 15;</code>
+     */
+    @Override
+    public RefuseApplyResponseOrBuilder getRefuseApplyResponseOrBuilder() {
+      if (dateBodyCase_ == 15) {
+         return (RefuseApplyResponse) dateBody_;
+      }
+      return RefuseApplyResponse.getDefaultInstance();
+    }
+
+    public static final int REFUSEINVITERESPONSE_FIELD_NUMBER = 16;
+    /**
+     * <code>.RefuseInviteResponse refuseInviteResponse = 16;</code>
+     * @return Whether the refuseInviteResponse field is set.
+     */
+    @Override
+    public boolean hasRefuseInviteResponse() {
+      return dateBodyCase_ == 16;
+    }
+    /**
+     * <code>.RefuseInviteResponse refuseInviteResponse = 16;</code>
+     * @return The refuseInviteResponse.
+     */
+    @Override
+    public RefuseInviteResponse getRefuseInviteResponse() {
+      if (dateBodyCase_ == 16) {
+         return (RefuseInviteResponse) dateBody_;
+      }
+      return RefuseInviteResponse.getDefaultInstance();
+    }
+    /**
+     * <code>.RefuseInviteResponse refuseInviteResponse = 16;</code>
+     */
+    @Override
+    public RefuseInviteResponseOrBuilder getRefuseInviteResponseOrBuilder() {
+      if (dateBodyCase_ == 16) {
+         return (RefuseInviteResponse) dateBody_;
+      }
+      return RefuseInviteResponse.getDefaultInstance();
+    }
+
+    public static final int REFUSEINVITEREQUEST_FIELD_NUMBER = 17;
+    /**
+     * <code>.RefuseInviteRequest refuseInviteRequest = 17;</code>
+     * @return Whether the refuseInviteRequest field is set.
+     */
+    @Override
+    public boolean hasRefuseInviteRequest() {
+      return dateBodyCase_ == 17;
+    }
+    /**
+     * <code>.RefuseInviteRequest refuseInviteRequest = 17;</code>
+     * @return The refuseInviteRequest.
+     */
+    @Override
+    public RefuseInviteRequest getRefuseInviteRequest() {
+      if (dateBodyCase_ == 17) {
+         return (RefuseInviteRequest) dateBody_;
+      }
+      return RefuseInviteRequest.getDefaultInstance();
+    }
+    /**
+     * <code>.RefuseInviteRequest refuseInviteRequest = 17;</code>
+     */
+    @Override
+    public RefuseInviteRequestOrBuilder getRefuseInviteRequestOrBuilder() {
+      if (dateBodyCase_ == 17) {
+         return (RefuseInviteRequest) dateBody_;
+      }
+      return RefuseInviteRequest.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -1121,6 +1405,18 @@ public final class TeamModel {
       }
       if (dateBodyCase_ == 13) {
         output.writeMessage(13, (InviteMessageRequest) dateBody_);
+      }
+      if (dateBodyCase_ == 14) {
+        output.writeMessage(14, (RefuseApplyRequest) dateBody_);
+      }
+      if (dateBodyCase_ == 15) {
+        output.writeMessage(15, (RefuseApplyResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 16) {
+        output.writeMessage(16, (RefuseInviteResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 17) {
+        output.writeMessage(17, (RefuseInviteRequest) dateBody_);
       }
       unknownFields.writeTo(output);
     }
@@ -1178,6 +1474,22 @@ public final class TeamModel {
       if (dateBodyCase_ == 13) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(13, (InviteMessageRequest) dateBody_);
+      }
+      if (dateBodyCase_ == 14) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(14, (RefuseApplyRequest) dateBody_);
+      }
+      if (dateBodyCase_ == 15) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(15, (RefuseApplyResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 16) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(16, (RefuseInviteResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 17) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(17, (RefuseInviteRequest) dateBody_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1241,6 +1553,22 @@ public final class TeamModel {
           if (!getInviteMessageRequest()
               .equals(other.getInviteMessageRequest())) return false;
           break;
+        case 14:
+          if (!getRefuseApplyRequest()
+              .equals(other.getRefuseApplyRequest())) return false;
+          break;
+        case 15:
+          if (!getRefuseApplyResponse()
+              .equals(other.getRefuseApplyResponse())) return false;
+          break;
+        case 16:
+          if (!getRefuseInviteResponse()
+              .equals(other.getRefuseInviteResponse())) return false;
+          break;
+        case 17:
+          if (!getRefuseInviteRequest()
+              .equals(other.getRefuseInviteRequest())) return false;
+          break;
         case 0:
         default:
       }
@@ -1301,6 +1629,22 @@ public final class TeamModel {
         case 13:
           hash = (37 * hash) + INVITEMESSAGEREQUEST_FIELD_NUMBER;
           hash = (53 * hash) + getInviteMessageRequest().hashCode();
+          break;
+        case 14:
+          hash = (37 * hash) + REFUSEAPPLYREQUEST_FIELD_NUMBER;
+          hash = (53 * hash) + getRefuseApplyRequest().hashCode();
+          break;
+        case 15:
+          hash = (37 * hash) + REFUSEAPPLYRESPONSE_FIELD_NUMBER;
+          hash = (53 * hash) + getRefuseApplyResponse().hashCode();
+          break;
+        case 16:
+          hash = (37 * hash) + REFUSEINVITERESPONSE_FIELD_NUMBER;
+          hash = (53 * hash) + getRefuseInviteResponse().hashCode();
+          break;
+        case 17:
+          hash = (37 * hash) + REFUSEINVITEREQUEST_FIELD_NUMBER;
+          hash = (53 * hash) + getRefuseInviteRequest().hashCode();
           break;
         case 0:
         default:
@@ -1550,6 +1894,34 @@ public final class TeamModel {
             result.dateBody_ = inviteMessageRequestBuilder_.build();
           }
         }
+        if (dateBodyCase_ == 14) {
+          if (refuseApplyRequestBuilder_ == null) {
+            result.dateBody_ = dateBody_;
+          } else {
+            result.dateBody_ = refuseApplyRequestBuilder_.build();
+          }
+        }
+        if (dateBodyCase_ == 15) {
+          if (refuseApplyResponseBuilder_ == null) {
+            result.dateBody_ = dateBody_;
+          } else {
+            result.dateBody_ = refuseApplyResponseBuilder_.build();
+          }
+        }
+        if (dateBodyCase_ == 16) {
+          if (refuseInviteResponseBuilder_ == null) {
+            result.dateBody_ = dateBody_;
+          } else {
+            result.dateBody_ = refuseInviteResponseBuilder_.build();
+          }
+        }
+        if (dateBodyCase_ == 17) {
+          if (refuseInviteRequestBuilder_ == null) {
+            result.dateBody_ = dateBody_;
+          } else {
+            result.dateBody_ = refuseInviteRequestBuilder_.build();
+          }
+        }
         result.dateBodyCase_ = dateBodyCase_;
         onBuilt();
         return result;
@@ -1645,6 +2017,22 @@ public final class TeamModel {
           }
           case INVITEMESSAGEREQUEST: {
             mergeInviteMessageRequest(other.getInviteMessageRequest());
+            break;
+          }
+          case REFUSEAPPLYREQUEST: {
+            mergeRefuseApplyRequest(other.getRefuseApplyRequest());
+            break;
+          }
+          case REFUSEAPPLYRESPONSE: {
+            mergeRefuseApplyResponse(other.getRefuseApplyResponse());
+            break;
+          }
+          case REFUSEINVITERESPONSE: {
+            mergeRefuseInviteResponse(other.getRefuseInviteResponse());
+            break;
+          }
+          case REFUSEINVITEREQUEST: {
+            mergeRefuseInviteRequest(other.getRefuseInviteRequest());
             break;
           }
           case DATEBODY_NOT_SET: {
@@ -3318,6 +3706,570 @@ public final class TeamModel {
         dateBodyCase_ = 13;
         onChanged();;
         return inviteMessageRequestBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          RefuseApplyRequest, RefuseApplyRequest.Builder, RefuseApplyRequestOrBuilder> refuseApplyRequestBuilder_;
+      /**
+       * <code>.RefuseApplyRequest refuseApplyRequest = 14;</code>
+       * @return Whether the refuseApplyRequest field is set.
+       */
+      @Override
+      public boolean hasRefuseApplyRequest() {
+        return dateBodyCase_ == 14;
+      }
+      /**
+       * <code>.RefuseApplyRequest refuseApplyRequest = 14;</code>
+       * @return The refuseApplyRequest.
+       */
+      @Override
+      public RefuseApplyRequest getRefuseApplyRequest() {
+        if (refuseApplyRequestBuilder_ == null) {
+          if (dateBodyCase_ == 14) {
+            return (RefuseApplyRequest) dateBody_;
+          }
+          return RefuseApplyRequest.getDefaultInstance();
+        } else {
+          if (dateBodyCase_ == 14) {
+            return refuseApplyRequestBuilder_.getMessage();
+          }
+          return RefuseApplyRequest.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.RefuseApplyRequest refuseApplyRequest = 14;</code>
+       */
+      public Builder setRefuseApplyRequest(RefuseApplyRequest value) {
+        if (refuseApplyRequestBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dateBody_ = value;
+          onChanged();
+        } else {
+          refuseApplyRequestBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 14;
+        return this;
+      }
+      /**
+       * <code>.RefuseApplyRequest refuseApplyRequest = 14;</code>
+       */
+      public Builder setRefuseApplyRequest(
+          RefuseApplyRequest.Builder builderForValue) {
+        if (refuseApplyRequestBuilder_ == null) {
+          dateBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          refuseApplyRequestBuilder_.setMessage(builderForValue.build());
+        }
+        dateBodyCase_ = 14;
+        return this;
+      }
+      /**
+       * <code>.RefuseApplyRequest refuseApplyRequest = 14;</code>
+       */
+      public Builder mergeRefuseApplyRequest(RefuseApplyRequest value) {
+        if (refuseApplyRequestBuilder_ == null) {
+          if (dateBodyCase_ == 14 &&
+              dateBody_ != RefuseApplyRequest.getDefaultInstance()) {
+            dateBody_ = RefuseApplyRequest.newBuilder((RefuseApplyRequest) dateBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dateBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dateBodyCase_ == 14) {
+            refuseApplyRequestBuilder_.mergeFrom(value);
+          }
+          refuseApplyRequestBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 14;
+        return this;
+      }
+      /**
+       * <code>.RefuseApplyRequest refuseApplyRequest = 14;</code>
+       */
+      public Builder clearRefuseApplyRequest() {
+        if (refuseApplyRequestBuilder_ == null) {
+          if (dateBodyCase_ == 14) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dateBodyCase_ == 14) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+          }
+          refuseApplyRequestBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.RefuseApplyRequest refuseApplyRequest = 14;</code>
+       */
+      public RefuseApplyRequest.Builder getRefuseApplyRequestBuilder() {
+        return getRefuseApplyRequestFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.RefuseApplyRequest refuseApplyRequest = 14;</code>
+       */
+      @Override
+      public RefuseApplyRequestOrBuilder getRefuseApplyRequestOrBuilder() {
+        if ((dateBodyCase_ == 14) && (refuseApplyRequestBuilder_ != null)) {
+          return refuseApplyRequestBuilder_.getMessageOrBuilder();
+        } else {
+          if (dateBodyCase_ == 14) {
+            return (RefuseApplyRequest) dateBody_;
+          }
+          return RefuseApplyRequest.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.RefuseApplyRequest refuseApplyRequest = 14;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          RefuseApplyRequest, RefuseApplyRequest.Builder, RefuseApplyRequestOrBuilder>
+          getRefuseApplyRequestFieldBuilder() {
+        if (refuseApplyRequestBuilder_ == null) {
+          if (!(dateBodyCase_ == 14)) {
+            dateBody_ = RefuseApplyRequest.getDefaultInstance();
+          }
+          refuseApplyRequestBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              RefuseApplyRequest, RefuseApplyRequest.Builder, RefuseApplyRequestOrBuilder>(
+                  (RefuseApplyRequest) dateBody_,
+                  getParentForChildren(),
+                  isClean());
+          dateBody_ = null;
+        }
+        dateBodyCase_ = 14;
+        onChanged();;
+        return refuseApplyRequestBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          RefuseApplyResponse, RefuseApplyResponse.Builder, RefuseApplyResponseOrBuilder> refuseApplyResponseBuilder_;
+      /**
+       * <code>.RefuseApplyResponse refuseApplyResponse = 15;</code>
+       * @return Whether the refuseApplyResponse field is set.
+       */
+      @Override
+      public boolean hasRefuseApplyResponse() {
+        return dateBodyCase_ == 15;
+      }
+      /**
+       * <code>.RefuseApplyResponse refuseApplyResponse = 15;</code>
+       * @return The refuseApplyResponse.
+       */
+      @Override
+      public RefuseApplyResponse getRefuseApplyResponse() {
+        if (refuseApplyResponseBuilder_ == null) {
+          if (dateBodyCase_ == 15) {
+            return (RefuseApplyResponse) dateBody_;
+          }
+          return RefuseApplyResponse.getDefaultInstance();
+        } else {
+          if (dateBodyCase_ == 15) {
+            return refuseApplyResponseBuilder_.getMessage();
+          }
+          return RefuseApplyResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.RefuseApplyResponse refuseApplyResponse = 15;</code>
+       */
+      public Builder setRefuseApplyResponse(RefuseApplyResponse value) {
+        if (refuseApplyResponseBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dateBody_ = value;
+          onChanged();
+        } else {
+          refuseApplyResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 15;
+        return this;
+      }
+      /**
+       * <code>.RefuseApplyResponse refuseApplyResponse = 15;</code>
+       */
+      public Builder setRefuseApplyResponse(
+          RefuseApplyResponse.Builder builderForValue) {
+        if (refuseApplyResponseBuilder_ == null) {
+          dateBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          refuseApplyResponseBuilder_.setMessage(builderForValue.build());
+        }
+        dateBodyCase_ = 15;
+        return this;
+      }
+      /**
+       * <code>.RefuseApplyResponse refuseApplyResponse = 15;</code>
+       */
+      public Builder mergeRefuseApplyResponse(RefuseApplyResponse value) {
+        if (refuseApplyResponseBuilder_ == null) {
+          if (dateBodyCase_ == 15 &&
+              dateBody_ != RefuseApplyResponse.getDefaultInstance()) {
+            dateBody_ = RefuseApplyResponse.newBuilder((RefuseApplyResponse) dateBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dateBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dateBodyCase_ == 15) {
+            refuseApplyResponseBuilder_.mergeFrom(value);
+          }
+          refuseApplyResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 15;
+        return this;
+      }
+      /**
+       * <code>.RefuseApplyResponse refuseApplyResponse = 15;</code>
+       */
+      public Builder clearRefuseApplyResponse() {
+        if (refuseApplyResponseBuilder_ == null) {
+          if (dateBodyCase_ == 15) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dateBodyCase_ == 15) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+          }
+          refuseApplyResponseBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.RefuseApplyResponse refuseApplyResponse = 15;</code>
+       */
+      public RefuseApplyResponse.Builder getRefuseApplyResponseBuilder() {
+        return getRefuseApplyResponseFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.RefuseApplyResponse refuseApplyResponse = 15;</code>
+       */
+      @Override
+      public RefuseApplyResponseOrBuilder getRefuseApplyResponseOrBuilder() {
+        if ((dateBodyCase_ == 15) && (refuseApplyResponseBuilder_ != null)) {
+          return refuseApplyResponseBuilder_.getMessageOrBuilder();
+        } else {
+          if (dateBodyCase_ == 15) {
+            return (RefuseApplyResponse) dateBody_;
+          }
+          return RefuseApplyResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.RefuseApplyResponse refuseApplyResponse = 15;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          RefuseApplyResponse, RefuseApplyResponse.Builder, RefuseApplyResponseOrBuilder>
+          getRefuseApplyResponseFieldBuilder() {
+        if (refuseApplyResponseBuilder_ == null) {
+          if (!(dateBodyCase_ == 15)) {
+            dateBody_ = RefuseApplyResponse.getDefaultInstance();
+          }
+          refuseApplyResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              RefuseApplyResponse, RefuseApplyResponse.Builder, RefuseApplyResponseOrBuilder>(
+                  (RefuseApplyResponse) dateBody_,
+                  getParentForChildren(),
+                  isClean());
+          dateBody_ = null;
+        }
+        dateBodyCase_ = 15;
+        onChanged();;
+        return refuseApplyResponseBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          RefuseInviteResponse, RefuseInviteResponse.Builder, RefuseInviteResponseOrBuilder> refuseInviteResponseBuilder_;
+      /**
+       * <code>.RefuseInviteResponse refuseInviteResponse = 16;</code>
+       * @return Whether the refuseInviteResponse field is set.
+       */
+      @Override
+      public boolean hasRefuseInviteResponse() {
+        return dateBodyCase_ == 16;
+      }
+      /**
+       * <code>.RefuseInviteResponse refuseInviteResponse = 16;</code>
+       * @return The refuseInviteResponse.
+       */
+      @Override
+      public RefuseInviteResponse getRefuseInviteResponse() {
+        if (refuseInviteResponseBuilder_ == null) {
+          if (dateBodyCase_ == 16) {
+            return (RefuseInviteResponse) dateBody_;
+          }
+          return RefuseInviteResponse.getDefaultInstance();
+        } else {
+          if (dateBodyCase_ == 16) {
+            return refuseInviteResponseBuilder_.getMessage();
+          }
+          return RefuseInviteResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.RefuseInviteResponse refuseInviteResponse = 16;</code>
+       */
+      public Builder setRefuseInviteResponse(RefuseInviteResponse value) {
+        if (refuseInviteResponseBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dateBody_ = value;
+          onChanged();
+        } else {
+          refuseInviteResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 16;
+        return this;
+      }
+      /**
+       * <code>.RefuseInviteResponse refuseInviteResponse = 16;</code>
+       */
+      public Builder setRefuseInviteResponse(
+          RefuseInviteResponse.Builder builderForValue) {
+        if (refuseInviteResponseBuilder_ == null) {
+          dateBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          refuseInviteResponseBuilder_.setMessage(builderForValue.build());
+        }
+        dateBodyCase_ = 16;
+        return this;
+      }
+      /**
+       * <code>.RefuseInviteResponse refuseInviteResponse = 16;</code>
+       */
+      public Builder mergeRefuseInviteResponse(RefuseInviteResponse value) {
+        if (refuseInviteResponseBuilder_ == null) {
+          if (dateBodyCase_ == 16 &&
+              dateBody_ != RefuseInviteResponse.getDefaultInstance()) {
+            dateBody_ = RefuseInviteResponse.newBuilder((RefuseInviteResponse) dateBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dateBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dateBodyCase_ == 16) {
+            refuseInviteResponseBuilder_.mergeFrom(value);
+          }
+          refuseInviteResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 16;
+        return this;
+      }
+      /**
+       * <code>.RefuseInviteResponse refuseInviteResponse = 16;</code>
+       */
+      public Builder clearRefuseInviteResponse() {
+        if (refuseInviteResponseBuilder_ == null) {
+          if (dateBodyCase_ == 16) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dateBodyCase_ == 16) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+          }
+          refuseInviteResponseBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.RefuseInviteResponse refuseInviteResponse = 16;</code>
+       */
+      public RefuseInviteResponse.Builder getRefuseInviteResponseBuilder() {
+        return getRefuseInviteResponseFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.RefuseInviteResponse refuseInviteResponse = 16;</code>
+       */
+      @Override
+      public RefuseInviteResponseOrBuilder getRefuseInviteResponseOrBuilder() {
+        if ((dateBodyCase_ == 16) && (refuseInviteResponseBuilder_ != null)) {
+          return refuseInviteResponseBuilder_.getMessageOrBuilder();
+        } else {
+          if (dateBodyCase_ == 16) {
+            return (RefuseInviteResponse) dateBody_;
+          }
+          return RefuseInviteResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.RefuseInviteResponse refuseInviteResponse = 16;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          RefuseInviteResponse, RefuseInviteResponse.Builder, RefuseInviteResponseOrBuilder>
+          getRefuseInviteResponseFieldBuilder() {
+        if (refuseInviteResponseBuilder_ == null) {
+          if (!(dateBodyCase_ == 16)) {
+            dateBody_ = RefuseInviteResponse.getDefaultInstance();
+          }
+          refuseInviteResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              RefuseInviteResponse, RefuseInviteResponse.Builder, RefuseInviteResponseOrBuilder>(
+                  (RefuseInviteResponse) dateBody_,
+                  getParentForChildren(),
+                  isClean());
+          dateBody_ = null;
+        }
+        dateBodyCase_ = 16;
+        onChanged();;
+        return refuseInviteResponseBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          RefuseInviteRequest, RefuseInviteRequest.Builder, RefuseInviteRequestOrBuilder> refuseInviteRequestBuilder_;
+      /**
+       * <code>.RefuseInviteRequest refuseInviteRequest = 17;</code>
+       * @return Whether the refuseInviteRequest field is set.
+       */
+      @Override
+      public boolean hasRefuseInviteRequest() {
+        return dateBodyCase_ == 17;
+      }
+      /**
+       * <code>.RefuseInviteRequest refuseInviteRequest = 17;</code>
+       * @return The refuseInviteRequest.
+       */
+      @Override
+      public RefuseInviteRequest getRefuseInviteRequest() {
+        if (refuseInviteRequestBuilder_ == null) {
+          if (dateBodyCase_ == 17) {
+            return (RefuseInviteRequest) dateBody_;
+          }
+          return RefuseInviteRequest.getDefaultInstance();
+        } else {
+          if (dateBodyCase_ == 17) {
+            return refuseInviteRequestBuilder_.getMessage();
+          }
+          return RefuseInviteRequest.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.RefuseInviteRequest refuseInviteRequest = 17;</code>
+       */
+      public Builder setRefuseInviteRequest(RefuseInviteRequest value) {
+        if (refuseInviteRequestBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dateBody_ = value;
+          onChanged();
+        } else {
+          refuseInviteRequestBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 17;
+        return this;
+      }
+      /**
+       * <code>.RefuseInviteRequest refuseInviteRequest = 17;</code>
+       */
+      public Builder setRefuseInviteRequest(
+          RefuseInviteRequest.Builder builderForValue) {
+        if (refuseInviteRequestBuilder_ == null) {
+          dateBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          refuseInviteRequestBuilder_.setMessage(builderForValue.build());
+        }
+        dateBodyCase_ = 17;
+        return this;
+      }
+      /**
+       * <code>.RefuseInviteRequest refuseInviteRequest = 17;</code>
+       */
+      public Builder mergeRefuseInviteRequest(RefuseInviteRequest value) {
+        if (refuseInviteRequestBuilder_ == null) {
+          if (dateBodyCase_ == 17 &&
+              dateBody_ != RefuseInviteRequest.getDefaultInstance()) {
+            dateBody_ = RefuseInviteRequest.newBuilder((RefuseInviteRequest) dateBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dateBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dateBodyCase_ == 17) {
+            refuseInviteRequestBuilder_.mergeFrom(value);
+          }
+          refuseInviteRequestBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 17;
+        return this;
+      }
+      /**
+       * <code>.RefuseInviteRequest refuseInviteRequest = 17;</code>
+       */
+      public Builder clearRefuseInviteRequest() {
+        if (refuseInviteRequestBuilder_ == null) {
+          if (dateBodyCase_ == 17) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dateBodyCase_ == 17) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+          }
+          refuseInviteRequestBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.RefuseInviteRequest refuseInviteRequest = 17;</code>
+       */
+      public RefuseInviteRequest.Builder getRefuseInviteRequestBuilder() {
+        return getRefuseInviteRequestFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.RefuseInviteRequest refuseInviteRequest = 17;</code>
+       */
+      @Override
+      public RefuseInviteRequestOrBuilder getRefuseInviteRequestOrBuilder() {
+        if ((dateBodyCase_ == 17) && (refuseInviteRequestBuilder_ != null)) {
+          return refuseInviteRequestBuilder_.getMessageOrBuilder();
+        } else {
+          if (dateBodyCase_ == 17) {
+            return (RefuseInviteRequest) dateBody_;
+          }
+          return RefuseInviteRequest.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.RefuseInviteRequest refuseInviteRequest = 17;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          RefuseInviteRequest, RefuseInviteRequest.Builder, RefuseInviteRequestOrBuilder>
+          getRefuseInviteRequestFieldBuilder() {
+        if (refuseInviteRequestBuilder_ == null) {
+          if (!(dateBodyCase_ == 17)) {
+            dateBody_ = RefuseInviteRequest.getDefaultInstance();
+          }
+          refuseInviteRequestBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              RefuseInviteRequest, RefuseInviteRequest.Builder, RefuseInviteRequestOrBuilder>(
+                  (RefuseInviteRequest) dateBody_,
+                  getParentForChildren(),
+                  isClean());
+          dateBody_ = null;
+        }
+        dateBodyCase_ = 17;
+        onChanged();;
+        return refuseInviteRequestBuilder_;
       }
       @Override
       public final Builder setUnknownFields(
@@ -9619,6 +10571,2118 @@ public final class TeamModel {
 
   }
 
+  public interface RefuseApplyRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:RefuseApplyRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>int32 roleId = 1;</code>
+     * @return The roleId.
+     */
+    int getRoleId();
+  }
+  /**
+   * Protobuf type {@code RefuseApplyRequest}
+   */
+  public static final class RefuseApplyRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:RefuseApplyRequest)
+      RefuseApplyRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use RefuseApplyRequest.newBuilder() to construct.
+    private RefuseApplyRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private RefuseApplyRequest() {
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new RefuseApplyRequest();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private RefuseApplyRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+
+              roleId_ = input.readInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return TeamModel.internal_static_RefuseApplyRequest_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return TeamModel.internal_static_RefuseApplyRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              RefuseApplyRequest.class, Builder.class);
+    }
+
+    public static final int ROLEID_FIELD_NUMBER = 1;
+    private int roleId_;
+    /**
+     * <code>int32 roleId = 1;</code>
+     * @return The roleId.
+     */
+    @Override
+    public int getRoleId() {
+      return roleId_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (roleId_ != 0) {
+        output.writeInt32(1, roleId_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (roleId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, roleId_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof RefuseApplyRequest)) {
+        return super.equals(obj);
+      }
+      RefuseApplyRequest other = (RefuseApplyRequest) obj;
+
+      if (getRoleId()
+          != other.getRoleId()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + ROLEID_FIELD_NUMBER;
+      hash = (53 * hash) + getRoleId();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static RefuseApplyRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static RefuseApplyRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static RefuseApplyRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static RefuseApplyRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static RefuseApplyRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static RefuseApplyRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static RefuseApplyRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static RefuseApplyRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static RefuseApplyRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static RefuseApplyRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static RefuseApplyRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static RefuseApplyRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(RefuseApplyRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code RefuseApplyRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:RefuseApplyRequest)
+        RefuseApplyRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return TeamModel.internal_static_RefuseApplyRequest_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return TeamModel.internal_static_RefuseApplyRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                RefuseApplyRequest.class, Builder.class);
+      }
+
+      // Construct using TeamModel.RefuseApplyRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        roleId_ = 0;
+
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return TeamModel.internal_static_RefuseApplyRequest_descriptor;
+      }
+
+      @Override
+      public RefuseApplyRequest getDefaultInstanceForType() {
+        return RefuseApplyRequest.getDefaultInstance();
+      }
+
+      @Override
+      public RefuseApplyRequest build() {
+        RefuseApplyRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public RefuseApplyRequest buildPartial() {
+        RefuseApplyRequest result = new RefuseApplyRequest(this);
+        result.roleId_ = roleId_;
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof RefuseApplyRequest) {
+          return mergeFrom((RefuseApplyRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(RefuseApplyRequest other) {
+        if (other == RefuseApplyRequest.getDefaultInstance()) return this;
+        if (other.getRoleId() != 0) {
+          setRoleId(other.getRoleId());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        RefuseApplyRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (RefuseApplyRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private int roleId_ ;
+      /**
+       * <code>int32 roleId = 1;</code>
+       * @return The roleId.
+       */
+      @Override
+      public int getRoleId() {
+        return roleId_;
+      }
+      /**
+       * <code>int32 roleId = 1;</code>
+       * @param value The roleId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRoleId(int value) {
+        
+        roleId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 roleId = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRoleId() {
+        
+        roleId_ = 0;
+        onChanged();
+        return this;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:RefuseApplyRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:RefuseApplyRequest)
+    private static final RefuseApplyRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new RefuseApplyRequest();
+    }
+
+    public static RefuseApplyRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<RefuseApplyRequest>
+        PARSER = new com.google.protobuf.AbstractParser<RefuseApplyRequest>() {
+      @Override
+      public RefuseApplyRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new RefuseApplyRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<RefuseApplyRequest> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<RefuseApplyRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public RefuseApplyRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface RefuseApplyResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:RefuseApplyResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string teamName = 1;</code>
+     * @return The teamName.
+     */
+    String getTeamName();
+    /**
+     * <code>string teamName = 1;</code>
+     * @return The bytes for teamName.
+     */
+    com.google.protobuf.ByteString
+        getTeamNameBytes();
+  }
+  /**
+   * Protobuf type {@code RefuseApplyResponse}
+   */
+  public static final class RefuseApplyResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:RefuseApplyResponse)
+      RefuseApplyResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use RefuseApplyResponse.newBuilder() to construct.
+    private RefuseApplyResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private RefuseApplyResponse() {
+      teamName_ = "";
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new RefuseApplyResponse();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private RefuseApplyResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              String s = input.readStringRequireUtf8();
+
+              teamName_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return TeamModel.internal_static_RefuseApplyResponse_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return TeamModel.internal_static_RefuseApplyResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              RefuseApplyResponse.class, Builder.class);
+    }
+
+    public static final int TEAMNAME_FIELD_NUMBER = 1;
+    private volatile Object teamName_;
+    /**
+     * <code>string teamName = 1;</code>
+     * @return The teamName.
+     */
+    @Override
+    public String getTeamName() {
+      Object ref = teamName_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        teamName_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string teamName = 1;</code>
+     * @return The bytes for teamName.
+     */
+    @Override
+    public com.google.protobuf.ByteString
+        getTeamNameBytes() {
+      Object ref = teamName_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (String) ref);
+        teamName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getTeamNameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, teamName_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getTeamNameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, teamName_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof RefuseApplyResponse)) {
+        return super.equals(obj);
+      }
+      RefuseApplyResponse other = (RefuseApplyResponse) obj;
+
+      if (!getTeamName()
+          .equals(other.getTeamName())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + TEAMNAME_FIELD_NUMBER;
+      hash = (53 * hash) + getTeamName().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static RefuseApplyResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static RefuseApplyResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static RefuseApplyResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static RefuseApplyResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static RefuseApplyResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static RefuseApplyResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static RefuseApplyResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static RefuseApplyResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static RefuseApplyResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static RefuseApplyResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static RefuseApplyResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static RefuseApplyResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(RefuseApplyResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code RefuseApplyResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:RefuseApplyResponse)
+        RefuseApplyResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return TeamModel.internal_static_RefuseApplyResponse_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return TeamModel.internal_static_RefuseApplyResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                RefuseApplyResponse.class, Builder.class);
+      }
+
+      // Construct using TeamModel.RefuseApplyResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        teamName_ = "";
+
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return TeamModel.internal_static_RefuseApplyResponse_descriptor;
+      }
+
+      @Override
+      public RefuseApplyResponse getDefaultInstanceForType() {
+        return RefuseApplyResponse.getDefaultInstance();
+      }
+
+      @Override
+      public RefuseApplyResponse build() {
+        RefuseApplyResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public RefuseApplyResponse buildPartial() {
+        RefuseApplyResponse result = new RefuseApplyResponse(this);
+        result.teamName_ = teamName_;
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof RefuseApplyResponse) {
+          return mergeFrom((RefuseApplyResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(RefuseApplyResponse other) {
+        if (other == RefuseApplyResponse.getDefaultInstance()) return this;
+        if (!other.getTeamName().isEmpty()) {
+          teamName_ = other.teamName_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        RefuseApplyResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (RefuseApplyResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private Object teamName_ = "";
+      /**
+       * <code>string teamName = 1;</code>
+       * @return The teamName.
+       */
+      public String getTeamName() {
+        Object ref = teamName_;
+        if (!(ref instanceof String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          String s = bs.toStringUtf8();
+          teamName_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      /**
+       * <code>string teamName = 1;</code>
+       * @return The bytes for teamName.
+       */
+      public com.google.protobuf.ByteString
+          getTeamNameBytes() {
+        Object ref = teamName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (String) ref);
+          teamName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string teamName = 1;</code>
+       * @param value The teamName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTeamName(
+          String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        teamName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string teamName = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTeamName() {
+        
+        teamName_ = getDefaultInstance().getTeamName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string teamName = 1;</code>
+       * @param value The bytes for teamName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTeamNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        teamName_ = value;
+        onChanged();
+        return this;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:RefuseApplyResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:RefuseApplyResponse)
+    private static final RefuseApplyResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new RefuseApplyResponse();
+    }
+
+    public static RefuseApplyResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<RefuseApplyResponse>
+        PARSER = new com.google.protobuf.AbstractParser<RefuseApplyResponse>() {
+      @Override
+      public RefuseApplyResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new RefuseApplyResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<RefuseApplyResponse> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<RefuseApplyResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public RefuseApplyResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface RefuseInviteResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:RefuseInviteResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string roleName = 1;</code>
+     * @return The roleName.
+     */
+    String getRoleName();
+    /**
+     * <code>string roleName = 1;</code>
+     * @return The bytes for roleName.
+     */
+    com.google.protobuf.ByteString
+        getRoleNameBytes();
+  }
+  /**
+   * Protobuf type {@code RefuseInviteResponse}
+   */
+  public static final class RefuseInviteResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:RefuseInviteResponse)
+      RefuseInviteResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use RefuseInviteResponse.newBuilder() to construct.
+    private RefuseInviteResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private RefuseInviteResponse() {
+      roleName_ = "";
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new RefuseInviteResponse();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private RefuseInviteResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              String s = input.readStringRequireUtf8();
+
+              roleName_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return TeamModel.internal_static_RefuseInviteResponse_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return TeamModel.internal_static_RefuseInviteResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              RefuseInviteResponse.class, Builder.class);
+    }
+
+    public static final int ROLENAME_FIELD_NUMBER = 1;
+    private volatile Object roleName_;
+    /**
+     * <code>string roleName = 1;</code>
+     * @return The roleName.
+     */
+    @Override
+    public String getRoleName() {
+      Object ref = roleName_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        roleName_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string roleName = 1;</code>
+     * @return The bytes for roleName.
+     */
+    @Override
+    public com.google.protobuf.ByteString
+        getRoleNameBytes() {
+      Object ref = roleName_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (String) ref);
+        roleName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getRoleNameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, roleName_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getRoleNameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, roleName_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof RefuseInviteResponse)) {
+        return super.equals(obj);
+      }
+      RefuseInviteResponse other = (RefuseInviteResponse) obj;
+
+      if (!getRoleName()
+          .equals(other.getRoleName())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + ROLENAME_FIELD_NUMBER;
+      hash = (53 * hash) + getRoleName().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static RefuseInviteResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static RefuseInviteResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static RefuseInviteResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static RefuseInviteResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static RefuseInviteResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static RefuseInviteResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static RefuseInviteResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static RefuseInviteResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static RefuseInviteResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static RefuseInviteResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static RefuseInviteResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static RefuseInviteResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(RefuseInviteResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code RefuseInviteResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:RefuseInviteResponse)
+        RefuseInviteResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return TeamModel.internal_static_RefuseInviteResponse_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return TeamModel.internal_static_RefuseInviteResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                RefuseInviteResponse.class, Builder.class);
+      }
+
+      // Construct using TeamModel.RefuseInviteResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        roleName_ = "";
+
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return TeamModel.internal_static_RefuseInviteResponse_descriptor;
+      }
+
+      @Override
+      public RefuseInviteResponse getDefaultInstanceForType() {
+        return RefuseInviteResponse.getDefaultInstance();
+      }
+
+      @Override
+      public RefuseInviteResponse build() {
+        RefuseInviteResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public RefuseInviteResponse buildPartial() {
+        RefuseInviteResponse result = new RefuseInviteResponse(this);
+        result.roleName_ = roleName_;
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof RefuseInviteResponse) {
+          return mergeFrom((RefuseInviteResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(RefuseInviteResponse other) {
+        if (other == RefuseInviteResponse.getDefaultInstance()) return this;
+        if (!other.getRoleName().isEmpty()) {
+          roleName_ = other.roleName_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        RefuseInviteResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (RefuseInviteResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private Object roleName_ = "";
+      /**
+       * <code>string roleName = 1;</code>
+       * @return The roleName.
+       */
+      public String getRoleName() {
+        Object ref = roleName_;
+        if (!(ref instanceof String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          String s = bs.toStringUtf8();
+          roleName_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      /**
+       * <code>string roleName = 1;</code>
+       * @return The bytes for roleName.
+       */
+      public com.google.protobuf.ByteString
+          getRoleNameBytes() {
+        Object ref = roleName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (String) ref);
+          roleName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string roleName = 1;</code>
+       * @param value The roleName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRoleName(
+          String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        roleName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string roleName = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRoleName() {
+        
+        roleName_ = getDefaultInstance().getRoleName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string roleName = 1;</code>
+       * @param value The bytes for roleName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRoleNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        roleName_ = value;
+        onChanged();
+        return this;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:RefuseInviteResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:RefuseInviteResponse)
+    private static final RefuseInviteResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new RefuseInviteResponse();
+    }
+
+    public static RefuseInviteResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<RefuseInviteResponse>
+        PARSER = new com.google.protobuf.AbstractParser<RefuseInviteResponse>() {
+      @Override
+      public RefuseInviteResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new RefuseInviteResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<RefuseInviteResponse> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<RefuseInviteResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public RefuseInviteResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface RefuseInviteRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:RefuseInviteRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>int32 teamId = 1;</code>
+     * @return The teamId.
+     */
+    int getTeamId();
+  }
+  /**
+   * Protobuf type {@code RefuseInviteRequest}
+   */
+  public static final class RefuseInviteRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:RefuseInviteRequest)
+      RefuseInviteRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use RefuseInviteRequest.newBuilder() to construct.
+    private RefuseInviteRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private RefuseInviteRequest() {
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new RefuseInviteRequest();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private RefuseInviteRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+
+              teamId_ = input.readInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return TeamModel.internal_static_RefuseInviteRequest_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return TeamModel.internal_static_RefuseInviteRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              RefuseInviteRequest.class, Builder.class);
+    }
+
+    public static final int TEAMID_FIELD_NUMBER = 1;
+    private int teamId_;
+    /**
+     * <code>int32 teamId = 1;</code>
+     * @return The teamId.
+     */
+    @Override
+    public int getTeamId() {
+      return teamId_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (teamId_ != 0) {
+        output.writeInt32(1, teamId_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (teamId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, teamId_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof RefuseInviteRequest)) {
+        return super.equals(obj);
+      }
+      RefuseInviteRequest other = (RefuseInviteRequest) obj;
+
+      if (getTeamId()
+          != other.getTeamId()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + TEAMID_FIELD_NUMBER;
+      hash = (53 * hash) + getTeamId();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static RefuseInviteRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static RefuseInviteRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static RefuseInviteRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static RefuseInviteRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static RefuseInviteRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static RefuseInviteRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static RefuseInviteRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static RefuseInviteRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static RefuseInviteRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static RefuseInviteRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static RefuseInviteRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static RefuseInviteRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(RefuseInviteRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code RefuseInviteRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:RefuseInviteRequest)
+        RefuseInviteRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return TeamModel.internal_static_RefuseInviteRequest_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return TeamModel.internal_static_RefuseInviteRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                RefuseInviteRequest.class, Builder.class);
+      }
+
+      // Construct using TeamModel.RefuseInviteRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        teamId_ = 0;
+
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return TeamModel.internal_static_RefuseInviteRequest_descriptor;
+      }
+
+      @Override
+      public RefuseInviteRequest getDefaultInstanceForType() {
+        return RefuseInviteRequest.getDefaultInstance();
+      }
+
+      @Override
+      public RefuseInviteRequest build() {
+        RefuseInviteRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public RefuseInviteRequest buildPartial() {
+        RefuseInviteRequest result = new RefuseInviteRequest(this);
+        result.teamId_ = teamId_;
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof RefuseInviteRequest) {
+          return mergeFrom((RefuseInviteRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(RefuseInviteRequest other) {
+        if (other == RefuseInviteRequest.getDefaultInstance()) return this;
+        if (other.getTeamId() != 0) {
+          setTeamId(other.getTeamId());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        RefuseInviteRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (RefuseInviteRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private int teamId_ ;
+      /**
+       * <code>int32 teamId = 1;</code>
+       * @return The teamId.
+       */
+      @Override
+      public int getTeamId() {
+        return teamId_;
+      }
+      /**
+       * <code>int32 teamId = 1;</code>
+       * @param value The teamId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTeamId(int value) {
+        
+        teamId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 teamId = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTeamId() {
+        
+        teamId_ = 0;
+        onChanged();
+        return this;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:RefuseInviteRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:RefuseInviteRequest)
+    private static final RefuseInviteRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new RefuseInviteRequest();
+    }
+
+    public static RefuseInviteRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<RefuseInviteRequest>
+        PARSER = new com.google.protobuf.AbstractParser<RefuseInviteRequest>() {
+      @Override
+      public RefuseInviteRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new RefuseInviteRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<RefuseInviteRequest> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<RefuseInviteRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public RefuseInviteRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface ApplyInviteBeanDtoOrBuilder extends
       // @@protoc_insertion_point(interface_extends:ApplyInviteBeanDto)
       com.google.protobuf.MessageOrBuilder {
@@ -12671,6 +15735,26 @@ public final class TeamModel {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_InviteMessageResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_RefuseApplyRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_RefuseApplyRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_RefuseApplyResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_RefuseApplyResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_RefuseInviteResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_RefuseInviteResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_RefuseInviteRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_RefuseInviteRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_ApplyInviteBeanDto_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -12694,7 +15778,7 @@ public final class TeamModel {
       descriptor;
   static {
     String[] descriptorData = {
-      "\n\017TeamModel.proto\"\275\007\n\020TeamModelMessage\022-" +
+      "\n\017TeamModel.proto\"\365\t\n\020TeamModelMessage\022-" +
       "\n\tdata_type\030\001 \001(\0162\032.TeamModelMessage.Dat" +
       "eType\022/\n\021createTeamRequest\030\002 \001(\0132\022.Creat" +
       "eTeamRequestH\000\0221\n\022teamMessageRequest\030\004 \001" +
@@ -12710,37 +15794,49 @@ public final class TeamModel {
       "ageResponse\030\013 \001(\0132\025.ApplyMessageResponse" +
       "H\000\0227\n\025inviteMessageResponse\030\014 \001(\0132\026.Invi" +
       "teMessageResponseH\000\0225\n\024inviteMessageRequ" +
-      "est\030\r \001(\0132\025.InviteMessageRequestH\000\"\240\002\n\010D" +
-      "ateType\022\025\n\021CreateTeamRequest\020\000\022\026\n\022TeamMe" +
-      "ssageRequest\020\002\022\027\n\023TeamMessageResponse\020\003\022" +
-      "\027\n\023ApplyForTeamRequest\020\004\022\030\n\024ApplyForTeam" +
-      "Response\020\005\022\027\n\023InvitePeopleRequest\020\006\022\030\n\024I" +
-      "nvitePeopleResponse\020\007\022\027\n\023ApplyMessageReq" +
-      "uest\020\010\022\030\n\024ApplyMessageResponse\020\t\022\031\n\025Invi" +
-      "teMessageResponse\020\n\022\030\n\024InviteMessageRequ" +
-      "est\020\013B\n\n\010dateBody\"!\n\021CreateTeamRequest\022\014" +
-      "\n\004name\030\001 \001(\t\"\024\n\022TeamMessageRequest\"8\n\023Te" +
-      "amMessageResponse\022!\n\013teamBeanDto\030\001 \001(\0132\014" +
-      ".TeamBeanDto\"%\n\023ApplyForTeamRequest\022\016\n\006t" +
-      "eamId\030\001 \001(\005\"H\n\024ApplyForTeamResponse\0220\n\023a" +
-      "pplyInviteBeanDtos\030\001 \001(\0132\023.ApplyInviteBe" +
-      "anDto\"%\n\023InvitePeopleRequest\022\016\n\006roleId\030\001" +
-      " \001(\005\"H\n\024InvitePeopleResponse\0220\n\023applyInv" +
-      "iteBeanDtos\030\001 \001(\0132\023.ApplyInviteBeanDto\"\025" +
-      "\n\023ApplyMessageRequest\"\026\n\024InviteMessageRe" +
-      "quest\"H\n\024ApplyMessageResponse\0220\n\023applyIn" +
-      "viteBeanDtos\030\001 \003(\0132\023.ApplyInviteBeanDto\"" +
-      "I\n\025InviteMessageResponse\0220\n\023applyInviteB" +
-      "eanDtos\030\001 \003(\0132\023.ApplyInviteBeanDto\"y\n\022Ap" +
-      "plyInviteBeanDto\022\016\n\006roleId\030\001 \001(\005\022\014\n\004type" +
-      "\030\002 \001(\005\022\016\n\006teamId\030\003 \001(\005\022\020\n\010teamName\030\004 \001(\t" +
-      "\022\017\n\007endTime\030\005 \001(\022\022\022\n\ncreateTime\030\006 \001(\022\"]\n" +
-      "\013TeamBeanDto\022\016\n\006teamId\030\001 \001(\005\022\032\n\010roleDtos" +
-      "\030\002 \003(\0132\010.RoleDto\022\020\n\010leaderId\030\003 \001(\005\022\020\n\010te" +
-      "amName\030\004 \001(\t\"i\n\007RoleDto\022\n\n\002id\030\001 \001(\005\022\014\n\004n" +
-      "ame\030\002 \001(\t\022\n\n\002hp\030\003 \001(\005\022\n\n\002mp\030\004 \001(\005\022\r\n\005now" +
-      "Hp\030\005 \001(\005\022\r\n\005nowMP\030\006 \001(\005\022\016\n\006teamId\030\007 \001(\005B" +
-      "\013B\tTeamModelb\006proto3"
+      "est\030\r \001(\0132\025.InviteMessageRequestH\000\0221\n\022re" +
+      "fuseApplyRequest\030\016 \001(\0132\023.RefuseApplyRequ" +
+      "estH\000\0223\n\023refuseApplyResponse\030\017 \001(\0132\024.Ref" +
+      "useApplyResponseH\000\0225\n\024refuseInviteRespon" +
+      "se\030\020 \001(\0132\025.RefuseInviteResponseH\000\0223\n\023ref" +
+      "useInviteRequest\030\021 \001(\0132\024.RefuseInviteReq" +
+      "uestH\000\"\204\003\n\010DateType\022\025\n\021CreateTeamRequest" +
+      "\020\000\022\026\n\022TeamMessageRequest\020\001\022\027\n\023TeamMessag" +
+      "eResponse\020\002\022\027\n\023ApplyForTeamRequest\020\003\022\030\n\024" +
+      "ApplyForTeamResponse\020\004\022\027\n\023InvitePeopleRe" +
+      "quest\020\005\022\030\n\024InvitePeopleResponse\020\006\022\027\n\023App" +
+      "lyMessageRequest\020\007\022\030\n\024ApplyMessageRespon" +
+      "se\020\010\022\031\n\025InviteMessageResponse\020\t\022\030\n\024Invit" +
+      "eMessageRequest\020\n\022\026\n\022RefuseApplyRequest\020" +
+      "\013\022\027\n\023RefuseApplyResponse\020\014\022\030\n\024RefuseInvi" +
+      "teResponse\020\r\022\027\n\023RefuseInviteRequest\020\016B\n\n" +
+      "\010dateBody\"!\n\021CreateTeamRequest\022\014\n\004name\030\001" +
+      " \001(\t\"\024\n\022TeamMessageRequest\"8\n\023TeamMessag" +
+      "eResponse\022!\n\013teamBeanDto\030\001 \001(\0132\014.TeamBea" +
+      "nDto\"%\n\023ApplyForTeamRequest\022\016\n\006teamId\030\001 " +
+      "\001(\005\"H\n\024ApplyForTeamResponse\0220\n\023applyInvi" +
+      "teBeanDtos\030\001 \001(\0132\023.ApplyInviteBeanDto\"%\n" +
+      "\023InvitePeopleRequest\022\016\n\006roleId\030\001 \001(\005\"H\n\024" +
+      "InvitePeopleResponse\0220\n\023applyInviteBeanD" +
+      "tos\030\001 \001(\0132\023.ApplyInviteBeanDto\"\025\n\023ApplyM" +
+      "essageRequest\"\026\n\024InviteMessageRequest\"H\n" +
+      "\024ApplyMessageResponse\0220\n\023applyInviteBean" +
+      "Dtos\030\001 \003(\0132\023.ApplyInviteBeanDto\"I\n\025Invit" +
+      "eMessageResponse\0220\n\023applyInviteBeanDtos\030" +
+      "\001 \003(\0132\023.ApplyInviteBeanDto\"$\n\022RefuseAppl" +
+      "yRequest\022\016\n\006roleId\030\001 \001(\005\"\'\n\023RefuseApplyR" +
+      "esponse\022\020\n\010teamName\030\001 \001(\t\"(\n\024RefuseInvit" +
+      "eResponse\022\020\n\010roleName\030\001 \001(\t\"%\n\023RefuseInv" +
+      "iteRequest\022\016\n\006teamId\030\001 \001(\005\"y\n\022ApplyInvit" +
+      "eBeanDto\022\016\n\006roleId\030\001 \001(\005\022\014\n\004type\030\002 \001(\005\022\016" +
+      "\n\006teamId\030\003 \001(\005\022\020\n\010teamName\030\004 \001(\t\022\017\n\007endT" +
+      "ime\030\005 \001(\022\022\022\n\ncreateTime\030\006 \001(\022\"]\n\013TeamBea" +
+      "nDto\022\016\n\006teamId\030\001 \001(\005\022\032\n\010roleDtos\030\002 \003(\0132\010" +
+      ".RoleDto\022\020\n\010leaderId\030\003 \001(\005\022\020\n\010teamName\030\004" +
+      " \001(\t\"i\n\007RoleDto\022\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(" +
+      "\t\022\n\n\002hp\030\003 \001(\005\022\n\n\002mp\030\004 \001(\005\022\r\n\005nowHp\030\005 \001(\005" +
+      "\022\r\n\005nowMP\030\006 \001(\005\022\016\n\006teamId\030\007 \001(\005B\013B\tTeamM" +
+      "odelb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -12751,7 +15847,7 @@ public final class TeamModel {
     internal_static_TeamModelMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_TeamModelMessage_descriptor,
-        new String[] { "DataType", "CreateTeamRequest", "TeamMessageRequest", "TeamMessageResponse", "ApplyForTeamRequest", "ApplyForTeamResponse", "InvitePeopleRequest", "InvitePeopleResponse", "ApplyMessageRequest", "ApplyMessageResponse", "InviteMessageResponse", "InviteMessageRequest", "DateBody", });
+        new String[] { "DataType", "CreateTeamRequest", "TeamMessageRequest", "TeamMessageResponse", "ApplyForTeamRequest", "ApplyForTeamResponse", "InvitePeopleRequest", "InvitePeopleResponse", "ApplyMessageRequest", "ApplyMessageResponse", "InviteMessageResponse", "InviteMessageRequest", "RefuseApplyRequest", "RefuseApplyResponse", "RefuseInviteResponse", "RefuseInviteRequest", "DateBody", });
     internal_static_CreateTeamRequest_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_CreateTeamRequest_fieldAccessorTable = new
@@ -12818,20 +15914,44 @@ public final class TeamModel {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_InviteMessageResponse_descriptor,
         new String[] { "ApplyInviteBeanDtos", });
-    internal_static_ApplyInviteBeanDto_descriptor =
+    internal_static_RefuseApplyRequest_descriptor =
       getDescriptor().getMessageTypes().get(12);
+    internal_static_RefuseApplyRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_RefuseApplyRequest_descriptor,
+        new String[] { "RoleId", });
+    internal_static_RefuseApplyResponse_descriptor =
+      getDescriptor().getMessageTypes().get(13);
+    internal_static_RefuseApplyResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_RefuseApplyResponse_descriptor,
+        new String[] { "TeamName", });
+    internal_static_RefuseInviteResponse_descriptor =
+      getDescriptor().getMessageTypes().get(14);
+    internal_static_RefuseInviteResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_RefuseInviteResponse_descriptor,
+        new String[] { "RoleName", });
+    internal_static_RefuseInviteRequest_descriptor =
+      getDescriptor().getMessageTypes().get(15);
+    internal_static_RefuseInviteRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_RefuseInviteRequest_descriptor,
+        new String[] { "TeamId", });
+    internal_static_ApplyInviteBeanDto_descriptor =
+      getDescriptor().getMessageTypes().get(16);
     internal_static_ApplyInviteBeanDto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ApplyInviteBeanDto_descriptor,
         new String[] { "RoleId", "Type", "TeamId", "TeamName", "EndTime", "CreateTime", });
     internal_static_TeamBeanDto_descriptor =
-      getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(17);
     internal_static_TeamBeanDto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_TeamBeanDto_descriptor,
         new String[] { "TeamId", "RoleDtos", "LeaderId", "TeamName", });
     internal_static_RoleDto_descriptor =
-      getDescriptor().getMessageTypes().get(14);
+      getDescriptor().getMessageTypes().get(18);
     internal_static_RoleDto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_RoleDto_descriptor,

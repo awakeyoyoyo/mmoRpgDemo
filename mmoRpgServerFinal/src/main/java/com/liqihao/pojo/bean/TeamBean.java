@@ -225,14 +225,24 @@ public class TeamBean {
      * 申请入队
      */
     public TeamApplyOrInviteBean applyTeam(MmoSimpleRole mmoSimpleRole) {
+        TeamApplyOrInviteBean t;
+        //判断队伍申请之前还有无该用户申请 有就删除
+        Iterator iterator=teamApplyOrInviteBeans.iterator();
+        while (iterator.hasNext()){
+            t= (TeamApplyOrInviteBean) iterator.next();
+            if (t.getRoleId().equals(mmoSimpleRole.getId())
+                    &&t.getType().equals(TeamApplyInviteCode.APPLY.getCode())){
+                teamApplyOrInviteBeans.remove(t);
+            }
+        }
+        //队伍增加申请
         TeamApplyOrInviteBean teamApplyOrInviteBean=new TeamApplyOrInviteBean();
+        addTeamApplyOrInviteBean(teamApplyOrInviteBean);
         teamApplyOrInviteBean.setCreateTime(System.currentTimeMillis());
         teamApplyOrInviteBean.setEndTime(System.currentTimeMillis()+5*1000*60);
         teamApplyOrInviteBean.setType(TeamApplyInviteCode.APPLY.getCode());
         teamApplyOrInviteBean.setRoleId(mmoSimpleRole.getId());
         teamApplyOrInviteBean.setTeamId(teamId);
-        //队伍增加申请
-        addTeamApplyOrInviteBean(teamApplyOrInviteBean);
         return  teamApplyOrInviteBean;
     }
 
@@ -240,20 +250,19 @@ public class TeamBean {
      * 拒绝申请入队
      * @param
      */
-    public void refuseApply(Integer roleId,Long createTime) {
+    public TeamApplyOrInviteBean refuseApply(Integer roleId) {
         checkOutTime();
        Iterator iterator=teamApplyOrInviteBeans.iterator();
        TeamApplyOrInviteBean teamApplyOrInviteBean=null;
        while (iterator.hasNext()){
           teamApplyOrInviteBean= (TeamApplyOrInviteBean) iterator.next();
           if (teamApplyOrInviteBean.getRoleId().equals(roleId)
-                  &&teamApplyOrInviteBean.getType().equals(TeamApplyInviteCode.APPLY.getCode())
-          &&createTime.equals(teamApplyOrInviteBean.getCreateTime())){
+                  &&teamApplyOrInviteBean.getType().equals(TeamApplyInviteCode.APPLY.getCode())){
               teamApplyOrInviteBeans.remove(teamApplyOrInviteBean);
-              //todo 发送拒绝申请给role
-              break;
+              return teamApplyOrInviteBean;
           }
        }
+       return null;
     }
     /**
      * 获取申请入队的列表

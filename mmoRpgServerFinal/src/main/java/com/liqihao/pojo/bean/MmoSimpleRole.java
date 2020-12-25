@@ -505,23 +505,20 @@ public class MmoSimpleRole extends MmoRolePOJO {
     /**
      * 拒绝邀请
      */
-    public void refuseInvite(Integer teamId,Long createTime) {
+    public TeamApplyOrInviteBean refuseInvite(Integer teamId) {
         checkOutTime();
         Iterator iterator=teamApplyOrInviteBeans.iterator();
         TeamApplyOrInviteBean teamApplyOrInviteBean=null;
         while (iterator.hasNext()){
             teamApplyOrInviteBean= (TeamApplyOrInviteBean) iterator.next();
             if (teamApplyOrInviteBean.getTeamId().equals(teamId)&&
-                    teamApplyOrInviteBean.getType().equals(TeamApplyInviteCode.INVITE.getCode())
-            &&createTime.equals(teamApplyOrInviteBean.getCreateTime())){
+                    teamApplyOrInviteBean.getType().equals(TeamApplyInviteCode.INVITE.getCode())){
                 teamApplyOrInviteBeans.remove(teamApplyOrInviteBean);
                 getTeamApplyOrInviteBeans().remove(teamApplyOrInviteBean);
-                TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(teamId);
-                Integer leaderId=teamBean.getLeaderId();
-                //todo 发送拒绝邀请给leader
-                break;
+                return teamApplyOrInviteBean;
             }
         }
+        return null;
     }
 
     public TeamApplyOrInviteBean constainsInvite(Integer teamId, Long createTime) {

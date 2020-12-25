@@ -6,16 +6,20 @@ message TeamModelMessage{
   //定义枚举类型
   enum DateType{
     CreateTeamRequest=0;//在proto3 要求enum的编号从0开始
-    TeamMessageRequest=2;
-    TeamMessageResponse=3;
-      ApplyForTeamRequest=4;
-      ApplyForTeamResponse=5;
-      InvitePeopleRequest=6;
-      InvitePeopleResponse=7;
-      ApplyMessageRequest=8;
-      ApplyMessageResponse=9;
-      InviteMessageResponse=10;
-      InviteMessageRequest=11;
+    TeamMessageRequest=1;
+    TeamMessageResponse=2;
+    ApplyForTeamRequest=3;
+    ApplyForTeamResponse=4;
+    InvitePeopleRequest=5;
+    InvitePeopleResponse=6;
+    ApplyMessageRequest=7;
+    ApplyMessageResponse=8;
+    InviteMessageResponse=9;
+    InviteMessageRequest=10;
+    RefuseApplyRequest=11;
+    RefuseApplyResponse=12;
+    RefuseInviteResponse=13;
+    RefuseInviteRequest=14;
   }
   //用date_type来标识传的是哪一个枚举类型
   DateType data_type=1;
@@ -32,6 +36,10 @@ message TeamModelMessage{
     ApplyMessageResponse applyMessageResponse=11;
     InviteMessageResponse inviteMessageResponse=12;
     InviteMessageRequest inviteMessageRequest=13;
+    RefuseApplyRequest refuseApplyRequest=14;
+    RefuseApplyResponse refuseApplyResponse=15;
+    RefuseInviteResponse refuseInviteResponse=16;
+    RefuseInviteRequest refuseInviteRequest=17;
   }
 }
 message CreateTeamRequest{
@@ -66,6 +74,19 @@ message ApplyMessageResponse{
 message InviteMessageResponse{
   repeated ApplyInviteBeanDto applyInviteBeanDtos=1;
 }
+message RefuseApplyRequest{
+  int32 roleId=1;
+}
+message RefuseApplyResponse{
+  string teamName=1;
+}
+message RefuseInviteResponse{
+  string roleName=1;
+}
+message RefuseInviteRequest{
+  int32 teamId=1;
+}
+
 message ApplyInviteBeanDto{
   int32 roleId=1;
   int32 type=2;

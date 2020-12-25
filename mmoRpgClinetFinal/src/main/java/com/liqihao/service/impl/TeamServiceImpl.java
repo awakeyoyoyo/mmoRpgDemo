@@ -71,15 +71,16 @@ public class TeamServiceImpl implements TeamService {
         TeamModel.TeamModelMessage myMessage;
         myMessage = TeamModel.TeamModelMessage.parseFrom(data);
         List<TeamModel.ApplyInviteBeanDto> applyInviteBeanDtos = myMessage.getApplyMessageResponse().getApplyInviteBeanDtosList();
+        System.out.println("--------------------------------------------------------");
         for (TeamModel.ApplyInviteBeanDto applyInviteBeanDto : applyInviteBeanDtos) {
             Date create = new Date(applyInviteBeanDto.getCreateTime());
             String createStr = sdf.format(create);
             Date end = new Date(applyInviteBeanDto.getEndTime());
             String endStr = sdf.format(end);
-            System.out.println("--------------------------------------------------------");
             System.out.println("玩家id： " + applyInviteBeanDto.getRoleId() + " 申请加入 " + applyInviteBeanDto.getTeamName() + " 队伍" +
                     " 申请时间：" + createStr + " 申请的队伍id： "
                     + applyInviteBeanDto.getTeamId() + " 该申请过期时间: " + endStr);
+            System.out.println("--------------------------------------------------------");
         }
     }
 
@@ -90,15 +91,40 @@ public class TeamServiceImpl implements TeamService {
         myMessage = TeamModel.TeamModelMessage.parseFrom(data);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS");
         List<TeamModel.ApplyInviteBeanDto> inviteBeanDtos = myMessage.getInviteMessageResponse().getApplyInviteBeanDtosList();
+        System.out.println("--------------------------------------------------------");
         for (TeamModel.ApplyInviteBeanDto inviteBeanDto : inviteBeanDtos) {
             Date create = new Date(inviteBeanDto.getCreateTime());
             String createStr = sdf.format(create);
             Date end = new Date(inviteBeanDto.getEndTime());
             String endStr = sdf.format(end);
-            System.out.println("--------------------------------------------------------");
             System.out.println(inviteBeanDto.getTeamName() + " 队伍邀请你加入" + " 你的角色id：" + inviteBeanDto.getRoleId() +
                     " 邀请时间：" + createStr + " 邀请的队伍id： "
                     + inviteBeanDto.getTeamId() + " 该邀请过期时间: " + endStr);
+            System.out.println("--------------------------------------------------------");
+
         }
+    }
+
+    @Override
+    public void refuseInviteResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
+        byte[] data = nettyResponse.getData();
+        TeamModel.TeamModelMessage myMessage;
+        myMessage = TeamModel.TeamModelMessage.parseFrom(data);
+        String roleName=myMessage.getRefuseInviteResponse().getRoleName();
+        System.out.println("--------------------------------------------------------");
+        System.out.println("用户： "+roleName+" 拒绝了你的队伍邀请");
+        System.out.println("--------------------------------------------------------");
+
+    }
+
+    @Override
+    public void refuseApplyResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
+        byte[] data = nettyResponse.getData();
+        TeamModel.TeamModelMessage myMessage;
+        myMessage = TeamModel.TeamModelMessage.parseFrom(data);
+        String teamName=myMessage.getRefuseApplyResponse().getTeamName();
+        System.out.println("--------------------------------------------------------");
+        System.out.println("队伍： "+teamName+" 拒绝了你的队伍申请");
+        System.out.println("--------------------------------------------------------");
     }
 }

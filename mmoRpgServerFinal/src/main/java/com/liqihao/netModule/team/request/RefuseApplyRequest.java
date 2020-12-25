@@ -5,5 +5,5 @@ package com.liqihao.netModule.team.request;
  * @author lqhao
  */
 public class RefuseApplyRequest {
-    Integer teamApplyId;
+    Integer roleId;
 }

@@ -321,30 +321,76 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
+    @HandlerCmdTag(cmd = ConstantValue.REFUSE_APPLY_REQUEST,module = ConstantValue.TEAM_MODULE)
     public void refuseApplyRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
+        byte[] data=nettyRequest.getData();
+        TeamModel.TeamModelMessage myMessage;
+        myMessage=TeamModel.TeamModelMessage.parseFrom(data);
         //teamId和roleId和teamApplyId给队长
         //判断是否在线 并且返回玩家对象
-        Integer roleId=null;
-        Long createTime=null;
+        Integer roleId=myMessage.getRefuseApplyRequest().getRoleId();
         MmoSimpleRole mmoSimpleRole= CommonsUtil.checkLogin(channel);
         if (mmoSimpleRole==null) {
+            return;
+        }
+        Integer teamId=mmoSimpleRole.getTeamId();
+        if (teamId==null){
+            NettyResponse errotResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,("你根本无队伍").getBytes());
+            channel.writeAndFlush(errotResponse);
             return;
         }
         TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(mmoSimpleRole.getTeamId());
-        teamBean.refuseApply(roleId,createTime);
+        TeamApplyOrInviteBean bean=teamBean.refuseApply(roleId);
+        if (bean==null) {
+            return;
+        }
+        TeamModel.TeamModelMessage.Builder teamMessageBuilder=TeamModel.TeamModelMessage.newBuilder();
+        teamMessageBuilder.setDataType(TeamModel.TeamModelMessage.DateType.RefuseApplyResponse);
+        teamMessageBuilder.setRefuseApplyResponse(TeamModel.RefuseApplyResponse.newBuilder().setTeamName(teamBean.getTeamName()));
+        NettyResponse nettyResponse=new NettyResponse();
+        nettyResponse.setStateCode(StateCode.SUCCESS);
+        nettyResponse.setCmd(ConstantValue.REFUSE_APPLY_RESPONSE);
+        nettyResponse.setData(teamMessageBuilder.build().toByteArray());
+        //发给玩家
+        Channel c=ChannelMessageCache.getInstance().get(roleId);
+        if (c==null) {
+            return;
+        }
+        c.writeAndFlush(nettyResponse);
     }
 
     @Override
+    @HandlerCmdTag(cmd = ConstantValue.REFUSE_INVITE_REQUEST,module = ConstantValue.TEAM_MODULE)
+
     public void refuseInviteRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
         //teamId和roleId和teamApplyId给队长
+        byte[] data=nettyRequest.getData();
+        TeamModel.TeamModelMessage myMessage;
+        myMessage=TeamModel.TeamModelMessage.parseFrom(data);
         //判断是否在线 并且返回玩家对象
-        Integer teamId=null;
-        Long createTime=null;
+        Integer teamId=myMessage.getRefuseInviteRequest().getTeamId();
         MmoSimpleRole mmoSimpleRole= CommonsUtil.checkLogin(channel);
         if (mmoSimpleRole==null) {
             return;
         }
-        mmoSimpleRole.refuseInvite(teamId,createTime);
+        TeamApplyOrInviteBean bean=mmoSimpleRole.refuseInvite(teamId);
+        if (bean==null){
+            return;
+        }
+        TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(teamId);
+        TeamModel.TeamModelMessage.Builder teamMessageBuilder=TeamModel.TeamModelMessage.newBuilder();
+        teamMessageBuilder.setDataType(TeamModel.TeamModelMessage.DateType.RefuseInviteResponse);
+        teamMessageBuilder.setRefuseInviteResponse(TeamModel.RefuseInviteResponse.newBuilder().setRoleName(mmoSimpleRole.getName()));
+        NettyResponse nettyResponse=new NettyResponse();
+        nettyResponse.setStateCode(StateCode.SUCCESS);
+        nettyResponse.setCmd(ConstantValue.REFUSE_INVITE_RESPONSE);
+        nettyResponse.setData(teamMessageBuilder.build().toByteArray());
+        //发给队长
+        Channel c=ChannelMessageCache.getInstance().get(teamBean.getLeaderId());
+        if (c==null) {
+            return;
+        }
+        c.writeAndFlush(nettyResponse);
     }
 
     @Override
