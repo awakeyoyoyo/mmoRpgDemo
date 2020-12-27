@@ -27,14 +27,12 @@ import java.util.List;
  * @author lqhao
  */
 @Service
-@HandlerServiceTag
+@HandlerServiceTag(protobufModel = "TeamModel&TeamModelMessage")
 public class TeamServiceImpl implements TeamService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.APPLY_FOR_TEAM_REQUEST,module = ConstantValue.TEAM_MODULE)
-    public void applyForTeamRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
-        byte[] data=nettyRequest.getData();
-        TeamModel.TeamModelMessage myMessage;
-        myMessage=TeamModel.TeamModelMessage.parseFrom(data);
+    public void applyForTeamRequest(TeamModel.TeamModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException {
+
         Integer teamId=myMessage.getApplyForTeamRequest().getTeamId();
         if (teamId==0){
             NettyResponse errotResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"请输入参数".getBytes());
@@ -85,11 +83,9 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.CREATE_TEAM_REQUEST,module = ConstantValue.TEAM_MODULE)
-    public void createTeamRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
+    public void createTeamRequest(TeamModel.TeamModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException {
         //判断是否在线 并且返回玩家对象
-        byte[] data=nettyRequest.getData();
-        TeamModel.TeamModelMessage myMessage;
-        myMessage=TeamModel.TeamModelMessage.parseFrom(data);
+
         String teamName=myMessage.getCreateTeamRequest().getName();
         if (teamName==null){
             NettyResponse errotResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"请输入参数".getBytes());
@@ -130,7 +126,7 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public void banPeopleRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
+    public void banPeopleRequest(TeamModel.TeamModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException {
         //todo 获取要t的人的id
         Integer roleId=null;
         MmoSimpleRole player=OnlineRoleMessageCache.getInstance().get(roleId);
@@ -160,7 +156,7 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public void deleteTeamRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
+    public void deleteTeamRequest(TeamModel.TeamModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException {
         //判断是否在线 并且返回玩家对象
         MmoSimpleRole mmoSimpleRole= CommonsUtil.checkLogin(channel);
         if (mmoSimpleRole==null) {
@@ -192,14 +188,12 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public void entryPeopleRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
+    public void entryPeopleRequest(TeamModel.TeamModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException {
         /**
          *  若当前channle的role与传入的roleId相等,则表示用户接受了该队伍的邀请
          *  若当前channle的role与传入的roleId不相等，则是队长同意该用户的申请，需要判断当前channel role是否为队长
          */
-        byte[] data=nettyRequest.getData();
-        TeamModel.TeamModelMessage myMessage;
-        myMessage=TeamModel.TeamModelMessage.parseFrom(data);
+
         Integer roleId=myMessage.getEntryPeopleRequest().getRoleId();
         Integer teamId=myMessage.getEntryPeopleRequest().getTeamId();
         //判断是否在线 并且返回玩家对象
@@ -244,7 +238,7 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public void exitTeamRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
+    public void exitTeamRequest(TeamModel.TeamModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException {
         //判断是否在线 并且返回玩家对象
         MmoSimpleRole mmoSimpleRole= CommonsUtil.checkLogin(channel);
         if (mmoSimpleRole==null) {
@@ -264,10 +258,8 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.INVITE_PEOPLE_REQUEST,module = ConstantValue.TEAM_MODULE)
-    public void invitePeopleRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
-        byte[] data=nettyRequest.getData();
-        TeamModel.TeamModelMessage myMessage;
-        myMessage=TeamModel.TeamModelMessage.parseFrom(data);
+    public void invitePeopleRequest(TeamModel.TeamModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException {
+
         Integer roleId=myMessage.getInvitePeopleRequest().getRoleId();
         if (roleId==0){
             NettyResponse errotResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"请输入参数".getBytes());
@@ -325,10 +317,8 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.REFUSE_APPLY_REQUEST,module = ConstantValue.TEAM_MODULE)
-    public void refuseApplyRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
-        byte[] data=nettyRequest.getData();
-        TeamModel.TeamModelMessage myMessage;
-        myMessage=TeamModel.TeamModelMessage.parseFrom(data);
+    public void refuseApplyRequest(TeamModel.TeamModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException {
+
         //teamId和roleId和teamApplyId给队长
         //判断是否在线 并且返回玩家对象
         Integer roleId=myMessage.getRefuseApplyRequest().getRoleId();
@@ -365,11 +355,9 @@ public class TeamServiceImpl implements TeamService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.REFUSE_INVITE_REQUEST,module = ConstantValue.TEAM_MODULE)
 
-    public void refuseInviteRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
+    public void refuseInviteRequest(TeamModel.TeamModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException {
         //teamId和roleId和teamApplyId给队长
-        byte[] data=nettyRequest.getData();
-        TeamModel.TeamModelMessage myMessage;
-        myMessage=TeamModel.TeamModelMessage.parseFrom(data);
+
         //判断是否在线 并且返回玩家对象
         Integer teamId=myMessage.getRefuseInviteRequest().getTeamId();
         MmoSimpleRole mmoSimpleRole= CommonsUtil.checkLogin(channel);
@@ -398,7 +386,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.APPLY_MESSAGE_REQUEST,module = ConstantValue.TEAM_MODULE)
-    public void applyMessageRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
+    public void applyMessageRequest(TeamModel.TeamModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException {
         MmoSimpleRole mmoSimpleRole= CommonsUtil.checkLogin(channel);
         if (mmoSimpleRole==null) {
             return;
@@ -440,7 +428,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.INVITE_MESSAGE_REQUEST,module = ConstantValue.TEAM_MODULE)
-    public void inviteMessage(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
+    public void inviteMessage(TeamModel.TeamModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException {
         MmoSimpleRole mmoSimpleRole= CommonsUtil.checkLogin(channel);
         if (mmoSimpleRole==null) {
             return;
@@ -471,7 +459,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.TEAM_MESSAGE_REQUEST,module = ConstantValue.TEAM_MODULE)
-    public void teamMessageRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
+    public void teamMessageRequest(TeamModel.TeamModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException {
         MmoSimpleRole mmoSimpleRole= CommonsUtil.checkLogin(channel);
         if (mmoSimpleRole==null) {
             return;

@@ -31,15 +31,12 @@ import java.util.List;
  * @author lqhao
  */
 @Service
-@HandlerServiceTag
+@HandlerServiceTag(protobufModel = "SceneModel$SceneModelMessage")
 public class SceneServiceImpl implements SceneService {
     private static final Logger log = LoggerFactory.getLogger(SceneServiceImpl.class);
     @Override
     @HandlerCmdTag(cmd = ConstantValue.ASK_CAN_REQUEST,module = ConstantValue.SCENE_MODULE)
-    public void askCanRequest(NettyRequest request,Channel channel) throws InvalidProtocolBufferException {
-        byte[] data=request.getData();
-        SceneModel.SceneModelMessage myMessage;
-        myMessage=SceneModel.SceneModelMessage.parseFrom(data);
+    public void askCanRequest(SceneModel.SceneModelMessage myMessage,Channel channel) throws InvalidProtocolBufferException {
         MmoSimpleRole mmoSimpleRole=CommonsUtil.checkLogin(channel);
         if (mmoSimpleRole==null){
             return;
@@ -65,10 +62,8 @@ public class SceneServiceImpl implements SceneService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.WENT_REQUEST,module = ConstantValue.SCENE_MODULE)
-    public void wentRequest(NettyRequest nettyRequest,Channel channel) throws InvalidProtocolBufferException {
-        byte[] data=nettyRequest.getData();
-        SceneModel.SceneModelMessage myMessage;
-        myMessage=SceneModel.SceneModelMessage.parseFrom(data);
+    public void wentRequest(SceneModel.SceneModelMessage myMessage,Channel channel) throws InvalidProtocolBufferException {
+
         Integer nextSceneId=myMessage.getWentRequest().getSceneId();
         MmoSimpleRole mmoSimpleRole=CommonsUtil.checkLogin(channel);
         if (mmoSimpleRole==null){
@@ -132,10 +127,8 @@ public class SceneServiceImpl implements SceneService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.FIND_ALL_ROLES_REQUEST,module = ConstantValue.SCENE_MODULE)
-    public void findAllRolesRequest(NettyRequest nettyRequest,Channel channel) throws InvalidProtocolBufferException {
-        byte[] data=nettyRequest.getData();
-        SceneModel.SceneModelMessage myMessage;
-        myMessage=SceneModel.SceneModelMessage.parseFrom(data);
+    public void findAllRolesRequest(SceneModel.SceneModelMessage myMessage,Channel channel) throws InvalidProtocolBufferException {
+
         Integer sceneId=myMessage.getFindAllRolesRequest().getSceneId();
         MmoSimpleRole mmoSimpleRole=CommonsUtil.checkLogin(channel);
         if (mmoSimpleRole==null){
@@ -210,10 +203,8 @@ public class SceneServiceImpl implements SceneService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.TALK_NPC_REQUEST,module = ConstantValue.SCENE_MODULE)
-    public void talkNpcRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
-        byte[] data=nettyRequest.getData();
-        SceneModel.SceneModelMessage myMessage;
-        myMessage=SceneModel.SceneModelMessage.parseFrom(data);
+    public void talkNpcRequest(SceneModel.SceneModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException {
+
 
         Integer npcId=myMessage.getTalkNPCRequest().getRoleId();
         if (npcId==null){

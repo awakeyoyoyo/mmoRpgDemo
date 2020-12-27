@@ -3,6 +3,7 @@ package com.liqihao.service;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.liqihao.commons.NettyRequest;
 import com.liqihao.commons.NettyResponse;
+import com.liqihao.protobufObject.EquipmentModel;
 import io.netty.channel.Channel;
 
 /**
@@ -12,33 +13,33 @@ import io.netty.channel.Channel;
 public interface EquipmentService {
     /**
      * 穿装备
-     * @param nettyRequest
+     * @param myMessage
      * @param channel
      * @throws InvalidProtocolBufferException
      */
-    void addEquipmentRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException;
+    void addEquipmentRequest(EquipmentModel.EquipmentModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException;
 
     /**
      * 背包信息
-     * @param nettyRequest
+     * @param myMessage
      * @param channel
      * @throws InvalidProtocolBufferException
      */
-    void equipmentMasRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException;
+    void equipmentMasRequest(EquipmentModel.EquipmentModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException;
 
     /**
      * 脱装备
-     * @param nettyRequest
+     * @param myMessage
      * @param channel
      * @throws InvalidProtocolBufferException
      */
-    void reduceEquipmentRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException;
+    void reduceEquipmentRequest(EquipmentModel.EquipmentModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException;
 
     /**
      * 修复装备
-     * @param nettyRequest
+     * @param myMessage
      * @param channel
      * @throws InvalidProtocolBufferException
      */
-    void fixEquipmentRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException;
+    void fixEquipmentRequest(EquipmentModel.EquipmentModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException;
 }

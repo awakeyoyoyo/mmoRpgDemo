@@ -51,4 +51,10 @@ public class NpcMessageCache extends CommonsCache<MmoSimpleNPC>{
     private NpcMessageCache(ConcurrentHashMap<Integer,MmoSimpleNPC> map) {
         super(map);
     }
+
+    public static void main(String[] args) throws IllegalAccessException, IOException, InstantiationException {
+        NpcMessageCache npcMessageCache=new NpcMessageCache();
+        npcMessageCache.init();
+        System.out.print(npcMessageCache.concurrentHashMap.size());
+    }
 }

@@ -25,7 +25,7 @@ import java.util.*;
  * @author lqhao
  */
 @Service
-@HandlerServiceTag
+@HandlerServiceTag(protobufModel = "PlayModel$PlayModelMessage")
 public class PlayServiceImpl implements PlayService{
     @Autowired
     private MmoRolePOJOMapper mmoRolePOJOMapper;
@@ -39,10 +39,10 @@ public class PlayServiceImpl implements PlayService{
     private MmoEquipmentBagPOJOMapper equipmentBagPOJOMapper;
     @Override
     @HandlerCmdTag(cmd = ConstantValue.REGISTER_REQUEST,module = ConstantValue.PLAY_MODULE)
-    public void registerRequest(NettyRequest nettyRequest,Channel channel) throws InvalidProtocolBufferException {
-        byte[] data=nettyRequest.getData();
-        PlayModel.PlayModelMessage myMessage;
-        myMessage=PlayModel.PlayModelMessage.parseFrom(data);
+    public void registerRequest(PlayModel.PlayModelMessage myMessage,Channel channel) throws InvalidProtocolBufferException {
+//        byte[] data=nettyRequest.getData();
+//        PlayModel.PlayModelMessage myMessage;
+//        myMessage=PlayModel.PlayModelMessage.parseFrom(data);
         String username=myMessage.getRegisterRequest().getUsername();
         String password=myMessage.getRegisterRequest().getPassword();
         String roleName=myMessage.getRegisterRequest().getRolename();
@@ -97,10 +97,10 @@ public class PlayServiceImpl implements PlayService{
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.LOGIN_REQUEST,module = ConstantValue.PLAY_MODULE)
-    public void loginRequest(NettyRequest nettyRequest,Channel channel) throws InvalidProtocolBufferException {
-        byte[] data=nettyRequest.getData();
-        PlayModel.PlayModelMessage myMessage;
-        myMessage=PlayModel.PlayModelMessage.parseFrom(data);
+    public void loginRequest(PlayModel.PlayModelMessage myMessage,Channel channel) throws InvalidProtocolBufferException {
+//        byte[] data=nettyRequest.getData();
+//        PlayModel.PlayModelMessage myMessage;
+//        myMessage=PlayModel.PlayModelMessage.parseFrom(data);
         String username=myMessage.getLoginRequest().getUsername();
         String password=myMessage.getLoginRequest().getPassword();
         Integer mmoUserId=mmoUserPOJOMapper.checkByUernameAndPassword(username,password);
@@ -205,7 +205,7 @@ public class PlayServiceImpl implements PlayService{
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.LOGOUT_REQUEST,module = ConstantValue.PLAY_MODULE)
-    public void logoutRequest(NettyRequest nettyRequest,Channel channel) throws InvalidProtocolBufferException {
+    public void logoutRequest(PlayModel.PlayModelMessage myMessage,Channel channel) throws InvalidProtocolBufferException {
         MmoSimpleRole role=CommonsUtil.checkLogin(channel);
         if (role==null){
             return;
@@ -241,10 +241,10 @@ public class PlayServiceImpl implements PlayService{
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.USE_SKILL_REQUEST,module = ConstantValue.PLAY_MODULE)
-    public void useSkillRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
-        byte[] data=nettyRequest.getData();
-        PlayModel.PlayModelMessage myMessage;
-        myMessage=PlayModel.PlayModelMessage.parseFrom(data);
+    public void useSkillRequest(PlayModel.PlayModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException {
+//        byte[] data=nettyRequest.getData();
+//        PlayModel.PlayModelMessage myMessage;
+//        myMessage=PlayModel.PlayModelMessage.parseFrom(data);
         Integer skillId=myMessage.getUseSkillRequest().getSkillId();
         MmoSimpleRole mmoSimpleRole=CommonsUtil.checkLogin(channel);
         if (mmoSimpleRole==null){

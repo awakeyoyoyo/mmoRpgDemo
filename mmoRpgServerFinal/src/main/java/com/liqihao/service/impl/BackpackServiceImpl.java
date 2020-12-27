@@ -1,6 +1,7 @@
 package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Parser;
 import com.liqihao.Cache.EquipmentMessageCache;
 import com.liqihao.Cache.MediceneMessageCache;
 import com.liqihao.annotation.HandlerCmdTag;
@@ -28,14 +29,11 @@ import java.util.List;
  * @author Administrator
  */
 @Service
-@HandlerServiceTag
+@HandlerServiceTag(protobufModel ="BackPackModel$BackPackModelMessage")
 public class BackpackServiceImpl implements BackpackService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.ABANDON_REQUEST,module = ConstantValue.BAKCPACK_MODULE)
-    public void abandonRquest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
-        byte[] data=nettyRequest.getData();
-        BackPackModel.BackPackModelMessage myMessage;
-        myMessage=BackPackModel.BackPackModelMessage.parseFrom(data);
+    public void abandonRquest(BackPackModel.BackPackModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException {
         Integer articleId=myMessage.getAbandonRequest().getArticleId();
         Integer number=myMessage.getAbandonRequest().getNumber();
         MmoSimpleRole mmoSimpleRole=CommonsUtil.checkLogin(channel);
@@ -72,7 +70,7 @@ public class BackpackServiceImpl implements BackpackService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.BACKPACK_MSG_REQUEST,module = ConstantValue.BAKCPACK_MODULE)
-    public void backPackMsgRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
+    public void backPackMsgRequest(BackPackModel.BackPackModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException {
         MmoSimpleRole mmoSimpleRole=CommonsUtil.checkLogin(channel);
         if (mmoSimpleRole==null){
             return;
@@ -106,10 +104,7 @@ public class BackpackServiceImpl implements BackpackService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.USE_REQUEST,module = ConstantValue.BAKCPACK_MODULE)
-    public void useRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
-        byte[] data=nettyRequest.getData();
-        BackPackModel.BackPackModelMessage myMessage;
-        myMessage=BackPackModel.BackPackModelMessage.parseFrom(data);
+    public void useRequest(BackPackModel.BackPackModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException {
         Integer article=myMessage.getUseRequest().getArticleId();
         MmoSimpleRole mmoSimpleRole=CommonsUtil.checkLogin(channel);
         if (mmoSimpleRole==null){
@@ -137,10 +132,7 @@ public class BackpackServiceImpl implements BackpackService {
     }
     @Override
     @HandlerCmdTag(cmd = ConstantValue.ADD_ARTICLE_REQUEST,module = ConstantValue.BAKCPACK_MODULE)
-    public void addArticleRequest(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException {
-        byte[] data=nettyRequest.getData();
-        BackPackModel.BackPackModelMessage myMessage;
-        myMessage=BackPackModel.BackPackModelMessage.parseFrom(data);
+    public void addArticleRequest(BackPackModel.BackPackModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException {
         Integer id=myMessage.getAddArticleRequest().getId();
         Integer articleType=myMessage.getAddArticleRequest().getArticleType();
         Integer number=myMessage.getAddArticleRequest().getNumber();

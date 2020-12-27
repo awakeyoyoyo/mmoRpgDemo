@@ -1,11 +1,13 @@
 package com.liqihao.handler;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Parser;
 import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.NettyRequest;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
+import com.liqihao.protobufObject.BackPackModel;
 import io.netty.channel.Channel;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeansException;
@@ -35,13 +37,21 @@ public class Dispatcherservlet implements ApplicationContextAware {
      * @param nettyRequest
      * @return
      */
-    public void handler(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException, InvocationTargetException, IllegalAccessException {
+    public void handler(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException, InvocationTargetException, IllegalAccessException, ClassNotFoundException, NoSuchMethodException {
         logger.info("线程："+Thread.currentThread().getName()+" 正在处理该请求");
         int cmd = nettyRequest.getCmd();
         Method m = methodHashMap.get(cmd);
         if (m != null) {
             String beanName = m.getAnnotation(HandlerCmdTag.class).module();
-            m.invoke(services.get(beanName), nettyRequest, channel);
+            Object server=services.get(beanName);
+            String protobufModel=server.getClass().getAnnotation(HandlerServiceTag.class).protobufModel();
+            Class<?>  clazz=Class.forName("com.liqihao.protobufObject."+protobufModel);
+            Method method=clazz.getMethod("parser");
+            Parser parser= (Parser) method.invoke(null);
+            Object object=parser.parseFrom(nettyRequest.getData());
+//            Parser parser= BackPackModel.BackPackModelMessage.parser();
+//            parser.parseFrom(data);
+            m.invoke(server, object, channel);
             return;
         }
         channel.writeAndFlush(new NettyResponse(StateCode.FAIL, 444, "传入错误的cmd".getBytes()));

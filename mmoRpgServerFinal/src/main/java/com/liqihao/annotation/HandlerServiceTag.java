@@ -14,4 +14,5 @@ import java.lang.annotation.Target;
 //生命周期
 @Retention(RetentionPolicy.RUNTIME)
 public @interface HandlerServiceTag {
+    String protobufModel();
 }

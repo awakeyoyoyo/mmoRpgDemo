@@ -20,13 +20,13 @@ import org.springframework.stereotype.Service;
  * @author lqhao
  */
 @Service
-@HandlerServiceTag
+@HandlerServiceTag(protobufModel = "GameSystemModel$GameSystemModelMessage")
 public class GameSystemServiceImpl implements com.liqihao.service.GameSystemService {
     @Autowired
     private MmoRolePOJOMapper mmoRolePOJOMapper;
     @Override
     @HandlerCmdTag(cmd = ConstantValue.NET_IO_OUTTIME,module = ConstantValue.GAME_SYSTEM_MODULE)
-    public void netIoOutTime(NettyRequest nettyRequest, Channel channel) {
+    public void netIoOutTime(GameSystemModel.GameSystemModelMessage myMessage, Channel channel) {
         //获取相同的channel对应的roleId 然后根据其删除缓存中的信息
         MmoSimpleRole role=CommonsUtil.getRoleByChannel(channel);
         //删除缓存中的信息

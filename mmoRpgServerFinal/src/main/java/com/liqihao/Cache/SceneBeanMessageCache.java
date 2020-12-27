@@ -5,6 +5,7 @@ import com.liqihao.pojo.bean.SceneBean;
 import com.liqihao.util.CommonsUtil;
 import com.liqihao.util.ExcelReaderUtil;
 import io.netty.channel.Channel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -20,6 +21,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class SceneBeanMessageCache extends CommonsCache<SceneBean>{
     private static String sceneMessage_file = "classpath:message/sceneMessage.xlsx";
     private volatile static SceneBeanMessageCache instance ;
+    @Autowired
+    private NpcMessageCache npcMessageCache;
     public static SceneBeanMessageCache getInstance(){
         return instance;
     }
