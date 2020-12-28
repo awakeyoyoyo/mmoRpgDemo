@@ -27,7 +27,7 @@ import java.util.List;
  * @author lqhao
  */
 @Service
-@HandlerServiceTag(protobufModel = "TeamModel&TeamModelMessage")
+@HandlerServiceTag(protobufModel = "TeamModel$TeamModelMessage")
 public class TeamServiceImpl implements TeamService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.APPLY_FOR_TEAM_REQUEST,module = ConstantValue.TEAM_MODULE)
@@ -188,6 +188,7 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
+    @HandlerCmdTag(cmd = ConstantValue.ENTRY_PEOPLE_REQUEST,module = ConstantValue.TEAM_MODULE)
     public void entryPeopleRequest(TeamModel.TeamModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException {
         /**
          *  若当前channle的role与传入的roleId相等,则表示用户接受了该队伍的邀请
@@ -201,12 +202,13 @@ public class TeamServiceImpl implements TeamService {
         if (mmoSimpleRole==null) {
             return;
         }
-        if (mmoSimpleRole.getTeamId()!=null){
-            NettyResponse errotResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"已经有队伍了".getBytes());
-            channel.writeAndFlush(errotResponse);
-            return;
-        }
         if (roleId.equals(mmoSimpleRole.getId())){
+            //玩家角色
+            if (mmoSimpleRole.getTeamId()!=null){
+                NettyResponse errotResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"已经有队伍了".getBytes());
+                channel.writeAndFlush(errotResponse);
+                return;
+            }
             //用户接受队伍邀请
             //查看人物中是否有该请求
             TeamApplyOrInviteBean applyOrInviteBean=mmoSimpleRole.constainsInvite(teamId);
@@ -216,28 +218,36 @@ public class TeamServiceImpl implements TeamService {
                 return;
             }
             TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(teamId);
-            // 此时传入的channel是用户的
+            //
+            // 此时传入的channel是用户的，mmo是玩家
             teamBean.addRole(mmoSimpleRole,channel);
             //用户删除该邀请
             mmoSimpleRole.getTeamApplyOrInviteBeans().remove(applyOrInviteBean);
         }else{
-            TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(teamId);
             //队长同意该用户进队伍
+            //获取玩家
+            mmoSimpleRole=OnlineRoleMessageCache.getInstance().get(roleId);
+            if (mmoSimpleRole.getTeamId()!=null){
+                NettyResponse errotResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"已经有队伍了".getBytes());
+                channel.writeAndFlush(errotResponse);
+                return;
+            }
+            TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(teamId);
             TeamApplyOrInviteBean inviteBean=teamBean.constainsInvite(roleId);
             if (inviteBean==null){
                 NettyResponse errotResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"该申请已经过期了".getBytes());
                 channel.writeAndFlush(errotResponse);
                 return;
             }
-            // 此时传入的channel是用户的
+            // 此时传入的channel是队长，mmorole是玩家
             teamBean.addRole(mmoSimpleRole,channel);
-
             //队伍删除该申请
             teamBean.getTeamApplyOrInviteBeans().remove(inviteBean);
         }
     }
 
     @Override
+    @HandlerCmdTag(cmd = ConstantValue.EXIT_TEAM_REQUEST,module = ConstantValue.TEAM_MODULE)
     public void exitTeamRequest(TeamModel.TeamModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException {
         //判断是否在线 并且返回玩家对象
         MmoSimpleRole mmoSimpleRole= CommonsUtil.checkLogin(channel);

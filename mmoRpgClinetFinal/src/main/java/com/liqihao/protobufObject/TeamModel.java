@@ -320,6 +320,81 @@ public final class TeamModel {
      */
     ExitTeamResponseOrBuilder getExitTeamResponseOrBuilder();
 
+    /**
+     * <code>.BanPeopleRequest banPeopleRequest = 21;</code>
+     * @return Whether the banPeopleRequest field is set.
+     */
+    boolean hasBanPeopleRequest();
+    /**
+     * <code>.BanPeopleRequest banPeopleRequest = 21;</code>
+     * @return The banPeopleRequest.
+     */
+    BanPeopleRequest getBanPeopleRequest();
+    /**
+     * <code>.BanPeopleRequest banPeopleRequest = 21;</code>
+     */
+    BanPeopleRequestOrBuilder getBanPeopleRequestOrBuilder();
+
+    /**
+     * <code>.BanPeopleResponse banPeopleResponse = 22;</code>
+     * @return Whether the banPeopleResponse field is set.
+     */
+    boolean hasBanPeopleResponse();
+    /**
+     * <code>.BanPeopleResponse banPeopleResponse = 22;</code>
+     * @return The banPeopleResponse.
+     */
+    BanPeopleResponse getBanPeopleResponse();
+    /**
+     * <code>.BanPeopleResponse banPeopleResponse = 22;</code>
+     */
+    BanPeopleResponseOrBuilder getBanPeopleResponseOrBuilder();
+
+    /**
+     * <code>.DeleteTeamRequest deleteTeamRequest = 23;</code>
+     * @return Whether the deleteTeamRequest field is set.
+     */
+    boolean hasDeleteTeamRequest();
+    /**
+     * <code>.DeleteTeamRequest deleteTeamRequest = 23;</code>
+     * @return The deleteTeamRequest.
+     */
+    DeleteTeamRequest getDeleteTeamRequest();
+    /**
+     * <code>.DeleteTeamRequest deleteTeamRequest = 23;</code>
+     */
+    DeleteTeamRequestOrBuilder getDeleteTeamRequestOrBuilder();
+
+    /**
+     * <code>.DeleteTeamResponse deleteTeamResponse = 24;</code>
+     * @return Whether the deleteTeamResponse field is set.
+     */
+    boolean hasDeleteTeamResponse();
+    /**
+     * <code>.DeleteTeamResponse deleteTeamResponse = 24;</code>
+     * @return The deleteTeamResponse.
+     */
+    DeleteTeamResponse getDeleteTeamResponse();
+    /**
+     * <code>.DeleteTeamResponse deleteTeamResponse = 24;</code>
+     */
+    DeleteTeamResponseOrBuilder getDeleteTeamResponseOrBuilder();
+
+    /**
+     * <code>.LeaderTeamResponse leaderTeamResponse = 25;</code>
+     * @return Whether the leaderTeamResponse field is set.
+     */
+    boolean hasLeaderTeamResponse();
+    /**
+     * <code>.LeaderTeamResponse leaderTeamResponse = 25;</code>
+     * @return The leaderTeamResponse.
+     */
+    LeaderTeamResponse getLeaderTeamResponse();
+    /**
+     * <code>.LeaderTeamResponse leaderTeamResponse = 25;</code>
+     */
+    LeaderTeamResponseOrBuilder getLeaderTeamResponseOrBuilder();
+
     public TeamModelMessage.DateBodyCase getDateBodyCase();
   }
   /**
@@ -644,6 +719,76 @@ public final class TeamModel {
               dateBodyCase_ = 20;
               break;
             }
+            case 170: {
+              BanPeopleRequest.Builder subBuilder = null;
+              if (dateBodyCase_ == 21) {
+                subBuilder = ((BanPeopleRequest) dateBody_).toBuilder();
+              }
+              dateBody_ =
+                  input.readMessage(BanPeopleRequest.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((BanPeopleRequest) dateBody_);
+                dateBody_ = subBuilder.buildPartial();
+              }
+              dateBodyCase_ = 21;
+              break;
+            }
+            case 178: {
+              BanPeopleResponse.Builder subBuilder = null;
+              if (dateBodyCase_ == 22) {
+                subBuilder = ((BanPeopleResponse) dateBody_).toBuilder();
+              }
+              dateBody_ =
+                  input.readMessage(BanPeopleResponse.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((BanPeopleResponse) dateBody_);
+                dateBody_ = subBuilder.buildPartial();
+              }
+              dateBodyCase_ = 22;
+              break;
+            }
+            case 186: {
+              DeleteTeamRequest.Builder subBuilder = null;
+              if (dateBodyCase_ == 23) {
+                subBuilder = ((DeleteTeamRequest) dateBody_).toBuilder();
+              }
+              dateBody_ =
+                  input.readMessage(DeleteTeamRequest.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((DeleteTeamRequest) dateBody_);
+                dateBody_ = subBuilder.buildPartial();
+              }
+              dateBodyCase_ = 23;
+              break;
+            }
+            case 194: {
+              DeleteTeamResponse.Builder subBuilder = null;
+              if (dateBodyCase_ == 24) {
+                subBuilder = ((DeleteTeamResponse) dateBody_).toBuilder();
+              }
+              dateBody_ =
+                  input.readMessage(DeleteTeamResponse.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((DeleteTeamResponse) dateBody_);
+                dateBody_ = subBuilder.buildPartial();
+              }
+              dateBodyCase_ = 24;
+              break;
+            }
+            case 202: {
+              LeaderTeamResponse.Builder subBuilder = null;
+              if (dateBodyCase_ == 25) {
+                subBuilder = ((LeaderTeamResponse) dateBody_).toBuilder();
+              }
+              dateBody_ =
+                  input.readMessage(LeaderTeamResponse.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((LeaderTeamResponse) dateBody_);
+                dateBody_ = subBuilder.buildPartial();
+              }
+              dateBodyCase_ = 25;
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -765,6 +910,26 @@ public final class TeamModel {
        * <code>ExitTeamResponse = 18;</code>
        */
       ExitTeamResponse(18),
+      /**
+       * <code>BanPeopleRequest = 20;</code>
+       */
+      BanPeopleRequest(20),
+      /**
+       * <code>BanPeopleResponse = 21;</code>
+       */
+      BanPeopleResponse(21),
+      /**
+       * <code>DeleteTeamRequest = 22;</code>
+       */
+      DeleteTeamRequest(22),
+      /**
+       * <code>DeleteTeamResponse = 23;</code>
+       */
+      DeleteTeamResponse(23),
+      /**
+       * <code>LeaderTeamResponse = 24;</code>
+       */
+      LeaderTeamResponse(24),
       UNRECOGNIZED(-1),
       ;
 
@@ -848,6 +1013,26 @@ public final class TeamModel {
        * <code>ExitTeamResponse = 18;</code>
        */
       public static final int ExitTeamResponse_VALUE = 18;
+      /**
+       * <code>BanPeopleRequest = 20;</code>
+       */
+      public static final int BanPeopleRequest_VALUE = 20;
+      /**
+       * <code>BanPeopleResponse = 21;</code>
+       */
+      public static final int BanPeopleResponse_VALUE = 21;
+      /**
+       * <code>DeleteTeamRequest = 22;</code>
+       */
+      public static final int DeleteTeamRequest_VALUE = 22;
+      /**
+       * <code>DeleteTeamResponse = 23;</code>
+       */
+      public static final int DeleteTeamResponse_VALUE = 23;
+      /**
+       * <code>LeaderTeamResponse = 24;</code>
+       */
+      public static final int LeaderTeamResponse_VALUE = 24;
 
 
       public final int getNumber() {
@@ -893,6 +1078,11 @@ public final class TeamModel {
           case 16: return EntryPeopleResponse;
           case 17: return ExitTeamRequest;
           case 18: return ExitTeamResponse;
+          case 20: return BanPeopleRequest;
+          case 21: return BanPeopleResponse;
+          case 22: return DeleteTeamRequest;
+          case 23: return DeleteTeamResponse;
+          case 24: return LeaderTeamResponse;
           default: return null;
         }
       }
@@ -973,6 +1163,11 @@ public final class TeamModel {
       ENTRYPEOPLERESPONSE(18),
       EXITTEAMREQUEST(19),
       EXITTEAMRESPONSE(20),
+      BANPEOPLEREQUEST(21),
+      BANPEOPLERESPONSE(22),
+      DELETETEAMREQUEST(23),
+      DELETETEAMRESPONSE(24),
+      LEADERTEAMRESPONSE(25),
       DATEBODY_NOT_SET(0);
       private final int value;
       private DateBodyCase(int value) {
@@ -1009,6 +1204,11 @@ public final class TeamModel {
           case 18: return ENTRYPEOPLERESPONSE;
           case 19: return EXITTEAMREQUEST;
           case 20: return EXITTEAMRESPONSE;
+          case 21: return BANPEOPLEREQUEST;
+          case 22: return BANPEOPLERESPONSE;
+          case 23: return DELETETEAMREQUEST;
+          case 24: return DELETETEAMRESPONSE;
+          case 25: return LEADERTEAMRESPONSE;
           case 0: return DATEBODY_NOT_SET;
           default: return null;
         }
@@ -1640,6 +1840,161 @@ public final class TeamModel {
       return ExitTeamResponse.getDefaultInstance();
     }
 
+    public static final int BANPEOPLEREQUEST_FIELD_NUMBER = 21;
+    /**
+     * <code>.BanPeopleRequest banPeopleRequest = 21;</code>
+     * @return Whether the banPeopleRequest field is set.
+     */
+    @Override
+    public boolean hasBanPeopleRequest() {
+      return dateBodyCase_ == 21;
+    }
+    /**
+     * <code>.BanPeopleRequest banPeopleRequest = 21;</code>
+     * @return The banPeopleRequest.
+     */
+    @Override
+    public BanPeopleRequest getBanPeopleRequest() {
+      if (dateBodyCase_ == 21) {
+         return (BanPeopleRequest) dateBody_;
+      }
+      return BanPeopleRequest.getDefaultInstance();
+    }
+    /**
+     * <code>.BanPeopleRequest banPeopleRequest = 21;</code>
+     */
+    @Override
+    public BanPeopleRequestOrBuilder getBanPeopleRequestOrBuilder() {
+      if (dateBodyCase_ == 21) {
+         return (BanPeopleRequest) dateBody_;
+      }
+      return BanPeopleRequest.getDefaultInstance();
+    }
+
+    public static final int BANPEOPLERESPONSE_FIELD_NUMBER = 22;
+    /**
+     * <code>.BanPeopleResponse banPeopleResponse = 22;</code>
+     * @return Whether the banPeopleResponse field is set.
+     */
+    @Override
+    public boolean hasBanPeopleResponse() {
+      return dateBodyCase_ == 22;
+    }
+    /**
+     * <code>.BanPeopleResponse banPeopleResponse = 22;</code>
+     * @return The banPeopleResponse.
+     */
+    @Override
+    public BanPeopleResponse getBanPeopleResponse() {
+      if (dateBodyCase_ == 22) {
+         return (BanPeopleResponse) dateBody_;
+      }
+      return BanPeopleResponse.getDefaultInstance();
+    }
+    /**
+     * <code>.BanPeopleResponse banPeopleResponse = 22;</code>
+     */
+    @Override
+    public BanPeopleResponseOrBuilder getBanPeopleResponseOrBuilder() {
+      if (dateBodyCase_ == 22) {
+         return (BanPeopleResponse) dateBody_;
+      }
+      return BanPeopleResponse.getDefaultInstance();
+    }
+
+    public static final int DELETETEAMREQUEST_FIELD_NUMBER = 23;
+    /**
+     * <code>.DeleteTeamRequest deleteTeamRequest = 23;</code>
+     * @return Whether the deleteTeamRequest field is set.
+     */
+    @Override
+    public boolean hasDeleteTeamRequest() {
+      return dateBodyCase_ == 23;
+    }
+    /**
+     * <code>.DeleteTeamRequest deleteTeamRequest = 23;</code>
+     * @return The deleteTeamRequest.
+     */
+    @Override
+    public DeleteTeamRequest getDeleteTeamRequest() {
+      if (dateBodyCase_ == 23) {
+         return (DeleteTeamRequest) dateBody_;
+      }
+      return DeleteTeamRequest.getDefaultInstance();
+    }
+    /**
+     * <code>.DeleteTeamRequest deleteTeamRequest = 23;</code>
+     */
+    @Override
+    public DeleteTeamRequestOrBuilder getDeleteTeamRequestOrBuilder() {
+      if (dateBodyCase_ == 23) {
+         return (DeleteTeamRequest) dateBody_;
+      }
+      return DeleteTeamRequest.getDefaultInstance();
+    }
+
+    public static final int DELETETEAMRESPONSE_FIELD_NUMBER = 24;
+    /**
+     * <code>.DeleteTeamResponse deleteTeamResponse = 24;</code>
+     * @return Whether the deleteTeamResponse field is set.
+     */
+    @Override
+    public boolean hasDeleteTeamResponse() {
+      return dateBodyCase_ == 24;
+    }
+    /**
+     * <code>.DeleteTeamResponse deleteTeamResponse = 24;</code>
+     * @return The deleteTeamResponse.
+     */
+    @Override
+    public DeleteTeamResponse getDeleteTeamResponse() {
+      if (dateBodyCase_ == 24) {
+         return (DeleteTeamResponse) dateBody_;
+      }
+      return DeleteTeamResponse.getDefaultInstance();
+    }
+    /**
+     * <code>.DeleteTeamResponse deleteTeamResponse = 24;</code>
+     */
+    @Override
+    public DeleteTeamResponseOrBuilder getDeleteTeamResponseOrBuilder() {
+      if (dateBodyCase_ == 24) {
+         return (DeleteTeamResponse) dateBody_;
+      }
+      return DeleteTeamResponse.getDefaultInstance();
+    }
+
+    public static final int LEADERTEAMRESPONSE_FIELD_NUMBER = 25;
+    /**
+     * <code>.LeaderTeamResponse leaderTeamResponse = 25;</code>
+     * @return Whether the leaderTeamResponse field is set.
+     */
+    @Override
+    public boolean hasLeaderTeamResponse() {
+      return dateBodyCase_ == 25;
+    }
+    /**
+     * <code>.LeaderTeamResponse leaderTeamResponse = 25;</code>
+     * @return The leaderTeamResponse.
+     */
+    @Override
+    public LeaderTeamResponse getLeaderTeamResponse() {
+      if (dateBodyCase_ == 25) {
+         return (LeaderTeamResponse) dateBody_;
+      }
+      return LeaderTeamResponse.getDefaultInstance();
+    }
+    /**
+     * <code>.LeaderTeamResponse leaderTeamResponse = 25;</code>
+     */
+    @Override
+    public LeaderTeamResponseOrBuilder getLeaderTeamResponseOrBuilder() {
+      if (dateBodyCase_ == 25) {
+         return (LeaderTeamResponse) dateBody_;
+      }
+      return LeaderTeamResponse.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -1713,6 +2068,21 @@ public final class TeamModel {
       }
       if (dateBodyCase_ == 20) {
         output.writeMessage(20, (ExitTeamResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 21) {
+        output.writeMessage(21, (BanPeopleRequest) dateBody_);
+      }
+      if (dateBodyCase_ == 22) {
+        output.writeMessage(22, (BanPeopleResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 23) {
+        output.writeMessage(23, (DeleteTeamRequest) dateBody_);
+      }
+      if (dateBodyCase_ == 24) {
+        output.writeMessage(24, (DeleteTeamResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 25) {
+        output.writeMessage(25, (LeaderTeamResponse) dateBody_);
       }
       unknownFields.writeTo(output);
     }
@@ -1802,6 +2172,26 @@ public final class TeamModel {
       if (dateBodyCase_ == 20) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(20, (ExitTeamResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 21) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(21, (BanPeopleRequest) dateBody_);
+      }
+      if (dateBodyCase_ == 22) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(22, (BanPeopleResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 23) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(23, (DeleteTeamRequest) dateBody_);
+      }
+      if (dateBodyCase_ == 24) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(24, (DeleteTeamResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 25) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(25, (LeaderTeamResponse) dateBody_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1897,6 +2287,26 @@ public final class TeamModel {
           if (!getExitTeamResponse()
               .equals(other.getExitTeamResponse())) return false;
           break;
+        case 21:
+          if (!getBanPeopleRequest()
+              .equals(other.getBanPeopleRequest())) return false;
+          break;
+        case 22:
+          if (!getBanPeopleResponse()
+              .equals(other.getBanPeopleResponse())) return false;
+          break;
+        case 23:
+          if (!getDeleteTeamRequest()
+              .equals(other.getDeleteTeamRequest())) return false;
+          break;
+        case 24:
+          if (!getDeleteTeamResponse()
+              .equals(other.getDeleteTeamResponse())) return false;
+          break;
+        case 25:
+          if (!getLeaderTeamResponse()
+              .equals(other.getLeaderTeamResponse())) return false;
+          break;
         case 0:
         default:
       }
@@ -1989,6 +2399,26 @@ public final class TeamModel {
         case 20:
           hash = (37 * hash) + EXITTEAMRESPONSE_FIELD_NUMBER;
           hash = (53 * hash) + getExitTeamResponse().hashCode();
+          break;
+        case 21:
+          hash = (37 * hash) + BANPEOPLEREQUEST_FIELD_NUMBER;
+          hash = (53 * hash) + getBanPeopleRequest().hashCode();
+          break;
+        case 22:
+          hash = (37 * hash) + BANPEOPLERESPONSE_FIELD_NUMBER;
+          hash = (53 * hash) + getBanPeopleResponse().hashCode();
+          break;
+        case 23:
+          hash = (37 * hash) + DELETETEAMREQUEST_FIELD_NUMBER;
+          hash = (53 * hash) + getDeleteTeamRequest().hashCode();
+          break;
+        case 24:
+          hash = (37 * hash) + DELETETEAMRESPONSE_FIELD_NUMBER;
+          hash = (53 * hash) + getDeleteTeamResponse().hashCode();
+          break;
+        case 25:
+          hash = (37 * hash) + LEADERTEAMRESPONSE_FIELD_NUMBER;
+          hash = (53 * hash) + getLeaderTeamResponse().hashCode();
           break;
         case 0:
         default:
@@ -2294,6 +2724,41 @@ public final class TeamModel {
             result.dateBody_ = exitTeamResponseBuilder_.build();
           }
         }
+        if (dateBodyCase_ == 21) {
+          if (banPeopleRequestBuilder_ == null) {
+            result.dateBody_ = dateBody_;
+          } else {
+            result.dateBody_ = banPeopleRequestBuilder_.build();
+          }
+        }
+        if (dateBodyCase_ == 22) {
+          if (banPeopleResponseBuilder_ == null) {
+            result.dateBody_ = dateBody_;
+          } else {
+            result.dateBody_ = banPeopleResponseBuilder_.build();
+          }
+        }
+        if (dateBodyCase_ == 23) {
+          if (deleteTeamRequestBuilder_ == null) {
+            result.dateBody_ = dateBody_;
+          } else {
+            result.dateBody_ = deleteTeamRequestBuilder_.build();
+          }
+        }
+        if (dateBodyCase_ == 24) {
+          if (deleteTeamResponseBuilder_ == null) {
+            result.dateBody_ = dateBody_;
+          } else {
+            result.dateBody_ = deleteTeamResponseBuilder_.build();
+          }
+        }
+        if (dateBodyCase_ == 25) {
+          if (leaderTeamResponseBuilder_ == null) {
+            result.dateBody_ = dateBody_;
+          } else {
+            result.dateBody_ = leaderTeamResponseBuilder_.build();
+          }
+        }
         result.dateBodyCase_ = dateBodyCase_;
         onBuilt();
         return result;
@@ -2421,6 +2886,26 @@ public final class TeamModel {
           }
           case EXITTEAMRESPONSE: {
             mergeExitTeamResponse(other.getExitTeamResponse());
+            break;
+          }
+          case BANPEOPLEREQUEST: {
+            mergeBanPeopleRequest(other.getBanPeopleRequest());
+            break;
+          }
+          case BANPEOPLERESPONSE: {
+            mergeBanPeopleResponse(other.getBanPeopleResponse());
+            break;
+          }
+          case DELETETEAMREQUEST: {
+            mergeDeleteTeamRequest(other.getDeleteTeamRequest());
+            break;
+          }
+          case DELETETEAMRESPONSE: {
+            mergeDeleteTeamResponse(other.getDeleteTeamResponse());
+            break;
+          }
+          case LEADERTEAMRESPONSE: {
+            mergeLeaderTeamResponse(other.getLeaderTeamResponse());
             break;
           }
           case DATEBODY_NOT_SET: {
@@ -5223,6 +5708,711 @@ public final class TeamModel {
         onChanged();;
         return exitTeamResponseBuilder_;
       }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          BanPeopleRequest, BanPeopleRequest.Builder, BanPeopleRequestOrBuilder> banPeopleRequestBuilder_;
+      /**
+       * <code>.BanPeopleRequest banPeopleRequest = 21;</code>
+       * @return Whether the banPeopleRequest field is set.
+       */
+      @Override
+      public boolean hasBanPeopleRequest() {
+        return dateBodyCase_ == 21;
+      }
+      /**
+       * <code>.BanPeopleRequest banPeopleRequest = 21;</code>
+       * @return The banPeopleRequest.
+       */
+      @Override
+      public BanPeopleRequest getBanPeopleRequest() {
+        if (banPeopleRequestBuilder_ == null) {
+          if (dateBodyCase_ == 21) {
+            return (BanPeopleRequest) dateBody_;
+          }
+          return BanPeopleRequest.getDefaultInstance();
+        } else {
+          if (dateBodyCase_ == 21) {
+            return banPeopleRequestBuilder_.getMessage();
+          }
+          return BanPeopleRequest.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.BanPeopleRequest banPeopleRequest = 21;</code>
+       */
+      public Builder setBanPeopleRequest(BanPeopleRequest value) {
+        if (banPeopleRequestBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dateBody_ = value;
+          onChanged();
+        } else {
+          banPeopleRequestBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 21;
+        return this;
+      }
+      /**
+       * <code>.BanPeopleRequest banPeopleRequest = 21;</code>
+       */
+      public Builder setBanPeopleRequest(
+          BanPeopleRequest.Builder builderForValue) {
+        if (banPeopleRequestBuilder_ == null) {
+          dateBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          banPeopleRequestBuilder_.setMessage(builderForValue.build());
+        }
+        dateBodyCase_ = 21;
+        return this;
+      }
+      /**
+       * <code>.BanPeopleRequest banPeopleRequest = 21;</code>
+       */
+      public Builder mergeBanPeopleRequest(BanPeopleRequest value) {
+        if (banPeopleRequestBuilder_ == null) {
+          if (dateBodyCase_ == 21 &&
+              dateBody_ != BanPeopleRequest.getDefaultInstance()) {
+            dateBody_ = BanPeopleRequest.newBuilder((BanPeopleRequest) dateBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dateBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dateBodyCase_ == 21) {
+            banPeopleRequestBuilder_.mergeFrom(value);
+          }
+          banPeopleRequestBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 21;
+        return this;
+      }
+      /**
+       * <code>.BanPeopleRequest banPeopleRequest = 21;</code>
+       */
+      public Builder clearBanPeopleRequest() {
+        if (banPeopleRequestBuilder_ == null) {
+          if (dateBodyCase_ == 21) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dateBodyCase_ == 21) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+          }
+          banPeopleRequestBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.BanPeopleRequest banPeopleRequest = 21;</code>
+       */
+      public BanPeopleRequest.Builder getBanPeopleRequestBuilder() {
+        return getBanPeopleRequestFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.BanPeopleRequest banPeopleRequest = 21;</code>
+       */
+      @Override
+      public BanPeopleRequestOrBuilder getBanPeopleRequestOrBuilder() {
+        if ((dateBodyCase_ == 21) && (banPeopleRequestBuilder_ != null)) {
+          return banPeopleRequestBuilder_.getMessageOrBuilder();
+        } else {
+          if (dateBodyCase_ == 21) {
+            return (BanPeopleRequest) dateBody_;
+          }
+          return BanPeopleRequest.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.BanPeopleRequest banPeopleRequest = 21;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          BanPeopleRequest, BanPeopleRequest.Builder, BanPeopleRequestOrBuilder>
+          getBanPeopleRequestFieldBuilder() {
+        if (banPeopleRequestBuilder_ == null) {
+          if (!(dateBodyCase_ == 21)) {
+            dateBody_ = BanPeopleRequest.getDefaultInstance();
+          }
+          banPeopleRequestBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              BanPeopleRequest, BanPeopleRequest.Builder, BanPeopleRequestOrBuilder>(
+                  (BanPeopleRequest) dateBody_,
+                  getParentForChildren(),
+                  isClean());
+          dateBody_ = null;
+        }
+        dateBodyCase_ = 21;
+        onChanged();;
+        return banPeopleRequestBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          BanPeopleResponse, BanPeopleResponse.Builder, BanPeopleResponseOrBuilder> banPeopleResponseBuilder_;
+      /**
+       * <code>.BanPeopleResponse banPeopleResponse = 22;</code>
+       * @return Whether the banPeopleResponse field is set.
+       */
+      @Override
+      public boolean hasBanPeopleResponse() {
+        return dateBodyCase_ == 22;
+      }
+      /**
+       * <code>.BanPeopleResponse banPeopleResponse = 22;</code>
+       * @return The banPeopleResponse.
+       */
+      @Override
+      public BanPeopleResponse getBanPeopleResponse() {
+        if (banPeopleResponseBuilder_ == null) {
+          if (dateBodyCase_ == 22) {
+            return (BanPeopleResponse) dateBody_;
+          }
+          return BanPeopleResponse.getDefaultInstance();
+        } else {
+          if (dateBodyCase_ == 22) {
+            return banPeopleResponseBuilder_.getMessage();
+          }
+          return BanPeopleResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.BanPeopleResponse banPeopleResponse = 22;</code>
+       */
+      public Builder setBanPeopleResponse(BanPeopleResponse value) {
+        if (banPeopleResponseBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dateBody_ = value;
+          onChanged();
+        } else {
+          banPeopleResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 22;
+        return this;
+      }
+      /**
+       * <code>.BanPeopleResponse banPeopleResponse = 22;</code>
+       */
+      public Builder setBanPeopleResponse(
+          BanPeopleResponse.Builder builderForValue) {
+        if (banPeopleResponseBuilder_ == null) {
+          dateBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          banPeopleResponseBuilder_.setMessage(builderForValue.build());
+        }
+        dateBodyCase_ = 22;
+        return this;
+      }
+      /**
+       * <code>.BanPeopleResponse banPeopleResponse = 22;</code>
+       */
+      public Builder mergeBanPeopleResponse(BanPeopleResponse value) {
+        if (banPeopleResponseBuilder_ == null) {
+          if (dateBodyCase_ == 22 &&
+              dateBody_ != BanPeopleResponse.getDefaultInstance()) {
+            dateBody_ = BanPeopleResponse.newBuilder((BanPeopleResponse) dateBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dateBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dateBodyCase_ == 22) {
+            banPeopleResponseBuilder_.mergeFrom(value);
+          }
+          banPeopleResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 22;
+        return this;
+      }
+      /**
+       * <code>.BanPeopleResponse banPeopleResponse = 22;</code>
+       */
+      public Builder clearBanPeopleResponse() {
+        if (banPeopleResponseBuilder_ == null) {
+          if (dateBodyCase_ == 22) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dateBodyCase_ == 22) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+          }
+          banPeopleResponseBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.BanPeopleResponse banPeopleResponse = 22;</code>
+       */
+      public BanPeopleResponse.Builder getBanPeopleResponseBuilder() {
+        return getBanPeopleResponseFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.BanPeopleResponse banPeopleResponse = 22;</code>
+       */
+      @Override
+      public BanPeopleResponseOrBuilder getBanPeopleResponseOrBuilder() {
+        if ((dateBodyCase_ == 22) && (banPeopleResponseBuilder_ != null)) {
+          return banPeopleResponseBuilder_.getMessageOrBuilder();
+        } else {
+          if (dateBodyCase_ == 22) {
+            return (BanPeopleResponse) dateBody_;
+          }
+          return BanPeopleResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.BanPeopleResponse banPeopleResponse = 22;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          BanPeopleResponse, BanPeopleResponse.Builder, BanPeopleResponseOrBuilder>
+          getBanPeopleResponseFieldBuilder() {
+        if (banPeopleResponseBuilder_ == null) {
+          if (!(dateBodyCase_ == 22)) {
+            dateBody_ = BanPeopleResponse.getDefaultInstance();
+          }
+          banPeopleResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              BanPeopleResponse, BanPeopleResponse.Builder, BanPeopleResponseOrBuilder>(
+                  (BanPeopleResponse) dateBody_,
+                  getParentForChildren(),
+                  isClean());
+          dateBody_ = null;
+        }
+        dateBodyCase_ = 22;
+        onChanged();;
+        return banPeopleResponseBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          DeleteTeamRequest, DeleteTeamRequest.Builder, DeleteTeamRequestOrBuilder> deleteTeamRequestBuilder_;
+      /**
+       * <code>.DeleteTeamRequest deleteTeamRequest = 23;</code>
+       * @return Whether the deleteTeamRequest field is set.
+       */
+      @Override
+      public boolean hasDeleteTeamRequest() {
+        return dateBodyCase_ == 23;
+      }
+      /**
+       * <code>.DeleteTeamRequest deleteTeamRequest = 23;</code>
+       * @return The deleteTeamRequest.
+       */
+      @Override
+      public DeleteTeamRequest getDeleteTeamRequest() {
+        if (deleteTeamRequestBuilder_ == null) {
+          if (dateBodyCase_ == 23) {
+            return (DeleteTeamRequest) dateBody_;
+          }
+          return DeleteTeamRequest.getDefaultInstance();
+        } else {
+          if (dateBodyCase_ == 23) {
+            return deleteTeamRequestBuilder_.getMessage();
+          }
+          return DeleteTeamRequest.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.DeleteTeamRequest deleteTeamRequest = 23;</code>
+       */
+      public Builder setDeleteTeamRequest(DeleteTeamRequest value) {
+        if (deleteTeamRequestBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dateBody_ = value;
+          onChanged();
+        } else {
+          deleteTeamRequestBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 23;
+        return this;
+      }
+      /**
+       * <code>.DeleteTeamRequest deleteTeamRequest = 23;</code>
+       */
+      public Builder setDeleteTeamRequest(
+          DeleteTeamRequest.Builder builderForValue) {
+        if (deleteTeamRequestBuilder_ == null) {
+          dateBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          deleteTeamRequestBuilder_.setMessage(builderForValue.build());
+        }
+        dateBodyCase_ = 23;
+        return this;
+      }
+      /**
+       * <code>.DeleteTeamRequest deleteTeamRequest = 23;</code>
+       */
+      public Builder mergeDeleteTeamRequest(DeleteTeamRequest value) {
+        if (deleteTeamRequestBuilder_ == null) {
+          if (dateBodyCase_ == 23 &&
+              dateBody_ != DeleteTeamRequest.getDefaultInstance()) {
+            dateBody_ = DeleteTeamRequest.newBuilder((DeleteTeamRequest) dateBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dateBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dateBodyCase_ == 23) {
+            deleteTeamRequestBuilder_.mergeFrom(value);
+          }
+          deleteTeamRequestBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 23;
+        return this;
+      }
+      /**
+       * <code>.DeleteTeamRequest deleteTeamRequest = 23;</code>
+       */
+      public Builder clearDeleteTeamRequest() {
+        if (deleteTeamRequestBuilder_ == null) {
+          if (dateBodyCase_ == 23) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dateBodyCase_ == 23) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+          }
+          deleteTeamRequestBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.DeleteTeamRequest deleteTeamRequest = 23;</code>
+       */
+      public DeleteTeamRequest.Builder getDeleteTeamRequestBuilder() {
+        return getDeleteTeamRequestFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.DeleteTeamRequest deleteTeamRequest = 23;</code>
+       */
+      @Override
+      public DeleteTeamRequestOrBuilder getDeleteTeamRequestOrBuilder() {
+        if ((dateBodyCase_ == 23) && (deleteTeamRequestBuilder_ != null)) {
+          return deleteTeamRequestBuilder_.getMessageOrBuilder();
+        } else {
+          if (dateBodyCase_ == 23) {
+            return (DeleteTeamRequest) dateBody_;
+          }
+          return DeleteTeamRequest.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.DeleteTeamRequest deleteTeamRequest = 23;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          DeleteTeamRequest, DeleteTeamRequest.Builder, DeleteTeamRequestOrBuilder>
+          getDeleteTeamRequestFieldBuilder() {
+        if (deleteTeamRequestBuilder_ == null) {
+          if (!(dateBodyCase_ == 23)) {
+            dateBody_ = DeleteTeamRequest.getDefaultInstance();
+          }
+          deleteTeamRequestBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              DeleteTeamRequest, DeleteTeamRequest.Builder, DeleteTeamRequestOrBuilder>(
+                  (DeleteTeamRequest) dateBody_,
+                  getParentForChildren(),
+                  isClean());
+          dateBody_ = null;
+        }
+        dateBodyCase_ = 23;
+        onChanged();;
+        return deleteTeamRequestBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          DeleteTeamResponse, DeleteTeamResponse.Builder, DeleteTeamResponseOrBuilder> deleteTeamResponseBuilder_;
+      /**
+       * <code>.DeleteTeamResponse deleteTeamResponse = 24;</code>
+       * @return Whether the deleteTeamResponse field is set.
+       */
+      @Override
+      public boolean hasDeleteTeamResponse() {
+        return dateBodyCase_ == 24;
+      }
+      /**
+       * <code>.DeleteTeamResponse deleteTeamResponse = 24;</code>
+       * @return The deleteTeamResponse.
+       */
+      @Override
+      public DeleteTeamResponse getDeleteTeamResponse() {
+        if (deleteTeamResponseBuilder_ == null) {
+          if (dateBodyCase_ == 24) {
+            return (DeleteTeamResponse) dateBody_;
+          }
+          return DeleteTeamResponse.getDefaultInstance();
+        } else {
+          if (dateBodyCase_ == 24) {
+            return deleteTeamResponseBuilder_.getMessage();
+          }
+          return DeleteTeamResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.DeleteTeamResponse deleteTeamResponse = 24;</code>
+       */
+      public Builder setDeleteTeamResponse(DeleteTeamResponse value) {
+        if (deleteTeamResponseBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dateBody_ = value;
+          onChanged();
+        } else {
+          deleteTeamResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 24;
+        return this;
+      }
+      /**
+       * <code>.DeleteTeamResponse deleteTeamResponse = 24;</code>
+       */
+      public Builder setDeleteTeamResponse(
+          DeleteTeamResponse.Builder builderForValue) {
+        if (deleteTeamResponseBuilder_ == null) {
+          dateBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          deleteTeamResponseBuilder_.setMessage(builderForValue.build());
+        }
+        dateBodyCase_ = 24;
+        return this;
+      }
+      /**
+       * <code>.DeleteTeamResponse deleteTeamResponse = 24;</code>
+       */
+      public Builder mergeDeleteTeamResponse(DeleteTeamResponse value) {
+        if (deleteTeamResponseBuilder_ == null) {
+          if (dateBodyCase_ == 24 &&
+              dateBody_ != DeleteTeamResponse.getDefaultInstance()) {
+            dateBody_ = DeleteTeamResponse.newBuilder((DeleteTeamResponse) dateBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dateBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dateBodyCase_ == 24) {
+            deleteTeamResponseBuilder_.mergeFrom(value);
+          }
+          deleteTeamResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 24;
+        return this;
+      }
+      /**
+       * <code>.DeleteTeamResponse deleteTeamResponse = 24;</code>
+       */
+      public Builder clearDeleteTeamResponse() {
+        if (deleteTeamResponseBuilder_ == null) {
+          if (dateBodyCase_ == 24) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dateBodyCase_ == 24) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+          }
+          deleteTeamResponseBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.DeleteTeamResponse deleteTeamResponse = 24;</code>
+       */
+      public DeleteTeamResponse.Builder getDeleteTeamResponseBuilder() {
+        return getDeleteTeamResponseFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.DeleteTeamResponse deleteTeamResponse = 24;</code>
+       */
+      @Override
+      public DeleteTeamResponseOrBuilder getDeleteTeamResponseOrBuilder() {
+        if ((dateBodyCase_ == 24) && (deleteTeamResponseBuilder_ != null)) {
+          return deleteTeamResponseBuilder_.getMessageOrBuilder();
+        } else {
+          if (dateBodyCase_ == 24) {
+            return (DeleteTeamResponse) dateBody_;
+          }
+          return DeleteTeamResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.DeleteTeamResponse deleteTeamResponse = 24;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          DeleteTeamResponse, DeleteTeamResponse.Builder, DeleteTeamResponseOrBuilder>
+          getDeleteTeamResponseFieldBuilder() {
+        if (deleteTeamResponseBuilder_ == null) {
+          if (!(dateBodyCase_ == 24)) {
+            dateBody_ = DeleteTeamResponse.getDefaultInstance();
+          }
+          deleteTeamResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              DeleteTeamResponse, DeleteTeamResponse.Builder, DeleteTeamResponseOrBuilder>(
+                  (DeleteTeamResponse) dateBody_,
+                  getParentForChildren(),
+                  isClean());
+          dateBody_ = null;
+        }
+        dateBodyCase_ = 24;
+        onChanged();;
+        return deleteTeamResponseBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          LeaderTeamResponse, LeaderTeamResponse.Builder, LeaderTeamResponseOrBuilder> leaderTeamResponseBuilder_;
+      /**
+       * <code>.LeaderTeamResponse leaderTeamResponse = 25;</code>
+       * @return Whether the leaderTeamResponse field is set.
+       */
+      @Override
+      public boolean hasLeaderTeamResponse() {
+        return dateBodyCase_ == 25;
+      }
+      /**
+       * <code>.LeaderTeamResponse leaderTeamResponse = 25;</code>
+       * @return The leaderTeamResponse.
+       */
+      @Override
+      public LeaderTeamResponse getLeaderTeamResponse() {
+        if (leaderTeamResponseBuilder_ == null) {
+          if (dateBodyCase_ == 25) {
+            return (LeaderTeamResponse) dateBody_;
+          }
+          return LeaderTeamResponse.getDefaultInstance();
+        } else {
+          if (dateBodyCase_ == 25) {
+            return leaderTeamResponseBuilder_.getMessage();
+          }
+          return LeaderTeamResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.LeaderTeamResponse leaderTeamResponse = 25;</code>
+       */
+      public Builder setLeaderTeamResponse(LeaderTeamResponse value) {
+        if (leaderTeamResponseBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dateBody_ = value;
+          onChanged();
+        } else {
+          leaderTeamResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 25;
+        return this;
+      }
+      /**
+       * <code>.LeaderTeamResponse leaderTeamResponse = 25;</code>
+       */
+      public Builder setLeaderTeamResponse(
+          LeaderTeamResponse.Builder builderForValue) {
+        if (leaderTeamResponseBuilder_ == null) {
+          dateBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          leaderTeamResponseBuilder_.setMessage(builderForValue.build());
+        }
+        dateBodyCase_ = 25;
+        return this;
+      }
+      /**
+       * <code>.LeaderTeamResponse leaderTeamResponse = 25;</code>
+       */
+      public Builder mergeLeaderTeamResponse(LeaderTeamResponse value) {
+        if (leaderTeamResponseBuilder_ == null) {
+          if (dateBodyCase_ == 25 &&
+              dateBody_ != LeaderTeamResponse.getDefaultInstance()) {
+            dateBody_ = LeaderTeamResponse.newBuilder((LeaderTeamResponse) dateBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dateBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dateBodyCase_ == 25) {
+            leaderTeamResponseBuilder_.mergeFrom(value);
+          }
+          leaderTeamResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 25;
+        return this;
+      }
+      /**
+       * <code>.LeaderTeamResponse leaderTeamResponse = 25;</code>
+       */
+      public Builder clearLeaderTeamResponse() {
+        if (leaderTeamResponseBuilder_ == null) {
+          if (dateBodyCase_ == 25) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dateBodyCase_ == 25) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+          }
+          leaderTeamResponseBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.LeaderTeamResponse leaderTeamResponse = 25;</code>
+       */
+      public LeaderTeamResponse.Builder getLeaderTeamResponseBuilder() {
+        return getLeaderTeamResponseFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.LeaderTeamResponse leaderTeamResponse = 25;</code>
+       */
+      @Override
+      public LeaderTeamResponseOrBuilder getLeaderTeamResponseOrBuilder() {
+        if ((dateBodyCase_ == 25) && (leaderTeamResponseBuilder_ != null)) {
+          return leaderTeamResponseBuilder_.getMessageOrBuilder();
+        } else {
+          if (dateBodyCase_ == 25) {
+            return (LeaderTeamResponse) dateBody_;
+          }
+          return LeaderTeamResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.LeaderTeamResponse leaderTeamResponse = 25;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          LeaderTeamResponse, LeaderTeamResponse.Builder, LeaderTeamResponseOrBuilder>
+          getLeaderTeamResponseFieldBuilder() {
+        if (leaderTeamResponseBuilder_ == null) {
+          if (!(dateBodyCase_ == 25)) {
+            dateBody_ = LeaderTeamResponse.getDefaultInstance();
+          }
+          leaderTeamResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              LeaderTeamResponse, LeaderTeamResponse.Builder, LeaderTeamResponseOrBuilder>(
+                  (LeaderTeamResponse) dateBody_,
+                  getParentForChildren(),
+                  isClean());
+          dateBody_ = null;
+        }
+        dateBodyCase_ = 25;
+        onChanged();;
+        return leaderTeamResponseBuilder_;
+      }
       @Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -5271,6 +6461,2386 @@ public final class TeamModel {
 
     @Override
     public TeamModelMessage getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface BanPeopleRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:BanPeopleRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>int32 roleId = 1;</code>
+     * @return The roleId.
+     */
+    int getRoleId();
+  }
+  /**
+   * Protobuf type {@code BanPeopleRequest}
+   */
+  public static final class BanPeopleRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:BanPeopleRequest)
+      BanPeopleRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use BanPeopleRequest.newBuilder() to construct.
+    private BanPeopleRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private BanPeopleRequest() {
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new BanPeopleRequest();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private BanPeopleRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+
+              roleId_ = input.readInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return TeamModel.internal_static_BanPeopleRequest_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return TeamModel.internal_static_BanPeopleRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              BanPeopleRequest.class, Builder.class);
+    }
+
+    public static final int ROLEID_FIELD_NUMBER = 1;
+    private int roleId_;
+    /**
+     * <code>int32 roleId = 1;</code>
+     * @return The roleId.
+     */
+    @Override
+    public int getRoleId() {
+      return roleId_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (roleId_ != 0) {
+        output.writeInt32(1, roleId_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (roleId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, roleId_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof BanPeopleRequest)) {
+        return super.equals(obj);
+      }
+      BanPeopleRequest other = (BanPeopleRequest) obj;
+
+      if (getRoleId()
+          != other.getRoleId()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + ROLEID_FIELD_NUMBER;
+      hash = (53 * hash) + getRoleId();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static BanPeopleRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static BanPeopleRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static BanPeopleRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static BanPeopleRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static BanPeopleRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static BanPeopleRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static BanPeopleRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static BanPeopleRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static BanPeopleRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static BanPeopleRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static BanPeopleRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static BanPeopleRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(BanPeopleRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code BanPeopleRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:BanPeopleRequest)
+        BanPeopleRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return TeamModel.internal_static_BanPeopleRequest_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return TeamModel.internal_static_BanPeopleRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                BanPeopleRequest.class, Builder.class);
+      }
+
+      // Construct using TeamModel.BanPeopleRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        roleId_ = 0;
+
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return TeamModel.internal_static_BanPeopleRequest_descriptor;
+      }
+
+      @Override
+      public BanPeopleRequest getDefaultInstanceForType() {
+        return BanPeopleRequest.getDefaultInstance();
+      }
+
+      @Override
+      public BanPeopleRequest build() {
+        BanPeopleRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public BanPeopleRequest buildPartial() {
+        BanPeopleRequest result = new BanPeopleRequest(this);
+        result.roleId_ = roleId_;
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof BanPeopleRequest) {
+          return mergeFrom((BanPeopleRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(BanPeopleRequest other) {
+        if (other == BanPeopleRequest.getDefaultInstance()) return this;
+        if (other.getRoleId() != 0) {
+          setRoleId(other.getRoleId());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        BanPeopleRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (BanPeopleRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private int roleId_ ;
+      /**
+       * <code>int32 roleId = 1;</code>
+       * @return The roleId.
+       */
+      @Override
+      public int getRoleId() {
+        return roleId_;
+      }
+      /**
+       * <code>int32 roleId = 1;</code>
+       * @param value The roleId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRoleId(int value) {
+        
+        roleId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 roleId = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRoleId() {
+        
+        roleId_ = 0;
+        onChanged();
+        return this;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:BanPeopleRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:BanPeopleRequest)
+    private static final BanPeopleRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new BanPeopleRequest();
+    }
+
+    public static BanPeopleRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<BanPeopleRequest>
+        PARSER = new com.google.protobuf.AbstractParser<BanPeopleRequest>() {
+      @Override
+      public BanPeopleRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new BanPeopleRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<BanPeopleRequest> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<BanPeopleRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public BanPeopleRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface BanPeopleResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:BanPeopleResponse)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code BanPeopleResponse}
+   */
+  public static final class BanPeopleResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:BanPeopleResponse)
+      BanPeopleResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use BanPeopleResponse.newBuilder() to construct.
+    private BanPeopleResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private BanPeopleResponse() {
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new BanPeopleResponse();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private BanPeopleResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return TeamModel.internal_static_BanPeopleResponse_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return TeamModel.internal_static_BanPeopleResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              BanPeopleResponse.class, Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof BanPeopleResponse)) {
+        return super.equals(obj);
+      }
+      BanPeopleResponse other = (BanPeopleResponse) obj;
+
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static BanPeopleResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static BanPeopleResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static BanPeopleResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static BanPeopleResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static BanPeopleResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static BanPeopleResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static BanPeopleResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static BanPeopleResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static BanPeopleResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static BanPeopleResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static BanPeopleResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static BanPeopleResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(BanPeopleResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code BanPeopleResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:BanPeopleResponse)
+        BanPeopleResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return TeamModel.internal_static_BanPeopleResponse_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return TeamModel.internal_static_BanPeopleResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                BanPeopleResponse.class, Builder.class);
+      }
+
+      // Construct using TeamModel.BanPeopleResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return TeamModel.internal_static_BanPeopleResponse_descriptor;
+      }
+
+      @Override
+      public BanPeopleResponse getDefaultInstanceForType() {
+        return BanPeopleResponse.getDefaultInstance();
+      }
+
+      @Override
+      public BanPeopleResponse build() {
+        BanPeopleResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public BanPeopleResponse buildPartial() {
+        BanPeopleResponse result = new BanPeopleResponse(this);
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof BanPeopleResponse) {
+          return mergeFrom((BanPeopleResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(BanPeopleResponse other) {
+        if (other == BanPeopleResponse.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        BanPeopleResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (BanPeopleResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:BanPeopleResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:BanPeopleResponse)
+    private static final BanPeopleResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new BanPeopleResponse();
+    }
+
+    public static BanPeopleResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<BanPeopleResponse>
+        PARSER = new com.google.protobuf.AbstractParser<BanPeopleResponse>() {
+      @Override
+      public BanPeopleResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new BanPeopleResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<BanPeopleResponse> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<BanPeopleResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public BanPeopleResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface DeleteTeamRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:DeleteTeamRequest)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code DeleteTeamRequest}
+   */
+  public static final class DeleteTeamRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:DeleteTeamRequest)
+      DeleteTeamRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use DeleteTeamRequest.newBuilder() to construct.
+    private DeleteTeamRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private DeleteTeamRequest() {
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DeleteTeamRequest();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private DeleteTeamRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return TeamModel.internal_static_DeleteTeamRequest_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return TeamModel.internal_static_DeleteTeamRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              DeleteTeamRequest.class, Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof DeleteTeamRequest)) {
+        return super.equals(obj);
+      }
+      DeleteTeamRequest other = (DeleteTeamRequest) obj;
+
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static DeleteTeamRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static DeleteTeamRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static DeleteTeamRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static DeleteTeamRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static DeleteTeamRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static DeleteTeamRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static DeleteTeamRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static DeleteTeamRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static DeleteTeamRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static DeleteTeamRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static DeleteTeamRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static DeleteTeamRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(DeleteTeamRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code DeleteTeamRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:DeleteTeamRequest)
+        DeleteTeamRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return TeamModel.internal_static_DeleteTeamRequest_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return TeamModel.internal_static_DeleteTeamRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                DeleteTeamRequest.class, Builder.class);
+      }
+
+      // Construct using TeamModel.DeleteTeamRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return TeamModel.internal_static_DeleteTeamRequest_descriptor;
+      }
+
+      @Override
+      public DeleteTeamRequest getDefaultInstanceForType() {
+        return DeleteTeamRequest.getDefaultInstance();
+      }
+
+      @Override
+      public DeleteTeamRequest build() {
+        DeleteTeamRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public DeleteTeamRequest buildPartial() {
+        DeleteTeamRequest result = new DeleteTeamRequest(this);
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof DeleteTeamRequest) {
+          return mergeFrom((DeleteTeamRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(DeleteTeamRequest other) {
+        if (other == DeleteTeamRequest.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        DeleteTeamRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (DeleteTeamRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:DeleteTeamRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:DeleteTeamRequest)
+    private static final DeleteTeamRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new DeleteTeamRequest();
+    }
+
+    public static DeleteTeamRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<DeleteTeamRequest>
+        PARSER = new com.google.protobuf.AbstractParser<DeleteTeamRequest>() {
+      @Override
+      public DeleteTeamRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new DeleteTeamRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<DeleteTeamRequest> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<DeleteTeamRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public DeleteTeamRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface DeleteTeamResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:DeleteTeamResponse)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code DeleteTeamResponse}
+   */
+  public static final class DeleteTeamResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:DeleteTeamResponse)
+      DeleteTeamResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use DeleteTeamResponse.newBuilder() to construct.
+    private DeleteTeamResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private DeleteTeamResponse() {
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DeleteTeamResponse();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private DeleteTeamResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return TeamModel.internal_static_DeleteTeamResponse_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return TeamModel.internal_static_DeleteTeamResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              DeleteTeamResponse.class, Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof DeleteTeamResponse)) {
+        return super.equals(obj);
+      }
+      DeleteTeamResponse other = (DeleteTeamResponse) obj;
+
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static DeleteTeamResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static DeleteTeamResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static DeleteTeamResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static DeleteTeamResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static DeleteTeamResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static DeleteTeamResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static DeleteTeamResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static DeleteTeamResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static DeleteTeamResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static DeleteTeamResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static DeleteTeamResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static DeleteTeamResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(DeleteTeamResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code DeleteTeamResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:DeleteTeamResponse)
+        DeleteTeamResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return TeamModel.internal_static_DeleteTeamResponse_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return TeamModel.internal_static_DeleteTeamResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                DeleteTeamResponse.class, Builder.class);
+      }
+
+      // Construct using TeamModel.DeleteTeamResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return TeamModel.internal_static_DeleteTeamResponse_descriptor;
+      }
+
+      @Override
+      public DeleteTeamResponse getDefaultInstanceForType() {
+        return DeleteTeamResponse.getDefaultInstance();
+      }
+
+      @Override
+      public DeleteTeamResponse build() {
+        DeleteTeamResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public DeleteTeamResponse buildPartial() {
+        DeleteTeamResponse result = new DeleteTeamResponse(this);
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof DeleteTeamResponse) {
+          return mergeFrom((DeleteTeamResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(DeleteTeamResponse other) {
+        if (other == DeleteTeamResponse.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        DeleteTeamResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (DeleteTeamResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:DeleteTeamResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:DeleteTeamResponse)
+    private static final DeleteTeamResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new DeleteTeamResponse();
+    }
+
+    public static DeleteTeamResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<DeleteTeamResponse>
+        PARSER = new com.google.protobuf.AbstractParser<DeleteTeamResponse>() {
+      @Override
+      public DeleteTeamResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new DeleteTeamResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<DeleteTeamResponse> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<DeleteTeamResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public DeleteTeamResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface LeaderTeamResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:LeaderTeamResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>int32 teamId = 1;</code>
+     * @return The teamId.
+     */
+    int getTeamId();
+
+    /**
+     * <code>string teamName = 2;</code>
+     * @return The teamName.
+     */
+    String getTeamName();
+    /**
+     * <code>string teamName = 2;</code>
+     * @return The bytes for teamName.
+     */
+    com.google.protobuf.ByteString
+        getTeamNameBytes();
+  }
+  /**
+   * Protobuf type {@code LeaderTeamResponse}
+   */
+  public static final class LeaderTeamResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:LeaderTeamResponse)
+      LeaderTeamResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use LeaderTeamResponse.newBuilder() to construct.
+    private LeaderTeamResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private LeaderTeamResponse() {
+      teamName_ = "";
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new LeaderTeamResponse();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private LeaderTeamResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+
+              teamId_ = input.readInt32();
+              break;
+            }
+            case 18: {
+              String s = input.readStringRequireUtf8();
+
+              teamName_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return TeamModel.internal_static_LeaderTeamResponse_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return TeamModel.internal_static_LeaderTeamResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              LeaderTeamResponse.class, Builder.class);
+    }
+
+    public static final int TEAMID_FIELD_NUMBER = 1;
+    private int teamId_;
+    /**
+     * <code>int32 teamId = 1;</code>
+     * @return The teamId.
+     */
+    @Override
+    public int getTeamId() {
+      return teamId_;
+    }
+
+    public static final int TEAMNAME_FIELD_NUMBER = 2;
+    private volatile Object teamName_;
+    /**
+     * <code>string teamName = 2;</code>
+     * @return The teamName.
+     */
+    @Override
+    public String getTeamName() {
+      Object ref = teamName_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        teamName_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string teamName = 2;</code>
+     * @return The bytes for teamName.
+     */
+    @Override
+    public com.google.protobuf.ByteString
+        getTeamNameBytes() {
+      Object ref = teamName_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (String) ref);
+        teamName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (teamId_ != 0) {
+        output.writeInt32(1, teamId_);
+      }
+      if (!getTeamNameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, teamName_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (teamId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, teamId_);
+      }
+      if (!getTeamNameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, teamName_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof LeaderTeamResponse)) {
+        return super.equals(obj);
+      }
+      LeaderTeamResponse other = (LeaderTeamResponse) obj;
+
+      if (getTeamId()
+          != other.getTeamId()) return false;
+      if (!getTeamName()
+          .equals(other.getTeamName())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + TEAMID_FIELD_NUMBER;
+      hash = (53 * hash) + getTeamId();
+      hash = (37 * hash) + TEAMNAME_FIELD_NUMBER;
+      hash = (53 * hash) + getTeamName().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static LeaderTeamResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static LeaderTeamResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static LeaderTeamResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static LeaderTeamResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static LeaderTeamResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static LeaderTeamResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static LeaderTeamResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static LeaderTeamResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static LeaderTeamResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static LeaderTeamResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static LeaderTeamResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static LeaderTeamResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(LeaderTeamResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code LeaderTeamResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:LeaderTeamResponse)
+        LeaderTeamResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return TeamModel.internal_static_LeaderTeamResponse_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return TeamModel.internal_static_LeaderTeamResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                LeaderTeamResponse.class, Builder.class);
+      }
+
+      // Construct using TeamModel.LeaderTeamResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        teamId_ = 0;
+
+        teamName_ = "";
+
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return TeamModel.internal_static_LeaderTeamResponse_descriptor;
+      }
+
+      @Override
+      public LeaderTeamResponse getDefaultInstanceForType() {
+        return LeaderTeamResponse.getDefaultInstance();
+      }
+
+      @Override
+      public LeaderTeamResponse build() {
+        LeaderTeamResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public LeaderTeamResponse buildPartial() {
+        LeaderTeamResponse result = new LeaderTeamResponse(this);
+        result.teamId_ = teamId_;
+        result.teamName_ = teamName_;
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof LeaderTeamResponse) {
+          return mergeFrom((LeaderTeamResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(LeaderTeamResponse other) {
+        if (other == LeaderTeamResponse.getDefaultInstance()) return this;
+        if (other.getTeamId() != 0) {
+          setTeamId(other.getTeamId());
+        }
+        if (!other.getTeamName().isEmpty()) {
+          teamName_ = other.teamName_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        LeaderTeamResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (LeaderTeamResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private int teamId_ ;
+      /**
+       * <code>int32 teamId = 1;</code>
+       * @return The teamId.
+       */
+      @Override
+      public int getTeamId() {
+        return teamId_;
+      }
+      /**
+       * <code>int32 teamId = 1;</code>
+       * @param value The teamId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTeamId(int value) {
+        
+        teamId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 teamId = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTeamId() {
+        
+        teamId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private Object teamName_ = "";
+      /**
+       * <code>string teamName = 2;</code>
+       * @return The teamName.
+       */
+      public String getTeamName() {
+        Object ref = teamName_;
+        if (!(ref instanceof String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          String s = bs.toStringUtf8();
+          teamName_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      /**
+       * <code>string teamName = 2;</code>
+       * @return The bytes for teamName.
+       */
+      public com.google.protobuf.ByteString
+          getTeamNameBytes() {
+        Object ref = teamName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (String) ref);
+          teamName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string teamName = 2;</code>
+       * @param value The teamName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTeamName(
+          String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        teamName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string teamName = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTeamName() {
+        
+        teamName_ = getDefaultInstance().getTeamName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string teamName = 2;</code>
+       * @param value The bytes for teamName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTeamNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        teamName_ = value;
+        onChanged();
+        return this;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:LeaderTeamResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:LeaderTeamResponse)
+    private static final LeaderTeamResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new LeaderTeamResponse();
+    }
+
+    public static LeaderTeamResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<LeaderTeamResponse>
+        PARSER = new com.google.protobuf.AbstractParser<LeaderTeamResponse>() {
+      @Override
+      public LeaderTeamResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new LeaderTeamResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<LeaderTeamResponse> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<LeaderTeamResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public LeaderTeamResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -18850,6 +22420,31 @@ public final class TeamModel {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_TeamModelMessage_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_BanPeopleRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_BanPeopleRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_BanPeopleResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_BanPeopleResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_DeleteTeamRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_DeleteTeamRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_DeleteTeamResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_DeleteTeamResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_LeaderTeamResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_LeaderTeamResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_EntryPeopleRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -18968,7 +22563,7 @@ public final class TeamModel {
       descriptor;
   static {
     String[] descriptorData = {
-      "\n\017TeamModel.proto\"\225\014\n\020TeamModelMessage\022-" +
+      "\n\017TeamModel.proto\"\200\017\n\020TeamModelMessage\022-" +
       "\n\tdata_type\030\001 \001(\0162\032.TeamModelMessage.Dat" +
       "eType\022/\n\021createTeamRequest\030\002 \001(\0132\022.Creat" +
       "eTeamRequestH\000\0221\n\022teamMessageRequest\030\003 \001" +
@@ -18995,49 +22590,62 @@ public final class TeamModel {
       "\030\022 \001(\0132\024.EntryPeopleResponseH\000\022+\n\017exitTe" +
       "amRequest\030\023 \001(\0132\020.ExitTeamRequestH\000\022-\n\020e" +
       "xitTeamResponse\030\024 \001(\0132\021.ExitTeamResponse" +
-      "H\000\"\340\003\n\010DateType\022\025\n\021CreateTeamRequest\020\000\022\026" +
-      "\n\022TeamMessageRequest\020\001\022\027\n\023TeamMessageRes" +
-      "ponse\020\002\022\027\n\023ApplyForTeamRequest\020\003\022\030\n\024Appl" +
-      "yForTeamResponse\020\004\022\027\n\023InvitePeopleReques" +
-      "t\020\005\022\030\n\024InvitePeopleResponse\020\006\022\027\n\023ApplyMe" +
-      "ssageRequest\020\007\022\030\n\024ApplyMessageResponse\020\010" +
-      "\022\031\n\025InviteMessageResponse\020\t\022\030\n\024InviteMes" +
-      "sageRequest\020\n\022\026\n\022RefuseApplyRequest\020\013\022\027\n" +
-      "\023RefuseApplyResponse\020\014\022\030\n\024RefuseInviteRe" +
-      "sponse\020\r\022\027\n\023RefuseInviteRequest\020\016\022\026\n\022Ent" +
-      "ryPeopleRequest\020\017\022\027\n\023EntryPeopleResponse" +
-      "\020\020\022\023\n\017ExitTeamRequest\020\021\022\024\n\020ExitTeamRespo" +
-      "nse\020\022B\n\n\010dateBody\"4\n\022EntryPeopleRequest\022" +
-      "\016\n\006roleId\030\001 \001(\005\022\016\n\006teamId\030\002 \001(\005\"0\n\023Entry" +
-      "PeopleResponse\022\031\n\007roleDto\030\001 \001(\0132\010.RoleDt" +
-      "o\"\021\n\017ExitTeamRequest\"-\n\020ExitTeamResponse" +
-      "\022\031\n\007roleDto\030\001 \001(\0132\010.RoleDto\"!\n\021CreateTea" +
-      "mRequest\022\014\n\004name\030\001 \001(\t\"\024\n\022TeamMessageReq" +
-      "uest\"8\n\023TeamMessageResponse\022!\n\013teamBeanD" +
-      "to\030\001 \001(\0132\014.TeamBeanDto\"%\n\023ApplyForTeamRe" +
-      "quest\022\016\n\006teamId\030\001 \001(\005\"H\n\024ApplyForTeamRes" +
-      "ponse\0220\n\023applyInviteBeanDtos\030\001 \001(\0132\023.App" +
-      "lyInviteBeanDto\"%\n\023InvitePeopleRequest\022\016" +
-      "\n\006roleId\030\001 \001(\005\"H\n\024InvitePeopleResponse\0220" +
-      "\n\023applyInviteBeanDtos\030\001 \001(\0132\023.ApplyInvit" +
-      "eBeanDto\"\025\n\023ApplyMessageRequest\"\026\n\024Invit" +
-      "eMessageRequest\"H\n\024ApplyMessageResponse\022" +
-      "0\n\023applyInviteBeanDtos\030\001 \003(\0132\023.ApplyInvi" +
-      "teBeanDto\"I\n\025InviteMessageResponse\0220\n\023ap" +
-      "plyInviteBeanDtos\030\001 \003(\0132\023.ApplyInviteBea" +
-      "nDto\"$\n\022RefuseApplyRequest\022\016\n\006roleId\030\001 \001" +
-      "(\005\"\'\n\023RefuseApplyResponse\022\020\n\010teamName\030\001 " +
-      "\001(\t\"(\n\024RefuseInviteResponse\022\020\n\010roleName\030" +
-      "\001 \001(\t\"%\n\023RefuseInviteRequest\022\016\n\006teamId\030\001" +
-      " \001(\005\"y\n\022ApplyInviteBeanDto\022\016\n\006roleId\030\001 \001" +
-      "(\005\022\014\n\004type\030\002 \001(\005\022\016\n\006teamId\030\003 \001(\005\022\020\n\010team" +
-      "Name\030\004 \001(\t\022\017\n\007endTime\030\005 \001(\022\022\022\n\ncreateTim" +
-      "e\030\006 \001(\022\"]\n\013TeamBeanDto\022\016\n\006teamId\030\001 \001(\005\022\032" +
-      "\n\010roleDtos\030\002 \003(\0132\010.RoleDto\022\020\n\010leaderId\030\003" +
-      " \001(\005\022\020\n\010teamName\030\004 \001(\t\"i\n\007RoleDto\022\n\n\002id\030" +
-      "\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\n\n\002hp\030\003 \001(\005\022\n\n\002mp\030\004 " +
-      "\001(\005\022\r\n\005nowHp\030\005 \001(\005\022\r\n\005nowMP\030\006 \001(\005\022\016\n\006tea" +
-      "mId\030\007 \001(\005B\013B\tTeamModelb\006proto3"
+      "H\000\022-\n\020banPeopleRequest\030\025 \001(\0132\021.BanPeople" +
+      "RequestH\000\022/\n\021banPeopleResponse\030\026 \001(\0132\022.B" +
+      "anPeopleResponseH\000\022/\n\021deleteTeamRequest\030" +
+      "\027 \001(\0132\022.DeleteTeamRequestH\000\0221\n\022deleteTea" +
+      "mResponse\030\030 \001(\0132\023.DeleteTeamResponseH\000\0221" +
+      "\n\022leaderTeamResponse\030\031 \001(\0132\023.LeaderTeamR" +
+      "esponseH\000\"\324\004\n\010DateType\022\025\n\021CreateTeamRequ" +
+      "est\020\000\022\026\n\022TeamMessageRequest\020\001\022\027\n\023TeamMes" +
+      "sageResponse\020\002\022\027\n\023ApplyForTeamRequest\020\003\022" +
+      "\030\n\024ApplyForTeamResponse\020\004\022\027\n\023InvitePeopl" +
+      "eRequest\020\005\022\030\n\024InvitePeopleResponse\020\006\022\027\n\023" +
+      "ApplyMessageRequest\020\007\022\030\n\024ApplyMessageRes" +
+      "ponse\020\010\022\031\n\025InviteMessageResponse\020\t\022\030\n\024In" +
+      "viteMessageRequest\020\n\022\026\n\022RefuseApplyReque" +
+      "st\020\013\022\027\n\023RefuseApplyResponse\020\014\022\030\n\024RefuseI" +
+      "nviteResponse\020\r\022\027\n\023RefuseInviteRequest\020\016" +
+      "\022\026\n\022EntryPeopleRequest\020\017\022\027\n\023EntryPeopleR" +
+      "esponse\020\020\022\023\n\017ExitTeamRequest\020\021\022\024\n\020ExitTe" +
+      "amResponse\020\022\022\024\n\020BanPeopleRequest\020\024\022\025\n\021Ba" +
+      "nPeopleResponse\020\025\022\025\n\021DeleteTeamRequest\020\026" +
+      "\022\026\n\022DeleteTeamResponse\020\027\022\026\n\022LeaderTeamRe" +
+      "sponse\020\030B\n\n\010dateBody\"\"\n\020BanPeopleRequest" +
+      "\022\016\n\006roleId\030\001 \001(\005\"\023\n\021BanPeopleResponse\"\023\n" +
+      "\021DeleteTeamRequest\"\024\n\022DeleteTeamResponse" +
+      "\"6\n\022LeaderTeamResponse\022\016\n\006teamId\030\001 \001(\005\022\020" +
+      "\n\010teamName\030\002 \001(\t\"4\n\022EntryPeopleRequest\022\016" +
+      "\n\006roleId\030\001 \001(\005\022\016\n\006teamId\030\002 \001(\005\"0\n\023EntryP" +
+      "eopleResponse\022\031\n\007roleDto\030\001 \001(\0132\010.RoleDto" +
+      "\"\021\n\017ExitTeamRequest\"-\n\020ExitTeamResponse\022" +
+      "\031\n\007roleDto\030\001 \001(\0132\010.RoleDto\"!\n\021CreateTeam" +
+      "Request\022\014\n\004name\030\001 \001(\t\"\024\n\022TeamMessageRequ" +
+      "est\"8\n\023TeamMessageResponse\022!\n\013teamBeanDt" +
+      "o\030\001 \001(\0132\014.TeamBeanDto\"%\n\023ApplyForTeamReq" +
+      "uest\022\016\n\006teamId\030\001 \001(\005\"H\n\024ApplyForTeamResp" +
+      "onse\0220\n\023applyInviteBeanDtos\030\001 \001(\0132\023.Appl" +
+      "yInviteBeanDto\"%\n\023InvitePeopleRequest\022\016\n" +
+      "\006roleId\030\001 \001(\005\"H\n\024InvitePeopleResponse\0220\n" +
+      "\023applyInviteBeanDtos\030\001 \001(\0132\023.ApplyInvite" +
+      "BeanDto\"\025\n\023ApplyMessageRequest\"\026\n\024Invite" +
+      "MessageRequest\"H\n\024ApplyMessageResponse\0220" +
+      "\n\023applyInviteBeanDtos\030\001 \003(\0132\023.ApplyInvit" +
+      "eBeanDto\"I\n\025InviteMessageResponse\0220\n\023app" +
+      "lyInviteBeanDtos\030\001 \003(\0132\023.ApplyInviteBean" +
+      "Dto\"$\n\022RefuseApplyRequest\022\016\n\006roleId\030\001 \001(" +
+      "\005\"\'\n\023RefuseApplyResponse\022\020\n\010teamName\030\001 \001" +
+      "(\t\"(\n\024RefuseInviteResponse\022\020\n\010roleName\030\001" +
+      " \001(\t\"%\n\023RefuseInviteRequest\022\016\n\006teamId\030\001 " +
+      "\001(\005\"y\n\022ApplyInviteBeanDto\022\016\n\006roleId\030\001 \001(" +
+      "\005\022\014\n\004type\030\002 \001(\005\022\016\n\006teamId\030\003 \001(\005\022\020\n\010teamN" +
+      "ame\030\004 \001(\t\022\017\n\007endTime\030\005 \001(\022\022\022\n\ncreateTime" +
+      "\030\006 \001(\022\"]\n\013TeamBeanDto\022\016\n\006teamId\030\001 \001(\005\022\032\n" +
+      "\010roleDtos\030\002 \003(\0132\010.RoleDto\022\020\n\010leaderId\030\003 " +
+      "\001(\005\022\020\n\010teamName\030\004 \001(\t\"i\n\007RoleDto\022\n\n\002id\030\001" +
+      " \001(\005\022\014\n\004name\030\002 \001(\t\022\n\n\002hp\030\003 \001(\005\022\n\n\002mp\030\004 \001" +
+      "(\005\022\r\n\005nowHp\030\005 \001(\005\022\r\n\005nowMP\030\006 \001(\005\022\016\n\006team" +
+      "Id\030\007 \001(\005B\013B\tTeamModelb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -19048,135 +22656,165 @@ public final class TeamModel {
     internal_static_TeamModelMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_TeamModelMessage_descriptor,
-        new String[] { "DataType", "CreateTeamRequest", "TeamMessageRequest", "TeamMessageResponse", "ApplyForTeamRequest", "ApplyForTeamResponse", "InvitePeopleRequest", "InvitePeopleResponse", "ApplyMessageRequest", "ApplyMessageResponse", "InviteMessageResponse", "InviteMessageRequest", "RefuseApplyRequest", "RefuseApplyResponse", "RefuseInviteResponse", "RefuseInviteRequest", "EntryPeopleRequest", "EntryPeopleResponse", "ExitTeamRequest", "ExitTeamResponse", "DateBody", });
-    internal_static_EntryPeopleRequest_descriptor =
+        new String[] { "DataType", "CreateTeamRequest", "TeamMessageRequest", "TeamMessageResponse", "ApplyForTeamRequest", "ApplyForTeamResponse", "InvitePeopleRequest", "InvitePeopleResponse", "ApplyMessageRequest", "ApplyMessageResponse", "InviteMessageResponse", "InviteMessageRequest", "RefuseApplyRequest", "RefuseApplyResponse", "RefuseInviteResponse", "RefuseInviteRequest", "EntryPeopleRequest", "EntryPeopleResponse", "ExitTeamRequest", "ExitTeamResponse", "BanPeopleRequest", "BanPeopleResponse", "DeleteTeamRequest", "DeleteTeamResponse", "LeaderTeamResponse", "DateBody", });
+    internal_static_BanPeopleRequest_descriptor =
       getDescriptor().getMessageTypes().get(1);
+    internal_static_BanPeopleRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_BanPeopleRequest_descriptor,
+        new String[] { "RoleId", });
+    internal_static_BanPeopleResponse_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_BanPeopleResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_BanPeopleResponse_descriptor,
+        new String[] { });
+    internal_static_DeleteTeamRequest_descriptor =
+      getDescriptor().getMessageTypes().get(3);
+    internal_static_DeleteTeamRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_DeleteTeamRequest_descriptor,
+        new String[] { });
+    internal_static_DeleteTeamResponse_descriptor =
+      getDescriptor().getMessageTypes().get(4);
+    internal_static_DeleteTeamResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_DeleteTeamResponse_descriptor,
+        new String[] { });
+    internal_static_LeaderTeamResponse_descriptor =
+      getDescriptor().getMessageTypes().get(5);
+    internal_static_LeaderTeamResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_LeaderTeamResponse_descriptor,
+        new String[] { "TeamId", "TeamName", });
+    internal_static_EntryPeopleRequest_descriptor =
+      getDescriptor().getMessageTypes().get(6);
     internal_static_EntryPeopleRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_EntryPeopleRequest_descriptor,
         new String[] { "RoleId", "TeamId", });
     internal_static_EntryPeopleResponse_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_EntryPeopleResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_EntryPeopleResponse_descriptor,
         new String[] { "RoleDto", });
     internal_static_ExitTeamRequest_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_ExitTeamRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ExitTeamRequest_descriptor,
         new String[] { });
     internal_static_ExitTeamResponse_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_ExitTeamResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ExitTeamResponse_descriptor,
         new String[] { "RoleDto", });
     internal_static_CreateTeamRequest_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_CreateTeamRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_CreateTeamRequest_descriptor,
         new String[] { "Name", });
     internal_static_TeamMessageRequest_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_TeamMessageRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_TeamMessageRequest_descriptor,
         new String[] { });
     internal_static_TeamMessageResponse_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_TeamMessageResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_TeamMessageResponse_descriptor,
         new String[] { "TeamBeanDto", });
     internal_static_ApplyForTeamRequest_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_ApplyForTeamRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ApplyForTeamRequest_descriptor,
         new String[] { "TeamId", });
     internal_static_ApplyForTeamResponse_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(14);
     internal_static_ApplyForTeamResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ApplyForTeamResponse_descriptor,
         new String[] { "ApplyInviteBeanDtos", });
     internal_static_InvitePeopleRequest_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(15);
     internal_static_InvitePeopleRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_InvitePeopleRequest_descriptor,
         new String[] { "RoleId", });
     internal_static_InvitePeopleResponse_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(16);
     internal_static_InvitePeopleResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_InvitePeopleResponse_descriptor,
         new String[] { "ApplyInviteBeanDtos", });
     internal_static_ApplyMessageRequest_descriptor =
-      getDescriptor().getMessageTypes().get(12);
+      getDescriptor().getMessageTypes().get(17);
     internal_static_ApplyMessageRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ApplyMessageRequest_descriptor,
         new String[] { });
     internal_static_InviteMessageRequest_descriptor =
-      getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(18);
     internal_static_InviteMessageRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_InviteMessageRequest_descriptor,
         new String[] { });
     internal_static_ApplyMessageResponse_descriptor =
-      getDescriptor().getMessageTypes().get(14);
+      getDescriptor().getMessageTypes().get(19);
     internal_static_ApplyMessageResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ApplyMessageResponse_descriptor,
         new String[] { "ApplyInviteBeanDtos", });
     internal_static_InviteMessageResponse_descriptor =
-      getDescriptor().getMessageTypes().get(15);
+      getDescriptor().getMessageTypes().get(20);
     internal_static_InviteMessageResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_InviteMessageResponse_descriptor,
         new String[] { "ApplyInviteBeanDtos", });
     internal_static_RefuseApplyRequest_descriptor =
-      getDescriptor().getMessageTypes().get(16);
+      getDescriptor().getMessageTypes().get(21);
     internal_static_RefuseApplyRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_RefuseApplyRequest_descriptor,
         new String[] { "RoleId", });
     internal_static_RefuseApplyResponse_descriptor =
-      getDescriptor().getMessageTypes().get(17);
+      getDescriptor().getMessageTypes().get(22);
     internal_static_RefuseApplyResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_RefuseApplyResponse_descriptor,
         new String[] { "TeamName", });
     internal_static_RefuseInviteResponse_descriptor =
-      getDescriptor().getMessageTypes().get(18);
+      getDescriptor().getMessageTypes().get(23);
     internal_static_RefuseInviteResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_RefuseInviteResponse_descriptor,
         new String[] { "RoleName", });
     internal_static_RefuseInviteRequest_descriptor =
-      getDescriptor().getMessageTypes().get(19);
+      getDescriptor().getMessageTypes().get(24);
     internal_static_RefuseInviteRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_RefuseInviteRequest_descriptor,
         new String[] { "TeamId", });
     internal_static_ApplyInviteBeanDto_descriptor =
-      getDescriptor().getMessageTypes().get(20);
+      getDescriptor().getMessageTypes().get(25);
     internal_static_ApplyInviteBeanDto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ApplyInviteBeanDto_descriptor,
         new String[] { "RoleId", "Type", "TeamId", "TeamName", "EndTime", "CreateTime", });
     internal_static_TeamBeanDto_descriptor =
-      getDescriptor().getMessageTypes().get(21);
+      getDescriptor().getMessageTypes().get(26);
     internal_static_TeamBeanDto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_TeamBeanDto_descriptor,
         new String[] { "TeamId", "RoleDtos", "LeaderId", "TeamName", });
     internal_static_RoleDto_descriptor =
-      getDescriptor().getMessageTypes().get(22);
+      getDescriptor().getMessageTypes().get(27);
     internal_static_RoleDto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_RoleDto_descriptor,

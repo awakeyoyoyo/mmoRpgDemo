@@ -154,11 +154,14 @@ public class TeamBean {
     public void exitPeople(Integer roleId){
         //判断退出队伍者是否是leader
         MmoSimpleRole mmoSimpleRole=mmoSimpleRolesMap.get(roleId);
+
         if (getLeaderId().equals(roleId)) {
+            mmoSimpleRolesMap.remove(mmoSimpleRole.getId());
             if (mmoSimpleRolesMap.values().isEmpty()){
                 //没人了
                 //判断是否在副本中
                 checkInCopyScene(mmoSimpleRole);
+                mmoSimpleRole.setTeamId(null);
                 //解散队伍
                 TeamServiceProvider.deleteTeamById(getTeamId());
                 return;
@@ -166,15 +169,27 @@ public class TeamBean {
                 //获取第一个,成员作为leader
                 MmoSimpleRole nextLeader = mmoSimpleRolesMap.values().iterator().next();
                 setLeaderId(nextLeader.getId());
+                //成为leader信息
+                TeamModel.TeamModelMessage.Builder teamMessageBuilder=TeamModel.TeamModelMessage.newBuilder();
+                teamMessageBuilder.setDataType(TeamModel.TeamModelMessage.DateType.LeaderTeamResponse);
+                teamMessageBuilder.setLeaderTeamResponse(TeamModel.LeaderTeamResponse.newBuilder().setTeamId(teamId).setTeamName(teamName).build());
+                NettyResponse nettyResponse=new NettyResponse();
+                nettyResponse.setStateCode(StateCode.SUCCESS);
+                nettyResponse.setCmd(ConstantValue.LEADER_TEAM_RESPONSE);
+                nettyResponse.setData(teamMessageBuilder.build().toByteArray());
+                Channel ccc=ChannelMessageCache.getInstance().get(nextLeader.getId());
+                if (ccc!=null){
+                    ccc.writeAndFlush(nettyResponse);
+                }
             }
-            mmoSimpleRolesMap.remove(mmoSimpleRole.getId());
         }
+        mmoSimpleRolesMap.remove(mmoSimpleRole.getId());
         //判断退出队伍者是否在副本中
         checkInCopyScene(mmoSimpleRole);
         mmoSimpleRole.setTeamId(null);
         TeamModel.RoleDto roleDto=TeamModel.RoleDto.newBuilder().setId(mmoSimpleRole.getId()).setHp(mmoSimpleRole.getBlood())
                 .setMp(mmoSimpleRole.getMp()).setName(mmoSimpleRole.getName()).setNowHp(mmoSimpleRole.getNowBlood())
-                .setNowMP(mmoSimpleRole.getNowMp()).setTeamId(mmoSimpleRole.getTeamId()).build();
+                .setNowMP(mmoSimpleRole.getNowMp()).setTeamId(-1).build();
         TeamModel.ExitTeamResponse exitTeamResponse=TeamModel.ExitTeamResponse.newBuilder().setRoleDto(roleDto).build();
         TeamModel.TeamModelMessage.Builder teamMessageBuilder=TeamModel.TeamModelMessage.newBuilder();
         teamMessageBuilder.setDataType(TeamModel.TeamModelMessage.DateType.ExitTeamResponse);

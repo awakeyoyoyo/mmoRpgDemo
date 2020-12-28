@@ -24,6 +24,11 @@ message TeamModelMessage{
     EntryPeopleResponse=16;
     ExitTeamRequest=17;
     ExitTeamResponse=18;
+    BanPeopleRequest=20;
+    BanPeopleResponse=21;
+    DeleteTeamRequest=22;
+    DeleteTeamResponse=23;
+    LeaderTeamResponse=24;
   }
   //用date_type来标识传的是哪一个枚举类型
   DateType data_type=1;
@@ -48,7 +53,29 @@ message TeamModelMessage{
     EntryPeopleResponse entryPeopleResponse=18;
     ExitTeamRequest exitTeamRequest=19;
     ExitTeamResponse exitTeamResponse=20;
+    BanPeopleRequest banPeopleRequest=21;
+    BanPeopleResponse banPeopleResponse=22;
+    DeleteTeamRequest deleteTeamRequest=23;
+    DeleteTeamResponse deleteTeamResponse=24;
+    LeaderTeamResponse leaderTeamResponse=25;
   }
+}
+
+message BanPeopleRequest{
+  int32 roleId=1;
+}
+message BanPeopleResponse{
+
+}
+message DeleteTeamRequest{
+
+}
+message DeleteTeamResponse{
+
+}
+message LeaderTeamResponse{
+  int32 teamId=1;
+  string teamName=2;
 }
 message EntryPeopleRequest{
   int32 roleId=1;

@@ -116,6 +116,9 @@ public class Dispatcherservlet {
             case ConstantValue.EXIT_TEAM_RESPONSE:
                 teamService.exitTeamResponse(nettyResponse);
                 break;
+            case ConstantValue.LEADER_TEAM_RESPONSE:
+                teamService.leaderTeamResponse(nettyResponse);
+                break;
             default:
                 System.out.println("handler:收到");
                 System.out.println(new java.lang.String(nettyResponse.getData()));

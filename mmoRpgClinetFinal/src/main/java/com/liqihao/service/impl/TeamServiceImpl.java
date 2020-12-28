@@ -153,4 +153,17 @@ public class TeamServiceImpl implements TeamService {
         );
         System.out.println("--------------------------------------------------------");
     }
+
+    @Override
+    public void leaderTeamResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
+        byte[] data = nettyResponse.getData();
+        TeamModel.TeamModelMessage myMessage;
+        myMessage = TeamModel.TeamModelMessage.parseFrom(data);
+        Integer teamId=myMessage.getLeaderTeamResponse().getTeamId();
+        String teamName=myMessage.getLeaderTeamResponse().getTeamName();
+        System.out.println("--------------------------------------------------------");
+        System.out.println("你已经成为了队伍id: "+teamId+" 队伍名："+teamName+"的队长");
+        System.out.println("--------------------------------------------------------");
+
+    }
 }
