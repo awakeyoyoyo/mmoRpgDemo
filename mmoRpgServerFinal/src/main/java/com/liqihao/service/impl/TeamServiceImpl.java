@@ -126,9 +126,9 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
+    @HandlerCmdTag(cmd = ConstantValue.BAN_PEOPLE_REQUEST,module = ConstantValue.TEAM_MODULE)
     public void banPeopleRequest(TeamModel.TeamModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException {
-        //todo 获取要t的人的id
-        Integer roleId=null;
+        Integer roleId=myMessage.getBanPeopleRequest().getRoleId();
         MmoSimpleRole player=OnlineRoleMessageCache.getInstance().get(roleId);
         MmoSimpleRole mmoSimpleRole= CommonsUtil.checkLogin(channel);
         if (mmoSimpleRole==null) {
@@ -146,6 +146,11 @@ public class TeamServiceImpl implements TeamService {
             channel.writeAndFlush(errotResponse);
             return;
         }
+        if (player.getId().equals(mmoSimpleRole.getId())){
+            NettyResponse errotResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"不能自己踢除自己".getBytes());
+            channel.writeAndFlush(errotResponse);
+            return;
+        }
         //判断玩家是否在队伍里
         if (player.getTeamId()==null||!player.getTeamId().equals(mmoSimpleRole.getTeamId())){
             NettyResponse errotResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"该玩家已不在队伍中".getBytes());
@@ -156,6 +161,7 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
+    @HandlerCmdTag(cmd = ConstantValue.DELETE_TEAM_REQUEST,module = ConstantValue.TEAM_MODULE)
     public void deleteTeamRequest(TeamModel.TeamModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException {
         //判断是否在线 并且返回玩家对象
         MmoSimpleRole mmoSimpleRole= CommonsUtil.checkLogin(channel);
@@ -164,11 +170,6 @@ public class TeamServiceImpl implements TeamService {
         }
         //判断玩家是否已经有队伍
         Integer teamId=mmoSimpleRole.getTeamId();
-        if (teamId!=null){
-            NettyResponse errotResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"已经有队伍了".getBytes());
-            channel.writeAndFlush(errotResponse);
-            return;
-        }
         TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(teamId);
         //判断当前玩家是否有队伍
         if (teamBean==null){
@@ -203,6 +204,12 @@ public class TeamServiceImpl implements TeamService {
             return;
         }
         if (roleId.equals(mmoSimpleRole.getId())){
+            TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(teamId);
+            if (teamBean==null){
+                NettyResponse errotResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"没有该队伍 ".getBytes());
+                channel.writeAndFlush(errotResponse);
+                return;
+            }
             //玩家角色
             if (mmoSimpleRole.getTeamId()!=null){
                 NettyResponse errotResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"已经有队伍了".getBytes());
@@ -217,14 +224,19 @@ public class TeamServiceImpl implements TeamService {
                 channel.writeAndFlush(errotResponse);
                 return;
             }
-            TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(teamId);
-            //
+
             // 此时传入的channel是用户的，mmo是玩家
             teamBean.addRole(mmoSimpleRole,channel);
             //用户删除该邀请
             mmoSimpleRole.getTeamApplyOrInviteBeans().remove(applyOrInviteBean);
         }else{
             //队长同意该用户进队伍
+            TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(teamId);
+            if (teamBean==null){
+                NettyResponse errotResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"请先创建队伍".getBytes());
+                channel.writeAndFlush(errotResponse);
+                return;
+            }
             //获取玩家
             mmoSimpleRole=OnlineRoleMessageCache.getInstance().get(roleId);
             if (mmoSimpleRole.getTeamId()!=null){
@@ -232,7 +244,6 @@ public class TeamServiceImpl implements TeamService {
                 channel.writeAndFlush(errotResponse);
                 return;
             }
-            TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(teamId);
             TeamApplyOrInviteBean inviteBean=teamBean.constainsInvite(roleId);
             if (inviteBean==null){
                 NettyResponse errotResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"该申请已经过期了".getBytes());

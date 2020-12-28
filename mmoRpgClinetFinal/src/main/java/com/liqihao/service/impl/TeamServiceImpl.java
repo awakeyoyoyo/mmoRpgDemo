@@ -1,9 +1,12 @@
 package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.liqihao.commons.MmoCacheCilent;
 import com.liqihao.commons.NettyResponse;
+import com.liqihao.pojo.MmoRole;
 import com.liqihao.protobufObject.TeamModel;
 import com.liqihao.service.TeamService;
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -22,7 +25,11 @@ public class TeamServiceImpl implements TeamService {
         System.out.println("--------------------------------------------------------");
         System.out.println("队伍的id： " + teamBeanDto.getTeamId() + " 队伍的名称： " + teamBeanDto.getTeamName());
         System.out.println("队长的id： " + teamBeanDto.getLeaderId());
+        MmoRole mmoRole=MmoCacheCilent.getInstance().getNowRole();
         for (TeamModel.RoleDto r : teamBeanDto.getRoleDtosList()) {
+            if (mmoRole.getId().equals(r.getId())){
+                mmoRole.setTeamId(r.getTeamId());
+            }
             System.out.println("角色id： " + r.getId() + "角色名称： " + r.getName() + "  Hp:" + r.getNowHp() + "/" + r.getHp()
                     + "  Mp:" + r.getNowMP() + "/" + r.getMp() + " 所在队伍id： " + r.getTeamId()
             );
@@ -134,6 +141,10 @@ public class TeamServiceImpl implements TeamService {
         TeamModel.TeamModelMessage myMessage;
         myMessage = TeamModel.TeamModelMessage.parseFrom(data);
         TeamModel.RoleDto r = myMessage.getExitTeamResponse().getRoleDto();
+        MmoRole mmoRole=MmoCacheCilent.getInstance().getNowRole();
+        if (mmoRole.getId().equals(r.getId())){
+            mmoRole.setTeamId(r.getTeamId());
+        }
         System.out.println("--------------------------------------------------------");
         System.out.println("角色id： " + r.getId() + "角色名称： " + r.getName() + "  Hp:" + r.getNowHp() + "/" + r.getHp()
                 + "  Mp:" + r.getNowMP() + "/" + r.getMp() + " 所在队伍id： " + r.getTeamId()+"离开了当前队伍"
@@ -146,7 +157,12 @@ public class TeamServiceImpl implements TeamService {
         byte[] data = nettyResponse.getData();
         TeamModel.TeamModelMessage myMessage;
         myMessage = TeamModel.TeamModelMessage.parseFrom(data);
+
         TeamModel.RoleDto r = myMessage.getEntryPeopleResponse().getRoleDto();
+        MmoRole mmoRole=MmoCacheCilent.getInstance().getNowRole();
+        if (mmoRole.getId().equals(r.getId())){
+            mmoRole.setTeamId(r.getTeamId());
+        }
         System.out.println("--------------------------------------------------------");
         System.out.println("角色id： " + r.getId() + "角色名称： " + r.getName() + "  Hp:" + r.getNowHp() + "/" + r.getHp()
                 + "  Mp:" + r.getNowMP() + "/" + r.getMp() + " 所在队伍id： " + r.getTeamId()+"进入了当前队伍"
@@ -165,5 +181,29 @@ public class TeamServiceImpl implements TeamService {
         System.out.println("你已经成为了队伍id: "+teamId+" 队伍名："+teamName+"的队长");
         System.out.println("--------------------------------------------------------");
 
+    }
+
+    @Override
+    public void deleteTeamResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
+        byte[] data = nettyResponse.getData();
+        TeamModel.TeamModelMessage myMessage;
+        myMessage = TeamModel.TeamModelMessage.parseFrom(data);
+        MmoRole mmoRole=MmoCacheCilent.getInstance().getNowRole();
+        mmoRole.setTeamId(null);
+        System.out.println("--------------------------------------------------------");
+        System.out.println("你的队伍已经解散");
+        System.out.println("--------------------------------------------------------");
+    }
+
+    @Override
+    public void banPeopleResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
+        byte[] data = nettyResponse.getData();
+        TeamModel.TeamModelMessage myMessage;
+        myMessage = TeamModel.TeamModelMessage.parseFrom(data);
+        MmoRole mmoRole=MmoCacheCilent.getInstance().getNowRole();
+        mmoRole.setTeamId(null);
+        System.out.println("--------------------------------------------------------");
+        System.out.println("你已经被队长强制踢出队伍");
+        System.out.println("--------------------------------------------------------");
     }
 }

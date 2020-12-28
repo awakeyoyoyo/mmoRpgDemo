@@ -118,11 +118,18 @@ public class TeamBean {
      */
     public void breakUp() {
         Collection<MmoSimpleRole> mmoSimpleRoles= getMmoSimpleRoles();
+        TeamModel.TeamModelMessage.Builder teamMessageBuilder=TeamModel.TeamModelMessage.newBuilder();
+        teamMessageBuilder.setDataType(TeamModel.TeamModelMessage.DateType.DeleteTeamResponse);
+        teamMessageBuilder.setDeleteTeamResponse(TeamModel.DeleteTeamResponse.newBuilder().build());
+        NettyResponse nettyResponse=new NettyResponse();
+        nettyResponse.setStateCode(StateCode.SUCCESS);
+        nettyResponse.setCmd(ConstantValue.DELETE_TEAM_RESPONSE);
+        nettyResponse.setData(teamMessageBuilder.build().toByteArray());
         for (MmoSimpleRole role:mmoSimpleRoles){
             Channel c= ChannelMessageCache.getInstance().get(role.getId());
             role.setTeamId(null);
-            //todo 广播队伍解散
-//            c.writeAndFlush()
+            // 广播队伍解散
+            c.writeAndFlush(nettyResponse);
             role.setCopySceneId(null);
         }
         //副本解散
@@ -130,6 +137,7 @@ public class TeamBean {
             CopySceneBean copySceneBean = CopySceneProvider.getCopySceneBeanById(getCopySceneBeanId());
             copySceneBean.end();
         }
+        TeamServiceProvider.deleteTeamById(teamId);
     }
 
     /**
@@ -142,9 +150,20 @@ public class TeamBean {
         //判断退出队伍者是否在副本中
         checkInCopyScene(mmoSimpleRole);
         mmoSimpleRole.setTeamId(null);
-        //TODO 发送信息给被t者
-
-        //TODO 广播给队伍里面的人少了人
+        // 发送信息给被t者
+        TeamModel.TeamModelMessage.Builder teamMessageBuilder=TeamModel.TeamModelMessage.newBuilder();
+        teamMessageBuilder.setDataType(TeamModel.TeamModelMessage.DateType.BanPeopleResponse);
+        teamMessageBuilder.setBanPeopleResponse(TeamModel.BanPeopleResponse.newBuilder().build());
+        NettyResponse nettyResponse=new NettyResponse();
+        nettyResponse.setStateCode(StateCode.SUCCESS);
+        nettyResponse.setCmd(ConstantValue.BAN_PEOPLE_RESPONSE);
+        nettyResponse.setData(teamMessageBuilder.build().toByteArray());
+        Channel ccc=ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        if (ccc!=null){
+            ccc.writeAndFlush(nettyResponse);
+        }
+        // 广播给队伍里面的人少了人
+        exitTeamNotification(mmoSimpleRole);
     }
 
     /**
@@ -187,25 +206,7 @@ public class TeamBean {
         //判断退出队伍者是否在副本中
         checkInCopyScene(mmoSimpleRole);
         mmoSimpleRole.setTeamId(null);
-        TeamModel.RoleDto roleDto=TeamModel.RoleDto.newBuilder().setId(mmoSimpleRole.getId()).setHp(mmoSimpleRole.getBlood())
-                .setMp(mmoSimpleRole.getMp()).setName(mmoSimpleRole.getName()).setNowHp(mmoSimpleRole.getNowBlood())
-                .setNowMP(mmoSimpleRole.getNowMp()).setTeamId(-1).build();
-        TeamModel.ExitTeamResponse exitTeamResponse=TeamModel.ExitTeamResponse.newBuilder().setRoleDto(roleDto).build();
-        TeamModel.TeamModelMessage.Builder teamMessageBuilder=TeamModel.TeamModelMessage.newBuilder();
-        teamMessageBuilder.setDataType(TeamModel.TeamModelMessage.DateType.ExitTeamResponse);
-        teamMessageBuilder.setExitTeamResponse(exitTeamResponse);
-        NettyResponse nettyResponse=new NettyResponse();
-        nettyResponse.setStateCode(StateCode.SUCCESS);
-        nettyResponse.setCmd(ConstantValue.EXIT_TEAM_RESPONSE);
-        nettyResponse.setData(teamMessageBuilder.build().toByteArray());
-        // 发送信息给退出队伍者
-        Channel c=ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
-        c.writeAndFlush(nettyResponse);
-        // 广播队伍里面的人少了人
-        for (MmoSimpleRole m:mmoSimpleRolesMap.values()) {
-            c=ChannelMessageCache.getInstance().get(m.getId());
-            c.writeAndFlush(nettyResponse);
-        }
+        exitTeamNotification(mmoSimpleRole);
     }
 
     private void checkInCopyScene(MmoSimpleRole mmoSimpleRole){
@@ -349,5 +350,27 @@ public class TeamBean {
             }
         }
         return teamApplyOrInviteBean;
+    }
+
+    private void exitTeamNotification(MmoSimpleRole mmoSimpleRole){
+        TeamModel.RoleDto roleDto=TeamModel.RoleDto.newBuilder().setId(mmoSimpleRole.getId()).setHp(mmoSimpleRole.getBlood())
+                .setMp(mmoSimpleRole.getMp()).setName(mmoSimpleRole.getName()).setNowHp(mmoSimpleRole.getNowBlood())
+                .setNowMP(mmoSimpleRole.getNowMp()).setTeamId(-1).build();
+        TeamModel.ExitTeamResponse exitTeamResponse=TeamModel.ExitTeamResponse.newBuilder().setRoleDto(roleDto).build();
+        TeamModel.TeamModelMessage.Builder teamMessageBuilder=TeamModel.TeamModelMessage.newBuilder();
+        teamMessageBuilder.setDataType(TeamModel.TeamModelMessage.DateType.ExitTeamResponse);
+        teamMessageBuilder.setExitTeamResponse(exitTeamResponse);
+        NettyResponse nettyResponse=new NettyResponse();
+        nettyResponse.setStateCode(StateCode.SUCCESS);
+        nettyResponse.setCmd(ConstantValue.EXIT_TEAM_RESPONSE);
+        nettyResponse.setData(teamMessageBuilder.build().toByteArray());
+        // 发送信息给退出队伍者
+        Channel c=ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        c.writeAndFlush(nettyResponse);
+        // 广播队伍里面的人少了人
+        for (MmoSimpleRole m:mmoSimpleRolesMap.values()) {
+            c=ChannelMessageCache.getInstance().get(m.getId());
+            c.writeAndFlush(nettyResponse);
+        }
     }
 }

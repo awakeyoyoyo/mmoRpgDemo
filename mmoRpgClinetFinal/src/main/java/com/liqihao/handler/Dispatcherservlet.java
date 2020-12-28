@@ -119,6 +119,12 @@ public class Dispatcherservlet {
             case ConstantValue.LEADER_TEAM_RESPONSE:
                 teamService.leaderTeamResponse(nettyResponse);
                 break;
+            case ConstantValue.BAN_PEOPLE_RESPONSE:
+                teamService.banPeopleResponse(nettyResponse);
+                break;
+            case ConstantValue.DELETE_TEAM_RESPONSE:
+                teamService.deleteTeamResponse(nettyResponse);
+                break;    
             default:
                 System.out.println("handler:收到");
                 System.out.println(new java.lang.String(nettyResponse.getData()));

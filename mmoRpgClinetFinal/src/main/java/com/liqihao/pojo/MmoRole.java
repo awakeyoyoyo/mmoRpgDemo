@@ -27,6 +27,15 @@ public class MmoRole {
     private HashMap<Integer,Long> cdMap;
 
     private List<Integer> skillIdList;
+    private Integer teamId;
+
+    public Integer getTeamId() {
+        return teamId;
+    }
+
+    public void setTeamId(Integer teamId) {
+        this.teamId = teamId;
+    }
 
     public Integer getNowMp() {
         return nowMp;
