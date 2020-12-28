@@ -1,0 +1,63 @@
+syntax ="proto3";
+option java_outer_classname="CopySceneModel";
+message CopySceneModelMessage{
+  //定义枚举类型
+  enum DateType{
+      AskCanCopySceneRequest=0;//在proto3 要求enum的编号从0开始
+      AskCanCopySceneResponse=1;
+      CopySceneMessageRequest =2;
+      CopySceneMessageResponse =3;
+      CreateCopySceneRequest =4;
+      CreateCopySceneResponse =5;
+      EnterCopySceneRequest =6;
+      EnterCopySceneResponse =7;
+      ExitCopySceneRequest =8;
+      ExitCopySceneResponse =9;
+  }
+  //用date_type来标识传的是哪一个枚举类型
+  DateType data_type=1;
+  //表示每次枚举类型最多只能出现其中一个，节省空间
+  oneof dateBody{
+    AskCanCopySceneRequest askCanCopySceneRequest=2;
+    AskCanCopySceneResponse askCanCopySceneResponse=3;
+    CopySceneMessageRequest copySceneMessageRequest=4;
+    CopySceneMessageResponse copySceneMessageResponse=5;
+    CreateCopySceneRequest createCopySceneRequest=6;
+    CreateCopySceneResponse createCopySceneResponse=7;
+    EnterCopySceneRequest enterCopySceneRequest=8;
+    EnterCopySceneResponse enterCopySceneResponse=9;
+    ExitCopySceneRequest exitCopySceneRequest=10;
+    ExitCopySceneResponse exitCopySceneResponse=11;
+  }
+
+}
+message AskCanCopySceneRequest{
+  //todo
+}
+message AskCanCopySceneResponse{
+
+}
+message CopySceneMessageRequest{
+
+}
+message CopySceneMessageResponse{
+
+}
+message CreateCopySceneRequest{
+
+}
+message CreateCopySceneResponse{
+
+}
+message EnterCopySceneRequest{
+
+}
+message EnterCopySceneResponse{
+
+}
+message ExitCopySceneRequest{
+
+}
+message ExitCopySceneResponse{
+
+}
