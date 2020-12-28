@@ -212,9 +212,9 @@ public class TeamBean {
     private void checkInCopyScene(MmoSimpleRole mmoSimpleRole){
         if (mmoSimpleRole.getCopySceneId()!=null&&mmoSimpleRole.getCopySceneId().equals(getCopySceneId())){
             //回到原来场景
-            mmoSimpleRole.wentScene(mmoSimpleRole.getLastSceneId());
-            mmoSimpleRole.setLastSceneId(null);
-            mmoSimpleRole.setCopySceneId(null);
+            TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(mmoSimpleRole.getTeamId());
+            CopySceneBean copySceneBean=CopySceneProvider.getCopySceneBeanById(teamBean.getCopySceneBeanId());
+            copySceneBean.peopleExit(mmoSimpleRole.getId());
         }
     }
     public void addTeamApplyOrInviteBean(TeamApplyOrInviteBean teamApplyOrInviteBean) {
@@ -372,5 +372,15 @@ public class TeamBean {
             c=ChannelMessageCache.getInstance().get(m.getId());
             c.writeAndFlush(nettyResponse);
         }
+    }
+
+    public boolean inSameScene() {
+        Integer sceneId=mmoSimpleRolesMap.get(leaderId).getMmosceneid();
+        for (MmoSimpleRole m:mmoSimpleRolesMap.values()) {
+            if (!m.getMmosceneid().equals(sceneId)){
+                return false;
+            }
+        }
+        return true;
     }
 }

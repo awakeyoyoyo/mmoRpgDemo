@@ -476,6 +476,7 @@ public class MmoSimpleRole extends MmoRolePOJO {
         }
         SceneBeanMessageCache.getInstance().get(nextSceneId).getRoles().add(getId());
         setMmosceneid(nextSceneId);
+
         //查询出npc 和SimpleRole
         List<MmoSimpleRole> nextSceneRoles=new ArrayList<>();
         SceneBean nextScene=SceneBeanMessageCache.getInstance().get(nextSceneId);
@@ -533,6 +534,19 @@ public class MmoSimpleRole extends MmoRolePOJO {
             }
         }
         return teamApplyOrInviteBean;
+    }
+
+    public Boolean wentCopyScene(CopySceneBean copySceneBean) {
+        //从当前场景消失
+        Integer sceneId=getMmosceneid();
+        SceneBean sceneBean=SceneBeanMessageCache.getInstance().get(sceneId);
+        sceneBean.getRoles().remove(getId());
+        setMmosceneid(null);
+        //人物设置副本
+        copySceneBean.getMmoSimpleRoles().add(this);
+        this.setCopySceneId(copySceneBean.getId());
+        this.setLastSceneId(sceneId);
+        return true;
     }
 
 
