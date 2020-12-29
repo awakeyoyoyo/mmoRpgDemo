@@ -22,6 +22,8 @@ public class Dispatcherservlet {
     private EquipmentService equipmentService;
     @Autowired
     private TeamService teamService;
+    @Autowired
+    private CopySceneService copySceneService;
     /**
      * 根据model和cmd转发到不同的service
      *
@@ -124,7 +126,22 @@ public class Dispatcherservlet {
                 break;
             case ConstantValue.DELETE_TEAM_RESPONSE:
                 teamService.deleteTeamResponse(nettyResponse);
-                break;    
+                break;
+            case ConstantValue.ASK_CAN_COPYSCENE_RESPONSE:
+                copySceneService.askCanCopySceneResponse(nettyResponse);
+                break;
+            case ConstantValue.COPYSCENE_MESSAGE_RESPONSE:
+                copySceneService.copySceneMessageResponse(nettyResponse);
+                break;
+            case ConstantValue.ENTER_COPYSCENE_RESPONSE:
+                copySceneService.enterCopySceneResponse(nettyResponse);
+                break;
+            case ConstantValue.EXIT_COPYSCENE_RESPONSE:
+                copySceneService.exitCopySceneResponse(nettyResponse);
+                break;
+            case ConstantValue.CREATE_COPYSCENE_RESPONSE:
+                copySceneService.createCopySceneResponse(nettyResponse);
+                break;
             default:
                 System.out.println("handler:收到");
                 System.out.println(new java.lang.String(nettyResponse.getData()));

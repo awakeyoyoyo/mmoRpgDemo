@@ -141,10 +141,90 @@ public class GameStart {
                     case ConstantValue.DELETE_TEAM_REQUEST:
                         deleteTeamRequest(scanner);
                         break;
+                    case ConstantValue.ASK_CAN_COPYSCENE_REQUEST:
+                        askCanCopySceneRequest(scanner);
+                        break;
+                    case ConstantValue.COPYSCENE_MESSAGE_REQUEST:
+                        copySceneMessageRequest(scanner);
+                        break;
+                    case ConstantValue.CREATE_COPYSCENE_REQUEST:
+                        createCopySceneRequest(scanner);
+                        break;
+                    case ConstantValue.ENTER_COPYSCENE_REQUEST:
+                        enterCopySceneRequest(scanner);
+                        break;
+                    case ConstantValue.EXIT_COPYSCENE_REQUEST:
+                        exitCopySceneRequest(scanner);
+                        break;
                     default:
                         System.out.println("GameStart-handler:收到错误cmd");
                 }
     }
+
+    private void askCanCopySceneRequest(Scanner scanner) {
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.ASK_CAN_COPYSCENE_REQUEST);
+        CopySceneModel.CopySceneModelMessage myMessage;
+        myMessage=CopySceneModel.CopySceneModelMessage.newBuilder()
+                .setDataType(CopySceneModel.CopySceneModelMessage.DateType.AskCanCopySceneRequest)
+                .setAskCanCopySceneRequest(CopySceneModel.AskCanCopySceneRequest.newBuilder().build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void copySceneMessageRequest(Scanner scanner) {
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.COPYSCENE_MESSAGE_REQUEST);
+        CopySceneModel.CopySceneModelMessage myMessage;
+        myMessage=CopySceneModel.CopySceneModelMessage.newBuilder()
+                .setDataType(CopySceneModel.CopySceneModelMessage.DateType.CopySceneMessageRequest)
+                .setCopySceneMessageRequest(CopySceneModel.CopySceneMessageRequest.newBuilder().build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void createCopySceneRequest(Scanner scanner) {
+        System.out.println("请输入你想创建的副本的id");
+        Integer copySceneId=scanner.nextInt();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.CREATE_COPYSCENE_REQUEST);
+        CopySceneModel.CopySceneModelMessage myMessage;
+        myMessage=CopySceneModel.CopySceneModelMessage.newBuilder()
+                .setDataType(CopySceneModel.CopySceneModelMessage.DateType.CreateCopySceneRequest)
+                .setCreateCopySceneRequest(CopySceneModel.CreateCopySceneRequest.newBuilder().setCopySceneId(copySceneId).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void enterCopySceneRequest(Scanner scanner) {
+        System.out.println("请输入你想进入的副本的id");
+        Integer copySceneId=scanner.nextInt();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.ENTER_COPYSCENE_REQUEST);
+        CopySceneModel.CopySceneModelMessage myMessage;
+        myMessage=CopySceneModel.CopySceneModelMessage.newBuilder()
+                .setDataType(CopySceneModel.CopySceneModelMessage.DateType.EnterCopySceneRequest)
+                .setEnterCopySceneRequest(CopySceneModel.EnterCopySceneRequest.newBuilder().setCopySceneId(copySceneId).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void exitCopySceneRequest(Scanner scanner) {
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.EXIT_COPYSCENE_REQUEST);
+        CopySceneModel.CopySceneModelMessage myMessage;
+        myMessage=CopySceneModel.CopySceneModelMessage.newBuilder()
+                .setDataType(CopySceneModel.CopySceneModelMessage.DateType.ExitCopySceneRequest)
+                .setExitCopySceneRequest(CopySceneModel.ExitCopySceneRequest.newBuilder().build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
 
     private void deleteTeamRequest(Scanner scanner) {
         NettyRequest nettyRequest=new NettyRequest();

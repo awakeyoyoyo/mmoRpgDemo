@@ -15,6 +15,7 @@ public class BossBean extends BossMessage {
     private Integer nowBlood;
     private Integer nowMp;
     private Integer roleStatus;
+    private Integer status;
     private Integer roleType;
     /**
      * 仇恨
@@ -30,6 +31,14 @@ public class BossBean extends BossMessage {
      */
     private CopyOnWriteArrayList<BufferBean> bufferBeans;
     private Integer BossBeanId;
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 
     public Integer getBossBeanId() {
         return BossBeanId;

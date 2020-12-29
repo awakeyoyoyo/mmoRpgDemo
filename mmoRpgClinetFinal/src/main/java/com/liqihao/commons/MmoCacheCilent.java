@@ -21,8 +21,28 @@ public class MmoCacheCilent {
     private ConcurrentHashMap<Integer, MedicineMessage> medicineMessageConcurrentHashMap;
     //装备基本信息
     private ConcurrentHashMap<Integer, EquipmentMessage> equipmentMessageConcurrentHashMap;
+    //副本基本信息
+    private ConcurrentHashMap<Integer, CopySceneMessage> copySceneMessageConcurrentHashMap;
+    //boss基本信息
+    private ConcurrentHashMap<Integer, BossMessage> bossMessageConcurrentHashMap;
     //基础配置信息
     private BaseDetailMessage baseDetailMessage;
+
+    public ConcurrentHashMap<Integer, CopySceneMessage> getCopySceneMessageConcurrentHashMap() {
+        return copySceneMessageConcurrentHashMap;
+    }
+
+    public void setCopySceneMessageConcurrentHashMap(ConcurrentHashMap<Integer, CopySceneMessage> copySceneMessageConcurrentHashMap) {
+        this.copySceneMessageConcurrentHashMap = copySceneMessageConcurrentHashMap;
+    }
+
+    public ConcurrentHashMap<Integer, BossMessage> getBossMessageConcurrentHashMap() {
+        return bossMessageConcurrentHashMap;
+    }
+
+    public void setBossMessageConcurrentHashMap(ConcurrentHashMap<Integer, BossMessage> bossMessageConcurrentHashMap) {
+        this.bossMessageConcurrentHashMap = bossMessageConcurrentHashMap;
+    }
 
     public BaseDetailMessage getBaseDetailMessage() {
         return baseDetailMessage;

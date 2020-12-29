@@ -1,16 +1,14 @@
-package com.liqihao.pojo.dto;
-
-import java.util.List;
+package com.liqihao.pojo.baseMessage;
 
 /**
- * 副本的基本信息传输类
+ * 副本基本信息
  * @author lqhao
  */
-public class CopySceneMessageDto {
+public class CopySceneMessage {
     private Integer id;
     private String name;
     private Integer lastTime;
-    private List<Integer> bossIds;
+    private String bossIds;
 
     public Integer getId() {
         return id;
@@ -36,11 +34,11 @@ public class CopySceneMessageDto {
         this.lastTime = lastTime;
     }
 
-    public List<Integer> getBossIds() {
+    public String getBossIds() {
         return bossIds;
     }
 
-    public void setBossIds(List<Integer> bossIds) {
+    public void setBossIds(String bossIds) {
         this.bossIds = bossIds;
     }
 }

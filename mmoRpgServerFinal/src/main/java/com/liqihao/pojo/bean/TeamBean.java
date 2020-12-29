@@ -146,9 +146,11 @@ public class TeamBean {
      */
     public void banPeople(Integer roleId) {
         MmoSimpleRole mmoSimpleRole=mmoSimpleRolesMap.get(roleId);
+        //队伍中删除该玩家
         mmoSimpleRolesMap.remove(roleId);
         //判断退出队伍者是否在副本中
         checkInCopyScene(mmoSimpleRole);
+        //玩家队伍id设置为空
         mmoSimpleRole.setTeamId(null);
         // 发送信息给被t者
         TeamModel.TeamModelMessage.Builder teamMessageBuilder=TeamModel.TeamModelMessage.newBuilder();
@@ -176,10 +178,10 @@ public class TeamBean {
 
         if (getLeaderId().equals(roleId)) {
             mmoSimpleRolesMap.remove(mmoSimpleRole.getId());
+            checkInCopyScene(mmoSimpleRole);
             if (mmoSimpleRolesMap.values().isEmpty()){
                 //没人了
                 //判断是否在副本中
-                checkInCopyScene(mmoSimpleRole);
                 mmoSimpleRole.setTeamId(null);
                 //解散队伍
                 TeamServiceProvider.deleteTeamById(getTeamId());
@@ -212,8 +214,7 @@ public class TeamBean {
     private void checkInCopyScene(MmoSimpleRole mmoSimpleRole){
         if (mmoSimpleRole.getCopySceneId()!=null&&mmoSimpleRole.getCopySceneId().equals(getCopySceneId())){
             //回到原来场景
-            TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(mmoSimpleRole.getTeamId());
-            CopySceneBean copySceneBean=CopySceneProvider.getCopySceneBeanById(teamBean.getCopySceneBeanId());
+            CopySceneBean copySceneBean=CopySceneProvider.getCopySceneBeanById(getCopySceneBeanId());
             copySceneBean.peopleExit(mmoSimpleRole.getId());
         }
     }

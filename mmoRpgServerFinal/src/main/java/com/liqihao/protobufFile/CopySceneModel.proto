@@ -32,32 +32,74 @@ message CopySceneModelMessage{
 
 }
 message AskCanCopySceneRequest{
-  //todo
+
 }
 message AskCanCopySceneResponse{
-
+  repeated int32 copySceneId=1;
 }
 message CopySceneMessageRequest{
-
+  int32 copySceneBeanId=1;
 }
 message CopySceneMessageResponse{
-
+  CopySceneBeanDto copySceneBeanDto=1;
 }
 message CreateCopySceneRequest{
-
+  int32 copySceneId=1;
 }
 message CreateCopySceneResponse{
-
+  CopySceneBeanDto copySceneBeanDto=1;
 }
 message EnterCopySceneRequest{
-
+  int32 copySceneId=1;
 }
 message EnterCopySceneResponse{
-
+  RoleDto roleDto=1;
 }
 message ExitCopySceneRequest{
 
 }
 message ExitCopySceneResponse{
-
+  RoleDto roleDto=1;
+}
+message BossBeanDto{
+  int32 nowBlood=1;
+  int32 nowMp=2;
+  int32 roleStatus=3;
+  int32 id=4;
+  string name=5;
+  int32 blood=6;
+  int32 mp=7;
+  int32 attack=8;
+  repeated BufferDto bufferDtos=10;
+  int32 status=11;
+}
+message CopySceneBeanDto{
+  sint64 createTime=1;
+  sint64 endTime=2;
+  repeated  BossBeanDto bossBeans=3;
+  repeated RoleDto roleDto=4;
+  int32 status=5;
+  int32 copySceneBeanId=6;
+  int32 copySceneId=7;
+}
+message RoleDto{
+  int32 id=1;
+  string name=2;
+  int32 status=3;
+  int32 type=4;
+  int32 onStatus=5;
+  int32 blood=6;
+  int32 nowBlood=7;
+  int32 mp=8;
+  int32 nowMp=9;
+  int32 teamId=10;
+  repeated BufferDto bufferDtos=11;
+}
+message BufferDto{
+  int32 fromRoleId=1;
+  int32 toRoleId=2;
+  sint64 createTime=3;
+  int32 id=4;
+  string name=5;
+  int32 lastTime=6;
 }

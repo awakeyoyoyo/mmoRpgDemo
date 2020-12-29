@@ -20,6 +20,8 @@ public class Main {
     private static String bufferMessage_file = "classpath:message/bufferMessage.xlsx";
     private static String medicineMessage_file = "classpath:message/medicineMessage.xlsx";
     private static String equipmentMessage_file = "classpath:message/equipmentMessage.xlsx";
+    private static String copySceneMessage_file = "classpath:message/copySceneMessage.xlsx";
+    private static String bossMessage_file = "classpath:message/bossMessage.xlsx";
     private static String baseDetailMessage_file = "classpath:message/baseDetailMessage.xlsx";
     public static void main(String[] args) throws Exception {
 //查询类路径 加载配置文件
@@ -58,6 +60,18 @@ public class Main {
         for (EquipmentMessage e:equipmentMessages) {
             equipmentMessageConcurrentHashMap.put(e.getId(),e);
         }
+        ConcurrentHashMap<Integer, BossMessage> bossMessageConcurrentHashMap=new ConcurrentHashMap<>();
+        List<BossMessage> bossMessages= ExcelReaderUtil.readExcelFromFileName(bossMessage_file,BossMessage.class);
+        for (BossMessage bossMessage:bossMessages) {
+            bossMessageConcurrentHashMap.put(bossMessage.getId(),bossMessage);
+        }
+        ConcurrentHashMap<Integer, CopySceneMessage> copySceneMessageConcurrentHashMap=new ConcurrentHashMap<>();
+        List<CopySceneMessage> copySceneMessages= ExcelReaderUtil.readExcelFromFileName(copySceneMessage_file,CopySceneMessage.class);
+        for (CopySceneMessage copySceneMessage:copySceneMessages) {
+            copySceneMessageConcurrentHashMap.put(copySceneMessage.getId(),copySceneMessage);
+        }
+        MmoCacheCilent.getInstance().setCopySceneMessageConcurrentHashMap(copySceneMessageConcurrentHashMap);
+        MmoCacheCilent.getInstance().setBossMessageConcurrentHashMap(bossMessageConcurrentHashMap);
         MmoCacheCilent.getInstance().setMedicineMessageConcurrentHashMap(medicineMessageConcurrentHashMap);
         MmoCacheCilent.getInstance().setEquipmentMessageConcurrentHashMap(equipmentMessageConcurrentHashMap);
         MmoCacheCilent.getInstance().setBufferMessageConcurrentHashMap(bufferMessageConcurrentHashMap);

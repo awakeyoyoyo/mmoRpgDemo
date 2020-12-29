@@ -21,6 +21,7 @@ import com.liqihao.pojo.baseMessage.*;
 import com.liqihao.pojo.bean.*;
 import com.liqihao.pojo.dto.ArticleDto;
 import com.liqihao.pojo.dto.EquipmentDto;
+import com.liqihao.protobufObject.CopySceneModel;
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
 import org.springframework.beans.BeansException;
@@ -45,6 +46,50 @@ public class CommonsUtil implements ApplicationContextAware {
 
     private static ApplicationContext applicationContext;
 
+    public static CopySceneModel.BossBeanDto bossBeanToBossBeanDto(BossBean boss) {
+        CopySceneModel.BossBeanDto.Builder bossDtoBuilder=CopySceneModel.BossBeanDto.newBuilder();
+        bossDtoBuilder.setId(boss.getId());
+        bossDtoBuilder.setAttack(boss.getAttack());
+        bossDtoBuilder.setMp(boss.getMp());
+        bossDtoBuilder.setName(boss.getName());
+        bossDtoBuilder.setNowBlood(boss.getNowBlood());
+        bossDtoBuilder.setNowMp(boss.getNowMp());
+        bossDtoBuilder.setStatus(boss.getStatus());
+        bossDtoBuilder.setRoleStatus(boss.getRoleStatus());
+        bossDtoBuilder.setBlood(boss.getBlood());
+        List<CopySceneModel.BufferDto> bufferDtoList=new ArrayList<>();
+        if (boss.getBufferBeans().size()>0){
+            for (BufferBean b:boss.getBufferBeans()) {
+                CopySceneModel.BufferDto bufferDto= bufferBeanToBufferDto(b);
+                bufferDtoList.add(bufferDto);
+            }
+        }
+        bossDtoBuilder.addAllBufferDtos(bufferDtoList);
+        return  bossDtoBuilder.build();
+    }
+
+    private static CopySceneModel.BufferDto bufferBeanToBufferDto(BufferBean b) {
+        CopySceneModel.BufferDto.Builder bufferDtoBuilder=CopySceneModel.BufferDto.newBuilder();
+        return bufferDtoBuilder.setId(b.getId()).setName(b.getName()).setFromRoleId(b.getFromRoleId())
+                .setToRoleId(b.getToRoleId()).setCreateTime(b.getCreateTime()).setLastTime(b.getLastTime())
+                .build();
+    }
+
+    public static CopySceneModel.RoleDto mmoSimpleRolesToCopyScneRoleDto(MmoSimpleRole role) {
+        CopySceneModel.RoleDto.Builder roleDtoBuilder=CopySceneModel.RoleDto.newBuilder();
+        List<CopySceneModel.BufferDto> bufferDtoList=new ArrayList<>();
+        if (role.getBufferBeans().size()>0){
+            for (BufferBean b:role.getBufferBeans()) {
+                CopySceneModel.BufferDto bufferDto= bufferBeanToBufferDto(b);
+                bufferDtoList.add(bufferDto);
+            }
+        }
+        return roleDtoBuilder.setId(role.getId()).setBlood(role.getBlood()).setNowBlood(role.getNowBlood())
+                .setNowMp(role.getNowMp()).addAllBufferDtos(bufferDtoList).setOnStatus(role.getOnstatus())
+                .setTeamId(role.getTeamId()).setStatus(role.getStatus())
+                .setName(role.getName()).setMp(role.getMp()).setType(role.getType()).build();
+
+    }
 
 
     @Override
@@ -89,6 +134,7 @@ public class CommonsUtil implements ApplicationContextAware {
         bossBean.setMedicines(bossMessage.getMedicines());
         bossBean.setMoney(bossMessage.getMoney());
         bossBean.setMp(bossMessage.getMp());
+        bossBean.setStatus(RoleStatusCode.ALIVE.getCode());
         bossBean.setName(bossMessage.getName());
         bossBean.setSkillIds(bossMessage.getSkillIds());
         List<SkillBean> skillBeans=skillIdsToSkillBeans(bossMessage.getSkillIds());

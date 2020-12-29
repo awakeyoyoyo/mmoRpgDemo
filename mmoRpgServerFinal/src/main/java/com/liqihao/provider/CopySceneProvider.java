@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author lqhao
  */
 public class CopySceneProvider {
-    private static ConcurrentHashMap<Integer,CopySceneBean> copySceneBeans;
+    private static ConcurrentHashMap<Integer,CopySceneBean> copySceneBeans=new ConcurrentHashMap<>();
     private static AtomicInteger copySceneBeanIdAuto=new AtomicInteger(0);
     private static AtomicInteger bossBeanIdAuto=new AtomicInteger(0);
 

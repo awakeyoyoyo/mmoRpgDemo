@@ -86,7 +86,7 @@ public class CopySceneBean extends CopySceneMessage {
                 MmoSimpleRole mmoSimpleRole = (MmoSimpleRole) iterator.next();
                 if (mmoSimpleRole.getId().equals(roleId)) {
                     //副本角色删除
-                    iterator.remove();
+                    mmoSimpleRoles.remove(mmoSimpleRole);
                     Channel c = ChannelMessageCache.getInstance().get(roleId);
                     //从副本回到原来场景
                     Integer nextSceneId=mmoSimpleRole.getLastSceneId();
@@ -150,7 +150,45 @@ public class CopySceneBean extends CopySceneMessage {
         while (iterator.hasNext()){
             MmoSimpleRole mmoSimpleRole= (MmoSimpleRole) iterator.next();
             //让用户回到原来的场景EE
-            peopleExit(mmoSimpleRole.getId());
+            //副本角色删除
+            iterator.remove();
+            Channel c = ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+            //从副本回到原来场景
+            Integer nextSceneId=mmoSimpleRole.getLastSceneId();
+            mmoSimpleRole.setLastSceneId(null);
+            List<MmoSimpleRole> nextRoles=mmoSimpleRole.wentScene(nextSceneId);
+            //修改人物
+            mmoSimpleRole.setCopySceneId(null);
+            NettyResponse nettyResponse=new NettyResponse();
+            nettyResponse.setCmd(ConstantValue.WENT_RESPONSE);
+            nettyResponse.setStateCode(StateCode.SUCCESS);
+            SceneModel.SceneModelMessage.Builder builder=SceneModel.SceneModelMessage.newBuilder();
+            builder.setDataType(SceneModel.SceneModelMessage.DateType.WentResponse);
+            SceneModel.WentResponse.Builder wentResponsebuilder=SceneModel.WentResponse.newBuilder();
+            //simpleRole
+            List<SceneModel.RoleDTO> roleDTOS=new ArrayList<>();
+            for (MmoSimpleRole mmoRole :nextRoles){
+                SceneModel.RoleDTO.Builder msr=SceneModel.RoleDTO.newBuilder();
+                msr.setId(mmoRole.getId());
+                msr.setName(mmoRole.getName());
+                msr.setType(mmoRole.getType());
+                msr.setStatus(mmoRole.getStatus());
+                msr.setOnStatus(mmoRole.getOnstatus());
+                msr.setBlood(mmoRole.getBlood());
+                msr.setNowBlood(mmoRole.getNowBlood());
+                msr.setMp(mmoRole.getMp());
+                msr.setNowMp(mmoRole.getNowMp());
+                msr.setAttack(mmoRole.getAttack());
+                msr.setAttackAdd(mmoRole.getDamageAdd());
+                SceneModel.RoleDTO msrobject=msr.build();
+                roleDTOS.add(msrobject);
+            }
+            wentResponsebuilder.setSceneId(nextSceneId);
+            wentResponsebuilder.addAllRoleDTO(roleDTOS);
+            builder.setWentResponse(wentResponsebuilder.build());
+            byte[] data2=builder.build().toByteArray();
+            nettyResponse.setData(data2);
+            c.writeAndFlush(nettyResponse);
         }
         //copySceneProvider删除该副本
         CopySceneProvider.deleteNewCopySceneById(getCopySceneBeanId());
