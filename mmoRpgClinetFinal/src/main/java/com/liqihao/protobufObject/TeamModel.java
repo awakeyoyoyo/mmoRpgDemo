@@ -20394,6 +20394,18 @@ public final class TeamModel {
      */
     com.google.protobuf.ByteString
         getTeamNameBytes();
+
+    /**
+     * <code>int32 copySceneId = 5;</code>
+     * @return The copySceneId.
+     */
+    int getCopySceneId();
+
+    /**
+     * <code>int32 copySceneBeanId = 6;</code>
+     * @return The copySceneBeanId.
+     */
+    int getCopySceneBeanId();
   }
   /**
    * Protobuf type {@code TeamBeanDto}
@@ -20466,6 +20478,16 @@ public final class TeamModel {
               String s = input.readStringRequireUtf8();
 
               teamName_ = s;
+              break;
+            }
+            case 40: {
+
+              copySceneId_ = input.readInt32();
+              break;
+            }
+            case 48: {
+
+              copySceneBeanId_ = input.readInt32();
               break;
             }
             default: {
@@ -20603,6 +20625,28 @@ public final class TeamModel {
       }
     }
 
+    public static final int COPYSCENEID_FIELD_NUMBER = 5;
+    private int copySceneId_;
+    /**
+     * <code>int32 copySceneId = 5;</code>
+     * @return The copySceneId.
+     */
+    @Override
+    public int getCopySceneId() {
+      return copySceneId_;
+    }
+
+    public static final int COPYSCENEBEANID_FIELD_NUMBER = 6;
+    private int copySceneBeanId_;
+    /**
+     * <code>int32 copySceneBeanId = 6;</code>
+     * @return The copySceneBeanId.
+     */
+    @Override
+    public int getCopySceneBeanId() {
+      return copySceneBeanId_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -20629,6 +20673,12 @@ public final class TeamModel {
       if (!getTeamNameBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 4, teamName_);
       }
+      if (copySceneId_ != 0) {
+        output.writeInt32(5, copySceneId_);
+      }
+      if (copySceneBeanId_ != 0) {
+        output.writeInt32(6, copySceneBeanId_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -20653,6 +20703,14 @@ public final class TeamModel {
       if (!getTeamNameBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, teamName_);
       }
+      if (copySceneId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, copySceneId_);
+      }
+      if (copySceneBeanId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(6, copySceneBeanId_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -20676,6 +20734,10 @@ public final class TeamModel {
           != other.getLeaderId()) return false;
       if (!getTeamName()
           .equals(other.getTeamName())) return false;
+      if (getCopySceneId()
+          != other.getCopySceneId()) return false;
+      if (getCopySceneBeanId()
+          != other.getCopySceneBeanId()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -20697,6 +20759,10 @@ public final class TeamModel {
       hash = (53 * hash) + getLeaderId();
       hash = (37 * hash) + TEAMNAME_FIELD_NUMBER;
       hash = (53 * hash) + getTeamName().hashCode();
+      hash = (37 * hash) + COPYSCENEID_FIELD_NUMBER;
+      hash = (53 * hash) + getCopySceneId();
+      hash = (37 * hash) + COPYSCENEBEANID_FIELD_NUMBER;
+      hash = (53 * hash) + getCopySceneBeanId();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -20843,6 +20909,10 @@ public final class TeamModel {
 
         teamName_ = "";
 
+        copySceneId_ = 0;
+
+        copySceneBeanId_ = 0;
+
         return this;
       }
 
@@ -20882,6 +20952,8 @@ public final class TeamModel {
         }
         result.leaderId_ = leaderId_;
         result.teamName_ = teamName_;
+        result.copySceneId_ = copySceneId_;
+        result.copySceneBeanId_ = copySceneBeanId_;
         onBuilt();
         return result;
       }
@@ -20965,6 +21037,12 @@ public final class TeamModel {
         if (!other.getTeamName().isEmpty()) {
           teamName_ = other.teamName_;
           onChanged();
+        }
+        if (other.getCopySceneId() != 0) {
+          setCopySceneId(other.getCopySceneId());
+        }
+        if (other.getCopySceneBeanId() != 0) {
+          setCopySceneBeanId(other.getCopySceneBeanId());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -21370,6 +21448,68 @@ public final class TeamModel {
   checkByteStringIsUtf8(value);
         
         teamName_ = value;
+        onChanged();
+        return this;
+      }
+
+      private int copySceneId_ ;
+      /**
+       * <code>int32 copySceneId = 5;</code>
+       * @return The copySceneId.
+       */
+      @Override
+      public int getCopySceneId() {
+        return copySceneId_;
+      }
+      /**
+       * <code>int32 copySceneId = 5;</code>
+       * @param value The copySceneId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCopySceneId(int value) {
+        
+        copySceneId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 copySceneId = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCopySceneId() {
+        
+        copySceneId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int copySceneBeanId_ ;
+      /**
+       * <code>int32 copySceneBeanId = 6;</code>
+       * @return The copySceneBeanId.
+       */
+      @Override
+      public int getCopySceneBeanId() {
+        return copySceneBeanId_;
+      }
+      /**
+       * <code>int32 copySceneBeanId = 6;</code>
+       * @param value The copySceneBeanId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCopySceneBeanId(int value) {
+        
+        copySceneBeanId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 copySceneBeanId = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCopySceneBeanId() {
+        
+        copySceneBeanId_ = 0;
         onChanged();
         return this;
       }
@@ -22640,12 +22780,13 @@ public final class TeamModel {
       "\001(\005\"y\n\022ApplyInviteBeanDto\022\016\n\006roleId\030\001 \001(" +
       "\005\022\014\n\004type\030\002 \001(\005\022\016\n\006teamId\030\003 \001(\005\022\020\n\010teamN" +
       "ame\030\004 \001(\t\022\017\n\007endTime\030\005 \001(\022\022\022\n\ncreateTime" +
-      "\030\006 \001(\022\"]\n\013TeamBeanDto\022\016\n\006teamId\030\001 \001(\005\022\032\n" +
-      "\010roleDtos\030\002 \003(\0132\010.RoleDto\022\020\n\010leaderId\030\003 " +
-      "\001(\005\022\020\n\010teamName\030\004 \001(\t\"i\n\007RoleDto\022\n\n\002id\030\001" +
-      " \001(\005\022\014\n\004name\030\002 \001(\t\022\n\n\002hp\030\003 \001(\005\022\n\n\002mp\030\004 \001" +
-      "(\005\022\r\n\005nowHp\030\005 \001(\005\022\r\n\005nowMP\030\006 \001(\005\022\016\n\006team" +
-      "Id\030\007 \001(\005B\013B\tTeamModelb\006proto3"
+      "\030\006 \001(\022\"\213\001\n\013TeamBeanDto\022\016\n\006teamId\030\001 \001(\005\022\032" +
+      "\n\010roleDtos\030\002 \003(\0132\010.RoleDto\022\020\n\010leaderId\030\003" +
+      " \001(\005\022\020\n\010teamName\030\004 \001(\t\022\023\n\013copySceneId\030\005 " +
+      "\001(\005\022\027\n\017copySceneBeanId\030\006 \001(\005\"i\n\007RoleDto\022" +
+      "\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\n\n\002hp\030\003 \001(\005\022\n\n" +
+      "\002mp\030\004 \001(\005\022\r\n\005nowHp\030\005 \001(\005\022\r\n\005nowMP\030\006 \001(\005\022" +
+      "\016\n\006teamId\030\007 \001(\005B\013B\tTeamModelb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -22812,7 +22953,7 @@ public final class TeamModel {
     internal_static_TeamBeanDto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_TeamBeanDto_descriptor,
-        new String[] { "TeamId", "RoleDtos", "LeaderId", "TeamName", });
+        new String[] { "TeamId", "RoleDtos", "LeaderId", "TeamName", "CopySceneId", "CopySceneBeanId", });
     internal_static_RoleDto_descriptor =
       getDescriptor().getMessageTypes().get(27);
     internal_static_RoleDto_fieldAccessorTable = new

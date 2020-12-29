@@ -1,10 +1,16 @@
 package com.liqihao.commons.enums;
 
-public enum  DamageTypeCode {
-    HP(0,"血量"),MP(1,"蓝量"),NOTHING(2,"无消耗");
+/**
+ * 副本销毁得原因
+ * @author lqhao
+ */
+
+public enum CopySceneDeleteCauseCode {
+    //
+    TEAMEND(0,"队伍解散"),NOPEOPLE(1,"最后一个玩家退出副本");
     private  int code;
     private  String value;
-    DamageTypeCode(int code,String name)
+    CopySceneDeleteCauseCode(int code,String name)
     {
         this.code=code;
         this.value = name;
@@ -26,7 +32,7 @@ public enum  DamageTypeCode {
         return value;
     }
     public static String getValue(int code) {
-        for (DamageTypeCode ele : values()) {
+        for (CopySceneDeleteCauseCode ele : values()) {
             if(ele.getCode()==code){
                 return ele.getvalue();
             }

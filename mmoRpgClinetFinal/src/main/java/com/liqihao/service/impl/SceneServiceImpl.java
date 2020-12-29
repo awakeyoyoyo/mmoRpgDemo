@@ -32,12 +32,14 @@ public class SceneServiceImpl implements SceneService {
         myMessage=SceneModel.SceneModelMessage.parseFrom(data);
         List<Integer> Scenes=myMessage.getAskCanResponse().getScenesIdsList();
         ConcurrentHashMap<Integer, SceneMessage> sceneMap=MmoCacheCilent.getInstance().getSceneMessageConcurrentHashMap();
-        log.info("当前可以进入的场景：");
+        System.out.println("[-]--------------------------------------------------------");
+        System.out.println("[-][-]当前可以进入的场景：");
         for (Integer id:Scenes){
-
-            log.info("---------"+sceneMap.get(id).getPlaceName()+"---------");
+            System.out.println("[-]");
+            System.out.println("[-][-]"+sceneMap.get(id).getPlaceName());
+            System.out.println("[-]");
         }
-        log.info("---------------------------------------------------");
+        System.out.println("[-]--------------------------------------------------------");
     }
 
     @Override
@@ -77,17 +79,21 @@ public class SceneServiceImpl implements SceneService {
         //本地缓存设置当前的场景
         SceneMessage m=MmoCacheCilent.getInstance().getSceneMessageConcurrentHashMap().get(mmoScene);
         MmoCacheCilent.getInstance().setNowSceneId(mmoScene);
-        log.info("已进入下一个场景");
-        log.info("当前场景是: "+m.getPlaceName());
-        log.info("当前场景角色数量是： "+(MmoCacheCilent.getInstance().getRoleHashMap().size()+1) );
+        System.out.println("[-]--------------------------------------------------------");
+        System.out.println("[-]当前场景是: "+m.getPlaceName());
+        System.out.println("[-]当前场景角色数量是: "+(MmoCacheCilent.getInstance().getRoleHashMap().size()+1));
+        System.out.println("[-][-]当前场景角色有: ");
         for (SceneModel.RoleDTO roleDTO:roleDTOS) {
-            log.info("角色id："+roleDTO.getId()+" 角色名: "+roleDTO.getName()
-                    +" 类型: "+ RoleTypeCode.getValue(roleDTO.getType())+" 状态: "+ RoleStatusCode.getValue(roleDTO.getStatus())
-                    +" 血量： "+roleDTO.getNowBlood()+"/"+roleDTO.getBlood()+" 蓝量： "+roleDTO.getNowMp()+"/"+roleDTO.getMp()
-                    +" 攻击力： "+roleDTO.getAttack()+" 技能伤害加成: "+roleDTO.getAttackAdd()
-                    +" 所在队伍id："+roleDTO.getTeamId());
+            System.out.println("[-]");
+            System.out.println("[-][-]角色id：" + roleDTO.getId() + " 角色名: " + roleDTO.getName());
+            System.out.println("[-][-]类型: " + RoleTypeCode.getValue(roleDTO.getType()) + " 状态: " + RoleStatusCode.getValue(roleDTO.getStatus()));
+            System.out.println("[-][-]血量： " + roleDTO.getNowBlood() + "/" + roleDTO.getBlood());
+            System.out.println("[-][-]蓝量： " + roleDTO.getNowMp() + "/" + roleDTO.getMp());
+            System.out.println("[-][-]攻击力： "+roleDTO.getAttack()+" 技能伤害加成: "+roleDTO.getAttackAdd());
+            System.out.println("[-][-]所在队伍id："+roleDTO.getTeamId());
+            System.out.println("[-]");
         }
-        log.info("---------------------------------------------------");
+        System.out.println("[-]--------------------------------------------------------");
     }
 
 
@@ -102,7 +108,8 @@ public class SceneServiceImpl implements SceneService {
         myMessage=SceneModel.SceneModelMessage.parseFrom(data);
         SceneModel.FindAllRolesResponse findAllRolesResponse=myMessage.getFindAllRolesResponse();
         List<SceneModel.RoleDTO> roleDTOS=findAllRolesResponse.getRoleDTOList();
-        log.info("当前场景中的所有角色: ");
+        System.out.println("[-]--------------------------------------------------------");
+        System.out.println("[-][-]当前场景角色有: ");
         HashMap<Integer,MmoRole> roles=new HashMap<>();
         for (SceneModel.RoleDTO roleDTO:roleDTOS) {
             MmoRole mmoRole=new MmoRole();
@@ -117,14 +124,17 @@ public class SceneServiceImpl implements SceneService {
             mmoRole.setNowMp(roleDTO.getNowMp());
             mmoRole.setType(roleDTO.getType());
             roles.put(mmoRole.getId(),mmoRole);
-            log.info("角色id："+roleDTO.getId()+" 角色名: "+roleDTO.getName()
-                    +" 类型: "+ RoleTypeCode.getValue(roleDTO.getType())+" 状态: "+ RoleStatusCode.getValue(roleDTO.getStatus())
-                    +" 血量： "+roleDTO.getNowBlood()+"/"+roleDTO.getBlood()+" 蓝量： "+roleDTO.getNowMp()+"/"+roleDTO.getMp()
-                    +" 攻击力： "+roleDTO.getAttack()+" 技能伤害加成: "+roleDTO.getAttackAdd()
-                    +" 所在队伍id："+roleDTO.getTeamId());
+            System.out.println("[-]");
+            System.out.println("[-][-]角色id：" + roleDTO.getId() + " 角色名: " + roleDTO.getName());
+            System.out.println("[-][-]类型: " + RoleTypeCode.getValue(roleDTO.getType()) + " 状态: " + RoleStatusCode.getValue(roleDTO.getStatus()));
+            System.out.println("[-][-]血量： " + roleDTO.getNowBlood() + "/" + roleDTO.getBlood());
+            System.out.println("[-][-]蓝量： " + roleDTO.getNowMp() + "/" + roleDTO.getMp());
+            System.out.println("[-][-]攻击力： "+roleDTO.getAttack()+" 技能伤害加成: "+roleDTO.getAttackAdd());
+            System.out.println("[-][-]所在队伍id："+roleDTO.getTeamId());
+            System.out.println("[-]");
         }
         MmoCacheCilent.getInstance().setRoleHashMap(roles);
-        log.info("---------------------------------------------------");
+        System.out.println("[-]--------------------------------------------------------");
     }
 
     @Override
@@ -140,8 +150,10 @@ public class SceneServiceImpl implements SceneService {
         Integer npcId=talkNPCResponse.getNpcId();
         List<String> talks=CommonsUtil.splitToStringList(MmoCacheCilent.getInstance().getNpcMessageConcurrentHashMap().get(npcId).getTalk());
         String name=MmoCacheCilent.getInstance().getNpcMessageConcurrentHashMap().get(npcId).getName();
+        System.out.println("[-]--------------------------------------------------------");
         for (String s:talks) {
-            System.out.println(name+"： "+s);
+            System.out.println("[-]"+name+"不急不慢的说："+s);
         }
+        System.out.println("[-]--------------------------------------------------------");
     }
 }

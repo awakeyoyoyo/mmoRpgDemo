@@ -24,14 +24,17 @@ public class EquipmentServiceImpl implements EquipmentService{
         byte[] data=nettyResponse.getData();
         EquipmentModel.EquipmentModelMessage myMessage;
         myMessage=EquipmentModel.EquipmentModelMessage.parseFrom(data);
+        System.out.println("[-]--------------------------------------------------------");
         List<EquipmentModel.EquipmentDto> dtos=myMessage.getEquipmentMsgResponse().getEquipmentsList();
         for (EquipmentModel.EquipmentDto dto:dtos) {
             EquipmentMessage message= MmoCacheCilent.getInstance().getEquipmentMessageConcurrentHashMap().get(dto.getId());
-            System.out.println("装备名字: "+message.getName());
-            System.out.println("装备部位: "+ PositionCode.getValue(dto.getPosition()));
-            System.out.println("装备耐久度: "+dto.getNowDurability());
+            System.out.println("[-]");
+            System.out.println("[-]装备名字: "+message.getName());
+            System.out.println("[-]装备部位: "+ PositionCode.getValue(dto.getPosition()));
+            System.out.println("[-]装备耐久度: "+dto.getNowDurability());
+            System.out.println("[-]");
         }
-
+        System.out.println("[-]--------------------------------------------------------");
     }
 
     @Override
@@ -43,7 +46,9 @@ public class EquipmentServiceImpl implements EquipmentService{
         byte[] data=nettyResponse.getData();
         EquipmentModel.EquipmentModelMessage myMessage;
         myMessage=EquipmentModel.EquipmentModelMessage.parseFrom(data);
-        System.out.println("脱装备成功");
+        System.out.println("[-]--------------------------------------------------------");
+        System.out.println("[-]脱装备成功");
+        System.out.println("[-]--------------------------------------------------------");
     }
 
     @Override
@@ -55,7 +60,9 @@ public class EquipmentServiceImpl implements EquipmentService{
         byte[] data=nettyResponse.getData();
         EquipmentModel.EquipmentModelMessage myMessage;
         myMessage=EquipmentModel.EquipmentModelMessage.parseFrom(data);
-        System.out.println("穿装备成功");
+        System.out.println("[-]--------------------------------------------------------");
+        System.out.println("[-]穿装备成功");
+        System.out.println("[-]--------------------------------------------------------");
     }
 
     @Override
@@ -67,6 +74,8 @@ public class EquipmentServiceImpl implements EquipmentService{
         byte[] data=nettyResponse.getData();
         EquipmentModel.EquipmentModelMessage myMessage;
         myMessage=EquipmentModel.EquipmentModelMessage.parseFrom(data);
-        System.out.println("修复装备成功");
+        System.out.println("[-]--------------------------------------------------------");
+        System.out.println("[-]修复装备成功");
+        System.out.println("[-]--------------------------------------------------------");
     }
 }

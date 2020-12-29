@@ -13,6 +13,7 @@ message CopySceneModelMessage{
       EnterCopySceneResponse =7;
       ExitCopySceneRequest =8;
       ExitCopySceneResponse =9;
+      CopySceneDeleteResponse=10;
   }
   //用date_type来标识传的是哪一个枚举类型
   DateType data_type=1;
@@ -28,8 +29,13 @@ message CopySceneModelMessage{
     EnterCopySceneResponse enterCopySceneResponse=9;
     ExitCopySceneRequest exitCopySceneRequest=10;
     ExitCopySceneResponse exitCopySceneResponse=11;
+    CopySceneDeleteResponse copySceneDeleteResponse=12;
   }
 
+}
+message CopySceneDeleteResponse{
+  int32 copySceneId=1;
+  int32 cause=2;
 }
 message AskCanCopySceneRequest{
 

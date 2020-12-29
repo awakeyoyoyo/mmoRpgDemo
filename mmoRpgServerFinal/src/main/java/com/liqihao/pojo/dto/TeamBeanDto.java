@@ -11,6 +11,23 @@ public class TeamBeanDto {
     List<RoleDto> roleDtos;
     Integer leaderId;
     String teamName;
+    Integer copySceneId;
+    Integer copySceneBeanId;
+    public Integer getCopySceneId() {
+        return copySceneId;
+    }
+
+    public void setCopySceneId(Integer copySceneId) {
+        this.copySceneId = copySceneId;
+    }
+
+    public Integer getCopySceneBeanId() {
+        return copySceneBeanId;
+    }
+
+    public void setCopySceneBeanId(Integer copySceneBeanId) {
+        this.copySceneBeanId = copySceneBeanId;
+    }
 
     public Integer getTeamId() {
         return teamId;

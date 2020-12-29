@@ -150,6 +150,8 @@ message TeamBeanDto{
   repeated RoleDto roleDtos=2;
   int32 leaderId=3;
   string teamName=4;
+  int32 copySceneId=5;
+  int32 copySceneBeanId=6;
 }
 
 message RoleDto{

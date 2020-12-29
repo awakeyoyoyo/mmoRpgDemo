@@ -25,14 +25,18 @@ public class TeamServiceImpl implements TeamService {
         System.out.println("[-]--------------------------------------------------------");
         System.out.println("[-]队伍的id： " + teamBeanDto.getTeamId() + " 队伍的名称： " + teamBeanDto.getTeamName());
         System.out.println("[-]队长的id： " + teamBeanDto.getLeaderId());
+        System.out.println("[-]该队伍所关联的副本的实例id： " + teamBeanDto.getCopySceneBeanId());
+        System.out.println("[-][-]队内成员： ");
         MmoRole mmoRole=MmoCacheCilent.getInstance().getNowRole();
         for (TeamModel.RoleDto r : teamBeanDto.getRoleDtosList()) {
             if (mmoRole.getId().equals(r.getId())){
                 mmoRole.setTeamId(r.getTeamId());
             }
-            System.out.println("[-]角色id： " + r.getId() + "角色名称： " + r.getName() + "  Hp:" + r.getNowHp() + "/" + r.getHp()
-                    + "  Mp:" + r.getNowMP() + "/" + r.getMp() + " 所在队伍id： " + r.getTeamId()
-            );
+            System.out.println("[-]");
+            System.out.println("[-][-]角色id： " + r.getId() + "角色名称： " + r.getName() + " 所在队伍id： " + r.getTeamId());
+            System.out.println("[-][-]Hp:" + r.getNowHp() + "/" + r.getHp());
+            System.out.println("[-][-]Mp:" + r.getNowMP() + "/" + r.getMp());
+            System.out.println("[-]");
         }
         System.out.println("[-]--------------------------------------------------------");
     }
@@ -50,8 +54,9 @@ public class TeamServiceImpl implements TeamService {
         String endStr = sdf.format(end);
         System.out.println("[-]---------------------------------------------------------");
         System.out.println("[-]玩家id： " + applyInviteBeanDto.getRoleId() + " 申请加入 " + applyInviteBeanDto.getTeamName() + " 队伍" +
-                " 申请时间：" + createStr + " 申请的队伍id： "
-                + applyInviteBeanDto.getTeamId() + " 该申请过期时间: " + endStr);
+               " 申请的队伍id： " + applyInviteBeanDto.getTeamId() );
+        System.out.println("[-]申请时间："+createStr);
+        System.out.println("[-]该申请过期时间:" + endStr);
         System.out.println("[-]---------------------------------------------------------");
     }
 
@@ -67,9 +72,10 @@ public class TeamServiceImpl implements TeamService {
         Date end = new Date(inviteBeanDto.getEndTime());
         String endStr = sdf.format(end);
         System.out.println("[-]---------------------------------------------------------");
-        System.out.println("[-]"+inviteBeanDto.getTeamName() + " 队伍邀请你加入" + " 你的角色id：" + inviteBeanDto.getRoleId() +
-                " 邀请时间：" + createStr + " 邀请的队伍id： "
-                + inviteBeanDto.getTeamId() + " 该邀请过期时间: " + endStr);
+        System.out.println("[-]"+inviteBeanDto.getTeamName() + " 队伍邀请你加入" + " 你的角色id：" + inviteBeanDto.getRoleId() + " 邀请的队伍id： "
+                + inviteBeanDto.getTeamId() );
+        System.out.println("[-]邀请时间："+createStr);
+        System.out.println("[-]该邀请过期时间:" + endStr);
         System.out.println("[-]---------------------------------------------------------");
     }
 
@@ -86,11 +92,14 @@ public class TeamServiceImpl implements TeamService {
             String createStr = sdf.format(create);
             Date end = new Date(applyInviteBeanDto.getEndTime());
             String endStr = sdf.format(end);
+            System.out.println("[-]");
             System.out.println("[-]玩家id： " + applyInviteBeanDto.getRoleId() + " 申请加入 " + applyInviteBeanDto.getTeamName() + " 队伍" +
-                    " 申请时间：" + createStr + " 申请的队伍id： "
-                    + applyInviteBeanDto.getTeamId() + " 该申请过期时间: " + endStr);
-            System.out.println("[-]--------------------------------------------------------");
+                    " 申请的队伍id： " + applyInviteBeanDto.getTeamId() );
+            System.out.println("[-]申请时间："+createStr);
+            System.out.println("[-]该申请过期时间:" + endStr);
+            System.out.println("[-]");
         }
+        System.out.println("[-]---------------------------------------------------------");
     }
 
     @Override
@@ -106,12 +115,14 @@ public class TeamServiceImpl implements TeamService {
             String createStr = sdf.format(create);
             Date end = new Date(inviteBeanDto.getEndTime());
             String endStr = sdf.format(end);
-            System.out.println("[-]"+inviteBeanDto.getTeamName() + " 队伍邀请你加入" + " 你的角色id：" + inviteBeanDto.getRoleId() +
-                    " 邀请时间：" + createStr + " 邀请的队伍id： "
-                    + inviteBeanDto.getTeamId() + " 该邀请过期时间: " + endStr);
-            System.out.println("[-]--------------------------------------------------------");
-
+            System.out.println("[-]");
+            System.out.println("[-]"+inviteBeanDto.getTeamName() + " 队伍邀请你加入" + " 你的角色id：" + inviteBeanDto.getRoleId() + " 邀请的队伍id： "
+                    + inviteBeanDto.getTeamId() );
+            System.out.println("[-]邀请时间："+createStr);
+            System.out.println("[-]该邀请过期时间:" + endStr);
+            System.out.println("[-]");
         }
+        System.out.println("[-]---------------------------------------------------------");
     }
 
     @Override
@@ -121,7 +132,7 @@ public class TeamServiceImpl implements TeamService {
         myMessage = TeamModel.TeamModelMessage.parseFrom(data);
         String roleName=myMessage.getRefuseInviteResponse().getRoleName();
         System.out.println("[-]--------------------------------------------------------");
-        System.out.println("[-]用户： "+roleName+" 拒绝了你的队伍邀请");
+        System.out.println("[-]用户： "+roleName+" 含泪拒绝了你的队伍邀请");
         System.out.println("[-]--------------------------------------------------------");
 
     }
@@ -133,7 +144,7 @@ public class TeamServiceImpl implements TeamService {
         myMessage = TeamModel.TeamModelMessage.parseFrom(data);
         String teamName=myMessage.getRefuseApplyResponse().getTeamName();
         System.out.println("[-]--------------------------------------------------------");
-        System.out.println("[-]队伍： "+teamName+" 拒绝了你的队伍申请");
+        System.out.println("[-]队伍： "+teamName+" 含泪拒绝了你的队伍申请");
         System.out.println("[-]--------------------------------------------------------");
     }
 
@@ -148,9 +159,11 @@ public class TeamServiceImpl implements TeamService {
             mmoRole.setTeamId(r.getTeamId());
         }
         System.out.println("[-]--------------------------------------------------------");
-        System.out.println("[-]角色id： " + r.getId() + "角色名称： " + r.getName() + "  Hp:" + r.getNowHp() + "/" + r.getHp()
-                + "  Mp:" + r.getNowMP() + "/" + r.getMp() + " 所在队伍id： " + r.getTeamId()+"离开了当前队伍"
-        );
+
+        System.out.println("[-][-]角色id： " + r.getId() + "角色名称： " + r.getName() + " 所在队伍id： " + r.getTeamId());
+        System.out.println("[-][-]Hp:" + r.getNowHp() + "/" + r.getHp());
+        System.out.println("[-][-]Mp:" + r.getNowMP() + "/" + r.getMp());
+        System.out.println("[-]默默地离开了当前队伍");
         System.out.println("[-]--------------------------------------------------------");
     }
 
@@ -166,9 +179,10 @@ public class TeamServiceImpl implements TeamService {
             mmoRole.setTeamId(r.getTeamId());
         }
         System.out.println("[-]--------------------------------------------------------");
-        System.out.println("[-]角色id： " + r.getId() + "角色名称： " + r.getName() + "  Hp:" + r.getNowHp() + "/" + r.getHp()
-                + "  Mp:" + r.getNowMP() + "/" + r.getMp() + " 所在队伍id： " + r.getTeamId()+"进入了当前队伍"
-        );
+        System.out.println("[-][-]角色id： " + r.getId() + "角色名称： " + r.getName() + " 所在队伍id： " + r.getTeamId());
+        System.out.println("[-][-]Hp:" + r.getNowHp() + "/" + r.getHp());
+        System.out.println("[-][-]Mp:" + r.getNowMP() + "/" + r.getMp());
+        System.out.println("[-]默默地加入了当前队伍");
         System.out.println("[-]--------------------------------------------------------");
     }
 
@@ -180,7 +194,7 @@ public class TeamServiceImpl implements TeamService {
         Integer teamId=myMessage.getLeaderTeamResponse().getTeamId();
         String teamName=myMessage.getLeaderTeamResponse().getTeamName();
         System.out.println("[-]--------------------------------------------------------");
-        System.out.println("[-]你已经成为了队伍id: "+teamId+" 队伍名："+teamName+"的队长");
+        System.out.println("[-]恭喜 兄弟 你已经成为了队伍id: "+teamId+" 队伍名："+teamName+"的队长");
         System.out.println("[-]--------------------------------------------------------");
 
     }
@@ -193,7 +207,7 @@ public class TeamServiceImpl implements TeamService {
         MmoRole mmoRole=MmoCacheCilent.getInstance().getNowRole();
         mmoRole.setTeamId(null);
         System.out.println("[-]--------------------------------------------------------");
-        System.out.println("[-]你的队伍已经解散");
+        System.out.println("[-]唏嘘，你的队伍已经解散");
         System.out.println("[-]--------------------------------------------------------");
     }
 
@@ -205,7 +219,7 @@ public class TeamServiceImpl implements TeamService {
         MmoRole mmoRole=MmoCacheCilent.getInstance().getNowRole();
         mmoRole.setTeamId(null);
         System.out.println("[-]--------------------------------------------------------");
-        System.out.println("[-]你已经被队长强制踢出队伍");
+        System.out.println("[-]兄弟，你已经被队长无情强制踢出队伍");
         System.out.println("[-]--------------------------------------------------------");
     }
 }

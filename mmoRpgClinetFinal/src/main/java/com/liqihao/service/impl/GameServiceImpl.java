@@ -15,8 +15,8 @@ public class GameServiceImpl implements GameService {
         GameSystemModel.GameSystemModelMessage myMessage;
         myMessage=GameSystemModel.GameSystemModelMessage.parseFrom(data);
         String msg=myMessage.getOutTimeResponse().getMessage();
-        System.out.println("----------------------------------------------");
-        System.out.println(msg);
-        System.out.println("----------------------------------------------");
+        System.out.println("[-]--------------------------------------------------------");
+        System.out.println("[-]"+msg);
+        System.out.println("[-]--------------------------------------------------------");
     }
 }

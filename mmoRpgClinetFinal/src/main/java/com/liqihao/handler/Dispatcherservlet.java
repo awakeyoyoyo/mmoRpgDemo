@@ -142,6 +142,9 @@ public class Dispatcherservlet {
             case ConstantValue.CREATE_COPYSCENE_RESPONSE:
                 copySceneService.createCopySceneResponse(nettyResponse);
                 break;
+            case ConstantValue.COPYSCENE_FINISH_RESPONSE:
+                copySceneService.copySceneFinishResponse(nettyResponse);
+                break;
             default:
                 System.out.println("handler:收到");
                 System.out.println(new java.lang.String(nettyResponse.getData()));

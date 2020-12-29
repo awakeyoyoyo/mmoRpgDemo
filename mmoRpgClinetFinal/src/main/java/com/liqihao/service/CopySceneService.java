@@ -13,4 +13,6 @@ public interface CopySceneService {
     void exitCopySceneResponse(NettyResponse nettyResponse)throws InvalidProtocolBufferException;
 
     void createCopySceneResponse(NettyResponse nettyResponse)throws InvalidProtocolBufferException;
+
+    void copySceneFinishResponse(NettyResponse nettyResponse)throws InvalidProtocolBufferException;
 }

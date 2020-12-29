@@ -503,7 +503,8 @@ public class TeamServiceImpl implements TeamService {
         }
         TeamModel.TeamBeanDto teamBeanDto=TeamModel.TeamBeanDto.newBuilder().addAllRoleDtos(roles)
                 .setLeaderId(teamBean.getLeaderId()).setTeamName(teamBean.getTeamName())
-                .setTeamId(teamBean.getTeamId()).build();
+                .setTeamId(teamBean.getTeamId()).setCopySceneBeanId(teamBean.getCopySceneBeanId()==null?-1:teamBean.getCopySceneBeanId())
+                .setCopySceneId(teamBean.getCopySceneId()==null?-1:teamBean.getCopySceneId()).build();
         TeamModel.TeamMessageResponse teamMessageResponse=TeamModel.TeamMessageResponse.newBuilder().setTeamBeanDto(teamBeanDto).build();
         TeamModel.TeamModelMessage.Builder teamMessageBuilder=TeamModel.TeamModelMessage.newBuilder();
         teamMessageBuilder.setDataType(TeamModel.TeamModelMessage.DateType.TeamMessageResponse);

@@ -5,7 +5,9 @@ import com.liqihao.Cache.OnlineRoleMessageCache;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
+import com.liqihao.commons.enums.CopySceneDeleteCauseCode;
 import com.liqihao.pojo.baseMessage.CopySceneMessage;
+import com.liqihao.protobufObject.CopySceneModel;
 import com.liqihao.protobufObject.SceneModel;
 import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.provider.TeamServiceProvider;
@@ -136,6 +138,7 @@ public class CopySceneBean extends CopySceneMessage {
             TeamBean teamBean= TeamServiceProvider.getTeamBeanByTeamId(mmoSimpleRole.getTeamId());
             teamBean.setCopySceneBeanId(null);
             teamBean.setCopySceneId(null);
+            sendCopySceneDelete(teamBean,CopySceneDeleteCauseCode.NOPEOPLE.getCode());
         }
     }
 
@@ -145,13 +148,13 @@ public class CopySceneBean extends CopySceneMessage {
     /**
      *     副本结束
      */
-    public void end() {
+    public void end(TeamBean teamBean,Integer cause) {
         Iterator iterator=mmoSimpleRoles.iterator();
         while (iterator.hasNext()){
             MmoSimpleRole mmoSimpleRole= (MmoSimpleRole) iterator.next();
             //让用户回到原来的场景EE
             //副本角色删除
-            iterator.remove();
+            mmoSimpleRoles.remove(mmoSimpleRole);
             Channel c = ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
             //从副本回到原来场景
             Integer nextSceneId=mmoSimpleRole.getLastSceneId();
@@ -192,5 +195,26 @@ public class CopySceneBean extends CopySceneMessage {
         }
         //copySceneProvider删除该副本
         CopySceneProvider.deleteNewCopySceneById(getCopySceneBeanId());
+        //广播给队伍中的人 副本解散了
+        sendCopySceneDelete(teamBean,cause);
+    }
+
+
+
+    public void sendCopySceneDelete(TeamBean teamBean,Integer cause){
+        NettyResponse nettyResponse=new NettyResponse();
+        nettyResponse.setCmd(ConstantValue.COPYSCENE_FINISH_RESPONSE);
+        nettyResponse.setStateCode(StateCode.SUCCESS);
+        CopySceneModel.CopySceneModelMessage.Builder builder=CopySceneModel.CopySceneModelMessage.newBuilder();
+        builder.setDataType(CopySceneModel.CopySceneModelMessage.DateType.CopySceneDeleteResponse);
+        builder.setCopySceneDeleteResponse(CopySceneModel.CopySceneDeleteResponse.newBuilder()
+                .setCopySceneId(getId()).setCause(cause).build());
+        nettyResponse.setData(builder.build().toByteArray());
+        for (MmoSimpleRole role:teamBean.getMmoSimpleRoles()) {
+            Channel c=ChannelMessageCache.getInstance().get(role.getId());
+            if (c!=null) {
+                c.writeAndFlush(nettyResponse);
+            }
+        }
     }
 }

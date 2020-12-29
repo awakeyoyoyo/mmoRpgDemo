@@ -4,20 +4,17 @@ import com.liqihao.Cache.ChannelMessageCache;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
+import com.liqihao.commons.enums.CopySceneDeleteCauseCode;
 import com.liqihao.commons.enums.TeamApplyInviteCode;
 import com.liqihao.protobufObject.TeamModel;
 import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.provider.TeamServiceProvider;
 import io.netty.channel.Channel;
-import org.apache.ibatis.annotations.Param;
-import org.apache.poi.ss.formula.functions.T;
-
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 /**
@@ -28,9 +25,9 @@ public class TeamBean {
     private Integer teamId;
     private String teamName;
     private ConcurrentHashMap<Integer,MmoSimpleRole> mmoSimpleRolesMap;
-    private Integer copySceneBeanId;
     private Integer leaderId;
     private Integer copySceneId;
+    private Integer copySceneBeanId;
     private ConcurrentLinkedQueue<TeamApplyOrInviteBean> teamApplyOrInviteBeans;
     private Integer teamApplyOrInviteSize;
     private Integer teamRoleSize;
@@ -135,7 +132,7 @@ public class TeamBean {
         //副本解散
         if (getCopySceneBeanId()!=null) {
             CopySceneBean copySceneBean = CopySceneProvider.getCopySceneBeanById(getCopySceneBeanId());
-            copySceneBean.end();
+            copySceneBean.end(this, CopySceneDeleteCauseCode.TEAMEND.getCode());
         }
         TeamServiceProvider.deleteTeamById(teamId);
     }
@@ -181,7 +178,6 @@ public class TeamBean {
             checkInCopyScene(mmoSimpleRole);
             if (mmoSimpleRolesMap.values().isEmpty()){
                 //没人了
-                //判断是否在副本中
                 mmoSimpleRole.setTeamId(null);
                 //解散队伍
                 TeamServiceProvider.deleteTeamById(getTeamId());
