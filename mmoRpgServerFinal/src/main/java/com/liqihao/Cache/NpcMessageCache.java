@@ -35,12 +35,12 @@ public class NpcMessageCache extends CommonsCache<MmoSimpleNPC>{
             npc.setId(n.getId());
             npc.setType(n.getType());
             npc.setTalk(n.getTalk());
-            npc.setOnstatus(n.getOnstatus());
+            npc.setOnStatus(n.getOnstatus());
             npc.setName(n.getName());
             npc.setMmosceneid(n.getMmosceneid());
             npc.setStatus(n.getStatus());
-            npc.setBlood(n.getBlood());
-            npc.setNowBlood(n.getBlood());
+            npc.setHp(n.getBlood());
+            npc.setNowHp(n.getBlood());
             npc.setMp(n.getMp());
             npc.setNowMp(n.getMp());
             npc.setAttack(n.getAttack());

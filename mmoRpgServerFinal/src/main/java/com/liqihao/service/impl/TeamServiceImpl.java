@@ -105,8 +105,8 @@ public class TeamServiceImpl implements TeamService {
         TeamBean teamBean=TeamServiceProvider.createNewTeamBean(mmoSimpleRole,teamName);
         mmoSimpleRole.setTeamId(teamBean.getTeamId());
         TeamModel.RoleDto role=TeamModel.RoleDto.newBuilder().setId(mmoSimpleRole.getId())
-                .setHp(mmoSimpleRole.getBlood()).setMp(mmoSimpleRole.getMp())
-                .setName(mmoSimpleRole.getName()).setNowHp(mmoSimpleRole.getNowBlood())
+                .setHp(mmoSimpleRole.getHp()).setMp(mmoSimpleRole.getMp())
+                .setName(mmoSimpleRole.getName()).setNowHp(mmoSimpleRole.getNowHp())
                 .setTeamId(mmoSimpleRole.getTeamId())
                 .setNowMP(mmoSimpleRole.getNowMp()).build();
         List<TeamModel.RoleDto> roles=new ArrayList<>();
@@ -495,9 +495,9 @@ public class TeamServiceImpl implements TeamService {
         List<TeamModel.RoleDto> roles=new ArrayList<>();
         for (MmoSimpleRole simpleRole:teamBean.getMmoSimpleRoles()) {
             TeamModel.RoleDto role = TeamModel.RoleDto.newBuilder().setId(simpleRole.getId())
-                    .setHp(simpleRole.getBlood()).setMp(simpleRole.getMp())
+                    .setHp(simpleRole.getHp()).setMp(simpleRole.getMp())
                     .setTeamId(mmoSimpleRole.getTeamId())
-                    .setName(simpleRole.getName()).setNowHp(simpleRole.getNowBlood())
+                    .setName(simpleRole.getName()).setNowHp(simpleRole.getNowHp())
                     .setNowMP(simpleRole.getNowMp()).build();
             roles.add(role);
         }

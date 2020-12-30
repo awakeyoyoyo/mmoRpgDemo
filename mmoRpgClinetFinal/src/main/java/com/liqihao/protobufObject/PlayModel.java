@@ -10439,6 +10439,30 @@ public final class PlayModel {
      * @return The state.
      */
     int getState();
+
+    /**
+     * <code>int32 fromRoleType = 11;</code>
+     * @return The fromRoleType.
+     */
+    int getFromRoleType();
+
+    /**
+     * <code>int32 toRoleType = 12;</code>
+     * @return The toRoleType.
+     */
+    int getToRoleType();
+
+    /**
+     * <code>int32 articleId = 13;</code>
+     * @return The articleId.
+     */
+    int getArticleId();
+
+    /**
+     * <code>int32 articleType = 14;</code>
+     * @return The articleType.
+     */
+    int getArticleType();
   }
   /**
    * Protobuf type {@code RoleIdDamage}
@@ -10533,6 +10557,26 @@ public final class PlayModel {
             case 80: {
 
               state_ = input.readInt32();
+              break;
+            }
+            case 88: {
+
+              fromRoleType_ = input.readInt32();
+              break;
+            }
+            case 96: {
+
+              toRoleType_ = input.readInt32();
+              break;
+            }
+            case 104: {
+
+              articleId_ = input.readInt32();
+              break;
+            }
+            case 112: {
+
+              articleType_ = input.readInt32();
               break;
             }
             default: {
@@ -10677,6 +10721,50 @@ public final class PlayModel {
       return state_;
     }
 
+    public static final int FROMROLETYPE_FIELD_NUMBER = 11;
+    private int fromRoleType_;
+    /**
+     * <code>int32 fromRoleType = 11;</code>
+     * @return The fromRoleType.
+     */
+    @Override
+    public int getFromRoleType() {
+      return fromRoleType_;
+    }
+
+    public static final int TOROLETYPE_FIELD_NUMBER = 12;
+    private int toRoleType_;
+    /**
+     * <code>int32 toRoleType = 12;</code>
+     * @return The toRoleType.
+     */
+    @Override
+    public int getToRoleType() {
+      return toRoleType_;
+    }
+
+    public static final int ARTICLEID_FIELD_NUMBER = 13;
+    private int articleId_;
+    /**
+     * <code>int32 articleId = 13;</code>
+     * @return The articleId.
+     */
+    @Override
+    public int getArticleId() {
+      return articleId_;
+    }
+
+    public static final int ARTICLETYPE_FIELD_NUMBER = 14;
+    private int articleType_;
+    /**
+     * <code>int32 articleType = 14;</code>
+     * @return The articleType.
+     */
+    @Override
+    public int getArticleType() {
+      return articleType_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -10720,6 +10808,18 @@ public final class PlayModel {
       }
       if (state_ != 0) {
         output.writeInt32(10, state_);
+      }
+      if (fromRoleType_ != 0) {
+        output.writeInt32(11, fromRoleType_);
+      }
+      if (toRoleType_ != 0) {
+        output.writeInt32(12, toRoleType_);
+      }
+      if (articleId_ != 0) {
+        output.writeInt32(13, articleId_);
+      }
+      if (articleType_ != 0) {
+        output.writeInt32(14, articleType_);
       }
       unknownFields.writeTo(output);
     }
@@ -10770,6 +10870,22 @@ public final class PlayModel {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(10, state_);
       }
+      if (fromRoleType_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(11, fromRoleType_);
+      }
+      if (toRoleType_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(12, toRoleType_);
+      }
+      if (articleId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(13, articleId_);
+      }
+      if (articleType_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(14, articleType_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -10805,6 +10921,14 @@ public final class PlayModel {
           != other.getMp()) return false;
       if (getState()
           != other.getState()) return false;
+      if (getFromRoleType()
+          != other.getFromRoleType()) return false;
+      if (getToRoleType()
+          != other.getToRoleType()) return false;
+      if (getArticleId()
+          != other.getArticleId()) return false;
+      if (getArticleType()
+          != other.getArticleType()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -10836,6 +10960,14 @@ public final class PlayModel {
       hash = (53 * hash) + getMp();
       hash = (37 * hash) + STATE_FIELD_NUMBER;
       hash = (53 * hash) + getState();
+      hash = (37 * hash) + FROMROLETYPE_FIELD_NUMBER;
+      hash = (53 * hash) + getFromRoleType();
+      hash = (37 * hash) + TOROLETYPE_FIELD_NUMBER;
+      hash = (53 * hash) + getToRoleType();
+      hash = (37 * hash) + ARTICLEID_FIELD_NUMBER;
+      hash = (53 * hash) + getArticleId();
+      hash = (37 * hash) + ARTICLETYPE_FIELD_NUMBER;
+      hash = (53 * hash) + getArticleType();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -10989,6 +11121,14 @@ public final class PlayModel {
 
         state_ = 0;
 
+        fromRoleType_ = 0;
+
+        toRoleType_ = 0;
+
+        articleId_ = 0;
+
+        articleType_ = 0;
+
         return this;
       }
 
@@ -11025,6 +11165,10 @@ public final class PlayModel {
         result.nowblood_ = nowblood_;
         result.mp_ = mp_;
         result.state_ = state_;
+        result.fromRoleType_ = fromRoleType_;
+        result.toRoleType_ = toRoleType_;
+        result.articleId_ = articleId_;
+        result.articleType_ = articleType_;
         onBuilt();
         return result;
       }
@@ -11102,6 +11246,18 @@ public final class PlayModel {
         }
         if (other.getState() != 0) {
           setState(other.getState());
+        }
+        if (other.getFromRoleType() != 0) {
+          setFromRoleType(other.getFromRoleType());
+        }
+        if (other.getToRoleType() != 0) {
+          setToRoleType(other.getToRoleType());
+        }
+        if (other.getArticleId() != 0) {
+          setArticleId(other.getArticleId());
+        }
+        if (other.getArticleType() != 0) {
+          setArticleType(other.getArticleType());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -11441,6 +11597,130 @@ public final class PlayModel {
         onChanged();
         return this;
       }
+
+      private int fromRoleType_ ;
+      /**
+       * <code>int32 fromRoleType = 11;</code>
+       * @return The fromRoleType.
+       */
+      @Override
+      public int getFromRoleType() {
+        return fromRoleType_;
+      }
+      /**
+       * <code>int32 fromRoleType = 11;</code>
+       * @param value The fromRoleType to set.
+       * @return This builder for chaining.
+       */
+      public Builder setFromRoleType(int value) {
+        
+        fromRoleType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 fromRoleType = 11;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearFromRoleType() {
+        
+        fromRoleType_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int toRoleType_ ;
+      /**
+       * <code>int32 toRoleType = 12;</code>
+       * @return The toRoleType.
+       */
+      @Override
+      public int getToRoleType() {
+        return toRoleType_;
+      }
+      /**
+       * <code>int32 toRoleType = 12;</code>
+       * @param value The toRoleType to set.
+       * @return This builder for chaining.
+       */
+      public Builder setToRoleType(int value) {
+        
+        toRoleType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 toRoleType = 12;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearToRoleType() {
+        
+        toRoleType_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int articleId_ ;
+      /**
+       * <code>int32 articleId = 13;</code>
+       * @return The articleId.
+       */
+      @Override
+      public int getArticleId() {
+        return articleId_;
+      }
+      /**
+       * <code>int32 articleId = 13;</code>
+       * @param value The articleId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setArticleId(int value) {
+        
+        articleId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 articleId = 13;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearArticleId() {
+        
+        articleId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int articleType_ ;
+      /**
+       * <code>int32 articleType = 14;</code>
+       * @return The articleType.
+       */
+      @Override
+      public int getArticleType() {
+        return articleType_;
+      }
+      /**
+       * <code>int32 articleType = 14;</code>
+       * @param value The articleType to set.
+       * @return This builder for chaining.
+       */
+      public Builder setArticleType(int value) {
+        
+        articleType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 articleType = 14;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearArticleType() {
+        
+        articleType_ = 0;
+        onChanged();
+        return this;
+      }
       @Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -11598,12 +11878,14 @@ public final class PlayModel {
       "(\005\022\020\n\010nowBlood\030\007 \001(\005\022\n\n\002mp\030\010 \001(\005\022\r\n\005nowM" +
       "p\030\t \001(\005\022\023\n\013skillIdList\030\n \003(\005\022\016\n\006attack\030\013" +
       " \001(\005\022\021\n\tattackAdd\030\014 \001(\001\022\016\n\006teamId\030\r \001(\005\"" +
-      "\275\001\n\014RoleIdDamage\022\022\n\nfromRoleId\030\001 \001(\005\022\020\n\010" +
+      "\217\002\n\014RoleIdDamage\022\022\n\nfromRoleId\030\001 \001(\005\022\020\n\010" +
       "toRoleId\030\002 \001(\005\022\020\n\010bufferId\030\003 \001(\005\022\017\n\007skil" +
       "lId\030\004 \001(\005\022\023\n\013attackStyle\030\005 \001(\005\022\022\n\ndamage" +
       "Type\030\006 \001(\005\022\016\n\006damage\030\007 \001(\005\022\020\n\010nowblood\030\010" +
-      " \001(\005\022\n\n\002mp\030\t \001(\005\022\r\n\005State\030\n \001(\005B\013B\tPlayM" +
-      "odelb\006proto3"
+      " \001(\005\022\n\n\002mp\030\t \001(\005\022\r\n\005State\030\n \001(\005\022\024\n\014fromR" +
+      "oleType\030\013 \001(\005\022\022\n\ntoRoleType\030\014 \001(\005\022\021\n\tart" +
+      "icleId\030\r \001(\005\022\023\n\013articleType\030\016 \001(\005B\013B\tPla" +
+      "yModelb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -11680,7 +11962,7 @@ public final class PlayModel {
     internal_static_RoleIdDamage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_RoleIdDamage_descriptor,
-        new String[] { "FromRoleId", "ToRoleId", "BufferId", "SkillId", "AttackStyle", "DamageType", "Damage", "Nowblood", "Mp", "State", });
+        new String[] { "FromRoleId", "ToRoleId", "BufferId", "SkillId", "AttackStyle", "DamageType", "Damage", "Nowblood", "Mp", "State", "FromRoleType", "ToRoleType", "ArticleId", "ArticleType", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

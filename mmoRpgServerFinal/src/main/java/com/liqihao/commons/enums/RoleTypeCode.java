@@ -4,7 +4,7 @@ package com.liqihao.commons.enums;
  * 角色类型
  */
 public enum RoleTypeCode {
-    NPC(0,"NPC"),PLAYER(1,"玩家"),ENEMY(2,"怪物");
+    NPC(0,"NPC"),PLAYER(1,"玩家"),ENEMY(2,"怪物"),BOSS(3,"BOSS");
     private  int code;
     private  String name;
     RoleTypeCode(int code,String name)

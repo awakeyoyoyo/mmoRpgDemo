@@ -11,12 +11,20 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * boss bean
  * @author lqhao
  */
-public class BossBean extends BossMessage {
-    private volatile Integer nowBlood;
-    private volatile  Integer nowMp;
-    private volatile Integer roleStatus;
-    private Integer status;
-    private Integer roleType;
+public class BossBean extends Role{
+    private String skillIds;
+    private String medicines;
+    private String equipmentIds;
+    private Integer money;
+
+    public Integer getMoney() {
+        return money;
+    }
+
+    public void setMoney(Integer money) {
+        this.money = money;
+    }
+
     /**
      * 仇恨
      */
@@ -26,18 +34,30 @@ public class BossBean extends BossMessage {
      */
     private List<SkillBean> skillBeans;
     private HashMap<Integer, Long> cdMap;
-    /**
-     * buffer
-     */
-    private CopyOnWriteArrayList<BufferBean> bufferBeans;
     private Integer BossBeanId;
 
-    public Integer getStatus() {
-        return status;
+    public String getSkillIds() {
+        return skillIds;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setSkillIds(String skillIds) {
+        this.skillIds = skillIds;
+    }
+
+    public String getMedicines() {
+        return medicines;
+    }
+
+    public void setMedicines(String medicines) {
+        this.medicines = medicines;
+    }
+
+    public String getEquipmentIds() {
+        return equipmentIds;
+    }
+
+    public void setEquipmentIds(String equipmentIds) {
+        this.equipmentIds = equipmentIds;
     }
 
     public Integer getBossBeanId() {
@@ -46,38 +66,6 @@ public class BossBean extends BossMessage {
 
     public void setBossBeanId(Integer bossBeanId) {
         BossBeanId = bossBeanId;
-    }
-
-    public Integer getNowBlood() {
-        return nowBlood;
-    }
-
-    public void setNowBlood(Integer nowBlood) {
-        this.nowBlood = nowBlood;
-    }
-
-    public Integer getNowMp() {
-        return nowMp;
-    }
-
-    public void setNowMp(Integer nowMp) {
-        this.nowMp = nowMp;
-    }
-
-    public Integer getRoleStatus() {
-        return roleStatus;
-    }
-
-    public void setRoleStatus(Integer roleStatus) {
-        this.roleStatus = roleStatus;
-    }
-
-    public Integer getRoleType() {
-        return roleType;
-    }
-
-    public void setRoleType(Integer roleType) {
-        this.roleType = roleType;
     }
 
     public ConcurrentHashMap<Integer, Integer> getHatredMap() {
@@ -104,12 +92,6 @@ public class BossBean extends BossMessage {
         this.cdMap = cdMap;
     }
 
-    public CopyOnWriteArrayList<BufferBean> getBufferBeans() {
-        return bufferBeans;
-    }
 
-    public void setBufferBeans(CopyOnWriteArrayList<BufferBean> bufferBeans) {
-        this.bufferBeans = bufferBeans;
-    }
 
 }

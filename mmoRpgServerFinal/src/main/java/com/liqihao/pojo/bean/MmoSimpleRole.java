@@ -8,6 +8,7 @@ import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.*;
 import com.liqihao.pojo.*;
 import com.liqihao.pojo.baseMessage.BaseRoleMessage;
+import com.liqihao.pojo.baseMessage.BufferMessage;
 import com.liqihao.pojo.dto.EquipmentDto;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.protobufObject.SceneModel;
@@ -30,22 +31,25 @@ import java.util.stream.Collectors;
  *
  * @author lqhao
  */
-public class MmoSimpleRole extends MmoRolePOJO {
-    private Integer Blood;
-    private volatile Integer nowBlood;
-    private Integer mp;
-    private volatile Integer nowMp;
+public class MmoSimpleRole extends Role  {
     private volatile HashMap<Integer, Long> cdMap;
     private List<Integer> skillIdList;
     private List<SkillBean> skillBeans;
-    private CopyOnWriteArrayList<BufferBean> bufferBeans;
-    private Integer attack;
     private BackPackManager backpackManager;
     private List<Integer> needDeleteEquipmentIds = new ArrayList<>();
-    private double damageAdd;
     private Integer teamId;
     private Integer lastSceneId;
     private Integer teamApplyOrInviteSize;
+    private Integer mmosceneid;
+
+    public Integer getMmosceneid() {
+        return mmosceneid;
+    }
+
+    public void setMmosceneid(Integer mmosceneid) {
+        this.mmosceneid = mmosceneid;
+    }
+
     /**
      * 装备栏
      */
@@ -57,7 +61,7 @@ public class MmoSimpleRole extends MmoRolePOJO {
     /**
      * 队伍邀请函
      */
-    private ConcurrentLinkedQueue<TeamApplyOrInviteBean> teamApplyOrInviteBeans=new ConcurrentLinkedQueue<>();
+    private ConcurrentLinkedQueue<TeamApplyOrInviteBean> teamApplyOrInviteBeans = new ConcurrentLinkedQueue<>();
 
     public Integer getTeamApplyOrInviteSize() {
         return teamApplyOrInviteSize;
@@ -68,11 +72,10 @@ public class MmoSimpleRole extends MmoRolePOJO {
     }
 
 
-
     public void addTeamApplyOrInviteBean(TeamApplyOrInviteBean teamApplyOrInviteBean) {
         checkOutTime();
         //邀请的大小，先进先出咯
-        if (teamApplyOrInviteBeans.size()>=teamApplyOrInviteSize){
+        if (teamApplyOrInviteBeans.size() >= teamApplyOrInviteSize) {
             teamApplyOrInviteBeans.poll();
         }
         teamApplyOrInviteBeans.add(teamApplyOrInviteBean);
@@ -111,16 +114,6 @@ public class MmoSimpleRole extends MmoRolePOJO {
     public void setTeamId(Integer teamId) {
         this.teamId = teamId;
     }
-    //    public final ReentrantReadWriteLock hpRwLock = new ReentrantReadWriteLock();
-//    public final ReentrantReadWriteLock mpRwLock = new ReentrantReadWriteLock();
-
-    public double getDamageAdd() {
-        return damageAdd;
-    }
-
-    public void setDamageAdd(double damageAdd) {
-        this.damageAdd = damageAdd;
-    }
 
     public List<Integer> getNeedDeleteEquipmentIds() {
         return needDeleteEquipmentIds;
@@ -156,29 +149,7 @@ public class MmoSimpleRole extends MmoRolePOJO {
     }
 
 
-    public Integer getAttack() {
-        return attack;
-    }
 
-    public void setAttack(Integer attack) {
-        this.attack = attack;
-    }
-
-    public CopyOnWriteArrayList<BufferBean> getBufferBeans() {
-        return bufferBeans;
-    }
-
-    public void setBufferBeans(CopyOnWriteArrayList<BufferBean> bufferBeans) {
-        this.bufferBeans = bufferBeans;
-    }
-
-    public Integer getNowMp() {
-        return nowMp;
-    }
-
-    public void setNowMp(Integer nowMp) {
-        this.nowMp = nowMp;
-    }
 
     public List<Integer> getSkillIdList() {
         return skillIdList;
@@ -188,30 +159,6 @@ public class MmoSimpleRole extends MmoRolePOJO {
         this.skillIdList = skillIdList;
     }
 
-    public Integer getMp() {
-        return mp;
-    }
-
-    public void setMp(Integer mp) {
-        this.mp = mp;
-    }
-
-    public Integer getBlood() {
-        return Blood;
-    }
-
-    public void setBlood(Integer blood) {
-        Blood = blood;
-
-    }
-
-    public Integer getNowBlood() {
-        return nowBlood;
-    }
-
-    public void setNowBlood(Integer nowBlood) {
-        this.nowBlood = nowBlood;
-    }
 
 
     public HashMap<Integer, Long> getCdMap() {
@@ -225,42 +172,45 @@ public class MmoSimpleRole extends MmoRolePOJO {
     /**
      * 检测邀请过时
      */
-    private void checkOutTime(){
-        Iterator iterator=teamApplyOrInviteBeans.iterator();
+    private void checkOutTime() {
+        Iterator iterator = teamApplyOrInviteBeans.iterator();
         //每次插入都删除申请过时或者
-        while (iterator.hasNext()){
-            TeamApplyOrInviteBean bean= (TeamApplyOrInviteBean) iterator.next();
-            if (bean.endTime<System.currentTimeMillis()){
+        while (iterator.hasNext()) {
+            TeamApplyOrInviteBean bean = (TeamApplyOrInviteBean) iterator.next();
+            if (bean.endTime < System.currentTimeMillis()) {
                 teamApplyOrInviteBeans.remove(bean);
             }
         }
     }
+
     /**
      * 初始化对象
+     *
      * @param role
      * @param baseRoleMessage
      */
-    public void init(MmoRolePOJO role, BaseRoleMessage baseRoleMessage){
+    public void init(MmoRolePOJO role, BaseRoleMessage baseRoleMessage) {
         setId(role.getId());
         setMmosceneid(role.getMmosceneid());
         setName(role.getName());
-        setOnstatus(role.getOnstatus());
+        setOnStatus(role.getOnstatus());
         setStatus(role.getStatus());
         setType(role.getType());
-        List<SkillBean> skillBeans=CommonsUtil.skillIdsToSkillBeans(role.getSkillIds());
+        List<SkillBean> skillBeans = CommonsUtil.skillIdsToSkillBeans(role.getSkillIds());
         setSkillBeans(skillBeans);
-        setBlood(baseRoleMessage.getHp());
-        setNowBlood(baseRoleMessage.getHp());
+        setHp(baseRoleMessage.getHp());
+        setNowHp(baseRoleMessage.getHp());
         setMp(baseRoleMessage.getMp());
         setDamageAdd(baseRoleMessage.getDamageAdd());
         setNowMp(baseRoleMessage.getMp());
         setAttack(baseRoleMessage.getAttack());
-        List<Integer> skillIds=CommonsUtil.split(role.getSkillIds());
+        List<Integer> skillIds = CommonsUtil.split(role.getSkillIds());
         setSkillIdList(skillIds);
         setCdMap(new HashMap<Integer, Long>());
         setBufferBeans(new CopyOnWriteArrayList<>());
         setEquipmentBeanHashMap(new HashMap<>());
     }
+
     //使用道具
     public Boolean useArticle(Integer articleId) {
         Article article = backpackManager.getArticleByArticleId(articleId);
@@ -356,7 +306,7 @@ public class MmoSimpleRole extends MmoRolePOJO {
     }
 
     //使用技能
-    public List<PlayModel.RoleIdDamage> useSkill(List<MmoSimpleNPC> target, Integer skillId) {
+    public  void useSkill(List<Role> target, Integer skillId) {
         SkillBean skillBean = getSkillBeanBySkillId(skillId);
         //武器耐久度-2
         EquipmentBean equipmentBean = this.getEquipmentBeanHashMap().get(PositionCode.ARMS.getCode());
@@ -368,7 +318,7 @@ public class MmoSimpleRole extends MmoRolePOJO {
         }
         if (skillBean.getConsumeType().equals(ConsuMeTypeCode.HP.getCode())) {
             //扣血
-            setNowBlood(getNowBlood() - skillBean.getConsumeNum());
+            setNowHp(getNowHp() - skillBean.getConsumeNum());
 
         } else {
             //扣篮
@@ -379,7 +329,7 @@ public class MmoSimpleRole extends MmoRolePOJO {
             String key = getId() + "AUTOMP";
             if (!replyMpRoleMap.containsKey(key)) {
                 //number为空 代表着自动回蓝
-                ScheduledThreadPoolUtil.ReplyMpTask replyMpTask = new ScheduledThreadPoolUtil.ReplyMpTask(getId(), null, DamageTypeCode.MP.getCode(), key);
+                ScheduledThreadPoolUtil.ReplyMpTask replyMpTask = new ScheduledThreadPoolUtil.ReplyMpTask(this, null, DamageTypeCode.MP.getCode(), key);
                 // 周期性执行，每5秒执行一次
                 ScheduledFuture<?> t = ScheduledThreadPoolUtil.getScheduledExecutorService().scheduleAtFixedRate(replyMpTask, 0, 5, TimeUnit.SECONDS);
                 replyMpRoleMap.put(key, t);
@@ -390,67 +340,94 @@ public class MmoSimpleRole extends MmoRolePOJO {
         PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();
         damageU.setFromRoleId(getId());
         damageU.setToRoleId(getId());
+        damageU.setToRoleType(RoleTypeCode.PLAYER.getCode());
+        damageU.setFromRoleType(RoleTypeCode.PLAYER.getCode());
+        damageU.setArticleId(-1);
+        damageU.setArticleType(-1);
         damageU.setAttackStyle(AttackStyleCode.USESKILL.getCode());
         damageU.setBufferId(-1);
         damageU.setDamage(skillBean.getConsumeNum());
         damageU.setDamageType(skillBean.getConsumeType());
         damageU.setMp(getNowMp());
-        damageU.setNowblood(getNowBlood());
+        damageU.setNowblood(getNowHp());
         damageU.setSkillId(skillBean.getId());
         damageU.setState(getStatus());
         list.add(damageU.build());
-        //攻击怪物
-
-        for (MmoSimpleNPC mmoSimpleNPC : target) {
-            Integer hp = mmoSimpleNPC.getNowBlood();
-            Integer reduce = 0;
-            if (skillBean.getSkillType().equals(SkillTypeCode.FIED.getCode())) {
-                //固伤 只有技能伤害
-                reduce = (int) Math.ceil(skillBean.getBaseDamage() * (1 + this.getDamageAdd()));
-                hp -= reduce;
-            }
-            if (skillBean.getSkillType().equals(SkillTypeCode.PERCENTAGE.getCode())) {
-                //百分比 按照攻击力比例增加
-                Integer damage = skillBean.getBaseDamage();
-                damage = (int) Math.ceil(damage + mmoSimpleNPC.getAttack() * skillBean.getAddPercon());
-                hp = hp - damage;
-                reduce = damage;
-            }
-            if (hp <= 0) {
-                reduce = reduce + hp;
-                hp = 0;
-                mmoSimpleNPC.setStatus(RoleStatusCode.DIE.getCode());
-            }
-            mmoSimpleNPC.setNowBlood(hp);
-            // 扣血伤害
-            PlayModel.RoleIdDamage.Builder damageR = PlayModel.RoleIdDamage.newBuilder();
-            damageR.setFromRoleId(getId());
-            damageR.setToRoleId(mmoSimpleNPC.getId());
-            damageR.setAttackStyle(AttackStyleCode.ATTACK.getCode());
-            damageR.setBufferId(-1);
-            damageR.setDamage(reduce);
-            damageR.setDamageType(DamageTypeCode.HP.getCode());
-            damageR.setMp(mmoSimpleNPC.getNowMp());
-            damageR.setNowblood(mmoSimpleNPC.getNowBlood());
-            damageR.setSkillId(skillBean.getId());
-            damageR.setState(mmoSimpleNPC.getStatus());
-            list.add(damageR.build());
-            //怪物攻击本人
-            if (!mmoSimpleNPC.getStatus().equals(RoleStatusCode.DIE.getCode())) {
-                mmoSimpleNPC.npcAttack(getId());
+        PlayModel.PlayModelMessage.Builder myMessageBuilder=PlayModel.PlayModelMessage.newBuilder();
+        myMessageBuilder.setDataType(PlayModel.PlayModelMessage.DateType.UseSkillResponse);
+        PlayModel.UseSkillResponse.Builder useSkillBuilder=PlayModel.UseSkillResponse.newBuilder();
+        useSkillBuilder.addAllRoleIdDamages(list);
+        myMessageBuilder.setUseSkillResponse(useSkillBuilder.build());
+        NettyResponse nettyResponse=new NettyResponse();
+        nettyResponse.setCmd(ConstantValue.USE_SKILL_RSPONSE);
+        nettyResponse.setStateCode(StateCode.SUCCESS);
+        nettyResponse.setData(myMessageBuilder.build().toByteArray());
+        //广播
+        List<Integer> players=SceneBeanMessageCache.getInstance().get(this.getMmosceneid()).getRoles();
+        for (Integer playerId:players){
+            Channel c= ChannelMessageCache.getInstance().get(playerId);
+            if (c!=null){
+                c.writeAndFlush(nettyResponse);
             }
         }
+
+
+        // todo 被攻击怪物or人物orBoss
+        for (Role r :target) {
+            r.beAttack(skillBean,this);
+            //buffer
+            for (Integer bufferId:skillBean.getBufferIds()) {
+                BufferMessage bufferMessage=BufferMessageCache.getInstance().get(bufferId);
+                skillBean.bufferToPeople(bufferMessage, this,r);
+            }
+        }
+
         //cd
         Map<Integer, Long> map = getCdMap();
         Long time = System.currentTimeMillis();
         int addTime = skillBean.getCd() * 1000;
         map.put(skillBean.getId(), time + addTime);
         //buffer
-        skillBean.useBuffer(target, getId());
-        return list;
+    }
+
+    //被攻击
+    @Override
+    public void beAttack(SkillBean skillBean,Role fromRole) {
+        Role role=this;
+        Integer reduce = 0;
+        if (skillBean.getSkillType().equals(SkillTypeCode.FIED.getCode())) {
+            //固伤 只有技能伤害
+            reduce = (int) Math.ceil(skillBean.getBaseDamage() * (1 + this.getDamageAdd()));
+            PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();
+            damageU.setFromRoleId(fromRole.getId());
+            damageU.setFromRoleType(fromRole.getType());
+            damageU.setToRoleId(getId());
+            damageU.setToRoleType(getType());
+            damageU.setAttackStyle(AttackStyleCode.ATTACK.getCode());
+            damageU.setBufferId(-1);
+            damageU.setDamageType(ConsuMeTypeCode.HP.getCode());
+            damageU.setSkillId(skillBean.getId());
+            changeNowBlood(reduce,damageU,AttackStyleCode.USESKILL.getCode());
+        }
+        if (skillBean.getSkillType().equals(SkillTypeCode.PERCENTAGE.getCode())) {
+            //百分比 按照攻击力比例增加
+            Integer damage = skillBean.getBaseDamage();
+            reduce = (int) Math.ceil(damage + role.getAttack() * skillBean.getAddPercon());
+            PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();
+            damageU.setFromRoleId(fromRole.getId());
+            damageU.setFromRoleType(fromRole.getType());
+            damageU.setToRoleId(getId());
+            damageU.setToRoleType(getType());
+            damageU.setAttackStyle(AttackStyleCode.ATTACK.getCode());
+            damageU.setBufferId(-1);
+            damageU.setDamageType(ConsuMeTypeCode.HP.getCode());
+            damageU.setSkillId(skillBean.getId());
+            changeNowBlood(reduce,damageU,AttackStyleCode.USESKILL.getCode());
+        }
     }
 
     //扣血
+    @Override
     public void changeNowBlood(int number, PlayModel.RoleIdDamage.Builder damageU, int type) {
         //获取对应线程的下标
         Channel channel = ChannelMessageCache.getInstance().get(getId());
@@ -463,33 +440,39 @@ public class MmoSimpleRole extends MmoRolePOJO {
     }
 
     //扣蓝
+    @Override
     public void changeMp(int number, PlayModel.RoleIdDamage.Builder damageU) {
         Channel channel = ChannelMessageCache.getInstance().get(getId());
         Integer index = CommonsUtil.getIndexByChannel(channel);
         LogicThreadPool.getInstance().execute(new ChangeMpTask(number, this, damageU), index);
     }
+    //todo
+    @Override
+    public void effectByBuffer(BufferBean bufferBean) {
+        super.effectByBuffer(bufferBean);
+    }
 
     public List<MmoSimpleRole> wentScene(Integer nextSceneId) {
         //修改scene 如果为null 则是刚从副本中出来
-        if (getMmosceneid()!=null) {
+        if (getMmosceneid() != null) {
             SceneBeanMessageCache.getInstance().get(getMmosceneid()).getRoles().remove(getId());
         }
         SceneBeanMessageCache.getInstance().get(nextSceneId).getRoles().add(getId());
         setMmosceneid(nextSceneId);
 
         //查询出npc 和SimpleRole
-        List<MmoSimpleRole> nextSceneRoles=new ArrayList<>();
-        SceneBean nextScene=SceneBeanMessageCache.getInstance().get(nextSceneId);
-        List<Integer> roles=nextScene.getRoles();
-        List<Integer> npcs=nextScene.getNpcs();
+        List<MmoSimpleRole> nextSceneRoles = new ArrayList<>();
+        SceneBean nextScene = SceneBeanMessageCache.getInstance().get(nextSceneId);
+        List<Integer> roles = nextScene.getRoles();
+        List<Integer> npcs = nextScene.getNpcs();
         //NPC
-        for (Integer npcId:npcs){
-            MmoSimpleNPC temp= NpcMessageCache.getInstance().get(npcId);
+        for (Integer npcId : npcs) {
+            MmoSimpleNPC temp = NpcMessageCache.getInstance().get(npcId);
             nextSceneRoles.add(CommonsUtil.NpcToMmoSimpleRole(temp));
         }
         //ROLES
-        for (Integer rId:roles){
-            MmoSimpleRole role=OnlineRoleMessageCache.getInstance().get(rId);
+        for (Integer rId : roles) {
+            MmoSimpleRole role = OnlineRoleMessageCache.getInstance().get(rId);
             nextSceneRoles.add(role);
         }
         return nextSceneRoles;
@@ -497,23 +480,25 @@ public class MmoSimpleRole extends MmoRolePOJO {
 
     /**
      * 获取邀请信息
+     *
      * @return
      */
     public List<TeamApplyOrInviteBean> getInviteBeans() {
         checkOutTime();
-       return teamApplyOrInviteBeans.stream().filter(e->e.getType().equals(TeamApplyInviteCode.INVITE.getCode())).collect(Collectors.toList());
+        return teamApplyOrInviteBeans.stream().filter(e -> e.getType().equals(TeamApplyInviteCode.INVITE.getCode())).collect(Collectors.toList());
     }
+
     /**
      * 拒绝邀请
      */
     public TeamApplyOrInviteBean refuseInvite(Integer teamId) {
         checkOutTime();
-        Iterator iterator=teamApplyOrInviteBeans.iterator();
-        TeamApplyOrInviteBean teamApplyOrInviteBean=null;
-        while (iterator.hasNext()){
-            teamApplyOrInviteBean= (TeamApplyOrInviteBean) iterator.next();
-            if (teamApplyOrInviteBean.getTeamId().equals(teamId)&&
-                    teamApplyOrInviteBean.getType().equals(TeamApplyInviteCode.INVITE.getCode())){
+        Iterator iterator = teamApplyOrInviteBeans.iterator();
+        TeamApplyOrInviteBean teamApplyOrInviteBean = null;
+        while (iterator.hasNext()) {
+            teamApplyOrInviteBean = (TeamApplyOrInviteBean) iterator.next();
+            if (teamApplyOrInviteBean.getTeamId().equals(teamId) &&
+                    teamApplyOrInviteBean.getType().equals(TeamApplyInviteCode.INVITE.getCode())) {
                 teamApplyOrInviteBeans.remove(teamApplyOrInviteBean);
                 getTeamApplyOrInviteBeans().remove(teamApplyOrInviteBean);
                 return teamApplyOrInviteBean;
@@ -524,12 +509,12 @@ public class MmoSimpleRole extends MmoRolePOJO {
 
     public TeamApplyOrInviteBean constainsInvite(Integer teamId) {
         checkOutTime();
-        Iterator iterator=teamApplyOrInviteBeans.iterator();
-        TeamApplyOrInviteBean teamApplyOrInviteBean=null;
-        while (iterator.hasNext()){
-            teamApplyOrInviteBean= (TeamApplyOrInviteBean) iterator.next();
-            if (teamApplyOrInviteBean.getTeamId().equals(teamId)&&
-                    teamApplyOrInviteBean.getType().equals(TeamApplyInviteCode.INVITE.getCode())){
+        Iterator iterator = teamApplyOrInviteBeans.iterator();
+        TeamApplyOrInviteBean teamApplyOrInviteBean = null;
+        while (iterator.hasNext()) {
+            teamApplyOrInviteBean = (TeamApplyOrInviteBean) iterator.next();
+            if (teamApplyOrInviteBean.getTeamId().equals(teamId) &&
+                    teamApplyOrInviteBean.getType().equals(TeamApplyInviteCode.INVITE.getCode())) {
                 return teamApplyOrInviteBean;
             }
         }
@@ -538,8 +523,8 @@ public class MmoSimpleRole extends MmoRolePOJO {
 
     public Boolean wentCopyScene(CopySceneBean copySceneBean) {
         //从当前场景消失
-        Integer sceneId=getMmosceneid();
-        SceneBean sceneBean=SceneBeanMessageCache.getInstance().get(sceneId);
+        Integer sceneId = getMmosceneid();
+        SceneBean sceneBean = SceneBeanMessageCache.getInstance().get(sceneId);
         sceneBean.getRoles().remove(getId());
         setMmosceneid(null);
         //人物设置副本
@@ -549,6 +534,7 @@ public class MmoSimpleRole extends MmoRolePOJO {
         copySceneBean.getMmoSimpleRoles().add(this);
         return true;
     }
+
 
 
     private class ChangeHpByMedicineTask implements Runnable {
@@ -569,23 +555,23 @@ public class MmoSimpleRole extends MmoRolePOJO {
         @Override
         public void run() {
             logger.info("当前changeHp线程是：" + Thread.currentThread().getName() + " 操作的角色是： " + mmoSimpleRole.getName());
-            Integer oldHp = mmoSimpleRole.getNowBlood();
+            Integer oldHp = mmoSimpleRole.getNowHp();
             Integer newNumber = oldHp + number;
-            if (newNumber > getBlood()) {
-                mmoSimpleRole.setNowBlood(getBlood());
-                newNumber = getBlood() - oldHp;
+            if (newNumber > getHp()) {
+                mmoSimpleRole.setNowHp(getHp());
+                newNumber = getHp() - oldHp;
             } else {
-                mmoSimpleRole.setNowBlood(newNumber);
-                newNumber=number;
+                mmoSimpleRole.setNowHp(newNumber);
+                newNumber = number;
             }
-            if (mmoSimpleRole.getNowBlood() <= 0) {
-                newNumber = getNowBlood() + Math.abs(number);
+            if (mmoSimpleRole.getNowHp() <= 0) {
+                newNumber = getNowHp() + Math.abs(number);
                 mmoSimpleRole.setStatus(RoleStatusCode.DIE.getCode());
             }
             //生成数据包
             damageU.setDamage(newNumber);
             damageU.setMp(mmoSimpleRole.getNowMp());
-            damageU.setNowblood(mmoSimpleRole.getNowBlood());
+            damageU.setNowblood(mmoSimpleRole.getNowHp());
             damageU.setState(mmoSimpleRole.getStatus());
             PlayModel.PlayModelMessage.Builder myMessageBuilder = PlayModel.PlayModelMessage.newBuilder();
             myMessageBuilder.setDataType(PlayModel.PlayModelMessage.DateType.DamagesNoticeResponse);
@@ -625,25 +611,25 @@ public class MmoSimpleRole extends MmoRolePOJO {
         @Override
         public void run() {
             logger.info("当前changeHpByAttack线程是：" + Thread.currentThread().getName() + " 操作的角色是： " + mmoSimpleRole.getName());
-            Integer oldHp = mmoSimpleRole.getNowBlood();
+            Integer oldHp = mmoSimpleRole.getNowHp();
             Integer newNumber = oldHp + number;
-            if (newNumber > getNowBlood()) {
-                mmoSimpleRole.setNowBlood(getBlood());
-                newNumber = getBlood() - oldHp;
+            if (newNumber > getNowHp()) {
+                mmoSimpleRole.setNowHp(getHp());
+                newNumber = getHp() - oldHp;
             } else {
-                mmoSimpleRole.setNowBlood(newNumber);
+                mmoSimpleRole.setNowHp(newNumber);
                 newNumber = number;
             }
-            if (mmoSimpleRole.getNowBlood() <= 0) {
-                newNumber = getNowBlood() + Math.abs(number);
-                mmoSimpleRole.setNowBlood(0);
+            if (mmoSimpleRole.getNowHp() <= 0) {
+                newNumber = getNowHp() + Math.abs(number);
+                mmoSimpleRole.setNowHp(0);
                 mmoSimpleRole.setStatus(RoleStatusCode.DIE.getCode());
             }
             //生成数据包
             List<PlayModel.RoleIdDamage> list = new ArrayList<>();
             damageU.setDamage(newNumber);
             damageU.setMp(mmoSimpleRole.getNowMp());
-            damageU.setNowblood(mmoSimpleRole.getNowBlood());
+            damageU.setNowblood(mmoSimpleRole.getNowHp());
             damageU.setState(mmoSimpleRole.getStatus());
             list.add(damageU.build());
             //封装成nettyResponse
@@ -697,7 +683,7 @@ public class MmoSimpleRole extends MmoRolePOJO {
             }
             damageU.setDamage(number);
             damageU.setMp(mmoSimpleRole.getNowMp());
-            damageU.setNowblood(mmoSimpleRole.getNowBlood());
+            damageU.setNowblood(mmoSimpleRole.getNowHp());
             damageU.setState(mmoSimpleRole.getStatus());
             PlayModel.PlayModelMessage.Builder myMessageBuilder = PlayModel.PlayModelMessage.newBuilder();
             myMessageBuilder.setDataType(PlayModel.PlayModelMessage.DateType.DamagesNoticeResponse);

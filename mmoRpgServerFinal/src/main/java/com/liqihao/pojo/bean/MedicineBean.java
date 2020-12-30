@@ -42,8 +42,8 @@ public class MedicineBean extends MedicineMessage implements Article{
 
     public boolean useMedicene(Integer roleId){
         //判断是瞬间恢复还是持续性恢复
+        MmoSimpleRole mmoSimpleRole= OnlineRoleMessageCache.getInstance().get(roleId);
         if (getMedicineType().equals(MedicineTypeCode.MOMENT.getCode())){
-            MmoSimpleRole mmoSimpleRole= OnlineRoleMessageCache.getInstance().get(roleId);
             Integer addNumber=getDamageValue();
             if (getDamageType().equals(DamageTypeCode.MP.getCode())) {
                 Integer oldMp = mmoSimpleRole.getNowMp();
@@ -55,14 +55,14 @@ public class MedicineBean extends MedicineMessage implements Article{
                     mmoSimpleRole.setNowMp(newNumber);
                 }
             }else{
-                Integer oldHP = mmoSimpleRole.getNowBlood();
+                Integer oldHP = mmoSimpleRole.getNowHp();
                 Integer newNumber = oldHP + addNumber;
-                if (newNumber > mmoSimpleRole.getBlood()) {
-                    mmoSimpleRole.setNowBlood(mmoSimpleRole.getBlood());
-                    addNumber = mmoSimpleRole.getBlood() - oldHP;
+                if (newNumber > mmoSimpleRole.getHp()) {
+                    mmoSimpleRole.setNowHp(mmoSimpleRole.getHp());
+                    addNumber = mmoSimpleRole.getHp() - oldHP;
                     //发送数据包
                 } else {
-                    mmoSimpleRole.setNowBlood(newNumber);
+                    mmoSimpleRole.setNowHp(newNumber);
                 }
             }
             PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();
@@ -73,7 +73,7 @@ public class MedicineBean extends MedicineMessage implements Article{
             damageU.setDamage(addNumber);
             damageU.setDamageType(getDamageType());
             damageU.setMp(mmoSimpleRole.getNowMp());
-            damageU.setNowblood(mmoSimpleRole.getNowBlood());
+            damageU.setNowblood(mmoSimpleRole.getNowHp());
             damageU.setSkillId(-1);
             damageU.setState(mmoSimpleRole.getStatus());
             PlayModel.PlayModelMessage.Builder myMessageBuilder = PlayModel.PlayModelMessage.newBuilder();
@@ -108,7 +108,7 @@ public class MedicineBean extends MedicineMessage implements Article{
                 //传入每秒恢复量
                 Integer lastTime=getLastTime();
                 Integer secondValue=getSecondValue();
-                ScheduledThreadPoolUtil.ReplyMpTask replyMpTask = new ScheduledThreadPoolUtil.ReplyMpTask(roleId, secondValue, getDamageType(), key,lastTime);
+                ScheduledThreadPoolUtil.ReplyMpTask replyMpTask = new ScheduledThreadPoolUtil.ReplyMpTask(mmoSimpleRole, secondValue, getDamageType(), key,lastTime);
                 // 周期性执行，每3秒执行一次
                 ScheduledFuture<?> t = ScheduledThreadPoolUtil.getScheduledExecutorService().scheduleAtFixedRate(replyMpTask, 0, 1, TimeUnit.SECONDS);
                 replyMpRoleMap.put(key, t);

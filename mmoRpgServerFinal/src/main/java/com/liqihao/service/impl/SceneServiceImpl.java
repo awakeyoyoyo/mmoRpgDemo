@@ -106,9 +106,9 @@ public class SceneServiceImpl implements SceneService {
             msr.setName(mmoRole.getName());
             msr.setType(mmoRole.getType());
             msr.setStatus(mmoRole.getStatus());
-            msr.setOnStatus(mmoRole.getOnstatus());
-            msr.setBlood(mmoRole.getBlood());
-            msr.setNowBlood(mmoRole.getNowBlood());
+            msr.setOnStatus(mmoRole.getOnStatus());
+            msr.setBlood(mmoRole.getHp());
+            msr.setNowBlood(mmoRole.getNowHp());
             msr.setMp(mmoRole.getMp());
             msr.setNowMp(mmoRole.getNowMp());
             msr.setTeamId(mmoRole.getTeamId()==null?-1:mmoRole.getTeamId());
@@ -154,9 +154,9 @@ public class SceneServiceImpl implements SceneService {
             roleTemp.setName(temp.getName());
             roleTemp.setStatus(temp.getStatus());
             roleTemp.setType(temp.getType());
-            roleTemp.setOnstatus(temp.getOnstatus());
-            roleTemp.setBlood(temp.getBlood());
-            roleTemp.setNowBlood(temp.getNowBlood());
+            roleTemp.setOnStatus(temp.getOnStatus());
+            roleTemp.setHp(temp.getHp());
+            roleTemp.setNowHp(temp.getNowHp());
             roleTemp.setMp(temp.getMp());
             roleTemp.setNowMp(temp.getNowMp());
             roleTemp.setMmosceneid(temp.getMmosceneid());
@@ -177,11 +177,11 @@ public class SceneServiceImpl implements SceneService {
         for (MmoSimpleRole m :sceneRoles) {
             SceneModel.RoleDTO msr=SceneModel.RoleDTO.newBuilder().setId(m.getId())
                     .setName(m.getName())
-                    .setOnStatus(m.getOnstatus())
+                    .setOnStatus(m.getOnStatus())
                     .setStatus(m.getStatus())
                     .setType(m.getType())
-                    .setBlood(m.getBlood())
-                    .setNowBlood(m.getNowBlood())
+                    .setBlood(m.getHp())
+                    .setNowBlood(m.getNowHp())
                     .setMp(m.getMp())
                     .setTeamId(m.getTeamId()==null?-1:m.getTeamId())
                     .setNowMp(m.getNowMp())
@@ -217,7 +217,7 @@ public class SceneServiceImpl implements SceneService {
             return;
         }
         //缓存中获取NPC
-        NPCMessage npc=NpcMessageCache.getInstance().get(npcId);
+        MmoSimpleNPC npc=NpcMessageCache.getInstance().get(npcId);
         if (!npc.getMmosceneid().equals(role.getMmosceneid())){
             channel.writeAndFlush(new NettyResponse(StateCode.FAIL,ConstantValue.FAIL_RESPONSE,"该NPC不在当前场景".getBytes()));
             return;

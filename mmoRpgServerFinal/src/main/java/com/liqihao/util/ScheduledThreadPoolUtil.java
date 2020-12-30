@@ -89,14 +89,14 @@ public class ScheduledThreadPoolUtil {
 
     public static class ReplyMpTask implements Runnable {
         private Logger logger = Logger.getLogger(ReplyMpTask.class);
-        private Integer roleId;
+        private Role role;
         private Integer number;
         private Integer damageTypeCode;
         private String key;
         private Integer times;
 
-        public ReplyMpTask(Integer roleId, Integer number, Integer damageTypeCode, String key) {
-            this.roleId = roleId;
+        public ReplyMpTask(Role role, Integer number, Integer damageTypeCode, String key) {
+            this.role = role;
             this.number = number;
             this.damageTypeCode = damageTypeCode;
             this.key = key;
@@ -118,12 +118,12 @@ public class ScheduledThreadPoolUtil {
             this.logger = logger;
         }
 
-        public Integer getRoleId() {
-            return roleId;
+        public Role getRole() {
+            return role;
         }
 
-        public void setRoleId(Integer roleId) {
-            this.roleId = roleId;
+        public void setRole(Role role) {
+            this.role = role;
         }
 
         public Integer getNumber() {
@@ -134,8 +134,8 @@ public class ScheduledThreadPoolUtil {
             this.number = number;
         }
 
-        public ReplyMpTask(Integer roleId, Integer number, Integer damageTypeCode, String key, Integer times) {
-            this.roleId = roleId;
+        public ReplyMpTask(Role role, Integer number, Integer damageTypeCode, String key, Integer times) {
+            this.role = role;
             this.number = number;
             this.damageTypeCode = damageTypeCode;
             this.key = key;
@@ -145,17 +145,16 @@ public class ScheduledThreadPoolUtil {
         @Override
         public void run() {
             logger.info("回蓝/血线程-------------------" + Thread.currentThread().getName());
-            MmoSimpleRole mmoSimpleRole = OnlineRoleMessageCache.getInstance().get(roleId);
             Integer addNumber;
             Integer attackStyleCode;
-            if (times != null && times <= 0 || mmoSimpleRole.getStatus().equals(RoleStatusCode.DIE.getCode())) {
+            if (times != null && times <= 0 || role.getStatus().equals(RoleStatusCode.DIE.getCode())) {
                 replyMpRole.get(key).cancel(false);
                 replyMpRole.remove(key);
                 return;
             }
             if (number == null) {
                 //number没有传入 代表着这是自动回蓝
-                addNumber = (int) Math.ceil(mmoSimpleRole.getMp() * 0.05);
+                addNumber = (int) Math.ceil(role.getMp() * 0.05);
                 attackStyleCode = AttackStyleCode.AUTORE.getCode();
             } else {
                 //传入则代表着是吃药
@@ -164,25 +163,26 @@ public class ScheduledThreadPoolUtil {
             }
             PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();
 
-            damageU.setFromRoleId(mmoSimpleRole.getId());
-            damageU.setToRoleId(mmoSimpleRole.getId());
+            damageU.setFromRoleId(role.getId());
+            damageU.setToRoleId(role.getId());
             damageU.setAttackStyle(attackStyleCode);
             damageU.setBufferId(-1);
             damageU.setDamageType(damageTypeCode);
             damageU.setSkillId(-1);
+            //判断是玩家还是怪物执行不同的改变
             if (damageTypeCode.equals(DamageTypeCode.MP.getCode())) {
-                damageU.setDamageType(damageTypeCode);
-                mmoSimpleRole.changeMp(addNumber,damageU);
+                    damageU.setDamageType(damageTypeCode);
+                    role.changeMp(addNumber, damageU);
             } else {
-                damageU.setDamageType(damageTypeCode);
-                mmoSimpleRole.changeNowBlood(addNumber,damageU,AttackStyleCode.MEDICENE.getCode());
+                    damageU.setDamageType(damageTypeCode);
+                    role.changeNowBlood(addNumber, damageU, AttackStyleCode.MEDICENE.getCode());
             }
             if (times != null) {
                 times--;
             }
             //判断任务是否以及完成即 人物蓝是否满了
             if (number == null) {
-                if (mmoSimpleRole.getNowMp().equals(mmoSimpleRole.getMp())) {
+                if (role.getNowMp().equals(role.getMp())) {
                     replyMpRole.get(key).cancel(false);
                     replyMpRole.remove(key);
                 }
@@ -211,67 +211,25 @@ public class ScheduledThreadPoolUtil {
                     bufferType.equals(BufferTypeCode.REDUCEHP.getCode()) ||
                     bufferType.equals(BufferTypeCode.ADDMP.getCode()) ||
                     bufferType.equals(BufferTypeCode.REDUCEMP.getCode())) {
-                Integer ToroleId = bufferBean.getToRoleId();
-                MmoSimpleNPC npc = NpcMessageCache.getInstance().get(ToroleId);
-                if (npc == null || npc.getStatus().equals(RoleStatusCode.DIE.getCode()) || count <= 0) {
-                    //删除该buffer
-                    String taskId = ToroleId.toString() + bufferBean.getId().toString();
-                    replyMpRole.get(Integer.parseInt(taskId)).cancel(false);
-                    replyMpRole.remove(taskId);
-                } else {
-                    //根据buffer类型扣血扣蓝
-                    if (bufferBean.getBuffType().equals(BufferTypeCode.REDUCEHP.getCode())) {
-                        npc.hpRwLock.writeLock().lock();
-                        try {
-                            Integer hp = npc.getNowBlood() - bufferBean.getBuffNum();
-                            if (hp <= 0) {
-                                hp = 0;
-                                npc.setStatus(RoleStatusCode.DIE.getCode());
-                            }
-                            npc.setNowBlood(hp);
-                        } finally {
-                            npc.hpRwLock.writeLock().unlock();
-                        }
-
-                    } else if (bufferBean.getBuffType().equals(BufferTypeCode.REDUCEMP.getCode())) {
-                        npc.mpRwLock.writeLock().lock();
-                        try {
-                            Integer mp = npc.getNowMp() - bufferBean.getBuffNum();
-                            if (mp <= 0) {
-                                mp = 0;
-                            }
-                            npc.setNowMp(mp);
-                        } finally {
-                            npc.mpRwLock.writeLock().unlock();
-                        }
+                Integer toroleId = bufferBean.getToRoleId();
+                Integer toRoletype=bufferBean.getToRoleType();
+                if (toRoletype.equals(RoleTypeCode.NPC.getCode())||toRoletype.equals(RoleTypeCode.ENEMY.getCode())) {
+                    MmoSimpleNPC npc = NpcMessageCache.getInstance().get(toroleId);
+                    if (npc == null || npc.getStatus().equals(RoleStatusCode.DIE.getCode()) || count <= 0) {
+                        //删除该buffer
+                        String taskId = toroleId.toString() + bufferBean.getId().toString();
+                        replyMpRole.get(Integer.parseInt(taskId)).cancel(false);
+                        replyMpRole.remove(taskId);
                     }
-                    //广播信息
-                    Integer sceneId = OnlineRoleMessageCache.getInstance().get(bufferBean.getFromRoleId()).getMmosceneid();
-                    List<Integer> players = SceneBeanMessageCache.getInstance().get(sceneId).getRoles();
-                    //生成数据包
-                    PlayModel.PlayModelMessage.Builder myMessageBuilder = PlayModel.PlayModelMessage.newBuilder();
-                    myMessageBuilder.setDataType(PlayModel.PlayModelMessage.DateType.DamagesNoticeResponse);
-                    PlayModel.DamagesNoticeResponse.Builder damagesNoticeBuilder = PlayModel.DamagesNoticeResponse.newBuilder();
-                    PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();
-                    damageU.setDamageType(DamageTypeCode.HP.getCode()).setAttackStyle(AttackStyleCode.BUFFER.getCode())
-                            .setDamage(bufferBean.getBuffNum()).setFromRoleId(bufferBean.getFromRoleId()).setToRoleId(bufferBean.getToRoleId())
-                            .setState(npc.getStatus()).setMp(npc.getNowMp()).setBufferId(bufferBean.getId()).setNowblood(npc.getNowBlood());
-                    damagesNoticeBuilder.setRoleIdDamage(damageU);
-                    myMessageBuilder.setDamagesNoticeResponse(damagesNoticeBuilder.build());
-                    NettyResponse nettyResponse = new NettyResponse();
-                    nettyResponse.setCmd(ConstantValue.DAMAGES_NOTICE_RESPONSE);
-                    nettyResponse.setStateCode(StateCode.SUCCESS);
-                    nettyResponse.setData(myMessageBuilder.build().toByteArray());
-                    for (Integer playerId : players) {
-                        Channel c = ChannelMessageCache.getInstance().get(playerId);
-                        if (c != null) {
-                            c.writeAndFlush(nettyResponse);
-                        }
-
+                    npc.effectByBuffer(bufferBean);
+                }else{
+                    MmoSimpleRole mmoSimpleRole=OnlineRoleMessageCache.getInstance().get(toroleId);
+                    if (mmoSimpleRole == null || mmoSimpleRole.getStatus().equals(RoleStatusCode.DIE.getCode()) || count <= 0) {
+                    mmoSimpleRole.effectByBuffer(bufferBean);
                     }
-                    count--;
+
                 }
-
+                count--;
             }
 
         }
@@ -305,7 +263,7 @@ public class ScheduledThreadPoolUtil {
                 return;
             }
             //扣血咯
-            if (mmoSimpleRole.getNowBlood() <= 0) {
+            if (mmoSimpleRole.getNowHp() <= 0) {
                 npcTaskMap.get(npcId).cancel(false);
                 npcTaskMap.remove(npcId);
                 return;

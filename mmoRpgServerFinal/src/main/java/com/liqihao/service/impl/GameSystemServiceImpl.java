@@ -8,6 +8,7 @@ import com.liqihao.commons.*;
 import com.liqihao.commons.enums.RoleOnStatusCode;
 import com.liqihao.commons.StateCode;
 import com.liqihao.dao.MmoRolePOJOMapper;
+import com.liqihao.pojo.MmoRolePOJO;
 import com.liqihao.pojo.bean.MmoSimpleRole;
 import com.liqihao.protobufObject.GameSystemModel;
 import com.liqihao.util.CommonsUtil;
@@ -38,10 +39,17 @@ public class GameSystemServiceImpl implements com.liqihao.service.GameSystemServ
             CommonsUtil.bagIntoDataBase(mmoSimpleRole.getBackpackManager(),roleId);
             CommonsUtil.RoleInfoIntoDataBase(role);
             // 直接获取即可 父类
-            MmoSimpleRole mmoRolePOJO= OnlineRoleMessageCache.getInstance().get(roleId);
+            MmoSimpleRole mmoRole= OnlineRoleMessageCache.getInstance().get(roleId);
+            MmoRolePOJO mmoRolePOJO=new MmoRolePOJO();
+            mmoRolePOJO.setId(mmoRole.getId());
+            mmoRolePOJO.setMmosceneid(mmoRole.getMmosceneid());
+            mmoRolePOJO.setOnstatus(RoleOnStatusCode.EXIT.getCode());
+            mmoRolePOJO.setName(mmoRole.getName());
+            mmoRolePOJO.setSkillIds(CommonsUtil.listToString(mmoRole.getSkillIdList()));
+            mmoRolePOJO.setType(mmoRole.getType());
+            mmoRolePOJO.setStatus(mmoRole.getStatus());
             OnlineRoleMessageCache.getInstance().remove(roleId);
             //修改数据库
-            mmoRolePOJO.setOnstatus(RoleOnStatusCode.EXIT.getCode());
             mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO);
             //删除缓存中角色
             OnlineRoleMessageCache.getInstance().remove(role.getId());

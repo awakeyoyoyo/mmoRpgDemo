@@ -171,11 +171,11 @@ public class PlayServiceImpl implements PlayService{
         //自身角色信息
         PlayModel.RoleDTO roleDTO=mmoSimpleRoleBuilder.setId(simpleRole.getId())
                 .setName(simpleRole.getName())
-                .setOnStatus(simpleRole.getOnstatus())
+                .setOnStatus(simpleRole.getOnStatus())
                 .setStatus(simpleRole.getStatus())
                 .setType(simpleRole.getType())
-                .setBlood(simpleRole.getBlood())
-                .setNowBlood(simpleRole.getBlood())
+                .setBlood(simpleRole.getHp())
+                .setNowBlood(simpleRole.getHp())
                 .addAllSkillIdList(simpleRole.getSkillIdList())
                 .setMp(simpleRole.getMp())
                 .setNowMp(simpleRole.getNowMp())
@@ -260,7 +260,7 @@ public class PlayServiceImpl implements PlayService{
         if (skillMessage.getConsumeType().equals(ConsuMeTypeCode.HP.getCode())) {
             //扣血
             //判断血量是否足够
-            if (mmoSimpleRole.getNowBlood() < skillMessage.getConsumeNum()) {
+            if (mmoSimpleRole.getNowHp() < skillMessage.getConsumeNum()) {
                 //血量不够
                 channel.writeAndFlush(new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE, "血量不够无法使用该技能".getBytes()));
                 return;
@@ -279,9 +279,10 @@ public class PlayServiceImpl implements PlayService{
             channel.writeAndFlush(new NettyResponse(StateCode.FAIL,ConstantValue.FAIL_RESPONSE, "武器耐久度为0，请脱落武器再攻击".getBytes()));
             return;
         }
+        //todo 判断是单体技能 还是群体技能 决斗的时候则是判断当前地点在的决斗场，则可以攻击所有玩家
         //从缓存中查找出 怪物
         List<Integer> npcs=SceneBeanMessageCache.getInstance().get(sceneId).getNpcs();
-        ArrayList<MmoSimpleNPC> target=new ArrayList<>();
+        ArrayList<Role> target=new ArrayList<>();
         for (Integer npcId:npcs) {
             MmoSimpleNPC npc=NpcMessageCache.getInstance().get(npcId);
             if (npc.getType().equals(RoleTypeCode.ENEMY.getCode())){
@@ -292,30 +293,8 @@ public class PlayServiceImpl implements PlayService{
         }
 
         //使用技能
-        List<PlayModel.RoleIdDamage> list=mmoSimpleRole.useSkill(target,skillId);
+        mmoSimpleRole.useSkill(target,skillId);
 
-        //封装成nettyResponse
-        PlayModel.PlayModelMessage.Builder myMessageBuilder=PlayModel.PlayModelMessage.newBuilder();
-        myMessageBuilder.setDataType(PlayModel.PlayModelMessage.DateType.UseSkillResponse);
-        PlayModel.UseSkillResponse.Builder useSkillBuilder=PlayModel.UseSkillResponse.newBuilder();
-        useSkillBuilder.addAllRoleIdDamages(list);
-        myMessageBuilder.setUseSkillResponse(useSkillBuilder.build());
-        NettyResponse nettyResponse=new NettyResponse();
-        nettyResponse.setCmd(ConstantValue.USE_SKILL_RSPONSE);
-        nettyResponse.setStateCode(StateCode.SUCCESS);
-        nettyResponse.setData(myMessageBuilder.build().toByteArray());
-        //广播
-        List<Integer> players=SceneBeanMessageCache.getInstance().get(sceneId).getRoles();
-        for (Integer playerId:players){
-            if (playerId.equals(mmoSimpleRole.getId())){
-                continue;
-            }
-            Channel c= ChannelMessageCache.getInstance().get(playerId);
-            if (c!=null){
-                c.writeAndFlush(nettyResponse);
-            }
-        }
-        channel.writeAndFlush(nettyResponse);
         return;
     }
 }

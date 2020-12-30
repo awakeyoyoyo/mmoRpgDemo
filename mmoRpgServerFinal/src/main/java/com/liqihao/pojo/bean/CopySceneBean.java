@@ -111,9 +111,9 @@ public class CopySceneBean extends CopySceneMessage {
                         msr.setName(mmoRole.getName());
                         msr.setType(mmoRole.getType());
                         msr.setStatus(mmoRole.getStatus());
-                        msr.setOnStatus(mmoRole.getOnstatus());
-                        msr.setBlood(mmoRole.getBlood());
-                        msr.setNowBlood(mmoRole.getNowBlood());
+                        msr.setOnStatus(mmoRole.getOnStatus());
+                        msr.setBlood(mmoRole.getHp());
+                        msr.setNowBlood(mmoRole.getNowHp());
                         msr.setMp(mmoRole.getMp());
                         msr.setNowMp(mmoRole.getNowMp());
                         msr.setAttack(mmoRole.getAttack());
@@ -175,9 +175,9 @@ public class CopySceneBean extends CopySceneMessage {
                 msr.setName(mmoRole.getName());
                 msr.setType(mmoRole.getType());
                 msr.setStatus(mmoRole.getStatus());
-                msr.setOnStatus(mmoRole.getOnstatus());
-                msr.setBlood(mmoRole.getBlood());
-                msr.setNowBlood(mmoRole.getNowBlood());
+                msr.setOnStatus(mmoRole.getOnStatus());
+                msr.setBlood(mmoRole.getHp());
+                msr.setNowBlood(mmoRole.getNowHp());
                 msr.setMp(mmoRole.getMp());
                 msr.setNowMp(mmoRole.getNowMp());
                 msr.setAttack(mmoRole.getAttack());

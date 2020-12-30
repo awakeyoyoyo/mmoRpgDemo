@@ -46,17 +46,19 @@ public class CommonsUtil implements ApplicationContextAware {
 
     private static ApplicationContext applicationContext;
 
+
+
+
     public static CopySceneModel.BossBeanDto bossBeanToBossBeanDto(BossBean boss) {
         CopySceneModel.BossBeanDto.Builder bossDtoBuilder=CopySceneModel.BossBeanDto.newBuilder();
         bossDtoBuilder.setId(boss.getId());
         bossDtoBuilder.setAttack(boss.getAttack());
         bossDtoBuilder.setMp(boss.getMp());
         bossDtoBuilder.setName(boss.getName());
-        bossDtoBuilder.setNowBlood(boss.getNowBlood());
+        bossDtoBuilder.setNowBlood(boss.getNowHp());
         bossDtoBuilder.setNowMp(boss.getNowMp());
         bossDtoBuilder.setStatus(boss.getStatus());
-        bossDtoBuilder.setRoleStatus(boss.getRoleStatus());
-        bossDtoBuilder.setBlood(boss.getBlood());
+        bossDtoBuilder.setBlood(boss.getHp());
         List<CopySceneModel.BufferDto> bufferDtoList=new ArrayList<>();
         if (boss.getBufferBeans().size()>0){
             for (BufferBean b:boss.getBufferBeans()) {
@@ -84,8 +86,8 @@ public class CommonsUtil implements ApplicationContextAware {
                 bufferDtoList.add(bufferDto);
             }
         }
-        return roleDtoBuilder.setId(role.getId()).setBlood(role.getBlood()).setNowBlood(role.getNowBlood())
-                .setNowMp(role.getNowMp()).addAllBufferDtos(bufferDtoList).setOnStatus(role.getOnstatus())
+        return roleDtoBuilder.setId(role.getId()).setBlood(role.getHp()).setNowBlood(role.getNowHp())
+                .setNowMp(role.getNowMp()).addAllBufferDtos(bufferDtoList).setOnStatus(role.getOnStatus())
                 .setTeamId(role.getTeamId()).setStatus(role.getStatus())
                 .setName(role.getName()).setMp(role.getMp()).setType(role.getType()).build();
 
@@ -122,12 +124,12 @@ public class CommonsUtil implements ApplicationContextAware {
         bossBean.setBufferBeans(new CopyOnWriteArrayList<BufferBean>());
         bossBean.setCdMap(new HashMap<>());
         bossBean.setHatredMap(new ConcurrentHashMap<>());
-        bossBean.setNowBlood(bossMessage.getBlood());
+        bossBean.setHp(bossMessage.getBlood());
         bossBean.setNowMp(bossMessage.getMp());
-        bossBean.setRoleStatus(RoleStatusCode.ALIVE.getCode());
-        bossBean.setRoleType(RoleTypeCode.ENEMY.getCode());
+        bossBean.setStatus(RoleStatusCode.ALIVE.getCode());
+        bossBean.setType(RoleTypeCode.ENEMY.getCode());
         bossBean.setAttack(bossMessage.getAttack());
-        bossBean.setBlood(bossMessage.getBlood());
+        bossBean.setNowHp(bossMessage.getBlood());
         bossBean.setDamageAdd(bossMessage.getDamageAdd());
         bossBean.setId(bossMessage.getId());
         bossBean.setEquipmentIds(bossMessage.getEquipmentIds());
@@ -171,10 +173,16 @@ public class CommonsUtil implements ApplicationContextAware {
         MmoRolePOJO mmoRolePOJO=new MmoRolePOJO();
         mmoRolePOJO.setId(mmoSimpleRole.getId());
         mmoRolePOJO.setStatus(mmoSimpleRole.getStatus());
-        mmoRolePOJO.setOnstatus(mmoSimpleRole.getOnstatus());
+        mmoRolePOJO.setOnstatus(mmoSimpleRole.getOnStatus());
+
+
+
+
+
+
         mmoRolePOJO.setMmosceneid(mmoSimpleRole.getMmosceneid());
         mmoRolePOJO.setName(mmoSimpleRole.getName());
-        mmoRolePOJO.setSkillIds(mmoSimpleRole.getSkillIds());
+        mmoRolePOJO.setSkillIds(CommonsUtil.listToString(mmoSimpleRole.getSkillIdList()));
         mmoRolePOJO.setType(mmoSimpleRole.getType());
         mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO);
     }
@@ -304,9 +312,9 @@ public class CommonsUtil implements ApplicationContextAware {
         roleTemp.setMmosceneid(npc.getMmosceneid());
         roleTemp.setStatus(npc.getStatus());
         roleTemp.setType(npc.getType());
-        roleTemp.setOnstatus(npc.getOnstatus());
-        roleTemp.setBlood(npc.getBlood());
-        roleTemp.setNowBlood(npc.getNowBlood());
+        roleTemp.setOnStatus(npc.getOnStatus());
+        roleTemp.setHp(npc.getHp());
+        roleTemp.setNowHp(npc.getNowHp());
         roleTemp.setMp(npc.getMp());
         roleTemp.setAttack(npc.getAttack());
         roleTemp.setNowMp(npc.getNowMp());

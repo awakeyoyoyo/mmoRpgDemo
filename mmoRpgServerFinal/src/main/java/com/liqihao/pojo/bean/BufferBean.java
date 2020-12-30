@@ -10,6 +10,24 @@ public class BufferBean extends BufferMessage {
     private Integer fromRoleId;
     private Integer toRoleId;
     private Long createTime;
+    private Integer fromRoleType;
+    private Integer toRoleType;
+
+    public Integer getFromRoleType() {
+        return fromRoleType;
+    }
+
+    public void setFromRoleType(Integer fromRoleType) {
+        this.fromRoleType = fromRoleType;
+    }
+
+    public Integer getToRoleType() {
+        return toRoleType;
+    }
+
+    public void setToRoleType(Integer toRoleType) {
+        this.toRoleType = toRoleType;
+    }
 
     public Long getCreateTime() {
         return createTime;
