@@ -186,4 +186,26 @@ public class CopySceneServiceImpl implements CopySceneService {
         System.out.println("[-]原因是："+ CopySceneDeleteCauseCode.getValue(cause));
         System.out.println("[-]--------------------------------------------------------");
     }
+
+    @Override
+    public void changeSuccessResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
+        byte[] data = nettyResponse.getData();
+        CopySceneModel.CopySceneModelMessage myMessage;
+        myMessage = CopySceneModel.CopySceneModelMessage.parseFrom(data);
+        System.out.println("[-]--------------------------------------------------------");
+        System.out.println("[-]恭喜恭喜！副本已经被打通过了");
+        System.out.println("[-]--------------------------------------------------------");
+    }
+
+    @Override
+    public void changeFailResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
+        byte[] data = nettyResponse.getData();
+        CopySceneModel.CopySceneModelMessage myMessage;
+        myMessage = CopySceneModel.CopySceneModelMessage.parseFrom(data);
+        Integer casue=myMessage.getChangeFailResponse().getCause();
+        System.out.println("[-]--------------------------------------------------------");
+        System.out.println("[-]可惜可惜！这个副本你并不能过关！");
+        System.out.println("[-]原因竟然是："+CopySceneDeleteCauseCode.getValue(casue));
+        System.out.println("[-]--------------------------------------------------------");
+    }
 }

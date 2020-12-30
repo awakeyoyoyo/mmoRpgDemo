@@ -543,9 +543,10 @@ public class MmoSimpleRole extends MmoRolePOJO {
         sceneBean.getRoles().remove(getId());
         setMmosceneid(null);
         //人物设置副本
-        copySceneBean.getMmoSimpleRoles().add(this);
         this.setCopySceneId(copySceneBean.getId());
         this.setLastSceneId(sceneId);
+        //副本操作
+        copySceneBean.getMmoSimpleRoles().add(this);
         return true;
     }
 

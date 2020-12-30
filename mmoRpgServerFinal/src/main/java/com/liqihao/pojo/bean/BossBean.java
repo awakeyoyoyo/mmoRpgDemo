@@ -12,9 +12,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @author lqhao
  */
 public class BossBean extends BossMessage {
-    private Integer nowBlood;
-    private Integer nowMp;
-    private Integer roleStatus;
+    private volatile Integer nowBlood;
+    private volatile  Integer nowMp;
+    private volatile Integer roleStatus;
     private Integer status;
     private Integer roleType;
     /**

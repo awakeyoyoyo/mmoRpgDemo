@@ -197,7 +197,7 @@ public class CopySceneServiceImpl implements CopySceneService {
             channel.writeAndFlush(errotResponse);
             return;
         }
-        CopySceneBean copySceneBean=CopySceneProvider.createNewCopyScene(copySceneId);
+        CopySceneBean copySceneBean=CopySceneProvider.createNewCopyScene(copySceneId,teamBean);
 
         teamBean.setCopySceneBeanId(copySceneBean.getCopySceneBeanId());
         teamBean.setCopySceneId(copySceneBean.getId());

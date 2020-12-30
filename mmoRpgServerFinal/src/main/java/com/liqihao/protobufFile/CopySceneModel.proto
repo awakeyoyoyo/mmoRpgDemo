@@ -14,6 +14,8 @@ message CopySceneModelMessage{
       ExitCopySceneRequest =8;
       ExitCopySceneResponse =9;
       CopySceneDeleteResponse=10;
+      ChangeSuccessResponse=11;
+      ChangeFailResponse=12;
   }
   //用date_type来标识传的是哪一个枚举类型
   DateType data_type=1;
@@ -30,8 +32,16 @@ message CopySceneModelMessage{
     ExitCopySceneRequest exitCopySceneRequest=10;
     ExitCopySceneResponse exitCopySceneResponse=11;
     CopySceneDeleteResponse copySceneDeleteResponse=12;
+    ChangeSuccessResponse changeSuccessResponse=13;
+    ChangeFailResponse changeFailResponse=14;
   }
 
+}
+message ChangeSuccessResponse{
+
+}
+message ChangeFailResponse{
+  int32 cause=1;
 }
 message CopySceneDeleteResponse{
   int32 copySceneId=1;

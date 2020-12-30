@@ -1,18 +1,16 @@
 package com.liqihao.commons.enums;
 
 /**
- * 副本销毁得原因
+ * 副本状态
  * @author lqhao
  */
 
-public enum CopySceneDeleteCauseCode {
+public enum CopySceneBeanStatusCode {
     //
-    TEAMEND(0,"队伍解散"),NOPEOPLE(1,"最后一个玩家退出副本")
-    ,TIMEOUT(2,"超过规定挑战时间"),PEOPLEDIE(3,"所有玩家死亡")
-    ,SUCCESS(4,"挑战成功");
+    NOSTART(0,"未开始挑战"),ISSTART(1,"已开始挑战");
     private  int code;
     private  String value;
-    CopySceneDeleteCauseCode(int code, String name)
+    CopySceneBeanStatusCode(int code,String name)
     {
         this.code=code;
         this.value = name;
@@ -34,7 +32,7 @@ public enum CopySceneDeleteCauseCode {
         return value;
     }
     public static String getValue(int code) {
-        for (CopySceneDeleteCauseCode ele : values()) {
+        for (CopySceneBeanStatusCode ele : values()) {
             if(ele.getCode()==code){
                 return ele.getvalue();
             }

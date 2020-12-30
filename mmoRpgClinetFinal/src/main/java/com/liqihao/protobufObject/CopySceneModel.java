@@ -200,6 +200,36 @@ public final class CopySceneModel {
      */
     CopySceneDeleteResponseOrBuilder getCopySceneDeleteResponseOrBuilder();
 
+    /**
+     * <code>.ChangeSuccessResponse changeSuccessResponse = 13;</code>
+     * @return Whether the changeSuccessResponse field is set.
+     */
+    boolean hasChangeSuccessResponse();
+    /**
+     * <code>.ChangeSuccessResponse changeSuccessResponse = 13;</code>
+     * @return The changeSuccessResponse.
+     */
+    ChangeSuccessResponse getChangeSuccessResponse();
+    /**
+     * <code>.ChangeSuccessResponse changeSuccessResponse = 13;</code>
+     */
+    ChangeSuccessResponseOrBuilder getChangeSuccessResponseOrBuilder();
+
+    /**
+     * <code>.ChangeFailResponse changeFailResponse = 14;</code>
+     * @return Whether the changeFailResponse field is set.
+     */
+    boolean hasChangeFailResponse();
+    /**
+     * <code>.ChangeFailResponse changeFailResponse = 14;</code>
+     * @return The changeFailResponse.
+     */
+    ChangeFailResponse getChangeFailResponse();
+    /**
+     * <code>.ChangeFailResponse changeFailResponse = 14;</code>
+     */
+    ChangeFailResponseOrBuilder getChangeFailResponseOrBuilder();
+
     public CopySceneModelMessage.DateBodyCase getDateBodyCase();
   }
   /**
@@ -408,6 +438,34 @@ public final class CopySceneModel {
               dateBodyCase_ = 12;
               break;
             }
+            case 106: {
+              ChangeSuccessResponse.Builder subBuilder = null;
+              if (dateBodyCase_ == 13) {
+                subBuilder = ((ChangeSuccessResponse) dateBody_).toBuilder();
+              }
+              dateBody_ =
+                  input.readMessage(ChangeSuccessResponse.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((ChangeSuccessResponse) dateBody_);
+                dateBody_ = subBuilder.buildPartial();
+              }
+              dateBodyCase_ = 13;
+              break;
+            }
+            case 114: {
+              ChangeFailResponse.Builder subBuilder = null;
+              if (dateBodyCase_ == 14) {
+                subBuilder = ((ChangeFailResponse) dateBody_).toBuilder();
+              }
+              dateBody_ =
+                  input.readMessage(ChangeFailResponse.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((ChangeFailResponse) dateBody_);
+                dateBody_ = subBuilder.buildPartial();
+              }
+              dateBodyCase_ = 14;
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -497,6 +555,14 @@ public final class CopySceneModel {
        * <code>CopySceneDeleteResponse = 10;</code>
        */
       CopySceneDeleteResponse(10),
+      /**
+       * <code>ChangeSuccessResponse = 11;</code>
+       */
+      ChangeSuccessResponse(11),
+      /**
+       * <code>ChangeFailResponse = 12;</code>
+       */
+      ChangeFailResponse(12),
       UNRECOGNIZED(-1),
       ;
 
@@ -548,6 +614,14 @@ public final class CopySceneModel {
        * <code>CopySceneDeleteResponse = 10;</code>
        */
       public static final int CopySceneDeleteResponse_VALUE = 10;
+      /**
+       * <code>ChangeSuccessResponse = 11;</code>
+       */
+      public static final int ChangeSuccessResponse_VALUE = 11;
+      /**
+       * <code>ChangeFailResponse = 12;</code>
+       */
+      public static final int ChangeFailResponse_VALUE = 12;
 
 
       public final int getNumber() {
@@ -585,6 +659,8 @@ public final class CopySceneModel {
           case 8: return ExitCopySceneRequest;
           case 9: return ExitCopySceneResponse;
           case 10: return CopySceneDeleteResponse;
+          case 11: return ChangeSuccessResponse;
+          case 12: return ChangeFailResponse;
           default: return null;
         }
       }
@@ -657,6 +733,8 @@ public final class CopySceneModel {
       EXITCOPYSCENEREQUEST(10),
       EXITCOPYSCENERESPONSE(11),
       COPYSCENEDELETERESPONSE(12),
+      CHANGESUCCESSRESPONSE(13),
+      CHANGEFAILRESPONSE(14),
       DATEBODY_NOT_SET(0);
       private final int value;
       private DateBodyCase(int value) {
@@ -685,6 +763,8 @@ public final class CopySceneModel {
           case 10: return EXITCOPYSCENEREQUEST;
           case 11: return EXITCOPYSCENERESPONSE;
           case 12: return COPYSCENEDELETERESPONSE;
+          case 13: return CHANGESUCCESSRESPONSE;
+          case 14: return CHANGEFAILRESPONSE;
           case 0: return DATEBODY_NOT_SET;
           default: return null;
         }
@@ -1068,6 +1148,68 @@ public final class CopySceneModel {
       return CopySceneDeleteResponse.getDefaultInstance();
     }
 
+    public static final int CHANGESUCCESSRESPONSE_FIELD_NUMBER = 13;
+    /**
+     * <code>.ChangeSuccessResponse changeSuccessResponse = 13;</code>
+     * @return Whether the changeSuccessResponse field is set.
+     */
+    @Override
+    public boolean hasChangeSuccessResponse() {
+      return dateBodyCase_ == 13;
+    }
+    /**
+     * <code>.ChangeSuccessResponse changeSuccessResponse = 13;</code>
+     * @return The changeSuccessResponse.
+     */
+    @Override
+    public ChangeSuccessResponse getChangeSuccessResponse() {
+      if (dateBodyCase_ == 13) {
+         return (ChangeSuccessResponse) dateBody_;
+      }
+      return ChangeSuccessResponse.getDefaultInstance();
+    }
+    /**
+     * <code>.ChangeSuccessResponse changeSuccessResponse = 13;</code>
+     */
+    @Override
+    public ChangeSuccessResponseOrBuilder getChangeSuccessResponseOrBuilder() {
+      if (dateBodyCase_ == 13) {
+         return (ChangeSuccessResponse) dateBody_;
+      }
+      return ChangeSuccessResponse.getDefaultInstance();
+    }
+
+    public static final int CHANGEFAILRESPONSE_FIELD_NUMBER = 14;
+    /**
+     * <code>.ChangeFailResponse changeFailResponse = 14;</code>
+     * @return Whether the changeFailResponse field is set.
+     */
+    @Override
+    public boolean hasChangeFailResponse() {
+      return dateBodyCase_ == 14;
+    }
+    /**
+     * <code>.ChangeFailResponse changeFailResponse = 14;</code>
+     * @return The changeFailResponse.
+     */
+    @Override
+    public ChangeFailResponse getChangeFailResponse() {
+      if (dateBodyCase_ == 14) {
+         return (ChangeFailResponse) dateBody_;
+      }
+      return ChangeFailResponse.getDefaultInstance();
+    }
+    /**
+     * <code>.ChangeFailResponse changeFailResponse = 14;</code>
+     */
+    @Override
+    public ChangeFailResponseOrBuilder getChangeFailResponseOrBuilder() {
+      if (dateBodyCase_ == 14) {
+         return (ChangeFailResponse) dateBody_;
+      }
+      return ChangeFailResponse.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -1117,6 +1259,12 @@ public final class CopySceneModel {
       }
       if (dateBodyCase_ == 12) {
         output.writeMessage(12, (CopySceneDeleteResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 13) {
+        output.writeMessage(13, (ChangeSuccessResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 14) {
+        output.writeMessage(14, (ChangeFailResponse) dateBody_);
       }
       unknownFields.writeTo(output);
     }
@@ -1174,6 +1322,14 @@ public final class CopySceneModel {
       if (dateBodyCase_ == 12) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(12, (CopySceneDeleteResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 13) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(13, (ChangeSuccessResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 14) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(14, (ChangeFailResponse) dateBody_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1237,6 +1393,14 @@ public final class CopySceneModel {
           if (!getCopySceneDeleteResponse()
               .equals(other.getCopySceneDeleteResponse())) return false;
           break;
+        case 13:
+          if (!getChangeSuccessResponse()
+              .equals(other.getChangeSuccessResponse())) return false;
+          break;
+        case 14:
+          if (!getChangeFailResponse()
+              .equals(other.getChangeFailResponse())) return false;
+          break;
         case 0:
         default:
       }
@@ -1297,6 +1461,14 @@ public final class CopySceneModel {
         case 12:
           hash = (37 * hash) + COPYSCENEDELETERESPONSE_FIELD_NUMBER;
           hash = (53 * hash) + getCopySceneDeleteResponse().hashCode();
+          break;
+        case 13:
+          hash = (37 * hash) + CHANGESUCCESSRESPONSE_FIELD_NUMBER;
+          hash = (53 * hash) + getChangeSuccessResponse().hashCode();
+          break;
+        case 14:
+          hash = (37 * hash) + CHANGEFAILRESPONSE_FIELD_NUMBER;
+          hash = (53 * hash) + getChangeFailResponse().hashCode();
           break;
         case 0:
         default:
@@ -1542,6 +1714,20 @@ public final class CopySceneModel {
             result.dateBody_ = copySceneDeleteResponseBuilder_.build();
           }
         }
+        if (dateBodyCase_ == 13) {
+          if (changeSuccessResponseBuilder_ == null) {
+            result.dateBody_ = dateBody_;
+          } else {
+            result.dateBody_ = changeSuccessResponseBuilder_.build();
+          }
+        }
+        if (dateBodyCase_ == 14) {
+          if (changeFailResponseBuilder_ == null) {
+            result.dateBody_ = dateBody_;
+          } else {
+            result.dateBody_ = changeFailResponseBuilder_.build();
+          }
+        }
         result.dateBodyCase_ = dateBodyCase_;
         onBuilt();
         return result;
@@ -1637,6 +1823,14 @@ public final class CopySceneModel {
           }
           case COPYSCENEDELETERESPONSE: {
             mergeCopySceneDeleteResponse(other.getCopySceneDeleteResponse());
+            break;
+          }
+          case CHANGESUCCESSRESPONSE: {
+            mergeChangeSuccessResponse(other.getChangeSuccessResponse());
+            break;
+          }
+          case CHANGEFAILRESPONSE: {
+            mergeChangeFailResponse(other.getChangeFailResponse());
             break;
           }
           case DATEBODY_NOT_SET: {
@@ -3311,6 +3505,288 @@ public final class CopySceneModel {
         onChanged();;
         return copySceneDeleteResponseBuilder_;
       }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          ChangeSuccessResponse, ChangeSuccessResponse.Builder, ChangeSuccessResponseOrBuilder> changeSuccessResponseBuilder_;
+      /**
+       * <code>.ChangeSuccessResponse changeSuccessResponse = 13;</code>
+       * @return Whether the changeSuccessResponse field is set.
+       */
+      @Override
+      public boolean hasChangeSuccessResponse() {
+        return dateBodyCase_ == 13;
+      }
+      /**
+       * <code>.ChangeSuccessResponse changeSuccessResponse = 13;</code>
+       * @return The changeSuccessResponse.
+       */
+      @Override
+      public ChangeSuccessResponse getChangeSuccessResponse() {
+        if (changeSuccessResponseBuilder_ == null) {
+          if (dateBodyCase_ == 13) {
+            return (ChangeSuccessResponse) dateBody_;
+          }
+          return ChangeSuccessResponse.getDefaultInstance();
+        } else {
+          if (dateBodyCase_ == 13) {
+            return changeSuccessResponseBuilder_.getMessage();
+          }
+          return ChangeSuccessResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.ChangeSuccessResponse changeSuccessResponse = 13;</code>
+       */
+      public Builder setChangeSuccessResponse(ChangeSuccessResponse value) {
+        if (changeSuccessResponseBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dateBody_ = value;
+          onChanged();
+        } else {
+          changeSuccessResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 13;
+        return this;
+      }
+      /**
+       * <code>.ChangeSuccessResponse changeSuccessResponse = 13;</code>
+       */
+      public Builder setChangeSuccessResponse(
+          ChangeSuccessResponse.Builder builderForValue) {
+        if (changeSuccessResponseBuilder_ == null) {
+          dateBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          changeSuccessResponseBuilder_.setMessage(builderForValue.build());
+        }
+        dateBodyCase_ = 13;
+        return this;
+      }
+      /**
+       * <code>.ChangeSuccessResponse changeSuccessResponse = 13;</code>
+       */
+      public Builder mergeChangeSuccessResponse(ChangeSuccessResponse value) {
+        if (changeSuccessResponseBuilder_ == null) {
+          if (dateBodyCase_ == 13 &&
+              dateBody_ != ChangeSuccessResponse.getDefaultInstance()) {
+            dateBody_ = ChangeSuccessResponse.newBuilder((ChangeSuccessResponse) dateBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dateBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dateBodyCase_ == 13) {
+            changeSuccessResponseBuilder_.mergeFrom(value);
+          }
+          changeSuccessResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 13;
+        return this;
+      }
+      /**
+       * <code>.ChangeSuccessResponse changeSuccessResponse = 13;</code>
+       */
+      public Builder clearChangeSuccessResponse() {
+        if (changeSuccessResponseBuilder_ == null) {
+          if (dateBodyCase_ == 13) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dateBodyCase_ == 13) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+          }
+          changeSuccessResponseBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.ChangeSuccessResponse changeSuccessResponse = 13;</code>
+       */
+      public ChangeSuccessResponse.Builder getChangeSuccessResponseBuilder() {
+        return getChangeSuccessResponseFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.ChangeSuccessResponse changeSuccessResponse = 13;</code>
+       */
+      @Override
+      public ChangeSuccessResponseOrBuilder getChangeSuccessResponseOrBuilder() {
+        if ((dateBodyCase_ == 13) && (changeSuccessResponseBuilder_ != null)) {
+          return changeSuccessResponseBuilder_.getMessageOrBuilder();
+        } else {
+          if (dateBodyCase_ == 13) {
+            return (ChangeSuccessResponse) dateBody_;
+          }
+          return ChangeSuccessResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.ChangeSuccessResponse changeSuccessResponse = 13;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          ChangeSuccessResponse, ChangeSuccessResponse.Builder, ChangeSuccessResponseOrBuilder>
+          getChangeSuccessResponseFieldBuilder() {
+        if (changeSuccessResponseBuilder_ == null) {
+          if (!(dateBodyCase_ == 13)) {
+            dateBody_ = ChangeSuccessResponse.getDefaultInstance();
+          }
+          changeSuccessResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              ChangeSuccessResponse, ChangeSuccessResponse.Builder, ChangeSuccessResponseOrBuilder>(
+                  (ChangeSuccessResponse) dateBody_,
+                  getParentForChildren(),
+                  isClean());
+          dateBody_ = null;
+        }
+        dateBodyCase_ = 13;
+        onChanged();;
+        return changeSuccessResponseBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          ChangeFailResponse, ChangeFailResponse.Builder, ChangeFailResponseOrBuilder> changeFailResponseBuilder_;
+      /**
+       * <code>.ChangeFailResponse changeFailResponse = 14;</code>
+       * @return Whether the changeFailResponse field is set.
+       */
+      @Override
+      public boolean hasChangeFailResponse() {
+        return dateBodyCase_ == 14;
+      }
+      /**
+       * <code>.ChangeFailResponse changeFailResponse = 14;</code>
+       * @return The changeFailResponse.
+       */
+      @Override
+      public ChangeFailResponse getChangeFailResponse() {
+        if (changeFailResponseBuilder_ == null) {
+          if (dateBodyCase_ == 14) {
+            return (ChangeFailResponse) dateBody_;
+          }
+          return ChangeFailResponse.getDefaultInstance();
+        } else {
+          if (dateBodyCase_ == 14) {
+            return changeFailResponseBuilder_.getMessage();
+          }
+          return ChangeFailResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.ChangeFailResponse changeFailResponse = 14;</code>
+       */
+      public Builder setChangeFailResponse(ChangeFailResponse value) {
+        if (changeFailResponseBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dateBody_ = value;
+          onChanged();
+        } else {
+          changeFailResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 14;
+        return this;
+      }
+      /**
+       * <code>.ChangeFailResponse changeFailResponse = 14;</code>
+       */
+      public Builder setChangeFailResponse(
+          ChangeFailResponse.Builder builderForValue) {
+        if (changeFailResponseBuilder_ == null) {
+          dateBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          changeFailResponseBuilder_.setMessage(builderForValue.build());
+        }
+        dateBodyCase_ = 14;
+        return this;
+      }
+      /**
+       * <code>.ChangeFailResponse changeFailResponse = 14;</code>
+       */
+      public Builder mergeChangeFailResponse(ChangeFailResponse value) {
+        if (changeFailResponseBuilder_ == null) {
+          if (dateBodyCase_ == 14 &&
+              dateBody_ != ChangeFailResponse.getDefaultInstance()) {
+            dateBody_ = ChangeFailResponse.newBuilder((ChangeFailResponse) dateBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dateBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dateBodyCase_ == 14) {
+            changeFailResponseBuilder_.mergeFrom(value);
+          }
+          changeFailResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 14;
+        return this;
+      }
+      /**
+       * <code>.ChangeFailResponse changeFailResponse = 14;</code>
+       */
+      public Builder clearChangeFailResponse() {
+        if (changeFailResponseBuilder_ == null) {
+          if (dateBodyCase_ == 14) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dateBodyCase_ == 14) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+          }
+          changeFailResponseBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.ChangeFailResponse changeFailResponse = 14;</code>
+       */
+      public ChangeFailResponse.Builder getChangeFailResponseBuilder() {
+        return getChangeFailResponseFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.ChangeFailResponse changeFailResponse = 14;</code>
+       */
+      @Override
+      public ChangeFailResponseOrBuilder getChangeFailResponseOrBuilder() {
+        if ((dateBodyCase_ == 14) && (changeFailResponseBuilder_ != null)) {
+          return changeFailResponseBuilder_.getMessageOrBuilder();
+        } else {
+          if (dateBodyCase_ == 14) {
+            return (ChangeFailResponse) dateBody_;
+          }
+          return ChangeFailResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.ChangeFailResponse changeFailResponse = 14;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          ChangeFailResponse, ChangeFailResponse.Builder, ChangeFailResponseOrBuilder>
+          getChangeFailResponseFieldBuilder() {
+        if (changeFailResponseBuilder_ == null) {
+          if (!(dateBodyCase_ == 14)) {
+            dateBody_ = ChangeFailResponse.getDefaultInstance();
+          }
+          changeFailResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              ChangeFailResponse, ChangeFailResponse.Builder, ChangeFailResponseOrBuilder>(
+                  (ChangeFailResponse) dateBody_,
+                  getParentForChildren(),
+                  isClean());
+          dateBody_ = null;
+        }
+        dateBodyCase_ = 14;
+        onChanged();;
+        return changeFailResponseBuilder_;
+      }
       @Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -3359,6 +3835,912 @@ public final class CopySceneModel {
 
     @Override
     public CopySceneModelMessage getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface ChangeSuccessResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:ChangeSuccessResponse)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code ChangeSuccessResponse}
+   */
+  public static final class ChangeSuccessResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:ChangeSuccessResponse)
+      ChangeSuccessResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use ChangeSuccessResponse.newBuilder() to construct.
+    private ChangeSuccessResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ChangeSuccessResponse() {
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ChangeSuccessResponse();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ChangeSuccessResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return CopySceneModel.internal_static_ChangeSuccessResponse_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return CopySceneModel.internal_static_ChangeSuccessResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ChangeSuccessResponse.class, Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ChangeSuccessResponse)) {
+        return super.equals(obj);
+      }
+      ChangeSuccessResponse other = (ChangeSuccessResponse) obj;
+
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ChangeSuccessResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ChangeSuccessResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ChangeSuccessResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ChangeSuccessResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ChangeSuccessResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ChangeSuccessResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ChangeSuccessResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static ChangeSuccessResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ChangeSuccessResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static ChangeSuccessResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ChangeSuccessResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static ChangeSuccessResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ChangeSuccessResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code ChangeSuccessResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:ChangeSuccessResponse)
+        ChangeSuccessResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return CopySceneModel.internal_static_ChangeSuccessResponse_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return CopySceneModel.internal_static_ChangeSuccessResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ChangeSuccessResponse.class, Builder.class);
+      }
+
+      // Construct using CopySceneModel.ChangeSuccessResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return CopySceneModel.internal_static_ChangeSuccessResponse_descriptor;
+      }
+
+      @Override
+      public ChangeSuccessResponse getDefaultInstanceForType() {
+        return ChangeSuccessResponse.getDefaultInstance();
+      }
+
+      @Override
+      public ChangeSuccessResponse build() {
+        ChangeSuccessResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public ChangeSuccessResponse buildPartial() {
+        ChangeSuccessResponse result = new ChangeSuccessResponse(this);
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ChangeSuccessResponse) {
+          return mergeFrom((ChangeSuccessResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ChangeSuccessResponse other) {
+        if (other == ChangeSuccessResponse.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        ChangeSuccessResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (ChangeSuccessResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:ChangeSuccessResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:ChangeSuccessResponse)
+    private static final ChangeSuccessResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ChangeSuccessResponse();
+    }
+
+    public static ChangeSuccessResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ChangeSuccessResponse>
+        PARSER = new com.google.protobuf.AbstractParser<ChangeSuccessResponse>() {
+      @Override
+      public ChangeSuccessResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ChangeSuccessResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ChangeSuccessResponse> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<ChangeSuccessResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public ChangeSuccessResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface ChangeFailResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:ChangeFailResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>int32 cause = 1;</code>
+     * @return The cause.
+     */
+    int getCause();
+  }
+  /**
+   * Protobuf type {@code ChangeFailResponse}
+   */
+  public static final class ChangeFailResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:ChangeFailResponse)
+      ChangeFailResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use ChangeFailResponse.newBuilder() to construct.
+    private ChangeFailResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ChangeFailResponse() {
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ChangeFailResponse();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ChangeFailResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+
+              cause_ = input.readInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return CopySceneModel.internal_static_ChangeFailResponse_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return CopySceneModel.internal_static_ChangeFailResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ChangeFailResponse.class, Builder.class);
+    }
+
+    public static final int CAUSE_FIELD_NUMBER = 1;
+    private int cause_;
+    /**
+     * <code>int32 cause = 1;</code>
+     * @return The cause.
+     */
+    @Override
+    public int getCause() {
+      return cause_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (cause_ != 0) {
+        output.writeInt32(1, cause_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (cause_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, cause_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ChangeFailResponse)) {
+        return super.equals(obj);
+      }
+      ChangeFailResponse other = (ChangeFailResponse) obj;
+
+      if (getCause()
+          != other.getCause()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + CAUSE_FIELD_NUMBER;
+      hash = (53 * hash) + getCause();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ChangeFailResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ChangeFailResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ChangeFailResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ChangeFailResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ChangeFailResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ChangeFailResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ChangeFailResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static ChangeFailResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ChangeFailResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static ChangeFailResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ChangeFailResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static ChangeFailResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ChangeFailResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code ChangeFailResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:ChangeFailResponse)
+        ChangeFailResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return CopySceneModel.internal_static_ChangeFailResponse_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return CopySceneModel.internal_static_ChangeFailResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ChangeFailResponse.class, Builder.class);
+      }
+
+      // Construct using CopySceneModel.ChangeFailResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        cause_ = 0;
+
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return CopySceneModel.internal_static_ChangeFailResponse_descriptor;
+      }
+
+      @Override
+      public ChangeFailResponse getDefaultInstanceForType() {
+        return ChangeFailResponse.getDefaultInstance();
+      }
+
+      @Override
+      public ChangeFailResponse build() {
+        ChangeFailResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public ChangeFailResponse buildPartial() {
+        ChangeFailResponse result = new ChangeFailResponse(this);
+        result.cause_ = cause_;
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ChangeFailResponse) {
+          return mergeFrom((ChangeFailResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ChangeFailResponse other) {
+        if (other == ChangeFailResponse.getDefaultInstance()) return this;
+        if (other.getCause() != 0) {
+          setCause(other.getCause());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        ChangeFailResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (ChangeFailResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private int cause_ ;
+      /**
+       * <code>int32 cause = 1;</code>
+       * @return The cause.
+       */
+      @Override
+      public int getCause() {
+        return cause_;
+      }
+      /**
+       * <code>int32 cause = 1;</code>
+       * @param value The cause to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCause(int value) {
+        
+        cause_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 cause = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCause() {
+        
+        cause_ = 0;
+        onChanged();
+        return this;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:ChangeFailResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:ChangeFailResponse)
+    private static final ChangeFailResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ChangeFailResponse();
+    }
+
+    public static ChangeFailResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ChangeFailResponse>
+        PARSER = new com.google.protobuf.AbstractParser<ChangeFailResponse>() {
+      @Override
+      public ChangeFailResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ChangeFailResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ChangeFailResponse> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<ChangeFailResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public ChangeFailResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -14839,6 +16221,16 @@ public final class CopySceneModel {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_CopySceneModelMessage_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_ChangeSuccessResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_ChangeSuccessResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_ChangeFailResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_ChangeFailResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_CopySceneDeleteResponse_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -14922,7 +16314,7 @@ public final class CopySceneModel {
       descriptor;
   static {
     String[] descriptorData = {
-      "\n\024CopySceneModel.proto\"\247\010\n\025CopySceneMode" +
+      "\n\024CopySceneModel.proto\"\306\t\n\025CopySceneMode" +
       "lMessage\0222\n\tdata_type\030\001 \001(\0162\037.CopySceneM" +
       "odelMessage.DateType\0229\n\026askCanCopySceneR" +
       "equest\030\002 \001(\0132\027.AskCanCopySceneRequestH\000\022" +
@@ -14940,47 +16332,53 @@ public final class CopySceneModel {
       "uest\030\n \001(\0132\025.ExitCopySceneRequestH\000\0227\n\025e" +
       "xitCopySceneResponse\030\013 \001(\0132\026.ExitCopySce" +
       "neResponseH\000\022;\n\027copySceneDeleteResponse\030" +
-      "\014 \001(\0132\030.CopySceneDeleteResponseH\000\"\300\002\n\010Da" +
-      "teType\022\032\n\026AskCanCopySceneRequest\020\000\022\033\n\027As" +
-      "kCanCopySceneResponse\020\001\022\033\n\027CopySceneMess" +
-      "ageRequest\020\002\022\034\n\030CopySceneMessageResponse" +
-      "\020\003\022\032\n\026CreateCopySceneRequest\020\004\022\033\n\027Create" +
-      "CopySceneResponse\020\005\022\031\n\025EnterCopySceneReq" +
-      "uest\020\006\022\032\n\026EnterCopySceneResponse\020\007\022\030\n\024Ex" +
-      "itCopySceneRequest\020\010\022\031\n\025ExitCopySceneRes" +
-      "ponse\020\t\022\033\n\027CopySceneDeleteResponse\020\nB\n\n\010" +
-      "dateBody\"=\n\027CopySceneDeleteResponse\022\023\n\013c" +
-      "opySceneId\030\001 \001(\005\022\r\n\005cause\030\002 \001(\005\"\030\n\026AskCa" +
-      "nCopySceneRequest\".\n\027AskCanCopySceneResp" +
-      "onse\022\023\n\013copySceneId\030\001 \003(\005\"2\n\027CopySceneMe" +
-      "ssageRequest\022\027\n\017copySceneBeanId\030\001 \001(\005\"G\n" +
-      "\030CopySceneMessageResponse\022+\n\020copySceneBe" +
-      "anDto\030\001 \001(\0132\021.CopySceneBeanDto\"-\n\026Create" +
-      "CopySceneRequest\022\023\n\013copySceneId\030\001 \001(\005\"F\n" +
-      "\027CreateCopySceneResponse\022+\n\020copySceneBea" +
-      "nDto\030\001 \001(\0132\021.CopySceneBeanDto\",\n\025EnterCo" +
-      "pySceneRequest\022\023\n\013copySceneId\030\001 \001(\005\"3\n\026E" +
-      "nterCopySceneResponse\022\031\n\007roleDto\030\001 \001(\0132\010" +
-      ".RoleDto\"\026\n\024ExitCopySceneRequest\"2\n\025Exit" +
-      "CopySceneResponse\022\031\n\007roleDto\030\001 \001(\0132\010.Rol" +
-      "eDto\"\267\001\n\013BossBeanDto\022\020\n\010nowBlood\030\001 \001(\005\022\r" +
-      "\n\005nowMp\030\002 \001(\005\022\022\n\nroleStatus\030\003 \001(\005\022\n\n\002id\030" +
-      "\004 \001(\005\022\014\n\004name\030\005 \001(\t\022\r\n\005blood\030\006 \001(\005\022\n\n\002mp" +
-      "\030\007 \001(\005\022\016\n\006attack\030\010 \001(\005\022\036\n\nbufferDtos\030\n \003" +
-      "(\0132\n.BufferDto\022\016\n\006status\030\013 \001(\005\"\261\001\n\020CopyS" +
-      "ceneBeanDto\022\022\n\ncreateTime\030\001 \001(\022\022\017\n\007endTi" +
-      "me\030\002 \001(\022\022\037\n\tbossBeans\030\003 \003(\0132\014.BossBeanDt" +
-      "o\022\031\n\007roleDto\030\004 \003(\0132\010.RoleDto\022\016\n\006status\030\005" +
-      " \001(\005\022\027\n\017copySceneBeanId\030\006 \001(\005\022\023\n\013copySce" +
-      "neId\030\007 \001(\005\"\277\001\n\007RoleDto\022\n\n\002id\030\001 \001(\005\022\014\n\004na" +
-      "me\030\002 \001(\t\022\016\n\006status\030\003 \001(\005\022\014\n\004type\030\004 \001(\005\022\020" +
-      "\n\010onStatus\030\005 \001(\005\022\r\n\005blood\030\006 \001(\005\022\020\n\010nowBl" +
-      "ood\030\007 \001(\005\022\n\n\002mp\030\010 \001(\005\022\r\n\005nowMp\030\t \001(\005\022\016\n\006" +
-      "teamId\030\n \001(\005\022\036\n\nbufferDtos\030\013 \003(\0132\n.Buffe" +
-      "rDto\"q\n\tBufferDto\022\022\n\nfromRoleId\030\001 \001(\005\022\020\n" +
-      "\010toRoleId\030\002 \001(\005\022\022\n\ncreateTime\030\003 \001(\022\022\n\n\002i" +
-      "d\030\004 \001(\005\022\014\n\004name\030\005 \001(\t\022\020\n\010lastTime\030\006 \001(\005B" +
-      "\020B\016CopySceneModelb\006proto3"
+      "\014 \001(\0132\030.CopySceneDeleteResponseH\000\0227\n\025cha" +
+      "ngeSuccessResponse\030\r \001(\0132\026.ChangeSuccess" +
+      "ResponseH\000\0221\n\022changeFailResponse\030\016 \001(\0132\023" +
+      ".ChangeFailResponseH\000\"\363\002\n\010DateType\022\032\n\026As" +
+      "kCanCopySceneRequest\020\000\022\033\n\027AskCanCopyScen" +
+      "eResponse\020\001\022\033\n\027CopySceneMessageRequest\020\002" +
+      "\022\034\n\030CopySceneMessageResponse\020\003\022\032\n\026Create" +
+      "CopySceneRequest\020\004\022\033\n\027CreateCopySceneRes" +
+      "ponse\020\005\022\031\n\025EnterCopySceneRequest\020\006\022\032\n\026En" +
+      "terCopySceneResponse\020\007\022\030\n\024ExitCopySceneR" +
+      "equest\020\010\022\031\n\025ExitCopySceneResponse\020\t\022\033\n\027C" +
+      "opySceneDeleteResponse\020\n\022\031\n\025ChangeSucces" +
+      "sResponse\020\013\022\026\n\022ChangeFailResponse\020\014B\n\n\010d" +
+      "ateBody\"\027\n\025ChangeSuccessResponse\"#\n\022Chan" +
+      "geFailResponse\022\r\n\005cause\030\001 \001(\005\"=\n\027CopySce" +
+      "neDeleteResponse\022\023\n\013copySceneId\030\001 \001(\005\022\r\n" +
+      "\005cause\030\002 \001(\005\"\030\n\026AskCanCopySceneRequest\"." +
+      "\n\027AskCanCopySceneResponse\022\023\n\013copySceneId" +
+      "\030\001 \003(\005\"2\n\027CopySceneMessageRequest\022\027\n\017cop" +
+      "ySceneBeanId\030\001 \001(\005\"G\n\030CopySceneMessageRe" +
+      "sponse\022+\n\020copySceneBeanDto\030\001 \001(\0132\021.CopyS" +
+      "ceneBeanDto\"-\n\026CreateCopySceneRequest\022\023\n" +
+      "\013copySceneId\030\001 \001(\005\"F\n\027CreateCopySceneRes" +
+      "ponse\022+\n\020copySceneBeanDto\030\001 \001(\0132\021.CopySc" +
+      "eneBeanDto\",\n\025EnterCopySceneRequest\022\023\n\013c" +
+      "opySceneId\030\001 \001(\005\"3\n\026EnterCopySceneRespon" +
+      "se\022\031\n\007roleDto\030\001 \001(\0132\010.RoleDto\"\026\n\024ExitCop" +
+      "ySceneRequest\"2\n\025ExitCopySceneResponse\022\031" +
+      "\n\007roleDto\030\001 \001(\0132\010.RoleDto\"\267\001\n\013BossBeanDt" +
+      "o\022\020\n\010nowBlood\030\001 \001(\005\022\r\n\005nowMp\030\002 \001(\005\022\022\n\nro" +
+      "leStatus\030\003 \001(\005\022\n\n\002id\030\004 \001(\005\022\014\n\004name\030\005 \001(\t" +
+      "\022\r\n\005blood\030\006 \001(\005\022\n\n\002mp\030\007 \001(\005\022\016\n\006attack\030\010 " +
+      "\001(\005\022\036\n\nbufferDtos\030\n \003(\0132\n.BufferDto\022\016\n\006s" +
+      "tatus\030\013 \001(\005\"\261\001\n\020CopySceneBeanDto\022\022\n\ncrea" +
+      "teTime\030\001 \001(\022\022\017\n\007endTime\030\002 \001(\022\022\037\n\tbossBea" +
+      "ns\030\003 \003(\0132\014.BossBeanDto\022\031\n\007roleDto\030\004 \003(\0132" +
+      "\010.RoleDto\022\016\n\006status\030\005 \001(\005\022\027\n\017copySceneBe" +
+      "anId\030\006 \001(\005\022\023\n\013copySceneId\030\007 \001(\005\"\277\001\n\007Role" +
+      "Dto\022\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\016\n\006status\030" +
+      "\003 \001(\005\022\014\n\004type\030\004 \001(\005\022\020\n\010onStatus\030\005 \001(\005\022\r\n" +
+      "\005blood\030\006 \001(\005\022\020\n\010nowBlood\030\007 \001(\005\022\n\n\002mp\030\010 \001" +
+      "(\005\022\r\n\005nowMp\030\t \001(\005\022\016\n\006teamId\030\n \001(\005\022\036\n\nbuf" +
+      "ferDtos\030\013 \003(\0132\n.BufferDto\"q\n\tBufferDto\022\022" +
+      "\n\nfromRoleId\030\001 \001(\005\022\020\n\010toRoleId\030\002 \001(\005\022\022\n\n" +
+      "createTime\030\003 \001(\022\022\n\n\002id\030\004 \001(\005\022\014\n\004name\030\005 \001" +
+      "(\t\022\020\n\010lastTime\030\006 \001(\005B\020B\016CopySceneModelb\006" +
+      "proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -14991,93 +16389,105 @@ public final class CopySceneModel {
     internal_static_CopySceneModelMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_CopySceneModelMessage_descriptor,
-        new String[] { "DataType", "AskCanCopySceneRequest", "AskCanCopySceneResponse", "CopySceneMessageRequest", "CopySceneMessageResponse", "CreateCopySceneRequest", "CreateCopySceneResponse", "EnterCopySceneRequest", "EnterCopySceneResponse", "ExitCopySceneRequest", "ExitCopySceneResponse", "CopySceneDeleteResponse", "DateBody", });
-    internal_static_CopySceneDeleteResponse_descriptor =
+        new String[] { "DataType", "AskCanCopySceneRequest", "AskCanCopySceneResponse", "CopySceneMessageRequest", "CopySceneMessageResponse", "CreateCopySceneRequest", "CreateCopySceneResponse", "EnterCopySceneRequest", "EnterCopySceneResponse", "ExitCopySceneRequest", "ExitCopySceneResponse", "CopySceneDeleteResponse", "ChangeSuccessResponse", "ChangeFailResponse", "DateBody", });
+    internal_static_ChangeSuccessResponse_descriptor =
       getDescriptor().getMessageTypes().get(1);
+    internal_static_ChangeSuccessResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_ChangeSuccessResponse_descriptor,
+        new String[] { });
+    internal_static_ChangeFailResponse_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_ChangeFailResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_ChangeFailResponse_descriptor,
+        new String[] { "Cause", });
+    internal_static_CopySceneDeleteResponse_descriptor =
+      getDescriptor().getMessageTypes().get(3);
     internal_static_CopySceneDeleteResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_CopySceneDeleteResponse_descriptor,
         new String[] { "CopySceneId", "Cause", });
     internal_static_AskCanCopySceneRequest_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(4);
     internal_static_AskCanCopySceneRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_AskCanCopySceneRequest_descriptor,
         new String[] { });
     internal_static_AskCanCopySceneResponse_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_AskCanCopySceneResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_AskCanCopySceneResponse_descriptor,
         new String[] { "CopySceneId", });
     internal_static_CopySceneMessageRequest_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_CopySceneMessageRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_CopySceneMessageRequest_descriptor,
         new String[] { "CopySceneBeanId", });
     internal_static_CopySceneMessageResponse_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_CopySceneMessageResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_CopySceneMessageResponse_descriptor,
         new String[] { "CopySceneBeanDto", });
     internal_static_CreateCopySceneRequest_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_CreateCopySceneRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_CreateCopySceneRequest_descriptor,
         new String[] { "CopySceneId", });
     internal_static_CreateCopySceneResponse_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_CreateCopySceneResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_CreateCopySceneResponse_descriptor,
         new String[] { "CopySceneBeanDto", });
     internal_static_EnterCopySceneRequest_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_EnterCopySceneRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_EnterCopySceneRequest_descriptor,
         new String[] { "CopySceneId", });
     internal_static_EnterCopySceneResponse_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_EnterCopySceneResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_EnterCopySceneResponse_descriptor,
         new String[] { "RoleDto", });
     internal_static_ExitCopySceneRequest_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_ExitCopySceneRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ExitCopySceneRequest_descriptor,
         new String[] { });
     internal_static_ExitCopySceneResponse_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_ExitCopySceneResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ExitCopySceneResponse_descriptor,
         new String[] { "RoleDto", });
     internal_static_BossBeanDto_descriptor =
-      getDescriptor().getMessageTypes().get(12);
+      getDescriptor().getMessageTypes().get(14);
     internal_static_BossBeanDto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BossBeanDto_descriptor,
         new String[] { "NowBlood", "NowMp", "RoleStatus", "Id", "Name", "Blood", "Mp", "Attack", "BufferDtos", "Status", });
     internal_static_CopySceneBeanDto_descriptor =
-      getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(15);
     internal_static_CopySceneBeanDto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_CopySceneBeanDto_descriptor,
         new String[] { "CreateTime", "EndTime", "BossBeans", "RoleDto", "Status", "CopySceneBeanId", "CopySceneId", });
     internal_static_RoleDto_descriptor =
-      getDescriptor().getMessageTypes().get(14);
+      getDescriptor().getMessageTypes().get(16);
     internal_static_RoleDto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_RoleDto_descriptor,
         new String[] { "Id", "Name", "Status", "Type", "OnStatus", "Blood", "NowBlood", "Mp", "NowMp", "TeamId", "BufferDtos", });
     internal_static_BufferDto_descriptor =
-      getDescriptor().getMessageTypes().get(15);
+      getDescriptor().getMessageTypes().get(17);
     internal_static_BufferDto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BufferDto_descriptor,

@@ -6,6 +6,7 @@ import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.CopySceneDeleteCauseCode;
+import com.liqihao.commons.enums.RoleStatusCode;
 import com.liqihao.pojo.baseMessage.CopySceneMessage;
 import com.liqihao.protobufObject.CopySceneModel;
 import com.liqihao.protobufObject.SceneModel;
@@ -143,8 +144,6 @@ public class CopySceneBean extends CopySceneMessage {
     }
 
 
-
-
     /**
      *     副本结束
      */
@@ -199,8 +198,81 @@ public class CopySceneBean extends CopySceneMessage {
         sendCopySceneDelete(teamBean,cause);
     }
 
-
-
+    /**
+     * 挑战成功
+     */
+    public void changeResult(TeamBean teamBean){
+        //将副本中的人物全部状态改为存活
+        for (MmoSimpleRole role:getMmoSimpleRoles()) {
+            role.setStatus(RoleStatusCode.ALIVE.getCode());
+        }
+        //副本解散
+        end(teamBean,CopySceneDeleteCauseCode.SUCCESS.getCode());
+        // 广播队伍副本挑战成功
+        NettyResponse nettyResponse=new NettyResponse();
+        nettyResponse.setCmd(ConstantValue.CHANGE_SUCCESS_RESPONSE);
+        nettyResponse.setStateCode(StateCode.SUCCESS);
+        CopySceneModel.CopySceneModelMessage.Builder builder=CopySceneModel.CopySceneModelMessage.newBuilder();
+        builder.setDataType(CopySceneModel.CopySceneModelMessage.DateType.ChangeSuccessResponse);
+        builder.setChangeSuccessResponse(CopySceneModel.ChangeSuccessResponse.newBuilder().build());
+        nettyResponse.setData(builder.build().toByteArray());
+        for (MmoSimpleRole role:teamBean.getMmoSimpleRoles()) {
+            Channel c=ChannelMessageCache.getInstance().get(role.getId());
+            if (c!=null) {
+                c.writeAndFlush(nettyResponse);
+            }
+        }
+    }
+    /**
+     * 挑战失败-人物全部死亡
+     */
+    public void changePeopleDie(TeamBean teamBean){
+        //将副本中的人物全部状态改为存活
+        for (MmoSimpleRole role:getMmoSimpleRoles()) {
+            role.setStatus(RoleStatusCode.ALIVE.getCode());
+        }
+        //副本解散
+        end(teamBean,CopySceneDeleteCauseCode.PEOPLEDIE.getCode());
+        // 广播队伍副本挑战失败
+        NettyResponse nettyResponse=new NettyResponse();
+        nettyResponse.setCmd(ConstantValue.CHANGE_FAIL_RESPONSE);
+        nettyResponse.setStateCode(StateCode.SUCCESS);
+        CopySceneModel.CopySceneModelMessage.Builder builder=CopySceneModel.CopySceneModelMessage.newBuilder();
+        builder.setDataType(CopySceneModel.CopySceneModelMessage.DateType.ChangeFailResponse);
+        builder.setChangeFailResponse(CopySceneModel.ChangeFailResponse.newBuilder().setCause(CopySceneDeleteCauseCode.PEOPLEDIE.getCode()).build());
+        nettyResponse.setData(builder.build().toByteArray());
+        for (MmoSimpleRole role:teamBean.getMmoSimpleRoles()) {
+            Channel c=ChannelMessageCache.getInstance().get(role.getId());
+            if (c!=null) {
+                c.writeAndFlush(nettyResponse);
+            }
+        }
+    }
+    /**
+     * 挑战失败-时间过时
+     */
+    public void changeFailTimeOut(TeamBean teamBean){
+        //将副本中的人物全部状态改为存活
+        for (MmoSimpleRole role:getMmoSimpleRoles()) {
+            role.setStatus(RoleStatusCode.ALIVE.getCode());
+        }
+        //副本解散
+        end(teamBean,CopySceneDeleteCauseCode.TIMEOUT.getCode());
+        //广播队伍副本挑战失败
+        NettyResponse nettyResponse=new NettyResponse();
+        nettyResponse.setCmd(ConstantValue.CHANGE_FAIL_RESPONSE);
+        nettyResponse.setStateCode(StateCode.SUCCESS);
+        CopySceneModel.CopySceneModelMessage.Builder builder=CopySceneModel.CopySceneModelMessage.newBuilder();
+        builder.setDataType(CopySceneModel.CopySceneModelMessage.DateType.ChangeFailResponse);
+        builder.setChangeFailResponse(CopySceneModel.ChangeFailResponse.newBuilder().setCause(CopySceneDeleteCauseCode.TIMEOUT.getCode()).build());
+        nettyResponse.setData(builder.build().toByteArray());
+        for (MmoSimpleRole role:teamBean.getMmoSimpleRoles()) {
+            Channel c=ChannelMessageCache.getInstance().get(role.getId());
+            if (c!=null) {
+                c.writeAndFlush(nettyResponse);
+            }
+        }
+    }
     public void sendCopySceneDelete(TeamBean teamBean,Integer cause){
         NettyResponse nettyResponse=new NettyResponse();
         nettyResponse.setCmd(ConstantValue.COPYSCENE_FINISH_RESPONSE);

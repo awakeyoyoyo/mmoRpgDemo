@@ -6,10 +6,7 @@ import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.*;
 import com.liqihao.pojo.baseMessage.SkillMessage;
-import com.liqihao.pojo.bean.BufferBean;
-import com.liqihao.pojo.bean.MmoSimpleNPC;
-import com.liqihao.pojo.bean.MmoSimpleRole;
-import com.liqihao.pojo.bean.SkillBean;
+import com.liqihao.pojo.bean.*;
 import com.liqihao.protobufObject.PlayModel;
 import io.netty.channel.Channel;
 import org.apache.log4j.Logger;
@@ -32,19 +29,30 @@ public class ScheduledThreadPoolUtil {
     /**
      *  存储了正在调度线程池中执行的buffer的角色id
      */
-
     private static ConcurrentHashMap<Integer, ScheduledFuture<?>> bufferRole = new ConcurrentHashMap<>();
     /**
      *  存储了正在调度线程池中执行的buffer的npc id限定一个npc只能攻击一个人
      */
-
     private static ConcurrentHashMap<Integer, ScheduledFuture<?>> npcTaskMap = new ConcurrentHashMap<>();
+    /**
+     *  存储了正在延迟线程池中执行的副本id
+     */
+    private static ConcurrentHashMap<Integer, ScheduledFuture<?>> copySceneTaskMap = new ConcurrentHashMap<>();
 
     public static void init() {
         replyMpRole = new ConcurrentHashMap<>();
         bufferRole = new ConcurrentHashMap<>();
         npcTaskMap = new ConcurrentHashMap<>();
+        copySceneTaskMap= new ConcurrentHashMap<>();
         scheduledExecutorService = new ScheduledThreadPoolExecutor(4);
+    }
+
+    public static ConcurrentHashMap<Integer, ScheduledFuture<?>> getCopySceneTaskMap() {
+        return copySceneTaskMap;
+    }
+
+    public static void setCopySceneTaskMap(ConcurrentHashMap<Integer, ScheduledFuture<?>> copySceneTaskMap) {
+        ScheduledThreadPoolUtil.copySceneTaskMap = copySceneTaskMap;
     }
 
     public static ConcurrentHashMap<Integer, ScheduledFuture<?>> getNpcTaskMap() {
@@ -338,6 +346,26 @@ public class ScheduledThreadPoolUtil {
                 mmoSimpleRole.changeNowBlood(-number,damageU,AttackStyleCode.USESKILL.getCode());
 
             }
+        }
+    }
+
+    public static class CopySceneOutTimeTask implements Runnable {
+        private TeamBean teamBean;
+        private CopySceneBean copySceneBean;
+        private Logger logger = Logger.getLogger(CopySceneOutTimeTask.class);
+
+        public CopySceneOutTimeTask() {
+
+        }
+
+        public CopySceneOutTimeTask(TeamBean teamBean, CopySceneBean copySceneBean) {
+            this.teamBean = teamBean;
+            this.copySceneBean = copySceneBean;
+        }
+
+        @Override
+        public void run() {
+           copySceneBean.changeFailTimeOut(teamBean);
         }
     }
 
