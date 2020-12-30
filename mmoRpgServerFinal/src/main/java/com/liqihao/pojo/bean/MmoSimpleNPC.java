@@ -60,13 +60,13 @@ public class MmoSimpleNPC extends Role {
             Integer hp = mmoSimpleNPC.getNowHp();
             if (skillBean.getSkillType().equals(SkillTypeCode.FIED.getCode())) {
                 //固伤 只有技能伤害
-                reduce = (int) Math.ceil(skillBean.getBaseDamage() * (1 + this.getDamageAdd()));
+                reduce = (int) Math.ceil(skillBean.getBaseDamage() * (1 + fromRole.getDamageAdd()));
                 hp -= reduce;
             }
             if (skillBean.getSkillType().equals(SkillTypeCode.PERCENTAGE.getCode())) {
                 //百分比 按照攻击力比例增加
                 Integer damage = skillBean.getBaseDamage();
-                damage = (int) Math.ceil(damage + mmoSimpleNPC.getAttack() * skillBean.getAddPercon());
+                damage = (int) Math.ceil(damage + fromRole.getAttack() * skillBean.getAddPercon());
                 hp = hp - damage;
                 reduce = damage;
             }
@@ -81,8 +81,10 @@ public class MmoSimpleNPC extends Role {
         }
         // 扣血伤害
         PlayModel.RoleIdDamage.Builder damageR = PlayModel.RoleIdDamage.newBuilder();
-        damageR.setFromRoleId(getId());
+        damageR.setFromRoleId(fromRole.getId());
+        damageR.setToRoleType(fromRole.getType());
         damageR.setToRoleId(mmoSimpleNPC.getId());
+        damageR.setToRoleType(getType());
         damageR.setAttackStyle(AttackStyleCode.ATTACK.getCode());
         damageR.setBufferId(-1);
         damageR.setDamage(reduce);
@@ -116,7 +118,6 @@ public class MmoSimpleNPC extends Role {
         if (!mmoSimpleNPC.getStatus().equals(RoleStatusCode.DIE.getCode())) {
             mmoSimpleNPC.npcAttack(fromRole.getId());
         }
-
     }
 
 

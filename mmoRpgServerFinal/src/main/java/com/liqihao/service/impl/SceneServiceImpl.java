@@ -12,10 +12,9 @@ import com.liqihao.commons.StateCode;
 import com.liqihao.dao.MmoRolePOJOMapper;
 import com.liqihao.pojo.MmoRolePOJO;
 import com.liqihao.pojo.baseMessage.NPCMessage;
-import com.liqihao.pojo.bean.MmoSimpleNPC;
-import com.liqihao.pojo.bean.MmoSimpleRole;
-import com.liqihao.pojo.bean.SceneBean;
+import com.liqihao.pojo.bean.*;
 import com.liqihao.protobufObject.SceneModel;
+import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.service.SceneService;
 import com.liqihao.util.CommonsUtil;
 import io.netty.channel.Channel;
@@ -128,9 +127,8 @@ public class SceneServiceImpl implements SceneService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.FIND_ALL_ROLES_REQUEST,module = ConstantValue.SCENE_MODULE)
     public void findAllRolesRequest(SceneModel.SceneModelMessage myMessage,Channel channel) throws InvalidProtocolBufferException {
-
-        Integer sceneId=myMessage.getFindAllRolesRequest().getSceneId();
         MmoSimpleRole mmoSimpleRole=CommonsUtil.checkLogin(channel);
+        Integer sceneId=mmoSimpleRole.getMmosceneid();
         if (mmoSimpleRole==null){
             return;
         }
@@ -138,43 +136,51 @@ public class SceneServiceImpl implements SceneService {
             channel.writeAndFlush(new NettyResponse(StateCode.FAIL,ConstantValue.FAIL_RESPONSE,"传入场景id为空".getBytes()));
             return;
         }
-        List<MmoSimpleRole> sceneRoles=new ArrayList<>();
+        List<Role> sceneRoles=new ArrayList<>();
         SceneBean sceneBean=SceneBeanMessageCache.getInstance().get(sceneId);
         if (sceneBean==null){
             channel.writeAndFlush(new NettyResponse(StateCode.FAIL,ConstantValue.FAIL_RESPONSE,"传入场景id为无效id".getBytes()));
             return;
         }
-        List<Integer> mmoSimpleRoles=sceneBean.getRoles();
-        List<Integer> npcs=sceneBean.getNpcs();
-        //NPC
-        for (Integer id:npcs){
-            MmoSimpleNPC temp=NpcMessageCache.getInstance().get(id);
-            MmoSimpleRole roleTemp=new MmoSimpleRole();
-            roleTemp.setId(temp.getId());
-            roleTemp.setName(temp.getName());
-            roleTemp.setStatus(temp.getStatus());
-            roleTemp.setType(temp.getType());
-            roleTemp.setOnStatus(temp.getOnStatus());
-            roleTemp.setHp(temp.getHp());
-            roleTemp.setNowHp(temp.getNowHp());
-            roleTemp.setMp(temp.getMp());
-            roleTemp.setNowMp(temp.getNowMp());
-            roleTemp.setMmosceneid(temp.getMmosceneid());
-            roleTemp.setAttack(temp.getAttack());
-            roleTemp.setDamageAdd(temp.getDamageAdd());
-            sceneRoles.add(roleTemp);
-        }
-        //ROLES
-        for (Integer id:mmoSimpleRoles){
-            MmoSimpleRole temp=OnlineRoleMessageCache.getInstance().get(id);
-            sceneRoles.add(temp);
+        if (sceneId!=null) {
+            List<Integer> mmoSimpleRoles = sceneBean.getRoles();
+            List<Integer> npcs = sceneBean.getNpcs();
+            //NPC
+            for (Integer id : npcs) {
+                MmoSimpleNPC temp = NpcMessageCache.getInstance().get(id);
+                MmoSimpleRole roleTemp = new MmoSimpleRole();
+                roleTemp.setId(temp.getId());
+                roleTemp.setName(temp.getName());
+                roleTemp.setStatus(temp.getStatus());
+                roleTemp.setType(temp.getType());
+                roleTemp.setOnStatus(temp.getOnStatus());
+                roleTemp.setHp(temp.getHp());
+                roleTemp.setNowHp(temp.getNowHp());
+                roleTemp.setMp(temp.getMp());
+                roleTemp.setNowMp(temp.getNowMp());
+                roleTemp.setMmosceneid(temp.getMmosceneid());
+                roleTemp.setAttack(temp.getAttack());
+                roleTemp.setDamageAdd(temp.getDamageAdd());
+                sceneRoles.add(roleTemp);
+            }
+            //ROLES
+            for (Integer id : mmoSimpleRoles) {
+                MmoSimpleRole temp = OnlineRoleMessageCache.getInstance().get(id);
+                sceneRoles.add(temp);
+            }
+        }else{
+            //在副本中
+            Integer copySceneBeanId=mmoSimpleRole.getCopySceneBeanId();
+            CopySceneBean copySceneBean= CopySceneProvider.getCopySceneBeanById(copySceneBeanId);
+            sceneRoles=copySceneBean.getRoles();
+            sceneRoles.addAll(copySceneBean.getBossBeans());
         }
         //protobuf
         SceneModel.SceneModelMessage.Builder messagedataBuilder=SceneModel.SceneModelMessage.newBuilder();
         messagedataBuilder.setDataType(SceneModel.SceneModelMessage.DateType.FindAllRolesResponse);
         SceneModel.FindAllRolesResponse.Builder findAllRolesResponseBuilder=SceneModel.FindAllRolesResponse.newBuilder();
         List<SceneModel.RoleDTO> roleDTOS=new ArrayList<>();
-        for (MmoSimpleRole m :sceneRoles) {
+        for (Role m :sceneRoles) {
             SceneModel.RoleDTO msr=SceneModel.RoleDTO.newBuilder().setId(m.getId())
                     .setName(m.getName())
                     .setOnStatus(m.getOnStatus())

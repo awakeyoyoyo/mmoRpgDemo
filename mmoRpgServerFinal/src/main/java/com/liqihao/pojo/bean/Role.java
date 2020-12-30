@@ -29,6 +29,15 @@ public class Role {
     private volatile Integer nowMp;
     private Integer copySceneBeanId;
     private Integer mmosceneid;
+    private Integer teamId;
+
+    public Integer getTeamId() {
+        return teamId;
+    }
+
+    public void setTeamId(Integer teamId) {
+        this.teamId = teamId;
+    }
 
     public Integer getMmosceneid() {
         return mmosceneid;
@@ -61,24 +70,6 @@ public class Role {
         return ;
     }
 
-    public List<MmoSimpleRole> getAllRoles(){
-        List<MmoSimpleRole> mmoSimpleRoles=new ArrayList<>();
-        if (getMmosceneid()!=null){
-            //场景中
-            SceneBean sceneBean= SceneBeanMessageCache.getInstance().get(getMmosceneid());
-            for (Integer id:sceneBean.getRoles()) {
-                MmoSimpleRole role= OnlineRoleMessageCache.getInstance().get(id);
-                if (role!=null){
-                    mmoSimpleRoles.add(role);
-                }
-            }
-        }else {
-            //副本中
-            CopySceneBean copySceneBean= CopySceneProvider.getCopySceneBeanById(getCopySceneBeanId());
-            mmoSimpleRoles.addAll(copySceneBean.getMmoSimpleRoles());
-        }
-        return mmoSimpleRoles;
-    }
     public List<MmoSimpleNPC> getAllNpcs(){
         List<MmoSimpleNPC> npcs=new ArrayList<>();
         if (getMmosceneid()!=null){

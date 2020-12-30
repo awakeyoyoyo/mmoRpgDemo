@@ -8,9 +8,12 @@ import com.liqihao.commons.enums.*;
 import com.liqihao.pojo.baseMessage.SkillMessage;
 import com.liqihao.pojo.bean.*;
 import com.liqihao.protobufObject.PlayModel;
+import com.liqihao.provider.TeamServiceProvider;
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import io.netty.channel.Channel;
 import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -27,23 +30,27 @@ public class ScheduledThreadPoolUtil {
      */
     private static ConcurrentHashMap<String, ScheduledFuture<?>> replyMpRole = new ConcurrentHashMap<>();
     /**
-     *  存储了正在调度线程池中执行的buffer的角色id
+     * 存储了正在调度线程池中执行的buffer的角色id
      */
     private static ConcurrentHashMap<Integer, ScheduledFuture<?>> bufferRole = new ConcurrentHashMap<>();
     /**
-     *  存储了正在调度线程池中执行的buffer的npc id限定一个npc只能攻击一个人
+     * 存储了正在调度线程池中执行的buffer的npc id限定一个npc只能攻击一个人
      */
     private static ConcurrentHashMap<Integer, ScheduledFuture<?>> npcTaskMap = new ConcurrentHashMap<>();
     /**
-     *  存储了正在延迟线程池中执行的副本id
+     * 存储了正在延迟线程池中执行的副本id
      */
     private static ConcurrentHashMap<Integer, ScheduledFuture<?>> copySceneTaskMap = new ConcurrentHashMap<>();
+    /**
+     * 存储了正在调度线程池中执行的boss 攻击线程
+     */
+    private static ConcurrentHashMap<Integer, ScheduledFuture<?>> bossTaskMap = new ConcurrentHashMap<>();
 
     public static void init() {
         replyMpRole = new ConcurrentHashMap<>();
         bufferRole = new ConcurrentHashMap<>();
         npcTaskMap = new ConcurrentHashMap<>();
-        copySceneTaskMap= new ConcurrentHashMap<>();
+        copySceneTaskMap = new ConcurrentHashMap<>();
         scheduledExecutorService = new ScheduledThreadPoolExecutor(4);
     }
 
@@ -171,11 +178,11 @@ public class ScheduledThreadPoolUtil {
             damageU.setSkillId(-1);
             //判断是玩家还是怪物执行不同的改变
             if (damageTypeCode.equals(DamageTypeCode.MP.getCode())) {
-                    damageU.setDamageType(damageTypeCode);
-                    role.changeMp(addNumber, damageU);
+                damageU.setDamageType(damageTypeCode);
+                role.changeMp(addNumber, damageU);
             } else {
-                    damageU.setDamageType(damageTypeCode);
-                    role.changeNowBlood(addNumber, damageU, AttackStyleCode.MEDICENE.getCode());
+                damageU.setDamageType(damageTypeCode);
+                role.changeNowBlood(addNumber, damageU, AttackStyleCode.MEDICENE.getCode());
             }
             if (times != null) {
                 times--;
@@ -212,21 +219,24 @@ public class ScheduledThreadPoolUtil {
                     bufferType.equals(BufferTypeCode.ADDMP.getCode()) ||
                     bufferType.equals(BufferTypeCode.REDUCEMP.getCode())) {
                 Integer toroleId = bufferBean.getToRoleId();
-                Integer toRoletype=bufferBean.getToRoleType();
-                if (toRoletype.equals(RoleTypeCode.NPC.getCode())||toRoletype.equals(RoleTypeCode.ENEMY.getCode())) {
+                Integer toRoletype = bufferBean.getToRoleType();
+                if (toRoletype.equals(RoleTypeCode.NPC.getCode()) || toRoletype.equals(RoleTypeCode.ENEMY.getCode())) {
                     MmoSimpleNPC npc = NpcMessageCache.getInstance().get(toroleId);
                     if (npc == null || npc.getStatus().equals(RoleStatusCode.DIE.getCode()) || count <= 0) {
                         //删除该buffer
                         String taskId = toroleId.toString() + bufferBean.getId().toString();
-                        replyMpRole.get(Integer.parseInt(taskId)).cancel(false);
-                        replyMpRole.remove(taskId);
+                        bufferRole.get(Integer.parseInt(taskId)).cancel(false);
+                        bufferRole.remove(taskId);
                     }
                     npc.effectByBuffer(bufferBean);
-                }else{
-                    MmoSimpleRole mmoSimpleRole=OnlineRoleMessageCache.getInstance().get(toroleId);
+                } else {
+                    MmoSimpleRole mmoSimpleRole = OnlineRoleMessageCache.getInstance().get(toroleId);
                     if (mmoSimpleRole == null || mmoSimpleRole.getStatus().equals(RoleStatusCode.DIE.getCode()) || count <= 0) {
-                    mmoSimpleRole.effectByBuffer(bufferBean);
+                        String taskId = toroleId.toString() + bufferBean.getId().toString();
+                        bufferRole.get(Integer.parseInt(taskId)).cancel(false);
+                        bufferRole.remove(taskId);
                     }
+                    mmoSimpleRole.effectByBuffer(bufferBean);
 
                 }
                 count--;
@@ -301,7 +311,7 @@ public class ScheduledThreadPoolUtil {
                 damageU.setBufferId(-1);
                 damageU.setDamageType(ConsuMeTypeCode.HP.getCode());
                 damageU.setSkillId(skillBean.getId());
-                mmoSimpleRole.changeNowBlood(-number,damageU,AttackStyleCode.USESKILL.getCode());
+                mmoSimpleRole.changeNowBlood(-number, damageU, AttackStyleCode.USESKILL.getCode());
 
             }
         }
@@ -323,8 +333,75 @@ public class ScheduledThreadPoolUtil {
 
         @Override
         public void run() {
-           copySceneBean.changeFailTimeOut(teamBean);
+            copySceneBean.changeFailTimeOut(teamBean);
         }
     }
+
+    public static class BossAttackTask implements Runnable {
+        private BossBean bossBean;
+        private CopySceneBean copySceneBean;
+        private List<SkillBean> skillBeans;
+        private Integer attackCount;
+        private Logger logger = Logger.getLogger(NpcAttackTask.class);
+
+        public BossAttackTask() {
+        }
+
+        public BossAttackTask(BossBean bossBean, CopySceneBean copySceneBean, List<SkillBean> skillBeans) {
+            this.bossBean = bossBean;
+            attackCount = 0;
+            this.skillBeans = skillBeans;
+            this.copySceneBean=copySceneBean;
+        }
+
+        @Override
+        public void run() {
+            logger.info("boss攻击线程");
+            //仇恨的第一人
+            Role role = null;
+            while (true) {
+                role = bossBean.getTarget();
+                if (role == null) {
+                    //bossBean.getTarget(); 查找为null 则代表着无人可以攻击了
+                    bossTaskMap.get(bossBean.getBossBeanId()).cancel(false);
+                    bossTaskMap.remove(bossBean.getBossBeanId());
+                    break;
+                }
+                if (role.getCopySceneBeanId() == null || !role.getCopySceneBeanId().equals(bossBean.getCopySceneBeanId()) ||
+                        role.getStatus().equals(RoleStatusCode.DIE.getCode()) ||
+                        bossBean.getStatus().equals(RoleStatusCode.DIE.getCode())) {
+                    continue;
+                } else {
+                    break;
+                }
+            }
+            if (role == null) {
+                // 挑战失败
+                TeamBean teamBean= TeamServiceProvider.getTeamBeanByTeamId(copySceneBean.getTeamId());
+                copySceneBean.changePeopleDie(teamBean);
+                return;
+            }
+            SkillBean skillBean = null;
+            //使用不同的技能
+            if (attackCount % 6 == 0) {
+                skillBean = skillBeans.get(1);
+            } else {
+                skillBean = skillBeans.get(0);
+            }
+            List<Role> targetRoles = new ArrayList<>();
+            if (skillBean.getSkillAttackType().equals(SkillAttackTypeCode.ALLPEOPLE.getCode())) {
+                for (Role r : copySceneBean.getRoles()) {
+                    if (r.getStatus().equals(RoleStatusCode.ALIVE.getCode()) && r.getCopySceneBeanId() != null && r.getCopySceneBeanId().equals(bossBean.getCopySceneBeanId())) {
+                        targetRoles.add(r);
+                    }
+                }
+            } else {
+                targetRoles.add(role);
+            }
+            //对role进行攻击
+            bossBean.useSkill(targetRoles, skillBean.getId());
+        }
+    }
+
 
 }

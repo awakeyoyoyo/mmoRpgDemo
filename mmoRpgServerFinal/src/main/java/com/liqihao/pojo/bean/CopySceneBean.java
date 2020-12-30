@@ -7,6 +7,7 @@ import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.CopySceneDeleteCauseCode;
 import com.liqihao.commons.enums.RoleStatusCode;
+import com.liqihao.commons.enums.RoleTypeCode;
 import com.liqihao.pojo.baseMessage.CopySceneMessage;
 import com.liqihao.protobufObject.CopySceneModel;
 import com.liqihao.protobufObject.SceneModel;
@@ -16,6 +17,7 @@ import io.netty.channel.Channel;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -26,10 +28,29 @@ import java.util.List;
 public class CopySceneBean extends CopySceneMessage {
     private long createTime;
     private long endTime;
-    private List<BossBean> bossBeans;
-    private List<MmoSimpleRole> mmoSimpleRoles;
+    private LinkedList<BossBean> bossBeans;
+    private List<Role> roles;
     private Integer status;
     private Integer copySceneBeanId;
+    private Integer teamId;
+    private BossBean nowBoss;
+
+    public BossBean getNowBoss() {
+        return nowBoss;
+    }
+
+    public void setNowBoss(BossBean nowBoss) {
+        this.nowBoss = nowBoss;
+    }
+
+    public Integer getTeamId() {
+        return teamId;
+    }
+
+    public void setTeamId(Integer teamId) {
+        this.teamId = teamId;
+    }
+
     public Integer getCopySceneBeanId() {
         return copySceneBeanId;
     }
@@ -54,20 +75,21 @@ public class CopySceneBean extends CopySceneMessage {
         this.endTime = endTime;
     }
 
-    public List<BossBean> getBossBeans() {
+    public LinkedList<BossBean> getBossBeans() {
         return bossBeans;
     }
 
-    public void setBossBeans(List<BossBean> bossBeans) {
+    public void setBossBeans(LinkedList<BossBean> bossBeans) {
         this.bossBeans = bossBeans;
     }
 
-    public List<MmoSimpleRole> getMmoSimpleRoles() {
-        return mmoSimpleRoles;
+
+    public List<Role> getRoles() {
+        return roles;
     }
 
-    public void setMmoSimpleRoles(List<MmoSimpleRole> mmoSimpleRoles) {
-        this.mmoSimpleRoles = mmoSimpleRoles;
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
     public Integer getStatus() {
@@ -83,13 +105,13 @@ public class CopySceneBean extends CopySceneMessage {
      * @param roleId
      */
     public void  peopleExit(Integer roleId) {
-        Iterator iterator=mmoSimpleRoles.iterator();
-        synchronized (mmoSimpleRoles) {
+        Iterator iterator=roles.iterator();
+        synchronized (roles) {
             while (iterator.hasNext()) {
                 MmoSimpleRole mmoSimpleRole = (MmoSimpleRole) iterator.next();
                 if (mmoSimpleRole.getId().equals(roleId)) {
                     //副本角色删除
-                    mmoSimpleRoles.remove(mmoSimpleRole);
+                    roles.remove(mmoSimpleRole);
                     Channel c = ChannelMessageCache.getInstance().get(roleId);
                     //从副本回到原来场景
                     Integer nextSceneId=mmoSimpleRole.getLastSceneId();
@@ -133,7 +155,7 @@ public class CopySceneBean extends CopySceneMessage {
         }
         //如果副本没人
         //copySceneProvider删除该副本
-        if (getMmoSimpleRoles().size()<=0) {
+        if (roles.size()<=0) {
             CopySceneProvider.deleteNewCopySceneById(copySceneBeanId);
             MmoSimpleRole mmoSimpleRole= OnlineRoleMessageCache.getInstance().get(roleId);
             TeamBean teamBean= TeamServiceProvider.getTeamBeanByTeamId(mmoSimpleRole.getTeamId());
@@ -148,12 +170,12 @@ public class CopySceneBean extends CopySceneMessage {
      *     副本结束
      */
     public void end(TeamBean teamBean,Integer cause) {
-        Iterator iterator=mmoSimpleRoles.iterator();
+        Iterator iterator=roles.iterator();
         while (iterator.hasNext()){
             MmoSimpleRole mmoSimpleRole= (MmoSimpleRole) iterator.next();
             //让用户回到原来的场景EE
             //副本角色删除
-            mmoSimpleRoles.remove(mmoSimpleRole);
+            roles.remove(mmoSimpleRole);
             Channel c = ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
             //从副本回到原来场景
             Integer nextSceneId=mmoSimpleRole.getLastSceneId();
@@ -203,8 +225,10 @@ public class CopySceneBean extends CopySceneMessage {
      */
     public void changeResult(TeamBean teamBean){
         //将副本中的人物全部状态改为存活
-        for (MmoSimpleRole role:getMmoSimpleRoles()) {
-            role.setStatus(RoleStatusCode.ALIVE.getCode());
+        for (Role role:roles) {
+            if (role.getType().equals(RoleTypeCode.PLAYER.getCode())) {
+                role.setStatus(RoleStatusCode.ALIVE.getCode());
+            }
         }
         //副本解散
         end(teamBean,CopySceneDeleteCauseCode.SUCCESS.getCode());
@@ -228,7 +252,7 @@ public class CopySceneBean extends CopySceneMessage {
      */
     public void changePeopleDie(TeamBean teamBean){
         //将副本中的人物全部状态改为存活
-        for (MmoSimpleRole role:getMmoSimpleRoles()) {
+        for (Role role:roles) {
             role.setStatus(RoleStatusCode.ALIVE.getCode());
         }
         //副本解散
@@ -253,7 +277,7 @@ public class CopySceneBean extends CopySceneMessage {
      */
     public void changeFailTimeOut(TeamBean teamBean){
         //将副本中的人物全部状态改为存活
-        for (MmoSimpleRole role:getMmoSimpleRoles()) {
+        for (Role role:roles) {
             role.setStatus(RoleStatusCode.ALIVE.getCode());
         }
         //副本解散
@@ -287,6 +311,16 @@ public class CopySceneBean extends CopySceneMessage {
             if (c!=null) {
                 c.writeAndFlush(nettyResponse);
             }
+        }
+    }
+
+    public void bossComeOrFinish() {
+        //todo
+        if (bossBeans.size()>0){
+            BossBean bossBean=bossBeans.pop();
+        }else{
+            // todo
+            // 挑战成功
         }
     }
 }

@@ -25,8 +25,15 @@ public class SkillBean {
     private List<Integer> bufferIds;
     private Integer skillType;
     private double addPercon;
+    private Integer skillAttackType;
 
+    public Integer getSkillAttackType() {
+        return skillAttackType;
+    }
 
+    public void setSkillAttackType(Integer skillAttackType) {
+        this.skillAttackType = skillAttackType;
+    }
 
     /**
      * 作用于npc

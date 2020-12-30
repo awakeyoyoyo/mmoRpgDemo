@@ -13,6 +13,7 @@ import com.liqihao.util.ScheduledThreadPoolUtil;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -34,14 +35,16 @@ public class CopySceneProvider {
         Integer copyBeanId=copySceneBeanIdAuto.incrementAndGet();
         CopySceneBean copySceneBean= CommonsUtil.copySceneMessageToCopySceneBean(copySceneMessage);
         copySceneBean.setCopySceneBeanId(copyBeanId);
+        copySceneBean.setTeamId(teamBean.getTeamId());
         List<Integer> bossIds=CommonsUtil.split(copySceneMessage.getBossIds());
-        List<BossBean> bossBeans=new ArrayList<>();
+        LinkedList<BossBean> bossBeans=new LinkedList<>();
         for (Integer id:bossIds) {
             BossMessage bossMessage=BossMessageCache.getInstance().get(id);
             BossBean bossBean=CommonsUtil.bossMessageToBossBean(bossMessage);
             Integer bossBeanId=bossBeanIdAuto.incrementAndGet();
             bossBean.setBossBeanId(bossBeanId);
-            bossBeans.add(bossBean);
+            bossBean.setCopySceneBeanId(copySceneBean.getCopySceneBeanId());
+            bossBeans.push(bossBean);
         }
         copySceneBean.setBossBeans(bossBeans);
         //开启定时任务
@@ -64,7 +67,6 @@ public class CopySceneProvider {
                     copySceneTaskMap.get(copySceneBean.getCopySceneBeanId()).cancel(false);
                     copySceneTaskMap.remove(copySceneBean.getCopySceneBeanId());
                 }
-
                 copySceneBeans.remove(copySceneBean.getCopySceneBeanId());
             }
         }

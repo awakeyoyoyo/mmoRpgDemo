@@ -7,20 +7,16 @@ import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
+import com.liqihao.commons.enums.RoleTypeCode;
 import com.liqihao.pojo.baseMessage.CopySceneMessage;
-import com.liqihao.pojo.bean.BossBean;
-import com.liqihao.pojo.bean.CopySceneBean;
-import com.liqihao.pojo.bean.MmoSimpleRole;
-import com.liqihao.pojo.bean.TeamBean;
+import com.liqihao.pojo.bean.*;
 import com.liqihao.protobufObject.CopySceneModel;
-import com.liqihao.protobufObject.TeamModel;
 import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.provider.TeamServiceProvider;
 import com.liqihao.service.CopySceneService;
 import com.liqihao.util.CommonsUtil;
 import io.netty.channel.Channel;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -127,10 +123,12 @@ public class CopySceneServiceImpl implements CopySceneService {
         nettyResponse.setCmd(ConstantValue.ENTER_COPYSCENE_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(messageData.toByteArray());
-        for (MmoSimpleRole m:copySceneBean.getMmoSimpleRoles()) {
-            Channel c= ChannelMessageCache.getInstance().get(m.getId());
-            if (c!=null) {
-                c.writeAndFlush(nettyResponse);
+        for (Role m:copySceneBean.getRoles()) {
+            if (m.getType().equals(RoleTypeCode.PLAYER.getCode())) {
+                Channel c = ChannelMessageCache.getInstance().get(m.getId());
+                if (c != null) {
+                    c.writeAndFlush(nettyResponse);
+                }
             }
         }
     }
@@ -221,9 +219,11 @@ public class CopySceneServiceImpl implements CopySceneService {
             bossBeanDtos.add(bossBeanDto);
         }
         //roleDto
-        for (MmoSimpleRole role:copySceneBean.getMmoSimpleRoles()){
-            CopySceneModel.RoleDto roleDto=CommonsUtil.mmoSimpleRolesToCopyScneRoleDto(role);
-            roleDtos.add(roleDto);
+        for (Role role:copySceneBean.getRoles()){
+            if (role.getType().equals(RoleTypeCode.PLAYER.getCode())) {
+                CopySceneModel.RoleDto roleDto = CommonsUtil.mmoSimpleRolesToCopyScneRoleDto((MmoSimpleRole) role);
+                roleDtos.add(roleDto);
+            }
         }
         CopySceneModel.CopySceneModelMessage messageData=CopySceneModel.CopySceneModelMessage.newBuilder()
                 .setDataType(CopySceneModel.CopySceneModelMessage.DateType.CreateCopySceneResponse)
@@ -253,9 +253,11 @@ public class CopySceneServiceImpl implements CopySceneService {
             bossBeanDtos.add(bossBeanDto);
         }
         //roleDto
-        for (MmoSimpleRole role:copySceneBean.getMmoSimpleRoles()){
-            CopySceneModel.RoleDto roleDto=CommonsUtil.mmoSimpleRolesToCopyScneRoleDto(role);
-            roleDtos.add(roleDto);
+        for (Role role:copySceneBean.getRoles()){
+            if (role.getType().equals(RoleTypeCode.PLAYER.getCode())) {
+                CopySceneModel.RoleDto roleDto = CommonsUtil.mmoSimpleRolesToCopyScneRoleDto((MmoSimpleRole) role);
+                roleDtos.add(roleDto);
+            }
         }
         CopySceneModel.CopySceneModelMessage messageData=CopySceneModel.CopySceneModelMessage.newBuilder()
                 .setDataType(CopySceneModel.CopySceneModelMessage.DateType.CopySceneMessageResponse)
