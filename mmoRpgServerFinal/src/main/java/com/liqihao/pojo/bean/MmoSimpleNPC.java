@@ -30,7 +30,6 @@ public class MmoSimpleNPC extends Role {
 
     public final ReentrantReadWriteLock hpRwLock = new ReentrantReadWriteLock();
     public final ReentrantReadWriteLock mpRwLock = new ReentrantReadWriteLock();
-    private Integer mmosceneid;
     private String talk;
 
     public String getTalk() {
@@ -41,13 +40,7 @@ public class MmoSimpleNPC extends Role {
         this.talk = talk;
     }
 
-    public Integer getMmosceneid() {
-        return mmosceneid;
-    }
 
-    public void setMmosceneid(Integer mmosceneid) {
-        this.mmosceneid = mmosceneid;
-    }
 
     /**
      * 判断是否死亡,并且更改状态

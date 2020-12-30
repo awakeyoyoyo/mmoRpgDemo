@@ -1,7 +1,13 @@
 package com.liqihao.pojo.bean;
 
+import com.liqihao.Cache.NpcMessageCache;
+import com.liqihao.Cache.OnlineRoleMessageCache;
+import com.liqihao.Cache.SceneBeanMessageCache;
 import com.liqihao.protobufObject.PlayModel;
+import com.liqihao.provider.CopySceneProvider;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -21,6 +27,23 @@ public class Role {
     private CopyOnWriteArrayList<BufferBean> bufferBeans;
     private volatile Integer nowHp;
     private volatile Integer nowMp;
+    private Integer copySceneBeanId;
+    private Integer mmosceneid;
+
+    public Integer getMmosceneid() {
+        return mmosceneid;
+    }
+
+    public void setMmosceneid(Integer mmosceneid) {
+        this.mmosceneid = mmosceneid;
+    }
+    public Integer getCopySceneBeanId() {
+        return copySceneBeanId;
+    }
+
+    public void setCopySceneBeanId(Integer copySceneBeanId) {
+        this.copySceneBeanId = copySceneBeanId;
+    }
 
     public Integer getId() {
         return id;
@@ -37,6 +60,43 @@ public class Role {
     public void beAttack(SkillBean skillBean,Role fromRole) {
         return ;
     }
+
+    public List<MmoSimpleRole> getAllRoles(){
+        List<MmoSimpleRole> mmoSimpleRoles=new ArrayList<>();
+        if (getMmosceneid()!=null){
+            //场景中
+            SceneBean sceneBean= SceneBeanMessageCache.getInstance().get(getMmosceneid());
+            for (Integer id:sceneBean.getRoles()) {
+                MmoSimpleRole role= OnlineRoleMessageCache.getInstance().get(id);
+                if (role!=null){
+                    mmoSimpleRoles.add(role);
+                }
+            }
+        }else {
+            //副本中
+            CopySceneBean copySceneBean= CopySceneProvider.getCopySceneBeanById(getCopySceneBeanId());
+            mmoSimpleRoles.addAll(copySceneBean.getMmoSimpleRoles());
+        }
+        return mmoSimpleRoles;
+    }
+    public List<MmoSimpleNPC> getAllNpcs(){
+        List<MmoSimpleNPC> npcs=new ArrayList<>();
+        if (getMmosceneid()!=null){
+            //场景中
+            SceneBean sceneBean= SceneBeanMessageCache.getInstance().get(getMmosceneid());
+            for (Integer id:sceneBean.getNpcs()) {
+                MmoSimpleNPC role= NpcMessageCache.getInstance().get(id);
+                if (role!=null){
+                    npcs.add(role);
+                }
+            }
+        }else {
+            //副本中
+
+        }
+        return npcs;
+    }
+
     public void setId(Integer id) {
         this.id = id;
     }

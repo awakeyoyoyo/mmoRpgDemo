@@ -40,16 +40,6 @@ public class MmoSimpleRole extends Role  {
     private Integer teamId;
     private Integer lastSceneId;
     private Integer teamApplyOrInviteSize;
-    private Integer mmosceneid;
-
-    public Integer getMmosceneid() {
-        return mmosceneid;
-    }
-
-    public void setMmosceneid(Integer mmosceneid) {
-        this.mmosceneid = mmosceneid;
-    }
-
     /**
      * 装备栏
      */
@@ -70,7 +60,6 @@ public class MmoSimpleRole extends Role  {
     public void setTeamApplyOrInviteSize(Integer teamApplyOrInviteSize) {
         this.teamApplyOrInviteSize = teamApplyOrInviteSize;
     }
-
 
     public void addTeamApplyOrInviteBean(TeamApplyOrInviteBean teamApplyOrInviteBean) {
         checkOutTime();
@@ -372,7 +361,7 @@ public class MmoSimpleRole extends Role  {
         }
 
 
-        // todo 被攻击怪物or人物orBoss
+        //  被攻击怪物or人物orBoss
         for (Role r :target) {
             r.beAttack(skillBean,this);
             //buffer

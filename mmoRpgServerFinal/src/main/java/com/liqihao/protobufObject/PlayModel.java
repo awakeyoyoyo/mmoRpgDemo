@@ -6878,10 +6878,10 @@ public final class PlayModel {
     int getSkillId();
 
     /**
-     * <code>int32 sceneId = 2;</code>
-     * @return The sceneId.
+     * <code>int32 roleId = 2;</code>
+     * @return The roleId.
      */
-    int getSceneId();
+    int getRoleId();
   }
   /**
    * Protobuf type {@code UseSkillRequest}
@@ -6935,7 +6935,7 @@ public final class PlayModel {
             }
             case 16: {
 
-              sceneId_ = input.readInt32();
+              roleId_ = input.readInt32();
               break;
             }
             default: {
@@ -6981,15 +6981,15 @@ public final class PlayModel {
       return skillId_;
     }
 
-    public static final int SCENEID_FIELD_NUMBER = 2;
-    private int sceneId_;
+    public static final int ROLEID_FIELD_NUMBER = 2;
+    private int roleId_;
     /**
-     * <code>int32 sceneId = 2;</code>
-     * @return The sceneId.
+     * <code>int32 roleId = 2;</code>
+     * @return The roleId.
      */
     @Override
-    public int getSceneId() {
-      return sceneId_;
+    public int getRoleId() {
+      return roleId_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -7009,8 +7009,8 @@ public final class PlayModel {
       if (skillId_ != 0) {
         output.writeInt32(1, skillId_);
       }
-      if (sceneId_ != 0) {
-        output.writeInt32(2, sceneId_);
+      if (roleId_ != 0) {
+        output.writeInt32(2, roleId_);
       }
       unknownFields.writeTo(output);
     }
@@ -7025,9 +7025,9 @@ public final class PlayModel {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(1, skillId_);
       }
-      if (sceneId_ != 0) {
+      if (roleId_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, sceneId_);
+          .computeInt32Size(2, roleId_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -7046,8 +7046,8 @@ public final class PlayModel {
 
       if (getSkillId()
           != other.getSkillId()) return false;
-      if (getSceneId()
-          != other.getSceneId()) return false;
+      if (getRoleId()
+          != other.getRoleId()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -7061,8 +7061,8 @@ public final class PlayModel {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + SKILLID_FIELD_NUMBER;
       hash = (53 * hash) + getSkillId();
-      hash = (37 * hash) + SCENEID_FIELD_NUMBER;
-      hash = (53 * hash) + getSceneId();
+      hash = (37 * hash) + ROLEID_FIELD_NUMBER;
+      hash = (53 * hash) + getRoleId();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -7198,7 +7198,7 @@ public final class PlayModel {
         super.clear();
         skillId_ = 0;
 
-        sceneId_ = 0;
+        roleId_ = 0;
 
         return this;
       }
@@ -7227,7 +7227,7 @@ public final class PlayModel {
       public UseSkillRequest buildPartial() {
         UseSkillRequest result = new UseSkillRequest(this);
         result.skillId_ = skillId_;
-        result.sceneId_ = sceneId_;
+        result.roleId_ = roleId_;
         onBuilt();
         return result;
       }
@@ -7279,8 +7279,8 @@ public final class PlayModel {
         if (other.getSkillId() != 0) {
           setSkillId(other.getSkillId());
         }
-        if (other.getSceneId() != 0) {
-          setSceneId(other.getSceneId());
+        if (other.getRoleId() != 0) {
+          setRoleId(other.getRoleId());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -7342,33 +7342,33 @@ public final class PlayModel {
         return this;
       }
 
-      private int sceneId_ ;
+      private int roleId_ ;
       /**
-       * <code>int32 sceneId = 2;</code>
-       * @return The sceneId.
+       * <code>int32 roleId = 2;</code>
+       * @return The roleId.
        */
       @Override
-      public int getSceneId() {
-        return sceneId_;
+      public int getRoleId() {
+        return roleId_;
       }
       /**
-       * <code>int32 sceneId = 2;</code>
-       * @param value The sceneId to set.
+       * <code>int32 roleId = 2;</code>
+       * @param value The roleId to set.
        * @return This builder for chaining.
        */
-      public Builder setSceneId(int value) {
+      public Builder setRoleId(int value) {
         
-        sceneId_ = value;
+        roleId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>int32 sceneId = 2;</code>
+       * <code>int32 roleId = 2;</code>
        * @return This builder for chaining.
        */
-      public Builder clearSceneId() {
+      public Builder clearRoleId() {
         
-        sceneId_ = 0;
+        roleId_ = 0;
         onChanged();
         return this;
       }
@@ -11868,24 +11868,24 @@ public final class PlayModel {
       "2\010.RoleDTO\"6\n\020RegisterResponse\022\021\n\tstateC" +
       "ode\030\001 \001(\005\022\017\n\007message\030\002 \001(\t\"\017\n\rLogoutRequ" +
       "est\"+\n\016LogoutResponse\022\014\n\004code\030\001 \001(\005\022\013\n\003m" +
-      "xg\030\002 \001(\t\"3\n\017UseSkillRequest\022\017\n\007skillId\030\001" +
-      " \001(\005\022\017\n\007sceneId\030\002 \001(\005\"8\n\020UseSkillRespons" +
-      "e\022$\n\rroleIdDamages\030\001 \003(\0132\r.RoleIdDamage\"" +
-      "<\n\025DamagesNoticeResponse\022#\n\014roleIdDamage" +
-      "\030\001 \001(\0132\r.RoleIdDamage\"\327\001\n\007RoleDTO\022\n\n\002id\030" +
-      "\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\016\n\006status\030\003 \001(\005\022\014\n\004t" +
-      "ype\030\004 \001(\005\022\020\n\010onStatus\030\005 \001(\005\022\r\n\005blood\030\006 \001" +
-      "(\005\022\020\n\010nowBlood\030\007 \001(\005\022\n\n\002mp\030\010 \001(\005\022\r\n\005nowM" +
-      "p\030\t \001(\005\022\023\n\013skillIdList\030\n \003(\005\022\016\n\006attack\030\013" +
-      " \001(\005\022\021\n\tattackAdd\030\014 \001(\001\022\016\n\006teamId\030\r \001(\005\"" +
-      "\217\002\n\014RoleIdDamage\022\022\n\nfromRoleId\030\001 \001(\005\022\020\n\010" +
-      "toRoleId\030\002 \001(\005\022\020\n\010bufferId\030\003 \001(\005\022\017\n\007skil" +
-      "lId\030\004 \001(\005\022\023\n\013attackStyle\030\005 \001(\005\022\022\n\ndamage" +
-      "Type\030\006 \001(\005\022\016\n\006damage\030\007 \001(\005\022\020\n\010nowblood\030\010" +
-      " \001(\005\022\n\n\002mp\030\t \001(\005\022\r\n\005State\030\n \001(\005\022\024\n\014fromR" +
-      "oleType\030\013 \001(\005\022\022\n\ntoRoleType\030\014 \001(\005\022\021\n\tart" +
-      "icleId\030\r \001(\005\022\023\n\013articleType\030\016 \001(\005B\013B\tPla" +
-      "yModelb\006proto3"
+      "xg\030\002 \001(\t\"2\n\017UseSkillRequest\022\017\n\007skillId\030\001" +
+      " \001(\005\022\016\n\006roleId\030\002 \001(\005\"8\n\020UseSkillResponse" +
+      "\022$\n\rroleIdDamages\030\001 \003(\0132\r.RoleIdDamage\"<" +
+      "\n\025DamagesNoticeResponse\022#\n\014roleIdDamage\030" +
+      "\001 \001(\0132\r.RoleIdDamage\"\327\001\n\007RoleDTO\022\n\n\002id\030\001" +
+      " \001(\005\022\014\n\004name\030\002 \001(\t\022\016\n\006status\030\003 \001(\005\022\014\n\004ty" +
+      "pe\030\004 \001(\005\022\020\n\010onStatus\030\005 \001(\005\022\r\n\005blood\030\006 \001(" +
+      "\005\022\020\n\010nowBlood\030\007 \001(\005\022\n\n\002mp\030\010 \001(\005\022\r\n\005nowMp" +
+      "\030\t \001(\005\022\023\n\013skillIdList\030\n \003(\005\022\016\n\006attack\030\013 " +
+      "\001(\005\022\021\n\tattackAdd\030\014 \001(\001\022\016\n\006teamId\030\r \001(\005\"\217" +
+      "\002\n\014RoleIdDamage\022\022\n\nfromRoleId\030\001 \001(\005\022\020\n\010t" +
+      "oRoleId\030\002 \001(\005\022\020\n\010bufferId\030\003 \001(\005\022\017\n\007skill" +
+      "Id\030\004 \001(\005\022\023\n\013attackStyle\030\005 \001(\005\022\022\n\ndamageT" +
+      "ype\030\006 \001(\005\022\016\n\006damage\030\007 \001(\005\022\020\n\010nowblood\030\010 " +
+      "\001(\005\022\n\n\002mp\030\t \001(\005\022\r\n\005State\030\n \001(\005\022\024\n\014fromRo" +
+      "leType\030\013 \001(\005\022\022\n\ntoRoleType\030\014 \001(\005\022\021\n\tarti" +
+      "cleId\030\r \001(\005\022\023\n\013articleType\030\016 \001(\005B\013B\tPlay" +
+      "Modelb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -11938,7 +11938,7 @@ public final class PlayModel {
     internal_static_UseSkillRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_UseSkillRequest_descriptor,
-        new String[] { "SkillId", "SceneId", });
+        new String[] { "SkillId", "RoleId", });
     internal_static_UseSkillResponse_descriptor =
       getDescriptor().getMessageTypes().get(8);
     internal_static_UseSkillResponse_fieldAccessorTable = new

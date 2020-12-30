@@ -5,6 +5,8 @@ import com.liqihao.commons.MmoCacheCilent;
 import com.liqihao.commons.CmdCode;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyRequest;
+import com.liqihao.commons.enums.SkillAttackTypeCode;
+import com.liqihao.commons.enums.SkillTypeCode;
 import com.liqihao.pojo.MmoRole;
 import com.liqihao.pojo.baseMessage.SceneMessage;
 import com.liqihao.pojo.baseMessage.SkillMessage;
@@ -527,16 +529,22 @@ public class GameStart {
         List<Integer> skills=mmoRole.getSkillIdList();
         ConcurrentHashMap<Integer, SkillMessage> map=MmoCacheCilent.getInstance().getSkillMessageConcurrentHashMap();
         for (Integer sId:skills) {
-            System.out.println("技能Id： "+map.get(sId).getId()+" 技能名称："+map.get(sId).getSkillName());
+            System.out.println("技能Id： "+map.get(sId).getId()+" 技能名称："+map.get(sId).getSkillName()+" 技能类型"+ SkillAttackTypeCode.getValue(map.get(sId).getSkillAttackType()));
         }
-        System.out.println("请输入你使用的技能id");
+        System.out.println("请输入你使用的技能id：");
         Integer skillId=scanner.nextInt();
+        Integer roleId=null;
+        if (map.get(skillId).getSkillAttackType().equals(SkillAttackTypeCode.SINGLE.getCode())){
+            System.out.println("请输入你的施法目标：");
+            roleId=scanner.nextInt();
+        }
         NettyRequest nettyRequest=new NettyRequest();
         nettyRequest.setCmd(ConstantValue.USE_SKILL_REQUEST);
         PlayModel.PlayModelMessage myMessage;
         myMessage=PlayModel.PlayModelMessage.newBuilder()
                 .setDataType(PlayModel.PlayModelMessage.DateType.UseSkillRequest)
-                .setUseSkillRequest(PlayModel.UseSkillRequest.newBuilder().setSkillId(skillId).setSceneId(MmoCacheCilent.getInstance().getNowSceneId()).build()).build();
+                .setUseSkillRequest(PlayModel.UseSkillRequest.newBuilder()
+                        .setSkillId(skillId).setRoleId(roleId==null?-1:roleId).build()).build();
         byte[] data=myMessage.toByteArray();
         nettyRequest.setData(data);
         channel.writeAndFlush(nettyRequest);

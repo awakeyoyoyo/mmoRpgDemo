@@ -13,6 +13,7 @@ import com.liqihao.pojo.bean.*;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.service.PlayService;
 import com.liqihao.util.CommonsUtil;
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -238,11 +239,11 @@ public class PlayServiceImpl implements PlayService{
     public void useSkillRequest(PlayModel.PlayModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException {
 
         Integer skillId=myMessage.getUseSkillRequest().getSkillId();
+        Integer targetId=myMessage.getUseSkillRequest().getRoleId();
         MmoSimpleRole mmoSimpleRole=CommonsUtil.checkLogin(channel);
         if (mmoSimpleRole==null){
            return;
         }
-        Integer sceneId=mmoSimpleRole.getMmosceneid();
         //判断cd
         Long nextTime= mmoSimpleRole.getCdMap().get(skillId);
         if (nextTime!=null){
@@ -279,22 +280,23 @@ public class PlayServiceImpl implements PlayService{
             channel.writeAndFlush(new NettyResponse(StateCode.FAIL,ConstantValue.FAIL_RESPONSE, "武器耐久度为0，请脱落武器再攻击".getBytes()));
             return;
         }
-        //todo 判断是单体技能 还是群体技能 决斗的时候则是判断当前地点在的决斗场，则可以攻击所有玩家
+        //判断是单体技能 还是群体技能 决斗的时候则是判断当前地点在的决斗场，则可以攻击所有玩家
         //从缓存中查找出 怪物
-        List<Integer> npcs=SceneBeanMessageCache.getInstance().get(sceneId).getNpcs();
         ArrayList<Role> target=new ArrayList<>();
-        for (Integer npcId:npcs) {
-            MmoSimpleNPC npc=NpcMessageCache.getInstance().get(npcId);
-            if (npc.getType().equals(RoleTypeCode.ENEMY.getCode())){
-                if (npc.getStatus().equals(RoleStatusCode.ALIVE.getCode())){
-                    target.add(npc);
-                }
+        if (targetId==-1) {
+            //在场景中 只能打npc
+            target.addAll(mmoSimpleRole.getAllNpcs());
+        }else{
+            if (mmoSimpleRole.getMmosceneid()!=null) {
+                //在场景中 只能打npc
+                Role role = NpcMessageCache.getInstance().get(targetId);
+                target.add(role);
             }
         }
-
         //使用技能
-        mmoSimpleRole.useSkill(target,skillId);
-
+        if(target.size()>0) {
+            mmoSimpleRole.useSkill(target, skillId);
+        }
         return;
     }
 }
