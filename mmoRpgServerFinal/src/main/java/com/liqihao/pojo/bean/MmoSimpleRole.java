@@ -10,8 +10,10 @@ import com.liqihao.pojo.*;
 import com.liqihao.pojo.baseMessage.BaseRoleMessage;
 import com.liqihao.pojo.baseMessage.BufferMessage;
 import com.liqihao.pojo.dto.EquipmentDto;
+import com.liqihao.protobufObject.ChatModel;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.provider.CopySceneProvider;
+import com.liqihao.provider.MyObserver;
 import com.liqihao.util.CommonsUtil;
 import com.liqihao.util.LogicThreadPool;
 import com.liqihao.util.ScheduledThreadPoolUtil;
@@ -28,7 +30,7 @@ import java.util.stream.Collectors;
  *
  * @author lqhao
  */
-public class MmoSimpleRole extends Role  {
+public class MmoSimpleRole extends Role implements MyObserver {
     private volatile HashMap<Integer, Long> cdMap;
     private List<Integer> skillIdList;
     private List<SkillBean> skillBeans;
@@ -555,6 +557,29 @@ public class MmoSimpleRole extends Role  {
             copySceneBean.bossComeOrFinish();
         }
         return true;
+    }
+
+    @Override
+    public void update(Role fromRole, String str,Integer chatType) {
+        Channel c=ChannelMessageCache.getInstance().get(getId());
+        if (c!=null){
+            ChatModel.RoleDto roleDto=ChatModel.RoleDto.newBuilder()
+                    .setId(fromRole.getId()).setName(fromRole.getName()).setOnStatus(fromRole.getOnStatus())
+                    .setStatus(fromRole.getStatus()).setTeamId(fromRole.getTeamId()).setType(fromRole.getType()).build();
+            ChatModel.ChatModelMessage myMessage=ChatModel.ChatModelMessage.newBuilder()
+                    .setDataType(ChatModel.ChatModelMessage.DateType.AcceptMessageResponse)
+                    .setAcceptMessageResponse(ChatModel.AcceptMessageResponse.newBuilder().setFromRole(roleDto).setChatType(chatType).setStr(str)).build();
+            NettyResponse nettyResponse=new NettyResponse();
+            nettyResponse.setCmd(ConstantValue.ACCEPT_MESSAGE_RESPONSE);
+            nettyResponse.setStateCode(StateCode.SUCCESS);
+            nettyResponse.setData(myMessage.toByteArray());
+            c.writeAndFlush(roleDto);
+        }
+    }
+
+    @Override
+    public Integer returnRoleId() {
+        return getId();
     }
 
     private class ChangeHpByBufferTask implements Runnable{

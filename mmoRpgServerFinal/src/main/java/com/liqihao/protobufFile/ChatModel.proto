@@ -1,0 +1,39 @@
+syntax ="proto3";
+option java_outer_classname="ChatModel";
+//protoful 可以使用message 管理其他的mssage
+message ChatModelMessage{
+  //定义枚举类型
+  enum DateType{
+    SendToAllRequest=0;//在proto3 要求enum的编号从0开始
+    SendToOneRequest=1;
+    AcceptMessageResponse=2;
+  }
+  //用date_type来标识传的是哪一个枚举类型
+  DateType data_type=1;
+  //表示每次枚举类型最多只能出现其中一个，节省空间
+  oneof dateBody{
+    SendToAllRequest sendToAllRequest=2;
+    SendToOneRequest sendToOneRequest=3;
+    AcceptMessageResponse acceptMessageResponse=4;
+  }
+}
+message SendToAllRequest{
+  string str=1;
+}
+message SendToOneRequest{
+  string str=1;
+  int32 roleId=2;
+}
+message AcceptMessageResponse{
+  string str=1;
+  int32 chatType=2;
+  RoleDto fromRole=3;
+}
+message RoleDto{
+  int32 id=1;
+  string name=2;
+  int32 status=3;
+  int32 type=4;
+  int32 onStatus=5;
+  int32 teamId=10;
+}

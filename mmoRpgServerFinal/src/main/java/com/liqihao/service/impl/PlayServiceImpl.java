@@ -12,6 +12,7 @@ import com.liqihao.pojo.baseMessage.*;
 import com.liqihao.pojo.bean.*;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.provider.CopySceneProvider;
+import com.liqihao.provider.TeamServiceProvider;
 import com.liqihao.service.PlayService;
 import com.liqihao.util.CommonsUtil;
 import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
@@ -244,6 +245,7 @@ public class PlayServiceImpl implements PlayService {
 
         Integer skillId = myMessage.getUseSkillRequest().getSkillId();
         Integer targetId = myMessage.getUseSkillRequest().getRoleId();
+        Integer roleType=myMessage.getUseSkillRequest().getRoleType();
         MmoSimpleRole mmoSimpleRole = CommonsUtil.checkLogin(channel);
         if (mmoSimpleRole == null) {
             return;
@@ -284,25 +286,70 @@ public class PlayServiceImpl implements PlayService {
             channel.writeAndFlush(new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE, "武器耐久度为0，请脱落武器再攻击".getBytes()));
             return;
         }
-        //判断是单体技能 还是群体技能 决斗的时候则是判断当前地点在的决斗场，则可以攻击所有玩家
+        //判断是单体技能 还是群体技能  可以攻击所有玩家 除了队友 npc
         //从缓存中查找出 怪物
         ArrayList<Role> target = new ArrayList<>();
         if (mmoSimpleRole.getMmosceneid() != null) {
+            //在场景中
             if (targetId == -1) {
-                //在场景中 只能打npc
-                target.addAll(mmoSimpleRole.getAllNpcs());
-            } else {
-                if (mmoSimpleRole.getMmosceneid() != null) {
-                    //在场景中 只能打npc
-                    Role role = NpcMessageCache.getInstance().get(targetId);
-                    target.add(role);
+                //群攻
+                //可以攻击所有场景的人 除了队友 npc
+                SceneBean sceneBean = SceneBeanMessageCache.getInstance().get(mmoSimpleRole.getMmosceneid());
+                List<Integer> npcs = sceneBean.getNpcs();
+                List<Integer> roles = sceneBean.getRoles();
+                for (Integer id : npcs) {
+                    MmoSimpleNPC npc = NpcMessageCache.getInstance().get(id);
+                    if (npc.getType().equals(RoleTypeCode.ENEMY.getCode())) {
+                        target.add(npc);
+                    }
                 }
+                for (Integer id : roles) {
+                    MmoSimpleRole role = OnlineRoleMessageCache.getInstance().get(id);
+                    if (role.getId().equals(mmoSimpleRole.getId())){
+                        continue;
+                    }
+                    if (mmoSimpleRole.getTeamId() == null ) {
+                        target.add(role);
+                    }else{
+                        if(role.getTeamId() == null){
+                            target.add(role);
+                        } else if (!mmoSimpleRole.getTeamId().equals(role.getTeamId())){
+                            target.add(role);
+                        }
+                    }
+                }
+            } else {
+                //在场景中 只能打npcOF
+                Role role;
+                if (roleType.equals(RoleTypeCode.ENEMY.getCode())) {
+                    role = NpcMessageCache.getInstance().get(targetId);
+                }else if(roleType.equals(RoleTypeCode.PLAYER.getCode())){
+                    role=OnlineRoleMessageCache.getInstance().get(targetId);
+                }else{
+                    role=null;
+                }
+                if (role == null) {
+                    channel.writeAndFlush(new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE, "当前场景没有该id的角色或者选择了攻击npc".getBytes()));
+                    return;
+                }
+                if (!role.getMmosceneid().equals(mmoSimpleRole.getMmosceneid())) {
+                    channel.writeAndFlush(new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE, "当前场景没有该id的角色".getBytes()));
+                    return;
+                }
+                if (mmoSimpleRole.getTeamId() != null) {
+                    TeamBean teamBean = TeamServiceProvider.getTeamBeanByTeamId(mmoSimpleRole.getTeamId());
+                    if (teamBean.getMmoSimpleRoles().contains(role)) {
+                        channel.writeAndFlush(new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE, "该角色是队友啊，兄弟".getBytes()));
+                        return;
+                    }
+                }
+                target.add(role);
             }
-        }else {
+        } else {
             //在副本中
-            Integer copySceneBeanId=mmoSimpleRole.getCopySceneBeanId();
-            CopySceneBean copySceneBean= CopySceneProvider.getCopySceneBeanById(copySceneBeanId);
-            if (copySceneBean.getNowBoss()!=null) {
+            Integer copySceneBeanId = mmoSimpleRole.getCopySceneBeanId();
+            CopySceneBean copySceneBean = CopySceneProvider.getCopySceneBeanById(copySceneBeanId);
+            if (copySceneBean.getNowBoss() != null) {
                 target.add(copySceneBean.getNowBoss());
             }
         }

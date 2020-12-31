@@ -6882,6 +6882,12 @@ public final class PlayModel {
      * @return The roleId.
      */
     int getRoleId();
+
+    /**
+     * <code>int32 roleType = 3;</code>
+     * @return The roleType.
+     */
+    int getRoleType();
   }
   /**
    * Protobuf type {@code UseSkillRequest}
@@ -6938,6 +6944,11 @@ public final class PlayModel {
               roleId_ = input.readInt32();
               break;
             }
+            case 24: {
+
+              roleType_ = input.readInt32();
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -6992,6 +7003,17 @@ public final class PlayModel {
       return roleId_;
     }
 
+    public static final int ROLETYPE_FIELD_NUMBER = 3;
+    private int roleType_;
+    /**
+     * <code>int32 roleType = 3;</code>
+     * @return The roleType.
+     */
+    @Override
+    public int getRoleType() {
+      return roleType_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -7012,6 +7034,9 @@ public final class PlayModel {
       if (roleId_ != 0) {
         output.writeInt32(2, roleId_);
       }
+      if (roleType_ != 0) {
+        output.writeInt32(3, roleType_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -7028,6 +7053,10 @@ public final class PlayModel {
       if (roleId_ != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(2, roleId_);
+      }
+      if (roleType_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, roleType_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -7048,6 +7077,8 @@ public final class PlayModel {
           != other.getSkillId()) return false;
       if (getRoleId()
           != other.getRoleId()) return false;
+      if (getRoleType()
+          != other.getRoleType()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -7063,6 +7094,8 @@ public final class PlayModel {
       hash = (53 * hash) + getSkillId();
       hash = (37 * hash) + ROLEID_FIELD_NUMBER;
       hash = (53 * hash) + getRoleId();
+      hash = (37 * hash) + ROLETYPE_FIELD_NUMBER;
+      hash = (53 * hash) + getRoleType();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -7200,6 +7233,8 @@ public final class PlayModel {
 
         roleId_ = 0;
 
+        roleType_ = 0;
+
         return this;
       }
 
@@ -7228,6 +7263,7 @@ public final class PlayModel {
         UseSkillRequest result = new UseSkillRequest(this);
         result.skillId_ = skillId_;
         result.roleId_ = roleId_;
+        result.roleType_ = roleType_;
         onBuilt();
         return result;
       }
@@ -7281,6 +7317,9 @@ public final class PlayModel {
         }
         if (other.getRoleId() != 0) {
           setRoleId(other.getRoleId());
+        }
+        if (other.getRoleType() != 0) {
+          setRoleType(other.getRoleType());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -7369,6 +7408,37 @@ public final class PlayModel {
       public Builder clearRoleId() {
         
         roleId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int roleType_ ;
+      /**
+       * <code>int32 roleType = 3;</code>
+       * @return The roleType.
+       */
+      @Override
+      public int getRoleType() {
+        return roleType_;
+      }
+      /**
+       * <code>int32 roleType = 3;</code>
+       * @param value The roleType to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRoleType(int value) {
+        
+        roleType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 roleType = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRoleType() {
+        
+        roleType_ = 0;
         onChanged();
         return this;
       }
@@ -11868,24 +11938,24 @@ public final class PlayModel {
       "2\010.RoleDTO\"6\n\020RegisterResponse\022\021\n\tstateC" +
       "ode\030\001 \001(\005\022\017\n\007message\030\002 \001(\t\"\017\n\rLogoutRequ" +
       "est\"+\n\016LogoutResponse\022\014\n\004code\030\001 \001(\005\022\013\n\003m" +
-      "xg\030\002 \001(\t\"2\n\017UseSkillRequest\022\017\n\007skillId\030\001" +
-      " \001(\005\022\016\n\006roleId\030\002 \001(\005\"8\n\020UseSkillResponse" +
-      "\022$\n\rroleIdDamages\030\001 \003(\0132\r.RoleIdDamage\"<" +
-      "\n\025DamagesNoticeResponse\022#\n\014roleIdDamage\030" +
-      "\001 \001(\0132\r.RoleIdDamage\"\327\001\n\007RoleDTO\022\n\n\002id\030\001" +
-      " \001(\005\022\014\n\004name\030\002 \001(\t\022\016\n\006status\030\003 \001(\005\022\014\n\004ty" +
-      "pe\030\004 \001(\005\022\020\n\010onStatus\030\005 \001(\005\022\r\n\005blood\030\006 \001(" +
-      "\005\022\020\n\010nowBlood\030\007 \001(\005\022\n\n\002mp\030\010 \001(\005\022\r\n\005nowMp" +
-      "\030\t \001(\005\022\023\n\013skillIdList\030\n \003(\005\022\016\n\006attack\030\013 " +
-      "\001(\005\022\021\n\tattackAdd\030\014 \001(\001\022\016\n\006teamId\030\r \001(\005\"\217" +
-      "\002\n\014RoleIdDamage\022\022\n\nfromRoleId\030\001 \001(\005\022\020\n\010t" +
-      "oRoleId\030\002 \001(\005\022\020\n\010bufferId\030\003 \001(\005\022\017\n\007skill" +
-      "Id\030\004 \001(\005\022\023\n\013attackStyle\030\005 \001(\005\022\022\n\ndamageT" +
-      "ype\030\006 \001(\005\022\016\n\006damage\030\007 \001(\005\022\020\n\010nowblood\030\010 " +
-      "\001(\005\022\n\n\002mp\030\t \001(\005\022\r\n\005State\030\n \001(\005\022\024\n\014fromRo" +
-      "leType\030\013 \001(\005\022\022\n\ntoRoleType\030\014 \001(\005\022\021\n\tarti" +
-      "cleId\030\r \001(\005\022\023\n\013articleType\030\016 \001(\005B\013B\tPlay" +
-      "Modelb\006proto3"
+      "xg\030\002 \001(\t\"D\n\017UseSkillRequest\022\017\n\007skillId\030\001" +
+      " \001(\005\022\016\n\006roleId\030\002 \001(\005\022\020\n\010roleType\030\003 \001(\005\"8" +
+      "\n\020UseSkillResponse\022$\n\rroleIdDamages\030\001 \003(" +
+      "\0132\r.RoleIdDamage\"<\n\025DamagesNoticeRespons" +
+      "e\022#\n\014roleIdDamage\030\001 \001(\0132\r.RoleIdDamage\"\327" +
+      "\001\n\007RoleDTO\022\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\016\n\006" +
+      "status\030\003 \001(\005\022\014\n\004type\030\004 \001(\005\022\020\n\010onStatus\030\005" +
+      " \001(\005\022\r\n\005blood\030\006 \001(\005\022\020\n\010nowBlood\030\007 \001(\005\022\n\n" +
+      "\002mp\030\010 \001(\005\022\r\n\005nowMp\030\t \001(\005\022\023\n\013skillIdList\030" +
+      "\n \003(\005\022\016\n\006attack\030\013 \001(\005\022\021\n\tattackAdd\030\014 \001(\001" +
+      "\022\016\n\006teamId\030\r \001(\005\"\217\002\n\014RoleIdDamage\022\022\n\nfro" +
+      "mRoleId\030\001 \001(\005\022\020\n\010toRoleId\030\002 \001(\005\022\020\n\010buffe" +
+      "rId\030\003 \001(\005\022\017\n\007skillId\030\004 \001(\005\022\023\n\013attackStyl" +
+      "e\030\005 \001(\005\022\022\n\ndamageType\030\006 \001(\005\022\016\n\006damage\030\007 " +
+      "\001(\005\022\020\n\010nowblood\030\010 \001(\005\022\n\n\002mp\030\t \001(\005\022\r\n\005Sta" +
+      "te\030\n \001(\005\022\024\n\014fromRoleType\030\013 \001(\005\022\022\n\ntoRole" +
+      "Type\030\014 \001(\005\022\021\n\tarticleId\030\r \001(\005\022\023\n\013article" +
+      "Type\030\016 \001(\005B\013B\tPlayModelb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -11938,7 +12008,7 @@ public final class PlayModel {
     internal_static_UseSkillRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_UseSkillRequest_descriptor,
-        new String[] { "SkillId", "RoleId", });
+        new String[] { "SkillId", "RoleId", "RoleType", });
     internal_static_UseSkillResponse_descriptor =
       getDescriptor().getMessageTypes().get(8);
     internal_static_UseSkillResponse_fieldAccessorTable = new

@@ -57,6 +57,7 @@ message LogoutResponse{
 message UseSkillRequest{
   int32 skillId=1;
   int32 roleId=2;
+  int32 roleType=3;
 }
 message UseSkillResponse{
   repeated RoleIdDamage roleIdDamages=1;

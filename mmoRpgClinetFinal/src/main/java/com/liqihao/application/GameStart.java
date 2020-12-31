@@ -534,8 +534,11 @@ public class GameStart {
         System.out.println("请输入你使用的技能id：");
         Integer skillId=scanner.nextInt();
         Integer roleId=null;
+        Integer roleType=null;
         if (map.get(skillId).getSkillAttackType().equals(SkillAttackTypeCode.SINGLE.getCode())){
-            System.out.println("请输入你的施法目标：");
+            System.out.println("请输入你的施法目标的类型： 玩家为1 怪物为2");
+            roleType=scanner.nextInt();
+            System.out.println("请输入你的施法目标的id");
             roleId=scanner.nextInt();
         }
         NettyRequest nettyRequest=new NettyRequest();
@@ -544,7 +547,8 @@ public class GameStart {
         myMessage=PlayModel.PlayModelMessage.newBuilder()
                 .setDataType(PlayModel.PlayModelMessage.DateType.UseSkillRequest)
                 .setUseSkillRequest(PlayModel.UseSkillRequest.newBuilder()
-                        .setSkillId(skillId).setRoleId(roleId==null?-1:roleId).build()).build();
+                        .setSkillId(skillId).setRoleId(roleId==null?-1:roleId)
+                        .setRoleType(roleType==null?-1:roleType).build()).build();
         byte[] data=myMessage.toByteArray();
         nettyRequest.setData(data);
         channel.writeAndFlush(nettyRequest);
