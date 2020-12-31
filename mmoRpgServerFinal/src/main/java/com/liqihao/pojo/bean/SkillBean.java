@@ -57,7 +57,7 @@ public class SkillBean {
         //增加bufferid
         toRole.getBufferBeans().add(bufferBean);
         //线程池中放入任务
-        ScheduledThreadPoolUtil.BufferTask bufferTask = new ScheduledThreadPoolUtil.BufferTask(bufferBean, count);
+        ScheduledThreadPoolUtil.BufferTask bufferTask = new ScheduledThreadPoolUtil.BufferTask(bufferBean, count,toRole);
         //查看是否已经有了该buffer 有则覆盖无则直接加入
         Integer key=Integer.parseInt(toRole.getId().toString()+bufferBean.getId().toString());
         ConcurrentHashMap<Integer, ScheduledFuture<?>> bufferRole=ScheduledThreadPoolUtil.getBufferRole();

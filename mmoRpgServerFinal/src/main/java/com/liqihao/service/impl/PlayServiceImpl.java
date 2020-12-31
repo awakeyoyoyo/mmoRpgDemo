@@ -302,7 +302,9 @@ public class PlayServiceImpl implements PlayService {
             //在副本中
             Integer copySceneBeanId=mmoSimpleRole.getCopySceneBeanId();
             CopySceneBean copySceneBean= CopySceneProvider.getCopySceneBeanById(copySceneBeanId);
-            target.addAll(copySceneBean.getBossBeans());
+            if (copySceneBean.getNowBoss()!=null) {
+                target.add(copySceneBean.getNowBoss());
+            }
         }
         //使用技能
         if (target.size() > 0) {

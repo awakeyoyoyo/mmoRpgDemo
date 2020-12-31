@@ -148,17 +148,17 @@ public class BossBean extends Role{
                 bossBean.setStatus(RoleStatusCode.DIE.getCode());
                 // 挑战成功
                 CopySceneBean copySceneBean=CopySceneProvider.getCopySceneBeanById(copySceneBeanId);
-                TeamBean teamBean= TeamServiceProvider.getTeamBeanByTeamId(copySceneBean.getTeamId());
-                copySceneBean.changeResult(teamBean);
+                copySceneBean.bossComeOrFinish();
             }
             bossBean.setNowHp(hp);
         }finally {
             hpRwLock.writeLock().unlock();
         }
+        addHatred(fromRole,reduce);
         // 扣血伤害
         PlayModel.RoleIdDamage.Builder damageR = PlayModel.RoleIdDamage.newBuilder();
         damageR.setFromRoleId(fromRole.getId());
-        damageR.setToRoleType(fromRole.getType());
+        damageR.setFromRoleType(fromRole.getType());
         damageR.setToRoleId(bossBean.getId());
         damageR.setToRoleType(getType());
         damageR.setAttackStyle(AttackStyleCode.ATTACK.getCode());
@@ -179,14 +179,24 @@ public class BossBean extends Role{
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
         //广播给所有当前场景
-        SceneBean sceneBean=SceneBeanMessageCache.getInstance().get(this.getMmosceneid());
-        List<Integer> roles=sceneBean.getRoles();
-        for (Integer id: roles) {
-            MmoSimpleRole role=OnlineRoleMessageCache.getInstance().get(id);
-            if (role!=null){
-                Channel c=ChannelMessageCache.getInstance().get(role.getId());
+        List<Integer> players;
+        if (getMmosceneid()!=null) {
+            players = SceneBeanMessageCache.getInstance().get(this.getMmosceneid()).getRoles();
+            for (Integer playerId:players){
+                Channel c= ChannelMessageCache.getInstance().get(playerId);
                 if (c!=null){
                     c.writeAndFlush(nettyResponse);
+                }
+            }
+
+        }else{
+            List<Role> roles = CopySceneProvider.getCopySceneBeanById(getCopySceneBeanId()).getRoles();
+            for (Role role:roles) {
+                if (role.getType().equals(RoleTypeCode.PLAYER.getCode())){
+                    Channel c= ChannelMessageCache.getInstance().get(role.getId());
+                    if (c!=null){
+                        c.writeAndFlush(nettyResponse);
+                    }
                 }
             }
         }
@@ -239,8 +249,6 @@ public class BossBean extends Role{
             }
         }
         //广播信息
-        Integer sceneId = OnlineRoleMessageCache.getInstance().get(bufferBean.getFromRoleId()).getMmosceneid();
-        List<Integer> players = SceneBeanMessageCache.getInstance().get(sceneId).getRoles();
         //生成数据包
         PlayModel.PlayModelMessage.Builder myMessageBuilder = PlayModel.PlayModelMessage.newBuilder();
         myMessageBuilder.setDataType(PlayModel.PlayModelMessage.DateType.DamagesNoticeResponse);
@@ -255,39 +263,64 @@ public class BossBean extends Role{
         nettyResponse.setCmd(ConstantValue.DAMAGES_NOTICE_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
-        for (Integer playerId : players) {
-            Channel c = ChannelMessageCache.getInstance().get(playerId);
-            if (c != null) {
-                c.writeAndFlush(nettyResponse);
+        List<Integer> players;
+        if (getMmosceneid()!=null) {
+            players = SceneBeanMessageCache.getInstance().get(this.getMmosceneid()).getRoles();
+            for (Integer playerId:players){
+                Channel c= ChannelMessageCache.getInstance().get(playerId);
+                if (c!=null){
+                    c.writeAndFlush(nettyResponse);
+                }
             }
 
+        }else{
+            List<Role> roles = CopySceneProvider.getCopySceneBeanById(getCopySceneBeanId()).getRoles();
+            for (Role role:roles) {
+                if (role.getType().equals(RoleTypeCode.PLAYER.getCode())){
+                    Channel c= ChannelMessageCache.getInstance().get(role.getId());
+                    if (c!=null){
+                        c.writeAndFlush(nettyResponse);
+                    }
+                }
+            }
         }
 
     }
 
     public Role getTarget() {
-        ConcurrentHashMap<Role,Integer> hatredMap=getHatredMap();
-        if (hatredMap.size()>0) {
-            Role target=null;
-            Integer max=0;
-            for (Role role:hatredMap.keySet()){
-                if (role.getStatus().equals(RoleStatusCode.DIE.getCode())){
-                    //如果以及死了就消除仇恨了
-                    removeHatred(role);
-                    continue;
+        synchronized (hatredMap) {
+            ConcurrentHashMap<Role, Integer> hatredMap = getHatredMap();
+            if (hatredMap.size() > 0) {
+                Role target = null;
+                Integer max = 0;
+                for (Role role : hatredMap.keySet()) {
+                    if (role.getStatus().equals(RoleStatusCode.DIE.getCode())) {
+                        //如果以及死了就消除仇恨了
+                        removeHatred(role);
+                        continue;
+                    }
+                    if (hatredMap.get(role) > max) {
+                        target = role;
+                        max = hatredMap.get(role);
+                    }
                 }
-                if (hatredMap.get(role)>max){
-                    target=role;
-                    max=hatredMap.get(role);
-                }
+                return target;
+            } else {
+                return null;
             }
-            return target;
-        }else{
-            return null;
         }
     }
-    public void addHarted(Integer roleId,Integer number){
-
+    public void addHatred(Role role,Integer number){
+        synchronized (hatredMap) {
+            ConcurrentHashMap<Role, Integer> hatredMap = getHatredMap();
+            if (hatredMap.containsKey(role)) {
+                Integer hart = hatredMap.get(role);
+                hart += number;
+                hatredMap.put(role, hart);
+            } else {
+                hatredMap.put(role, number);
+            }
+        }
     }
     //消除仇恨
     public void removeHatred(Role role){
@@ -343,11 +376,25 @@ public class BossBean extends Role{
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
         //广播
-        List<Integer> players=SceneBeanMessageCache.getInstance().get(this.getMmosceneid()).getRoles();
-        for (Integer playerId:players){
-            Channel c= ChannelMessageCache.getInstance().get(playerId);
-            if (c!=null){
-                c.writeAndFlush(nettyResponse);
+        List<Integer> players;
+        if (getMmosceneid()!=null) {
+            players = SceneBeanMessageCache.getInstance().get(getMmosceneid()).getRoles();
+            for (Integer playerId:players){
+                Channel c= ChannelMessageCache.getInstance().get(playerId);
+                if (c!=null){
+                    c.writeAndFlush(nettyResponse);
+                }
+            }
+
+        }else{
+            List<Role> roles = CopySceneProvider.getCopySceneBeanById(getCopySceneBeanId()).getRoles();
+            for (Role role:roles) {
+                if (role.getType().equals(RoleTypeCode.PLAYER.getCode())){
+                    Channel c= ChannelMessageCache.getInstance().get(role.getId());
+                    if (c!=null){
+                        c.writeAndFlush(nettyResponse);
+                    }
+                }
             }
         }
 

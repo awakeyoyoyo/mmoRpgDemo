@@ -11,6 +11,7 @@ import com.liqihao.pojo.baseMessage.BaseRoleMessage;
 import com.liqihao.pojo.baseMessage.BufferMessage;
 import com.liqihao.pojo.dto.EquipmentDto;
 import com.liqihao.protobufObject.PlayModel;
+import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.util.CommonsUtil;
 import com.liqihao.util.LogicThreadPool;
 import com.liqihao.util.ScheduledThreadPoolUtil;
@@ -341,13 +342,28 @@ public class MmoSimpleRole extends Role  {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
         //广播
-        List<Integer> players=SceneBeanMessageCache.getInstance().get(this.getMmosceneid()).getRoles();
-        for (Integer playerId:players){
-            Channel c= ChannelMessageCache.getInstance().get(playerId);
-            if (c!=null){
-                c.writeAndFlush(nettyResponse);
+        List<Integer> players;
+        if (getMmosceneid()!=null) {
+            players = SceneBeanMessageCache.getInstance().get(this.getMmosceneid()).getRoles();
+            for (Integer playerId:players){
+                Channel c= ChannelMessageCache.getInstance().get(playerId);
+                if (c!=null){
+                    c.writeAndFlush(nettyResponse);
+                }
+            }
+
+        }else{
+            List<Role> roles = CopySceneProvider.getCopySceneBeanById(getCopySceneBeanId()).getRoles();
+            for (Role role:roles) {
+                if (role.getType().equals(RoleTypeCode.PLAYER.getCode())){
+                    Channel c= ChannelMessageCache.getInstance().get(role.getId());
+                    if (c!=null){
+                        c.writeAndFlush(nettyResponse);
+                    }
+                }
             }
         }
+
 
 
         //  被攻击怪物or人物orBoss
@@ -385,7 +401,7 @@ public class MmoSimpleRole extends Role  {
             damageU.setBufferId(-1);
             damageU.setDamageType(ConsuMeTypeCode.HP.getCode());
             damageU.setSkillId(skillBean.getId());
-            changeNowBlood(reduce,damageU,AttackStyleCode.USESKILL.getCode());
+            changeNowBlood(-reduce,damageU,AttackStyleCode.USESKILL.getCode());
         }
         if (skillBean.getSkillType().equals(SkillTypeCode.PERCENTAGE.getCode())) {
             //百分比 按照攻击力比例增加
@@ -400,7 +416,7 @@ public class MmoSimpleRole extends Role  {
             damageU.setBufferId(-1);
             damageU.setDamageType(ConsuMeTypeCode.HP.getCode());
             damageU.setSkillId(skillBean.getId());
-            changeNowBlood(reduce,damageU,AttackStyleCode.USESKILL.getCode());
+            changeNowBlood(-reduce,damageU,AttackStyleCode.USESKILL.getCode());
         }
 
     }
@@ -436,10 +452,10 @@ public class MmoSimpleRole extends Role  {
             damageU.setToRoleId(getId());
             damageU.setToRoleType(getType());
             damageU.setAttackStyle(AttackStyleCode.BUFFER.getCode());
-            damageU.setBufferId(-1);
+            damageU.setBufferId(bufferBean.getId());
             damageU.setDamageType(ConsuMeTypeCode.HP.getCode());
             damageU.setSkillId(-1);
-            changeNowBlood(bufferBean.getBuffNum(),damageU,AttackStyleCode.BUFFER.getCode());
+            changeNowBlood(-bufferBean.getBuffNum(),damageU,AttackStyleCode.BUFFER.getCode());
         } else if (bufferBean.getBuffType().equals(BufferTypeCode.REDUCEMP.getCode())) {
             PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();
             damageU.setFromRoleId(bufferBean.getFromRoleId());
@@ -447,10 +463,10 @@ public class MmoSimpleRole extends Role  {
             damageU.setToRoleId(getId());
             damageU.setToRoleType(getType());
             damageU.setAttackStyle(AttackStyleCode.BUFFER.getCode());
-            damageU.setBufferId(-1);
+            damageU.setBufferId(bufferBean.getId());
             damageU.setDamageType(ConsuMeTypeCode.HP.getCode());
             damageU.setSkillId(-1);
-            changeMp(bufferBean.getBuffNum(),damageU);
+            changeMp(-bufferBean.getBuffNum(),damageU);
         }
     }
 
@@ -532,9 +548,12 @@ public class MmoSimpleRole extends Role  {
         //人物设置副本
         this.setCopySceneId(copySceneBean.getId());
         this.setLastSceneId(sceneId);
+        this.setCopySceneBeanId(copySceneBean.getCopySceneBeanId());
         //副本操作
         copySceneBean.getRoles().add(this);
-        copySceneBean.begin();
+        if (copySceneBean.getNowBoss()==null) {
+            copySceneBean.bossComeOrFinish();
+        }
         return true;
     }
 
@@ -585,12 +604,25 @@ public class MmoSimpleRole extends Role  {
             nettyResponse.setStateCode(StateCode.SUCCESS);
             nettyResponse.setData(myMessageBuilder.build().toByteArray());
             //广播
-            Integer sceneId = mmoSimpleRole.getMmosceneid();
-            List<Integer> players = SceneBeanMessageCache.getInstance().get(sceneId).getRoles();
-            for (Integer playerId : players) {
-                Channel c = ChannelMessageCache.getInstance().get(playerId);
-                if (c != null) {
-                    c.writeAndFlush(nettyResponse);
+            List<Integer> players;
+            if (getMmosceneid()!=null) {
+                players = SceneBeanMessageCache.getInstance().get(mmoSimpleRole.getMmosceneid()).getRoles();
+                for (Integer playerId:players){
+                    Channel c= ChannelMessageCache.getInstance().get(playerId);
+                    if (c!=null){
+                        c.writeAndFlush(nettyResponse);
+                    }
+                }
+
+            }else{
+                List<Role> roles = CopySceneProvider.getCopySceneBeanById(getCopySceneBeanId()).getRoles();
+                for (Role role:roles) {
+                    if (role.getType().equals(RoleTypeCode.PLAYER.getCode())){
+                        Channel c= ChannelMessageCache.getInstance().get(role.getId());
+                        if (c!=null){
+                            c.writeAndFlush(nettyResponse);
+                        }
+                    }
                 }
             }
         }
@@ -642,11 +674,25 @@ public class MmoSimpleRole extends Role  {
             nettyResponse.setStateCode(StateCode.SUCCESS);
             nettyResponse.setData(myMessageBuilder.build().toByteArray());
             Integer sceneId = mmoSimpleRole.getMmosceneid();
-            List<Integer> players = SceneBeanMessageCache.getInstance().get(sceneId).getRoles();
-            for (Integer playerId : players) {
-                Channel cc = ChannelMessageCache.getInstance().get(playerId);
-                if (cc != null) {
-                    cc.writeAndFlush(nettyResponse);
+            List<Integer> players;
+            if (getMmosceneid()!=null) {
+                players = SceneBeanMessageCache.getInstance().get(mmoSimpleRole.getMmosceneid()).getRoles();
+                for (Integer playerId:players){
+                    Channel c= ChannelMessageCache.getInstance().get(playerId);
+                    if (c!=null){
+                        c.writeAndFlush(nettyResponse);
+                    }
+                }
+
+            }else{
+                List<Role> roles = CopySceneProvider.getCopySceneBeanById(getCopySceneBeanId()).getRoles();
+                for (Role role:roles) {
+                    if (role.getType().equals(RoleTypeCode.PLAYER.getCode())){
+                        Channel c= ChannelMessageCache.getInstance().get(role.getId());
+                        if (c!=null){
+                            c.writeAndFlush(nettyResponse);
+                        }
+                    }
                 }
             }
         }
@@ -702,12 +748,25 @@ public class MmoSimpleRole extends Role  {
             nettyResponse.setStateCode(StateCode.SUCCESS);
             nettyResponse.setData(myMessageBuilder.build().toByteArray());
             //广播
-            Integer sceneId = mmoSimpleRole.getMmosceneid();
-            List<Integer> players = SceneBeanMessageCache.getInstance().get(sceneId).getRoles();
-            for (Integer playerId : players) {
-                Channel c = ChannelMessageCache.getInstance().get(playerId);
-                if (c != null) {
-                    c.writeAndFlush(nettyResponse);
+            List<Integer> players;
+            if (getMmosceneid()!=null) {
+                players = SceneBeanMessageCache.getInstance().get(mmoSimpleRole.getMmosceneid()).getRoles();
+                for (Integer playerId:players){
+                    Channel c= ChannelMessageCache.getInstance().get(playerId);
+                    if (c!=null){
+                        c.writeAndFlush(nettyResponse);
+                    }
+                }
+
+            }else{
+                List<Role> roles = CopySceneProvider.getCopySceneBeanById(getCopySceneBeanId()).getRoles();
+                for (Role role:roles) {
+                    if (role.getType().equals(RoleTypeCode.PLAYER.getCode())){
+                        Channel c= ChannelMessageCache.getInstance().get(role.getId());
+                        if (c!=null){
+                            c.writeAndFlush(nettyResponse);
+                        }
+                    }
                 }
             }
 
@@ -753,12 +812,25 @@ public class MmoSimpleRole extends Role  {
             nettyResponse.setCmd(ConstantValue.DAMAGES_NOTICE_RESPONSE);
             nettyResponse.setStateCode(StateCode.SUCCESS);
             nettyResponse.setData(myMessageBuilder.build().toByteArray());
-            Integer sceneId = mmoSimpleRole.getMmosceneid();
-            List<Integer> players = SceneBeanMessageCache.getInstance().get(sceneId).getRoles();
-            for (Integer playerId : players) {
-                Channel cc = ChannelMessageCache.getInstance().get(playerId);
-                if (cc != null) {
-                    cc.writeAndFlush(nettyResponse);
+            List<Integer> players;
+            if (getMmosceneid()!=null) {
+                players = SceneBeanMessageCache.getInstance().get(mmoSimpleRole.getMmosceneid()).getRoles();
+                for (Integer playerId:players){
+                    Channel c= ChannelMessageCache.getInstance().get(playerId);
+                    if (c!=null){
+                        c.writeAndFlush(nettyResponse);
+                    }
+                }
+
+            }else{
+                List<Role> roles = CopySceneProvider.getCopySceneBeanById(getCopySceneBeanId()).getRoles();
+                for (Role role:roles) {
+                    if (role.getType().equals(RoleTypeCode.PLAYER.getCode())){
+                        Channel c= ChannelMessageCache.getInstance().get(role.getId());
+                        if (c!=null){
+                            c.writeAndFlush(nettyResponse);
+                        }
+                    }
                 }
             }
         }

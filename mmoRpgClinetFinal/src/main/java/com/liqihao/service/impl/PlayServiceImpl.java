@@ -120,19 +120,21 @@ public class PlayServiceImpl implements PlayService {
         System.out.println("[-]--------------------------------------------------------");
         for (PlayModel.RoleIdDamage roleIdDamage : roleIdDamages) {
             if (roleIdDamage.getFromRoleId() == roleIdDamage.getToRoleId()) {
-                //施术者
                 MmoRole mmoRole = MmoCacheCilent.getInstance().getNowRole();
-                //判断减少的数据是啥
+                HashMap<Integer, MmoRole> roleHashMap = MmoCacheCilent.getInstance().getRoleHashMap();
+                if (mmoRole.getId() != roleIdDamage.getToRoleId()) {
+                    mmoRole = roleHashMap.get(roleIdDamage.getToRoleId());
+                }
                 mmoRole.setNowBlood(roleIdDamage.getNowblood());
-                mmoRole.setNowMp(roleIdDamage.getMp());
                 mmoRole.setStatus(roleIdDamage.getState());
+                mmoRole.setNowMp(roleIdDamage.getMp());
                 SkillMessage skillMessage = MmoCacheCilent.getInstance().getSkillMessageConcurrentHashMap().get(roleIdDamage.getSkillId());
                 System.out.println("[-]角色id：" + mmoRole.getId() + " 角色名: " + mmoRole.getName());
                 System.out.println("[-]类型: " + RoleTypeCode.getValue(mmoRole.getType()) + " 状态: " + RoleStatusCode.getValue(mmoRole.getStatus()));
                 System.out.println("[-]血量： " + mmoRole.getNowBlood() + "/" + mmoRole.getBlood());
                 System.out.println("[-]蓝量： " + mmoRole.getNowMp() + "/" + mmoRole.getMp());
                 System.out.println("[-]");
-                System.out.println("[-]角色:"+mmoRole.getName()+" 潇洒地使用了： "+skillMessage.getSkillName()+" 消耗了： "+roleIdDamage.getDamage()+"点"+DamageTypeCode.getValue(roleIdDamage.getDamageType()));
+                System.out.println("[-]角色:"+mmoRole.getId()+" 潇洒地使用了： "+skillMessage.getSkillName()+" 消耗了： "+roleIdDamage.getDamage()+"点"+DamageTypeCode.getValue(roleIdDamage.getDamageType()));
 
             } else {
                 //受伤

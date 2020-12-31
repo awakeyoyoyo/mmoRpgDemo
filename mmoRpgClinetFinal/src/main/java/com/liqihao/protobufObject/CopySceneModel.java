@@ -12287,6 +12287,21 @@ public final class CopySceneModel {
      * @return The copySceneId.
      */
     int getCopySceneId();
+
+    /**
+     * <code>.BossBeanDto nowBoss = 8;</code>
+     * @return Whether the nowBoss field is set.
+     */
+    boolean hasNowBoss();
+    /**
+     * <code>.BossBeanDto nowBoss = 8;</code>
+     * @return The nowBoss.
+     */
+    BossBeanDto getNowBoss();
+    /**
+     * <code>.BossBeanDto nowBoss = 8;</code>
+     */
+    BossBeanDtoOrBuilder getNowBossOrBuilder();
   }
   /**
    * Protobuf type {@code CopySceneBeanDto}
@@ -12377,6 +12392,19 @@ public final class CopySceneModel {
             case 56: {
 
               copySceneId_ = input.readInt32();
+              break;
+            }
+            case 66: {
+              BossBeanDto.Builder subBuilder = null;
+              if (nowBoss_ != null) {
+                subBuilder = nowBoss_.toBuilder();
+              }
+              nowBoss_ = input.readMessage(BossBeanDto.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(nowBoss_);
+                nowBoss_ = subBuilder.buildPartial();
+              }
+
               break;
             }
             default: {
@@ -12552,6 +12580,32 @@ public final class CopySceneModel {
       return copySceneId_;
     }
 
+    public static final int NOWBOSS_FIELD_NUMBER = 8;
+    private BossBeanDto nowBoss_;
+    /**
+     * <code>.BossBeanDto nowBoss = 8;</code>
+     * @return Whether the nowBoss field is set.
+     */
+    @Override
+    public boolean hasNowBoss() {
+      return nowBoss_ != null;
+    }
+    /**
+     * <code>.BossBeanDto nowBoss = 8;</code>
+     * @return The nowBoss.
+     */
+    @Override
+    public BossBeanDto getNowBoss() {
+      return nowBoss_ == null ? BossBeanDto.getDefaultInstance() : nowBoss_;
+    }
+    /**
+     * <code>.BossBeanDto nowBoss = 8;</code>
+     */
+    @Override
+    public BossBeanDtoOrBuilder getNowBossOrBuilder() {
+      return getNowBoss();
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -12586,6 +12640,9 @@ public final class CopySceneModel {
       }
       if (copySceneId_ != 0) {
         output.writeInt32(7, copySceneId_);
+      }
+      if (nowBoss_ != null) {
+        output.writeMessage(8, getNowBoss());
       }
       unknownFields.writeTo(output);
     }
@@ -12624,6 +12681,10 @@ public final class CopySceneModel {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(7, copySceneId_);
       }
+      if (nowBoss_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(8, getNowBoss());
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -12653,6 +12714,11 @@ public final class CopySceneModel {
           != other.getCopySceneBeanId()) return false;
       if (getCopySceneId()
           != other.getCopySceneId()) return false;
+      if (hasNowBoss() != other.hasNowBoss()) return false;
+      if (hasNowBoss()) {
+        if (!getNowBoss()
+            .equals(other.getNowBoss())) return false;
+      }
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -12684,6 +12750,10 @@ public final class CopySceneModel {
       hash = (53 * hash) + getCopySceneBeanId();
       hash = (37 * hash) + COPYSCENEID_FIELD_NUMBER;
       hash = (53 * hash) + getCopySceneId();
+      if (hasNowBoss()) {
+        hash = (37 * hash) + NOWBOSS_FIELD_NUMBER;
+        hash = (53 * hash) + getNowBoss().hashCode();
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -12841,6 +12911,12 @@ public final class CopySceneModel {
 
         copySceneId_ = 0;
 
+        if (nowBossBuilder_ == null) {
+          nowBoss_ = null;
+        } else {
+          nowBoss_ = null;
+          nowBossBuilder_ = null;
+        }
         return this;
       }
 
@@ -12891,6 +12967,11 @@ public final class CopySceneModel {
         result.status_ = status_;
         result.copySceneBeanId_ = copySceneBeanId_;
         result.copySceneId_ = copySceneId_;
+        if (nowBossBuilder_ == null) {
+          result.nowBoss_ = nowBoss_;
+        } else {
+          result.nowBoss_ = nowBossBuilder_.build();
+        }
         onBuilt();
         return result;
       }
@@ -13005,6 +13086,9 @@ public final class CopySceneModel {
         }
         if (other.getCopySceneId() != 0) {
           setCopySceneId(other.getCopySceneId());
+        }
+        if (other.hasNowBoss()) {
+          mergeNowBoss(other.getNowBoss());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -13669,6 +13753,125 @@ public final class CopySceneModel {
         copySceneId_ = 0;
         onChanged();
         return this;
+      }
+
+      private BossBeanDto nowBoss_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          BossBeanDto, BossBeanDto.Builder, BossBeanDtoOrBuilder> nowBossBuilder_;
+      /**
+       * <code>.BossBeanDto nowBoss = 8;</code>
+       * @return Whether the nowBoss field is set.
+       */
+      public boolean hasNowBoss() {
+        return nowBossBuilder_ != null || nowBoss_ != null;
+      }
+      /**
+       * <code>.BossBeanDto nowBoss = 8;</code>
+       * @return The nowBoss.
+       */
+      public BossBeanDto getNowBoss() {
+        if (nowBossBuilder_ == null) {
+          return nowBoss_ == null ? BossBeanDto.getDefaultInstance() : nowBoss_;
+        } else {
+          return nowBossBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.BossBeanDto nowBoss = 8;</code>
+       */
+      public Builder setNowBoss(BossBeanDto value) {
+        if (nowBossBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          nowBoss_ = value;
+          onChanged();
+        } else {
+          nowBossBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.BossBeanDto nowBoss = 8;</code>
+       */
+      public Builder setNowBoss(
+          BossBeanDto.Builder builderForValue) {
+        if (nowBossBuilder_ == null) {
+          nowBoss_ = builderForValue.build();
+          onChanged();
+        } else {
+          nowBossBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.BossBeanDto nowBoss = 8;</code>
+       */
+      public Builder mergeNowBoss(BossBeanDto value) {
+        if (nowBossBuilder_ == null) {
+          if (nowBoss_ != null) {
+            nowBoss_ =
+              BossBeanDto.newBuilder(nowBoss_).mergeFrom(value).buildPartial();
+          } else {
+            nowBoss_ = value;
+          }
+          onChanged();
+        } else {
+          nowBossBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.BossBeanDto nowBoss = 8;</code>
+       */
+      public Builder clearNowBoss() {
+        if (nowBossBuilder_ == null) {
+          nowBoss_ = null;
+          onChanged();
+        } else {
+          nowBoss_ = null;
+          nowBossBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.BossBeanDto nowBoss = 8;</code>
+       */
+      public BossBeanDto.Builder getNowBossBuilder() {
+        
+        onChanged();
+        return getNowBossFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.BossBeanDto nowBoss = 8;</code>
+       */
+      public BossBeanDtoOrBuilder getNowBossOrBuilder() {
+        if (nowBossBuilder_ != null) {
+          return nowBossBuilder_.getMessageOrBuilder();
+        } else {
+          return nowBoss_ == null ?
+              BossBeanDto.getDefaultInstance() : nowBoss_;
+        }
+      }
+      /**
+       * <code>.BossBeanDto nowBoss = 8;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          BossBeanDto, BossBeanDto.Builder, BossBeanDtoOrBuilder>
+          getNowBossFieldBuilder() {
+        if (nowBossBuilder_ == null) {
+          nowBossBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              BossBeanDto, BossBeanDto.Builder, BossBeanDtoOrBuilder>(
+                  getNowBoss(),
+                  getParentForChildren(),
+                  isClean());
+          nowBoss_ = null;
+        }
+        return nowBossBuilder_;
       }
       @Override
       public final Builder setUnknownFields(
@@ -16365,20 +16568,20 @@ public final class CopySceneModel {
       "leStatus\030\003 \001(\005\022\n\n\002id\030\004 \001(\005\022\014\n\004name\030\005 \001(\t" +
       "\022\r\n\005blood\030\006 \001(\005\022\n\n\002mp\030\007 \001(\005\022\016\n\006attack\030\010 " +
       "\001(\005\022\036\n\nbufferDtos\030\n \003(\0132\n.BufferDto\022\016\n\006s" +
-      "tatus\030\013 \001(\005\"\261\001\n\020CopySceneBeanDto\022\022\n\ncrea" +
+      "tatus\030\013 \001(\005\"\320\001\n\020CopySceneBeanDto\022\022\n\ncrea" +
       "teTime\030\001 \001(\022\022\017\n\007endTime\030\002 \001(\022\022\037\n\tbossBea" +
       "ns\030\003 \003(\0132\014.BossBeanDto\022\031\n\007roleDto\030\004 \003(\0132" +
       "\010.RoleDto\022\016\n\006status\030\005 \001(\005\022\027\n\017copySceneBe" +
-      "anId\030\006 \001(\005\022\023\n\013copySceneId\030\007 \001(\005\"\277\001\n\007Role" +
-      "Dto\022\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\016\n\006status\030" +
-      "\003 \001(\005\022\014\n\004type\030\004 \001(\005\022\020\n\010onStatus\030\005 \001(\005\022\r\n" +
-      "\005blood\030\006 \001(\005\022\020\n\010nowBlood\030\007 \001(\005\022\n\n\002mp\030\010 \001" +
-      "(\005\022\r\n\005nowMp\030\t \001(\005\022\016\n\006teamId\030\n \001(\005\022\036\n\nbuf" +
-      "ferDtos\030\013 \003(\0132\n.BufferDto\"q\n\tBufferDto\022\022" +
-      "\n\nfromRoleId\030\001 \001(\005\022\020\n\010toRoleId\030\002 \001(\005\022\022\n\n" +
-      "createTime\030\003 \001(\022\022\n\n\002id\030\004 \001(\005\022\014\n\004name\030\005 \001" +
-      "(\t\022\020\n\010lastTime\030\006 \001(\005B\020B\016CopySceneModelb\006" +
-      "proto3"
+      "anId\030\006 \001(\005\022\023\n\013copySceneId\030\007 \001(\005\022\035\n\007nowBo" +
+      "ss\030\010 \001(\0132\014.BossBeanDto\"\277\001\n\007RoleDto\022\n\n\002id" +
+      "\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\016\n\006status\030\003 \001(\005\022\014\n\004" +
+      "type\030\004 \001(\005\022\020\n\010onStatus\030\005 \001(\005\022\r\n\005blood\030\006 " +
+      "\001(\005\022\020\n\010nowBlood\030\007 \001(\005\022\n\n\002mp\030\010 \001(\005\022\r\n\005now" +
+      "Mp\030\t \001(\005\022\016\n\006teamId\030\n \001(\005\022\036\n\nbufferDtos\030\013" +
+      " \003(\0132\n.BufferDto\"q\n\tBufferDto\022\022\n\nfromRol" +
+      "eId\030\001 \001(\005\022\020\n\010toRoleId\030\002 \001(\005\022\022\n\ncreateTim" +
+      "e\030\003 \001(\022\022\n\n\002id\030\004 \001(\005\022\014\n\004name\030\005 \001(\t\022\020\n\010las" +
+      "tTime\030\006 \001(\005B\020B\016CopySceneModelb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -16479,7 +16682,7 @@ public final class CopySceneModel {
     internal_static_CopySceneBeanDto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_CopySceneBeanDto_descriptor,
-        new String[] { "CreateTime", "EndTime", "BossBeans", "RoleDto", "Status", "CopySceneBeanId", "CopySceneId", });
+        new String[] { "CreateTime", "EndTime", "BossBeans", "RoleDto", "Status", "CopySceneBeanId", "CopySceneId", "NowBoss", });
     internal_static_RoleDto_descriptor =
       getDescriptor().getMessageTypes().get(16);
     internal_static_RoleDto_fieldAccessorTable = new

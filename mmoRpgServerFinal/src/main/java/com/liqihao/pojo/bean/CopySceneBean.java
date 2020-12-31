@@ -13,12 +13,14 @@ import com.liqihao.protobufObject.CopySceneModel;
 import com.liqihao.protobufObject.SceneModel;
 import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.provider.TeamServiceProvider;
+import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ScheduledFuture;
 
 
 /**
@@ -171,6 +173,8 @@ public class CopySceneBean extends CopySceneMessage {
      */
     public void end(TeamBean teamBean,Integer cause) {
         Iterator iterator=roles.iterator();
+        teamBean.setCopySceneBeanId(null);
+        teamBean.setCopySceneId(null);
         while (iterator.hasNext()){
             MmoSimpleRole mmoSimpleRole= (MmoSimpleRole) iterator.next();
             //让用户回到原来的场景EE
@@ -216,6 +220,12 @@ public class CopySceneBean extends CopySceneMessage {
         }
         //copySceneProvider删除该副本
         CopySceneProvider.deleteNewCopySceneById(getCopySceneBeanId());
+        //定时任务取消
+        ScheduledFuture<?> t=ScheduledThreadPoolUtil.getCopySceneTaskMap().get(getCopySceneBeanId());
+        if (t!=null){
+            t.cancel(false);
+            ScheduledThreadPoolUtil.getCopySceneTaskMap().remove(getCopySceneBeanId());
+        }
         //广播给队伍中的人 副本解散了
         sendCopySceneDelete(teamBean,cause);
     }
@@ -228,6 +238,7 @@ public class CopySceneBean extends CopySceneMessage {
         for (Role role:roles) {
             if (role.getType().equals(RoleTypeCode.PLAYER.getCode())) {
                 role.setStatus(RoleStatusCode.ALIVE.getCode());
+                role.setNowHp(role.getHp());
             }
         }
         //副本解散
@@ -254,9 +265,11 @@ public class CopySceneBean extends CopySceneMessage {
         //将副本中的人物全部状态改为存活
         for (Role role:roles) {
             role.setStatus(RoleStatusCode.ALIVE.getCode());
+            role.setNowHp(role.getHp());
         }
         //副本解散
         end(teamBean,CopySceneDeleteCauseCode.PEOPLEDIE.getCode());
+
         // 广播队伍副本挑战失败
         NettyResponse nettyResponse=new NettyResponse();
         nettyResponse.setCmd(ConstantValue.CHANGE_FAIL_RESPONSE);
@@ -279,6 +292,7 @@ public class CopySceneBean extends CopySceneMessage {
         //将副本中的人物全部状态改为存活
         for (Role role:roles) {
             role.setStatus(RoleStatusCode.ALIVE.getCode());
+            role.setNowHp(role.getHp());
         }
         //副本解散
         end(teamBean,CopySceneDeleteCauseCode.TIMEOUT.getCode());
@@ -315,12 +329,14 @@ public class CopySceneBean extends CopySceneMessage {
     }
 
     public void bossComeOrFinish() {
-        //todo
         if (bossBeans.size()>0){
             BossBean bossBean=bossBeans.pop();
+            setNowBoss(bossBean);
+            //发信息第二个boss出现
         }else{
-            // todo
             // 挑战成功
+            TeamBean teamBean= TeamServiceProvider.getTeamBeanByTeamId(getTeamId());
+            changeResult(teamBean);
         }
     }
 }

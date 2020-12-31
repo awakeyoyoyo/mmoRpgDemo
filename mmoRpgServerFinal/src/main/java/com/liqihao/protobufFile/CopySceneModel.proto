@@ -80,7 +80,7 @@ message ExitCopySceneResponse{
 message BossBeanDto{
   int32 nowBlood=1;
   int32 nowMp=2;
-  int32 roleStatus=3;
+  int32 onStatus=3;
   int32 id=4;
   string name=5;
   int32 blood=6;
@@ -97,6 +97,7 @@ message CopySceneBeanDto{
   int32 status=5;
   int32 copySceneBeanId=6;
   int32 copySceneId=7;
+  BossBeanDto nowBoss=8;
 }
 message RoleDto{
   int32 id=1;

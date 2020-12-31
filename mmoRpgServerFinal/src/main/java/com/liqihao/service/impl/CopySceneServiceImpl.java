@@ -225,11 +225,19 @@ public class CopySceneServiceImpl implements CopySceneService {
                 roleDtos.add(roleDto);
             }
         }
+        CopySceneModel.BossBeanDto bossBeanDto=null;
+
+        if (copySceneBean.getNowBoss()!=null) {
+            bossBeanDto = CommonsUtil.bossBeanToBossBeanDto(copySceneBean.getNowBoss());
+        }else {
+            bossBeanDto = CopySceneModel.BossBeanDto.newBuilder().setId(-1).build();
+        }
         CopySceneModel.CopySceneModelMessage messageData=CopySceneModel.CopySceneModelMessage.newBuilder()
                 .setDataType(CopySceneModel.CopySceneModelMessage.DateType.CreateCopySceneResponse)
                 .setCreateCopySceneResponse(CopySceneModel.CreateCopySceneResponse.newBuilder()
                         .setCopySceneBeanDto(copySceneBeanDtoBuilder
                                 .addAllRoleDto(roleDtos).addAllBossBeans(bossBeanDtos)
+                                .setNowBoss(bossBeanDto)
                                 .setCopySceneId(copySceneBean.getId()).setCopySceneBeanId(copySceneBean.getCopySceneBeanId())
                                 .setStatus(copySceneBean.getStatus())
                                 .setCreateTime(copySceneBean.getCreateTime())
@@ -259,11 +267,13 @@ public class CopySceneServiceImpl implements CopySceneService {
                 roleDtos.add(roleDto);
             }
         }
+        CopySceneModel.BossBeanDto nowBoss=CommonsUtil.bossBeanToBossBeanDto(copySceneBean.getNowBoss());
         CopySceneModel.CopySceneModelMessage messageData=CopySceneModel.CopySceneModelMessage.newBuilder()
                 .setDataType(CopySceneModel.CopySceneModelMessage.DateType.CopySceneMessageResponse)
                 .setCopySceneMessageResponse(CopySceneModel.CopySceneMessageResponse.newBuilder()
                         .setCopySceneBeanDto(copySceneBeanDtoBuilder
                                 .addAllRoleDto(roleDtos).addAllBossBeans(bossBeanDtos)
+                                .setNowBoss(nowBoss)
                                 .setCopySceneId(copySceneBean.getId()).setCopySceneBeanId(copySceneBean.getCopySceneBeanId())
                                 .setStatus(copySceneBean.getStatus())
                                 .setCreateTime(copySceneBean.getCreateTime())

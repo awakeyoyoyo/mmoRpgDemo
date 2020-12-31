@@ -7,6 +7,7 @@ import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.CopySceneStatusCode;
+import com.liqihao.commons.enums.RoleOnStatusCode;
 import com.liqihao.commons.enums.RoleStatusCode;
 import com.liqihao.commons.enums.RoleTypeCode;
 import com.liqihao.dao.MmoBagPOJOMapper;
@@ -127,6 +128,7 @@ public class CommonsUtil implements ApplicationContextAware {
         bossBean.setHp(bossMessage.getBlood());
         bossBean.setNowMp(bossMessage.getMp());
         bossBean.setStatus(RoleStatusCode.ALIVE.getCode());
+        bossBean.setOnStatus(RoleOnStatusCode.ONLINE.getCode());
         bossBean.setType(RoleTypeCode.ENEMY.getCode());
         bossBean.setAttack(bossMessage.getAttack());
         bossBean.setNowHp(bossMessage.getBlood());
@@ -136,7 +138,6 @@ public class CommonsUtil implements ApplicationContextAware {
         bossBean.setMedicines(bossMessage.getMedicines());
         bossBean.setMoney(bossMessage.getMoney());
         bossBean.setMp(bossMessage.getMp());
-        bossBean.setStatus(RoleStatusCode.ALIVE.getCode());
         bossBean.setName(bossMessage.getName());
         bossBean.setSkillIds(bossMessage.getSkillIds());
         List<SkillBean> skillBeans=skillIdsToSkillBeans(bossMessage.getSkillIds());

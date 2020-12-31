@@ -132,17 +132,9 @@ public class SceneServiceImpl implements SceneService {
         if (mmoSimpleRole==null){
             return;
         }
-        if (sceneId==null){
-            channel.writeAndFlush(new NettyResponse(StateCode.FAIL,ConstantValue.FAIL_RESPONSE,"传入场景id为空".getBytes()));
-            return;
-        }
         List<Role> sceneRoles=new ArrayList<>();
-        SceneBean sceneBean=SceneBeanMessageCache.getInstance().get(sceneId);
-        if (sceneBean==null){
-            channel.writeAndFlush(new NettyResponse(StateCode.FAIL,ConstantValue.FAIL_RESPONSE,"传入场景id为无效id".getBytes()));
-            return;
-        }
         if (sceneId!=null) {
+            SceneBean sceneBean=SceneBeanMessageCache.getInstance().get(sceneId);
             List<Integer> mmoSimpleRoles = sceneBean.getRoles();
             List<Integer> npcs = sceneBean.getNpcs();
             //NPC
@@ -172,8 +164,9 @@ public class SceneServiceImpl implements SceneService {
             //在副本中
             Integer copySceneBeanId=mmoSimpleRole.getCopySceneBeanId();
             CopySceneBean copySceneBean= CopySceneProvider.getCopySceneBeanById(copySceneBeanId);
-            sceneRoles=copySceneBean.getRoles();
-            sceneRoles.addAll(copySceneBean.getBossBeans());
+            sceneRoles.addAll(copySceneBean.getRoles());
+            BossBean bossBean=copySceneBean.getNowBoss();
+            sceneRoles.add(bossBean);
         }
         //protobuf
         SceneModel.SceneModelMessage.Builder messagedataBuilder=SceneModel.SceneModelMessage.newBuilder();

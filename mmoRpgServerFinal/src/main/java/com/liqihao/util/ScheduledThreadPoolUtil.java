@@ -201,13 +201,14 @@ public class ScheduledThreadPoolUtil {
         private Logger logger = Logger.getLogger(BufferTask.class);
         private BufferBean bufferBean;
         private Integer count;
-
+        private Role toRole;
         public BufferTask() {
         }
 
-        public BufferTask(BufferBean bufferBean, Integer count) {
+        public BufferTask(BufferBean bufferBean, Integer count,Role toRole) {
             this.bufferBean = bufferBean;
             this.count = count;
+            this.toRole=toRole;
         }
 
         @Override
@@ -219,30 +220,17 @@ public class ScheduledThreadPoolUtil {
                     bufferType.equals(BufferTypeCode.ADDMP.getCode()) ||
                     bufferType.equals(BufferTypeCode.REDUCEMP.getCode())) {
                 Integer toroleId = bufferBean.getToRoleId();
-                Integer toRoletype = bufferBean.getToRoleType();
-                if (toRoletype.equals(RoleTypeCode.NPC.getCode()) || toRoletype.equals(RoleTypeCode.ENEMY.getCode())) {
-                    MmoSimpleNPC npc = NpcMessageCache.getInstance().get(toroleId);
-                    if (npc == null || npc.getStatus().equals(RoleStatusCode.DIE.getCode()) || count <= 0) {
+                if (toRole == null || toRole.getStatus().equals(RoleStatusCode.DIE.getCode()) || count <= 0) {
                         //删除该buffer
                         String taskId = toroleId.toString() + bufferBean.getId().toString();
                         bufferRole.get(Integer.parseInt(taskId)).cancel(false);
                         bufferRole.remove(taskId);
-                    }
-                    npc.effectByBuffer(bufferBean);
-                } else {
-                    MmoSimpleRole mmoSimpleRole = OnlineRoleMessageCache.getInstance().get(toroleId);
-                    if (mmoSimpleRole == null || mmoSimpleRole.getStatus().equals(RoleStatusCode.DIE.getCode()) || count <= 0) {
-                        String taskId = toroleId.toString() + bufferBean.getId().toString();
-                        bufferRole.get(Integer.parseInt(taskId)).cancel(false);
-                        bufferRole.remove(taskId);
-                    }
-                    mmoSimpleRole.effectByBuffer(bufferBean);
+                }
+                toRole.effectByBuffer(bufferBean);
 
                 }
                 count--;
             }
-
-        }
     }
 
     public static class NpcAttackTask implements Runnable {
@@ -349,7 +337,7 @@ public class ScheduledThreadPoolUtil {
 
         public BossAttackTask(BossBean bossBean, CopySceneBean copySceneBean, List<SkillBean> skillBeans) {
             this.bossBean = bossBean;
-            attackCount = 0;
+            attackCount = 1;
             this.skillBeans = skillBeans;
             this.copySceneBean=copySceneBean;
         }
@@ -363,8 +351,6 @@ public class ScheduledThreadPoolUtil {
                 role = bossBean.getTarget();
                 if (role == null) {
                     //bossBean.getTarget(); 查找为null 则代表着无人可以攻击了
-                    bossTaskMap.get(bossBean.getBossBeanId()).cancel(false);
-                    bossTaskMap.remove(bossBean.getBossBeanId());
                     break;
                 }
                 if (role.getCopySceneBeanId() == null || !role.getCopySceneBeanId().equals(bossBean.getCopySceneBeanId()) ||
@@ -379,6 +365,8 @@ public class ScheduledThreadPoolUtil {
                 // 挑战失败
                 TeamBean teamBean= TeamServiceProvider.getTeamBeanByTeamId(copySceneBean.getTeamId());
                 copySceneBean.changePeopleDie(teamBean);
+                bossTaskMap.get(bossBean.getBossBeanId()).cancel(false);
+                bossTaskMap.remove(bossBean.getBossBeanId());
                 return;
             }
             SkillBean skillBean = null;
@@ -388,6 +376,7 @@ public class ScheduledThreadPoolUtil {
             } else {
                 skillBean = skillBeans.get(0);
             }
+            attackCount++;
             List<Role> targetRoles = new ArrayList<>();
             if (skillBean.getSkillAttackType().equals(SkillAttackTypeCode.ALLPEOPLE.getCode())) {
                 for (Role r : copySceneBean.getRoles()) {
