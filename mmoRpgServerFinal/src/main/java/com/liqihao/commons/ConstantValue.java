@@ -120,9 +120,13 @@ public interface ConstantValue {
     int COPYSCENE_FINISH_RESPONSE=7505;
 
     //聊天模块
+    String CHAT_MODULE = "chatServiceImpl";
     int SEND_TO_ALL_REQUEST=8000;
     int SEND_TO_ONE_REQUEST=8001;
-
     int ACCEPT_MESSAGE_RESPONSE=8500;
+
+
+
+
     int FAIL_RESPONSE=9999;
 }

@@ -120,6 +120,13 @@ public interface ConstantValue {
     int EXIT_COPYSCENE_RESPONSE=7504;
     int COPYSCENE_FINISH_RESPONSE=7505;
 
+    //聊天模块
+    int SEND_TO_ALL_REQUEST=8000;
+    int SEND_TO_ONE_REQUEST=8001;
+    int ACCEPT_MESSAGE_RESPONSE=8500;
+
+    String SEND_TO_ALL_REQUEST_CMD="sendMessageAll";
+    String SEND_TO_ONE_REQUEST_CMD="sendMessageOne";
     String ASK_CAN_COPYSCENE_REQUEST_CMD="askCanCopyScene";
     String COPYSCENE_MESSAGE_REQUEST_CMD="copySceneMsg";
     String CREATE_COPYSCENE_REQUEST_CMD="createCopyScene";
