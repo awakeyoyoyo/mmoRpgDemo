@@ -24,6 +24,8 @@ public class Dispatcherservlet {
     private TeamService teamService;
     @Autowired
     private CopySceneService copySceneService;
+    @Autowired
+    private ChatService chatService;
     /**
      * 根据model和cmd转发到不同的service
      *
@@ -150,6 +152,9 @@ public class Dispatcherservlet {
                 break;
             case ConstantValue.CHANGE_FAIL_RESPONSE:
                 copySceneService.changeFailResponse(nettyResponse);
+                break;
+            case ConstantValue.ACCEPT_MESSAGE_RESPONSE:
+                chatService.acceptMessageResopnse(nettyResponse);
                 break;
             default:
                 System.out.println("handler:收到");

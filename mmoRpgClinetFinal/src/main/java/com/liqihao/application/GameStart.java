@@ -42,7 +42,6 @@ public class GameStart {
         while (true){
             System.out.println("请输入命令");
             String cmdT=scanner.nextLine();
-            scanner.nextLine();
             //消除回车
             CmdCode cmd=CmdCode.getValue(cmdT);
             if (null==cmd){
@@ -158,9 +157,45 @@ public class GameStart {
                     case ConstantValue.EXIT_COPYSCENE_REQUEST:
                         exitCopySceneRequest(scanner);
                         break;
+                    case ConstantValue.SEND_TO_ALL_REQUEST:
+                        sendToAllRequest(scanner);
+                        break;
+                    case ConstantValue.SEND_TO_ONE_REQUEST:
+                        sendToOneRequest(scanner);
+                        break;
                     default:
                         System.out.println("GameStart-handler:收到错误cmd");
                 }
+    }
+
+    private void sendToAllRequest(Scanner scanner) {
+        System.out.println("请输入你要说的话：");
+        String str=scanner.nextLine();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.SEND_TO_ALL_REQUEST);
+        ChatModel.ChatModelMessage myMessage;
+        myMessage= ChatModel.ChatModelMessage.newBuilder()
+                .setDataType(ChatModel.ChatModelMessage.DateType.SendToAllRequest)
+                .setSendToAllRequest(ChatModel.SendToAllRequest.newBuilder().setStr(str).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void sendToOneRequest(Scanner scanner) {
+        System.out.println("请输入对话的目标id：");
+        Integer roleId=scanner.nextInt();
+        System.out.println("请输入你要说的话：");
+        String str=scanner.nextLine();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.SEND_TO_ONE_REQUEST);
+        ChatModel.ChatModelMessage myMessage;
+        myMessage= ChatModel.ChatModelMessage.newBuilder()
+                .setDataType(ChatModel.ChatModelMessage.DateType.SendToOneRequest)
+                .setSendToOneRequest(ChatModel.SendToOneRequest.newBuilder().setRoleId(roleId).setStr(str).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
     }
 
     private void askCanCopySceneRequest(Scanner scanner) {
@@ -572,16 +607,10 @@ public class GameStart {
         System.out.println("欢迎来到注册界面~");
         System.out.println("请输入账号");
         String username=scanner.nextLine();
-        //消除回车
-        scanner.nextLine();
         System.out.println("请输入密码");
         String password=scanner.nextLine();
-        //消除回车
-        scanner.nextLine();
         System.out.println("请输入游戏角色名称");
         String roleName=scanner.nextLine();
-        //消除回车
-        scanner.nextLine();
         NettyRequest nettyRequest=new NettyRequest();
         nettyRequest.setCmd(ConstantValue.REGISTER_REQUEST);
         PlayModel.PlayModelMessage myMessage;
@@ -611,11 +640,9 @@ public class GameStart {
         System.out.println("请输入账号");
         String username=scanner.nextLine();
         //消除回车
-        scanner.nextLine();
         System.out.println("请输入密码");
         String password=scanner.nextLine();
         //消除回车
-        scanner.nextLine();
         NettyRequest nettyRequest=new NettyRequest();
         nettyRequest.setCmd(ConstantValue.LOGIN_REQUEST);
         PlayModel.PlayModelMessage myMessage;
@@ -646,7 +673,6 @@ public class GameStart {
         System.out.println("请输入你想去的地方");
         String str=scanner.nextLine();
         //消除回车
-        scanner.nextLine();
         Integer mmoSceneId= MmoCacheCilent.getInstance().getNowSceneId();
         ConcurrentHashMap<Integer,SceneMessage> concurrentHashMap=MmoCacheCilent.getInstance().getSceneMessageConcurrentHashMap();
         SceneMessage sceneMessage=MmoCacheCilent.getInstance().getSceneMessageConcurrentHashMap().get(mmoSceneId);
