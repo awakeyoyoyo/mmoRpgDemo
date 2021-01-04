@@ -6,6 +6,7 @@ import com.liqihao.pojo.MmoEmailPOJO;
 import com.liqihao.pojo.bean.MmoEmailBean;
 import com.liqihao.pojo.bean.MmoSimpleRole;
 import com.liqihao.util.CommonsUtil;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -94,6 +95,7 @@ public class EmailServiceProvider implements ApplicationContextAware {
      */
     public static MmoEmailBean getEmailMessage(MmoSimpleRole role, Integer emailId){
         MmoEmailBean mmoEmailBean=role.getToMmoEmailBeanConcurrentHashMap().get(emailId);
+        mmoEmailBean.setChecked(true);
         if (mmoEmailBean!=null&&mmoEmailBean.getToDelete()){
             return null;
         }
@@ -107,6 +109,7 @@ public class EmailServiceProvider implements ApplicationContextAware {
             while(iterator.hasNext()){
                 Integer id=iterator.next();
                 if (id.equals(emailId)){
+                    map.get(emailId).setToDelete(true);
                     map.remove(emailId);
                     break;
                 }
@@ -121,6 +124,7 @@ public class EmailServiceProvider implements ApplicationContextAware {
             while(iterator.hasNext()){
                 Integer id=iterator.next();
                 if (id.equals(emailId)){
+                    map.get(emailId).setFromDelete(true);
                     map.remove(emailId);
                     break;
                 }
