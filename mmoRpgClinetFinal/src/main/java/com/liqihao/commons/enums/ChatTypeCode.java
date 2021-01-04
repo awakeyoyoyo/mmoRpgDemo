@@ -1,8 +1,13 @@
 package com.liqihao.commons.enums;
 
+/**
+ * 聊天频道
+ * @author lqhao
+ */
+
 public enum ChatTypeCode {
     //
-    ALLPEOPLE(0,"全服频道"),SINGLEPEOPLE(1,"私聊频道");
+    ALL_PEOPLE(0,"全服频道"),SINGLE_PEOPLE(1,"私聊频道"),SCENE_PEOPLE(2,"场景频道"),TEAM_PEOPLE(3,"队伍频道");
     private  int code;
     private  String value;
     ChatTypeCode(int code, String name)
