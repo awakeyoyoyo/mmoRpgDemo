@@ -9,12 +9,6 @@ import io.netty.channel.Channel;
  * @author lqhao
  */
 public interface CopySceneService {
-    /**
-     * 询问可以进入的副本信息
-     * @param myMessage
-     * @param channel
-     */
-    void askCanCopySceneRequest(CopySceneModel.CopySceneModelMessage myMessage, Channel channel);
 
     /**
      * 副本的详细信息

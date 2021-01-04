@@ -181,7 +181,7 @@ public class CommonsUtil implements ApplicationContextAware {
 
 
 
-        mmoRolePOJO.setMmosceneid(mmoSimpleRole.getMmosceneid());
+        mmoRolePOJO.setMmosceneid(mmoSimpleRole.getMmoSceneId());
         mmoRolePOJO.setName(mmoSimpleRole.getName());
         mmoRolePOJO.setSkillIds(CommonsUtil.listToString(mmoSimpleRole.getSkillIdList()));
         mmoRolePOJO.setType(mmoSimpleRole.getType());
@@ -310,7 +310,7 @@ public class CommonsUtil implements ApplicationContextAware {
         MmoSimpleRole roleTemp = new MmoSimpleRole();
         roleTemp.setId(npc.getId());
         roleTemp.setName(npc.getName());
-        roleTemp.setMmosceneid(npc.getMmosceneid());
+        roleTemp.setMmoSceneId(npc.getMmoSceneId());
         roleTemp.setStatus(npc.getStatus());
         roleTemp.setType(npc.getType());
         roleTemp.setOnStatus(npc.getOnStatus());
@@ -400,7 +400,7 @@ public class CommonsUtil implements ApplicationContextAware {
         sceneBean.setRoles(new ArrayList<>());
         List<Integer> npcs=new ArrayList<>();
         for (MmoSimpleNPC mpc: NpcMessageCache.getInstance().values()) {
-            if (mpc.getMmosceneid().equals(m.getId())){
+            if (mpc.getMmoSceneId().equals(m.getId())){
                 npcs.add(mpc.getId());
             }
         }

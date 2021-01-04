@@ -104,7 +104,7 @@ public class MmoSimpleNPC extends Role {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
         //广播给所有当前场景
-        SceneBean sceneBean=SceneBeanMessageCache.getInstance().get(this.getMmosceneid());
+        SceneBean sceneBean=SceneBeanMessageCache.getInstance().get(this.getMmoSceneId());
         List<Integer> roles=sceneBean.getRoles();
         for (Integer id: roles) {
             MmoSimpleRole role=OnlineRoleMessageCache.getInstance().get(id);
@@ -164,7 +164,7 @@ public class MmoSimpleNPC extends Role {
             }
         }
         //广播信息
-        Integer sceneId = OnlineRoleMessageCache.getInstance().get(bufferBean.getFromRoleId()).getMmosceneid();
+        Integer sceneId = OnlineRoleMessageCache.getInstance().get(bufferBean.getFromRoleId()).getMmoSceneId();
         //生成数据包
         PlayModel.PlayModelMessage.Builder myMessageBuilder = PlayModel.PlayModelMessage.newBuilder();
         myMessageBuilder.setDataType(PlayModel.PlayModelMessage.DateType.DamagesNoticeResponse);
@@ -180,8 +180,8 @@ public class MmoSimpleNPC extends Role {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
         List<Integer> players;
-        if (getMmosceneid()!=null) {
-            players = SceneBeanMessageCache.getInstance().get(this.getMmosceneid()).getRoles();
+        if (getMmoSceneId()!=null) {
+            players = SceneBeanMessageCache.getInstance().get(this.getMmoSceneId()).getRoles();
             for (Integer playerId:players){
                 Channel c= ChannelMessageCache.getInstance().get(playerId);
                 if (c!=null){

@@ -7,6 +7,8 @@ message ChatModelMessage{
     SendToAllRequest=0;//在proto3 要求enum的编号从0开始
     SendToOneRequest=1;
     AcceptMessageResponse=2;
+    SendToTeamRequest=3;
+    SendToSceneRequest=4;
   }
   //用date_type来标识传的是哪一个枚举类型
   DateType data_type=1;
@@ -15,6 +17,8 @@ message ChatModelMessage{
     SendToAllRequest sendToAllRequest=2;
     SendToOneRequest sendToOneRequest=3;
     AcceptMessageResponse acceptMessageResponse=4;
+    SendToTeamRequest sendToTeamRequest=5;
+    SendToSceneRequest sendToSceneRequest=6;
   }
 }
 message SendToAllRequest{
@@ -23,6 +27,12 @@ message SendToAllRequest{
 message SendToOneRequest{
   string str=1;
   int32 roleId=2;
+}
+message SendToTeamRequest{
+  string str=1;
+}
+message SendToSceneRequest{
+  string str=1;
 }
 message AcceptMessageResponse{
   string str=1;

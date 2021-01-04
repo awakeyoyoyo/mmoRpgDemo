@@ -80,6 +80,36 @@ public final class ChatModel {
      */
     AcceptMessageResponseOrBuilder getAcceptMessageResponseOrBuilder();
 
+    /**
+     * <code>.SendToTeamRequest sendToTeamRequest = 5;</code>
+     * @return Whether the sendToTeamRequest field is set.
+     */
+    boolean hasSendToTeamRequest();
+    /**
+     * <code>.SendToTeamRequest sendToTeamRequest = 5;</code>
+     * @return The sendToTeamRequest.
+     */
+    SendToTeamRequest getSendToTeamRequest();
+    /**
+     * <code>.SendToTeamRequest sendToTeamRequest = 5;</code>
+     */
+    SendToTeamRequestOrBuilder getSendToTeamRequestOrBuilder();
+
+    /**
+     * <code>.SendToSceneRequest sendToSceneRequest = 6;</code>
+     * @return Whether the sendToSceneRequest field is set.
+     */
+    boolean hasSendToSceneRequest();
+    /**
+     * <code>.SendToSceneRequest sendToSceneRequest = 6;</code>
+     * @return The sendToSceneRequest.
+     */
+    SendToSceneRequest getSendToSceneRequest();
+    /**
+     * <code>.SendToSceneRequest sendToSceneRequest = 6;</code>
+     */
+    SendToSceneRequestOrBuilder getSendToSceneRequestOrBuilder();
+
     public ChatModelMessage.DateBodyCase getDateBodyCase();
   }
   /**
@@ -180,6 +210,34 @@ public final class ChatModel {
               dateBodyCase_ = 4;
               break;
             }
+            case 42: {
+              SendToTeamRequest.Builder subBuilder = null;
+              if (dateBodyCase_ == 5) {
+                subBuilder = ((SendToTeamRequest) dateBody_).toBuilder();
+              }
+              dateBody_ =
+                  input.readMessage(SendToTeamRequest.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((SendToTeamRequest) dateBody_);
+                dateBody_ = subBuilder.buildPartial();
+              }
+              dateBodyCase_ = 5;
+              break;
+            }
+            case 50: {
+              SendToSceneRequest.Builder subBuilder = null;
+              if (dateBodyCase_ == 6) {
+                subBuilder = ((SendToSceneRequest) dateBody_).toBuilder();
+              }
+              dateBody_ =
+                  input.readMessage(SendToSceneRequest.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((SendToSceneRequest) dateBody_);
+                dateBody_ = subBuilder.buildPartial();
+              }
+              dateBodyCase_ = 6;
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -237,6 +295,14 @@ public final class ChatModel {
        * <code>AcceptMessageResponse = 2;</code>
        */
       AcceptMessageResponse(2),
+      /**
+       * <code>SendToTeamRequest = 3;</code>
+       */
+      SendToTeamRequest(3),
+      /**
+       * <code>SendToSceneRequest = 4;</code>
+       */
+      SendToSceneRequest(4),
       UNRECOGNIZED(-1),
       ;
 
@@ -256,6 +322,14 @@ public final class ChatModel {
        * <code>AcceptMessageResponse = 2;</code>
        */
       public static final int AcceptMessageResponse_VALUE = 2;
+      /**
+       * <code>SendToTeamRequest = 3;</code>
+       */
+      public static final int SendToTeamRequest_VALUE = 3;
+      /**
+       * <code>SendToSceneRequest = 4;</code>
+       */
+      public static final int SendToSceneRequest_VALUE = 4;
 
 
       public final int getNumber() {
@@ -285,6 +359,8 @@ public final class ChatModel {
           case 0: return SendToAllRequest;
           case 1: return SendToOneRequest;
           case 2: return AcceptMessageResponse;
+          case 3: return SendToTeamRequest;
+          case 4: return SendToSceneRequest;
           default: return null;
         }
       }
@@ -349,6 +425,8 @@ public final class ChatModel {
       SENDTOALLREQUEST(2),
       SENDTOONEREQUEST(3),
       ACCEPTMESSAGERESPONSE(4),
+      SENDTOTEAMREQUEST(5),
+      SENDTOSCENEREQUEST(6),
       DATEBODY_NOT_SET(0);
       private final int value;
       private DateBodyCase(int value) {
@@ -369,6 +447,8 @@ public final class ChatModel {
           case 2: return SENDTOALLREQUEST;
           case 3: return SENDTOONEREQUEST;
           case 4: return ACCEPTMESSAGERESPONSE;
+          case 5: return SENDTOTEAMREQUEST;
+          case 6: return SENDTOSCENEREQUEST;
           case 0: return DATEBODY_NOT_SET;
           default: return null;
         }
@@ -504,6 +584,68 @@ public final class ChatModel {
       return AcceptMessageResponse.getDefaultInstance();
     }
 
+    public static final int SENDTOTEAMREQUEST_FIELD_NUMBER = 5;
+    /**
+     * <code>.SendToTeamRequest sendToTeamRequest = 5;</code>
+     * @return Whether the sendToTeamRequest field is set.
+     */
+    @Override
+    public boolean hasSendToTeamRequest() {
+      return dateBodyCase_ == 5;
+    }
+    /**
+     * <code>.SendToTeamRequest sendToTeamRequest = 5;</code>
+     * @return The sendToTeamRequest.
+     */
+    @Override
+    public SendToTeamRequest getSendToTeamRequest() {
+      if (dateBodyCase_ == 5) {
+         return (SendToTeamRequest) dateBody_;
+      }
+      return SendToTeamRequest.getDefaultInstance();
+    }
+    /**
+     * <code>.SendToTeamRequest sendToTeamRequest = 5;</code>
+     */
+    @Override
+    public SendToTeamRequestOrBuilder getSendToTeamRequestOrBuilder() {
+      if (dateBodyCase_ == 5) {
+         return (SendToTeamRequest) dateBody_;
+      }
+      return SendToTeamRequest.getDefaultInstance();
+    }
+
+    public static final int SENDTOSCENEREQUEST_FIELD_NUMBER = 6;
+    /**
+     * <code>.SendToSceneRequest sendToSceneRequest = 6;</code>
+     * @return Whether the sendToSceneRequest field is set.
+     */
+    @Override
+    public boolean hasSendToSceneRequest() {
+      return dateBodyCase_ == 6;
+    }
+    /**
+     * <code>.SendToSceneRequest sendToSceneRequest = 6;</code>
+     * @return The sendToSceneRequest.
+     */
+    @Override
+    public SendToSceneRequest getSendToSceneRequest() {
+      if (dateBodyCase_ == 6) {
+         return (SendToSceneRequest) dateBody_;
+      }
+      return SendToSceneRequest.getDefaultInstance();
+    }
+    /**
+     * <code>.SendToSceneRequest sendToSceneRequest = 6;</code>
+     */
+    @Override
+    public SendToSceneRequestOrBuilder getSendToSceneRequestOrBuilder() {
+      if (dateBodyCase_ == 6) {
+         return (SendToSceneRequest) dateBody_;
+      }
+      return SendToSceneRequest.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -530,6 +672,12 @@ public final class ChatModel {
       if (dateBodyCase_ == 4) {
         output.writeMessage(4, (AcceptMessageResponse) dateBody_);
       }
+      if (dateBodyCase_ == 5) {
+        output.writeMessage(5, (SendToTeamRequest) dateBody_);
+      }
+      if (dateBodyCase_ == 6) {
+        output.writeMessage(6, (SendToSceneRequest) dateBody_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -554,6 +702,14 @@ public final class ChatModel {
       if (dateBodyCase_ == 4) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, (AcceptMessageResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 5) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(5, (SendToTeamRequest) dateBody_);
+      }
+      if (dateBodyCase_ == 6) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, (SendToSceneRequest) dateBody_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -585,6 +741,14 @@ public final class ChatModel {
           if (!getAcceptMessageResponse()
               .equals(other.getAcceptMessageResponse())) return false;
           break;
+        case 5:
+          if (!getSendToTeamRequest()
+              .equals(other.getSendToTeamRequest())) return false;
+          break;
+        case 6:
+          if (!getSendToSceneRequest()
+              .equals(other.getSendToSceneRequest())) return false;
+          break;
         case 0:
         default:
       }
@@ -613,6 +777,14 @@ public final class ChatModel {
         case 4:
           hash = (37 * hash) + ACCEPTMESSAGERESPONSE_FIELD_NUMBER;
           hash = (53 * hash) + getAcceptMessageResponse().hashCode();
+          break;
+        case 5:
+          hash = (37 * hash) + SENDTOTEAMREQUEST_FIELD_NUMBER;
+          hash = (53 * hash) + getSendToTeamRequest().hashCode();
+          break;
+        case 6:
+          hash = (37 * hash) + SENDTOSCENEREQUEST_FIELD_NUMBER;
+          hash = (53 * hash) + getSendToSceneRequest().hashCode();
           break;
         case 0:
         default:
@@ -806,6 +978,20 @@ public final class ChatModel {
             result.dateBody_ = acceptMessageResponseBuilder_.build();
           }
         }
+        if (dateBodyCase_ == 5) {
+          if (sendToTeamRequestBuilder_ == null) {
+            result.dateBody_ = dateBody_;
+          } else {
+            result.dateBody_ = sendToTeamRequestBuilder_.build();
+          }
+        }
+        if (dateBodyCase_ == 6) {
+          if (sendToSceneRequestBuilder_ == null) {
+            result.dateBody_ = dateBody_;
+          } else {
+            result.dateBody_ = sendToSceneRequestBuilder_.build();
+          }
+        }
         result.dateBodyCase_ = dateBodyCase_;
         onBuilt();
         return result;
@@ -869,6 +1055,14 @@ public final class ChatModel {
           }
           case ACCEPTMESSAGERESPONSE: {
             mergeAcceptMessageResponse(other.getAcceptMessageResponse());
+            break;
+          }
+          case SENDTOTEAMREQUEST: {
+            mergeSendToTeamRequest(other.getSendToTeamRequest());
+            break;
+          }
+          case SENDTOSCENEREQUEST: {
+            mergeSendToSceneRequest(other.getSendToSceneRequest());
             break;
           }
           case DATEBODY_NOT_SET: {
@@ -1414,6 +1608,288 @@ public final class ChatModel {
         dateBodyCase_ = 4;
         onChanged();;
         return acceptMessageResponseBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          SendToTeamRequest, SendToTeamRequest.Builder, SendToTeamRequestOrBuilder> sendToTeamRequestBuilder_;
+      /**
+       * <code>.SendToTeamRequest sendToTeamRequest = 5;</code>
+       * @return Whether the sendToTeamRequest field is set.
+       */
+      @Override
+      public boolean hasSendToTeamRequest() {
+        return dateBodyCase_ == 5;
+      }
+      /**
+       * <code>.SendToTeamRequest sendToTeamRequest = 5;</code>
+       * @return The sendToTeamRequest.
+       */
+      @Override
+      public SendToTeamRequest getSendToTeamRequest() {
+        if (sendToTeamRequestBuilder_ == null) {
+          if (dateBodyCase_ == 5) {
+            return (SendToTeamRequest) dateBody_;
+          }
+          return SendToTeamRequest.getDefaultInstance();
+        } else {
+          if (dateBodyCase_ == 5) {
+            return sendToTeamRequestBuilder_.getMessage();
+          }
+          return SendToTeamRequest.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.SendToTeamRequest sendToTeamRequest = 5;</code>
+       */
+      public Builder setSendToTeamRequest(SendToTeamRequest value) {
+        if (sendToTeamRequestBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dateBody_ = value;
+          onChanged();
+        } else {
+          sendToTeamRequestBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 5;
+        return this;
+      }
+      /**
+       * <code>.SendToTeamRequest sendToTeamRequest = 5;</code>
+       */
+      public Builder setSendToTeamRequest(
+          SendToTeamRequest.Builder builderForValue) {
+        if (sendToTeamRequestBuilder_ == null) {
+          dateBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          sendToTeamRequestBuilder_.setMessage(builderForValue.build());
+        }
+        dateBodyCase_ = 5;
+        return this;
+      }
+      /**
+       * <code>.SendToTeamRequest sendToTeamRequest = 5;</code>
+       */
+      public Builder mergeSendToTeamRequest(SendToTeamRequest value) {
+        if (sendToTeamRequestBuilder_ == null) {
+          if (dateBodyCase_ == 5 &&
+              dateBody_ != SendToTeamRequest.getDefaultInstance()) {
+            dateBody_ = SendToTeamRequest.newBuilder((SendToTeamRequest) dateBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dateBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dateBodyCase_ == 5) {
+            sendToTeamRequestBuilder_.mergeFrom(value);
+          }
+          sendToTeamRequestBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 5;
+        return this;
+      }
+      /**
+       * <code>.SendToTeamRequest sendToTeamRequest = 5;</code>
+       */
+      public Builder clearSendToTeamRequest() {
+        if (sendToTeamRequestBuilder_ == null) {
+          if (dateBodyCase_ == 5) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dateBodyCase_ == 5) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+          }
+          sendToTeamRequestBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.SendToTeamRequest sendToTeamRequest = 5;</code>
+       */
+      public SendToTeamRequest.Builder getSendToTeamRequestBuilder() {
+        return getSendToTeamRequestFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.SendToTeamRequest sendToTeamRequest = 5;</code>
+       */
+      @Override
+      public SendToTeamRequestOrBuilder getSendToTeamRequestOrBuilder() {
+        if ((dateBodyCase_ == 5) && (sendToTeamRequestBuilder_ != null)) {
+          return sendToTeamRequestBuilder_.getMessageOrBuilder();
+        } else {
+          if (dateBodyCase_ == 5) {
+            return (SendToTeamRequest) dateBody_;
+          }
+          return SendToTeamRequest.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.SendToTeamRequest sendToTeamRequest = 5;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          SendToTeamRequest, SendToTeamRequest.Builder, SendToTeamRequestOrBuilder>
+          getSendToTeamRequestFieldBuilder() {
+        if (sendToTeamRequestBuilder_ == null) {
+          if (!(dateBodyCase_ == 5)) {
+            dateBody_ = SendToTeamRequest.getDefaultInstance();
+          }
+          sendToTeamRequestBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              SendToTeamRequest, SendToTeamRequest.Builder, SendToTeamRequestOrBuilder>(
+                  (SendToTeamRequest) dateBody_,
+                  getParentForChildren(),
+                  isClean());
+          dateBody_ = null;
+        }
+        dateBodyCase_ = 5;
+        onChanged();;
+        return sendToTeamRequestBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          SendToSceneRequest, SendToSceneRequest.Builder, SendToSceneRequestOrBuilder> sendToSceneRequestBuilder_;
+      /**
+       * <code>.SendToSceneRequest sendToSceneRequest = 6;</code>
+       * @return Whether the sendToSceneRequest field is set.
+       */
+      @Override
+      public boolean hasSendToSceneRequest() {
+        return dateBodyCase_ == 6;
+      }
+      /**
+       * <code>.SendToSceneRequest sendToSceneRequest = 6;</code>
+       * @return The sendToSceneRequest.
+       */
+      @Override
+      public SendToSceneRequest getSendToSceneRequest() {
+        if (sendToSceneRequestBuilder_ == null) {
+          if (dateBodyCase_ == 6) {
+            return (SendToSceneRequest) dateBody_;
+          }
+          return SendToSceneRequest.getDefaultInstance();
+        } else {
+          if (dateBodyCase_ == 6) {
+            return sendToSceneRequestBuilder_.getMessage();
+          }
+          return SendToSceneRequest.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.SendToSceneRequest sendToSceneRequest = 6;</code>
+       */
+      public Builder setSendToSceneRequest(SendToSceneRequest value) {
+        if (sendToSceneRequestBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dateBody_ = value;
+          onChanged();
+        } else {
+          sendToSceneRequestBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 6;
+        return this;
+      }
+      /**
+       * <code>.SendToSceneRequest sendToSceneRequest = 6;</code>
+       */
+      public Builder setSendToSceneRequest(
+          SendToSceneRequest.Builder builderForValue) {
+        if (sendToSceneRequestBuilder_ == null) {
+          dateBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          sendToSceneRequestBuilder_.setMessage(builderForValue.build());
+        }
+        dateBodyCase_ = 6;
+        return this;
+      }
+      /**
+       * <code>.SendToSceneRequest sendToSceneRequest = 6;</code>
+       */
+      public Builder mergeSendToSceneRequest(SendToSceneRequest value) {
+        if (sendToSceneRequestBuilder_ == null) {
+          if (dateBodyCase_ == 6 &&
+              dateBody_ != SendToSceneRequest.getDefaultInstance()) {
+            dateBody_ = SendToSceneRequest.newBuilder((SendToSceneRequest) dateBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dateBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dateBodyCase_ == 6) {
+            sendToSceneRequestBuilder_.mergeFrom(value);
+          }
+          sendToSceneRequestBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 6;
+        return this;
+      }
+      /**
+       * <code>.SendToSceneRequest sendToSceneRequest = 6;</code>
+       */
+      public Builder clearSendToSceneRequest() {
+        if (sendToSceneRequestBuilder_ == null) {
+          if (dateBodyCase_ == 6) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dateBodyCase_ == 6) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+          }
+          sendToSceneRequestBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.SendToSceneRequest sendToSceneRequest = 6;</code>
+       */
+      public SendToSceneRequest.Builder getSendToSceneRequestBuilder() {
+        return getSendToSceneRequestFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.SendToSceneRequest sendToSceneRequest = 6;</code>
+       */
+      @Override
+      public SendToSceneRequestOrBuilder getSendToSceneRequestOrBuilder() {
+        if ((dateBodyCase_ == 6) && (sendToSceneRequestBuilder_ != null)) {
+          return sendToSceneRequestBuilder_.getMessageOrBuilder();
+        } else {
+          if (dateBodyCase_ == 6) {
+            return (SendToSceneRequest) dateBody_;
+          }
+          return SendToSceneRequest.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.SendToSceneRequest sendToSceneRequest = 6;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          SendToSceneRequest, SendToSceneRequest.Builder, SendToSceneRequestOrBuilder>
+          getSendToSceneRequestFieldBuilder() {
+        if (sendToSceneRequestBuilder_ == null) {
+          if (!(dateBodyCase_ == 6)) {
+            dateBody_ = SendToSceneRequest.getDefaultInstance();
+          }
+          sendToSceneRequestBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              SendToSceneRequest, SendToSceneRequest.Builder, SendToSceneRequestOrBuilder>(
+                  (SendToSceneRequest) dateBody_,
+                  getParentForChildren(),
+                  isClean());
+          dateBody_ = null;
+        }
+        dateBodyCase_ = 6;
+        onChanged();;
+        return sendToSceneRequestBuilder_;
       }
       @Override
       public final Builder setUnknownFields(
@@ -2669,6 +3145,1142 @@ public final class ChatModel {
 
     @Override
     public SendToOneRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface SendToTeamRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:SendToTeamRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string str = 1;</code>
+     * @return The str.
+     */
+    String getStr();
+    /**
+     * <code>string str = 1;</code>
+     * @return The bytes for str.
+     */
+    com.google.protobuf.ByteString
+        getStrBytes();
+  }
+  /**
+   * Protobuf type {@code SendToTeamRequest}
+   */
+  public static final class SendToTeamRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:SendToTeamRequest)
+      SendToTeamRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use SendToTeamRequest.newBuilder() to construct.
+    private SendToTeamRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private SendToTeamRequest() {
+      str_ = "";
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new SendToTeamRequest();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private SendToTeamRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              String s = input.readStringRequireUtf8();
+
+              str_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ChatModel.internal_static_SendToTeamRequest_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ChatModel.internal_static_SendToTeamRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              SendToTeamRequest.class, Builder.class);
+    }
+
+    public static final int STR_FIELD_NUMBER = 1;
+    private volatile Object str_;
+    /**
+     * <code>string str = 1;</code>
+     * @return The str.
+     */
+    @Override
+    public String getStr() {
+      Object ref = str_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        str_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string str = 1;</code>
+     * @return The bytes for str.
+     */
+    @Override
+    public com.google.protobuf.ByteString
+        getStrBytes() {
+      Object ref = str_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (String) ref);
+        str_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getStrBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, str_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getStrBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, str_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof SendToTeamRequest)) {
+        return super.equals(obj);
+      }
+      SendToTeamRequest other = (SendToTeamRequest) obj;
+
+      if (!getStr()
+          .equals(other.getStr())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + STR_FIELD_NUMBER;
+      hash = (53 * hash) + getStr().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static SendToTeamRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static SendToTeamRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static SendToTeamRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static SendToTeamRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static SendToTeamRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static SendToTeamRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static SendToTeamRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static SendToTeamRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static SendToTeamRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static SendToTeamRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static SendToTeamRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static SendToTeamRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(SendToTeamRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code SendToTeamRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:SendToTeamRequest)
+        SendToTeamRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ChatModel.internal_static_SendToTeamRequest_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ChatModel.internal_static_SendToTeamRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                SendToTeamRequest.class, Builder.class);
+      }
+
+      // Construct using ChatModel.SendToTeamRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        str_ = "";
+
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ChatModel.internal_static_SendToTeamRequest_descriptor;
+      }
+
+      @Override
+      public SendToTeamRequest getDefaultInstanceForType() {
+        return SendToTeamRequest.getDefaultInstance();
+      }
+
+      @Override
+      public SendToTeamRequest build() {
+        SendToTeamRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public SendToTeamRequest buildPartial() {
+        SendToTeamRequest result = new SendToTeamRequest(this);
+        result.str_ = str_;
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof SendToTeamRequest) {
+          return mergeFrom((SendToTeamRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(SendToTeamRequest other) {
+        if (other == SendToTeamRequest.getDefaultInstance()) return this;
+        if (!other.getStr().isEmpty()) {
+          str_ = other.str_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        SendToTeamRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (SendToTeamRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private Object str_ = "";
+      /**
+       * <code>string str = 1;</code>
+       * @return The str.
+       */
+      public String getStr() {
+        Object ref = str_;
+        if (!(ref instanceof String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          String s = bs.toStringUtf8();
+          str_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      /**
+       * <code>string str = 1;</code>
+       * @return The bytes for str.
+       */
+      public com.google.protobuf.ByteString
+          getStrBytes() {
+        Object ref = str_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (String) ref);
+          str_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string str = 1;</code>
+       * @param value The str to set.
+       * @return This builder for chaining.
+       */
+      public Builder setStr(
+          String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        str_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string str = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearStr() {
+        
+        str_ = getDefaultInstance().getStr();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string str = 1;</code>
+       * @param value The bytes for str to set.
+       * @return This builder for chaining.
+       */
+      public Builder setStrBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        str_ = value;
+        onChanged();
+        return this;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:SendToTeamRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:SendToTeamRequest)
+    private static final SendToTeamRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new SendToTeamRequest();
+    }
+
+    public static SendToTeamRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<SendToTeamRequest>
+        PARSER = new com.google.protobuf.AbstractParser<SendToTeamRequest>() {
+      @Override
+      public SendToTeamRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new SendToTeamRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<SendToTeamRequest> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<SendToTeamRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public SendToTeamRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface SendToSceneRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:SendToSceneRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string str = 1;</code>
+     * @return The str.
+     */
+    String getStr();
+    /**
+     * <code>string str = 1;</code>
+     * @return The bytes for str.
+     */
+    com.google.protobuf.ByteString
+        getStrBytes();
+  }
+  /**
+   * Protobuf type {@code SendToSceneRequest}
+   */
+  public static final class SendToSceneRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:SendToSceneRequest)
+      SendToSceneRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use SendToSceneRequest.newBuilder() to construct.
+    private SendToSceneRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private SendToSceneRequest() {
+      str_ = "";
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new SendToSceneRequest();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private SendToSceneRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              String s = input.readStringRequireUtf8();
+
+              str_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ChatModel.internal_static_SendToSceneRequest_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ChatModel.internal_static_SendToSceneRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              SendToSceneRequest.class, Builder.class);
+    }
+
+    public static final int STR_FIELD_NUMBER = 1;
+    private volatile Object str_;
+    /**
+     * <code>string str = 1;</code>
+     * @return The str.
+     */
+    @Override
+    public String getStr() {
+      Object ref = str_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        str_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string str = 1;</code>
+     * @return The bytes for str.
+     */
+    @Override
+    public com.google.protobuf.ByteString
+        getStrBytes() {
+      Object ref = str_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (String) ref);
+        str_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getStrBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, str_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getStrBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, str_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof SendToSceneRequest)) {
+        return super.equals(obj);
+      }
+      SendToSceneRequest other = (SendToSceneRequest) obj;
+
+      if (!getStr()
+          .equals(other.getStr())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + STR_FIELD_NUMBER;
+      hash = (53 * hash) + getStr().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static SendToSceneRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static SendToSceneRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static SendToSceneRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static SendToSceneRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static SendToSceneRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static SendToSceneRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static SendToSceneRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static SendToSceneRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static SendToSceneRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static SendToSceneRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static SendToSceneRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static SendToSceneRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(SendToSceneRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code SendToSceneRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:SendToSceneRequest)
+        SendToSceneRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ChatModel.internal_static_SendToSceneRequest_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ChatModel.internal_static_SendToSceneRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                SendToSceneRequest.class, Builder.class);
+      }
+
+      // Construct using ChatModel.SendToSceneRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        str_ = "";
+
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ChatModel.internal_static_SendToSceneRequest_descriptor;
+      }
+
+      @Override
+      public SendToSceneRequest getDefaultInstanceForType() {
+        return SendToSceneRequest.getDefaultInstance();
+      }
+
+      @Override
+      public SendToSceneRequest build() {
+        SendToSceneRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public SendToSceneRequest buildPartial() {
+        SendToSceneRequest result = new SendToSceneRequest(this);
+        result.str_ = str_;
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof SendToSceneRequest) {
+          return mergeFrom((SendToSceneRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(SendToSceneRequest other) {
+        if (other == SendToSceneRequest.getDefaultInstance()) return this;
+        if (!other.getStr().isEmpty()) {
+          str_ = other.str_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        SendToSceneRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (SendToSceneRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private Object str_ = "";
+      /**
+       * <code>string str = 1;</code>
+       * @return The str.
+       */
+      public String getStr() {
+        Object ref = str_;
+        if (!(ref instanceof String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          String s = bs.toStringUtf8();
+          str_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      /**
+       * <code>string str = 1;</code>
+       * @return The bytes for str.
+       */
+      public com.google.protobuf.ByteString
+          getStrBytes() {
+        Object ref = str_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (String) ref);
+          str_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string str = 1;</code>
+       * @param value The str to set.
+       * @return This builder for chaining.
+       */
+      public Builder setStr(
+          String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        str_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string str = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearStr() {
+        
+        str_ = getDefaultInstance().getStr();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string str = 1;</code>
+       * @param value The bytes for str to set.
+       * @return This builder for chaining.
+       */
+      public Builder setStrBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        str_ = value;
+        onChanged();
+        return this;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:SendToSceneRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:SendToSceneRequest)
+    private static final SendToSceneRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new SendToSceneRequest();
+    }
+
+    public static SendToSceneRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<SendToSceneRequest>
+        PARSER = new com.google.protobuf.AbstractParser<SendToSceneRequest>() {
+      @Override
+      public SendToSceneRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new SendToSceneRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<SendToSceneRequest> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<SendToSceneRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public SendToSceneRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -4449,6 +6061,16 @@ public final class ChatModel {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_SendToOneRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_SendToTeamRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_SendToTeamRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_SendToSceneRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_SendToSceneRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_AcceptMessageResponse_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -4467,22 +6089,27 @@ public final class ChatModel {
       descriptor;
   static {
     String[] descriptorData = {
-      "\n\017ChatModel.proto\"\267\002\n\020ChatModelMessage\022-" +
+      "\n\017ChatModel.proto\"\313\003\n\020ChatModelMessage\022-" +
       "\n\tdata_type\030\001 \001(\0162\032.ChatModelMessage.Dat" +
       "eType\022-\n\020sendToAllRequest\030\002 \001(\0132\021.SendTo" +
       "AllRequestH\000\022-\n\020sendToOneRequest\030\003 \001(\0132\021" +
       ".SendToOneRequestH\000\0227\n\025acceptMessageResp" +
-      "onse\030\004 \001(\0132\026.AcceptMessageResponseH\000\"Q\n\010" +
-      "DateType\022\024\n\020SendToAllRequest\020\000\022\024\n\020SendTo" +
-      "OneRequest\020\001\022\031\n\025AcceptMessageResponse\020\002B" +
-      "\n\n\010dateBody\"\037\n\020SendToAllRequest\022\013\n\003str\030\001" +
-      " \001(\t\"/\n\020SendToOneRequest\022\013\n\003str\030\001 \001(\t\022\016\n" +
-      "\006roleId\030\002 \001(\005\"R\n\025AcceptMessageResponse\022\013" +
-      "\n\003str\030\001 \001(\t\022\020\n\010chatType\030\002 \001(\005\022\032\n\010fromRol" +
-      "e\030\003 \001(\0132\010.RoleDto\"c\n\007RoleDto\022\n\n\002id\030\001 \001(\005" +
-      "\022\014\n\004name\030\002 \001(\t\022\016\n\006status\030\003 \001(\005\022\014\n\004type\030\004" +
-      " \001(\005\022\020\n\010onStatus\030\005 \001(\005\022\016\n\006teamId\030\n \001(\005B\013" +
-      "B\tChatModelb\006proto3"
+      "onse\030\004 \001(\0132\026.AcceptMessageResponseH\000\022/\n\021" +
+      "sendToTeamRequest\030\005 \001(\0132\022.SendToTeamRequ" +
+      "estH\000\0221\n\022sendToSceneRequest\030\006 \001(\0132\023.Send" +
+      "ToSceneRequestH\000\"\200\001\n\010DateType\022\024\n\020SendToA" +
+      "llRequest\020\000\022\024\n\020SendToOneRequest\020\001\022\031\n\025Acc" +
+      "eptMessageResponse\020\002\022\025\n\021SendToTeamReques" +
+      "t\020\003\022\026\n\022SendToSceneRequest\020\004B\n\n\010dateBody\"" +
+      "\037\n\020SendToAllRequest\022\013\n\003str\030\001 \001(\t\"/\n\020Send" +
+      "ToOneRequest\022\013\n\003str\030\001 \001(\t\022\016\n\006roleId\030\002 \001(" +
+      "\005\" \n\021SendToTeamRequest\022\013\n\003str\030\001 \001(\t\"!\n\022S" +
+      "endToSceneRequest\022\013\n\003str\030\001 \001(\t\"R\n\025Accept" +
+      "MessageResponse\022\013\n\003str\030\001 \001(\t\022\020\n\010chatType" +
+      "\030\002 \001(\005\022\032\n\010fromRole\030\003 \001(\0132\010.RoleDto\"c\n\007Ro" +
+      "leDto\022\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\016\n\006statu" +
+      "s\030\003 \001(\005\022\014\n\004type\030\004 \001(\005\022\020\n\010onStatus\030\005 \001(\005\022" +
+      "\016\n\006teamId\030\n \001(\005B\013B\tChatModelb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -4493,7 +6120,7 @@ public final class ChatModel {
     internal_static_ChatModelMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ChatModelMessage_descriptor,
-        new String[] { "DataType", "SendToAllRequest", "SendToOneRequest", "AcceptMessageResponse", "DateBody", });
+        new String[] { "DataType", "SendToAllRequest", "SendToOneRequest", "AcceptMessageResponse", "SendToTeamRequest", "SendToSceneRequest", "DateBody", });
     internal_static_SendToAllRequest_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_SendToAllRequest_fieldAccessorTable = new
@@ -4506,14 +6133,26 @@ public final class ChatModel {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SendToOneRequest_descriptor,
         new String[] { "Str", "RoleId", });
-    internal_static_AcceptMessageResponse_descriptor =
+    internal_static_SendToTeamRequest_descriptor =
       getDescriptor().getMessageTypes().get(3);
+    internal_static_SendToTeamRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_SendToTeamRequest_descriptor,
+        new String[] { "Str", });
+    internal_static_SendToSceneRequest_descriptor =
+      getDescriptor().getMessageTypes().get(4);
+    internal_static_SendToSceneRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_SendToSceneRequest_descriptor,
+        new String[] { "Str", });
+    internal_static_AcceptMessageResponse_descriptor =
+      getDescriptor().getMessageTypes().get(5);
     internal_static_AcceptMessageResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_AcceptMessageResponse_descriptor,
         new String[] { "Str", "ChatType", "FromRole", });
     internal_static_RoleDto_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_RoleDto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_RoleDto_descriptor,

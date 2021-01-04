@@ -86,7 +86,7 @@ public class MedicineBean extends MedicineMessage implements Article{
             nettyResponse.setStateCode(StateCode.SUCCESS);
             nettyResponse.setData(myMessageBuilder.build().toByteArray());
 
-            Integer sceneId = mmoSimpleRole.getMmosceneid();
+            Integer sceneId = mmoSimpleRole.getMmoSceneId();
             List<Integer> players = SceneBeanMessageCache.getInstance().get(sceneId).getRoles();
             for (Integer playerId : players) {
                 Channel cc = ChannelMessageCache.getInstance().get(playerId);

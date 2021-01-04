@@ -22,4 +22,16 @@ public interface ChatService {
      * @param channel
      */
     void sendToOneRequest(ChatModel.ChatModelMessage myMessage, Channel channel);
+    /**
+     * 队伍聊天
+     * @param myMessage
+     * @param channel
+     */
+    void sendToTeamRequest(ChatModel.ChatModelMessage myMessage, Channel channel) throws Exception;
+    /**
+     * 场景聊天
+     * @param myMessage
+     * @param channel
+     */
+    void sendToSceneRequest(ChatModel.ChatModelMessage myMessage, Channel channel) throws Exception;
 }

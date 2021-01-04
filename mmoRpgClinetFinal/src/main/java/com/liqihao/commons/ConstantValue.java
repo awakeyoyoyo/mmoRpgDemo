@@ -124,7 +124,11 @@ public interface ConstantValue {
     int SEND_TO_ALL_REQUEST=8000;
     int SEND_TO_ONE_REQUEST=8001;
     int ACCEPT_MESSAGE_RESPONSE=8500;
+    int SEND_TO_TEAM_REQUEST=8002;
+    int SEND_TO_SCENE_REQUEST=8003;
 
+    String SEND_TO_TEAM_REQUEST_CMD="sendMessageTeam";
+    String SEND_TO_SCENE_REQUEST_CMD="sendMessageScene";
     String SEND_TO_ALL_REQUEST_CMD="sendMessageAll";
     String SEND_TO_ONE_REQUEST_CMD="sendMessageOne";
     String ASK_CAN_COPYSCENE_REQUEST_CMD="askCanCopyScene";

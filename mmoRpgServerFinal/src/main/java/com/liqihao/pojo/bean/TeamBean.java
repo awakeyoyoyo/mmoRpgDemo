@@ -372,9 +372,9 @@ public class TeamBean {
     }
 
     public boolean inSameScene() {
-        Integer sceneId=mmoSimpleRolesMap.get(leaderId).getMmosceneid();
+        Integer sceneId=mmoSimpleRolesMap.get(leaderId).getMmoSceneId();
         for (MmoSimpleRole m:mmoSimpleRolesMap.values()) {
-            if (!m.getMmosceneid().equals(sceneId)){
+            if (!m.getMmoSceneId().equals(sceneId)){
                 return false;
             }
         }

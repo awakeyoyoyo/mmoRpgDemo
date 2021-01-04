@@ -40,7 +40,7 @@ public class SceneServiceImpl implements SceneService {
         if (mmoSimpleRole==null){
             return;
         }
-        Integer sceneId=mmoSimpleRole.getMmosceneid();
+        Integer sceneId=mmoSimpleRole.getMmoSceneId();
         log.info("SceneService accept sceneId: "+sceneId);
         //从缓存中读取
         List<Integer> sceneIds= SceneBeanMessageCache.getInstance().get(sceneId).getCanScenes();
@@ -70,7 +70,7 @@ public class SceneServiceImpl implements SceneService {
         }
         //先查询palyId所在场景
         //查询该场景可进入的场景与sceneId判断
-        Integer nowSceneId=mmoSimpleRole.getMmosceneid();
+        Integer nowSceneId=mmoSimpleRole.getMmoSceneId();
         SceneBean sceneBean=SceneBeanMessageCache.getInstance().get(nowSceneId);
         List<Integer> canScene=sceneBean.getCanScenes();
         boolean canFlag=false;
@@ -128,7 +128,7 @@ public class SceneServiceImpl implements SceneService {
     @HandlerCmdTag(cmd = ConstantValue.FIND_ALL_ROLES_REQUEST,module = ConstantValue.SCENE_MODULE)
     public void findAllRolesRequest(SceneModel.SceneModelMessage myMessage,Channel channel) throws InvalidProtocolBufferException {
         MmoSimpleRole mmoSimpleRole=CommonsUtil.checkLogin(channel);
-        Integer sceneId=mmoSimpleRole.getMmosceneid();
+        Integer sceneId=mmoSimpleRole.getMmoSceneId();
         if (mmoSimpleRole==null){
             return;
         }
@@ -150,7 +150,7 @@ public class SceneServiceImpl implements SceneService {
                 roleTemp.setNowHp(temp.getNowHp());
                 roleTemp.setMp(temp.getMp());
                 roleTemp.setNowMp(temp.getNowMp());
-                roleTemp.setMmosceneid(temp.getMmosceneid());
+                roleTemp.setMmoSceneId(temp.getMmoSceneId());
                 roleTemp.setAttack(temp.getAttack());
                 roleTemp.setDamageAdd(temp.getDamageAdd());
                 sceneRoles.add(roleTemp);
@@ -217,7 +217,7 @@ public class SceneServiceImpl implements SceneService {
         }
         //缓存中获取NPC
         MmoSimpleNPC npc=NpcMessageCache.getInstance().get(npcId);
-        if (!npc.getMmosceneid().equals(role.getMmosceneid())){
+        if (!npc.getMmoSceneId().equals(role.getMmoSceneId())){
             channel.writeAndFlush(new NettyResponse(StateCode.FAIL,ConstantValue.FAIL_RESPONSE,"该NPC不在当前场景".getBytes()));
             return;
         }

@@ -129,9 +129,6 @@ public class Dispatcherservlet {
             case ConstantValue.DELETE_TEAM_RESPONSE:
                 teamService.deleteTeamResponse(nettyResponse);
                 break;
-            case ConstantValue.ASK_CAN_COPYSCENE_RESPONSE:
-                copySceneService.askCanCopySceneResponse(nettyResponse);
-                break;
             case ConstantValue.COPYSCENE_MESSAGE_RESPONSE:
                 copySceneService.copySceneMessageResponse(nettyResponse);
                 break;

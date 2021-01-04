@@ -172,7 +172,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
      */
     public void init(MmoRolePOJO role, BaseRoleMessage baseRoleMessage) {
         setId(role.getId());
-        setMmosceneid(role.getMmosceneid());
+        setMmoSceneId(role.getMmosceneid());
         setName(role.getName());
         setOnStatus(role.getOnstatus());
         setStatus(role.getStatus());
@@ -345,8 +345,8 @@ public class MmoSimpleRole extends Role implements MyObserver {
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
         //广播
         List<Integer> players;
-        if (getMmosceneid()!=null) {
-            players = SceneBeanMessageCache.getInstance().get(this.getMmosceneid()).getRoles();
+        if (getMmoSceneId()!=null) {
+            players = SceneBeanMessageCache.getInstance().get(this.getMmoSceneId()).getRoles();
             for (Integer playerId:players){
                 Channel c= ChannelMessageCache.getInstance().get(playerId);
                 if (c!=null){
@@ -474,11 +474,11 @@ public class MmoSimpleRole extends Role implements MyObserver {
 
     public List<MmoSimpleRole> wentScene(Integer nextSceneId) {
         //修改scene 如果为null 则是刚从副本中出来
-        if (getMmosceneid() != null) {
-            SceneBeanMessageCache.getInstance().get(getMmosceneid()).getRoles().remove(getId());
+        if (getMmoSceneId() != null) {
+            SceneBeanMessageCache.getInstance().get(getMmoSceneId()).getRoles().remove(getId());
         }
         SceneBeanMessageCache.getInstance().get(nextSceneId).getRoles().add(getId());
-        setMmosceneid(nextSceneId);
+        setMmoSceneId(nextSceneId);
 
         //查询出npc 和SimpleRole
         List<MmoSimpleRole> nextSceneRoles = new ArrayList<>();
@@ -543,10 +543,10 @@ public class MmoSimpleRole extends Role implements MyObserver {
 
     public Boolean wentCopyScene(CopySceneBean copySceneBean) {
         //从当前场景消失
-        Integer sceneId = getMmosceneid();
+        Integer sceneId = getMmoSceneId();
         SceneBean sceneBean = SceneBeanMessageCache.getInstance().get(sceneId);
         sceneBean.getRoles().remove(getId());
-        setMmosceneid(null);
+        setMmoSceneId(null);
         //人物设置副本
         this.setCopySceneId(copySceneBean.getId());
         this.setLastSceneId(sceneId);
@@ -565,7 +565,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
         if (c!=null){
             ChatModel.RoleDto roleDto=ChatModel.RoleDto.newBuilder()
                     .setId(fromRole.getId()).setName(fromRole.getName()).setOnStatus(fromRole.getOnStatus())
-                    .setStatus(fromRole.getStatus()).setTeamId(fromRole.getTeamId()).setType(fromRole.getType()).build();
+                    .setStatus(fromRole.getStatus()).setTeamId(fromRole.getTeamId()==null?-1:fromRole.getTeamId()).setType(fromRole.getType()).build();
             ChatModel.ChatModelMessage myMessage=ChatModel.ChatModelMessage.newBuilder()
                     .setDataType(ChatModel.ChatModelMessage.DateType.AcceptMessageResponse)
                     .setAcceptMessageResponse(ChatModel.AcceptMessageResponse.newBuilder().setFromRole(roleDto).setChatType(chatType).setStr(str)).build();
@@ -573,7 +573,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
             nettyResponse.setCmd(ConstantValue.ACCEPT_MESSAGE_RESPONSE);
             nettyResponse.setStateCode(StateCode.SUCCESS);
             nettyResponse.setData(myMessage.toByteArray());
-            c.writeAndFlush(roleDto);
+            c.writeAndFlush(nettyResponse);
         }
     }
 
@@ -630,8 +630,8 @@ public class MmoSimpleRole extends Role implements MyObserver {
             nettyResponse.setData(myMessageBuilder.build().toByteArray());
             //广播
             List<Integer> players;
-            if (getMmosceneid()!=null) {
-                players = SceneBeanMessageCache.getInstance().get(mmoSimpleRole.getMmosceneid()).getRoles();
+            if (getMmoSceneId()!=null) {
+                players = SceneBeanMessageCache.getInstance().get(mmoSimpleRole.getMmoSceneId()).getRoles();
                 for (Integer playerId:players){
                     Channel c= ChannelMessageCache.getInstance().get(playerId);
                     if (c!=null){
@@ -698,10 +698,10 @@ public class MmoSimpleRole extends Role implements MyObserver {
             nettyResponse.setCmd(ConstantValue.DAMAGES_NOTICE_RESPONSE);
             nettyResponse.setStateCode(StateCode.SUCCESS);
             nettyResponse.setData(myMessageBuilder.build().toByteArray());
-            Integer sceneId = mmoSimpleRole.getMmosceneid();
+            Integer sceneId = mmoSimpleRole.getMmoSceneId();
             List<Integer> players;
-            if (getMmosceneid()!=null) {
-                players = SceneBeanMessageCache.getInstance().get(mmoSimpleRole.getMmosceneid()).getRoles();
+            if (getMmoSceneId()!=null) {
+                players = SceneBeanMessageCache.getInstance().get(mmoSimpleRole.getMmoSceneId()).getRoles();
                 for (Integer playerId:players){
                     Channel c= ChannelMessageCache.getInstance().get(playerId);
                     if (c!=null){
@@ -774,8 +774,8 @@ public class MmoSimpleRole extends Role implements MyObserver {
             nettyResponse.setData(myMessageBuilder.build().toByteArray());
             //广播
             List<Integer> players;
-            if (getMmosceneid()!=null) {
-                players = SceneBeanMessageCache.getInstance().get(mmoSimpleRole.getMmosceneid()).getRoles();
+            if (getMmoSceneId()!=null) {
+                players = SceneBeanMessageCache.getInstance().get(mmoSimpleRole.getMmoSceneId()).getRoles();
                 for (Integer playerId:players){
                     Channel c= ChannelMessageCache.getInstance().get(playerId);
                     if (c!=null){
@@ -838,8 +838,8 @@ public class MmoSimpleRole extends Role implements MyObserver {
             nettyResponse.setStateCode(StateCode.SUCCESS);
             nettyResponse.setData(myMessageBuilder.build().toByteArray());
             List<Integer> players;
-            if (getMmosceneid()!=null) {
-                players = SceneBeanMessageCache.getInstance().get(mmoSimpleRole.getMmosceneid()).getRoles();
+            if (getMmoSceneId()!=null) {
+                players = SceneBeanMessageCache.getInstance().get(mmoSimpleRole.getMmoSceneId()).getRoles();
                 for (Integer playerId:players){
                     Channel c= ChannelMessageCache.getInstance().get(playerId);
                     if (c!=null){

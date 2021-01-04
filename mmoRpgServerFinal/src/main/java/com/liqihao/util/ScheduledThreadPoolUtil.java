@@ -252,7 +252,7 @@ public class ScheduledThreadPoolUtil {
             MmoSimpleRole mmoSimpleRole = OnlineRoleMessageCache.getInstance().get(targetRoleId);
             MmoSimpleNPC npc = NpcMessageCache.getInstance().get(npcId);
             if (mmoSimpleRole == null ||
-                    !npc.getMmosceneid().equals(mmoSimpleRole.getMmosceneid()) ||
+                    !npc.getMmoSceneId().equals(mmoSimpleRole.getMmoSceneId()) ||
                     mmoSimpleRole.getStatus().equals(RoleStatusCode.DIE.getCode()) ||
                     npc.getStatus().equals(RoleStatusCode.DIE.getCode())) {
                 //中止任务  用户离线了 用户跑去别的场景了 死了

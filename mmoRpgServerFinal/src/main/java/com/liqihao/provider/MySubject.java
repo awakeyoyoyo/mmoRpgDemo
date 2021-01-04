@@ -8,8 +8,8 @@ import com.liqihao.pojo.bean.Role;
  * @author lqhao
  */
 public interface MySubject {
-    void registerObservier(Role o);
-    void removeObservier(Role o);
+    void registerObserver(Role o);
+    void removeObserver(Role o);
     void notifyObserver(Role fromRole, String str);
     void notifyOne(Integer toRoleId, Role fromRole, String str);
 }

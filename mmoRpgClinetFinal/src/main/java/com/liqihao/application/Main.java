@@ -12,6 +12,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * 客户端初始化类
+ * @author lqhao
+ */
 public class Main {
     private static String baseRoleMessage_file = "classpath:message/baseRoleMessage.xlsx";
     private static String npcMessage_file = "classpath:message/npcMessage.xlsx";
@@ -24,7 +28,7 @@ public class Main {
     private static String bossMessage_file = "classpath:message/bossMessage.xlsx";
     private static String baseDetailMessage_file = "classpath:message/baseDetailMessage.xlsx";
     public static void main(String[] args) throws Exception {
-//查询类路径 加载配置文件
+        //查询类路径 加载配置文件
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring.xml");
         NettyTcpClient nettyTcpServer=(NettyTcpClient)applicationContext.getBean("nettyTcpClient");
         ConcurrentHashMap<Integer, SceneMessage> scmMap=new ConcurrentHashMap<>();

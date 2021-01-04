@@ -3,6 +3,8 @@ package com.liqihao.netty;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyRequest;
+import com.liqihao.commons.NettyResponse;
+import com.liqihao.commons.StateCode;
 import com.liqihao.handler.Dispatcherservlet;
 import com.liqihao.util.CommonsUtil;
 import com.liqihao.util.LogicThreadPool;
@@ -13,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
+import java.nio.charset.StandardCharsets;
 
 /**
  * nettyHandler
@@ -20,8 +23,10 @@ import java.lang.reflect.InvocationTargetException;
  */
 public class ServerHandler extends ChannelInboundHandlerAdapter {
     private Dispatcherservlet dispatcherservlet;
+    /**
+     * 计数----未读次数
+     */
     private int readIdleTimes=0;
-    public int RolesId;
     private static final Logger log = LoggerFactory.getLogger(ServerHandler.class);
 
     public ServerHandler() {
@@ -68,9 +73,12 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         log.error("ServerHandler exception message: "+cause);
         cause.printStackTrace();
-        NettyRequest nettyRequest=new NettyRequest();
-        nettyRequest.setCmd(ConstantValue.NET_IO_OUTTIME);
-        dispatcherservlet.handler(nettyRequest,ctx.channel());
+        NettyResponse nettyResponse=new NettyResponse();
+        nettyResponse.setCmd(ConstantValue.FAIL_RESPONSE);
+        String message="服务端抛出异常："+cause.getMessage();
+        nettyResponse.setData(message.getBytes(StandardCharsets.UTF_8));
+        nettyResponse.setStateCode(StateCode.FAIL);
+        ctx.channel().writeAndFlush(nettyResponse);
     }
 
     @Override

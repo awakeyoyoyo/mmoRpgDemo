@@ -28,33 +28,6 @@ import java.util.List;
 @HandlerServiceTag(protobufModel = "CopySceneModel$CopySceneModelMessage")
 public class CopySceneServiceImpl implements CopySceneService {
     @Override
-    @HandlerCmdTag(cmd = ConstantValue.ASK_CAN_COPYSCENE_REQUEST,module = ConstantValue.COPY_MODULE)
-    public void askCanCopySceneRequest(CopySceneModel.CopySceneModelMessage myMessage, Channel channel) {
-        //判断是否在线 并且返回玩家对象
-        MmoSimpleRole mmoSimpleRole= CommonsUtil.checkLogin(channel);
-        if (mmoSimpleRole==null) {
-            return;
-        }
-        //roleId
-        //TODO 增加限制条件
-        //暂无限制，可以挑战所有副本
-        List<Integer> copySceneId=new ArrayList<>();
-        for (CopySceneMessage cMsg:CopySceneMessageCache.getInstance().values()) {
-            copySceneId.add(cMsg.getId());
-        }
-        // 返回
-        CopySceneModel.CopySceneModelMessage messageData=CopySceneModel.CopySceneModelMessage.newBuilder()
-                .setDataType(CopySceneModel.CopySceneModelMessage.DateType.AskCanCopySceneResponse)
-                .setAskCanCopySceneResponse(CopySceneModel.AskCanCopySceneResponse.newBuilder().addAllCopySceneId(copySceneId).build())
-                .build();
-        NettyResponse nettyResponse=new NettyResponse();
-        nettyResponse.setCmd(ConstantValue.ASK_CAN_COPYSCENE_RESPONSE);
-        nettyResponse.setStateCode(StateCode.SUCCESS);
-        nettyResponse.setData(messageData.toByteArray());
-        channel.writeAndFlush(nettyResponse);
-    }
-
-    @Override
     @HandlerCmdTag(cmd = ConstantValue.COPYSCENE_MESSAGE_REQUEST,module = ConstantValue.COPY_MODULE)
     public void copySceneMessageRequest(CopySceneModel.CopySceneModelMessage myMessage, Channel channel) {
         //copySceneBeanId

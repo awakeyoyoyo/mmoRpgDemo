@@ -222,7 +222,7 @@ public class PlayServiceImpl implements PlayService {
         mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO);
         //缓存角色集合删除
         OnlineRoleMessageCache.getInstance().remove(role.getId());
-        SceneBeanMessageCache.getInstance().get(role.getMmosceneid()).getRoles().remove(role.getId());
+        SceneBeanMessageCache.getInstance().get(role.getMmoSceneId()).getRoles().remove(role.getId());
         //protobuf生成消息
         PlayModel.PlayModelMessage.Builder myMessageBuilder = PlayModel.PlayModelMessage.newBuilder();
         myMessageBuilder.setDataType(PlayModel.PlayModelMessage.DateType.LogoutResponse);
@@ -289,12 +289,12 @@ public class PlayServiceImpl implements PlayService {
         //判断是单体技能 还是群体技能  可以攻击所有玩家 除了队友 npc
         //从缓存中查找出 怪物
         ArrayList<Role> target = new ArrayList<>();
-        if (mmoSimpleRole.getMmosceneid() != null) {
+        if (mmoSimpleRole.getMmoSceneId() != null) {
             //在场景中
             if (targetId == -1) {
                 //群攻
                 //可以攻击所有场景的人 除了队友 npc
-                SceneBean sceneBean = SceneBeanMessageCache.getInstance().get(mmoSimpleRole.getMmosceneid());
+                SceneBean sceneBean = SceneBeanMessageCache.getInstance().get(mmoSimpleRole.getMmoSceneId());
                 List<Integer> npcs = sceneBean.getNpcs();
                 List<Integer> roles = sceneBean.getRoles();
                 for (Integer id : npcs) {
@@ -332,7 +332,7 @@ public class PlayServiceImpl implements PlayService {
                     channel.writeAndFlush(new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE, "当前场景没有该id的角色或者选择了攻击npc".getBytes()));
                     return;
                 }
-                if (!role.getMmosceneid().equals(mmoSimpleRole.getMmosceneid())) {
+                if (!role.getMmoSceneId().equals(mmoSimpleRole.getMmoSceneId())) {
                     channel.writeAndFlush(new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE, "当前场景没有该id的角色".getBytes()));
                     return;
                 }

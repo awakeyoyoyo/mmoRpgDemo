@@ -180,8 +180,8 @@ public class BossBean extends Role{
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
         //广播给所有当前场景
         List<Integer> players;
-        if (getMmosceneid()!=null) {
-            players = SceneBeanMessageCache.getInstance().get(this.getMmosceneid()).getRoles();
+        if (getMmoSceneId()!=null) {
+            players = SceneBeanMessageCache.getInstance().get(this.getMmoSceneId()).getRoles();
             for (Integer playerId:players){
                 Channel c= ChannelMessageCache.getInstance().get(playerId);
                 if (c!=null){
@@ -264,8 +264,8 @@ public class BossBean extends Role{
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
         List<Integer> players;
-        if (getMmosceneid()!=null) {
-            players = SceneBeanMessageCache.getInstance().get(this.getMmosceneid()).getRoles();
+        if (getMmoSceneId()!=null) {
+            players = SceneBeanMessageCache.getInstance().get(this.getMmoSceneId()).getRoles();
             for (Integer playerId:players){
                 Channel c= ChannelMessageCache.getInstance().get(playerId);
                 if (c!=null){
@@ -377,8 +377,8 @@ public class BossBean extends Role{
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
         //广播
         List<Integer> players;
-        if (getMmosceneid()!=null) {
-            players = SceneBeanMessageCache.getInstance().get(getMmosceneid()).getRoles();
+        if (getMmoSceneId()!=null) {
+            players = SceneBeanMessageCache.getInstance().get(getMmoSceneId()).getRoles();
             for (Integer playerId:players){
                 Channel c= ChannelMessageCache.getInstance().get(playerId);
                 if (c!=null){

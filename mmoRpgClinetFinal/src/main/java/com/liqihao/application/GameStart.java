@@ -8,6 +8,7 @@ import com.liqihao.commons.NettyRequest;
 import com.liqihao.commons.enums.SkillAttackTypeCode;
 import com.liqihao.commons.enums.SkillTypeCode;
 import com.liqihao.pojo.MmoRole;
+import com.liqihao.pojo.baseMessage.CopySceneMessage;
 import com.liqihao.pojo.baseMessage.SceneMessage;
 import com.liqihao.pojo.baseMessage.SkillMessage;
 import com.liqihao.protobufObject.*;
@@ -15,11 +16,16 @@ import com.liqihao.utils.CommonsUtil;
 import io.netty.channel.Channel;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.ConcurrentHashMap;
 
 
+/**
+ * 游戏命令类
+ * @author lqhao
+ */
 public class GameStart {
     private Channel channel;
     public GameStart() {
@@ -163,9 +169,43 @@ public class GameStart {
                     case ConstantValue.SEND_TO_ONE_REQUEST:
                         sendToOneRequest(scanner);
                         break;
+                    case ConstantValue.SEND_TO_TEAM_REQUEST:
+                        sendToTeamRequest(scanner);
+                        break;
+                    case ConstantValue.SEND_TO_SCENE_REQUEST:
+                        sendToSceneRequest(scanner);
+                        break;
                     default:
                         System.out.println("GameStart-handler:收到错误cmd");
                 }
+    }
+
+    private void sendToSceneRequest(Scanner scanner) {
+        System.out.println("请输入你要说的话：");
+        String str=scanner.nextLine();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.SEND_TO_SCENE_REQUEST);
+        ChatModel.ChatModelMessage myMessage;
+        myMessage= ChatModel.ChatModelMessage.newBuilder()
+                .setDataType(ChatModel.ChatModelMessage.DateType.SendToSceneRequest)
+                .setSendToSceneRequest(ChatModel.SendToSceneRequest.newBuilder().setStr(str).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void sendToTeamRequest(Scanner scanner) {
+        System.out.println("请输入你要说的话：");
+        String str=scanner.nextLine();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.SEND_TO_TEAM_REQUEST);
+        ChatModel.ChatModelMessage myMessage;
+        myMessage= ChatModel.ChatModelMessage.newBuilder()
+                .setDataType(ChatModel.ChatModelMessage.DateType.SendToTeamRequest)
+                .setSendToTeamRequest(ChatModel.SendToTeamRequest.newBuilder().setStr(str).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
     }
 
     private void sendToAllRequest(Scanner scanner) {
@@ -199,15 +239,22 @@ public class GameStart {
     }
 
     private void askCanCopySceneRequest(Scanner scanner) {
-        NettyRequest nettyRequest=new NettyRequest();
-        nettyRequest.setCmd(ConstantValue.ASK_CAN_COPYSCENE_REQUEST);
-        CopySceneModel.CopySceneModelMessage myMessage;
-        myMessage=CopySceneModel.CopySceneModelMessage.newBuilder()
-                .setDataType(CopySceneModel.CopySceneModelMessage.DateType.AskCanCopySceneRequest)
-                .setAskCanCopySceneRequest(CopySceneModel.AskCanCopySceneRequest.newBuilder().build()).build();
-        byte[] data=myMessage.toByteArray();
-        nettyRequest.setData(data);
-        channel.writeAndFlush(nettyRequest);
+        List<Integer> copySceneIds=new ArrayList<>();
+        for (CopySceneMessage cMsg:MmoCacheCilent.getInstance().getCopySceneMessageConcurrentHashMap().values()) {
+            copySceneIds.add(cMsg.getId());
+        }
+        System.out.println("[-]--------------------------------------------------------");
+        System.out.println("[-]所能进入的副本：");
+        for (Integer id : copySceneIds) {
+            CopySceneMessage copySceneMessage = MmoCacheCilent.getInstance().getCopySceneMessageConcurrentHashMap().get(id);
+            System.out.println("[-]");
+            System.out.println("[-]副本id：" + copySceneMessage.getId());
+            System.out.println("[-]副本名称：" + copySceneMessage.getName());
+            System.out.println("[-]副本怪物id：" + copySceneMessage.getBossIds());
+            System.out.println("[-]副本攻略时间：" + copySceneMessage.getLastTime() + "秒");
+            System.out.println("[-]");
+        }
+        System.out.println("[-]--------------------------------------------------------");
     }
 
     private void copySceneMessageRequest(Scanner scanner) {
@@ -677,9 +724,9 @@ public class GameStart {
         ConcurrentHashMap<Integer,SceneMessage> concurrentHashMap=MmoCacheCilent.getInstance().getSceneMessageConcurrentHashMap();
         SceneMessage sceneMessage=MmoCacheCilent.getInstance().getSceneMessageConcurrentHashMap().get(mmoSceneId);
         String canScenes=sceneMessage.getCanScene();
-        List<Integer> canSecnesIds= CommonsUtil.split(canScenes);
+        List<Integer> canScenesIds= CommonsUtil.split(canScenes);
         Integer sceneId=null;
-        for(Integer m:canSecnesIds){
+        for(Integer m:canScenesIds){
             SceneMessage temp=concurrentHashMap.get(m);
             if (str.equals(temp.getPlaceName())){
                 sceneId=temp.getId();
