@@ -2,7 +2,8 @@ package com.liqihao.netty;
 
 import com.liqihao.codc.RequestDecoder;
 import com.liqihao.codc.ResponceEncoder;
-import com.liqihao.handler.Dispatcherservlet;
+import com.liqihao.handler.DispatcherServlet;
+import com.liqihao.service.GameSystemService;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -26,7 +27,9 @@ public class NettyTcpServer {
     private static Logger logger=Logger.getLogger(NettyTcpServer.class);
     private int port=6666;
     @Autowired
-    private Dispatcherservlet dispatcherservlet;
+    private DispatcherServlet dispatcherServlet;
+    @Autowired
+    private GameSystemService gameSystemService;
     public void run() throws Exception {
         //创建两个线程池 boosGroup、workerGroup
         //负责监听端口
@@ -48,8 +51,8 @@ public class NettyTcpServer {
                             socketChannel.pipeline()
                                     .addLast("decoder", new RequestDecoder())//解码器
                                     .addLast("encoder",new ResponceEncoder())//编码器
-                                    .addLast(new IdleStateHandler(0,0,300, TimeUnit.SECONDS))//心跳
-                                    .addLast(new ServerHandler(dispatcherservlet))//业务处理handler
+                                    .addLast(new IdleStateHandler(0,0,10, TimeUnit.SECONDS))//心跳
+                                    .addLast(new ServerHandler(dispatcherServlet,gameSystemService))//业务处理handler
 
                             ;
                         }

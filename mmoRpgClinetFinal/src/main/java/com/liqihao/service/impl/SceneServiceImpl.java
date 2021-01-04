@@ -81,7 +81,7 @@ public class SceneServiceImpl implements SceneService {
         MmoCacheCilent.getInstance().setNowSceneId(mmoScene);
         System.out.println("[-]--------------------------------------------------------");
         System.out.println("[-]当前场景是: "+m.getPlaceName());
-        System.out.println("[-]当前场景角色数量是: "+(MmoCacheCilent.getInstance().getRoleHashMap().size()+1));
+        System.out.println("[-]当前场景角色数量是: "+roleDTOS.size());
         System.out.println("[-][-]当前场景角色有: ");
         for (SceneModel.RoleDTO roleDTO:roleDTOS) {
             System.out.println("[-]");

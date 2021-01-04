@@ -1,14 +1,12 @@
 package com.liqihao.service.impl;
 
 import com.liqihao.Cache.ChannelMessageCache;
-import com.liqihao.Cache.CopySceneMessageCache;
 import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.RoleTypeCode;
-import com.liqihao.pojo.baseMessage.CopySceneMessage;
 import com.liqihao.pojo.bean.*;
 import com.liqihao.protobufObject.CopySceneModel;
 import com.liqihao.provider.CopySceneProvider;
@@ -29,13 +27,10 @@ import java.util.List;
 public class CopySceneServiceImpl implements CopySceneService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.COPYSCENE_MESSAGE_REQUEST,module = ConstantValue.COPY_MODULE)
-    public void copySceneMessageRequest(CopySceneModel.CopySceneModelMessage myMessage, Channel channel) {
+    public void copySceneMessageRequest(CopySceneModel.CopySceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) {
         //copySceneBeanId
         //判断是否在线 并且返回玩家对象
-        MmoSimpleRole mmoSimpleRole= CommonsUtil.checkLogin(channel);
-        if (mmoSimpleRole==null) {
-            return;
-        }
+        Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
         Integer teamId=mmoSimpleRole.getTeamId();
         if (teamId==null){
             NettyResponse errotResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"当前角色还没是组队状态".getBytes());
@@ -52,18 +47,15 @@ public class CopySceneServiceImpl implements CopySceneService {
         Integer copySceneBeanId=TeamServiceProvider.getTeamBeanByTeamId(teamId).getCopySceneBeanId();
         CopySceneBean copySceneBean=CopySceneProvider.getCopySceneBeanById(copySceneBeanId);
         // 返回
-        sendCopyMessage(copySceneBean,channel);
+        sendCopyMessage(copySceneBean, channel);
     }
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.ENTER_COPYSCENE_REQUEST,module = ConstantValue.COPY_MODULE)
-    public void enterCopySceneRequest(CopySceneModel.CopySceneModelMessage myMessage, Channel channel) {
+    public void enterCopySceneRequest(CopySceneModel.CopySceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) {
         //copySceneId
         Integer copySceneId=myMessage.getEnterCopySceneRequest().getCopySceneId();
-        MmoSimpleRole mmoSimpleRole= CommonsUtil.checkLogin(channel);
-        if (mmoSimpleRole==null) {
-            return;
-        }
+        Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
         //判断是否在组队状态
         Integer teamId=mmoSimpleRole.getTeamId();
         if (teamId==null){
@@ -108,11 +100,8 @@ public class CopySceneServiceImpl implements CopySceneService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.EXIT_COPYSCENE_REQUEST,module = ConstantValue.COPY_MODULE)
-    public void exitCopySceneRequest(CopySceneModel.CopySceneModelMessage myMessage, Channel channel) {
-        MmoSimpleRole mmoSimpleRole= CommonsUtil.checkLogin(channel);
-        if (mmoSimpleRole==null) {
-            return;
-        }
+    public void exitCopySceneRequest(CopySceneModel.CopySceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) {
+        Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
         //判断玩家是否在副本中
         if (mmoSimpleRole.getCopySceneId()==null){
             NettyResponse errotResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"当前玩家不在副本中".getBytes());
@@ -143,12 +132,9 @@ public class CopySceneServiceImpl implements CopySceneService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.CREATE_COPYSCENE_REQUEST,module = ConstantValue.COPY_MODULE)
-    public void createCopySceneBeanRequest(CopySceneModel.CopySceneModelMessage myMessage, Channel channel) {
+    public void createCopySceneBeanRequest(CopySceneModel.CopySceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) {
         Integer copySceneId=myMessage.getCreateCopySceneRequest().getCopySceneId();
-        MmoSimpleRole mmoSimpleRole= CommonsUtil.checkLogin(channel);
-        if (mmoSimpleRole==null) {
-            return;
-        }
+        Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
         //判断是否在组队状态
         if (mmoSimpleRole.getTeamId()==null){
             NettyResponse errotResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"请先组队".getBytes());

@@ -4,10 +4,12 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.Parser;
 import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
+import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyRequest;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
-import com.liqihao.protobufObject.BackPackModel;
+import com.liqihao.pojo.bean.MmoSimpleRole;
+import com.liqihao.util.CommonsUtil;
 import io.netty.channel.Channel;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeansException;
@@ -26,9 +28,9 @@ import java.util.Map;
  * @author lqhao
  */
 @Component
-public class Dispatcherservlet implements ApplicationContextAware {
+public class DispatcherServlet implements ApplicationContextAware {
     private ApplicationContext applicationContext;
-    private static Logger logger = Logger.getLogger(Dispatcherservlet.class);
+    private static Logger logger = Logger.getLogger(DispatcherServlet.class);
     private Map<String, ServiceObject> services;
     private HashMap<Integer, Method> methodHashMap = new HashMap<>();
     private final static String packet = "com.liqihao.protobufObject.";
@@ -43,11 +45,26 @@ public class Dispatcherservlet implements ApplicationContextAware {
         logger.info("线程：" + Thread.currentThread().getName() + " 正在处理该请求");
         int cmd = nettyRequest.getCmd();
         Method m = methodHashMap.get(cmd);
-        if (m != null) {
+        MmoSimpleRole mmoSimpleRole=null;
+        //特殊的登陆以及注册接口
+        if (cmd== ConstantValue.LOGIN_REQUEST||cmd==ConstantValue.REGISTER_REQUEST
+                ||cmd==ConstantValue.LOGOUT_REQUEST||cmd==ConstantValue.OUT_RIME_RESPONSE) {
             String beanName = m.getAnnotation(HandlerCmdTag.class).module();
             ServiceObject serviceObject = services.get(beanName);
             Object object = serviceObject.getParser().parseFrom(nettyRequest.getData());
             m.invoke(serviceObject.getService(), object, channel);
+        }
+        //检测登陆
+        mmoSimpleRole = CommonsUtil.checkLogin(channel);
+        if (mmoSimpleRole==null){
+            return;
+        }
+        if (m != null) {
+            String beanName = m.getAnnotation(HandlerCmdTag.class).module();
+            ServiceObject serviceObject = services.get(beanName);
+            Object object = serviceObject.getParser().parseFrom(nettyRequest.getData());
+
+            m.invoke(serviceObject.getService(), object, mmoSimpleRole);
             return;
         }
         channel.writeAndFlush(new NettyResponse(StateCode.FAIL, 444, "传入错误的cmd".getBytes()));

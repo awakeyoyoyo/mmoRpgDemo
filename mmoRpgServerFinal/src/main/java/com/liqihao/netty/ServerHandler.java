@@ -5,7 +5,8 @@ import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyRequest;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
-import com.liqihao.handler.Dispatcherservlet;
+import com.liqihao.handler.DispatcherServlet;
+import com.liqihao.service.GameSystemService;
 import com.liqihao.util.CommonsUtil;
 import com.liqihao.util.LogicThreadPool;
 import io.netty.channel.ChannelHandlerContext;
@@ -13,6 +14,9 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.timeout.IdleStateEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
@@ -22,7 +26,8 @@ import java.nio.charset.StandardCharsets;
  * @author lqhao
  */
 public class ServerHandler extends ChannelInboundHandlerAdapter {
-    private Dispatcherservlet dispatcherservlet;
+    private DispatcherServlet dispatcherservlet;
+    private GameSystemService gameSystemService;
     /**
      * 计数----未读次数
      */
@@ -32,8 +37,9 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
     public ServerHandler() {
     }
 
-    public ServerHandler(Dispatcherservlet dispatcherservlet) {
+    public ServerHandler(DispatcherServlet dispatcherservlet,GameSystemService gameSystemService) {
         this.dispatcherservlet = dispatcherservlet;
+        this.gameSystemService=gameSystemService;
     }
 
     @Override
@@ -56,14 +62,19 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
                     dispatcherservlet.handler(request,ctx.channel());
                 } catch (InvalidProtocolBufferException e) {
                     e.printStackTrace();
+                    sendException(ctx,e);
                 } catch (InvocationTargetException e) {
                     e.printStackTrace();
+                    sendException(ctx,e);
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
+                    sendException(ctx,e);
                 } catch (NoSuchMethodException e) {
                     e.printStackTrace();
+                    sendException(ctx,e);
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
+                    sendException(ctx,e);
                 }
             }
         },index);
@@ -73,12 +84,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         log.error("ServerHandler exception message: "+cause);
         cause.printStackTrace();
-        NettyResponse nettyResponse=new NettyResponse();
-        nettyResponse.setCmd(ConstantValue.FAIL_RESPONSE);
-        String message="服务端抛出异常："+cause.getMessage();
-        nettyResponse.setData(message.getBytes(StandardCharsets.UTF_8));
-        nettyResponse.setStateCode(StateCode.FAIL);
-        ctx.channel().writeAndFlush(nettyResponse);
+        sendException(ctx,cause);
     }
 
     @Override
@@ -101,10 +107,16 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
         }
         if(readIdleTimes > 3){
             log.error(" [server]读空闲超过3次，关闭连接");
-            NettyRequest nettyRequest=new NettyRequest();
-            nettyRequest.setCmd(ConstantValue.NET_IO_OUTTIME);
-            dispatcherservlet.handler(nettyRequest,ctx.channel());
+            gameSystemService.netIoOutTime(ctx.channel());
             ctx.channel().close();
         }
+    }
+    private void sendException(ChannelHandlerContext ctx,Throwable cause){
+        NettyResponse nettyResponse=new NettyResponse();
+        nettyResponse.setCmd(ConstantValue.FAIL_RESPONSE);
+        String message="服务端抛出异常："+cause.getMessage();
+        nettyResponse.setData(message.getBytes(StandardCharsets.UTF_8));
+        nettyResponse.setStateCode(StateCode.FAIL);
+        ctx.channel().writeAndFlush(nettyResponse);
     }
 }

@@ -493,7 +493,9 @@ public class MmoSimpleRole extends Role implements MyObserver {
         //ROLES
         for (Integer rId : roles) {
             MmoSimpleRole role = OnlineRoleMessageCache.getInstance().get(rId);
-            nextSceneRoles.add(role);
+            if (role!=null) {
+                nextSceneRoles.add(role);
+            }
         }
         return nextSceneRoles;
     }

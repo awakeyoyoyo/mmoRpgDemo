@@ -9,9 +9,6 @@ import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.*;
 import com.liqihao.commons.StateCode;
-import com.liqihao.dao.MmoRolePOJOMapper;
-import com.liqihao.pojo.MmoRolePOJO;
-import com.liqihao.pojo.baseMessage.NPCMessage;
 import com.liqihao.pojo.bean.*;
 import com.liqihao.protobufObject.SceneModel;
 import com.liqihao.provider.CopySceneProvider;
@@ -20,7 +17,6 @@ import com.liqihao.util.CommonsUtil;
 import io.netty.channel.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,11 +31,8 @@ public class SceneServiceImpl implements SceneService {
     private static final Logger log = LoggerFactory.getLogger(SceneServiceImpl.class);
     @Override
     @HandlerCmdTag(cmd = ConstantValue.ASK_CAN_REQUEST,module = ConstantValue.SCENE_MODULE)
-    public void askCanRequest(SceneModel.SceneModelMessage myMessage,Channel channel) throws InvalidProtocolBufferException {
-        MmoSimpleRole mmoSimpleRole=CommonsUtil.checkLogin(channel);
-        if (mmoSimpleRole==null){
-            return;
-        }
+    public void askCanRequest(SceneModel.SceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
+        Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
         Integer sceneId=mmoSimpleRole.getMmoSceneId();
         log.info("SceneService accept sceneId: "+sceneId);
         //从缓存中读取
@@ -61,13 +54,10 @@ public class SceneServiceImpl implements SceneService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.WENT_REQUEST,module = ConstantValue.SCENE_MODULE)
-    public void wentRequest(SceneModel.SceneModelMessage myMessage,Channel channel) throws InvalidProtocolBufferException {
+    public void wentRequest(SceneModel.SceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
 
         Integer nextSceneId=myMessage.getWentRequest().getSceneId();
-        MmoSimpleRole mmoSimpleRole=CommonsUtil.checkLogin(channel);
-        if (mmoSimpleRole==null){
-            return;
-        }
+        Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
         //先查询palyId所在场景
         //查询该场景可进入的场景与sceneId判断
         Integer nowSceneId=mmoSimpleRole.getMmoSceneId();
@@ -126,19 +116,15 @@ public class SceneServiceImpl implements SceneService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.FIND_ALL_ROLES_REQUEST,module = ConstantValue.SCENE_MODULE)
-    public void findAllRolesRequest(SceneModel.SceneModelMessage myMessage,Channel channel) throws InvalidProtocolBufferException {
-        MmoSimpleRole mmoSimpleRole=CommonsUtil.checkLogin(channel);
+    public void findAllRolesRequest(SceneModel.SceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
+        Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
         Integer sceneId=mmoSimpleRole.getMmoSceneId();
-        if (mmoSimpleRole==null){
-            return;
-        }
+
         List<Role> sceneRoles=new ArrayList<>();
         if (sceneId!=null) {
             SceneBean sceneBean=SceneBeanMessageCache.getInstance().get(sceneId);
-            List<Integer> mmoSimpleRoles = sceneBean.getRoles();
-            List<Integer> npcs = sceneBean.getNpcs();
             //NPC
-            for (Integer id : npcs) {
+            for (Integer id : sceneBean.getNpcs()) {
                 MmoSimpleNPC temp = NpcMessageCache.getInstance().get(id);
                 MmoSimpleRole roleTemp = new MmoSimpleRole();
                 roleTemp.setId(temp.getId());
@@ -156,7 +142,7 @@ public class SceneServiceImpl implements SceneService {
                 sceneRoles.add(roleTemp);
             }
             //ROLES
-            for (Integer id : mmoSimpleRoles) {
+            for (Integer id : sceneBean.getRoles()) {
                 MmoSimpleRole temp = OnlineRoleMessageCache.getInstance().get(id);
                 sceneRoles.add(temp);
             }
@@ -202,22 +188,17 @@ public class SceneServiceImpl implements SceneService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.TALK_NPC_REQUEST,module = ConstantValue.SCENE_MODULE)
-    public void talkNpcRequest(SceneModel.SceneModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException {
-
+    public void talkNpcRequest(SceneModel.SceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
+        Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
 
         Integer npcId=myMessage.getTalkNPCRequest().getRoleId();
         if (npcId==null){
             channel.writeAndFlush(new NettyResponse(StateCode.FAIL,ConstantValue.FAIL_RESPONSE,"传入的参数为空".getBytes()));
             return;
         }
-        //判断是否与角色在同一场景
-        MmoSimpleRole role=CommonsUtil.checkLogin(channel);
-        if (role==null){
-            return;
-        }
         //缓存中获取NPC
         MmoSimpleNPC npc=NpcMessageCache.getInstance().get(npcId);
-        if (!npc.getMmoSceneId().equals(role.getMmoSceneId())){
+        if (!npc.getMmoSceneId().equals(mmoSimpleRole.getMmoSceneId())){
             channel.writeAndFlush(new NettyResponse(StateCode.FAIL,ConstantValue.FAIL_RESPONSE,"该NPC不在当前场景".getBytes()));
             return;
         }

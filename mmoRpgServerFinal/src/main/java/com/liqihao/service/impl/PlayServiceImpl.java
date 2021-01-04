@@ -15,7 +15,6 @@ import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.provider.TeamServiceProvider;
 import com.liqihao.service.PlayService;
 import com.liqihao.util.CommonsUtil;
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -224,6 +223,7 @@ public class PlayServiceImpl implements PlayService {
         OnlineRoleMessageCache.getInstance().remove(role.getId());
         SceneBeanMessageCache.getInstance().get(role.getMmoSceneId()).getRoles().remove(role.getId());
         //protobuf生成消息
+
         PlayModel.PlayModelMessage.Builder myMessageBuilder = PlayModel.PlayModelMessage.newBuilder();
         myMessageBuilder.setDataType(PlayModel.PlayModelMessage.DateType.LogoutResponse);
         PlayModel.LogoutResponse.Builder logoutResponseBuilder = PlayModel.LogoutResponse.newBuilder();
@@ -241,15 +241,12 @@ public class PlayServiceImpl implements PlayService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.USE_SKILL_REQUEST, module = ConstantValue.PLAY_MODULE)
-    public void useSkillRequest(PlayModel.PlayModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException {
+    public void useSkillRequest(PlayModel.PlayModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
 
         Integer skillId = myMessage.getUseSkillRequest().getSkillId();
         Integer targetId = myMessage.getUseSkillRequest().getRoleId();
         Integer roleType=myMessage.getUseSkillRequest().getRoleType();
-        MmoSimpleRole mmoSimpleRole = CommonsUtil.checkLogin(channel);
-        if (mmoSimpleRole == null) {
-            return;
-        }
+        Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
         //判断cd
         Long nextTime = mmoSimpleRole.getCdMap().get(skillId);
         if (nextTime != null) {
@@ -295,15 +292,14 @@ public class PlayServiceImpl implements PlayService {
                 //群攻
                 //可以攻击所有场景的人 除了队友 npc
                 SceneBean sceneBean = SceneBeanMessageCache.getInstance().get(mmoSimpleRole.getMmoSceneId());
-                List<Integer> npcs = sceneBean.getNpcs();
-                List<Integer> roles = sceneBean.getRoles();
-                for (Integer id : npcs) {
+
+                for (Integer id : sceneBean.getNpcs()) {
                     MmoSimpleNPC npc = NpcMessageCache.getInstance().get(id);
                     if (npc.getType().equals(RoleTypeCode.ENEMY.getCode())) {
                         target.add(npc);
                     }
                 }
-                for (Integer id : roles) {
+                for (Integer id : sceneBean.getRoles()) {
                     MmoSimpleRole role = OnlineRoleMessageCache.getInstance().get(id);
                     if (role.getId().equals(mmoSimpleRole.getId())){
                         continue;

@@ -176,9 +176,8 @@ public class TeamBean {
         if (getLeaderId().equals(roleId)) {
             mmoSimpleRolesMap.remove(mmoSimpleRole.getId());
             checkInCopyScene(mmoSimpleRole);
+            mmoSimpleRole.setTeamId(null);
             if (mmoSimpleRolesMap.values().isEmpty()){
-                //没人了
-                mmoSimpleRole.setTeamId(null);
                 //解散队伍
                 TeamServiceProvider.deleteTeamById(getTeamId());
                 return;
@@ -198,6 +197,8 @@ public class TeamBean {
                 if (ccc!=null){
                     ccc.writeAndFlush(nettyResponse);
                 }
+                exitTeamNotification(mmoSimpleRole);
+                return;
             }
         }
         mmoSimpleRolesMap.remove(mmoSimpleRole.getId());

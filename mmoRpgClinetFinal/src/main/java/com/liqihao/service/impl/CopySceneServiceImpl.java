@@ -118,7 +118,7 @@ public class CopySceneServiceImpl implements CopySceneService {
         System.out.println("[-]角色名称：" + roleDto.getName());
         System.out.println("[-]角色血量：" + roleDto.getNowBlood() + "/" + roleDto.getBlood());
         System.out.println("[-]角色蓝量：" + roleDto.getNowMp() + "/" + roleDto.getMp());
-        System.out.println("[-]角色的状态：" + roleDto.getStatus());
+        System.out.println("[-]角色的状态：" + RoleStatusCode.getValue(roleDto.getStatus()));
         System.out.println("[-][-]角色的的buffer：");
         for (CopySceneModel.BufferDto bufferDto : roleDto.getBufferDtosList()) {
             System.out.println("[-][-]buffer的Id：" + bufferDto.getId());
@@ -179,7 +179,7 @@ public class CopySceneServiceImpl implements CopySceneService {
             System.out.println("[-][-]Boss蓝量：" + bossBeanDto.getNowMp() + "/" + bossBeanDto.getMp());
             System.out.println("[-][-]Boss的攻击力：" + bossBeanDto.getAttack());
             System.out.println("[-][-]Boss的状态：" + RoleStatusCode.getValue(bossBeanDto.getStatus()));
-            System.out.println("[-][-][-]Boss的的buffer：" + bossBeanDto.getAttack());
+            System.out.println("[-][-][-]Boss的的buffer：");
             for (CopySceneModel.BufferDto bufferDto : bossBeanDto.getBufferDtosList()) {
                 System.out.println("[-][-][-]buffer的Id：" + bufferDto.getId());
                 System.out.println("[-][-][-]buffer名称：" + bufferDto.getName());

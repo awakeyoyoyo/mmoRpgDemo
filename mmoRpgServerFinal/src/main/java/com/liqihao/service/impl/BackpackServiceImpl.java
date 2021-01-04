@@ -1,13 +1,12 @@
 package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.google.protobuf.Parser;
+import com.liqihao.Cache.ChannelMessageCache;
 import com.liqihao.Cache.EquipmentMessageCache;
 import com.liqihao.Cache.MediceneMessageCache;
 import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.ConstantValue;
-import com.liqihao.commons.NettyRequest;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.enums.ArticleTypeCode;
 import com.liqihao.commons.StateCode;
@@ -33,13 +32,10 @@ import java.util.List;
 public class BackpackServiceImpl implements BackpackService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.ABANDON_REQUEST,module = ConstantValue.BAKCPACK_MODULE)
-    public void abandonRquest(BackPackModel.BackPackModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException {
+    public void abandonRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
         Integer articleId=myMessage.getAbandonRequest().getArticleId();
         Integer number=myMessage.getAbandonRequest().getNumber();
-        MmoSimpleRole mmoSimpleRole=CommonsUtil.checkLogin(channel);
-        if (mmoSimpleRole==null){
-            return;
-        }
+        Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
         BackPackManager manager=mmoSimpleRole.getBackpackManager();
         Article article=manager.useOrAbandanArticle(articleId,number);
         if (article==null){
@@ -70,11 +66,8 @@ public class BackpackServiceImpl implements BackpackService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.BACKPACK_MSG_REQUEST,module = ConstantValue.BAKCPACK_MODULE)
-    public void backPackMsgRequest(BackPackModel.BackPackModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException {
-        MmoSimpleRole mmoSimpleRole=CommonsUtil.checkLogin(channel);
-        if (mmoSimpleRole==null){
-            return;
-        }
+    public void backPackMsgRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
+        Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
         List<ArticleDto> articles=mmoSimpleRole.getBackpackManager().getBackpacks();
         List<BackPackModel.ArticleDto> articleDtoList=new ArrayList<>();
         for (ArticleDto a:articles) {
@@ -104,12 +97,9 @@ public class BackpackServiceImpl implements BackpackService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.USE_REQUEST,module = ConstantValue.BAKCPACK_MODULE)
-    public void useRequest(BackPackModel.BackPackModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException {
+    public void useRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
         Integer article=myMessage.getUseRequest().getArticleId();
-        MmoSimpleRole mmoSimpleRole=CommonsUtil.checkLogin(channel);
-        if (mmoSimpleRole==null){
-            return;
-        }
+        Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
         boolean flag=mmoSimpleRole.useArticle(article);
         NettyResponse nettyResponse=new NettyResponse();
         nettyResponse.setCmd(ConstantValue.USE_RESPONSE);
@@ -132,14 +122,11 @@ public class BackpackServiceImpl implements BackpackService {
     }
     @Override
     @HandlerCmdTag(cmd = ConstantValue.ADD_ARTICLE_REQUEST,module = ConstantValue.BAKCPACK_MODULE)
-    public void addArticleRequest(BackPackModel.BackPackModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException {
+    public void addArticleRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
         Integer id=myMessage.getAddArticleRequest().getId();
         Integer articleType=myMessage.getAddArticleRequest().getArticleType();
         Integer number=myMessage.getAddArticleRequest().getNumber();
-        MmoSimpleRole mmoSimpleRole=CommonsUtil.checkLogin(channel);
-        if (mmoSimpleRole==null){
-            return;
-        }
+        Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
         //根据 articleType判断 然后生成物品对象存
         Article article;
         if (articleType.equals(ArticleTypeCode.MEDICINE.getCode())){

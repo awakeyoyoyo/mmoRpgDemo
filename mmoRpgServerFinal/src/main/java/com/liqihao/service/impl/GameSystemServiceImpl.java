@@ -23,13 +23,11 @@ import org.springframework.stereotype.Service;
  * @author lqhao
  */
 @Service
-@HandlerServiceTag(protobufModel = "GameSystemModel$GameSystemModelMessage")
 public class GameSystemServiceImpl implements com.liqihao.service.GameSystemService {
     @Autowired
     private MmoRolePOJOMapper mmoRolePOJOMapper;
     @Override
-    @HandlerCmdTag(cmd = ConstantValue.NET_IO_OUTTIME,module = ConstantValue.GAME_SYSTEM_MODULE)
-    public void netIoOutTime(GameSystemModel.GameSystemModelMessage myMessage, Channel channel) {
+    public void netIoOutTime(Channel channel) {
         //获取相同的channel对应的roleId 然后根据其删除缓存中的信息
         MmoSimpleRole role=CommonsUtil.getRoleByChannel(channel);
         //删除缓存中的信息
@@ -50,17 +48,19 @@ public class GameSystemServiceImpl implements com.liqihao.service.GameSystemServ
             mmoRolePOJO.setSkillIds(CommonsUtil.listToString(mmoRole.getSkillIdList()));
             mmoRolePOJO.setType(mmoRole.getType());
             mmoRolePOJO.setStatus(mmoRole.getStatus());
-            OnlineRoleMessageCache.getInstance().remove(roleId);
             //修改数据库
             mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO);
-            //删除缓存中角色
-            OnlineRoleMessageCache.getInstance().remove(role.getId());
-            SceneBeanMessageCache.getInstance().get(role.getMmoSceneId()).getRoles().remove(role.getId());
+            if (role.getMmoSceneId()!=null) {
+                SceneBeanMessageCache.getInstance().get(role.getMmoSceneId()).getRoles().remove(role.getId());
+            }
             //角色退出队伍
             if (mmoRole.getTeamId()!=null){
                 TeamBean teamBean= TeamServiceProvider.getTeamBeanByTeamId(mmoRole.getTeamId());
                 teamBean.exitPeople(mmoRole.getId());
             }
+            //删除缓存中角色
+            SceneBeanMessageCache.getInstance().get(role.getMmoSceneId()).getRoles().remove(role.getId());
+            OnlineRoleMessageCache.getInstance().remove(role.getId());
         }
         //用户下线
         NettyResponse response=new NettyResponse();

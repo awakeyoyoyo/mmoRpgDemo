@@ -2,10 +2,10 @@ package com.liqihao.service;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 
-import com.liqihao.commons.NettyRequest;
-import com.liqihao.commons.NettyResponse;
+import com.liqihao.pojo.bean.MmoSimpleRole;
 import com.liqihao.protobufObject.PlayModel;
 import io.netty.channel.Channel;
+
 /**
  * 玩家模块
  * @author lqhao
@@ -25,7 +25,7 @@ public interface PlayService {
      * @param channel
      * @throws InvalidProtocolBufferException
      */
-    void loginRequest(PlayModel.PlayModelMessage myMessage,Channel channel) throws InvalidProtocolBufferException;
+    void loginRequest(PlayModel.PlayModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException;
 
     /**
      * 登出
@@ -33,13 +33,13 @@ public interface PlayService {
      * @param channel
      * @throws InvalidProtocolBufferException
      */
-    void logoutRequest(PlayModel.PlayModelMessage myMessage,Channel channel) throws InvalidProtocolBufferException;
+    void logoutRequest(PlayModel.PlayModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException;
 
     /**
      * 使用技能
      * @param myMessage
-     * @param channel
+     * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
      */
-    void useSkillRequest(PlayModel.PlayModelMessage myMessage,Channel channel) throws InvalidProtocolBufferException;
+    void useSkillRequest(PlayModel.PlayModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException;
 }
