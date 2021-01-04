@@ -4,8 +4,8 @@
   <resultMap id="BaseResultMap" type="com.liqihao.pojo.MmoUserPOJO">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="userName" jdbcType="VARCHAR" property="username" />
-    <result column="userPwd" jdbcType="VARCHAR" property="userpwd" />
-    <result column="userRoleId" jdbcType="VARCHAR" property="userroleid" />
+    <result column="userPwd" jdbcType="VARCHAR" property="userPwd" />
+    <result column="userRoleId" jdbcType="VARCHAR" property="userRoleId" />
   </resultMap>
   <sql id="Base_Column_List">
     id, userName, userPwd, userRoleId

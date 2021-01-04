@@ -1,26 +1,26 @@
 package com.liqihao.pojo;
 
 public class MmoEquipmentBagPOJO {
-    private Integer equipmentbagId;
+    private Integer equipmentBagId;
 
-    private Integer roleid;
+    private Integer roleId;
 
     private Integer equipmentId;
 
-    public Integer getEquipmentbagId() {
-        return equipmentbagId;
+    public Integer getEquipmentBagId() {
+        return equipmentBagId;
     }
 
-    public void setEquipmentbagId(Integer equipmentbagId) {
-        this.equipmentbagId = equipmentbagId;
+    public void setEquipmentBagId(Integer equipmentBagId) {
+        this.equipmentBagId = equipmentBagId;
     }
 
-    public Integer getRoleid() {
-        return roleid;
+    public Integer getRoleId() {
+        return roleId;
     }
 
-    public void setRoleid(Integer roleid) {
-        this.roleid = roleid;
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
     }
 
     public Integer getEquipmentId() {

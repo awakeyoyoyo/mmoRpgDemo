@@ -39,12 +39,10 @@
 <!--        <table tableName="mmo_bag" domainObjectName="MmoBagPOJO" enableCountByExample="false"-->
 <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false"></table>-->
-        <table tableName="mmo_equipment" domainObjectName="MmoEquipmentPOJO" enableCountByExample="false"
+        <table tableName="mmo_email" domainObjectName="MmoEmailPOJO" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>
-        <table tableName="mmo_equipmentbag" domainObjectName="MmoEquipmentBagPOJO" enableCountByExample="false"
-               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"></table>
+
 <!--        <table tableName="mmo_scene" domainObjectName="MmoScenePOJO" enableCountByExample="false"-->
 <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false"></table>-->

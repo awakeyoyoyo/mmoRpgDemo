@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.liqihao.dao.MmoEquipmentBagPOJOMapper">
   <resultMap id="BaseResultMap" type="com.liqihao.pojo.MmoEquipmentBagPOJO">
-    <id column="equipmentBag_id" jdbcType="INTEGER" property="equipmentbagId" />
-    <result column="roleId" jdbcType="INTEGER" property="roleid" />
+    <id column="equipmentBag_id" jdbcType="INTEGER" property="equipmentBagId" />
+    <result column="roleId" jdbcType="INTEGER" property="roleId" />
     <result column="equipment_id" jdbcType="INTEGER" property="equipmentId" />
   </resultMap>
   <sql id="Base_Column_List">
@@ -13,11 +13,11 @@
     select 
     <include refid="Base_Column_List" />
     from mmo_equipmentbag
-    where equipmentBag_id = #{equipmentbagId,jdbcType=INTEGER}
+    where equipmentBag_id = #{equipmentBagId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from mmo_equipmentbag
-    where equipmentBag_id = #{equipmentbagId,jdbcType=INTEGER}
+    where equipmentBag_id = #{equipmentBagId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.liqihao.pojo.MmoEquipmentBagPOJO">
     insert into mmo_equipmentbag (equipmentBag_id, roleId, equipment_id

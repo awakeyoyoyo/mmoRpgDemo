@@ -5,9 +5,9 @@ public class MmoUserPOJO {
 
     private String username;
 
-    private String userpwd;
+    private String userPwd;
 
-    private String userroleid;
+    private String userRoleId;
 
     public Integer getId() {
         return id;
@@ -25,19 +25,19 @@ public class MmoUserPOJO {
         this.username = username == null ? null : username.trim();
     }
 
-    public String getUserpwd() {
-        return userpwd;
+    public String getUserPwd() {
+        return userPwd;
     }
 
-    public void setUserpwd(String userpwd) {
-        this.userpwd = userpwd == null ? null : userpwd.trim();
+    public void setUserPwd(String userPwd) {
+        this.userPwd = userPwd == null ? null : userPwd.trim();
     }
 
-    public String getUserroleid() {
-        return userroleid;
+    public String getUserRoleId() {
+        return userRoleId;
     }
 
-    public void setUserroleid(String userroleid) {
-        this.userroleid = userroleid == null ? null : userroleid.trim();
+    public void setUserRoleId(String userRoleId) {
+        this.userRoleId = userRoleId == null ? null : userRoleId.trim();
     }
 }

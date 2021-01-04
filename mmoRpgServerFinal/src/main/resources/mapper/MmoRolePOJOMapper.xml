@@ -6,8 +6,8 @@
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="type" jdbcType="INTEGER" property="type" />
-    <result column="mmoSceneId" jdbcType="INTEGER" property="mmosceneid" />
-    <result column="onStatus" jdbcType="INTEGER" property="onstatus" />
+    <result column="mmoSceneId" jdbcType="INTEGER" property="mmoSceneId" />
+    <result column="onStatus" jdbcType="INTEGER" property="onStatus" />
     <result column="skillIds" jdbcType="VARCHAR" property="skillIds" />
   </resultMap>
   <sql id="Base_Column_List">

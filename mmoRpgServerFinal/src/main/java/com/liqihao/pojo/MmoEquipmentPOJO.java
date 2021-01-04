@@ -5,7 +5,7 @@ public class MmoEquipmentPOJO {
 
     private Integer messageId;
 
-    private Integer nowdurability;
+    private Integer nowDurability;
 
     public Integer getId() {
         return id;
@@ -23,11 +23,11 @@ public class MmoEquipmentPOJO {
         this.messageId = messageId;
     }
 
-    public Integer getNowdurability() {
-        return nowdurability;
+    public Integer getNowDurability() {
+        return nowDurability;
     }
 
-    public void setNowdurability(Integer nowdurability) {
-        this.nowdurability = nowdurability;
+    public void setNowDurability(Integer nowDurability) {
+        this.nowDurability = nowDurability;
     }
 }

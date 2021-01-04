@@ -50,28 +50,30 @@ public class MmoSimpleRole extends Role implements MyObserver {
      * 队伍邀请函
      */
     private ConcurrentLinkedQueue<TeamApplyOrInviteBean> teamApplyOrInviteBeans = new ConcurrentLinkedQueue<>();
-
-    public Integer getTeamApplyOrInviteSize() {
-        return teamApplyOrInviteSize;
-    }
-
-    public void setTeamApplyOrInviteSize(Integer teamApplyOrInviteSize) {
-        this.teamApplyOrInviteSize = teamApplyOrInviteSize;
-    }
-
     /**
-     * 增加邀请
-     * @param teamApplyOrInviteBean
+     * 已发送邮件
      */
-    public void addTeamApplyOrInviteBean(TeamApplyOrInviteBean teamApplyOrInviteBean) {
-        checkOutTime();
-        //邀请的大小，先进先出咯
-        if (teamApplyOrInviteBeans.size() >= teamApplyOrInviteSize) {
-            teamApplyOrInviteBeans.poll();
-        }
-        teamApplyOrInviteBeans.add(teamApplyOrInviteBean);
+    private ConcurrentHashMap<Integer,MmoEmailBean> fromMmoEmailBeanConcurrentHashMap=new ConcurrentHashMap<>();
+    /**
+     * 已接受邮件
+     */
+    private ConcurrentHashMap<Integer,MmoEmailBean> toMmoEmailBeanConcurrentHashMap=new ConcurrentHashMap<>();
+
+    public ConcurrentHashMap<Integer, MmoEmailBean> getFromMmoEmailBeanConcurrentHashMap() {
+        return fromMmoEmailBeanConcurrentHashMap;
     }
 
+    public void setFromMmoEmailBeanConcurrentHashMap(ConcurrentHashMap<Integer, MmoEmailBean> fromMmoEmailBeanConcurrentHashMap) {
+        this.fromMmoEmailBeanConcurrentHashMap = fromMmoEmailBeanConcurrentHashMap;
+    }
+
+    public ConcurrentHashMap<Integer, MmoEmailBean> getToMmoEmailBeanConcurrentHashMap() {
+        return toMmoEmailBeanConcurrentHashMap;
+    }
+
+    public void setToMmoEmailBeanConcurrentHashMap(ConcurrentHashMap<Integer, MmoEmailBean> toMmoEmailBeanConcurrentHashMap) {
+        this.toMmoEmailBeanConcurrentHashMap = toMmoEmailBeanConcurrentHashMap;
+    }
 
     public ConcurrentLinkedQueue<TeamApplyOrInviteBean> getTeamApplyOrInviteBeans() {
         return teamApplyOrInviteBeans;
@@ -81,6 +83,13 @@ public class MmoSimpleRole extends Role implements MyObserver {
         this.teamApplyOrInviteBeans = teamApplyOrInviteBeans;
     }
 
+    public Integer getTeamApplyOrInviteSize() {
+        return teamApplyOrInviteSize;
+    }
+
+    public void setTeamApplyOrInviteSize(Integer teamApplyOrInviteSize) {
+        this.teamApplyOrInviteSize = teamApplyOrInviteSize;
+    }
     public Integer getLastSceneId() {
         return lastSceneId;
     }
@@ -88,7 +97,6 @@ public class MmoSimpleRole extends Role implements MyObserver {
     public void setLastSceneId(Integer lastSceneId) {
         this.lastSceneId = lastSceneId;
     }
-
 
     public Integer getCopySceneId() {
         return copySceneId;
@@ -98,8 +106,6 @@ public class MmoSimpleRole extends Role implements MyObserver {
         this.copySceneId = copySceneId;
     }
 
-
-
     public List<Integer> getNeedDeleteEquipmentIds() {
         return needDeleteEquipmentIds;
     }
@@ -107,7 +113,6 @@ public class MmoSimpleRole extends Role implements MyObserver {
     public void setNeedDeleteEquipmentIds(List<Integer> needDeleteEquipmentIds) {
         this.needDeleteEquipmentIds = needDeleteEquipmentIds;
     }
-
 
     public HashMap<Integer, EquipmentBean> getEquipmentBeanHashMap() {
         return equipmentBeanHashMap;
@@ -134,8 +139,6 @@ public class MmoSimpleRole extends Role implements MyObserver {
     }
 
 
-
-
     public List<Integer> getSkillIdList() {
         return skillIdList;
     }
@@ -144,8 +147,6 @@ public class MmoSimpleRole extends Role implements MyObserver {
         this.skillIdList = skillIdList;
     }
 
-
-
     public HashMap<Integer, Long> getCdMap() {
         return cdMap;
     }
@@ -153,7 +154,18 @@ public class MmoSimpleRole extends Role implements MyObserver {
     public void setCdMap(HashMap<Integer, Long> cdMap) {
         this.cdMap = cdMap;
     }
-
+    /**
+     * 增加邀请
+     * @param teamApplyOrInviteBean
+     */
+    public void addTeamApplyOrInviteBean(TeamApplyOrInviteBean teamApplyOrInviteBean) {
+        checkOutTime();
+        //邀请的大小，先进先出咯
+        if (teamApplyOrInviteBeans.size() >= teamApplyOrInviteSize) {
+            teamApplyOrInviteBeans.poll();
+        }
+        teamApplyOrInviteBeans.add(teamApplyOrInviteBean);
+    }
     /**
      * 检测邀请过时
      */
@@ -176,9 +188,9 @@ public class MmoSimpleRole extends Role implements MyObserver {
      */
     public void init(MmoRolePOJO role, BaseRoleMessage baseRoleMessage) {
         setId(role.getId());
-        setMmoSceneId(role.getMmosceneid());
+        setMmoSceneId(role.getMmoSceneId());
         setName(role.getName());
-        setOnStatus(role.getOnstatus());
+        setOnStatus(role.getOnStatus());
         setStatus(role.getStatus());
         setType(role.getType());
         List<SkillBean> skillBeans = CommonsUtil.skillIdsToSkillBeans(role.getSkillIds());

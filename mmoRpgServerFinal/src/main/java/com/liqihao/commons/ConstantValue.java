@@ -331,7 +331,6 @@ public interface ConstantValue {
     /**
      * 聊天模块
      */
-
     String CHAT_MODULE = "chatServiceImpl";
     /**
      * 全服频道信息请求
@@ -354,6 +353,70 @@ public interface ConstantValue {
      */
     int SEND_TO_SCENE_REQUEST=8003;
 
+    /**
+     * 邮箱模块
+     */
+    String EMAIL_MODULE = "emailServiceImpl";
+    /**
+     * 邮件详情请求
+     */
+    int GET_EMAIL_MESSAGE_REQUEST=9000;
+    /**
+     * 获取邮件物品请求
+     */
+    int GET_EMAIL_ARTICLE_REQUEST=9001;
+    /**
+     * 已接收邮件列表请求
+     */
+    int ACCEPT_EMAIL_LIST_REQUEST=9002;
+    /**
+     * 已发送的邮件列表请求
+     */
+    int IS_SEND_EMAIL_LIST_REQUEST=9003;
+    /**
+     * 发送邮件请求
+     */
+    int SEND_EMAIL_REQUEST=9004;
+    /**
+     * 删除已接收邮件请求
+     */
+    int DELETE_ACCEPT_EMAIL_REQUEST=9005;
+    /**
+     * 删除已发送邮件请求
+     */
+    int DELETE_SEND_EMAIL_REQUEST=9006;
+
+
+
+
+    /**
+     * 邮件详情响应
+     */
+    int GET_EMAIL_MESSAGE_RESPONSE=9500;
+    /**
+     * 获取邮件物品响应
+     */
+    int GET_EMAIL_ARTICLE_RESPONSE=9501;
+    /**
+     * 已接收邮件列表响应
+     */
+    int ACCEPT_EMAIL_LIST_RESPONSE=9502;
+    /**
+     * 已发送的邮件列表响应
+     */
+    int IS_SEND_EMAIL_LIST_RESPONSE=9503;
+    /**
+     * 发送邮件响应
+     */
+    int SEND_EMAIL_RESPONSE=9504;
+    /**
+     * 删除已接收邮件响应
+     */
+    int DELETE_ACCEPT_EMAIL_RESPONSE=9505;
+    /**
+     * 删除已发送邮件响应
+     */
+    int DELETE_SEND_EMAIL_RESPONSE=9506;
     /**
      * 参数错误响应
      */

@@ -51,8 +51,8 @@ public class SceneServiceImpl implements SceneService {
         }
         if (!canFlag){
             //不包含 即不可进入
-            NettyResponse errotResponse=new NettyResponse(StateCode.FAIL,ConstantValue.FAIL_RESPONSE,"无法前往该场景".getBytes());
-            channel.writeAndFlush(errotResponse);
+            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL,ConstantValue.FAIL_RESPONSE,"无法前往该场景".getBytes());
+            channel.writeAndFlush(errorResponse);
             return;
         }
 

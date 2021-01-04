@@ -45,8 +45,8 @@ public class ChatServiceImpl implements ChatService {
         String str=myMessage.getSendToTeamRequest().getStr();
         Integer teamId=mmoSimpleRole.getTeamId();
         if (teamId==null){
-            NettyResponse errotResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"当前角色不在组队状态".getBytes());
-            channel.writeAndFlush(errotResponse);
+            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"当前角色不在组队状态".getBytes());
+            channel.writeAndFlush(errorResponse);
             return;
         }
         ChatServiceProvider.getInstance().notifyTeam(teamId,mmoSimpleRole,str);

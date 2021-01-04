@@ -1,7 +1,5 @@
 package com.liqihao.pojo;
 
-import com.sun.scenario.effect.impl.prism.PrImage;
-
 public class MmoRolePOJO {
     private Integer id;
 
@@ -11,9 +9,9 @@ public class MmoRolePOJO {
 
     private Integer type;
 
-    private Integer mmosceneid;
+    private Integer mmoSceneId;
 
-    private Integer onstatus;
+    private Integer onStatus;
 
     private String skillIds;
 
@@ -57,19 +55,19 @@ public class MmoRolePOJO {
         this.type = type;
     }
 
-    public Integer getMmosceneid() {
-        return mmosceneid;
+    public Integer getMmoSceneId() {
+        return mmoSceneId;
     }
 
-    public void setMmosceneid(Integer mmosceneid) {
-        this.mmosceneid = mmosceneid;
+    public void setMmoSceneId(Integer mmoSceneId) {
+        this.mmoSceneId = mmoSceneId;
     }
 
-    public Integer getOnstatus() {
-        return onstatus;
+    public Integer getOnStatus() {
+        return onStatus;
     }
 
-    public void setOnstatus(Integer onstatus) {
-        this.onstatus = onstatus;
+    public void setOnStatus(Integer onStatus) {
+        this.onStatus = onStatus;
     }
 }

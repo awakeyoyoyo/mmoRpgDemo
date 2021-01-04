@@ -6,13 +6,13 @@ import com.liqihao.pojo.MmoEquipmentPOJO;
 import java.util.List;
 
 public interface MmoEquipmentBagPOJOMapper {
-    int deleteByPrimaryKey(Integer equipmentbagId);
+    int deleteByPrimaryKey(Integer equipmentBagId);
 
     int insert(MmoEquipmentBagPOJO record);
 
     int insertSelective(MmoEquipmentBagPOJO record);
 
-    MmoEquipmentBagPOJO selectByPrimaryKey(Integer equipmentbagId);
+    MmoEquipmentBagPOJO selectByPrimaryKey(Integer equipmentBagId);
 
     int updateByPrimaryKeySelective(MmoEquipmentBagPOJO record);
 

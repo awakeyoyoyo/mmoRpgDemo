@@ -3,7 +3,7 @@
 <mapper namespace="com.liqihao.dao.MmoBagPOJOMapper">
   <resultMap id="BaseResultMap" type="com.liqihao.pojo.MmoBagPOJO">
     <id column="bag_id" jdbcType="INTEGER" property="bagId" />
-    <result column="articleType" jdbcType="INTEGER" property="articletype" />
+    <result column="articleType" jdbcType="INTEGER" property="articleType" />
     <result column="w_id" jdbcType="INTEGER" property="wId" />
     <result column="number" jdbcType="INTEGER" property="number" />
     <result column="role_id" jdbcType="INTEGER" property="roleId" />

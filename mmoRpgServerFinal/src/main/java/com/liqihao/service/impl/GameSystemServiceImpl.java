@@ -2,8 +2,6 @@ package com.liqihao.service.impl;
 
 import com.liqihao.Cache.OnlineRoleMessageCache;
 import com.liqihao.Cache.SceneBeanMessageCache;
-import com.liqihao.annotation.HandlerCmdTag;
-import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.*;
 import com.liqihao.commons.enums.RoleOnStatusCode;
 import com.liqihao.commons.StateCode;
@@ -42,8 +40,8 @@ public class GameSystemServiceImpl implements com.liqihao.service.GameSystemServ
             MmoSimpleRole mmoRole= OnlineRoleMessageCache.getInstance().get(roleId);
             MmoRolePOJO mmoRolePOJO=new MmoRolePOJO();
             mmoRolePOJO.setId(mmoRole.getId());
-            mmoRolePOJO.setMmosceneid(mmoRole.getMmoSceneId());
-            mmoRolePOJO.setOnstatus(RoleOnStatusCode.EXIT.getCode());
+            mmoRolePOJO.setMmoSceneId(mmoRole.getMmoSceneId());
+            mmoRolePOJO.setOnStatus(RoleOnStatusCode.EXIT.getCode());
             mmoRolePOJO.setName(mmoRole.getName());
             mmoRolePOJO.setSkillIds(CommonsUtil.listToString(mmoRole.getSkillIdList()));
             mmoRolePOJO.setType(mmoRole.getType());

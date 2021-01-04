@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.liqihao.pojo.MmoEquipmentPOJO">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="message_id" jdbcType="INTEGER" property="messageId" />
-    <result column="nowdurability" jdbcType="INTEGER" property="nowdurability" />
+    <result column="nowdurability" jdbcType="INTEGER" property="nowDurability" />
   </resultMap>
   <sql id="Base_Column_List">
     id, message_id, nowdurability

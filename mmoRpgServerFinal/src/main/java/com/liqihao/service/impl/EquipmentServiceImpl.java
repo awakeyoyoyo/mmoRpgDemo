@@ -90,8 +90,8 @@ public class EquipmentServiceImpl implements EquipmentService {
         Integer position = myMessage.getReduceEquipmentRequest().getPosition();
         Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
         if (position > 6 || position <= 0) {
-            NettyResponse errotResponse = new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE, "传入无效的部位id".getBytes());
-            channel.writeAndFlush(errotResponse);
+            NettyResponse errorResponse = new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE, "传入无效的部位id".getBytes());
+            channel.writeAndFlush(errorResponse);
             return;
         }
         boolean flag = mmoSimpleRole.unUseEquipment(position);
@@ -123,8 +123,8 @@ public class EquipmentServiceImpl implements EquipmentService {
         Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
         Article article = mmoSimpleRole.getBackpackManager().getArticleByArticleId(articleId);
         if (article == null) {
-            NettyResponse errotResponse = new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE, "传入无效物品id".getBytes());
-            channel.writeAndFlush(errotResponse);
+            NettyResponse errorResponse = new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE, "传入无效物品id".getBytes());
+            channel.writeAndFlush(errorResponse);
             return;
         }
         if (article.getArticleTypeCode() != ArticleTypeCode.EQUIPMENT.getCode()) {

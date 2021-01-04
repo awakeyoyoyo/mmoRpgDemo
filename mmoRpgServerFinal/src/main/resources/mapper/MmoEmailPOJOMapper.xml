@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liqihao.dao.MmoEmailPOJOMapper">
+  <resultMap id="BaseResultMap" type="com.liqihao.pojo.MmoEmailPOJO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="context" jdbcType="VARCHAR" property="context" />
+    <result column="from_role_id" jdbcType="INTEGER" property="fromRoleId" />
+    <result column="to_role_id" jdbcType="INTEGER" property="toRoleId" />
+    <result column="article_type" jdbcType="INTEGER" property="articleType" />
+    <result column="article_id" jdbcType="INTEGER" property="articleId" />
+    <result column="article_num" jdbcType="INTEGER" property="articleNum" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="checked" jdbcType="BIT" property="checked" />
+    <result column="from_delete" jdbcType="BIT" property="fromDelete" />
+    <result column="to_delete" jdbcType="BIT" property="toDelete" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, title, context, from_role_id, to_role_id, article_type, article_id, article_num, 
+    create_time, checked, from_delete, to_delete
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from mmo_email
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from mmo_email
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.liqihao.pojo.MmoEmailPOJO">
+    insert into mmo_email (id, title, context, 
+      from_role_id, to_role_id, article_type, 
+      article_id, article_num, create_time, 
+      checked, from_delete, to_delete)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{context,jdbcType=VARCHAR}, 
+      #{fromRoleId,jdbcType=INTEGER}, #{toRoleId,jdbcType=INTEGER}, #{articleType,jdbcType=INTEGER}, 
+      #{articleId,jdbcType=INTEGER}, #{articleNum,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT}, 
+      #{checked,jdbcType=BIT}, #{fromDelete,jdbcType=BIT}, #{toDelete,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.liqihao.pojo.MmoEmailPOJO">
+    insert into mmo_email
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="context != null">
+        context,
+      </if>
+      <if test="fromRoleId != null">
+        from_role_id,
+      </if>
+      <if test="toRoleId != null">
+        to_role_id,
+      </if>
+      <if test="articleType != null">
+        article_type,
+      </if>
+      <if test="articleId != null">
+        article_id,
+      </if>
+      <if test="articleNum != null">
+        article_num,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="checked != null">
+        checked,
+      </if>
+      <if test="fromDelete != null">
+        from_delete,
+      </if>
+      <if test="toDelete != null">
+        to_delete,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="context != null">
+        #{context,jdbcType=VARCHAR},
+      </if>
+      <if test="fromRoleId != null">
+        #{fromRoleId,jdbcType=INTEGER},
+      </if>
+      <if test="toRoleId != null">
+        #{toRoleId,jdbcType=INTEGER},
+      </if>
+      <if test="articleType != null">
+        #{articleType,jdbcType=INTEGER},
+      </if>
+      <if test="articleId != null">
+        #{articleId,jdbcType=INTEGER},
+      </if>
+      <if test="articleNum != null">
+        #{articleNum,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="checked != null">
+        #{checked,jdbcType=BIT},
+      </if>
+      <if test="fromDelete != null">
+        #{fromDelete,jdbcType=BIT},
+      </if>
+      <if test="toDelete != null">
+        #{toDelete,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.liqihao.pojo.MmoEmailPOJO">
+    update mmo_email
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="context != null">
+        context = #{context,jdbcType=VARCHAR},
+      </if>
+      <if test="fromRoleId != null">
+        from_role_id = #{fromRoleId,jdbcType=INTEGER},
+      </if>
+      <if test="toRoleId != null">
+        to_role_id = #{toRoleId,jdbcType=INTEGER},
+      </if>
+      <if test="articleType != null">
+        article_type = #{articleType,jdbcType=INTEGER},
+      </if>
+      <if test="articleId != null">
+        article_id = #{articleId,jdbcType=INTEGER},
+      </if>
+      <if test="articleNum != null">
+        article_num = #{articleNum,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="checked != null">
+        checked = #{checked,jdbcType=BIT},
+      </if>
+      <if test="fromDelete != null">
+        from_delete = #{fromDelete,jdbcType=BIT},
+      </if>
+      <if test="toDelete != null">
+        to_delete = #{toDelete,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.liqihao.pojo.MmoEmailPOJO">
+    update mmo_email
+    set title = #{title,jdbcType=VARCHAR},
+      context = #{context,jdbcType=VARCHAR},
+      from_role_id = #{fromRoleId,jdbcType=INTEGER},
+      to_role_id = #{toRoleId,jdbcType=INTEGER},
+      article_type = #{articleType,jdbcType=INTEGER},
+      article_id = #{articleId,jdbcType=INTEGER},
+      article_num = #{articleNum,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=BIGINT},
+      checked = #{checked,jdbcType=BIT},
+      from_delete = #{fromDelete,jdbcType=BIT},
+      to_delete = #{toDelete,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByToRoleId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from mmo_email
+    where to_role_id = #{toRoleId,jdbcType=INTEGER} AND to_delete=0
+  </select>
+  <select id="selectByFromRoleId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from mmo_email
+    where from_role_id = #{fromRoleId,jdbcType=INTEGER} AND from_delete=0
+  </select>
+  <select id="selectNextIndex"  resultType="java.lang.Integer">
+    select
+    AUTO_INCREMENT
+    from INFORMATION_SCHEMA. TABLES
+    where TABLE_NAME = 'mmo_email'
+  </select>
+
+</mapper>

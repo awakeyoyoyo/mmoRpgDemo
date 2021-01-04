@@ -1,0 +1,109 @@
+syntax ="proto3";
+option java_outer_classname="EmailModel";
+//protoful 可以使用message 管理其他的mssage
+message EmailModelMessage{
+  //定义枚举类型
+  enum DateType{
+    GetEmailMessageRequest=0;//在proto3 要求enum的编号从0开始
+    GetEmailArticleRequest=1;
+    AcceptEmailListRequest=2;
+    IsSendEmailListRequest=3;
+    DeleteAcceptEmailRequest=4;
+    SendEmailRequest=5;
+    DeleteSendEmailRequest=6;
+    GetEmailMessageResponse=7;
+    GetEmailArticleResponse=8;
+    AcceptEmailListResponse=9;
+    IsSendEmailListResponse=10;
+    DeleteAcceptEmailResponse=11;
+    SendEmailResponse=12;
+    DeleteSendEmailResponse=13;
+  }
+  //用date_type来标识传的是哪一个枚举类型
+  DateType data_type=1;
+  //表示每次枚举类型最多只能出现其中一个，节省空间
+  oneof dateBody{
+    GetEmailMessageRequest getEmailMessageRequest=2;
+      GetEmailArticleRequest getEmailArticleRequest=3;
+      AcceptEmailListRequest acceptEmailListRequest=4;
+      IsSendEmailListRequest isSendEmailListRequest=5;
+      DeleteAcceptEmailRequest deleteAcceptEmailRequest=6;
+      SendEmailRequest sendEmailRequest=7;
+      DeleteSendEmailRequest deleteSendEmailRequest=8;
+    GetEmailMessageResponse getEmailMessageResponse=9;
+    GetEmailArticleResponse getEmailArticleResponse=10;
+    AcceptEmailListResponse acceptEmailListResponse=11;
+    IsSendEmailListResponse isSendEmailListResponse=12;
+    DeleteAcceptEmailResponse deleteAcceptEmailResponse=13;
+    SendEmailResponse sendEmailResponse=14;
+    DeleteSendEmailResponse deleteSendEmailResponse=15;
+  }
+}
+message GetEmailMessageRequest{
+  int32 emailId=1;
+}
+message GetEmailArticleRequest{
+  int32 emailId=1;
+}
+message AcceptEmailListRequest{
+}
+message IsSendEmailListRequest{
+}
+message DeleteAcceptEmailRequest{
+  int32 emailId=1;
+}
+message SendEmailRequest{
+  string title=2;
+  string context=3;
+  int32 toRoleId=5;
+  int32 articleType=6;
+  int32 articleId=7;
+  int32 articleNum=8;
+}
+message DeleteSendEmailRequest{
+  int32 emailId=1;
+}
+
+
+message GetEmailMessageResponse{
+  EmailDto emailDto=1;
+}
+message GetEmailArticleResponse{
+}
+message AcceptEmailListResponse{
+  repeated EmailSimpleDto emailSimpleDtos=1;
+}
+message IsSendEmailListResponse{
+  repeated EmailSimpleDto emailSimpleDtos=1;
+}
+message DeleteAcceptEmailResponse{
+}
+message SendEmailResponse{
+}
+message DeleteSendEmailResponse{
+}
+
+message EmailDto{
+  int32 id=1;
+  string title=2;
+  string context=3;
+  int32 fromRoleId=4;
+  int32 toRoleId=5;
+  int32 articleType=6;
+  int32 articleId=7;
+  int32 articleNum=8;
+  bool hasArticle=9;
+  sint64 createTime=10;
+  bool checked=11;
+}
+
+message EmailSimpleDto{
+  int32 id=1;
+  string title=2;
+  string context=3;
+  int32 fromRoleId=4;
+  int32 toRoleId=5;
+  bool hasArticle=6;
+  sint64 createTime=7;
+  bool checked=8;
+}

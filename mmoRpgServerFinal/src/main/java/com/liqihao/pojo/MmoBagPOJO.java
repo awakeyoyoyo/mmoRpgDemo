@@ -3,7 +3,7 @@ package com.liqihao.pojo;
 public class MmoBagPOJO {
     private Integer bagId;
 
-    private Integer articletype;
+    private Integer articleType;
 
     private Integer wId;
 
@@ -20,19 +20,19 @@ public class MmoBagPOJO {
         this.bagId = bagId;
     }
 
-    public Integer getArticletype() {
-        return articletype;
+    public Integer getArticleType() {
+        return articleType;
     }
 
-    public void setArticletype(Integer articletype) {
-        this.articletype = articletype;
+    public void setArticleType(Integer articleType) {
+        this.articleType = articleType;
     }
 
-    public Integer getwId() {
+    public Integer getWId() {
         return wId;
     }
 
-    public void setwId(Integer wId) {
+    public void setWId(Integer wId) {
         this.wId = wId;
     }
 

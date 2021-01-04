@@ -72,8 +72,8 @@ public class CopySceneServiceImpl implements CopySceneService {
         //判断队伍是否关联了副本
         TeamBean teamBean= TeamServiceProvider.getTeamBeanByTeamId(teamId);
         if (teamBean.getCopySceneBeanId()==null||!teamBean.getCopySceneId().equals(copySceneId)){
-            NettyResponse errotResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"当前队伍不在副本中或者队伍不是关联该副本".getBytes());
-            channel.writeAndFlush(errotResponse);
+            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"当前队伍不在副本中或者队伍不是关联该副本".getBytes());
+            channel.writeAndFlush(errorResponse);
             return;
         }
         CopySceneBean copySceneBean=CopySceneProvider.getCopySceneBeanById(teamBean.getCopySceneBeanId());
@@ -104,8 +104,8 @@ public class CopySceneServiceImpl implements CopySceneService {
         Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
         //判断玩家是否在副本中
         if (mmoSimpleRole.getCopySceneId()==null){
-            NettyResponse errotResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"当前玩家不在副本中".getBytes());
-            channel.writeAndFlush(errotResponse);
+            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"当前玩家不在副本中".getBytes());
+            channel.writeAndFlush(errorResponse);
             return;
         }
         TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(mmoSimpleRole.getTeamId());
@@ -137,21 +137,21 @@ public class CopySceneServiceImpl implements CopySceneService {
         Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
         //判断是否在组队状态
         if (mmoSimpleRole.getTeamId()==null){
-            NettyResponse errotResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"请先组队".getBytes());
-            channel.writeAndFlush(errotResponse);
+            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"请先组队".getBytes());
+            channel.writeAndFlush(errorResponse);
             return;
         }
         TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(mmoSimpleRole.getTeamId());
         //判断是否是队长
         if (!teamBean.getLeaderId().equals(mmoSimpleRole.getId())){
-            NettyResponse errotResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"你不是队长没有该权利".getBytes());
-            channel.writeAndFlush(errotResponse);
+            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"你不是队长没有该权利".getBytes());
+            channel.writeAndFlush(errorResponse);
             return;
         }
         //判断队伍是否绑定了副本
         if (teamBean.getCopySceneBeanId()!=null){
-            NettyResponse errotResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"该队伍已经绑定副本，无法在创建".getBytes());
-            channel.writeAndFlush(errotResponse);
+            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"该队伍已经绑定副本，无法在创建".getBytes());
+            channel.writeAndFlush(errorResponse);
             return;
         }
         CopySceneBean copySceneBean=CopySceneProvider.createNewCopyScene(copySceneId,teamBean);
