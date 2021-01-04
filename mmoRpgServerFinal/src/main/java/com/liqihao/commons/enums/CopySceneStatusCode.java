@@ -6,7 +6,7 @@ package com.liqihao.commons.enums;
 
 public enum  CopySceneStatusCode {
     //
-    FINISH(0,"已结束"),ONDOING(1,"挑战中");
+    FINISH(0,"已结束"), ON_DOING(1,"挑战中");
     private  int code;
     private  String value;
     CopySceneStatusCode(int code,String name)
@@ -23,17 +23,17 @@ public enum  CopySceneStatusCode {
         this.code = code;
     }
 
-    public void setvalue(String name) {
+    public void setValue(String name) {
         this.value = name;
     }
 
-    public String getvalue() {
+    public String getValue() {
         return value;
     }
     public static String getValue(int code) {
         for (CopySceneStatusCode ele : values()) {
             if(ele.getCode()==code){
-                return ele.getvalue();
+                return ele.getValue();
             }
         }
         return null;

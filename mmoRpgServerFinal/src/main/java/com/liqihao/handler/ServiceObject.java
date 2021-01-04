@@ -4,6 +4,10 @@ import com.google.protobuf.Parser;
 
 
 
+/**
+ * 服务类
+ * @author lqhao
+ */
 public class ServiceObject {
     private Object service;
     private Class clazz;

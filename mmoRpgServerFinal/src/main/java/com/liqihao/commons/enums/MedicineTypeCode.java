@@ -1,6 +1,12 @@
 package com.liqihao.commons.enums;
 
+/**
+ * 药品类型
+ * @author LQHAO
+ */
+
 public enum MedicineTypeCode {
+    //
     MOMENT(0,"瞬间恢复"),CONTINUED(1,"持续恢复");
     private  int code;
     private  String value;
@@ -18,17 +24,17 @@ public enum MedicineTypeCode {
         this.code = code;
     }
 
-    public void setvalue(String name) {
+    public void setValue(String name) {
         this.value = name;
     }
 
-    public String getvalue() {
+    public String getValue() {
         return value;
     }
     public static String getValue(int code) {
         for (MedicineTypeCode ele : values()) {
             if(ele.getCode()==code){
-                return ele.getvalue();
+                return ele.getValue();
             }
         }
         return null;

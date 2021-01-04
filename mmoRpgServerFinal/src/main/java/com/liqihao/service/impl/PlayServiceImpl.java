@@ -261,7 +261,7 @@ public class PlayServiceImpl implements PlayService {
             channel.writeAndFlush(new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE, "没有该技能。。".getBytes()));
             return;
         }
-        if (skillMessage.getConsumeType().equals(ConsuMeTypeCode.HP.getCode())) {
+        if (skillMessage.getConsumeType().equals(ConsumeTypeCode.HP.getCode())) {
             //扣血
             //判断血量是否足够
             if (mmoSimpleRole.getNowHp() < skillMessage.getConsumeNum()) {

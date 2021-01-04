@@ -7,7 +7,7 @@ package com.liqihao.commons.enums;
 
 public enum CopySceneBeanStatusCode {
     //
-    NOSTART(0,"未开始挑战"),ISSTART(1,"已开始挑战");
+    NO_START(0,"未开始挑战"), IS_START(1,"已开始挑战");
     private  int code;
     private  String value;
     CopySceneBeanStatusCode(int code,String name)
@@ -24,17 +24,17 @@ public enum CopySceneBeanStatusCode {
         this.code = code;
     }
 
-    public void setvalue(String name) {
+    public void setValue(String name) {
         this.value = name;
     }
 
-    public String getvalue() {
+    public String getValue() {
         return value;
     }
     public static String getValue(int code) {
         for (CopySceneBeanStatusCode ele : values()) {
             if(ele.getCode()==code){
-                return ele.getvalue();
+                return ele.getValue();
             }
         }
         return null;

@@ -1,11 +1,8 @@
 package com.liqihao.pojo.bean;
 
-import com.liqihao.Cache.BufferMessageCache;
-import com.liqihao.commons.enums.RoleTypeCode;
 import com.liqihao.pojo.baseMessage.BufferMessage;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
@@ -24,7 +21,7 @@ public class SkillBean {
     private Integer consumeNum;
     private List<Integer> bufferIds;
     private Integer skillType;
-    private double addPercon;
+    private double addPerson;
     private Integer skillAttackType;
 
     public Integer getSkillAttackType() {
@@ -78,12 +75,12 @@ public class SkillBean {
         return 0;
     }
 
-    public double getAddPercon() {
-        return addPercon;
+    public double getAddPerson() {
+        return addPerson;
     }
 
-    public void setAddPercon(double addPercon) {
-        this.addPercon = addPercon;
+    public void setAddPerson(double addPerson) {
+        this.addPerson = addPerson;
     }
     public Integer getSkillType() {
         return skillType;

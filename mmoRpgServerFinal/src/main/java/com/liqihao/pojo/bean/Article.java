@@ -5,5 +5,9 @@ package com.liqihao.pojo.bean;
  * @author lqhao
  */
 public interface Article {
+    /**
+     * 获取物品类型code
+     * @return
+     */
     Integer getArticleTypeCode();
 }

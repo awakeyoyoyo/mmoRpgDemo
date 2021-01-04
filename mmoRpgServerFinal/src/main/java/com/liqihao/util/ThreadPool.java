@@ -5,8 +5,11 @@ package com.liqihao.util;
  * @author lqhao
  */
 public interface ThreadPool<Job extends Runnable> {
+
     /**
      * 执行一个Job，这个Job需要实现Runnabl
+     * @param job
+     * @param index
      */
     void execute(Job job,Integer index);
 

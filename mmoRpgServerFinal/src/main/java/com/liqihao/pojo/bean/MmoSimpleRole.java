@@ -59,6 +59,10 @@ public class MmoSimpleRole extends Role implements MyObserver {
         this.teamApplyOrInviteSize = teamApplyOrInviteSize;
     }
 
+    /**
+     * 增加邀请
+     * @param teamApplyOrInviteBean
+     */
     public void addTeamApplyOrInviteBean(TeamApplyOrInviteBean teamApplyOrInviteBean) {
         checkOutTime();
         //邀请的大小，先进先出咯
@@ -192,21 +196,23 @@ public class MmoSimpleRole extends Role implements MyObserver {
         setEquipmentBeanHashMap(new HashMap<>());
     }
 
-    //使用道具
+    /**
+     * 使用道具
+     */
     public Boolean useArticle(Integer articleId) {
         Article article = backpackManager.getArticleByArticleId(articleId);
         if (article != null && article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())) {
             //药品
             MedicineBean medicineBean = (MedicineBean) article;
             //删减
-            backpackManager.useOrAbandanArticle(articleId, 1);
+            backpackManager.useOrAbandonArticle(articleId, 1);
             Boolean flag = medicineBean.useMedicene(getId());
             return flag;
         } else if (article != null && article.getArticleTypeCode().equals(ArticleTypeCode.EQUIPMENT.getCode())) {
             //装备
             EquipmentBean equipmentBean = (EquipmentBean) article;
             //删减
-            backpackManager.useOrAbandanArticle(articleId, 1);
+            backpackManager.useOrAbandonArticle(articleId, 1);
             //穿
             return useEquipment(equipmentBean);
         } else {
@@ -215,7 +221,10 @@ public class MmoSimpleRole extends Role implements MyObserver {
 
     }
 
-    //穿装备 or替换装备
+    /**
+     *  穿装备 or替换装备
+     */
+
     private Boolean useEquipment(EquipmentBean equipmentBean) {
         //判断该位置是否有装备
         EquipmentBean oldBean = getEquipmentBeanHashMap().get(equipmentBean.getPosition());
@@ -229,7 +238,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
             backpackManager.put(oldBean);
         }
         //背包减少装备
-        backpackManager.useOrAbandanArticle(equipmentBean.getArticleId(), 1);
+        backpackManager.useOrAbandonArticle(equipmentBean.getArticleId(), 1);
         //装备栏增加装备
         equipmentBeanHashMap.put(equipmentBean.getPosition(), equipmentBean);
         //人物属性
@@ -238,7 +247,9 @@ public class MmoSimpleRole extends Role implements MyObserver {
         return true;
     }
 
-    //脱装备
+    /**
+     * 脱装备
+     */
     public Boolean unUseEquipment(Integer position) {
         //判断该位置是否有装备
         EquipmentBean equipmentBean = getEquipmentBeanHashMap().get(position);
@@ -261,7 +272,9 @@ public class MmoSimpleRole extends Role implements MyObserver {
         }
     }
 
-    //获取装备栏所有信息
+    /**
+     * 获取装备栏所有信息
+     */
     public List<EquipmentDto> getEquipments() {
         List<EquipmentDto> equipmentDtos = new ArrayList<>();
         for (EquipmentBean bean : equipmentBeanHashMap.values()) {
@@ -276,7 +289,9 @@ public class MmoSimpleRole extends Role implements MyObserver {
         return equipmentDtos;
     }
 
-    //根据skillI获取技能
+    /**
+     * 根据skillI获取技能
+     */
     public SkillBean getSkillBeanBySkillId(Integer skillId) {
         for (SkillBean b : getSkillBeans()) {
             if (b.getId().equals(skillId)) {
@@ -286,7 +301,9 @@ public class MmoSimpleRole extends Role implements MyObserver {
         return null;
     }
 
-    //使用技能
+    /**
+     * 使用技能
+     */
     public  void useSkill(List<Role> target, Integer skillId) {
         SkillBean skillBean = getSkillBeanBySkillId(skillId);
         //武器耐久度-2
@@ -297,7 +314,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
                 equipmentBean.setNowDurability(0);
             }
         }
-        if (skillBean.getConsumeType().equals(ConsuMeTypeCode.HP.getCode())) {
+        if (skillBean.getConsumeType().equals(ConsumeTypeCode.HP.getCode())) {
             //扣血
             setNowHp(getNowHp() - skillBean.getConsumeNum());
 
@@ -307,7 +324,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
             //判断是否已经有自动回蓝任务
             ConcurrentHashMap<String, ScheduledFuture<?>> replyMpRoleMap = ScheduledThreadPoolUtil.getReplyMpRole();
             //自动回蓝任务的key
-            String key = getId() + "AUTOMP";
+            String key = getId() + "AUTO_MP";
             if (!replyMpRoleMap.containsKey(key)) {
                 //number为空 代表着自动回蓝
                 ScheduledThreadPoolUtil.ReplyMpTask replyMpTask = new ScheduledThreadPoolUtil.ReplyMpTask(this, null, DamageTypeCode.MP.getCode(), key);
@@ -325,7 +342,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
         damageU.setFromRoleType(RoleTypeCode.PLAYER.getCode());
         damageU.setArticleId(-1);
         damageU.setArticleType(-1);
-        damageU.setAttackStyle(AttackStyleCode.USESKILL.getCode());
+        damageU.setAttackStyle(AttackStyleCode.USE_SKILL.getCode());
         damageU.setBufferId(-1);
         damageU.setDamage(skillBean.getConsumeNum());
         damageU.setDamageType(skillBean.getConsumeType());
@@ -386,12 +403,14 @@ public class MmoSimpleRole extends Role implements MyObserver {
         //buffer
     }
 
-    //被攻击
+    /**
+     * 被攻击
+     */
     @Override
     public void beAttack(SkillBean skillBean,Role fromRole) {
         Role role=this;
         Integer reduce = 0;
-        if (skillBean.getSkillType().equals(SkillTypeCode.FIED.getCode())) {
+        if (skillBean.getSkillType().equals(SkillTypeCode.FIX.getCode())) {
             //固伤 只有技能伤害
             reduce = (int) Math.ceil(skillBean.getBaseDamage() * (1 + this.getDamageAdd()));
             PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();
@@ -401,14 +420,14 @@ public class MmoSimpleRole extends Role implements MyObserver {
             damageU.setToRoleType(getType());
             damageU.setAttackStyle(AttackStyleCode.ATTACK.getCode());
             damageU.setBufferId(-1);
-            damageU.setDamageType(ConsuMeTypeCode.HP.getCode());
+            damageU.setDamageType(ConsumeTypeCode.HP.getCode());
             damageU.setSkillId(skillBean.getId());
-            changeNowBlood(-reduce,damageU,AttackStyleCode.USESKILL.getCode());
+            changeNowBlood(-reduce,damageU,AttackStyleCode.USE_SKILL.getCode());
         }
         if (skillBean.getSkillType().equals(SkillTypeCode.PERCENTAGE.getCode())) {
             //百分比 按照攻击力比例增加
             Integer damage = skillBean.getBaseDamage();
-            reduce = (int) Math.ceil(damage + role.getAttack() * skillBean.getAddPercon());
+            reduce = (int) Math.ceil(damage + role.getAttack() * skillBean.getAddPerson());
             PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();
             damageU.setFromRoleId(fromRole.getId());
             damageU.setFromRoleType(fromRole.getType());
@@ -416,38 +435,47 @@ public class MmoSimpleRole extends Role implements MyObserver {
             damageU.setToRoleType(getType());
             damageU.setAttackStyle(AttackStyleCode.ATTACK.getCode());
             damageU.setBufferId(-1);
-            damageU.setDamageType(ConsuMeTypeCode.HP.getCode());
+            damageU.setDamageType(ConsumeTypeCode.HP.getCode());
             damageU.setSkillId(skillBean.getId());
-            changeNowBlood(-reduce,damageU,AttackStyleCode.USESKILL.getCode());
+            changeNowBlood(-reduce,damageU,AttackStyleCode.USE_SKILL.getCode());
         }
 
     }
 
-    //扣血
+    /**
+     * 扣血
+     */
     @Override
     public void changeNowBlood(int number, PlayModel.RoleIdDamage.Builder damageU, int type) {
         //获取对应线程的下标
         Channel channel = ChannelMessageCache.getInstance().get(getId());
         Integer index = CommonsUtil.getIndexByChannel(channel);
-        if (type == AttackStyleCode.USESKILL.getCode()) {
+        if (type == AttackStyleCode.USE_SKILL.getCode()) {
             LogicThreadPool.getInstance().execute(new ChangeHpByAttackTask(number, this, damageU), index);
-        } else if (type == AttackStyleCode.MEDICENE.getCode()){
+        } else if (type == AttackStyleCode.MEDICINE.getCode()){
             LogicThreadPool.getInstance().execute(new ChangeHpByMedicineTask(number, this, damageU), index);
         }else{
             LogicThreadPool.getInstance().execute(new ChangeHpByBufferTask(number,this,damageU),index);
         }
     }
 
-    //扣蓝
+    /**
+     * 扣蓝
+     */
     @Override
     public void changeMp(int number, PlayModel.RoleIdDamage.Builder damageU) {
         Channel channel = ChannelMessageCache.getInstance().get(getId());
         Integer index = CommonsUtil.getIndexByChannel(channel);
         LogicThreadPool.getInstance().execute(new ChangeMpTask(number, this, damageU), index);
     }
+
+    /**
+     * buffer影响
+     * @param bufferBean
+     */
     @Override
     public void effectByBuffer(BufferBean bufferBean) {
-        if (bufferBean.getBuffType().equals(BufferTypeCode.REDUCEHP.getCode())) {
+        if (bufferBean.getBuffType().equals(BufferTypeCode.REDUCE_HP.getCode())) {
             PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();
             damageU.setFromRoleId(bufferBean.getFromRoleId());
             damageU.setFromRoleType(bufferBean.getFromRoleType());
@@ -455,10 +483,10 @@ public class MmoSimpleRole extends Role implements MyObserver {
             damageU.setToRoleType(getType());
             damageU.setAttackStyle(AttackStyleCode.BUFFER.getCode());
             damageU.setBufferId(bufferBean.getId());
-            damageU.setDamageType(ConsuMeTypeCode.HP.getCode());
+            damageU.setDamageType(ConsumeTypeCode.HP.getCode());
             damageU.setSkillId(-1);
             changeNowBlood(-bufferBean.getBuffNum(),damageU,AttackStyleCode.BUFFER.getCode());
-        } else if (bufferBean.getBuffType().equals(BufferTypeCode.REDUCEMP.getCode())) {
+        } else if (bufferBean.getBuffType().equals(BufferTypeCode.REDUCE_MP.getCode())) {
             PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();
             damageU.setFromRoleId(bufferBean.getFromRoleId());
             damageU.setFromRoleType(bufferBean.getFromRoleType());
@@ -466,12 +494,17 @@ public class MmoSimpleRole extends Role implements MyObserver {
             damageU.setToRoleType(getType());
             damageU.setAttackStyle(AttackStyleCode.BUFFER.getCode());
             damageU.setBufferId(bufferBean.getId());
-            damageU.setDamageType(ConsuMeTypeCode.HP.getCode());
+            damageU.setDamageType(ConsumeTypeCode.HP.getCode());
             damageU.setSkillId(-1);
             changeMp(-bufferBean.getBuffNum(),damageU);
         }
     }
 
+    /**
+     * 前往场景
+     * @param nextSceneId
+     * @return
+     */
     public List<MmoSimpleRole> wentScene(Integer nextSceneId) {
         //修改scene 如果为null 则是刚从副本中出来
         if (getMmoSceneId() != null) {
@@ -502,8 +535,6 @@ public class MmoSimpleRole extends Role implements MyObserver {
 
     /**
      * 获取邀请信息
-     *
-     * @return
      */
     public List<TeamApplyOrInviteBean> getInviteBeans() {
         checkOutTime();
@@ -529,7 +560,12 @@ public class MmoSimpleRole extends Role implements MyObserver {
         return null;
     }
 
-    public TeamApplyOrInviteBean constainsInvite(Integer teamId) {
+    /**
+     * 是否包含该邀请
+     * @param teamId
+     * @return
+     */
+    public TeamApplyOrInviteBean containInvite(Integer teamId) {
         checkOutTime();
         Iterator iterator = teamApplyOrInviteBeans.iterator();
         TeamApplyOrInviteBean teamApplyOrInviteBean = null;
@@ -543,6 +579,11 @@ public class MmoSimpleRole extends Role implements MyObserver {
         return teamApplyOrInviteBean;
     }
 
+    /**
+     * 前往副本
+     * @param copySceneBean
+     * @return
+     */
     public Boolean wentCopyScene(CopySceneBean copySceneBean) {
         //从当前场景消失
         Integer sceneId = getMmoSceneId();
@@ -562,6 +603,9 @@ public class MmoSimpleRole extends Role implements MyObserver {
     }
 
     @Override
+    /**
+     * 聊天
+     */
     public void update(Role fromRole, String str,Integer chatType) {
         Channel c=ChannelMessageCache.getInstance().get(getId());
         if (c!=null){
@@ -584,6 +628,9 @@ public class MmoSimpleRole extends Role implements MyObserver {
         return getId();
     }
 
+    /**
+     * 改变血量buffer的任务
+     */
     private class ChangeHpByBufferTask implements Runnable{
         Logger logger = Logger.getLogger(ChangeHpByBufferTask.class);
         private int number;
@@ -654,7 +701,9 @@ public class MmoSimpleRole extends Role implements MyObserver {
             }
         }
     }
-
+    /**
+     * 改变蓝量buffer的任务
+     */
     private class ChangeHpByMedicineTask implements Runnable {
         Logger logger = Logger.getLogger(ChangeMpTask.class);
         private int number;
@@ -724,7 +773,9 @@ public class MmoSimpleRole extends Role implements MyObserver {
             }
         }
     }
-
+    /**
+     * 被攻击改变血量的任务
+     */
     private class ChangeHpByAttackTask implements Runnable {
         Logger logger = Logger.getLogger(ChangeHpByMedicineTask.class);
         private int number;
@@ -799,7 +850,9 @@ public class MmoSimpleRole extends Role implements MyObserver {
 
         }
     }
-
+    /**
+     * 改变蓝量的任务
+     */
     private class ChangeMpTask implements Runnable {
         Logger logger = Logger.getLogger(ChangeMpTask.class);
         private int number;

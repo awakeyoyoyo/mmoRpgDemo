@@ -1,7 +1,13 @@
 package com.liqihao.commons.enums;
 
+/**
+ * 技能伤害类型
+ * @author LQHAO
+ */
+
 public enum SkillTypeCode {
-    FIED(0,"固伤"),
+    //
+    FIX(0,"固伤"),
     PERCENTAGE(1,"百分比");
     private  int code;
     private  String value;
@@ -18,17 +24,17 @@ public enum SkillTypeCode {
         this.code = code;
     }
 
-    public void setvalue(String name) {
+    public void setValue(String name) {
         this.value = name;
     }
 
-    public String getvalue() {
+    public String getValue() {
         return value;
     }
     public static String getValue(int code) {
         for (SkillTypeCode ele : values()) {
             if(ele.getCode()==code){
-                return ele.getvalue();
+                return ele.getValue();
             }
         }
         return null;

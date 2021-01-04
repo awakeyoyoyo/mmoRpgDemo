@@ -1,12 +1,16 @@
 package com.liqihao.pojo.baseMessage;
 
-public class NPCMessage {
+/**
+ * npc信息
+ * @author lqhao
+ */
+public class NpcMessage {
     private Integer id;
     private String name;
-    private Integer mmosceneid;
+    private Integer mmoSceneId;
     private Integer status;
     private Integer type;
-    private Integer onstatus;
+    private Integer onStatus;
     private String talk;
     private Integer blood;
     private Integer mp;
@@ -39,15 +43,18 @@ public class NPCMessage {
 
     @Override
     public String toString() {
-        return "NPCMessage{" +
+        return "NpcMessage{" +
                 "id=" + id +
-                ", status=" + status +
                 ", name='" + name + '\'' +
+                ", mmoSceneId=" + mmoSceneId +
+                ", status=" + status +
                 ", type=" + type +
-                ", mmosceneid=" + mmosceneid +
-                ", onstatus=" + onstatus +
+                ", onStatus=" + onStatus +
                 ", talk='" + talk + '\'' +
                 ", blood=" + blood +
+                ", mp=" + mp +
+                ", attack=" + attack +
+                ", damageAdd=" + damageAdd +
                 '}';
     }
 
@@ -99,19 +106,19 @@ public class NPCMessage {
         this.type = type;
     }
 
-    public Integer getMmosceneid() {
-        return mmosceneid;
+    public Integer getMmoSceneId() {
+        return mmoSceneId;
     }
 
-    public void setMmosceneid(Integer mmosceneid) {
-        this.mmosceneid = mmosceneid;
+    public void setMmoSceneId(Integer mmoSceneId) {
+        this.mmoSceneId = mmoSceneId;
     }
 
-    public Integer getOnstatus() {
-        return onstatus;
+    public Integer getOnStatus() {
+        return onStatus;
     }
 
-    public void setOnstatus(Integer onstatus) {
-        this.onstatus = onstatus;
+    public void setOnStatus(Integer onStatus) {
+        this.onStatus = onStatus;
     }
 }

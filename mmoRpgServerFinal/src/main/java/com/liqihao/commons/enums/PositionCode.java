@@ -1,6 +1,12 @@
 package com.liqihao.commons.enums;
 
+/**
+ *
+ * 装备栏部位
+ * @author lqhao
+ */
 public enum PositionCode {
+    //
     CAP(1,"帽子"),
     COAT(2,"上衣"),
     BELT(3,"腰带"),
@@ -23,17 +29,17 @@ public enum PositionCode {
         this.code = code;
     }
 
-    public void setvalue(String name) {
+    public void setValue(String name) {
         this.value = name;
     }
 
-    public String getvalue() {
+    public String getValue() {
         return value;
     }
     public static String getValue(int code) {
         for (PositionCode ele : values()) {
             if(ele.getCode()==code){
-                return ele.getvalue();
+                return ele.getValue();
             }
         }
         return null;

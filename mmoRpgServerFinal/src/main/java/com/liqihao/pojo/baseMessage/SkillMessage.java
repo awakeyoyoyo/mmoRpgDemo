@@ -1,5 +1,9 @@
 package com.liqihao.pojo.baseMessage;
 
+/**
+ * 技能信息类
+ * @author lqhao
+ */
 public class SkillMessage {
     private Integer id;
     private String  skillName;
@@ -9,7 +13,7 @@ public class SkillMessage {
     private Integer consumeNum;
     private String bufferIds;
     private Integer skillType;
-    private double addPercon;
+    private double addPerson;
     private Integer skillAttackType;
 
     public Integer getSkillAttackType() {
@@ -31,16 +35,16 @@ public class SkillMessage {
                 ", consumeNum=" + consumeNum +
                 ", bufferIds='" + bufferIds + '\'' +
                 ", skillType=" + skillType +
-                ", addPercon=" + addPercon +
+                ", addPerson=" + addPerson +
                 '}';
     }
 
-    public double getAddPercon() {
-        return addPercon;
+    public double getAddPerson() {
+        return addPerson;
     }
 
-    public void setAddPercon(double addPercon) {
-        this.addPercon = addPercon;
+    public void setAddPerson(double addPerson) {
+        this.addPerson = addPerson;
     }
 
     public Integer getSkillType() {

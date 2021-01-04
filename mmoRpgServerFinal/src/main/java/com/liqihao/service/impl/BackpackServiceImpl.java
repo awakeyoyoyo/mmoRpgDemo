@@ -37,7 +37,7 @@ public class BackpackServiceImpl implements BackpackService {
         Integer number=myMessage.getAbandonRequest().getNumber();
         Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
         BackPackManager manager=mmoSimpleRole.getBackpackManager();
-        Article article=manager.useOrAbandanArticle(articleId,number);
+        Article article=manager.useOrAbandonArticle(articleId,number);
         if (article==null){
             //使用失败，无该物品或者该数量超过
             //返回成功的数据包

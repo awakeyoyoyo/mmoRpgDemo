@@ -1,5 +1,9 @@
 package com.liqihao.pojo.baseMessage;
 
+/**
+ * 装备信息
+ * @author lqhao
+ */
 public class EquipmentMessage {
     private Integer id;
     private String name;

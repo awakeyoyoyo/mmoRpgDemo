@@ -68,7 +68,7 @@ public class MedicineBean extends MedicineMessage implements Article{
             PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();
             damageU.setFromRoleId(mmoSimpleRole.getId());
             damageU.setToRoleId(mmoSimpleRole.getId());
-            damageU.setAttackStyle(AttackStyleCode.MEDICENE.getCode());
+            damageU.setAttackStyle(AttackStyleCode.MEDICINE.getCode());
             damageU.setBufferId(-1);
             damageU.setDamage(addNumber);
             damageU.setDamageType(getDamageType());

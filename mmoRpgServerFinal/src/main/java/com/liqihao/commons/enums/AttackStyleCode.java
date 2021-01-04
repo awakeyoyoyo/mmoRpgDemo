@@ -1,11 +1,17 @@
 package com.liqihao.commons.enums;
 
+/**
+ * 伤害来源枚举类
+ * @author lqhao
+ */
+
 public enum AttackStyleCode {
+    //
     BUFFER(0,"buffer伤害"),
     ATTACK(1,"攻击&技能伤害"),
-    USESKILL(2,"使用技能造成"),
-    AUTORE(3,"自动恢复"),
-    MEDICENE(4,"药品恢复");
+    USE_SKILL(2,"使用技能造成"),
+    AUTO_RE(3,"自动恢复"),
+    MEDICINE(4,"药品恢复");
     private  int code;
     private  String value;
     AttackStyleCode(int code,String name)
@@ -22,17 +28,17 @@ public enum AttackStyleCode {
         this.code = code;
     }
 
-    public void setvalue(String name) {
+    public void setValue(String name) {
         this.value = name;
     }
 
-    public String getvalue() {
+    public String getValue() {
         return value;
     }
     public static String getValue(int code) {
         for (AttackStyleCode ele : values()) {
             if(ele.getCode()==code){
-                return ele.getvalue();
+                return ele.getValue();
             }
         }
         return null;

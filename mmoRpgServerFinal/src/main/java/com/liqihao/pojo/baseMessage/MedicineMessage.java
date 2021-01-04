@@ -1,5 +1,9 @@
 package com.liqihao.pojo.baseMessage;
 
+/**
+ *装备信息
+ * @author lqhao
+ */
 public class MedicineMessage {
     private Integer id;
     private String name;

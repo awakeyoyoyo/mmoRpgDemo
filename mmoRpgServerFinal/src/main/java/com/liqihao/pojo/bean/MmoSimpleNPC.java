@@ -7,15 +7,12 @@ import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.*;
-import com.liqihao.pojo.baseMessage.NPCMessage;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -59,7 +56,7 @@ public class MmoSimpleNPC extends Role {
         try {
             hpRwLock.writeLock().lock();
             Integer hp = mmoSimpleNPC.getNowHp();
-            if (skillBean.getSkillType().equals(SkillTypeCode.FIED.getCode())) {
+            if (skillBean.getSkillType().equals(SkillTypeCode.FIX.getCode())) {
                 //固伤 只有技能伤害
                 reduce = (int) Math.ceil(skillBean.getBaseDamage() * (1 + fromRole.getDamageAdd()));
                 hp -= reduce;
@@ -67,7 +64,7 @@ public class MmoSimpleNPC extends Role {
             if (skillBean.getSkillType().equals(SkillTypeCode.PERCENTAGE.getCode())) {
                 //百分比 按照攻击力比例增加
                 Integer damage = skillBean.getBaseDamage();
-                damage = (int) Math.ceil(damage + fromRole.getAttack() * skillBean.getAddPercon());
+                damage = (int) Math.ceil(damage + fromRole.getAttack() * skillBean.getAddPerson());
                 hp = hp - damage;
                 reduce = damage;
             }
@@ -138,7 +135,7 @@ public class MmoSimpleNPC extends Role {
     @Override
     public void effectByBuffer(BufferBean bufferBean) {
         //根据buffer类型扣血扣蓝
-        if (bufferBean.getBuffType().equals(BufferTypeCode.REDUCEHP.getCode())) {
+        if (bufferBean.getBuffType().equals(BufferTypeCode.REDUCE_HP.getCode())) {
             hpRwLock.writeLock().lock();
             try {
                 Integer hp = getNowHp() - bufferBean.getBuffNum();
@@ -151,7 +148,7 @@ public class MmoSimpleNPC extends Role {
                 hpRwLock.writeLock().unlock();
             }
 
-        } else if (bufferBean.getBuffType().equals(BufferTypeCode.REDUCEMP.getCode())) {
+        } else if (bufferBean.getBuffType().equals(BufferTypeCode.REDUCE_MP.getCode())) {
             mpRwLock.writeLock().lock();
             try {
                 Integer mp = getNowMp() - bufferBean.getBuffNum();

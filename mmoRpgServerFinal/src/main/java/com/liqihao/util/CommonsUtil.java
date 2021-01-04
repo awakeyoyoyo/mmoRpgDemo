@@ -112,7 +112,7 @@ public class CommonsUtil implements ApplicationContextAware {
         copySceneBean.setCreateTime(System.currentTimeMillis());
         copySceneBean.setEndTime(System.currentTimeMillis()+1000*copySceneMessage.getLastTime());
         copySceneBean.setRoles(new CopyOnWriteArrayList<>());
-        copySceneBean.setStatus(CopySceneStatusCode.ONDOING.getCode());
+        copySceneBean.setStatus(CopySceneStatusCode.ON_DOING.getCode());
         copySceneBean.setBossIds(copySceneMessage.getBossIds());
         copySceneBean.setId(copySceneMessage.getId());
         copySceneBean.setLastTime(copySceneMessage.getLastTime());
@@ -420,7 +420,7 @@ public class CommonsUtil implements ApplicationContextAware {
             SkillBean skillBean=new SkillBean();
             skillBean.setId(message.getId());
             skillBean.setSkillType(message.getSkillType());
-            skillBean.setAddPercon(message.getAddPercon());
+            skillBean.setAddPerson(message.getAddPerson());
             skillBean.setConsumeType(message.getConsumeType());
             skillBean.setSkillName(message.getSkillName());
             skillBean.setSkillAttackType(message.getSkillAttackType());

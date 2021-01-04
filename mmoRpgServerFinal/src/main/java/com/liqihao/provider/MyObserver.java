@@ -11,6 +11,7 @@ public interface MyObserver {
      * 有信息则触发
      * @param fromRole
      * @param str
+     * @param chatType
      */
     void update(Role fromRole,String str,Integer chatType);
 

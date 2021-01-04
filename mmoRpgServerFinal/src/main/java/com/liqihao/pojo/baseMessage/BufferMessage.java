@@ -1,5 +1,9 @@
 package com.liqihao.pojo.baseMessage;
 
+/**
+ * buffer信息
+ * @author Administrator
+ */
 public class BufferMessage {
     private Integer id;
     private String name;

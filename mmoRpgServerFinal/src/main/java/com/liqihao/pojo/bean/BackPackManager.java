@@ -146,7 +146,7 @@ public class BackPackManager {
     }
 
     //减少某样物品数量/丢弃装备
-    public Article useOrAbandanArticle(Integer articleId, Integer number) {
+    public Article useOrAbandonArticle(Integer articleId, Integer number) {
         for (Article a : backpacks) {
             if (a.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())) {
                 MedicineBean medicineBean = (MedicineBean) a;

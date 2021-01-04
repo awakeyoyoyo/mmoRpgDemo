@@ -132,7 +132,7 @@ public class TeamBean {
         //副本解散
         if (getCopySceneBeanId()!=null) {
             CopySceneBean copySceneBean = CopySceneProvider.getCopySceneBeanById(getCopySceneBeanId());
-            copySceneBean.end(this, CopySceneDeleteCauseCode.TEAMEND.getCode());
+            copySceneBean.end(this, CopySceneDeleteCauseCode.TEAM_END.getCode());
         }
         TeamServiceProvider.deleteTeamById(teamId);
     }
@@ -208,6 +208,10 @@ public class TeamBean {
         exitTeamNotification(mmoSimpleRole);
     }
 
+    /**
+     * 检查是否在副本中
+     * @param mmoSimpleRole
+     */
     private void checkInCopyScene(MmoSimpleRole mmoSimpleRole){
         if (mmoSimpleRole.getCopySceneId()!=null&&mmoSimpleRole.getCopySceneId().equals(getCopySceneId())){
             //回到原来场景
@@ -215,6 +219,11 @@ public class TeamBean {
             copySceneBean.peopleExit(mmoSimpleRole.getId());
         }
     }
+
+    /**
+     * 增加队伍申请
+     * @param teamApplyOrInviteBean
+     */
     public void addTeamApplyOrInviteBean(TeamApplyOrInviteBean teamApplyOrInviteBean) {
         //每次插入的时候删除过时的
         checkOutTime();
@@ -224,6 +233,10 @@ public class TeamBean {
         }
         teamApplyOrInviteBeans.add(teamApplyOrInviteBean);
     }
+
+    /**
+     * 检查申请是否过时
+     */
     private void checkOutTime(){
         Iterator iterator=teamApplyOrInviteBeans.iterator();
         //每次插入都删除申请过时或者
@@ -335,7 +348,12 @@ public class TeamBean {
         }
     }
 
-    public TeamApplyOrInviteBean constainsInvite(Integer roleId) {
+    /**
+     * 是否包含某申请
+     * @param roleId
+     * @return
+     */
+    public TeamApplyOrInviteBean containsInvite(Integer roleId) {
         checkOutTime();
         Iterator iterator=teamApplyOrInviteBeans.iterator();
         TeamApplyOrInviteBean teamApplyOrInviteBean=null;
@@ -350,6 +368,10 @@ public class TeamBean {
         return teamApplyOrInviteBean;
     }
 
+    /**
+     * 离开队伍通知
+     * @param mmoSimpleRole
+     */
     private void exitTeamNotification(MmoSimpleRole mmoSimpleRole){
         TeamModel.RoleDto roleDto=TeamModel.RoleDto.newBuilder().setId(mmoSimpleRole.getId()).setHp(mmoSimpleRole.getHp())
                 .setMp(mmoSimpleRole.getMp()).setName(mmoSimpleRole.getName()).setNowHp(mmoSimpleRole.getNowHp())
@@ -372,6 +394,10 @@ public class TeamBean {
         }
     }
 
+    /**
+     * 是否是相同场景
+     * @return
+     */
     public boolean inSameScene() {
         Integer sceneId=mmoSimpleRolesMap.get(leaderId).getMmoSceneId();
         for (MmoSimpleRole m:mmoSimpleRolesMap.values()) {

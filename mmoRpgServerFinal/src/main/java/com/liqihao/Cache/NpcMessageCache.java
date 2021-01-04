@@ -1,6 +1,6 @@
 package com.liqihao.Cache;
 
-import com.liqihao.pojo.baseMessage.NPCMessage;
+import com.liqihao.pojo.baseMessage.NpcMessage;
 import com.liqihao.pojo.bean.MmoSimpleNPC;
 import com.liqihao.util.ExcelReaderUtil;
 import org.springframework.stereotype.Component;
@@ -29,15 +29,15 @@ public class NpcMessageCache extends CommonsCache<MmoSimpleNPC>{
     public  void init() throws IllegalAccessException, IOException, InstantiationException {
         instance=this;
         this.concurrentHashMap=new ConcurrentHashMap<>();
-        List<NPCMessage> npcMessageList= ExcelReaderUtil.readExcelFromFileName(npcMessage_file,NPCMessage.class);
-        for (NPCMessage n:npcMessageList) {
+        List<NpcMessage> npcMessageList= ExcelReaderUtil.readExcelFromFileName(npcMessage_file, NpcMessage.class);
+        for (NpcMessage n:npcMessageList) {
             MmoSimpleNPC npc=new MmoSimpleNPC();
             npc.setId(n.getId());
             npc.setType(n.getType());
             npc.setTalk(n.getTalk());
-            npc.setOnStatus(n.getOnstatus());
+            npc.setOnStatus(n.getOnStatus());
             npc.setName(n.getName());
-            npc.setMmoSceneId(n.getMmosceneid());
+            npc.setMmoSceneId(n.getMmoSceneId());
             npc.setStatus(n.getStatus());
             npc.setHp(n.getBlood());
             npc.setNowHp(n.getBlood());

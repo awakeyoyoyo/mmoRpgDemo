@@ -1,4 +1,9 @@
 package com.liqihao.commons.enums;
+/**
+ * 入队请求类型
+ * @author LQHAO
+ */
+
 public enum  TeamApplyInviteCode {
     //
     APPLY(0,"入队申请"),
@@ -18,17 +23,17 @@ public enum  TeamApplyInviteCode {
         this.code = code;
     }
 
-    public void setvalue(String name) {
+    public void setValue(String name) {
         this.value = name;
     }
 
-    public String getvalue() {
+    public String getValue() {
         return value;
     }
     public static String getValue(int code) {
         for (TeamApplyInviteCode ele : values()) {
             if(ele.getCode()==code){
-                return ele.getvalue();
+                return ele.getValue();
             }
         }
         return null;

@@ -14,7 +14,6 @@ import com.liqihao.pojo.bean.TeamBean;
 import com.liqihao.protobufObject.TeamModel;
 import com.liqihao.provider.TeamServiceProvider;
 import com.liqihao.service.TeamService;
-import com.liqihao.util.CommonsUtil;
 import io.netty.channel.Channel;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -198,7 +197,7 @@ public class TeamServiceImpl implements TeamService {
             }
             //用户接受队伍邀请
             //查看人物中是否有该请求
-            TeamApplyOrInviteBean applyOrInviteBean=mmoSimpleRole.constainsInvite(teamId);
+            TeamApplyOrInviteBean applyOrInviteBean=mmoSimpleRole.containInvite(teamId);
             if (applyOrInviteBean==null){
                 NettyResponse errotResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"没有该邀请或者邀请已经过期".getBytes());
                 channel.writeAndFlush(errotResponse);
@@ -224,7 +223,7 @@ public class TeamServiceImpl implements TeamService {
                 channel.writeAndFlush(errotResponse);
                 return;
             }
-            TeamApplyOrInviteBean inviteBean=teamBean.constainsInvite(roleId);
+            TeamApplyOrInviteBean inviteBean=teamBean.containsInvite(roleId);
             if (inviteBean==null){
                 NettyResponse errotResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"该申请已经过期了".getBytes());
                 channel.writeAndFlush(errotResponse);

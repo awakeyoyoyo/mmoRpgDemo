@@ -21,16 +21,16 @@ public enum ChatTypeCode {
     public void setCode(int code) {
         this.code = code;
     }
-    public void setvalue(String name) {
+    public void setValue(String name) {
         this.value = name;
     }
-    public String getvalue() {
+    public String getValue() {
         return value;
     }
     public static String getValue(int code) {
         for (ChatTypeCode ele : values()) {
             if(ele.getCode()==code){
-                return ele.getvalue();
+                return ele.getValue();
             }
         }
         return null;

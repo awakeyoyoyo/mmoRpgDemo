@@ -126,7 +126,7 @@ public class CopySceneBean extends CopySceneMessage {
                     nettyResponse.setStateCode(StateCode.SUCCESS);
                     SceneModel.SceneModelMessage.Builder builder=SceneModel.SceneModelMessage.newBuilder();
                     builder.setDataType(SceneModel.SceneModelMessage.DateType.WentResponse);
-                    SceneModel.WentResponse.Builder wentResponsebuilder=SceneModel.WentResponse.newBuilder();
+                    SceneModel.WentResponse.Builder wentResponseBuilder=SceneModel.WentResponse.newBuilder();
                     //simpleRole
                     List<SceneModel.RoleDTO> roleDTOS=new ArrayList<>();
                     for (MmoSimpleRole mmoRole :nextRoles){
@@ -142,12 +142,12 @@ public class CopySceneBean extends CopySceneMessage {
                         msr.setNowMp(mmoRole.getNowMp());
                         msr.setAttack(mmoRole.getAttack());
                         msr.setAttackAdd(mmoRole.getDamageAdd());
-                        SceneModel.RoleDTO msrobject=msr.build();
-                        roleDTOS.add(msrobject);
+                        SceneModel.RoleDTO msrObject=msr.build();
+                        roleDTOS.add(msrObject);
                     }
-                    wentResponsebuilder.setSceneId(nextSceneId);
-                    wentResponsebuilder.addAllRoleDTO(roleDTOS);
-                    builder.setWentResponse(wentResponsebuilder.build());
+                    wentResponseBuilder.setSceneId(nextSceneId);
+                    wentResponseBuilder.addAllRoleDTO(roleDTOS);
+                    builder.setWentResponse(wentResponseBuilder.build());
                     byte[] data2=builder.build().toByteArray();
                     nettyResponse.setData(data2);
                     c.writeAndFlush(nettyResponse);
@@ -163,7 +163,7 @@ public class CopySceneBean extends CopySceneMessage {
             TeamBean teamBean= TeamServiceProvider.getTeamBeanByTeamId(mmoSimpleRole.getTeamId());
             teamBean.setCopySceneBeanId(null);
             teamBean.setCopySceneId(null);
-            sendCopySceneDelete(teamBean,CopySceneDeleteCauseCode.NOPEOPLE.getCode());
+            sendCopySceneDelete(teamBean,CopySceneDeleteCauseCode.NO_PEOPLE.getCode());
         }
     }
 
@@ -268,7 +268,7 @@ public class CopySceneBean extends CopySceneMessage {
             role.setNowHp(role.getHp());
         }
         //副本解散
-        end(teamBean,CopySceneDeleteCauseCode.PEOPLEDIE.getCode());
+        end(teamBean,CopySceneDeleteCauseCode.PEOPLE_DIE.getCode());
 
         // 广播队伍副本挑战失败
         NettyResponse nettyResponse=new NettyResponse();
@@ -276,7 +276,7 @@ public class CopySceneBean extends CopySceneMessage {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         CopySceneModel.CopySceneModelMessage.Builder builder=CopySceneModel.CopySceneModelMessage.newBuilder();
         builder.setDataType(CopySceneModel.CopySceneModelMessage.DateType.ChangeFailResponse);
-        builder.setChangeFailResponse(CopySceneModel.ChangeFailResponse.newBuilder().setCause(CopySceneDeleteCauseCode.PEOPLEDIE.getCode()).build());
+        builder.setChangeFailResponse(CopySceneModel.ChangeFailResponse.newBuilder().setCause(CopySceneDeleteCauseCode.PEOPLE_DIE.getCode()).build());
         nettyResponse.setData(builder.build().toByteArray());
         for (MmoSimpleRole role:teamBean.getMmoSimpleRoles()) {
             Channel c=ChannelMessageCache.getInstance().get(role.getId());
@@ -313,7 +313,7 @@ public class CopySceneBean extends CopySceneMessage {
     }
     public void sendCopySceneDelete(TeamBean teamBean,Integer cause){
         NettyResponse nettyResponse=new NettyResponse();
-        nettyResponse.setCmd(ConstantValue.COPYSCENE_FINISH_RESPONSE);
+        nettyResponse.setCmd(ConstantValue.COPY_SCENE_FINISH_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
         CopySceneModel.CopySceneModelMessage.Builder builder=CopySceneModel.CopySceneModelMessage.newBuilder();
         builder.setDataType(CopySceneModel.CopySceneModelMessage.DateType.CopySceneDeleteResponse);

@@ -2,8 +2,10 @@ package com.liqihao.commons.enums;
 
 /**
  * 角色生存状态
+ * @author LQHAO
  */
 public enum  RoleStatusCode {
+    //
     DIE(0,"死亡"),ALIVE(1,"存活");
     private  int code;
     private  String value;
@@ -21,17 +23,17 @@ public enum  RoleStatusCode {
         this.code = code;
     }
 
-    public void setvalue(String name) {
+    public void setValue(String name) {
         this.value = name;
     }
 
-    public String getvalue() {
+    public String getValue() {
         return value;
     }
     public static String getValue(int code) {
         for (RoleStatusCode ele : values()) {
             if(ele.getCode()==code){
-                return ele.getvalue();
+                return ele.getValue();
             }
         }
         return null;

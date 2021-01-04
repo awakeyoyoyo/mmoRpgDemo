@@ -26,7 +26,7 @@ import java.util.List;
 @HandlerServiceTag(protobufModel = "CopySceneModel$CopySceneModelMessage")
 public class CopySceneServiceImpl implements CopySceneService {
     @Override
-    @HandlerCmdTag(cmd = ConstantValue.COPYSCENE_MESSAGE_REQUEST,module = ConstantValue.COPY_MODULE)
+    @HandlerCmdTag(cmd = ConstantValue.COPY_SCENE_MESSAGE_REQUEST,module = ConstantValue.COPY_MODULE)
     public void copySceneMessageRequest(CopySceneModel.CopySceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) {
         //copySceneBeanId
         //判断是否在线 并且返回玩家对象
@@ -51,7 +51,7 @@ public class CopySceneServiceImpl implements CopySceneService {
     }
 
     @Override
-    @HandlerCmdTag(cmd = ConstantValue.ENTER_COPYSCENE_REQUEST,module = ConstantValue.COPY_MODULE)
+    @HandlerCmdTag(cmd = ConstantValue.ENTER_COPY_SCENE_REQUEST,module = ConstantValue.COPY_MODULE)
     public void enterCopySceneRequest(CopySceneModel.CopySceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) {
         //copySceneId
         Integer copySceneId=myMessage.getEnterCopySceneRequest().getCopySceneId();
@@ -85,7 +85,7 @@ public class CopySceneServiceImpl implements CopySceneService {
                 .setDataType(CopySceneModel.CopySceneModelMessage.DateType.EnterCopySceneResponse)
                 .setEnterCopySceneResponse(CopySceneModel.EnterCopySceneResponse.newBuilder().setRoleDto(roleDto).build()).build();
         NettyResponse nettyResponse=new NettyResponse();
-        nettyResponse.setCmd(ConstantValue.ENTER_COPYSCENE_RESPONSE);
+        nettyResponse.setCmd(ConstantValue.ENTER_COPY_SCENE_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(messageData.toByteArray());
         for (Role m:copySceneBean.getRoles()) {
@@ -99,7 +99,7 @@ public class CopySceneServiceImpl implements CopySceneService {
     }
 
     @Override
-    @HandlerCmdTag(cmd = ConstantValue.EXIT_COPYSCENE_REQUEST,module = ConstantValue.COPY_MODULE)
+    @HandlerCmdTag(cmd = ConstantValue.EXIT_COPY_SCENE_REQUEST,module = ConstantValue.COPY_MODULE)
     public void exitCopySceneRequest(CopySceneModel.CopySceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) {
         Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
         //判断玩家是否在副本中
@@ -118,7 +118,7 @@ public class CopySceneServiceImpl implements CopySceneService {
                 .setDataType(CopySceneModel.CopySceneModelMessage.DateType.ExitCopySceneResponse)
                 .setExitCopySceneResponse(CopySceneModel.ExitCopySceneResponse.newBuilder().setRoleDto(roleDto).build()).build();
         NettyResponse nettyResponse=new NettyResponse();
-        nettyResponse.setCmd(ConstantValue.EXIT_COPYSCENE_RESPONSE);
+        nettyResponse.setCmd(ConstantValue.EXIT_COPY_SCENE_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(messageData.toByteArray());
         for (MmoSimpleRole m:teamBean.getMmoSimpleRoles()) {
@@ -131,7 +131,7 @@ public class CopySceneServiceImpl implements CopySceneService {
     }
 
     @Override
-    @HandlerCmdTag(cmd = ConstantValue.CREATE_COPYSCENE_REQUEST,module = ConstantValue.COPY_MODULE)
+    @HandlerCmdTag(cmd = ConstantValue.CREATE_COPY_SCENE_REQUEST,module = ConstantValue.COPY_MODULE)
     public void createCopySceneBeanRequest(CopySceneModel.CopySceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) {
         Integer copySceneId=myMessage.getCreateCopySceneRequest().getCopySceneId();
         Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
@@ -204,7 +204,7 @@ public class CopySceneServiceImpl implements CopySceneService {
                                 .build()).build())
                 .build();
         NettyResponse nettyResponse=new NettyResponse();
-        nettyResponse.setCmd(ConstantValue.CREATE_COPYSCENE_RESPONSE);
+        nettyResponse.setCmd(ConstantValue.CREATE_COPY_SCENE_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(messageData.toByteArray());
         channel.writeAndFlush(nettyResponse);
@@ -240,7 +240,7 @@ public class CopySceneServiceImpl implements CopySceneService {
                                 .build()).build())
                 .build();
         NettyResponse nettyResponse=new NettyResponse();
-        nettyResponse.setCmd(ConstantValue.COPYSCENE_MESSAGE_RESPONSE);
+        nettyResponse.setCmd(ConstantValue.COPY_SCENE_MESSAGE_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(messageData.toByteArray());
         channel.writeAndFlush(nettyResponse);

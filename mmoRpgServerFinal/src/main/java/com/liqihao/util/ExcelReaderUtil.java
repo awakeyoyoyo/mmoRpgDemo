@@ -1,7 +1,6 @@
 package com.liqihao.util;
 
 import com.liqihao.pojo.baseMessage.BaseDetailMessage;
-import com.liqihao.pojo.baseMessage.NPCMessage;
 import com.liqihao.pojo.baseMessage.SkillMessage;
 import org.apache.poi.hssf.usermodel.HSSFDataFormatter;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;

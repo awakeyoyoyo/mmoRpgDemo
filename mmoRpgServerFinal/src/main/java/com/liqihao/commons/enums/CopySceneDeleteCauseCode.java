@@ -7,8 +7,8 @@ package com.liqihao.commons.enums;
 
 public enum CopySceneDeleteCauseCode {
     //
-    TEAMEND(0,"队伍解散"),NOPEOPLE(1,"最后一个玩家退出副本")
-    ,TIMEOUT(2,"超过规定挑战时间"),PEOPLEDIE(3,"所有玩家死亡")
+    TEAM_END(0,"队伍解散"), NO_PEOPLE(1,"最后一个玩家退出副本")
+    ,TIMEOUT(2,"超过规定挑战时间"), PEOPLE_DIE(3,"所有玩家死亡")
     ,SUCCESS(4,"挑战成功");
     private  int code;
     private  String value;
@@ -26,17 +26,17 @@ public enum CopySceneDeleteCauseCode {
         this.code = code;
     }
 
-    public void setvalue(String name) {
+    public void setValue(String name) {
         this.value = name;
     }
 
-    public String getvalue() {
+    public String getValue() {
         return value;
     }
     public static String getValue(int code) {
         for (CopySceneDeleteCauseCode ele : values()) {
             if(ele.getCode()==code){
-                return ele.getvalue();
+                return ele.getValue();
             }
         }
         return null;

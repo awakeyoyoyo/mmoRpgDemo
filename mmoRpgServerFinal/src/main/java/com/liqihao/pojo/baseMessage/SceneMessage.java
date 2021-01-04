@@ -1,4 +1,8 @@
 package com.liqihao.pojo.baseMessage;
+/**
+ * 场景信息类
+ * @author lqhao
+ */
 public class SceneMessage {
     private Integer id;
 

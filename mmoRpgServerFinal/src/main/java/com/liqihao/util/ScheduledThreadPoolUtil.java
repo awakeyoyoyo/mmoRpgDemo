@@ -1,16 +1,11 @@
 package com.liqihao.util;
 
 import com.liqihao.Cache.*;
-import com.liqihao.commons.ConstantValue;
-import com.liqihao.commons.NettyResponse;
-import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.*;
 import com.liqihao.pojo.baseMessage.SkillMessage;
 import com.liqihao.pojo.bean.*;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.provider.TeamServiceProvider;
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
-import io.netty.channel.Channel;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -162,11 +157,11 @@ public class ScheduledThreadPoolUtil {
             if (number == null) {
                 //number没有传入 代表着这是自动回蓝
                 addNumber = (int) Math.ceil(role.getMp() * 0.05);
-                attackStyleCode = AttackStyleCode.AUTORE.getCode();
+                attackStyleCode = AttackStyleCode.AUTO_RE.getCode();
             } else {
                 //传入则代表着是吃药
                 addNumber = number;
-                attackStyleCode = AttackStyleCode.MEDICENE.getCode();
+                attackStyleCode = AttackStyleCode.MEDICINE.getCode();
             }
             PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();
 
@@ -182,7 +177,7 @@ public class ScheduledThreadPoolUtil {
                 role.changeMp(addNumber, damageU);
             } else {
                 damageU.setDamageType(damageTypeCode);
-                role.changeNowBlood(addNumber, damageU, AttackStyleCode.MEDICENE.getCode());
+                role.changeNowBlood(addNumber, damageU, AttackStyleCode.MEDICINE.getCode());
             }
             if (times != null) {
                 times--;
@@ -215,10 +210,10 @@ public class ScheduledThreadPoolUtil {
         public void run() {
             logger.info("buffer线程-------------------" + Thread.currentThread().getName());
             Integer bufferType = bufferBean.getBuffType();
-            if (bufferType.equals(BufferTypeCode.ADDHP.getCode()) ||
-                    bufferType.equals(BufferTypeCode.REDUCEHP.getCode()) ||
-                    bufferType.equals(BufferTypeCode.ADDMP.getCode()) ||
-                    bufferType.equals(BufferTypeCode.REDUCEMP.getCode())) {
+            if (bufferType.equals(BufferTypeCode.ADD_HP.getCode()) ||
+                    bufferType.equals(BufferTypeCode.REDUCE_HP.getCode()) ||
+                    bufferType.equals(BufferTypeCode.ADD_MP.getCode()) ||
+                    bufferType.equals(BufferTypeCode.REDUCE_MP.getCode())) {
                 Integer toroleId = bufferBean.getToRoleId();
                 if (toRole == null || toRole.getStatus().equals(RoleStatusCode.DIE.getCode()) || count <= 0) {
                         //删除该buffer
@@ -277,17 +272,17 @@ public class ScheduledThreadPoolUtil {
                 skillBean.setBufferIds(CommonsUtil.split(skillMessage.getBufferIds()));
                 skillBean.setBaseDamage(skillMessage.getBaseDamage());
                 skillBean.setSkillName(skillMessage.getSkillName());
-                skillBean.setAddPercon(skillMessage.getAddPercon());
+                skillBean.setAddPerson(skillMessage.getAddPerson());
                 skillBean.setSkillType(skillMessage.getSkillType());
                 Integer number = 0;
-                if (skillBean.getSkillType().equals(SkillTypeCode.FIED.getCode())) {
+                if (skillBean.getSkillType().equals(SkillTypeCode.FIX.getCode())) {
                     //固伤 只有技能伤害
                     number = skillBean.getBaseDamage();
                 }
                 if (skillBean.getSkillType().equals(SkillTypeCode.PERCENTAGE.getCode())) {
                     //百分比 增加攻击力的10%
                     Integer damage = skillBean.getBaseDamage();
-                    number = (int) Math.ceil(damage + mmoSimpleRole.getAttack() * skillBean.getAddPercon());
+                    number = (int) Math.ceil(damage + mmoSimpleRole.getAttack() * skillBean.getAddPerson());
                 }
 
                 //广播
@@ -297,9 +292,9 @@ public class ScheduledThreadPoolUtil {
                 damageU.setToRoleId(targetRoleId);
                 damageU.setAttackStyle(AttackStyleCode.ATTACK.getCode());
                 damageU.setBufferId(-1);
-                damageU.setDamageType(ConsuMeTypeCode.HP.getCode());
+                damageU.setDamageType(ConsumeTypeCode.HP.getCode());
                 damageU.setSkillId(skillBean.getId());
-                mmoSimpleRole.changeNowBlood(-number, damageU, AttackStyleCode.USESKILL.getCode());
+                mmoSimpleRole.changeNowBlood(-number, damageU, AttackStyleCode.USE_SKILL.getCode());
 
             }
         }
@@ -378,7 +373,7 @@ public class ScheduledThreadPoolUtil {
             }
             attackCount++;
             List<Role> targetRoles = new ArrayList<>();
-            if (skillBean.getSkillAttackType().equals(SkillAttackTypeCode.ALLPEOPLE.getCode())) {
+            if (skillBean.getSkillAttackType().equals(SkillAttackTypeCode.ALL_PEOPLE.getCode())) {
                 for (Role r : copySceneBean.getRoles()) {
                     if (r.getStatus().equals(RoleStatusCode.ALIVE.getCode()) && r.getCopySceneBeanId() != null && r.getCopySceneBeanId().equals(bossBean.getCopySceneBeanId())) {
                         targetRoles.add(r);
