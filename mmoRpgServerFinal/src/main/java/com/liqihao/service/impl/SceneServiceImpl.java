@@ -29,28 +29,7 @@ import java.util.List;
 @HandlerServiceTag(protobufModel = "SceneModel$SceneModelMessage")
 public class SceneServiceImpl implements SceneService {
     private static final Logger log = LoggerFactory.getLogger(SceneServiceImpl.class);
-    @Override
-    @HandlerCmdTag(cmd = ConstantValue.ASK_CAN_REQUEST,module = ConstantValue.SCENE_MODULE)
-    public void askCanRequest(SceneModel.SceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
-        Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
-        Integer sceneId=mmoSimpleRole.getMmoSceneId();
-        log.info("SceneService accept sceneId: "+sceneId);
-        //从缓存中读取
-        List<Integer> sceneIds= SceneBeanMessageCache.getInstance().get(sceneId).getCanScenes();
-        //封装AskCanResponse data的数据
-        SceneModel.SceneModelMessage Messagedata;
-        Messagedata=SceneModel.SceneModelMessage.newBuilder()
-                .setDataType(SceneModel.SceneModelMessage.DateType.AskCanResponse)
-                .setAskCanResponse(SceneModel.AskCanResponse.newBuilder().addAllScenesIds(sceneIds)).build();
-        //封装到NettyResponse中
-        NettyResponse response=new NettyResponse();
-        response.setCmd(ConstantValue.ASK_CAN_RESPONSE);
-        response.setStateCode(StateCode.SUCCESS);
-        byte[] data2=Messagedata.toByteArray();
-        response.setData(data2);
-        channel.writeAndFlush(response);
-        return;
-    }
+
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.WENT_REQUEST,module = ConstantValue.SCENE_MODULE)

@@ -36,9 +36,6 @@ public class Dispatcherservlet {
         int cmd = nettyResponse.getCmd();
 
         switch (cmd) {
-            case ConstantValue.ASK_CAN_RESPONSE:
-                sceneService.askCanResponse(nettyResponse);
-                break;
             case ConstantValue.WENT_RESPONSE:
                 sceneService.wentResponse(nettyResponse);
                 break;

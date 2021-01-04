@@ -10,14 +10,6 @@ import com.liqihao.protobufObject.SceneModel;
  */
 public interface SceneService {
     /**
-     * 查看能前往的场景
-     * @param myMessage
-     * @param mmoSimpleRole
-     * @throws InvalidProtocolBufferException
-     */
-    void askCanRequest(SceneModel.SceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException;
-
-    /**
      * 前往场景
      * @param myMessage
      * @param mmoSimpleRole

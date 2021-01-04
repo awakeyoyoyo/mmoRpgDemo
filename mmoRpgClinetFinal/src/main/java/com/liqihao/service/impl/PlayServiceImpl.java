@@ -50,6 +50,7 @@ public class PlayServiceImpl implements PlayService {
         mmoRole.setSkillIdList(roleDTO.getSkillIdListList());
         mmoRole.setMp(roleDTO.getMp());
         mmoRole.setOnstatus(roleDTO.getOnStatus());
+        mmoRole.setMmosceneid(roleDTO.getSceneId());
         mmoRole.setStatus(roleDTO.getStatus());
         mmoRole.setType(roleDTO.getType());
         MmoCacheCilent.getInstance().setNowRole(mmoRole);

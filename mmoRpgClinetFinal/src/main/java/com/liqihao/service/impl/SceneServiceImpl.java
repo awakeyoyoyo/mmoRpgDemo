@@ -21,26 +21,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class SceneServiceImpl implements SceneService {
     private static final Logger log = LoggerFactory.getLogger(SceneServiceImpl.class);
 
-    @Override
-    public void askCanResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
-        if (nettyResponse.getStateCode()== StateCode.FAIL){
-            System.out.println(new String(nettyResponse.getData()));
-            return;
-        }
-        byte[] data=nettyResponse.getData();
-        SceneModel.SceneModelMessage myMessage;
-        myMessage=SceneModel.SceneModelMessage.parseFrom(data);
-        List<Integer> Scenes=myMessage.getAskCanResponse().getScenesIdsList();
-        ConcurrentHashMap<Integer, SceneMessage> sceneMap=MmoCacheCilent.getInstance().getSceneMessageConcurrentHashMap();
-        System.out.println("[-]--------------------------------------------------------");
-        System.out.println("[-][-]当前可以进入的场景：");
-        for (Integer id:Scenes){
-            System.out.println("[-]");
-            System.out.println("[-][-]"+sceneMap.get(id).getPlaceName());
-            System.out.println("[-]");
-        }
-        System.out.println("[-]--------------------------------------------------------");
-    }
 
     @Override
     public void wentResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException {

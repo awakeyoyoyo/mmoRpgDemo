@@ -225,6 +225,7 @@ public class GameStart {
     private void sendToOneRequest(Scanner scanner) {
         System.out.println("请输入对话的目标id：");
         Integer roleId=scanner.nextInt();
+        scanner.nextLine();
         System.out.println("请输入你要说的话：");
         String str=scanner.nextLine();
         NettyRequest nettyRequest=new NettyRequest();
@@ -272,6 +273,7 @@ public class GameStart {
     private void createCopySceneRequest(Scanner scanner) {
         System.out.println("请输入你想创建的副本的id");
         Integer copySceneId=scanner.nextInt();
+        scanner.nextLine();
         NettyRequest nettyRequest=new NettyRequest();
         nettyRequest.setCmd(ConstantValue.CREATE_COPYSCENE_REQUEST);
         CopySceneModel.CopySceneModelMessage myMessage;
@@ -286,6 +288,7 @@ public class GameStart {
     private void enterCopySceneRequest(Scanner scanner) {
         System.out.println("请输入你想进入的副本的id");
         Integer copySceneId=scanner.nextInt();
+        scanner.nextLine();
         NettyRequest nettyRequest=new NettyRequest();
         nettyRequest.setCmd(ConstantValue.ENTER_COPYSCENE_REQUEST);
         CopySceneModel.CopySceneModelMessage myMessage;
@@ -326,6 +329,7 @@ public class GameStart {
     private void banPeopleRequest(Scanner scanner) {
         System.out.println("请输入你要踢出队伍的玩家的id");
         Integer roleId=scanner.nextInt();
+        scanner.nextLine();
         NettyRequest nettyRequest=new NettyRequest();
         nettyRequest.setCmd(ConstantValue.BAN_PEOPLE_REQUEST);
         TeamModel.TeamModelMessage myMessage;
@@ -339,7 +343,7 @@ public class GameStart {
 
     private void entryInvitePeopleRequest(Scanner scanner) {
         System.out.println("请输入要接收的队伍id");
-        Integer teamId=scanner.nextInt();
+        Integer teamId=scanner.nextInt();scanner.nextLine();
         Integer roleId=MmoCacheCilent.getInstance().getNowRole().getId();
         NettyRequest nettyRequest=new NettyRequest();
         nettyRequest.setCmd(ConstantValue.ENTRY_PEOPLE_REQUEST);
@@ -355,7 +359,7 @@ public class GameStart {
     // 分开来是申请还是邀请
     private void entryApplyPeopleRequest(Scanner scanner) {
         System.out.println("请输入同意入队的用户id");
-        Integer roleId=scanner.nextInt();
+        Integer roleId=scanner.nextInt();scanner.nextLine();
         Integer teamId=MmoCacheCilent.getInstance().getNowRole().getTeamId();
         NettyRequest nettyRequest=new NettyRequest();
         nettyRequest.setCmd(ConstantValue.ENTRY_PEOPLE_REQUEST);
@@ -382,7 +386,7 @@ public class GameStart {
 
     private void refuseInviteRequest(Scanner scanner) {
         System.out.println("请输入你要拒绝的队伍Id");
-        Integer teamId=scanner.nextInt();
+        Integer teamId=scanner.nextInt();scanner.nextLine();
         NettyRequest nettyRequest=new NettyRequest();
         nettyRequest.setCmd(ConstantValue.REFUSE_INVITE_REQUEST);
         TeamModel.TeamModelMessage myMessage;
@@ -396,7 +400,7 @@ public class GameStart {
 
     private void refuseApplyRequest(Scanner scanner) {
         System.out.println("请输入你要拒绝的用户id");
-        Integer roleId=scanner.nextInt();
+        Integer roleId=scanner.nextInt();scanner.nextLine();
         NettyRequest nettyRequest=new NettyRequest();
         nettyRequest.setCmd(ConstantValue.REFUSE_APPLY_REQUEST);
         TeamModel.TeamModelMessage myMessage;
@@ -410,7 +414,7 @@ public class GameStart {
 
     private void applyForTeamRequest(Scanner scanner) {
         System.out.println("请输入你要加入的队伍的id");
-        Integer teamId=scanner.nextInt();
+        Integer teamId=scanner.nextInt();scanner.nextLine();
         NettyRequest nettyRequest=new NettyRequest();
         nettyRequest.setCmd(ConstantValue.APPLY_FOR_TEAM_REQUEST);
         TeamModel.TeamModelMessage myMessage;
@@ -437,7 +441,7 @@ public class GameStart {
 
     private void invitePeopleRequest(Scanner scanner) {
         System.out.println("请输入你要邀请的玩家id");
-        Integer roleId=scanner.nextInt();
+        Integer roleId=scanner.nextInt();scanner.nextLine();
         NettyRequest nettyRequest=new NettyRequest();
         nettyRequest.setCmd(ConstantValue.INVITE_PEOPLE_REQUEST);
         TeamModel.TeamModelMessage myMessage;
@@ -490,7 +494,7 @@ public class GameStart {
 
     private void fixEquipmentRequest(Scanner scanner) {
         System.out.println("请输入需修复装备的物品栏id");
-        Integer articleId=scanner.nextInt();
+        Integer articleId=scanner.nextInt();scanner.nextLine();
 
         NettyRequest nettyRequest=new NettyRequest();
         nettyRequest.setCmd(ConstantValue.FIX_EQUIPMENT_REQUEST);
@@ -505,7 +509,7 @@ public class GameStart {
 
     private void addEquipmentReuqest(Scanner scanner) {
         System.out.println("请输入装备物品栏id");
-        Integer articleId=scanner.nextInt();
+        Integer articleId=scanner.nextInt();scanner.nextLine();
 
         NettyRequest nettyRequest=new NettyRequest();
         nettyRequest.setCmd(ConstantValue.ADD_EQUIPMENT_REQUEST);
@@ -520,7 +524,7 @@ public class GameStart {
 
     private void reduceEquipmentRequest(Scanner scanner) {
         System.out.println("请输入脱落部位id");
-        Integer position=scanner.nextInt();
+        Integer position=scanner.nextInt();scanner.nextLine();
 
         NettyRequest nettyRequest=new NettyRequest();
         nettyRequest.setCmd(ConstantValue.REDUCE_EQUIPMENT_REQUEST);
@@ -547,11 +551,11 @@ public class GameStart {
 
     private void addArticleRquest(Scanner scanner) {
         System.out.println("请输入增加物品的id");
-        Integer id=scanner.nextInt();
+        Integer id=scanner.nextInt();scanner.nextLine();
         System.out.println("请输入增加物品的类型code");
-        Integer articleType=scanner.nextInt();
+        Integer articleType=scanner.nextInt();scanner.nextLine();
         System.out.println("请输入增加物品的数量");
-        Integer number=scanner.nextInt();
+        Integer number=scanner.nextInt();scanner.nextLine();
         NettyRequest nettyRequest=new NettyRequest();
         nettyRequest.setCmd(ConstantValue.ADD_ARTICLE_REQUEST);
         BackPackModel.BackPackModelMessage myMessage;
@@ -577,7 +581,7 @@ public class GameStart {
 
     private void useRequest(Scanner scanner) {
         System.out.println("请输入使用物品的背包栏id");
-        Integer articleId=scanner.nextInt();
+        Integer articleId=scanner.nextInt();scanner.nextLine();
         NettyRequest nettyRequest=new NettyRequest();
         nettyRequest.setCmd(ConstantValue.USE_REQUEST);
         BackPackModel.BackPackModelMessage myMessage;
@@ -591,9 +595,9 @@ public class GameStart {
 
     private void abandonRequest(Scanner scanner) {
         System.out.println("请输入丢弃物品的背包栏id");
-        Integer articleId=scanner.nextInt();
+        Integer articleId=scanner.nextInt();scanner.nextLine();
         System.out.println("请输入丢弃数量");
-        Integer number=scanner.nextInt();
+        Integer number=scanner.nextInt();scanner.nextLine();;
         NettyRequest nettyRequest=new NettyRequest();
         nettyRequest.setCmd(ConstantValue.ABANDON_REQUEST);
         BackPackModel.BackPackModelMessage myMessage;
@@ -614,14 +618,14 @@ public class GameStart {
             System.out.println("技能Id： "+map.get(sId).getId()+" 技能名称："+map.get(sId).getSkillName()+" 技能类型"+ SkillAttackTypeCode.getValue(map.get(sId).getSkillAttackType()));
         }
         System.out.println("请输入你使用的技能id：");
-        Integer skillId=scanner.nextInt();
+        Integer skillId=scanner.nextInt();scanner.nextLine();;
         Integer roleId=null;
         Integer roleType=null;
         if (map.get(skillId).getSkillAttackType().equals(SkillAttackTypeCode.SINGLE.getCode())){
             System.out.println("请输入你的施法目标的类型： 玩家为1 怪物为2");
-            roleType=scanner.nextInt();
+            roleType=scanner.nextInt();scanner.nextLine();;
             System.out.println("请输入你的施法目标的id");
-            roleId=scanner.nextInt();
+            roleId=scanner.nextInt();scanner.nextLine();;
         }
         NettyRequest nettyRequest=new NettyRequest();
         nettyRequest.setCmd(ConstantValue.USE_SKILL_REQUEST);
@@ -638,7 +642,7 @@ public class GameStart {
 
     private void talkNpcRequest(Scanner scanner) {
         System.out.println("请输入你想对话的NPC的id");
-        Integer npcId=scanner.nextInt();
+        Integer npcId=scanner.nextInt();scanner.nextLine();;
         NettyRequest nettyRequest=new NettyRequest();
         nettyRequest.setCmd(ConstantValue.TALK_NPC_REQUEST);
         SceneModel.SceneModelMessage myMessage;
@@ -748,15 +752,17 @@ public class GameStart {
     }
 
     private void askCanRequest(Scanner scanner) {
-        System.out.println("稍等片刻。等待数据传输");
-        NettyRequest nettyRequest=new NettyRequest();
-        nettyRequest.setCmd(ConstantValue.ASK_CAN_REQUEST);
-        SceneModel.SceneModelMessage myMessage;
-        myMessage=SceneModel.SceneModelMessage.newBuilder()
-                .setDataType(SceneModel.SceneModelMessage.DateType.AskCanRequest)
-                .setAskCanRequest(SceneModel.AskCanRequest.newBuilder().build()).build();
-        byte[] data=myMessage.toByteArray();
-        nettyRequest.setData(data);
-        channel.writeAndFlush(nettyRequest);
+        Integer sceneId= MmoCacheCilent.getInstance().getNowRole().getMmosceneid();
+        //从缓存中读取
+        List<Integer> Scenes= CommonsUtil.split(MmoCacheCilent.getInstance().getSceneMessageConcurrentHashMap().get(sceneId).getCanScene());
+        ConcurrentHashMap<Integer, SceneMessage> sceneMap=MmoCacheCilent.getInstance().getSceneMessageConcurrentHashMap();
+        System.out.println("[-]--------------------------------------------------------");
+        System.out.println("[-][-]当前可以进入的场景：");
+        for (Integer id:Scenes){
+            System.out.println("[-]");
+            System.out.println("[-][-]"+sceneMap.get(id).getPlaceName());
+            System.out.println("[-]");
+        }
+        System.out.println("[-]--------------------------------------------------------");
     }
 }

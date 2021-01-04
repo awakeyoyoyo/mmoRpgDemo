@@ -183,6 +183,7 @@ public class PlayServiceImpl implements PlayService {
                 .setNowBlood(simpleRole.getHp())
                 .addAllSkillIdList(simpleRole.getSkillIdList())
                 .setMp(simpleRole.getMp())
+                .setSceneId(simpleRole.getMmoSceneId())
                 .setNowMp(simpleRole.getNowMp())
                 .setTeamId(simpleRole.getTeamId() == null ? -1 : simpleRole.getTeamId())
                 .setAttack(simpleRole.getAttack())
