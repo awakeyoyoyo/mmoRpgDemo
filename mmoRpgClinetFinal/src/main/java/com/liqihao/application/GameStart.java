@@ -148,19 +148,19 @@ public class GameStart {
                     case ConstantValue.DELETE_TEAM_REQUEST:
                         deleteTeamRequest(scanner);
                         break;
-                    case ConstantValue.ASK_CAN_COPYSCENE_REQUEST:
+                    case ConstantValue.ASK_CAN_COPY_SCENE_REQUEST:
                         askCanCopySceneRequest(scanner);
                         break;
-                    case ConstantValue.COPYSCENE_MESSAGE_REQUEST:
+                    case ConstantValue.COPY_SCENE_MESSAGE_REQUEST:
                         copySceneMessageRequest(scanner);
                         break;
-                    case ConstantValue.CREATE_COPYSCENE_REQUEST:
+                    case ConstantValue.CREATE_COPY_SCENE_REQUEST:
                         createCopySceneRequest(scanner);
                         break;
-                    case ConstantValue.ENTER_COPYSCENE_REQUEST:
+                    case ConstantValue.ENTER_COPY_SCENE_REQUEST:
                         enterCopySceneRequest(scanner);
                         break;
-                    case ConstantValue.EXIT_COPYSCENE_REQUEST:
+                    case ConstantValue.EXIT_COPY_SCENE_REQUEST:
                         exitCopySceneRequest(scanner);
                         break;
                     case ConstantValue.SEND_TO_ALL_REQUEST:
@@ -175,9 +175,153 @@ public class GameStart {
                     case ConstantValue.SEND_TO_SCENE_REQUEST:
                         sendToSceneRequest(scanner);
                         break;
+                    case ConstantValue.GET_EMAIL_MESSAGE_REQUEST:
+                        getEmailMessageRequest(scanner);
+                        break;
+                    case ConstantValue.GET_EMAIL_ARTICLE_REQUEST:
+                        getEmailArticleRequest(scanner);
+                        break;
+                    case ConstantValue.ACCEPT_EMAIL_LIST_REQUEST:
+                        acceptEmailList(scanner);
+                        break;
+                    case ConstantValue.IS_SEND_EMAIL_LIST_REQUEST:
+                        isSendEmailListRequest(scanner);
+                        break;
+                    case ConstantValue.SEND_EMAIL_REQUEST:
+                        sendEamilRequest(scanner);
+                        break;
+                    case ConstantValue.DELETE_ACCEPT_EMAIL_REQUEST:
+                        deleteAcceptEmailRequest(scanner);
+                        break;
+                    case ConstantValue.DELETE_SEND_EMAIL_REQUEST:
+                        deleteSendEmailRequest(scanner);
+                        break;
                     default:
                         System.out.println("GameStart-handler:收到错误cmd");
                 }
+    }
+
+    private void deleteSendEmailRequest(Scanner scanner) {
+        System.out.println("请输入你要删除的emailId：");
+        Integer emailId=scanner.nextInt();
+        scanner.nextLine();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.DELETE_SEND_EMAIL_REQUEST);
+        EmailModel.EmailModelMessage myMessage;
+        myMessage= EmailModel.EmailModelMessage.newBuilder()
+                .setDataType(EmailModel.EmailModelMessage.DateType.DeleteSendEmailRequest)
+                .setDeleteSendEmailRequest(EmailModel.DeleteSendEmailRequest.newBuilder().setEmailId(emailId).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void deleteAcceptEmailRequest(Scanner scanner) {
+        System.out.println("请输入你要删除的emailId：");
+        Integer emailId=scanner.nextInt();
+        scanner.nextLine();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.DELETE_ACCEPT_EMAIL_REQUEST);
+        EmailModel.EmailModelMessage myMessage;
+        myMessage= EmailModel.EmailModelMessage.newBuilder()
+                .setDataType(EmailModel.EmailModelMessage.DateType.DeleteAcceptEmailRequest)
+                .setDeleteAcceptEmailRequest(EmailModel.DeleteAcceptEmailRequest.newBuilder().setEmailId(emailId).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void sendEamilRequest(Scanner scanner) {
+        MmoRole mmoRole=MmoCacheCilent.getInstance().getNowRole();
+        if (mmoRole==null){
+            System.out.println("请登陆！");
+            return;
+        }
+        System.out.println("请输入邮件标题：");
+        String title=scanner.nextLine();
+        System.out.println("请输入邮件内容：");
+        String context=scanner.nextLine();
+        System.out.println("请输入请问是否携带物品：0-不携带   1-携带");
+        Integer flag=scanner.nextInt();
+        scanner.nextLine();
+        Integer articleId=-1;
+        Integer articleNum=-1;
+        if (flag==1){
+            System.out.println("请输入物品栏id：");
+            articleId=scanner.nextInt();
+            scanner.nextLine();
+            System.out.println("请输入物品数量：");
+            articleNum=scanner.nextInt();
+            scanner.nextLine();
+        }
+        System.out.println("请输入收件者的id：");
+        Integer toRoleId=scanner.nextInt();
+        scanner.nextLine();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.SEND_EMAIL_REQUEST);
+        EmailModel.EmailModelMessage myMessage;
+        myMessage= EmailModel.EmailModelMessage.newBuilder()
+                .setDataType(EmailModel.EmailModelMessage.DateType.SendEmailRequest)
+                .setSendEmailRequest(EmailModel.SendEmailRequest.newBuilder()
+                        .setArticleId(articleId).setArticleNum(articleNum)
+                        .setTitle(title).setContext(context).setToRoleId(toRoleId).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void isSendEmailListRequest(Scanner scanner) {
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.IS_SEND_EMAIL_LIST_REQUEST);
+        EmailModel.EmailModelMessage myMessage;
+        myMessage= EmailModel.EmailModelMessage.newBuilder()
+                .setDataType(EmailModel.EmailModelMessage.DateType.IsSendEmailListRequest)
+                .setIsSendEmailListRequest(EmailModel.IsSendEmailListRequest.newBuilder().build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void acceptEmailList(Scanner scanner) {
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.ACCEPT_EMAIL_LIST_REQUEST);
+        EmailModel.EmailModelMessage myMessage;
+        myMessage= EmailModel.EmailModelMessage.newBuilder()
+                .setDataType(EmailModel.EmailModelMessage.DateType.AcceptEmailListRequest)
+                .setAcceptEmailListRequest(EmailModel.AcceptEmailListRequest.newBuilder().build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void getEmailArticleRequest(Scanner scanner) {
+        System.out.println("请输入你要收取物品的emailId：");
+        Integer emailId=scanner.nextInt();
+        scanner.nextLine();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.GET_EMAIL_ARTICLE_REQUEST);
+        EmailModel.EmailModelMessage myMessage;
+        myMessage= EmailModel.EmailModelMessage.newBuilder()
+                .setDataType(EmailModel.EmailModelMessage.DateType.GetEmailArticleRequest)
+                .setGetEmailArticleRequest(EmailModel.GetEmailArticleRequest.newBuilder().setEmailId(emailId).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void getEmailMessageRequest(Scanner scanner) {
+        System.out.println("请输入你要查看的邮件的emailId：");
+        Integer emailId=scanner.nextInt();
+        scanner.nextLine();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.GET_EMAIL_MESSAGE_REQUEST);
+        EmailModel.EmailModelMessage myMessage;
+        myMessage= EmailModel.EmailModelMessage.newBuilder()
+                .setDataType(EmailModel.EmailModelMessage.DateType.GetEmailMessageRequest)
+                .setGetEmailMessageRequest(EmailModel.GetEmailMessageRequest.newBuilder().setEmailId(emailId).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
     }
 
     private void sendToSceneRequest(Scanner scanner) {
@@ -260,7 +404,7 @@ public class GameStart {
 
     private void copySceneMessageRequest(Scanner scanner) {
         NettyRequest nettyRequest=new NettyRequest();
-        nettyRequest.setCmd(ConstantValue.COPYSCENE_MESSAGE_REQUEST);
+        nettyRequest.setCmd(ConstantValue.COPY_SCENE_MESSAGE_REQUEST);
         CopySceneModel.CopySceneModelMessage myMessage;
         myMessage=CopySceneModel.CopySceneModelMessage.newBuilder()
                 .setDataType(CopySceneModel.CopySceneModelMessage.DateType.CopySceneMessageRequest)
@@ -275,7 +419,7 @@ public class GameStart {
         Integer copySceneId=scanner.nextInt();
         scanner.nextLine();
         NettyRequest nettyRequest=new NettyRequest();
-        nettyRequest.setCmd(ConstantValue.CREATE_COPYSCENE_REQUEST);
+        nettyRequest.setCmd(ConstantValue.CREATE_COPY_SCENE_REQUEST);
         CopySceneModel.CopySceneModelMessage myMessage;
         myMessage=CopySceneModel.CopySceneModelMessage.newBuilder()
                 .setDataType(CopySceneModel.CopySceneModelMessage.DateType.CreateCopySceneRequest)
@@ -290,7 +434,7 @@ public class GameStart {
         Integer copySceneId=scanner.nextInt();
         scanner.nextLine();
         NettyRequest nettyRequest=new NettyRequest();
-        nettyRequest.setCmd(ConstantValue.ENTER_COPYSCENE_REQUEST);
+        nettyRequest.setCmd(ConstantValue.ENTER_COPY_SCENE_REQUEST);
         CopySceneModel.CopySceneModelMessage myMessage;
         myMessage=CopySceneModel.CopySceneModelMessage.newBuilder()
                 .setDataType(CopySceneModel.CopySceneModelMessage.DateType.EnterCopySceneRequest)
@@ -302,7 +446,7 @@ public class GameStart {
 
     private void exitCopySceneRequest(Scanner scanner) {
         NettyRequest nettyRequest=new NettyRequest();
-        nettyRequest.setCmd(ConstantValue.EXIT_COPYSCENE_REQUEST);
+        nettyRequest.setCmd(ConstantValue.EXIT_COPY_SCENE_REQUEST);
         CopySceneModel.CopySceneModelMessage myMessage;
         myMessage=CopySceneModel.CopySceneModelMessage.newBuilder()
                 .setDataType(CopySceneModel.CopySceneModelMessage.DateType.ExitCopySceneRequest)

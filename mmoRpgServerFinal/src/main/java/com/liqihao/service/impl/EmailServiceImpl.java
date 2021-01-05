@@ -3,6 +3,8 @@ package com.liqihao.service.impl;
 import com.liqihao.Cache.ChannelMessageCache;
 import com.liqihao.Cache.MediceneMessageCache;
 import com.liqihao.Cache.OnlineRoleMessageCache;
+import com.liqihao.annotation.HandlerCmdTag;
+import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
@@ -15,6 +17,7 @@ import com.liqihao.provider.EmailServiceProvider;
 import com.liqihao.service.EmailService;
 import com.liqihao.util.CommonsUtil;
 import io.netty.channel.Channel;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +26,11 @@ import java.util.List;
  * 邮件模块
  * @author lqhao
  */
+@Service
+@HandlerServiceTag(protobufModel = "EmailModel$EmailModelMessage")
 public class EmailServiceImpl implements EmailService {
     @Override
+    @HandlerCmdTag(cmd = ConstantValue.GET_EMAIL_MESSAGE_REQUEST,module = ConstantValue.EMAIL_MODULE)
     public void getEmailMessageRequest(EmailModel.EmailModelMessage myMessage, MmoSimpleRole mmoSimpleRole) {
         Integer emailId=myMessage.getGetEmailMessageRequest().getEmailId();
         Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
@@ -46,6 +52,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
+    @HandlerCmdTag(cmd = ConstantValue.GET_EMAIL_ARTICLE_REQUEST,module = ConstantValue.EMAIL_MODULE)
     public void getEmailArticleRequest(EmailModel.EmailModelMessage myMessage, MmoSimpleRole mmoSimpleRole) {
         Integer emailId=myMessage.getGetEmailArticleRequest().getEmailId();
         Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
@@ -65,10 +72,10 @@ public class EmailServiceImpl implements EmailService {
         //根据邮件实体类信息初始化物品
         if (mmoEmailBean.getArticleType().equals(ArticleTypeCode.MEDICINE.getCode())){
             BackPackManager backPackManager=mmoSimpleRole.getBackpackManager();
-            MedicineMessage medicineMessage= MediceneMessageCache.getInstance().get(mmoEmailBean.getArticleId());
+            MedicineMessage medicineMessage= MediceneMessageCache.getInstance().get(mmoEmailBean.getArticleMessageId());
             MedicineBean medicineBean=CommonsUtil.medicineMessageToMedicineBean(medicineMessage);
             medicineBean.setQuantity(mmoEmailBean.getArticleNum());
-            if (backPackManager.put(medicineBean)){
+            if (!backPackManager.put(medicineBean)){
                 NettyResponse nettyResponse=new NettyResponse();
                 nettyResponse.setCmd(ConstantValue.FAIL_RESPONSE);
                 nettyResponse.setStateCode(StateCode.FAIL);
@@ -77,6 +84,11 @@ public class EmailServiceImpl implements EmailService {
                 channel.writeAndFlush(nettyResponse);
                 return;
             }
+            //邮件设置为没有物品
+            mmoEmailBean.setArticleMessageId(-1);
+            mmoEmailBean.setArticleType(-1);
+            mmoEmailBean.setHasArticle(false);
+            mmoEmailBean.setArticleNum(-1);
         }
         EmailModel.EmailModelMessage messageData=EmailModel.EmailModelMessage.newBuilder()
                 .setDataType(EmailModel.EmailModelMessage.DateType.GetEmailArticleResponse)
@@ -89,6 +101,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
+    @HandlerCmdTag(cmd = ConstantValue.ACCEPT_EMAIL_LIST_REQUEST,module = ConstantValue.EMAIL_MODULE)
     public void acceptEmailListRequest(EmailModel.EmailModelMessage myMessage, MmoSimpleRole mmoSimpleRole) {
         Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
         List<MmoEmailBean> mmoEmailBeans=EmailServiceProvider.getToEmails(mmoSimpleRole);
@@ -110,9 +123,10 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
+    @HandlerCmdTag(cmd = ConstantValue.IS_SEND_EMAIL_LIST_REQUEST,module = ConstantValue.EMAIL_MODULE)
     public void isSendEmailListRequest(EmailModel.EmailModelMessage myMessage, MmoSimpleRole mmoSimpleRole) {
         Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
-        List<MmoEmailBean> mmoEmailBeans=EmailServiceProvider.getToEmails(mmoSimpleRole);
+        List<MmoEmailBean> mmoEmailBeans=EmailServiceProvider.getFromEmails(mmoSimpleRole);
         List<EmailModel.EmailSimpleDto> list=new ArrayList<>();
         if (mmoEmailBeans.size()>0){
             for (MmoEmailBean m:mmoEmailBeans) {
@@ -131,6 +145,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
+    @HandlerCmdTag(cmd = ConstantValue.SEND_EMAIL_REQUEST,module = ConstantValue.EMAIL_MODULE)
     public void sendEmailRequest(EmailModel.EmailModelMessage myMessage, MmoSimpleRole mmoSimpleRole) {
         Integer articleId=myMessage.getSendEmailRequest().getArticleId();
         Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
@@ -138,18 +153,31 @@ public class EmailServiceImpl implements EmailService {
         String title=myMessage.getSendEmailRequest().getTitle();
         Integer articleNum=myMessage.getSendEmailRequest().getArticleNum();
         Integer toRoleId=myMessage.getSendEmailRequest().getToRoleId();
-        Integer articleType=myMessage.getSendEmailRequest().getArticleType();
         MmoSimpleRole toRole= OnlineRoleMessageCache.getInstance().get(toRoleId);
         MmoEmailBean mmoEmailBean=new MmoEmailBean();
         mmoEmailBean.setContext(context);
         mmoEmailBean.setTitle(title);
-        mmoEmailBean.setArticleId(articleId);
         mmoEmailBean.setArticleNum(articleNum);
-        mmoEmailBean.setArticleType(articleType);
+        mmoEmailBean.setArticleType(-1);
+        mmoEmailBean.setArticleMessageId(-1);
+        if (articleId!=-1) {
+            //则需要扣除背包中的物品
+           BackPackManager backPackManager=mmoSimpleRole.getBackpackManager();
+           Article article=backPackManager.useOrAbandonArticle(articleId,articleNum);
+           if (article==null){
+               NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"背包中该物品数量不足".getBytes());
+               channel.writeAndFlush(errorResponse);
+               return;
+           }
+           mmoEmailBean.setArticleType(article.getArticleTypeCode());
+           if (mmoEmailBean.getArticleType().equals(ArticleTypeCode.MEDICINE.getCode())) {
+               MedicineBean medicineBean= (MedicineBean) article;
+               mmoEmailBean.setArticleMessageId(medicineBean.getId());
+           }
+        }
         mmoEmailBean.setToRoleId(toRoleId);
         mmoEmailBean.setFromRoleId(mmoSimpleRole.getId());
         EmailServiceProvider.sendArticleEmail(mmoSimpleRole,toRole,mmoEmailBean);
-
         EmailModel.EmailModelMessage messageData=EmailModel.EmailModelMessage.newBuilder()
                 .setDataType(EmailModel.EmailModelMessage.DateType.SendEmailResponse)
                 .setSendEmailResponse(EmailModel.SendEmailResponse.newBuilder().build()).build();
@@ -161,6 +189,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
+    @HandlerCmdTag(cmd = ConstantValue.DELETE_ACCEPT_EMAIL_REQUEST,module = ConstantValue.EMAIL_MODULE)
     public void deleteAcceptEmailRequest(EmailModel.EmailModelMessage myMessage, MmoSimpleRole mmoSimpleRole) {
         Integer emailId=myMessage.getDeleteAcceptEmailRequest().getEmailId();
         Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
@@ -176,6 +205,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
+    @HandlerCmdTag(cmd = ConstantValue.DELETE_SEND_EMAIL_REQUEST,module = ConstantValue.EMAIL_MODULE)
     public void deleteSendEmailRequest(EmailModel.EmailModelMessage myMessage, MmoSimpleRole mmoSimpleRole) {
         Integer emailId=myMessage.getDeleteSendEmailRequest().getEmailId();
         Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());

@@ -4,10 +4,10 @@
   <resultMap id="BaseResultMap" type="com.liqihao.pojo.MmoEquipmentPOJO">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="message_id" jdbcType="INTEGER" property="messageId" />
-    <result column="nowdurability" jdbcType="INTEGER" property="nowDurability" />
+    <result column="now_durability" jdbcType="INTEGER" property="nowDurability" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, message_id, nowdurability
+    id, message_id, now_durability
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -20,9 +20,9 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.liqihao.pojo.MmoEquipmentPOJO">
-    insert into mmo_equipment (id, message_id, nowdurability
+    insert into mmo_equipment (id, message_id, now_durability
       )
-    values (#{id,jdbcType=INTEGER}, #{messageId,jdbcType=INTEGER}, #{nowdurability,jdbcType=INTEGER}
+    values (#{id,jdbcType=INTEGER}, #{messageId,jdbcType=INTEGER}, #{nowDurability,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.liqihao.pojo.MmoEquipmentPOJO">
@@ -34,8 +34,8 @@
       <if test="messageId != null">
         message_id,
       </if>
-      <if test="nowdurability != null">
-        nowdurability,
+      <if test="nowDurability != null">
+        now_durability,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -45,8 +45,8 @@
       <if test="messageId != null">
         #{messageId,jdbcType=INTEGER},
       </if>
-      <if test="nowdurability != null">
-        #{nowdurability,jdbcType=INTEGER},
+      <if test="nowDurability != null">
+        #{nowDurability,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -56,8 +56,8 @@
       <if test="messageId != null">
         message_id = #{messageId,jdbcType=INTEGER},
       </if>
-      <if test="nowdurability != null">
-        nowdurability = #{nowdurability,jdbcType=INTEGER},
+      <if test="nowDurability != null">
+        now_durability = #{nowDurability,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -65,7 +65,7 @@
   <update id="updateByPrimaryKey" parameterType="com.liqihao.pojo.MmoEquipmentPOJO">
     update mmo_equipment
     set message_id = #{messageId,jdbcType=INTEGER},
-      nowdurability = #{nowdurability,jdbcType=INTEGER}
+      now_durability = #{nowDurability,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

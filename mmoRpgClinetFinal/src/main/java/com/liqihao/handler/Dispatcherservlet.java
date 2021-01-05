@@ -26,6 +26,8 @@ public class Dispatcherservlet {
     private CopySceneService copySceneService;
     @Autowired
     private ChatService chatService;
+    @Autowired
+    private EmailService emailService;
     /**
      * 根据model和cmd转发到不同的service
      *
@@ -126,19 +128,19 @@ public class Dispatcherservlet {
             case ConstantValue.DELETE_TEAM_RESPONSE:
                 teamService.deleteTeamResponse(nettyResponse);
                 break;
-            case ConstantValue.COPYSCENE_MESSAGE_RESPONSE:
+            case ConstantValue.COPY_SCENE_MESSAGE_RESPONSE:
                 copySceneService.copySceneMessageResponse(nettyResponse);
                 break;
-            case ConstantValue.ENTER_COPYSCENE_RESPONSE:
+            case ConstantValue.ENTER_COPY_SCENE_RESPONSE:
                 copySceneService.enterCopySceneResponse(nettyResponse);
                 break;
-            case ConstantValue.EXIT_COPYSCENE_RESPONSE:
+            case ConstantValue.EXIT_COPY_SCENE_RESPONSE:
                 copySceneService.exitCopySceneResponse(nettyResponse);
                 break;
-            case ConstantValue.CREATE_COPYSCENE_RESPONSE:
+            case ConstantValue.CREATE_COPY_SCENE_RESPONSE:
                 copySceneService.createCopySceneResponse(nettyResponse);
                 break;
-            case ConstantValue.COPYSCENE_FINISH_RESPONSE:
+            case ConstantValue.COPY_SCENE_FINISH_RESPONSE:
                 copySceneService.copySceneFinishResponse(nettyResponse);
                 break;
             case ConstantValue.CHANGE_SUCCESS_RESPONSE:
@@ -149,6 +151,27 @@ public class Dispatcherservlet {
                 break;
             case ConstantValue.ACCEPT_MESSAGE_RESPONSE:
                 chatService.acceptMessageResopnse(nettyResponse);
+                break;
+            case ConstantValue.GET_EMAIL_MESSAGE_RESPONSE:
+                emailService.getEmailMessageResponse(nettyResponse);
+                break;
+            case ConstantValue.GET_EMAIL_ARTICLE_RESPONSE:
+                emailService.getEmailArticleResponse(nettyResponse);
+                break;
+            case ConstantValue.ACCEPT_EMAIL_LIST_RESPONSE:
+                emailService.acceptEmailListResponse(nettyResponse);
+                break;
+            case ConstantValue.IS_SEND_EMAIL_LIST_RESPONSE:
+                emailService.isSendEmailListResponse(nettyResponse);
+                break;
+            case ConstantValue.SEND_EMAIL_RESPONSE:
+                emailService.sendEmailResponse(nettyResponse);
+                break;
+            case ConstantValue.DELETE_ACCEPT_EMAIL_RESPONSE:
+                emailService.deleteAcceptEmailResponse(nettyResponse);
+                break;
+            case ConstantValue.DELETE_SEND_EMAIL_RESPONSE:
+                emailService.deleteSendEmailResponse(nettyResponse);
                 break;
             default:
                 System.out.println("handler:收到");

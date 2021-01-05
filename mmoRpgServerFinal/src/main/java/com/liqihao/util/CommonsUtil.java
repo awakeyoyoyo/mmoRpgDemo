@@ -96,21 +96,24 @@ public class CommonsUtil implements ApplicationContextAware {
         MmoEmailBean mmoEmailBean=new MmoEmailBean();
         mmoEmailBean.setId(m.getId());
         mmoEmailBean.setArticleNum(m.getArticleNum());
-        mmoEmailBean.setArticleId(m.getArticleId());
+        mmoEmailBean.setArticleMessageId(m.getArticleMessageId());
         mmoEmailBean.setArticleType(m.getArticleType());
         mmoEmailBean.setTitle(m.getTitle());
         mmoEmailBean.setContext(m.getContext());
-        mmoEmailBean.setHasArticle(m.getArticleId()!=null);
+        mmoEmailBean.setHasArticle(m.getArticleMessageId()!=null);
         mmoEmailBean.setCreateTime(m.getCreateTime());
         mmoEmailBean.setFromRoleId(m.getFromRoleId());
         mmoEmailBean.setIntoDataBase(true);
+        mmoEmailBean.setToDelete(m.getToDelete());
+        mmoEmailBean.setFromDelete(m.getFromDelete());
+        mmoEmailBean.setChecked(m.getChecked());
         mmoEmailBean.setToRoleId(m.getToRoleId());
         return mmoEmailBean;
     }
 
     public static EmailModel.EmailDto mmoEmailBeanToEmailDto(MmoEmailBean mmoEmailBean) {
         EmailModel.EmailDto emailDto=EmailModel.EmailDto.newBuilder()
-                .setArticleId(mmoEmailBean.getArticleId()).setArticleNum(mmoEmailBean.getArticleNum()).setArticleType(mmoEmailBean.getArticleType())
+                .setArticleMessageId(mmoEmailBean.getArticleMessageId()).setArticleNum(mmoEmailBean.getArticleNum()).setArticleType(mmoEmailBean.getArticleType())
                 .setChecked(mmoEmailBean.getChecked()).setContext(mmoEmailBean.getContext()).setCreateTime(mmoEmailBean.getCreateTime())
                 .setId(mmoEmailBean.getId()).setFromRoleId(mmoEmailBean.getFromRoleId()).setToRoleId(mmoEmailBean.getToRoleId())
                 .setTitle(mmoEmailBean.getTitle()).setHasArticle(mmoEmailBean.getHasArticle()).build();
@@ -141,7 +144,7 @@ public class CommonsUtil implements ApplicationContextAware {
     public static  void mmoEmailPOJOIntoDataBase(MmoEmailBean emailBean){
         MmoEmailPOJO mmoEmailPOJO=new MmoEmailPOJO();
         mmoEmailPOJO.setId(emailBean.getId());
-        mmoEmailPOJO.setArticleId(emailBean.getArticleId());
+        mmoEmailPOJO.setArticleMessageId(emailBean.getArticleMessageId());
         mmoEmailPOJO.setArticleNum(emailBean.getArticleNum());
         mmoEmailPOJO.setArticleType(emailBean.getArticleType());
         mmoEmailPOJO.setFromRoleId(emailBean.getFromRoleId());
@@ -254,7 +257,7 @@ public class CommonsUtil implements ApplicationContextAware {
             mmoBagPOJO.setArticleType(a.getArticleType());
             mmoBagPOJO.setNumber(a.getQuantity());
             mmoBagPOJO.setRoleId(roleId);
-            mmoBagPOJO.setWId(a.getId());
+            mmoBagPOJO.setwId(a.getId());
             if (a.getBagId()!=null){
                 mmoBagPOJO.setBagId(a.getBagId());
                 mmoBagPOJOMapper.updateByPrimaryKey(mmoBagPOJO);

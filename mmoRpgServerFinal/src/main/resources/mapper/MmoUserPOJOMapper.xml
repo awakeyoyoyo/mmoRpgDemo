@@ -3,12 +3,12 @@
 <mapper namespace="com.liqihao.dao.MmoUserPOJOMapper">
   <resultMap id="BaseResultMap" type="com.liqihao.pojo.MmoUserPOJO">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="userName" jdbcType="VARCHAR" property="username" />
-    <result column="userPwd" jdbcType="VARCHAR" property="userPwd" />
-    <result column="userRoleId" jdbcType="VARCHAR" property="userRoleId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="user_pwd" jdbcType="VARCHAR" property="userPwd" />
+    <result column="user_role_id" jdbcType="VARCHAR" property="userRoleId" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, userName, userPwd, userRoleId
+    id, user_name, user_pwd, user_role_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -21,10 +21,10 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.liqihao.pojo.MmoUserPOJO">
-    insert into mmo_user (id, userName, userPwd, 
-      userRoleId)
-    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{userpwd,jdbcType=VARCHAR}, 
-      #{userroleid,jdbcType=VARCHAR})
+    insert into mmo_user (id, user_name, user_pwd, 
+      user_role_id)
+    values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{userPwd,jdbcType=VARCHAR}, 
+      #{userRoleId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.liqihao.pojo.MmoUserPOJO">
     insert into mmo_user
@@ -32,64 +32,64 @@
       <if test="id != null">
         id,
       </if>
-      <if test="username != null">
-        userName,
+      <if test="userName != null">
+        user_name,
       </if>
-      <if test="userpwd != null">
-        userPwd,
+      <if test="userPwd != null">
+        user_pwd,
       </if>
-      <if test="userroleid != null">
-        userRoleId,
+      <if test="userRoleId != null">
+        user_role_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="username != null">
-        #{username,jdbcType=VARCHAR},
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
       </if>
-      <if test="userpwd != null">
-        #{userpwd,jdbcType=VARCHAR},
+      <if test="userPwd != null">
+        #{userPwd,jdbcType=VARCHAR},
       </if>
-      <if test="userroleid != null">
-        #{userroleid,jdbcType=VARCHAR},
+      <if test="userRoleId != null">
+        #{userRoleId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.liqihao.pojo.MmoUserPOJO">
     update mmo_user
     <set>
-      <if test="username != null">
-        userName = #{username,jdbcType=VARCHAR},
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
       </if>
-      <if test="userpwd != null">
-        userPwd = #{userpwd,jdbcType=VARCHAR},
+      <if test="userPwd != null">
+        user_pwd = #{userPwd,jdbcType=VARCHAR},
       </if>
-      <if test="userroleid != null">
-        userRoleId = #{userroleid,jdbcType=VARCHAR},
+      <if test="userRoleId != null">
+        user_role_id = #{userRoleId,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.liqihao.pojo.MmoUserPOJO">
     update mmo_user
-    set userName = #{username,jdbcType=VARCHAR},
-      userPwd = #{userpwd,jdbcType=VARCHAR},
-      userRoleId = #{userroleid,jdbcType=VARCHAR}
+    set user_name = #{userName,jdbcType=VARCHAR},
+      user_pwd = #{userPwd,jdbcType=VARCHAR},
+      user_role_id = #{userRoleId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByUsername" parameterType="java.lang.String" resultType="java.lang.Integer">
     select
-    count(1)
+      count(1)
     from mmo_user
-    where userName = #{username}
+    where user_name = #{username}
   </select>
 
   <select id="checkByUernameAndPassword" parameterType="map" resultType="java.lang.Integer">
     select
-    id
+      id
     from mmo_user
-    where userName = #{username} and userPwd=#{password}
+    where user_name = #{username} and user_pwd=#{password}
   </select>
 </mapper>

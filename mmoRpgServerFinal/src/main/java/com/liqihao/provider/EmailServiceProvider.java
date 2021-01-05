@@ -1,12 +1,22 @@
 package com.liqihao.provider;
 
+import com.liqihao.Cache.ChannelMessageCache;
 import com.liqihao.Cache.OnlineRoleMessageCache;
+import com.liqihao.commons.ConstantValue;
+import com.liqihao.commons.NettyResponse;
+import com.liqihao.commons.StateCode;
 import com.liqihao.dao.MmoEmailPOJOMapper;
+import com.liqihao.dao.MmoUserPOJOMapper;
+import com.liqihao.netty.ServerHandler;
 import com.liqihao.pojo.MmoEmailPOJO;
+import com.liqihao.pojo.MmoUserPOJO;
 import com.liqihao.pojo.bean.MmoEmailBean;
 import com.liqihao.pojo.bean.MmoSimpleRole;
 import com.liqihao.util.CommonsUtil;
+import io.netty.channel.Channel;
 import org.apache.poi.ss.formula.functions.T;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -26,14 +36,18 @@ import java.util.stream.Collectors;
  */
 @Component
 public class EmailServiceProvider implements ApplicationContextAware {
+    private final Logger log = LoggerFactory.getLogger(EmailServiceProvider.class);
     MmoEmailPOJOMapper mmoEmailPOJOMapper;
+    static MmoUserPOJOMapper userPOJOMapper;
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         MmoEmailPOJOMapper mmoEmailPOJOMapper=(MmoEmailPOJOMapper)applicationContext.getBean("mmoEmailPOJOMapper");
+        MmoUserPOJOMapper userPOJOMapper=(MmoUserPOJOMapper)applicationContext.getBean("mmoUserPOJOMapper");
         this.mmoEmailPOJOMapper=mmoEmailPOJOMapper;
         Integer index=mmoEmailPOJOMapper.selectNextIndex();
         emailBeanIdAuto=new AtomicInteger(index);
         id=index-1;
+        log.info("EmailServiceProvider：数据库下一个主键index:"+index+" 之前有id："+id);
     }
 
     /**
@@ -62,7 +76,7 @@ public class EmailServiceProvider implements ApplicationContextAware {
      */
     public static void sendArticleEmail(MmoSimpleRole fromRole, MmoSimpleRole toRole, MmoEmailBean emailBean){
         emailBean.setId(emailBeanIdAuto.incrementAndGet());
-        emailBean.setHasArticle(emailBean.getArticleId()!=-1);
+        emailBean.setHasArticle(emailBean.getArticleMessageId()!=-1);
         emailBean.setCreateTime(System.currentTimeMillis());
         emailBean.setChecked(false);
         emailBean.setFromDelete(false);
@@ -74,6 +88,16 @@ public class EmailServiceProvider implements ApplicationContextAware {
             return;
         }else{
             // 插入数据库
+            //查看是否有该玩家
+            MmoUserPOJO userPOJO=userPOJOMapper.selectByPrimaryKey(emailBean.getToRoleId());
+            if (userPOJO==null){
+                NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"该用户不存在".getBytes());
+                Channel channel=ChannelMessageCache.getInstance().get(fromRole.getId());
+                if (channel!=null) {
+                    channel.writeAndFlush(errorResponse);
+                }
+                return;
+            }
             emailBean.setIntoDataBase(true);
             CommonsUtil.mmoEmailPOJOIntoDataBase(emailBean);
         }
@@ -110,7 +134,6 @@ public class EmailServiceProvider implements ApplicationContextAware {
                 Integer id=iterator.next();
                 if (id.equals(emailId)){
                     map.get(emailId).setToDelete(true);
-                    map.remove(emailId);
                     break;
                 }
             }
@@ -125,7 +148,6 @@ public class EmailServiceProvider implements ApplicationContextAware {
                 Integer id=iterator.next();
                 if (id.equals(emailId)){
                     map.get(emailId).setFromDelete(true);
-                    map.remove(emailId);
                     break;
                 }
             }

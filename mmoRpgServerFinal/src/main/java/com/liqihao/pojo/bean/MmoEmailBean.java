@@ -17,7 +17,7 @@ public class MmoEmailBean {
 
     private Integer articleType;
 
-    private Integer articleId;
+    private Integer articleMessageId;
 
     private Integer articleNum;
 
@@ -32,6 +32,14 @@ public class MmoEmailBean {
     private Boolean toDelete;
 
     private Boolean intoDataBase;
+
+    public Integer getArticleMessageId() {
+        return articleMessageId;
+    }
+
+    public void setArticleMessageId(Integer articleMessageId) {
+        this.articleMessageId = articleMessageId;
+    }
 
     public Boolean getIntoDataBase() {
         return intoDataBase;
@@ -121,13 +129,6 @@ public class MmoEmailBean {
         this.articleType = articleType;
     }
 
-    public Integer getArticleId() {
-        return articleId;
-    }
-
-    public void setArticleId(Integer articleId) {
-        this.articleId = articleId;
-    }
 
     public Integer getArticleNum() {
         return articleNum;

@@ -8,7 +8,7 @@
     <result column="from_role_id" jdbcType="INTEGER" property="fromRoleId" />
     <result column="to_role_id" jdbcType="INTEGER" property="toRoleId" />
     <result column="article_type" jdbcType="INTEGER" property="articleType" />
-    <result column="article_id" jdbcType="INTEGER" property="articleId" />
+    <result column="article_message_id" jdbcType="INTEGER" property="articleMessageId" />
     <result column="article_num" jdbcType="INTEGER" property="articleNum" />
     <result column="create_time" jdbcType="BIGINT" property="createTime" />
     <result column="checked" jdbcType="BIT" property="checked" />
@@ -16,7 +16,7 @@
     <result column="to_delete" jdbcType="BIT" property="toDelete" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, title, context, from_role_id, to_role_id, article_type, article_id, article_num, 
+    id, title, context, from_role_id, to_role_id, article_type, article_message_id, article_num, 
     create_time, checked, from_delete, to_delete
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -32,11 +32,11 @@
   <insert id="insert" parameterType="com.liqihao.pojo.MmoEmailPOJO">
     insert into mmo_email (id, title, context, 
       from_role_id, to_role_id, article_type, 
-      article_id, article_num, create_time, 
+      article_message_id, article_num, create_time, 
       checked, from_delete, to_delete)
     values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{context,jdbcType=VARCHAR}, 
       #{fromRoleId,jdbcType=INTEGER}, #{toRoleId,jdbcType=INTEGER}, #{articleType,jdbcType=INTEGER}, 
-      #{articleId,jdbcType=INTEGER}, #{articleNum,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT}, 
+      #{articleMessageId,jdbcType=INTEGER}, #{articleNum,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT}, 
       #{checked,jdbcType=BIT}, #{fromDelete,jdbcType=BIT}, #{toDelete,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.liqihao.pojo.MmoEmailPOJO">
@@ -60,8 +60,8 @@
       <if test="articleType != null">
         article_type,
       </if>
-      <if test="articleId != null">
-        article_id,
+      <if test="articleMessageId != null">
+        article_message_id,
       </if>
       <if test="articleNum != null">
         article_num,
@@ -98,8 +98,8 @@
       <if test="articleType != null">
         #{articleType,jdbcType=INTEGER},
       </if>
-      <if test="articleId != null">
-        #{articleId,jdbcType=INTEGER},
+      <if test="articleMessageId != null">
+        #{articleMessageId,jdbcType=INTEGER},
       </if>
       <if test="articleNum != null">
         #{articleNum,jdbcType=INTEGER},
@@ -136,8 +136,8 @@
       <if test="articleType != null">
         article_type = #{articleType,jdbcType=INTEGER},
       </if>
-      <if test="articleId != null">
-        article_id = #{articleId,jdbcType=INTEGER},
+      <if test="articleMessageId != null">
+        article_message_id = #{articleMessageId,jdbcType=INTEGER},
       </if>
       <if test="articleNum != null">
         article_num = #{articleNum,jdbcType=INTEGER},
@@ -164,7 +164,7 @@
       from_role_id = #{fromRoleId,jdbcType=INTEGER},
       to_role_id = #{toRoleId,jdbcType=INTEGER},
       article_type = #{articleType,jdbcType=INTEGER},
-      article_id = #{articleId,jdbcType=INTEGER},
+      article_message_id = #{articleMessageId,jdbcType=INTEGER},
       article_num = #{articleNum,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=BIGINT},
       checked = #{checked,jdbcType=BIT},
@@ -186,9 +186,8 @@
   </select>
   <select id="selectNextIndex"  resultType="java.lang.Integer">
     select
-    AUTO_INCREMENT
+      AUTO_INCREMENT
     from INFORMATION_SCHEMA. TABLES
     where TABLE_NAME = 'mmo_email'
   </select>
-
 </mapper>

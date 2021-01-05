@@ -1,7 +1,6 @@
 package com.liqihao.dao;
 
 import com.liqihao.pojo.MmoEquipmentBagPOJO;
-import com.liqihao.pojo.MmoEquipmentPOJO;
 
 import java.util.List;
 
@@ -19,4 +18,5 @@ public interface MmoEquipmentBagPOJOMapper {
     int updateByPrimaryKey(MmoEquipmentBagPOJO record);
 
     List<MmoEquipmentBagPOJO> selectByRoleId(Integer roleId);
+
 }

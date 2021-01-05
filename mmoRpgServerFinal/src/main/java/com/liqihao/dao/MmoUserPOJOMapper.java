@@ -15,7 +15,6 @@ public interface MmoUserPOJOMapper {
     int updateByPrimaryKeySelective(MmoUserPOJO record);
 
     int updateByPrimaryKey(MmoUserPOJO record);
-
     Integer selectByUsername(String username);
 
     Integer checkByUernameAndPassword(@Param("username") String username, @Param("password") String password);

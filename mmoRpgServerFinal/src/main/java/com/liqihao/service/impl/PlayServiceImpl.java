@@ -76,7 +76,7 @@ public class PlayServiceImpl implements PlayService {
         mmoRolePOJOMapper.insert(mmoRolePOJO);
         MmoUserPOJO mmoUserPOJO = new MmoUserPOJO();
         mmoUserPOJO.setUserRoleId(mmoRolePOJO.getId().toString());
-        mmoUserPOJO.setUsername(username);
+        mmoUserPOJO.setUserName(username);
         mmoUserPOJO.setUserPwd(password);
         mmoUserPOJOMapper.insert(mmoUserPOJO);
 
@@ -128,7 +128,7 @@ public class PlayServiceImpl implements PlayService {
         List<MmoBagPOJO> mmoBagPOJOS = mmoBagPOJOMapper.selectByRoleId(role.getId());
         for (MmoBagPOJO mmoBagPOJO : mmoBagPOJOS) {
             if (mmoBagPOJO.getArticleType().equals(ArticleTypeCode.EQUIPMENT.getCode())) {
-                MmoEquipmentPOJO mmoEquipmentPOJO = equipmentPOJOMapper.selectByPrimaryKey(mmoBagPOJO.getWId());
+                MmoEquipmentPOJO mmoEquipmentPOJO = equipmentPOJOMapper.selectByPrimaryKey(mmoBagPOJO.getwId());
                 EquipmentMessage message = EquipmentMessageCache.getInstance().get(mmoEquipmentPOJO.getMessageId());
                 EquipmentBean equipmentBean = CommonsUtil.equipmentMessageToEquipmentBean(message);
                 equipmentBean.setQuantity(mmoBagPOJO.getNumber());
@@ -137,7 +137,7 @@ public class PlayServiceImpl implements PlayService {
                 equipmentBean.setNowDurability(mmoEquipmentPOJO.getNowDurability());
                 backPackManager.put(equipmentBean);
             } else if (mmoBagPOJO.getArticleType().equals(ArticleTypeCode.MEDICINE.getCode())) {
-                MedicineMessage message = MediceneMessageCache.getInstance().get(mmoBagPOJO.getWId());
+                MedicineMessage message = MediceneMessageCache.getInstance().get(mmoBagPOJO.getwId());
                 MedicineBean medicineBean = CommonsUtil.medicineMessageToMedicineBean(message);
                 medicineBean.setQuantity(mmoBagPOJO.getNumber());
                 medicineBean.setBagId(mmoBagPOJO.getBagId());
@@ -229,6 +229,12 @@ public class PlayServiceImpl implements PlayService {
         CommonsUtil.bagIntoDataBase(role.getBackpackManager(), role.getId());
         CommonsUtil.equipmentIntoDataBase(role);
         CommonsUtil.RoleInfoIntoDataBase(role);
+        for (MmoEmailBean m:role.getFromMmoEmailBeanConcurrentHashMap().values()) {
+            CommonsUtil.mmoEmailPOJOIntoDataBase(m);
+        }
+        for (MmoEmailBean m:role.getToMmoEmailBeanConcurrentHashMap().values()) {
+            CommonsUtil.mmoEmailPOJOIntoDataBase(m);
+        }
         //将数据库中设置为离线
         MmoRolePOJO mmoRolePOJO = mmoRolePOJOMapper.selectByPrimaryKey(role.getId());
         mmoRolePOJO.setOnStatus(RoleOnStatusCode.EXIT.getCode());

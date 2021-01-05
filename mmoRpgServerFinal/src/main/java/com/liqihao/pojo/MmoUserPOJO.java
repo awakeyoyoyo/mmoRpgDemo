@@ -3,7 +3,7 @@ package com.liqihao.pojo;
 public class MmoUserPOJO {
     private Integer id;
 
-    private String username;
+    private String userName;
 
     private String userPwd;
 
@@ -17,12 +17,12 @@ public class MmoUserPOJO {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username == null ? null : username.trim();
+    public void setUserName(String userName) {
+        this.userName = userName == null ? null : userName.trim();
     }
 
     public String getUserPwd() {

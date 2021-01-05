@@ -11,7 +11,6 @@ public class MmoBagPOJO {
 
     private Integer roleId;
 
-
     public Integer getBagId() {
         return bagId;
     }
@@ -28,11 +27,11 @@ public class MmoBagPOJO {
         this.articleType = articleType;
     }
 
-    public Integer getWId() {
+    public Integer getwId() {
         return wId;
     }
 
-    public void setWId(Integer wId) {
+    public void setwId(Integer wId) {
         this.wId = wId;
     }
 
@@ -51,6 +50,4 @@ public class MmoBagPOJO {
     public void setRoleId(Integer roleId) {
         this.roleId = roleId;
     }
-
-
 }

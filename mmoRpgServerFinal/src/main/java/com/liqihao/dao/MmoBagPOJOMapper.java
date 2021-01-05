@@ -17,5 +17,5 @@ public interface MmoBagPOJOMapper {
 
     int updateByPrimaryKey(MmoBagPOJO record);
 
-    List<MmoBagPOJO> selectByRoleId(Integer roleId);
+    List<MmoBagPOJO> selectByRoleId(Integer id);
 }

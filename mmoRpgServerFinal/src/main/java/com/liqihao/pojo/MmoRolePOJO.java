@@ -15,14 +15,6 @@ public class MmoRolePOJO {
 
     private String skillIds;
 
-    public String getSkillIds() {
-        return skillIds;
-    }
-
-    public void setSkillIds(String skillIds) {
-        this.skillIds = skillIds;
-    }
-
     public Integer getId() {
         return id;
     }
@@ -69,5 +61,13 @@ public class MmoRolePOJO {
 
     public void setOnStatus(Integer onStatus) {
         this.onStatus = onStatus;
+    }
+
+    public String getSkillIds() {
+        return skillIds;
+    }
+
+    public void setSkillIds(String skillIds) {
+        this.skillIds = skillIds == null ? null : skillIds.trim();
     }
 }

@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 /**
  * @author awakeyoyoyo
  * @className ChatServiceImpl
- * @description TODO
  * @date 2021-01-03 19:30
  */
 @Service

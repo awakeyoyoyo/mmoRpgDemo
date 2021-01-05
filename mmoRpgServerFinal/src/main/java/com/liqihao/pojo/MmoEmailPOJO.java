@@ -13,7 +13,7 @@ public class MmoEmailPOJO {
 
     private Integer articleType;
 
-    private Integer articleId;
+    private Integer articleMessageId;
 
     private Integer articleNum;
 
@@ -73,12 +73,12 @@ public class MmoEmailPOJO {
         this.articleType = articleType;
     }
 
-    public Integer getArticleId() {
-        return articleId;
+    public Integer getArticleMessageId() {
+        return articleMessageId;
     }
 
-    public void setArticleId(Integer articleId) {
-        this.articleId = articleId;
+    public void setArticleMessageId(Integer articleMessageId) {
+        this.articleMessageId = articleMessageId;
     }
 
     public Integer getArticleNum() {

@@ -56,9 +56,8 @@ message SendEmailRequest{
   string title=2;
   string context=3;
   int32 toRoleId=5;
-  int32 articleType=6;
-  int32 articleId=7;
-  int32 articleNum=8;
+  int32 articleId=6;
+  int32 articleNum=7;
 }
 message DeleteSendEmailRequest{
   int32 emailId=1;
@@ -90,7 +89,7 @@ message EmailDto{
   int32 fromRoleId=4;
   int32 toRoleId=5;
   int32 articleType=6;
-  int32 articleId=7;
+  int32 articleMessageId=7;
   int32 articleNum=8;
   bool hasArticle=9;
   sint64 createTime=10;

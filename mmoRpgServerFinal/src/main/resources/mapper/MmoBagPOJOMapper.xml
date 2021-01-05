@@ -3,13 +3,13 @@
 <mapper namespace="com.liqihao.dao.MmoBagPOJOMapper">
   <resultMap id="BaseResultMap" type="com.liqihao.pojo.MmoBagPOJO">
     <id column="bag_id" jdbcType="INTEGER" property="bagId" />
-    <result column="articleType" jdbcType="INTEGER" property="articleType" />
+    <result column="article_type" jdbcType="INTEGER" property="articleType" />
     <result column="w_id" jdbcType="INTEGER" property="wId" />
     <result column="number" jdbcType="INTEGER" property="number" />
     <result column="role_id" jdbcType="INTEGER" property="roleId" />
   </resultMap>
   <sql id="Base_Column_List">
-    bag_id, articleType, w_id, number, role_id
+    bag_id, article_type, w_id, number, role_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -22,12 +22,10 @@
     where bag_id = #{bagId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.liqihao.pojo.MmoBagPOJO">
-    insert into mmo_bag (bag_id, articleType, w_id, 
-      number, role_id
-      )
-    values (#{bagId,jdbcType=INTEGER}, #{articletype,jdbcType=INTEGER}, #{wId,jdbcType=INTEGER}, 
-      #{number,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}
-      )
+    insert into mmo_bag (bag_id, article_type, w_id, 
+      number, role_id)
+    values (#{bagId,jdbcType=INTEGER}, #{articleType,jdbcType=INTEGER}, #{wId,jdbcType=INTEGER}, 
+      #{number,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.liqihao.pojo.MmoBagPOJO">
     insert into mmo_bag
@@ -35,8 +33,8 @@
       <if test="bagId != null">
         bag_id,
       </if>
-      <if test="articletype != null">
-        articleType,
+      <if test="articleType != null">
+        article_type,
       </if>
       <if test="wId != null">
         w_id,
@@ -47,14 +45,13 @@
       <if test="roleId != null">
         role_id,
       </if>
-
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="bagId != null">
         #{bagId,jdbcType=INTEGER},
       </if>
-      <if test="articletype != null">
-        #{articletype,jdbcType=INTEGER},
+      <if test="articleType != null">
+        #{articleType,jdbcType=INTEGER},
       </if>
       <if test="wId != null">
         #{wId,jdbcType=INTEGER},
@@ -70,8 +67,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.liqihao.pojo.MmoBagPOJO">
     update mmo_bag
     <set>
-      <if test="articletype != null">
-        articleType = #{articletype,jdbcType=INTEGER},
+      <if test="articleType != null">
+        article_type = #{articleType,jdbcType=INTEGER},
       </if>
       <if test="wId != null">
         w_id = #{wId,jdbcType=INTEGER},
@@ -82,23 +79,21 @@
       <if test="roleId != null">
         role_id = #{roleId,jdbcType=INTEGER},
       </if>
-
     </set>
     where bag_id = #{bagId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.liqihao.pojo.MmoBagPOJO">
     update mmo_bag
-    set articleType = #{articletype,jdbcType=INTEGER},
+    set article_type = #{articleType,jdbcType=INTEGER},
       w_id = #{wId,jdbcType=INTEGER},
       number = #{number,jdbcType=INTEGER},
       role_id = #{roleId,jdbcType=INTEGER}
     where bag_id = #{bagId,jdbcType=INTEGER}
   </update>
-
   <select id="selectByRoleId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from mmo_bag
-    where role_id = #{roleId,jdbcType=INTEGER}
+    where role_id = #{id,jdbcType=INTEGER}
   </select>
 </mapper>
