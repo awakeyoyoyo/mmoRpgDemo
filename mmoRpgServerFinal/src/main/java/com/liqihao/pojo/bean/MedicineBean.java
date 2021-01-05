@@ -27,9 +27,22 @@ public class MedicineBean extends MedicineMessage implements Article{
     private Integer quantity;
     private Integer articleId;
     /**
-     * //数据库行记录id
+     * 数据库行记录id
      */
     private Integer bagId;
+    /**
+     *
+     *地面物品的下标
+     */
+    private Integer floorIndex;
+
+    public Integer getFloorIndex() {
+        return floorIndex;
+    }
+
+    public void setFloorIndex(Integer floorIndex) {
+        this.floorIndex = floorIndex;
+    }
 
     public Integer getBagId() {
         return bagId;

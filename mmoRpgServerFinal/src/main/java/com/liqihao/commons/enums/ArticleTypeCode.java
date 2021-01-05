@@ -2,7 +2,8 @@ package com.liqihao.commons.enums;
 
 public enum  ArticleTypeCode {
     //
-    MEDICINE(0,"药品"),EQUIPMENT(1,"装备"),ACTIVITY(2,"活动道具"),OTHERS(3,"其他");
+    MEDICINE(0,"药品"),EQUIPMENT(1,"装备"),ACTIVITY(2,"活动道具")
+    ,OTHERS(3,"其他"),MONEY(4,"金币");
     private  int code;
     private  String value;
     ArticleTypeCode(int code,String name)

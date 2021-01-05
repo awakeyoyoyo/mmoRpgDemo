@@ -14,4 +14,6 @@ public interface MmoEquipmentPOJOMapper {
     int updateByPrimaryKeySelective(MmoEquipmentPOJO record);
 
     int updateByPrimaryKey(MmoEquipmentPOJO record);
+
+    Integer selectNextIndex();
 }

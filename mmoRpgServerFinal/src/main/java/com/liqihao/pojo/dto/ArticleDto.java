@@ -31,13 +31,28 @@ public class ArticleDto {
      */
     private Integer nowDurability;
 
-    public Integer getNowdurability() {
+    /**
+     *
+     * 武器实例id
+     */
+    private Integer equipmentId;
+
+    public Integer getNowDurability() {
         return nowDurability;
     }
 
-    public void setNowdurability(Integer nowdurability) {
-        nowDurability = nowdurability;
+    public void setNowDurability(Integer nowDurability) {
+        this.nowDurability = nowDurability;
     }
+
+    public Integer getEquipmentId() {
+        return equipmentId;
+    }
+
+    public void setEquipmentId(Integer equipmentId) {
+        this.equipmentId = equipmentId;
+    }
+
 
     public Integer getBagId() {
         return bagId;

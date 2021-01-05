@@ -14,7 +14,6 @@ import com.liqihao.pojo.bean.MmoSimpleRole;
 import com.liqihao.pojo.dto.EquipmentDto;
 import com.liqihao.protobufObject.EquipmentModel;
 import com.liqihao.service.EquipmentService;
-import com.liqihao.util.CommonsUtil;
 import io.netty.channel.Channel;
 import org.springframework.stereotype.Service;
 
@@ -69,7 +68,7 @@ public class EquipmentServiceImpl implements EquipmentService {
         List<EquipmentModel.EquipmentDto> equipmentDtoList = new ArrayList<>();
         for (EquipmentDto e : equipmentDtos) {
             EquipmentModel.EquipmentDto.Builder builder = EquipmentModel.EquipmentDto.newBuilder();
-            builder.setId(e.getId()).setPosition(e.getPosition()).setNowDurability(e.getNowdurability());
+            builder.setId(e.getId()).setPosition(e.getPosition()).setNowDurability(e.getNowDurability());
             equipmentDtoList.add(builder.build());
         }
         NettyResponse nettyResponse = new NettyResponse();

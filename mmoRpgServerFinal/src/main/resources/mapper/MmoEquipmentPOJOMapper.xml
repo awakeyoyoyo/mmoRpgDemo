@@ -68,4 +68,10 @@
       now_durability = #{nowDurability,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectNextIndex"  resultType="java.lang.Integer">
+    select
+      AUTO_INCREMENT
+    from INFORMATION_SCHEMA. TABLES
+    where TABLE_NAME = 'mmo_equipment'
+  </select>
 </mapper>

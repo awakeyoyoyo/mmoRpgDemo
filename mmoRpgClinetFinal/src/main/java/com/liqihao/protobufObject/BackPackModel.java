@@ -155,6 +155,126 @@ public final class BackPackModel {
      */
     AddArticleResponseOrBuilder getAddArticleResponseOrBuilder();
 
+    /**
+     * <code>.FindAllCanGetRequest findAllCanGetRequest = 10;</code>
+     * @return Whether the findAllCanGetRequest field is set.
+     */
+    boolean hasFindAllCanGetRequest();
+    /**
+     * <code>.FindAllCanGetRequest findAllCanGetRequest = 10;</code>
+     * @return The findAllCanGetRequest.
+     */
+    FindAllCanGetRequest getFindAllCanGetRequest();
+    /**
+     * <code>.FindAllCanGetRequest findAllCanGetRequest = 10;</code>
+     */
+    FindAllCanGetRequestOrBuilder getFindAllCanGetRequestOrBuilder();
+
+    /**
+     * <code>.GetArticleFromFloorRequest getArticleFromFloorRequest = 11;</code>
+     * @return Whether the getArticleFromFloorRequest field is set.
+     */
+    boolean hasGetArticleFromFloorRequest();
+    /**
+     * <code>.GetArticleFromFloorRequest getArticleFromFloorRequest = 11;</code>
+     * @return The getArticleFromFloorRequest.
+     */
+    GetArticleFromFloorRequest getGetArticleFromFloorRequest();
+    /**
+     * <code>.GetArticleFromFloorRequest getArticleFromFloorRequest = 11;</code>
+     */
+    GetArticleFromFloorRequestOrBuilder getGetArticleFromFloorRequestOrBuilder();
+
+    /**
+     * <code>.FindAllCanGetResponse findAllCanGetResponse = 12;</code>
+     * @return Whether the findAllCanGetResponse field is set.
+     */
+    boolean hasFindAllCanGetResponse();
+    /**
+     * <code>.FindAllCanGetResponse findAllCanGetResponse = 12;</code>
+     * @return The findAllCanGetResponse.
+     */
+    FindAllCanGetResponse getFindAllCanGetResponse();
+    /**
+     * <code>.FindAllCanGetResponse findAllCanGetResponse = 12;</code>
+     */
+    FindAllCanGetResponseOrBuilder getFindAllCanGetResponseOrBuilder();
+
+    /**
+     * <code>.GetArticleFromFloorResponse getArticleFromFloorResponse = 13;</code>
+     * @return Whether the getArticleFromFloorResponse field is set.
+     */
+    boolean hasGetArticleFromFloorResponse();
+    /**
+     * <code>.GetArticleFromFloorResponse getArticleFromFloorResponse = 13;</code>
+     * @return The getArticleFromFloorResponse.
+     */
+    GetArticleFromFloorResponse getGetArticleFromFloorResponse();
+    /**
+     * <code>.GetArticleFromFloorResponse getArticleFromFloorResponse = 13;</code>
+     */
+    GetArticleFromFloorResponseOrBuilder getGetArticleFromFloorResponseOrBuilder();
+
+    /**
+     * <code>.CheckMoneyNumberRequest checkMoneyNumberRequest = 14;</code>
+     * @return Whether the checkMoneyNumberRequest field is set.
+     */
+    boolean hasCheckMoneyNumberRequest();
+    /**
+     * <code>.CheckMoneyNumberRequest checkMoneyNumberRequest = 14;</code>
+     * @return The checkMoneyNumberRequest.
+     */
+    CheckMoneyNumberRequest getCheckMoneyNumberRequest();
+    /**
+     * <code>.CheckMoneyNumberRequest checkMoneyNumberRequest = 14;</code>
+     */
+    CheckMoneyNumberRequestOrBuilder getCheckMoneyNumberRequestOrBuilder();
+
+    /**
+     * <code>.BuyGoodsRequest buyGoodsRequest = 15;</code>
+     * @return Whether the buyGoodsRequest field is set.
+     */
+    boolean hasBuyGoodsRequest();
+    /**
+     * <code>.BuyGoodsRequest buyGoodsRequest = 15;</code>
+     * @return The buyGoodsRequest.
+     */
+    BuyGoodsRequest getBuyGoodsRequest();
+    /**
+     * <code>.BuyGoodsRequest buyGoodsRequest = 15;</code>
+     */
+    BuyGoodsRequestOrBuilder getBuyGoodsRequestOrBuilder();
+
+    /**
+     * <code>.CheckMoneyNumberResponse checkMoneyNumberResponse = 16;</code>
+     * @return Whether the checkMoneyNumberResponse field is set.
+     */
+    boolean hasCheckMoneyNumberResponse();
+    /**
+     * <code>.CheckMoneyNumberResponse checkMoneyNumberResponse = 16;</code>
+     * @return The checkMoneyNumberResponse.
+     */
+    CheckMoneyNumberResponse getCheckMoneyNumberResponse();
+    /**
+     * <code>.CheckMoneyNumberResponse checkMoneyNumberResponse = 16;</code>
+     */
+    CheckMoneyNumberResponseOrBuilder getCheckMoneyNumberResponseOrBuilder();
+
+    /**
+     * <code>.BuyGoodsResponse buyGoodsResponse = 17;</code>
+     * @return Whether the buyGoodsResponse field is set.
+     */
+    boolean hasBuyGoodsResponse();
+    /**
+     * <code>.BuyGoodsResponse buyGoodsResponse = 17;</code>
+     * @return The buyGoodsResponse.
+     */
+    BuyGoodsResponse getBuyGoodsResponse();
+    /**
+     * <code>.BuyGoodsResponse buyGoodsResponse = 17;</code>
+     */
+    BuyGoodsResponseOrBuilder getBuyGoodsResponseOrBuilder();
+
     public BackPackModelMessage.DateBodyCase getDateBodyCase();
   }
   /**
@@ -321,6 +441,118 @@ public final class BackPackModel {
               dateBodyCase_ = 9;
               break;
             }
+            case 82: {
+              FindAllCanGetRequest.Builder subBuilder = null;
+              if (dateBodyCase_ == 10) {
+                subBuilder = ((FindAllCanGetRequest) dateBody_).toBuilder();
+              }
+              dateBody_ =
+                  input.readMessage(FindAllCanGetRequest.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((FindAllCanGetRequest) dateBody_);
+                dateBody_ = subBuilder.buildPartial();
+              }
+              dateBodyCase_ = 10;
+              break;
+            }
+            case 90: {
+              GetArticleFromFloorRequest.Builder subBuilder = null;
+              if (dateBodyCase_ == 11) {
+                subBuilder = ((GetArticleFromFloorRequest) dateBody_).toBuilder();
+              }
+              dateBody_ =
+                  input.readMessage(GetArticleFromFloorRequest.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((GetArticleFromFloorRequest) dateBody_);
+                dateBody_ = subBuilder.buildPartial();
+              }
+              dateBodyCase_ = 11;
+              break;
+            }
+            case 98: {
+              FindAllCanGetResponse.Builder subBuilder = null;
+              if (dateBodyCase_ == 12) {
+                subBuilder = ((FindAllCanGetResponse) dateBody_).toBuilder();
+              }
+              dateBody_ =
+                  input.readMessage(FindAllCanGetResponse.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((FindAllCanGetResponse) dateBody_);
+                dateBody_ = subBuilder.buildPartial();
+              }
+              dateBodyCase_ = 12;
+              break;
+            }
+            case 106: {
+              GetArticleFromFloorResponse.Builder subBuilder = null;
+              if (dateBodyCase_ == 13) {
+                subBuilder = ((GetArticleFromFloorResponse) dateBody_).toBuilder();
+              }
+              dateBody_ =
+                  input.readMessage(GetArticleFromFloorResponse.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((GetArticleFromFloorResponse) dateBody_);
+                dateBody_ = subBuilder.buildPartial();
+              }
+              dateBodyCase_ = 13;
+              break;
+            }
+            case 114: {
+              CheckMoneyNumberRequest.Builder subBuilder = null;
+              if (dateBodyCase_ == 14) {
+                subBuilder = ((CheckMoneyNumberRequest) dateBody_).toBuilder();
+              }
+              dateBody_ =
+                  input.readMessage(CheckMoneyNumberRequest.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((CheckMoneyNumberRequest) dateBody_);
+                dateBody_ = subBuilder.buildPartial();
+              }
+              dateBodyCase_ = 14;
+              break;
+            }
+            case 122: {
+              BuyGoodsRequest.Builder subBuilder = null;
+              if (dateBodyCase_ == 15) {
+                subBuilder = ((BuyGoodsRequest) dateBody_).toBuilder();
+              }
+              dateBody_ =
+                  input.readMessage(BuyGoodsRequest.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((BuyGoodsRequest) dateBody_);
+                dateBody_ = subBuilder.buildPartial();
+              }
+              dateBodyCase_ = 15;
+              break;
+            }
+            case 130: {
+              CheckMoneyNumberResponse.Builder subBuilder = null;
+              if (dateBodyCase_ == 16) {
+                subBuilder = ((CheckMoneyNumberResponse) dateBody_).toBuilder();
+              }
+              dateBody_ =
+                  input.readMessage(CheckMoneyNumberResponse.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((CheckMoneyNumberResponse) dateBody_);
+                dateBody_ = subBuilder.buildPartial();
+              }
+              dateBodyCase_ = 16;
+              break;
+            }
+            case 138: {
+              BuyGoodsResponse.Builder subBuilder = null;
+              if (dateBodyCase_ == 17) {
+                subBuilder = ((BuyGoodsResponse) dateBody_).toBuilder();
+              }
+              dateBody_ =
+                  input.readMessage(BuyGoodsResponse.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((BuyGoodsResponse) dateBody_);
+                dateBody_ = subBuilder.buildPartial();
+              }
+              dateBodyCase_ = 17;
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -398,6 +630,38 @@ public final class BackPackModel {
        * <code>AddArticleResponse = 7;</code>
        */
       AddArticleResponse(7),
+      /**
+       * <code>FindAllCanGetRequest = 8;</code>
+       */
+      FindAllCanGetRequest(8),
+      /**
+       * <code>GetArticleFromFloorRequest = 9;</code>
+       */
+      GetArticleFromFloorRequest(9),
+      /**
+       * <code>FindAllCanGetResponse = 10;</code>
+       */
+      FindAllCanGetResponse(10),
+      /**
+       * <code>GetArticleFromFloorResponse = 11;</code>
+       */
+      GetArticleFromFloorResponse(11),
+      /**
+       * <code>CheckMoneyNumberRequest = 12;</code>
+       */
+      CheckMoneyNumberRequest(12),
+      /**
+       * <code>BuyGoodsRequest = 13;</code>
+       */
+      BuyGoodsRequest(13),
+      /**
+       * <code>CheckMoneyNumberResponse = 14;</code>
+       */
+      CheckMoneyNumberResponse(14),
+      /**
+       * <code>BuyGoodsResponse = 15;</code>
+       */
+      BuyGoodsResponse(15),
       UNRECOGNIZED(-1),
       ;
 
@@ -437,6 +701,38 @@ public final class BackPackModel {
        * <code>AddArticleResponse = 7;</code>
        */
       public static final int AddArticleResponse_VALUE = 7;
+      /**
+       * <code>FindAllCanGetRequest = 8;</code>
+       */
+      public static final int FindAllCanGetRequest_VALUE = 8;
+      /**
+       * <code>GetArticleFromFloorRequest = 9;</code>
+       */
+      public static final int GetArticleFromFloorRequest_VALUE = 9;
+      /**
+       * <code>FindAllCanGetResponse = 10;</code>
+       */
+      public static final int FindAllCanGetResponse_VALUE = 10;
+      /**
+       * <code>GetArticleFromFloorResponse = 11;</code>
+       */
+      public static final int GetArticleFromFloorResponse_VALUE = 11;
+      /**
+       * <code>CheckMoneyNumberRequest = 12;</code>
+       */
+      public static final int CheckMoneyNumberRequest_VALUE = 12;
+      /**
+       * <code>BuyGoodsRequest = 13;</code>
+       */
+      public static final int BuyGoodsRequest_VALUE = 13;
+      /**
+       * <code>CheckMoneyNumberResponse = 14;</code>
+       */
+      public static final int CheckMoneyNumberResponse_VALUE = 14;
+      /**
+       * <code>BuyGoodsResponse = 15;</code>
+       */
+      public static final int BuyGoodsResponse_VALUE = 15;
 
 
       public final int getNumber() {
@@ -471,6 +767,14 @@ public final class BackPackModel {
           case 5: return UseResponse;
           case 6: return AddArticleRequest;
           case 7: return AddArticleResponse;
+          case 8: return FindAllCanGetRequest;
+          case 9: return GetArticleFromFloorRequest;
+          case 10: return FindAllCanGetResponse;
+          case 11: return GetArticleFromFloorResponse;
+          case 12: return CheckMoneyNumberRequest;
+          case 13: return BuyGoodsRequest;
+          case 14: return CheckMoneyNumberResponse;
+          case 15: return BuyGoodsResponse;
           default: return null;
         }
       }
@@ -540,6 +844,14 @@ public final class BackPackModel {
       USERESPONSE(7),
       ADDARTICLEREQUEST(8),
       ADDARTICLERESPONSE(9),
+      FINDALLCANGETREQUEST(10),
+      GETARTICLEFROMFLOORREQUEST(11),
+      FINDALLCANGETRESPONSE(12),
+      GETARTICLEFROMFLOORRESPONSE(13),
+      CHECKMONEYNUMBERREQUEST(14),
+      BUYGOODSREQUEST(15),
+      CHECKMONEYNUMBERRESPONSE(16),
+      BUYGOODSRESPONSE(17),
       DATEBODY_NOT_SET(0);
       private final int value;
       private DateBodyCase(int value) {
@@ -565,6 +877,14 @@ public final class BackPackModel {
           case 7: return USERESPONSE;
           case 8: return ADDARTICLEREQUEST;
           case 9: return ADDARTICLERESPONSE;
+          case 10: return FINDALLCANGETREQUEST;
+          case 11: return GETARTICLEFROMFLOORREQUEST;
+          case 12: return FINDALLCANGETRESPONSE;
+          case 13: return GETARTICLEFROMFLOORRESPONSE;
+          case 14: return CHECKMONEYNUMBERREQUEST;
+          case 15: return BUYGOODSREQUEST;
+          case 16: return CHECKMONEYNUMBERRESPONSE;
+          case 17: return BUYGOODSRESPONSE;
           case 0: return DATEBODY_NOT_SET;
           default: return null;
         }
@@ -855,6 +1175,254 @@ public final class BackPackModel {
       return AddArticleResponse.getDefaultInstance();
     }
 
+    public static final int FINDALLCANGETREQUEST_FIELD_NUMBER = 10;
+    /**
+     * <code>.FindAllCanGetRequest findAllCanGetRequest = 10;</code>
+     * @return Whether the findAllCanGetRequest field is set.
+     */
+    @Override
+    public boolean hasFindAllCanGetRequest() {
+      return dateBodyCase_ == 10;
+    }
+    /**
+     * <code>.FindAllCanGetRequest findAllCanGetRequest = 10;</code>
+     * @return The findAllCanGetRequest.
+     */
+    @Override
+    public FindAllCanGetRequest getFindAllCanGetRequest() {
+      if (dateBodyCase_ == 10) {
+         return (FindAllCanGetRequest) dateBody_;
+      }
+      return FindAllCanGetRequest.getDefaultInstance();
+    }
+    /**
+     * <code>.FindAllCanGetRequest findAllCanGetRequest = 10;</code>
+     */
+    @Override
+    public FindAllCanGetRequestOrBuilder getFindAllCanGetRequestOrBuilder() {
+      if (dateBodyCase_ == 10) {
+         return (FindAllCanGetRequest) dateBody_;
+      }
+      return FindAllCanGetRequest.getDefaultInstance();
+    }
+
+    public static final int GETARTICLEFROMFLOORREQUEST_FIELD_NUMBER = 11;
+    /**
+     * <code>.GetArticleFromFloorRequest getArticleFromFloorRequest = 11;</code>
+     * @return Whether the getArticleFromFloorRequest field is set.
+     */
+    @Override
+    public boolean hasGetArticleFromFloorRequest() {
+      return dateBodyCase_ == 11;
+    }
+    /**
+     * <code>.GetArticleFromFloorRequest getArticleFromFloorRequest = 11;</code>
+     * @return The getArticleFromFloorRequest.
+     */
+    @Override
+    public GetArticleFromFloorRequest getGetArticleFromFloorRequest() {
+      if (dateBodyCase_ == 11) {
+         return (GetArticleFromFloorRequest) dateBody_;
+      }
+      return GetArticleFromFloorRequest.getDefaultInstance();
+    }
+    /**
+     * <code>.GetArticleFromFloorRequest getArticleFromFloorRequest = 11;</code>
+     */
+    @Override
+    public GetArticleFromFloorRequestOrBuilder getGetArticleFromFloorRequestOrBuilder() {
+      if (dateBodyCase_ == 11) {
+         return (GetArticleFromFloorRequest) dateBody_;
+      }
+      return GetArticleFromFloorRequest.getDefaultInstance();
+    }
+
+    public static final int FINDALLCANGETRESPONSE_FIELD_NUMBER = 12;
+    /**
+     * <code>.FindAllCanGetResponse findAllCanGetResponse = 12;</code>
+     * @return Whether the findAllCanGetResponse field is set.
+     */
+    @Override
+    public boolean hasFindAllCanGetResponse() {
+      return dateBodyCase_ == 12;
+    }
+    /**
+     * <code>.FindAllCanGetResponse findAllCanGetResponse = 12;</code>
+     * @return The findAllCanGetResponse.
+     */
+    @Override
+    public FindAllCanGetResponse getFindAllCanGetResponse() {
+      if (dateBodyCase_ == 12) {
+         return (FindAllCanGetResponse) dateBody_;
+      }
+      return FindAllCanGetResponse.getDefaultInstance();
+    }
+    /**
+     * <code>.FindAllCanGetResponse findAllCanGetResponse = 12;</code>
+     */
+    @Override
+    public FindAllCanGetResponseOrBuilder getFindAllCanGetResponseOrBuilder() {
+      if (dateBodyCase_ == 12) {
+         return (FindAllCanGetResponse) dateBody_;
+      }
+      return FindAllCanGetResponse.getDefaultInstance();
+    }
+
+    public static final int GETARTICLEFROMFLOORRESPONSE_FIELD_NUMBER = 13;
+    /**
+     * <code>.GetArticleFromFloorResponse getArticleFromFloorResponse = 13;</code>
+     * @return Whether the getArticleFromFloorResponse field is set.
+     */
+    @Override
+    public boolean hasGetArticleFromFloorResponse() {
+      return dateBodyCase_ == 13;
+    }
+    /**
+     * <code>.GetArticleFromFloorResponse getArticleFromFloorResponse = 13;</code>
+     * @return The getArticleFromFloorResponse.
+     */
+    @Override
+    public GetArticleFromFloorResponse getGetArticleFromFloorResponse() {
+      if (dateBodyCase_ == 13) {
+         return (GetArticleFromFloorResponse) dateBody_;
+      }
+      return GetArticleFromFloorResponse.getDefaultInstance();
+    }
+    /**
+     * <code>.GetArticleFromFloorResponse getArticleFromFloorResponse = 13;</code>
+     */
+    @Override
+    public GetArticleFromFloorResponseOrBuilder getGetArticleFromFloorResponseOrBuilder() {
+      if (dateBodyCase_ == 13) {
+         return (GetArticleFromFloorResponse) dateBody_;
+      }
+      return GetArticleFromFloorResponse.getDefaultInstance();
+    }
+
+    public static final int CHECKMONEYNUMBERREQUEST_FIELD_NUMBER = 14;
+    /**
+     * <code>.CheckMoneyNumberRequest checkMoneyNumberRequest = 14;</code>
+     * @return Whether the checkMoneyNumberRequest field is set.
+     */
+    @Override
+    public boolean hasCheckMoneyNumberRequest() {
+      return dateBodyCase_ == 14;
+    }
+    /**
+     * <code>.CheckMoneyNumberRequest checkMoneyNumberRequest = 14;</code>
+     * @return The checkMoneyNumberRequest.
+     */
+    @Override
+    public CheckMoneyNumberRequest getCheckMoneyNumberRequest() {
+      if (dateBodyCase_ == 14) {
+         return (CheckMoneyNumberRequest) dateBody_;
+      }
+      return CheckMoneyNumberRequest.getDefaultInstance();
+    }
+    /**
+     * <code>.CheckMoneyNumberRequest checkMoneyNumberRequest = 14;</code>
+     */
+    @Override
+    public CheckMoneyNumberRequestOrBuilder getCheckMoneyNumberRequestOrBuilder() {
+      if (dateBodyCase_ == 14) {
+         return (CheckMoneyNumberRequest) dateBody_;
+      }
+      return CheckMoneyNumberRequest.getDefaultInstance();
+    }
+
+    public static final int BUYGOODSREQUEST_FIELD_NUMBER = 15;
+    /**
+     * <code>.BuyGoodsRequest buyGoodsRequest = 15;</code>
+     * @return Whether the buyGoodsRequest field is set.
+     */
+    @Override
+    public boolean hasBuyGoodsRequest() {
+      return dateBodyCase_ == 15;
+    }
+    /**
+     * <code>.BuyGoodsRequest buyGoodsRequest = 15;</code>
+     * @return The buyGoodsRequest.
+     */
+    @Override
+    public BuyGoodsRequest getBuyGoodsRequest() {
+      if (dateBodyCase_ == 15) {
+         return (BuyGoodsRequest) dateBody_;
+      }
+      return BuyGoodsRequest.getDefaultInstance();
+    }
+    /**
+     * <code>.BuyGoodsRequest buyGoodsRequest = 15;</code>
+     */
+    @Override
+    public BuyGoodsRequestOrBuilder getBuyGoodsRequestOrBuilder() {
+      if (dateBodyCase_ == 15) {
+         return (BuyGoodsRequest) dateBody_;
+      }
+      return BuyGoodsRequest.getDefaultInstance();
+    }
+
+    public static final int CHECKMONEYNUMBERRESPONSE_FIELD_NUMBER = 16;
+    /**
+     * <code>.CheckMoneyNumberResponse checkMoneyNumberResponse = 16;</code>
+     * @return Whether the checkMoneyNumberResponse field is set.
+     */
+    @Override
+    public boolean hasCheckMoneyNumberResponse() {
+      return dateBodyCase_ == 16;
+    }
+    /**
+     * <code>.CheckMoneyNumberResponse checkMoneyNumberResponse = 16;</code>
+     * @return The checkMoneyNumberResponse.
+     */
+    @Override
+    public CheckMoneyNumberResponse getCheckMoneyNumberResponse() {
+      if (dateBodyCase_ == 16) {
+         return (CheckMoneyNumberResponse) dateBody_;
+      }
+      return CheckMoneyNumberResponse.getDefaultInstance();
+    }
+    /**
+     * <code>.CheckMoneyNumberResponse checkMoneyNumberResponse = 16;</code>
+     */
+    @Override
+    public CheckMoneyNumberResponseOrBuilder getCheckMoneyNumberResponseOrBuilder() {
+      if (dateBodyCase_ == 16) {
+         return (CheckMoneyNumberResponse) dateBody_;
+      }
+      return CheckMoneyNumberResponse.getDefaultInstance();
+    }
+
+    public static final int BUYGOODSRESPONSE_FIELD_NUMBER = 17;
+    /**
+     * <code>.BuyGoodsResponse buyGoodsResponse = 17;</code>
+     * @return Whether the buyGoodsResponse field is set.
+     */
+    @Override
+    public boolean hasBuyGoodsResponse() {
+      return dateBodyCase_ == 17;
+    }
+    /**
+     * <code>.BuyGoodsResponse buyGoodsResponse = 17;</code>
+     * @return The buyGoodsResponse.
+     */
+    @Override
+    public BuyGoodsResponse getBuyGoodsResponse() {
+      if (dateBodyCase_ == 17) {
+         return (BuyGoodsResponse) dateBody_;
+      }
+      return BuyGoodsResponse.getDefaultInstance();
+    }
+    /**
+     * <code>.BuyGoodsResponse buyGoodsResponse = 17;</code>
+     */
+    @Override
+    public BuyGoodsResponseOrBuilder getBuyGoodsResponseOrBuilder() {
+      if (dateBodyCase_ == 17) {
+         return (BuyGoodsResponse) dateBody_;
+      }
+      return BuyGoodsResponse.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -895,6 +1463,30 @@ public final class BackPackModel {
       }
       if (dateBodyCase_ == 9) {
         output.writeMessage(9, (AddArticleResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 10) {
+        output.writeMessage(10, (FindAllCanGetRequest) dateBody_);
+      }
+      if (dateBodyCase_ == 11) {
+        output.writeMessage(11, (GetArticleFromFloorRequest) dateBody_);
+      }
+      if (dateBodyCase_ == 12) {
+        output.writeMessage(12, (FindAllCanGetResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 13) {
+        output.writeMessage(13, (GetArticleFromFloorResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 14) {
+        output.writeMessage(14, (CheckMoneyNumberRequest) dateBody_);
+      }
+      if (dateBodyCase_ == 15) {
+        output.writeMessage(15, (BuyGoodsRequest) dateBody_);
+      }
+      if (dateBodyCase_ == 16) {
+        output.writeMessage(16, (CheckMoneyNumberResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 17) {
+        output.writeMessage(17, (BuyGoodsResponse) dateBody_);
       }
       unknownFields.writeTo(output);
     }
@@ -940,6 +1532,38 @@ public final class BackPackModel {
       if (dateBodyCase_ == 9) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(9, (AddArticleResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 10) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(10, (FindAllCanGetRequest) dateBody_);
+      }
+      if (dateBodyCase_ == 11) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(11, (GetArticleFromFloorRequest) dateBody_);
+      }
+      if (dateBodyCase_ == 12) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(12, (FindAllCanGetResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 13) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(13, (GetArticleFromFloorResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 14) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(14, (CheckMoneyNumberRequest) dateBody_);
+      }
+      if (dateBodyCase_ == 15) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(15, (BuyGoodsRequest) dateBody_);
+      }
+      if (dateBodyCase_ == 16) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(16, (CheckMoneyNumberResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 17) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(17, (BuyGoodsResponse) dateBody_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -991,6 +1615,38 @@ public final class BackPackModel {
           if (!getAddArticleResponse()
               .equals(other.getAddArticleResponse())) return false;
           break;
+        case 10:
+          if (!getFindAllCanGetRequest()
+              .equals(other.getFindAllCanGetRequest())) return false;
+          break;
+        case 11:
+          if (!getGetArticleFromFloorRequest()
+              .equals(other.getGetArticleFromFloorRequest())) return false;
+          break;
+        case 12:
+          if (!getFindAllCanGetResponse()
+              .equals(other.getFindAllCanGetResponse())) return false;
+          break;
+        case 13:
+          if (!getGetArticleFromFloorResponse()
+              .equals(other.getGetArticleFromFloorResponse())) return false;
+          break;
+        case 14:
+          if (!getCheckMoneyNumberRequest()
+              .equals(other.getCheckMoneyNumberRequest())) return false;
+          break;
+        case 15:
+          if (!getBuyGoodsRequest()
+              .equals(other.getBuyGoodsRequest())) return false;
+          break;
+        case 16:
+          if (!getCheckMoneyNumberResponse()
+              .equals(other.getCheckMoneyNumberResponse())) return false;
+          break;
+        case 17:
+          if (!getBuyGoodsResponse()
+              .equals(other.getBuyGoodsResponse())) return false;
+          break;
         case 0:
         default:
       }
@@ -1039,6 +1695,38 @@ public final class BackPackModel {
         case 9:
           hash = (37 * hash) + ADDARTICLERESPONSE_FIELD_NUMBER;
           hash = (53 * hash) + getAddArticleResponse().hashCode();
+          break;
+        case 10:
+          hash = (37 * hash) + FINDALLCANGETREQUEST_FIELD_NUMBER;
+          hash = (53 * hash) + getFindAllCanGetRequest().hashCode();
+          break;
+        case 11:
+          hash = (37 * hash) + GETARTICLEFROMFLOORREQUEST_FIELD_NUMBER;
+          hash = (53 * hash) + getGetArticleFromFloorRequest().hashCode();
+          break;
+        case 12:
+          hash = (37 * hash) + FINDALLCANGETRESPONSE_FIELD_NUMBER;
+          hash = (53 * hash) + getFindAllCanGetResponse().hashCode();
+          break;
+        case 13:
+          hash = (37 * hash) + GETARTICLEFROMFLOORRESPONSE_FIELD_NUMBER;
+          hash = (53 * hash) + getGetArticleFromFloorResponse().hashCode();
+          break;
+        case 14:
+          hash = (37 * hash) + CHECKMONEYNUMBERREQUEST_FIELD_NUMBER;
+          hash = (53 * hash) + getCheckMoneyNumberRequest().hashCode();
+          break;
+        case 15:
+          hash = (37 * hash) + BUYGOODSREQUEST_FIELD_NUMBER;
+          hash = (53 * hash) + getBuyGoodsRequest().hashCode();
+          break;
+        case 16:
+          hash = (37 * hash) + CHECKMONEYNUMBERRESPONSE_FIELD_NUMBER;
+          hash = (53 * hash) + getCheckMoneyNumberResponse().hashCode();
+          break;
+        case 17:
+          hash = (37 * hash) + BUYGOODSRESPONSE_FIELD_NUMBER;
+          hash = (53 * hash) + getBuyGoodsResponse().hashCode();
           break;
         case 0:
         default:
@@ -1263,6 +1951,62 @@ public final class BackPackModel {
             result.dateBody_ = addArticleResponseBuilder_.build();
           }
         }
+        if (dateBodyCase_ == 10) {
+          if (findAllCanGetRequestBuilder_ == null) {
+            result.dateBody_ = dateBody_;
+          } else {
+            result.dateBody_ = findAllCanGetRequestBuilder_.build();
+          }
+        }
+        if (dateBodyCase_ == 11) {
+          if (getArticleFromFloorRequestBuilder_ == null) {
+            result.dateBody_ = dateBody_;
+          } else {
+            result.dateBody_ = getArticleFromFloorRequestBuilder_.build();
+          }
+        }
+        if (dateBodyCase_ == 12) {
+          if (findAllCanGetResponseBuilder_ == null) {
+            result.dateBody_ = dateBody_;
+          } else {
+            result.dateBody_ = findAllCanGetResponseBuilder_.build();
+          }
+        }
+        if (dateBodyCase_ == 13) {
+          if (getArticleFromFloorResponseBuilder_ == null) {
+            result.dateBody_ = dateBody_;
+          } else {
+            result.dateBody_ = getArticleFromFloorResponseBuilder_.build();
+          }
+        }
+        if (dateBodyCase_ == 14) {
+          if (checkMoneyNumberRequestBuilder_ == null) {
+            result.dateBody_ = dateBody_;
+          } else {
+            result.dateBody_ = checkMoneyNumberRequestBuilder_.build();
+          }
+        }
+        if (dateBodyCase_ == 15) {
+          if (buyGoodsRequestBuilder_ == null) {
+            result.dateBody_ = dateBody_;
+          } else {
+            result.dateBody_ = buyGoodsRequestBuilder_.build();
+          }
+        }
+        if (dateBodyCase_ == 16) {
+          if (checkMoneyNumberResponseBuilder_ == null) {
+            result.dateBody_ = dateBody_;
+          } else {
+            result.dateBody_ = checkMoneyNumberResponseBuilder_.build();
+          }
+        }
+        if (dateBodyCase_ == 17) {
+          if (buyGoodsResponseBuilder_ == null) {
+            result.dateBody_ = dateBody_;
+          } else {
+            result.dateBody_ = buyGoodsResponseBuilder_.build();
+          }
+        }
         result.dateBodyCase_ = dateBodyCase_;
         onBuilt();
         return result;
@@ -1346,6 +2090,38 @@ public final class BackPackModel {
           }
           case ADDARTICLERESPONSE: {
             mergeAddArticleResponse(other.getAddArticleResponse());
+            break;
+          }
+          case FINDALLCANGETREQUEST: {
+            mergeFindAllCanGetRequest(other.getFindAllCanGetRequest());
+            break;
+          }
+          case GETARTICLEFROMFLOORREQUEST: {
+            mergeGetArticleFromFloorRequest(other.getGetArticleFromFloorRequest());
+            break;
+          }
+          case FINDALLCANGETRESPONSE: {
+            mergeFindAllCanGetResponse(other.getFindAllCanGetResponse());
+            break;
+          }
+          case GETARTICLEFROMFLOORRESPONSE: {
+            mergeGetArticleFromFloorResponse(other.getGetArticleFromFloorResponse());
+            break;
+          }
+          case CHECKMONEYNUMBERREQUEST: {
+            mergeCheckMoneyNumberRequest(other.getCheckMoneyNumberRequest());
+            break;
+          }
+          case BUYGOODSREQUEST: {
+            mergeBuyGoodsRequest(other.getBuyGoodsRequest());
+            break;
+          }
+          case CHECKMONEYNUMBERRESPONSE: {
+            mergeCheckMoneyNumberResponse(other.getCheckMoneyNumberResponse());
+            break;
+          }
+          case BUYGOODSRESPONSE: {
+            mergeBuyGoodsResponse(other.getBuyGoodsResponse());
             break;
           }
           case DATEBODY_NOT_SET: {
@@ -2597,6 +3373,1134 @@ public final class BackPackModel {
         onChanged();;
         return addArticleResponseBuilder_;
       }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          FindAllCanGetRequest, FindAllCanGetRequest.Builder, FindAllCanGetRequestOrBuilder> findAllCanGetRequestBuilder_;
+      /**
+       * <code>.FindAllCanGetRequest findAllCanGetRequest = 10;</code>
+       * @return Whether the findAllCanGetRequest field is set.
+       */
+      @Override
+      public boolean hasFindAllCanGetRequest() {
+        return dateBodyCase_ == 10;
+      }
+      /**
+       * <code>.FindAllCanGetRequest findAllCanGetRequest = 10;</code>
+       * @return The findAllCanGetRequest.
+       */
+      @Override
+      public FindAllCanGetRequest getFindAllCanGetRequest() {
+        if (findAllCanGetRequestBuilder_ == null) {
+          if (dateBodyCase_ == 10) {
+            return (FindAllCanGetRequest) dateBody_;
+          }
+          return FindAllCanGetRequest.getDefaultInstance();
+        } else {
+          if (dateBodyCase_ == 10) {
+            return findAllCanGetRequestBuilder_.getMessage();
+          }
+          return FindAllCanGetRequest.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.FindAllCanGetRequest findAllCanGetRequest = 10;</code>
+       */
+      public Builder setFindAllCanGetRequest(FindAllCanGetRequest value) {
+        if (findAllCanGetRequestBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dateBody_ = value;
+          onChanged();
+        } else {
+          findAllCanGetRequestBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 10;
+        return this;
+      }
+      /**
+       * <code>.FindAllCanGetRequest findAllCanGetRequest = 10;</code>
+       */
+      public Builder setFindAllCanGetRequest(
+          FindAllCanGetRequest.Builder builderForValue) {
+        if (findAllCanGetRequestBuilder_ == null) {
+          dateBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          findAllCanGetRequestBuilder_.setMessage(builderForValue.build());
+        }
+        dateBodyCase_ = 10;
+        return this;
+      }
+      /**
+       * <code>.FindAllCanGetRequest findAllCanGetRequest = 10;</code>
+       */
+      public Builder mergeFindAllCanGetRequest(FindAllCanGetRequest value) {
+        if (findAllCanGetRequestBuilder_ == null) {
+          if (dateBodyCase_ == 10 &&
+              dateBody_ != FindAllCanGetRequest.getDefaultInstance()) {
+            dateBody_ = FindAllCanGetRequest.newBuilder((FindAllCanGetRequest) dateBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dateBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dateBodyCase_ == 10) {
+            findAllCanGetRequestBuilder_.mergeFrom(value);
+          }
+          findAllCanGetRequestBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 10;
+        return this;
+      }
+      /**
+       * <code>.FindAllCanGetRequest findAllCanGetRequest = 10;</code>
+       */
+      public Builder clearFindAllCanGetRequest() {
+        if (findAllCanGetRequestBuilder_ == null) {
+          if (dateBodyCase_ == 10) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dateBodyCase_ == 10) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+          }
+          findAllCanGetRequestBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.FindAllCanGetRequest findAllCanGetRequest = 10;</code>
+       */
+      public FindAllCanGetRequest.Builder getFindAllCanGetRequestBuilder() {
+        return getFindAllCanGetRequestFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.FindAllCanGetRequest findAllCanGetRequest = 10;</code>
+       */
+      @Override
+      public FindAllCanGetRequestOrBuilder getFindAllCanGetRequestOrBuilder() {
+        if ((dateBodyCase_ == 10) && (findAllCanGetRequestBuilder_ != null)) {
+          return findAllCanGetRequestBuilder_.getMessageOrBuilder();
+        } else {
+          if (dateBodyCase_ == 10) {
+            return (FindAllCanGetRequest) dateBody_;
+          }
+          return FindAllCanGetRequest.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.FindAllCanGetRequest findAllCanGetRequest = 10;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          FindAllCanGetRequest, FindAllCanGetRequest.Builder, FindAllCanGetRequestOrBuilder>
+          getFindAllCanGetRequestFieldBuilder() {
+        if (findAllCanGetRequestBuilder_ == null) {
+          if (!(dateBodyCase_ == 10)) {
+            dateBody_ = FindAllCanGetRequest.getDefaultInstance();
+          }
+          findAllCanGetRequestBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              FindAllCanGetRequest, FindAllCanGetRequest.Builder, FindAllCanGetRequestOrBuilder>(
+                  (FindAllCanGetRequest) dateBody_,
+                  getParentForChildren(),
+                  isClean());
+          dateBody_ = null;
+        }
+        dateBodyCase_ = 10;
+        onChanged();;
+        return findAllCanGetRequestBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          GetArticleFromFloorRequest, GetArticleFromFloorRequest.Builder, GetArticleFromFloorRequestOrBuilder> getArticleFromFloorRequestBuilder_;
+      /**
+       * <code>.GetArticleFromFloorRequest getArticleFromFloorRequest = 11;</code>
+       * @return Whether the getArticleFromFloorRequest field is set.
+       */
+      @Override
+      public boolean hasGetArticleFromFloorRequest() {
+        return dateBodyCase_ == 11;
+      }
+      /**
+       * <code>.GetArticleFromFloorRequest getArticleFromFloorRequest = 11;</code>
+       * @return The getArticleFromFloorRequest.
+       */
+      @Override
+      public GetArticleFromFloorRequest getGetArticleFromFloorRequest() {
+        if (getArticleFromFloorRequestBuilder_ == null) {
+          if (dateBodyCase_ == 11) {
+            return (GetArticleFromFloorRequest) dateBody_;
+          }
+          return GetArticleFromFloorRequest.getDefaultInstance();
+        } else {
+          if (dateBodyCase_ == 11) {
+            return getArticleFromFloorRequestBuilder_.getMessage();
+          }
+          return GetArticleFromFloorRequest.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.GetArticleFromFloorRequest getArticleFromFloorRequest = 11;</code>
+       */
+      public Builder setGetArticleFromFloorRequest(GetArticleFromFloorRequest value) {
+        if (getArticleFromFloorRequestBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dateBody_ = value;
+          onChanged();
+        } else {
+          getArticleFromFloorRequestBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 11;
+        return this;
+      }
+      /**
+       * <code>.GetArticleFromFloorRequest getArticleFromFloorRequest = 11;</code>
+       */
+      public Builder setGetArticleFromFloorRequest(
+          GetArticleFromFloorRequest.Builder builderForValue) {
+        if (getArticleFromFloorRequestBuilder_ == null) {
+          dateBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          getArticleFromFloorRequestBuilder_.setMessage(builderForValue.build());
+        }
+        dateBodyCase_ = 11;
+        return this;
+      }
+      /**
+       * <code>.GetArticleFromFloorRequest getArticleFromFloorRequest = 11;</code>
+       */
+      public Builder mergeGetArticleFromFloorRequest(GetArticleFromFloorRequest value) {
+        if (getArticleFromFloorRequestBuilder_ == null) {
+          if (dateBodyCase_ == 11 &&
+              dateBody_ != GetArticleFromFloorRequest.getDefaultInstance()) {
+            dateBody_ = GetArticleFromFloorRequest.newBuilder((GetArticleFromFloorRequest) dateBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dateBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dateBodyCase_ == 11) {
+            getArticleFromFloorRequestBuilder_.mergeFrom(value);
+          }
+          getArticleFromFloorRequestBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 11;
+        return this;
+      }
+      /**
+       * <code>.GetArticleFromFloorRequest getArticleFromFloorRequest = 11;</code>
+       */
+      public Builder clearGetArticleFromFloorRequest() {
+        if (getArticleFromFloorRequestBuilder_ == null) {
+          if (dateBodyCase_ == 11) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dateBodyCase_ == 11) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+          }
+          getArticleFromFloorRequestBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.GetArticleFromFloorRequest getArticleFromFloorRequest = 11;</code>
+       */
+      public GetArticleFromFloorRequest.Builder getGetArticleFromFloorRequestBuilder() {
+        return getGetArticleFromFloorRequestFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.GetArticleFromFloorRequest getArticleFromFloorRequest = 11;</code>
+       */
+      @Override
+      public GetArticleFromFloorRequestOrBuilder getGetArticleFromFloorRequestOrBuilder() {
+        if ((dateBodyCase_ == 11) && (getArticleFromFloorRequestBuilder_ != null)) {
+          return getArticleFromFloorRequestBuilder_.getMessageOrBuilder();
+        } else {
+          if (dateBodyCase_ == 11) {
+            return (GetArticleFromFloorRequest) dateBody_;
+          }
+          return GetArticleFromFloorRequest.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.GetArticleFromFloorRequest getArticleFromFloorRequest = 11;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          GetArticleFromFloorRequest, GetArticleFromFloorRequest.Builder, GetArticleFromFloorRequestOrBuilder>
+          getGetArticleFromFloorRequestFieldBuilder() {
+        if (getArticleFromFloorRequestBuilder_ == null) {
+          if (!(dateBodyCase_ == 11)) {
+            dateBody_ = GetArticleFromFloorRequest.getDefaultInstance();
+          }
+          getArticleFromFloorRequestBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              GetArticleFromFloorRequest, GetArticleFromFloorRequest.Builder, GetArticleFromFloorRequestOrBuilder>(
+                  (GetArticleFromFloorRequest) dateBody_,
+                  getParentForChildren(),
+                  isClean());
+          dateBody_ = null;
+        }
+        dateBodyCase_ = 11;
+        onChanged();;
+        return getArticleFromFloorRequestBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          FindAllCanGetResponse, FindAllCanGetResponse.Builder, FindAllCanGetResponseOrBuilder> findAllCanGetResponseBuilder_;
+      /**
+       * <code>.FindAllCanGetResponse findAllCanGetResponse = 12;</code>
+       * @return Whether the findAllCanGetResponse field is set.
+       */
+      @Override
+      public boolean hasFindAllCanGetResponse() {
+        return dateBodyCase_ == 12;
+      }
+      /**
+       * <code>.FindAllCanGetResponse findAllCanGetResponse = 12;</code>
+       * @return The findAllCanGetResponse.
+       */
+      @Override
+      public FindAllCanGetResponse getFindAllCanGetResponse() {
+        if (findAllCanGetResponseBuilder_ == null) {
+          if (dateBodyCase_ == 12) {
+            return (FindAllCanGetResponse) dateBody_;
+          }
+          return FindAllCanGetResponse.getDefaultInstance();
+        } else {
+          if (dateBodyCase_ == 12) {
+            return findAllCanGetResponseBuilder_.getMessage();
+          }
+          return FindAllCanGetResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.FindAllCanGetResponse findAllCanGetResponse = 12;</code>
+       */
+      public Builder setFindAllCanGetResponse(FindAllCanGetResponse value) {
+        if (findAllCanGetResponseBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dateBody_ = value;
+          onChanged();
+        } else {
+          findAllCanGetResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 12;
+        return this;
+      }
+      /**
+       * <code>.FindAllCanGetResponse findAllCanGetResponse = 12;</code>
+       */
+      public Builder setFindAllCanGetResponse(
+          FindAllCanGetResponse.Builder builderForValue) {
+        if (findAllCanGetResponseBuilder_ == null) {
+          dateBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          findAllCanGetResponseBuilder_.setMessage(builderForValue.build());
+        }
+        dateBodyCase_ = 12;
+        return this;
+      }
+      /**
+       * <code>.FindAllCanGetResponse findAllCanGetResponse = 12;</code>
+       */
+      public Builder mergeFindAllCanGetResponse(FindAllCanGetResponse value) {
+        if (findAllCanGetResponseBuilder_ == null) {
+          if (dateBodyCase_ == 12 &&
+              dateBody_ != FindAllCanGetResponse.getDefaultInstance()) {
+            dateBody_ = FindAllCanGetResponse.newBuilder((FindAllCanGetResponse) dateBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dateBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dateBodyCase_ == 12) {
+            findAllCanGetResponseBuilder_.mergeFrom(value);
+          }
+          findAllCanGetResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 12;
+        return this;
+      }
+      /**
+       * <code>.FindAllCanGetResponse findAllCanGetResponse = 12;</code>
+       */
+      public Builder clearFindAllCanGetResponse() {
+        if (findAllCanGetResponseBuilder_ == null) {
+          if (dateBodyCase_ == 12) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dateBodyCase_ == 12) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+          }
+          findAllCanGetResponseBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.FindAllCanGetResponse findAllCanGetResponse = 12;</code>
+       */
+      public FindAllCanGetResponse.Builder getFindAllCanGetResponseBuilder() {
+        return getFindAllCanGetResponseFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.FindAllCanGetResponse findAllCanGetResponse = 12;</code>
+       */
+      @Override
+      public FindAllCanGetResponseOrBuilder getFindAllCanGetResponseOrBuilder() {
+        if ((dateBodyCase_ == 12) && (findAllCanGetResponseBuilder_ != null)) {
+          return findAllCanGetResponseBuilder_.getMessageOrBuilder();
+        } else {
+          if (dateBodyCase_ == 12) {
+            return (FindAllCanGetResponse) dateBody_;
+          }
+          return FindAllCanGetResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.FindAllCanGetResponse findAllCanGetResponse = 12;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          FindAllCanGetResponse, FindAllCanGetResponse.Builder, FindAllCanGetResponseOrBuilder>
+          getFindAllCanGetResponseFieldBuilder() {
+        if (findAllCanGetResponseBuilder_ == null) {
+          if (!(dateBodyCase_ == 12)) {
+            dateBody_ = FindAllCanGetResponse.getDefaultInstance();
+          }
+          findAllCanGetResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              FindAllCanGetResponse, FindAllCanGetResponse.Builder, FindAllCanGetResponseOrBuilder>(
+                  (FindAllCanGetResponse) dateBody_,
+                  getParentForChildren(),
+                  isClean());
+          dateBody_ = null;
+        }
+        dateBodyCase_ = 12;
+        onChanged();;
+        return findAllCanGetResponseBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          GetArticleFromFloorResponse, GetArticleFromFloorResponse.Builder, GetArticleFromFloorResponseOrBuilder> getArticleFromFloorResponseBuilder_;
+      /**
+       * <code>.GetArticleFromFloorResponse getArticleFromFloorResponse = 13;</code>
+       * @return Whether the getArticleFromFloorResponse field is set.
+       */
+      @Override
+      public boolean hasGetArticleFromFloorResponse() {
+        return dateBodyCase_ == 13;
+      }
+      /**
+       * <code>.GetArticleFromFloorResponse getArticleFromFloorResponse = 13;</code>
+       * @return The getArticleFromFloorResponse.
+       */
+      @Override
+      public GetArticleFromFloorResponse getGetArticleFromFloorResponse() {
+        if (getArticleFromFloorResponseBuilder_ == null) {
+          if (dateBodyCase_ == 13) {
+            return (GetArticleFromFloorResponse) dateBody_;
+          }
+          return GetArticleFromFloorResponse.getDefaultInstance();
+        } else {
+          if (dateBodyCase_ == 13) {
+            return getArticleFromFloorResponseBuilder_.getMessage();
+          }
+          return GetArticleFromFloorResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.GetArticleFromFloorResponse getArticleFromFloorResponse = 13;</code>
+       */
+      public Builder setGetArticleFromFloorResponse(GetArticleFromFloorResponse value) {
+        if (getArticleFromFloorResponseBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dateBody_ = value;
+          onChanged();
+        } else {
+          getArticleFromFloorResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 13;
+        return this;
+      }
+      /**
+       * <code>.GetArticleFromFloorResponse getArticleFromFloorResponse = 13;</code>
+       */
+      public Builder setGetArticleFromFloorResponse(
+          GetArticleFromFloorResponse.Builder builderForValue) {
+        if (getArticleFromFloorResponseBuilder_ == null) {
+          dateBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          getArticleFromFloorResponseBuilder_.setMessage(builderForValue.build());
+        }
+        dateBodyCase_ = 13;
+        return this;
+      }
+      /**
+       * <code>.GetArticleFromFloorResponse getArticleFromFloorResponse = 13;</code>
+       */
+      public Builder mergeGetArticleFromFloorResponse(GetArticleFromFloorResponse value) {
+        if (getArticleFromFloorResponseBuilder_ == null) {
+          if (dateBodyCase_ == 13 &&
+              dateBody_ != GetArticleFromFloorResponse.getDefaultInstance()) {
+            dateBody_ = GetArticleFromFloorResponse.newBuilder((GetArticleFromFloorResponse) dateBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dateBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dateBodyCase_ == 13) {
+            getArticleFromFloorResponseBuilder_.mergeFrom(value);
+          }
+          getArticleFromFloorResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 13;
+        return this;
+      }
+      /**
+       * <code>.GetArticleFromFloorResponse getArticleFromFloorResponse = 13;</code>
+       */
+      public Builder clearGetArticleFromFloorResponse() {
+        if (getArticleFromFloorResponseBuilder_ == null) {
+          if (dateBodyCase_ == 13) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dateBodyCase_ == 13) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+          }
+          getArticleFromFloorResponseBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.GetArticleFromFloorResponse getArticleFromFloorResponse = 13;</code>
+       */
+      public GetArticleFromFloorResponse.Builder getGetArticleFromFloorResponseBuilder() {
+        return getGetArticleFromFloorResponseFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.GetArticleFromFloorResponse getArticleFromFloorResponse = 13;</code>
+       */
+      @Override
+      public GetArticleFromFloorResponseOrBuilder getGetArticleFromFloorResponseOrBuilder() {
+        if ((dateBodyCase_ == 13) && (getArticleFromFloorResponseBuilder_ != null)) {
+          return getArticleFromFloorResponseBuilder_.getMessageOrBuilder();
+        } else {
+          if (dateBodyCase_ == 13) {
+            return (GetArticleFromFloorResponse) dateBody_;
+          }
+          return GetArticleFromFloorResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.GetArticleFromFloorResponse getArticleFromFloorResponse = 13;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          GetArticleFromFloorResponse, GetArticleFromFloorResponse.Builder, GetArticleFromFloorResponseOrBuilder>
+          getGetArticleFromFloorResponseFieldBuilder() {
+        if (getArticleFromFloorResponseBuilder_ == null) {
+          if (!(dateBodyCase_ == 13)) {
+            dateBody_ = GetArticleFromFloorResponse.getDefaultInstance();
+          }
+          getArticleFromFloorResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              GetArticleFromFloorResponse, GetArticleFromFloorResponse.Builder, GetArticleFromFloorResponseOrBuilder>(
+                  (GetArticleFromFloorResponse) dateBody_,
+                  getParentForChildren(),
+                  isClean());
+          dateBody_ = null;
+        }
+        dateBodyCase_ = 13;
+        onChanged();;
+        return getArticleFromFloorResponseBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          CheckMoneyNumberRequest, CheckMoneyNumberRequest.Builder, CheckMoneyNumberRequestOrBuilder> checkMoneyNumberRequestBuilder_;
+      /**
+       * <code>.CheckMoneyNumberRequest checkMoneyNumberRequest = 14;</code>
+       * @return Whether the checkMoneyNumberRequest field is set.
+       */
+      @Override
+      public boolean hasCheckMoneyNumberRequest() {
+        return dateBodyCase_ == 14;
+      }
+      /**
+       * <code>.CheckMoneyNumberRequest checkMoneyNumberRequest = 14;</code>
+       * @return The checkMoneyNumberRequest.
+       */
+      @Override
+      public CheckMoneyNumberRequest getCheckMoneyNumberRequest() {
+        if (checkMoneyNumberRequestBuilder_ == null) {
+          if (dateBodyCase_ == 14) {
+            return (CheckMoneyNumberRequest) dateBody_;
+          }
+          return CheckMoneyNumberRequest.getDefaultInstance();
+        } else {
+          if (dateBodyCase_ == 14) {
+            return checkMoneyNumberRequestBuilder_.getMessage();
+          }
+          return CheckMoneyNumberRequest.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.CheckMoneyNumberRequest checkMoneyNumberRequest = 14;</code>
+       */
+      public Builder setCheckMoneyNumberRequest(CheckMoneyNumberRequest value) {
+        if (checkMoneyNumberRequestBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dateBody_ = value;
+          onChanged();
+        } else {
+          checkMoneyNumberRequestBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 14;
+        return this;
+      }
+      /**
+       * <code>.CheckMoneyNumberRequest checkMoneyNumberRequest = 14;</code>
+       */
+      public Builder setCheckMoneyNumberRequest(
+          CheckMoneyNumberRequest.Builder builderForValue) {
+        if (checkMoneyNumberRequestBuilder_ == null) {
+          dateBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          checkMoneyNumberRequestBuilder_.setMessage(builderForValue.build());
+        }
+        dateBodyCase_ = 14;
+        return this;
+      }
+      /**
+       * <code>.CheckMoneyNumberRequest checkMoneyNumberRequest = 14;</code>
+       */
+      public Builder mergeCheckMoneyNumberRequest(CheckMoneyNumberRequest value) {
+        if (checkMoneyNumberRequestBuilder_ == null) {
+          if (dateBodyCase_ == 14 &&
+              dateBody_ != CheckMoneyNumberRequest.getDefaultInstance()) {
+            dateBody_ = CheckMoneyNumberRequest.newBuilder((CheckMoneyNumberRequest) dateBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dateBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dateBodyCase_ == 14) {
+            checkMoneyNumberRequestBuilder_.mergeFrom(value);
+          }
+          checkMoneyNumberRequestBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 14;
+        return this;
+      }
+      /**
+       * <code>.CheckMoneyNumberRequest checkMoneyNumberRequest = 14;</code>
+       */
+      public Builder clearCheckMoneyNumberRequest() {
+        if (checkMoneyNumberRequestBuilder_ == null) {
+          if (dateBodyCase_ == 14) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dateBodyCase_ == 14) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+          }
+          checkMoneyNumberRequestBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.CheckMoneyNumberRequest checkMoneyNumberRequest = 14;</code>
+       */
+      public CheckMoneyNumberRequest.Builder getCheckMoneyNumberRequestBuilder() {
+        return getCheckMoneyNumberRequestFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.CheckMoneyNumberRequest checkMoneyNumberRequest = 14;</code>
+       */
+      @Override
+      public CheckMoneyNumberRequestOrBuilder getCheckMoneyNumberRequestOrBuilder() {
+        if ((dateBodyCase_ == 14) && (checkMoneyNumberRequestBuilder_ != null)) {
+          return checkMoneyNumberRequestBuilder_.getMessageOrBuilder();
+        } else {
+          if (dateBodyCase_ == 14) {
+            return (CheckMoneyNumberRequest) dateBody_;
+          }
+          return CheckMoneyNumberRequest.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.CheckMoneyNumberRequest checkMoneyNumberRequest = 14;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          CheckMoneyNumberRequest, CheckMoneyNumberRequest.Builder, CheckMoneyNumberRequestOrBuilder>
+          getCheckMoneyNumberRequestFieldBuilder() {
+        if (checkMoneyNumberRequestBuilder_ == null) {
+          if (!(dateBodyCase_ == 14)) {
+            dateBody_ = CheckMoneyNumberRequest.getDefaultInstance();
+          }
+          checkMoneyNumberRequestBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              CheckMoneyNumberRequest, CheckMoneyNumberRequest.Builder, CheckMoneyNumberRequestOrBuilder>(
+                  (CheckMoneyNumberRequest) dateBody_,
+                  getParentForChildren(),
+                  isClean());
+          dateBody_ = null;
+        }
+        dateBodyCase_ = 14;
+        onChanged();;
+        return checkMoneyNumberRequestBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          BuyGoodsRequest, BuyGoodsRequest.Builder, BuyGoodsRequestOrBuilder> buyGoodsRequestBuilder_;
+      /**
+       * <code>.BuyGoodsRequest buyGoodsRequest = 15;</code>
+       * @return Whether the buyGoodsRequest field is set.
+       */
+      @Override
+      public boolean hasBuyGoodsRequest() {
+        return dateBodyCase_ == 15;
+      }
+      /**
+       * <code>.BuyGoodsRequest buyGoodsRequest = 15;</code>
+       * @return The buyGoodsRequest.
+       */
+      @Override
+      public BuyGoodsRequest getBuyGoodsRequest() {
+        if (buyGoodsRequestBuilder_ == null) {
+          if (dateBodyCase_ == 15) {
+            return (BuyGoodsRequest) dateBody_;
+          }
+          return BuyGoodsRequest.getDefaultInstance();
+        } else {
+          if (dateBodyCase_ == 15) {
+            return buyGoodsRequestBuilder_.getMessage();
+          }
+          return BuyGoodsRequest.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.BuyGoodsRequest buyGoodsRequest = 15;</code>
+       */
+      public Builder setBuyGoodsRequest(BuyGoodsRequest value) {
+        if (buyGoodsRequestBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dateBody_ = value;
+          onChanged();
+        } else {
+          buyGoodsRequestBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 15;
+        return this;
+      }
+      /**
+       * <code>.BuyGoodsRequest buyGoodsRequest = 15;</code>
+       */
+      public Builder setBuyGoodsRequest(
+          BuyGoodsRequest.Builder builderForValue) {
+        if (buyGoodsRequestBuilder_ == null) {
+          dateBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          buyGoodsRequestBuilder_.setMessage(builderForValue.build());
+        }
+        dateBodyCase_ = 15;
+        return this;
+      }
+      /**
+       * <code>.BuyGoodsRequest buyGoodsRequest = 15;</code>
+       */
+      public Builder mergeBuyGoodsRequest(BuyGoodsRequest value) {
+        if (buyGoodsRequestBuilder_ == null) {
+          if (dateBodyCase_ == 15 &&
+              dateBody_ != BuyGoodsRequest.getDefaultInstance()) {
+            dateBody_ = BuyGoodsRequest.newBuilder((BuyGoodsRequest) dateBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dateBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dateBodyCase_ == 15) {
+            buyGoodsRequestBuilder_.mergeFrom(value);
+          }
+          buyGoodsRequestBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 15;
+        return this;
+      }
+      /**
+       * <code>.BuyGoodsRequest buyGoodsRequest = 15;</code>
+       */
+      public Builder clearBuyGoodsRequest() {
+        if (buyGoodsRequestBuilder_ == null) {
+          if (dateBodyCase_ == 15) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dateBodyCase_ == 15) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+          }
+          buyGoodsRequestBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.BuyGoodsRequest buyGoodsRequest = 15;</code>
+       */
+      public BuyGoodsRequest.Builder getBuyGoodsRequestBuilder() {
+        return getBuyGoodsRequestFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.BuyGoodsRequest buyGoodsRequest = 15;</code>
+       */
+      @Override
+      public BuyGoodsRequestOrBuilder getBuyGoodsRequestOrBuilder() {
+        if ((dateBodyCase_ == 15) && (buyGoodsRequestBuilder_ != null)) {
+          return buyGoodsRequestBuilder_.getMessageOrBuilder();
+        } else {
+          if (dateBodyCase_ == 15) {
+            return (BuyGoodsRequest) dateBody_;
+          }
+          return BuyGoodsRequest.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.BuyGoodsRequest buyGoodsRequest = 15;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          BuyGoodsRequest, BuyGoodsRequest.Builder, BuyGoodsRequestOrBuilder>
+          getBuyGoodsRequestFieldBuilder() {
+        if (buyGoodsRequestBuilder_ == null) {
+          if (!(dateBodyCase_ == 15)) {
+            dateBody_ = BuyGoodsRequest.getDefaultInstance();
+          }
+          buyGoodsRequestBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              BuyGoodsRequest, BuyGoodsRequest.Builder, BuyGoodsRequestOrBuilder>(
+                  (BuyGoodsRequest) dateBody_,
+                  getParentForChildren(),
+                  isClean());
+          dateBody_ = null;
+        }
+        dateBodyCase_ = 15;
+        onChanged();;
+        return buyGoodsRequestBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          CheckMoneyNumberResponse, CheckMoneyNumberResponse.Builder, CheckMoneyNumberResponseOrBuilder> checkMoneyNumberResponseBuilder_;
+      /**
+       * <code>.CheckMoneyNumberResponse checkMoneyNumberResponse = 16;</code>
+       * @return Whether the checkMoneyNumberResponse field is set.
+       */
+      @Override
+      public boolean hasCheckMoneyNumberResponse() {
+        return dateBodyCase_ == 16;
+      }
+      /**
+       * <code>.CheckMoneyNumberResponse checkMoneyNumberResponse = 16;</code>
+       * @return The checkMoneyNumberResponse.
+       */
+      @Override
+      public CheckMoneyNumberResponse getCheckMoneyNumberResponse() {
+        if (checkMoneyNumberResponseBuilder_ == null) {
+          if (dateBodyCase_ == 16) {
+            return (CheckMoneyNumberResponse) dateBody_;
+          }
+          return CheckMoneyNumberResponse.getDefaultInstance();
+        } else {
+          if (dateBodyCase_ == 16) {
+            return checkMoneyNumberResponseBuilder_.getMessage();
+          }
+          return CheckMoneyNumberResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.CheckMoneyNumberResponse checkMoneyNumberResponse = 16;</code>
+       */
+      public Builder setCheckMoneyNumberResponse(CheckMoneyNumberResponse value) {
+        if (checkMoneyNumberResponseBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dateBody_ = value;
+          onChanged();
+        } else {
+          checkMoneyNumberResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 16;
+        return this;
+      }
+      /**
+       * <code>.CheckMoneyNumberResponse checkMoneyNumberResponse = 16;</code>
+       */
+      public Builder setCheckMoneyNumberResponse(
+          CheckMoneyNumberResponse.Builder builderForValue) {
+        if (checkMoneyNumberResponseBuilder_ == null) {
+          dateBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          checkMoneyNumberResponseBuilder_.setMessage(builderForValue.build());
+        }
+        dateBodyCase_ = 16;
+        return this;
+      }
+      /**
+       * <code>.CheckMoneyNumberResponse checkMoneyNumberResponse = 16;</code>
+       */
+      public Builder mergeCheckMoneyNumberResponse(CheckMoneyNumberResponse value) {
+        if (checkMoneyNumberResponseBuilder_ == null) {
+          if (dateBodyCase_ == 16 &&
+              dateBody_ != CheckMoneyNumberResponse.getDefaultInstance()) {
+            dateBody_ = CheckMoneyNumberResponse.newBuilder((CheckMoneyNumberResponse) dateBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dateBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dateBodyCase_ == 16) {
+            checkMoneyNumberResponseBuilder_.mergeFrom(value);
+          }
+          checkMoneyNumberResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 16;
+        return this;
+      }
+      /**
+       * <code>.CheckMoneyNumberResponse checkMoneyNumberResponse = 16;</code>
+       */
+      public Builder clearCheckMoneyNumberResponse() {
+        if (checkMoneyNumberResponseBuilder_ == null) {
+          if (dateBodyCase_ == 16) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dateBodyCase_ == 16) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+          }
+          checkMoneyNumberResponseBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.CheckMoneyNumberResponse checkMoneyNumberResponse = 16;</code>
+       */
+      public CheckMoneyNumberResponse.Builder getCheckMoneyNumberResponseBuilder() {
+        return getCheckMoneyNumberResponseFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.CheckMoneyNumberResponse checkMoneyNumberResponse = 16;</code>
+       */
+      @Override
+      public CheckMoneyNumberResponseOrBuilder getCheckMoneyNumberResponseOrBuilder() {
+        if ((dateBodyCase_ == 16) && (checkMoneyNumberResponseBuilder_ != null)) {
+          return checkMoneyNumberResponseBuilder_.getMessageOrBuilder();
+        } else {
+          if (dateBodyCase_ == 16) {
+            return (CheckMoneyNumberResponse) dateBody_;
+          }
+          return CheckMoneyNumberResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.CheckMoneyNumberResponse checkMoneyNumberResponse = 16;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          CheckMoneyNumberResponse, CheckMoneyNumberResponse.Builder, CheckMoneyNumberResponseOrBuilder>
+          getCheckMoneyNumberResponseFieldBuilder() {
+        if (checkMoneyNumberResponseBuilder_ == null) {
+          if (!(dateBodyCase_ == 16)) {
+            dateBody_ = CheckMoneyNumberResponse.getDefaultInstance();
+          }
+          checkMoneyNumberResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              CheckMoneyNumberResponse, CheckMoneyNumberResponse.Builder, CheckMoneyNumberResponseOrBuilder>(
+                  (CheckMoneyNumberResponse) dateBody_,
+                  getParentForChildren(),
+                  isClean());
+          dateBody_ = null;
+        }
+        dateBodyCase_ = 16;
+        onChanged();;
+        return checkMoneyNumberResponseBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          BuyGoodsResponse, BuyGoodsResponse.Builder, BuyGoodsResponseOrBuilder> buyGoodsResponseBuilder_;
+      /**
+       * <code>.BuyGoodsResponse buyGoodsResponse = 17;</code>
+       * @return Whether the buyGoodsResponse field is set.
+       */
+      @Override
+      public boolean hasBuyGoodsResponse() {
+        return dateBodyCase_ == 17;
+      }
+      /**
+       * <code>.BuyGoodsResponse buyGoodsResponse = 17;</code>
+       * @return The buyGoodsResponse.
+       */
+      @Override
+      public BuyGoodsResponse getBuyGoodsResponse() {
+        if (buyGoodsResponseBuilder_ == null) {
+          if (dateBodyCase_ == 17) {
+            return (BuyGoodsResponse) dateBody_;
+          }
+          return BuyGoodsResponse.getDefaultInstance();
+        } else {
+          if (dateBodyCase_ == 17) {
+            return buyGoodsResponseBuilder_.getMessage();
+          }
+          return BuyGoodsResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.BuyGoodsResponse buyGoodsResponse = 17;</code>
+       */
+      public Builder setBuyGoodsResponse(BuyGoodsResponse value) {
+        if (buyGoodsResponseBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dateBody_ = value;
+          onChanged();
+        } else {
+          buyGoodsResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 17;
+        return this;
+      }
+      /**
+       * <code>.BuyGoodsResponse buyGoodsResponse = 17;</code>
+       */
+      public Builder setBuyGoodsResponse(
+          BuyGoodsResponse.Builder builderForValue) {
+        if (buyGoodsResponseBuilder_ == null) {
+          dateBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          buyGoodsResponseBuilder_.setMessage(builderForValue.build());
+        }
+        dateBodyCase_ = 17;
+        return this;
+      }
+      /**
+       * <code>.BuyGoodsResponse buyGoodsResponse = 17;</code>
+       */
+      public Builder mergeBuyGoodsResponse(BuyGoodsResponse value) {
+        if (buyGoodsResponseBuilder_ == null) {
+          if (dateBodyCase_ == 17 &&
+              dateBody_ != BuyGoodsResponse.getDefaultInstance()) {
+            dateBody_ = BuyGoodsResponse.newBuilder((BuyGoodsResponse) dateBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dateBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dateBodyCase_ == 17) {
+            buyGoodsResponseBuilder_.mergeFrom(value);
+          }
+          buyGoodsResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 17;
+        return this;
+      }
+      /**
+       * <code>.BuyGoodsResponse buyGoodsResponse = 17;</code>
+       */
+      public Builder clearBuyGoodsResponse() {
+        if (buyGoodsResponseBuilder_ == null) {
+          if (dateBodyCase_ == 17) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dateBodyCase_ == 17) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+          }
+          buyGoodsResponseBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.BuyGoodsResponse buyGoodsResponse = 17;</code>
+       */
+      public BuyGoodsResponse.Builder getBuyGoodsResponseBuilder() {
+        return getBuyGoodsResponseFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.BuyGoodsResponse buyGoodsResponse = 17;</code>
+       */
+      @Override
+      public BuyGoodsResponseOrBuilder getBuyGoodsResponseOrBuilder() {
+        if ((dateBodyCase_ == 17) && (buyGoodsResponseBuilder_ != null)) {
+          return buyGoodsResponseBuilder_.getMessageOrBuilder();
+        } else {
+          if (dateBodyCase_ == 17) {
+            return (BuyGoodsResponse) dateBody_;
+          }
+          return BuyGoodsResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.BuyGoodsResponse buyGoodsResponse = 17;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          BuyGoodsResponse, BuyGoodsResponse.Builder, BuyGoodsResponseOrBuilder>
+          getBuyGoodsResponseFieldBuilder() {
+        if (buyGoodsResponseBuilder_ == null) {
+          if (!(dateBodyCase_ == 17)) {
+            dateBody_ = BuyGoodsResponse.getDefaultInstance();
+          }
+          buyGoodsResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              BuyGoodsResponse, BuyGoodsResponse.Builder, BuyGoodsResponseOrBuilder>(
+                  (BuyGoodsResponse) dateBody_,
+                  getParentForChildren(),
+                  isClean());
+          dateBody_ = null;
+        }
+        dateBodyCase_ = 17;
+        onChanged();;
+        return buyGoodsResponseBuilder_;
+      }
       @Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -2645,6 +4549,1888 @@ public final class BackPackModel {
 
     @Override
     public BackPackModelMessage getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface CheckMoneyNumberRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:CheckMoneyNumberRequest)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code CheckMoneyNumberRequest}
+   */
+  public static final class CheckMoneyNumberRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:CheckMoneyNumberRequest)
+      CheckMoneyNumberRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use CheckMoneyNumberRequest.newBuilder() to construct.
+    private CheckMoneyNumberRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private CheckMoneyNumberRequest() {
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new CheckMoneyNumberRequest();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private CheckMoneyNumberRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return BackPackModel.internal_static_CheckMoneyNumberRequest_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return BackPackModel.internal_static_CheckMoneyNumberRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              CheckMoneyNumberRequest.class, Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof CheckMoneyNumberRequest)) {
+        return super.equals(obj);
+      }
+      CheckMoneyNumberRequest other = (CheckMoneyNumberRequest) obj;
+
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static CheckMoneyNumberRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static CheckMoneyNumberRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static CheckMoneyNumberRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static CheckMoneyNumberRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static CheckMoneyNumberRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static CheckMoneyNumberRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static CheckMoneyNumberRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static CheckMoneyNumberRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static CheckMoneyNumberRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static CheckMoneyNumberRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static CheckMoneyNumberRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static CheckMoneyNumberRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(CheckMoneyNumberRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code CheckMoneyNumberRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:CheckMoneyNumberRequest)
+        CheckMoneyNumberRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return BackPackModel.internal_static_CheckMoneyNumberRequest_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return BackPackModel.internal_static_CheckMoneyNumberRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                CheckMoneyNumberRequest.class, Builder.class);
+      }
+
+      // Construct using BackPackModel.CheckMoneyNumberRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return BackPackModel.internal_static_CheckMoneyNumberRequest_descriptor;
+      }
+
+      @Override
+      public CheckMoneyNumberRequest getDefaultInstanceForType() {
+        return CheckMoneyNumberRequest.getDefaultInstance();
+      }
+
+      @Override
+      public CheckMoneyNumberRequest build() {
+        CheckMoneyNumberRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public CheckMoneyNumberRequest buildPartial() {
+        CheckMoneyNumberRequest result = new CheckMoneyNumberRequest(this);
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof CheckMoneyNumberRequest) {
+          return mergeFrom((CheckMoneyNumberRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(CheckMoneyNumberRequest other) {
+        if (other == CheckMoneyNumberRequest.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        CheckMoneyNumberRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (CheckMoneyNumberRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:CheckMoneyNumberRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:CheckMoneyNumberRequest)
+    private static final CheckMoneyNumberRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new CheckMoneyNumberRequest();
+    }
+
+    public static CheckMoneyNumberRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<CheckMoneyNumberRequest>
+        PARSER = new com.google.protobuf.AbstractParser<CheckMoneyNumberRequest>() {
+      @Override
+      public CheckMoneyNumberRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new CheckMoneyNumberRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<CheckMoneyNumberRequest> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<CheckMoneyNumberRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public CheckMoneyNumberRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface BuyGoodsRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:BuyGoodsRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>int32 goodsId = 1;</code>
+     * @return The goodsId.
+     */
+    int getGoodsId();
+
+    /**
+     * <code>int32 num = 2;</code>
+     * @return The num.
+     */
+    int getNum();
+  }
+  /**
+   * Protobuf type {@code BuyGoodsRequest}
+   */
+  public static final class BuyGoodsRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:BuyGoodsRequest)
+      BuyGoodsRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use BuyGoodsRequest.newBuilder() to construct.
+    private BuyGoodsRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private BuyGoodsRequest() {
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new BuyGoodsRequest();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private BuyGoodsRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+
+              goodsId_ = input.readInt32();
+              break;
+            }
+            case 16: {
+
+              num_ = input.readInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return BackPackModel.internal_static_BuyGoodsRequest_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return BackPackModel.internal_static_BuyGoodsRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              BuyGoodsRequest.class, Builder.class);
+    }
+
+    public static final int GOODSID_FIELD_NUMBER = 1;
+    private int goodsId_;
+    /**
+     * <code>int32 goodsId = 1;</code>
+     * @return The goodsId.
+     */
+    @Override
+    public int getGoodsId() {
+      return goodsId_;
+    }
+
+    public static final int NUM_FIELD_NUMBER = 2;
+    private int num_;
+    /**
+     * <code>int32 num = 2;</code>
+     * @return The num.
+     */
+    @Override
+    public int getNum() {
+      return num_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (goodsId_ != 0) {
+        output.writeInt32(1, goodsId_);
+      }
+      if (num_ != 0) {
+        output.writeInt32(2, num_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (goodsId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, goodsId_);
+      }
+      if (num_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, num_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof BuyGoodsRequest)) {
+        return super.equals(obj);
+      }
+      BuyGoodsRequest other = (BuyGoodsRequest) obj;
+
+      if (getGoodsId()
+          != other.getGoodsId()) return false;
+      if (getNum()
+          != other.getNum()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + GOODSID_FIELD_NUMBER;
+      hash = (53 * hash) + getGoodsId();
+      hash = (37 * hash) + NUM_FIELD_NUMBER;
+      hash = (53 * hash) + getNum();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static BuyGoodsRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static BuyGoodsRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static BuyGoodsRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static BuyGoodsRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static BuyGoodsRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static BuyGoodsRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static BuyGoodsRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static BuyGoodsRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static BuyGoodsRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static BuyGoodsRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static BuyGoodsRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static BuyGoodsRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(BuyGoodsRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code BuyGoodsRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:BuyGoodsRequest)
+        BuyGoodsRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return BackPackModel.internal_static_BuyGoodsRequest_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return BackPackModel.internal_static_BuyGoodsRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                BuyGoodsRequest.class, Builder.class);
+      }
+
+      // Construct using BackPackModel.BuyGoodsRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        goodsId_ = 0;
+
+        num_ = 0;
+
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return BackPackModel.internal_static_BuyGoodsRequest_descriptor;
+      }
+
+      @Override
+      public BuyGoodsRequest getDefaultInstanceForType() {
+        return BuyGoodsRequest.getDefaultInstance();
+      }
+
+      @Override
+      public BuyGoodsRequest build() {
+        BuyGoodsRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public BuyGoodsRequest buildPartial() {
+        BuyGoodsRequest result = new BuyGoodsRequest(this);
+        result.goodsId_ = goodsId_;
+        result.num_ = num_;
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof BuyGoodsRequest) {
+          return mergeFrom((BuyGoodsRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(BuyGoodsRequest other) {
+        if (other == BuyGoodsRequest.getDefaultInstance()) return this;
+        if (other.getGoodsId() != 0) {
+          setGoodsId(other.getGoodsId());
+        }
+        if (other.getNum() != 0) {
+          setNum(other.getNum());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        BuyGoodsRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (BuyGoodsRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private int goodsId_ ;
+      /**
+       * <code>int32 goodsId = 1;</code>
+       * @return The goodsId.
+       */
+      @Override
+      public int getGoodsId() {
+        return goodsId_;
+      }
+      /**
+       * <code>int32 goodsId = 1;</code>
+       * @param value The goodsId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setGoodsId(int value) {
+        
+        goodsId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 goodsId = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearGoodsId() {
+        
+        goodsId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int num_ ;
+      /**
+       * <code>int32 num = 2;</code>
+       * @return The num.
+       */
+      @Override
+      public int getNum() {
+        return num_;
+      }
+      /**
+       * <code>int32 num = 2;</code>
+       * @param value The num to set.
+       * @return This builder for chaining.
+       */
+      public Builder setNum(int value) {
+        
+        num_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 num = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearNum() {
+        
+        num_ = 0;
+        onChanged();
+        return this;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:BuyGoodsRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:BuyGoodsRequest)
+    private static final BuyGoodsRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new BuyGoodsRequest();
+    }
+
+    public static BuyGoodsRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<BuyGoodsRequest>
+        PARSER = new com.google.protobuf.AbstractParser<BuyGoodsRequest>() {
+      @Override
+      public BuyGoodsRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new BuyGoodsRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<BuyGoodsRequest> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<BuyGoodsRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public BuyGoodsRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface CheckMoneyNumberResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:CheckMoneyNumberResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>int32 money = 1;</code>
+     * @return The money.
+     */
+    int getMoney();
+  }
+  /**
+   * Protobuf type {@code CheckMoneyNumberResponse}
+   */
+  public static final class CheckMoneyNumberResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:CheckMoneyNumberResponse)
+      CheckMoneyNumberResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use CheckMoneyNumberResponse.newBuilder() to construct.
+    private CheckMoneyNumberResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private CheckMoneyNumberResponse() {
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new CheckMoneyNumberResponse();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private CheckMoneyNumberResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+
+              money_ = input.readInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return BackPackModel.internal_static_CheckMoneyNumberResponse_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return BackPackModel.internal_static_CheckMoneyNumberResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              CheckMoneyNumberResponse.class, Builder.class);
+    }
+
+    public static final int MONEY_FIELD_NUMBER = 1;
+    private int money_;
+    /**
+     * <code>int32 money = 1;</code>
+     * @return The money.
+     */
+    @Override
+    public int getMoney() {
+      return money_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (money_ != 0) {
+        output.writeInt32(1, money_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (money_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, money_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof CheckMoneyNumberResponse)) {
+        return super.equals(obj);
+      }
+      CheckMoneyNumberResponse other = (CheckMoneyNumberResponse) obj;
+
+      if (getMoney()
+          != other.getMoney()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + MONEY_FIELD_NUMBER;
+      hash = (53 * hash) + getMoney();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static CheckMoneyNumberResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static CheckMoneyNumberResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static CheckMoneyNumberResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static CheckMoneyNumberResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static CheckMoneyNumberResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static CheckMoneyNumberResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static CheckMoneyNumberResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static CheckMoneyNumberResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static CheckMoneyNumberResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static CheckMoneyNumberResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static CheckMoneyNumberResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static CheckMoneyNumberResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(CheckMoneyNumberResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code CheckMoneyNumberResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:CheckMoneyNumberResponse)
+        CheckMoneyNumberResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return BackPackModel.internal_static_CheckMoneyNumberResponse_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return BackPackModel.internal_static_CheckMoneyNumberResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                CheckMoneyNumberResponse.class, Builder.class);
+      }
+
+      // Construct using BackPackModel.CheckMoneyNumberResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        money_ = 0;
+
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return BackPackModel.internal_static_CheckMoneyNumberResponse_descriptor;
+      }
+
+      @Override
+      public CheckMoneyNumberResponse getDefaultInstanceForType() {
+        return CheckMoneyNumberResponse.getDefaultInstance();
+      }
+
+      @Override
+      public CheckMoneyNumberResponse build() {
+        CheckMoneyNumberResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public CheckMoneyNumberResponse buildPartial() {
+        CheckMoneyNumberResponse result = new CheckMoneyNumberResponse(this);
+        result.money_ = money_;
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof CheckMoneyNumberResponse) {
+          return mergeFrom((CheckMoneyNumberResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(CheckMoneyNumberResponse other) {
+        if (other == CheckMoneyNumberResponse.getDefaultInstance()) return this;
+        if (other.getMoney() != 0) {
+          setMoney(other.getMoney());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        CheckMoneyNumberResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (CheckMoneyNumberResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private int money_ ;
+      /**
+       * <code>int32 money = 1;</code>
+       * @return The money.
+       */
+      @Override
+      public int getMoney() {
+        return money_;
+      }
+      /**
+       * <code>int32 money = 1;</code>
+       * @param value The money to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMoney(int value) {
+        
+        money_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 money = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMoney() {
+        
+        money_ = 0;
+        onChanged();
+        return this;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:CheckMoneyNumberResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:CheckMoneyNumberResponse)
+    private static final CheckMoneyNumberResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new CheckMoneyNumberResponse();
+    }
+
+    public static CheckMoneyNumberResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<CheckMoneyNumberResponse>
+        PARSER = new com.google.protobuf.AbstractParser<CheckMoneyNumberResponse>() {
+      @Override
+      public CheckMoneyNumberResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new CheckMoneyNumberResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<CheckMoneyNumberResponse> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<CheckMoneyNumberResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public CheckMoneyNumberResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface BuyGoodsResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:BuyGoodsResponse)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code BuyGoodsResponse}
+   */
+  public static final class BuyGoodsResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:BuyGoodsResponse)
+      BuyGoodsResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use BuyGoodsResponse.newBuilder() to construct.
+    private BuyGoodsResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private BuyGoodsResponse() {
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new BuyGoodsResponse();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private BuyGoodsResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return BackPackModel.internal_static_BuyGoodsResponse_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return BackPackModel.internal_static_BuyGoodsResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              BuyGoodsResponse.class, Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof BuyGoodsResponse)) {
+        return super.equals(obj);
+      }
+      BuyGoodsResponse other = (BuyGoodsResponse) obj;
+
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static BuyGoodsResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static BuyGoodsResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static BuyGoodsResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static BuyGoodsResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static BuyGoodsResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static BuyGoodsResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static BuyGoodsResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static BuyGoodsResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static BuyGoodsResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static BuyGoodsResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static BuyGoodsResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static BuyGoodsResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(BuyGoodsResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code BuyGoodsResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:BuyGoodsResponse)
+        BuyGoodsResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return BackPackModel.internal_static_BuyGoodsResponse_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return BackPackModel.internal_static_BuyGoodsResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                BuyGoodsResponse.class, Builder.class);
+      }
+
+      // Construct using BackPackModel.BuyGoodsResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return BackPackModel.internal_static_BuyGoodsResponse_descriptor;
+      }
+
+      @Override
+      public BuyGoodsResponse getDefaultInstanceForType() {
+        return BuyGoodsResponse.getDefaultInstance();
+      }
+
+      @Override
+      public BuyGoodsResponse build() {
+        BuyGoodsResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public BuyGoodsResponse buildPartial() {
+        BuyGoodsResponse result = new BuyGoodsResponse(this);
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof BuyGoodsResponse) {
+          return mergeFrom((BuyGoodsResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(BuyGoodsResponse other) {
+        if (other == BuyGoodsResponse.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        BuyGoodsResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (BuyGoodsResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:BuyGoodsResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:BuyGoodsResponse)
+    private static final BuyGoodsResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new BuyGoodsResponse();
+    }
+
+    public static BuyGoodsResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<BuyGoodsResponse>
+        PARSER = new com.google.protobuf.AbstractParser<BuyGoodsResponse>() {
+      @Override
+      public BuyGoodsResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new BuyGoodsResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<BuyGoodsResponse> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<BuyGoodsResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public BuyGoodsResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -4109,6 +7895,2123 @@ public final class BackPackModel {
 
     @Override
     public UseRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface FindAllCanGetRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:FindAllCanGetRequest)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code FindAllCanGetRequest}
+   */
+  public static final class FindAllCanGetRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:FindAllCanGetRequest)
+      FindAllCanGetRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use FindAllCanGetRequest.newBuilder() to construct.
+    private FindAllCanGetRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private FindAllCanGetRequest() {
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new FindAllCanGetRequest();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private FindAllCanGetRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return BackPackModel.internal_static_FindAllCanGetRequest_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return BackPackModel.internal_static_FindAllCanGetRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              FindAllCanGetRequest.class, Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof FindAllCanGetRequest)) {
+        return super.equals(obj);
+      }
+      FindAllCanGetRequest other = (FindAllCanGetRequest) obj;
+
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static FindAllCanGetRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static FindAllCanGetRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static FindAllCanGetRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static FindAllCanGetRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static FindAllCanGetRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static FindAllCanGetRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static FindAllCanGetRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static FindAllCanGetRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static FindAllCanGetRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static FindAllCanGetRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static FindAllCanGetRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static FindAllCanGetRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(FindAllCanGetRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code FindAllCanGetRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:FindAllCanGetRequest)
+        FindAllCanGetRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return BackPackModel.internal_static_FindAllCanGetRequest_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return BackPackModel.internal_static_FindAllCanGetRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                FindAllCanGetRequest.class, Builder.class);
+      }
+
+      // Construct using BackPackModel.FindAllCanGetRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return BackPackModel.internal_static_FindAllCanGetRequest_descriptor;
+      }
+
+      @Override
+      public FindAllCanGetRequest getDefaultInstanceForType() {
+        return FindAllCanGetRequest.getDefaultInstance();
+      }
+
+      @Override
+      public FindAllCanGetRequest build() {
+        FindAllCanGetRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public FindAllCanGetRequest buildPartial() {
+        FindAllCanGetRequest result = new FindAllCanGetRequest(this);
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof FindAllCanGetRequest) {
+          return mergeFrom((FindAllCanGetRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(FindAllCanGetRequest other) {
+        if (other == FindAllCanGetRequest.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        FindAllCanGetRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (FindAllCanGetRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:FindAllCanGetRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:FindAllCanGetRequest)
+    private static final FindAllCanGetRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new FindAllCanGetRequest();
+    }
+
+    public static FindAllCanGetRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<FindAllCanGetRequest>
+        PARSER = new com.google.protobuf.AbstractParser<FindAllCanGetRequest>() {
+      @Override
+      public FindAllCanGetRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new FindAllCanGetRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<FindAllCanGetRequest> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<FindAllCanGetRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public FindAllCanGetRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface GetArticleFromFloorRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:GetArticleFromFloorRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>int32 index = 1;</code>
+     * @return The index.
+     */
+    int getIndex();
+  }
+  /**
+   * Protobuf type {@code GetArticleFromFloorRequest}
+   */
+  public static final class GetArticleFromFloorRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:GetArticleFromFloorRequest)
+      GetArticleFromFloorRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use GetArticleFromFloorRequest.newBuilder() to construct.
+    private GetArticleFromFloorRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private GetArticleFromFloorRequest() {
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetArticleFromFloorRequest();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private GetArticleFromFloorRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+
+              index_ = input.readInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return BackPackModel.internal_static_GetArticleFromFloorRequest_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return BackPackModel.internal_static_GetArticleFromFloorRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              GetArticleFromFloorRequest.class, Builder.class);
+    }
+
+    public static final int INDEX_FIELD_NUMBER = 1;
+    private int index_;
+    /**
+     * <code>int32 index = 1;</code>
+     * @return The index.
+     */
+    @Override
+    public int getIndex() {
+      return index_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (index_ != 0) {
+        output.writeInt32(1, index_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (index_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, index_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof GetArticleFromFloorRequest)) {
+        return super.equals(obj);
+      }
+      GetArticleFromFloorRequest other = (GetArticleFromFloorRequest) obj;
+
+      if (getIndex()
+          != other.getIndex()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + INDEX_FIELD_NUMBER;
+      hash = (53 * hash) + getIndex();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static GetArticleFromFloorRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static GetArticleFromFloorRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static GetArticleFromFloorRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static GetArticleFromFloorRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static GetArticleFromFloorRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static GetArticleFromFloorRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static GetArticleFromFloorRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static GetArticleFromFloorRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static GetArticleFromFloorRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static GetArticleFromFloorRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static GetArticleFromFloorRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static GetArticleFromFloorRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(GetArticleFromFloorRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code GetArticleFromFloorRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:GetArticleFromFloorRequest)
+        GetArticleFromFloorRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return BackPackModel.internal_static_GetArticleFromFloorRequest_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return BackPackModel.internal_static_GetArticleFromFloorRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                GetArticleFromFloorRequest.class, Builder.class);
+      }
+
+      // Construct using BackPackModel.GetArticleFromFloorRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        index_ = 0;
+
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return BackPackModel.internal_static_GetArticleFromFloorRequest_descriptor;
+      }
+
+      @Override
+      public GetArticleFromFloorRequest getDefaultInstanceForType() {
+        return GetArticleFromFloorRequest.getDefaultInstance();
+      }
+
+      @Override
+      public GetArticleFromFloorRequest build() {
+        GetArticleFromFloorRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public GetArticleFromFloorRequest buildPartial() {
+        GetArticleFromFloorRequest result = new GetArticleFromFloorRequest(this);
+        result.index_ = index_;
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof GetArticleFromFloorRequest) {
+          return mergeFrom((GetArticleFromFloorRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(GetArticleFromFloorRequest other) {
+        if (other == GetArticleFromFloorRequest.getDefaultInstance()) return this;
+        if (other.getIndex() != 0) {
+          setIndex(other.getIndex());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        GetArticleFromFloorRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (GetArticleFromFloorRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private int index_ ;
+      /**
+       * <code>int32 index = 1;</code>
+       * @return The index.
+       */
+      @Override
+      public int getIndex() {
+        return index_;
+      }
+      /**
+       * <code>int32 index = 1;</code>
+       * @param value The index to set.
+       * @return This builder for chaining.
+       */
+      public Builder setIndex(int value) {
+        
+        index_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 index = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearIndex() {
+        
+        index_ = 0;
+        onChanged();
+        return this;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:GetArticleFromFloorRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:GetArticleFromFloorRequest)
+    private static final GetArticleFromFloorRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new GetArticleFromFloorRequest();
+    }
+
+    public static GetArticleFromFloorRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<GetArticleFromFloorRequest>
+        PARSER = new com.google.protobuf.AbstractParser<GetArticleFromFloorRequest>() {
+      @Override
+      public GetArticleFromFloorRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GetArticleFromFloorRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<GetArticleFromFloorRequest> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<GetArticleFromFloorRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public GetArticleFromFloorRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface FindAllCanGetResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:FindAllCanGetResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>repeated .ArticleFloorDto articleFloorDto = 1;</code>
+     */
+    java.util.List<ArticleFloorDto>
+        getArticleFloorDtoList();
+    /**
+     * <code>repeated .ArticleFloorDto articleFloorDto = 1;</code>
+     */
+    ArticleFloorDto getArticleFloorDto(int index);
+    /**
+     * <code>repeated .ArticleFloorDto articleFloorDto = 1;</code>
+     */
+    int getArticleFloorDtoCount();
+    /**
+     * <code>repeated .ArticleFloorDto articleFloorDto = 1;</code>
+     */
+    java.util.List<? extends ArticleFloorDtoOrBuilder>
+        getArticleFloorDtoOrBuilderList();
+    /**
+     * <code>repeated .ArticleFloorDto articleFloorDto = 1;</code>
+     */
+    ArticleFloorDtoOrBuilder getArticleFloorDtoOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code FindAllCanGetResponse}
+   */
+  public static final class FindAllCanGetResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:FindAllCanGetResponse)
+      FindAllCanGetResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use FindAllCanGetResponse.newBuilder() to construct.
+    private FindAllCanGetResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private FindAllCanGetResponse() {
+      articleFloorDto_ = java.util.Collections.emptyList();
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new FindAllCanGetResponse();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private FindAllCanGetResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+                articleFloorDto_ = new java.util.ArrayList<ArticleFloorDto>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              articleFloorDto_.add(
+                  input.readMessage(ArticleFloorDto.parser(), extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+          articleFloorDto_ = java.util.Collections.unmodifiableList(articleFloorDto_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return BackPackModel.internal_static_FindAllCanGetResponse_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return BackPackModel.internal_static_FindAllCanGetResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              FindAllCanGetResponse.class, Builder.class);
+    }
+
+    public static final int ARTICLEFLOORDTO_FIELD_NUMBER = 1;
+    private java.util.List<ArticleFloorDto> articleFloorDto_;
+    /**
+     * <code>repeated .ArticleFloorDto articleFloorDto = 1;</code>
+     */
+    @Override
+    public java.util.List<ArticleFloorDto> getArticleFloorDtoList() {
+      return articleFloorDto_;
+    }
+    /**
+     * <code>repeated .ArticleFloorDto articleFloorDto = 1;</code>
+     */
+    @Override
+    public java.util.List<? extends ArticleFloorDtoOrBuilder>
+        getArticleFloorDtoOrBuilderList() {
+      return articleFloorDto_;
+    }
+    /**
+     * <code>repeated .ArticleFloorDto articleFloorDto = 1;</code>
+     */
+    @Override
+    public int getArticleFloorDtoCount() {
+      return articleFloorDto_.size();
+    }
+    /**
+     * <code>repeated .ArticleFloorDto articleFloorDto = 1;</code>
+     */
+    @Override
+    public ArticleFloorDto getArticleFloorDto(int index) {
+      return articleFloorDto_.get(index);
+    }
+    /**
+     * <code>repeated .ArticleFloorDto articleFloorDto = 1;</code>
+     */
+    @Override
+    public ArticleFloorDtoOrBuilder getArticleFloorDtoOrBuilder(
+        int index) {
+      return articleFloorDto_.get(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      for (int i = 0; i < articleFloorDto_.size(); i++) {
+        output.writeMessage(1, articleFloorDto_.get(i));
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < articleFloorDto_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, articleFloorDto_.get(i));
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof FindAllCanGetResponse)) {
+        return super.equals(obj);
+      }
+      FindAllCanGetResponse other = (FindAllCanGetResponse) obj;
+
+      if (!getArticleFloorDtoList()
+          .equals(other.getArticleFloorDtoList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (getArticleFloorDtoCount() > 0) {
+        hash = (37 * hash) + ARTICLEFLOORDTO_FIELD_NUMBER;
+        hash = (53 * hash) + getArticleFloorDtoList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static FindAllCanGetResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static FindAllCanGetResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static FindAllCanGetResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static FindAllCanGetResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static FindAllCanGetResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static FindAllCanGetResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static FindAllCanGetResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static FindAllCanGetResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static FindAllCanGetResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static FindAllCanGetResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static FindAllCanGetResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static FindAllCanGetResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(FindAllCanGetResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code FindAllCanGetResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:FindAllCanGetResponse)
+        FindAllCanGetResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return BackPackModel.internal_static_FindAllCanGetResponse_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return BackPackModel.internal_static_FindAllCanGetResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                FindAllCanGetResponse.class, Builder.class);
+      }
+
+      // Construct using BackPackModel.FindAllCanGetResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getArticleFloorDtoFieldBuilder();
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        if (articleFloorDtoBuilder_ == null) {
+          articleFloorDto_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          articleFloorDtoBuilder_.clear();
+        }
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return BackPackModel.internal_static_FindAllCanGetResponse_descriptor;
+      }
+
+      @Override
+      public FindAllCanGetResponse getDefaultInstanceForType() {
+        return FindAllCanGetResponse.getDefaultInstance();
+      }
+
+      @Override
+      public FindAllCanGetResponse build() {
+        FindAllCanGetResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public FindAllCanGetResponse buildPartial() {
+        FindAllCanGetResponse result = new FindAllCanGetResponse(this);
+        int from_bitField0_ = bitField0_;
+        if (articleFloorDtoBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) != 0)) {
+            articleFloorDto_ = java.util.Collections.unmodifiableList(articleFloorDto_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.articleFloorDto_ = articleFloorDto_;
+        } else {
+          result.articleFloorDto_ = articleFloorDtoBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof FindAllCanGetResponse) {
+          return mergeFrom((FindAllCanGetResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(FindAllCanGetResponse other) {
+        if (other == FindAllCanGetResponse.getDefaultInstance()) return this;
+        if (articleFloorDtoBuilder_ == null) {
+          if (!other.articleFloorDto_.isEmpty()) {
+            if (articleFloorDto_.isEmpty()) {
+              articleFloorDto_ = other.articleFloorDto_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureArticleFloorDtoIsMutable();
+              articleFloorDto_.addAll(other.articleFloorDto_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.articleFloorDto_.isEmpty()) {
+            if (articleFloorDtoBuilder_.isEmpty()) {
+              articleFloorDtoBuilder_.dispose();
+              articleFloorDtoBuilder_ = null;
+              articleFloorDto_ = other.articleFloorDto_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              articleFloorDtoBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getArticleFloorDtoFieldBuilder() : null;
+            } else {
+              articleFloorDtoBuilder_.addAllMessages(other.articleFloorDto_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        FindAllCanGetResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (FindAllCanGetResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.util.List<ArticleFloorDto> articleFloorDto_ =
+        java.util.Collections.emptyList();
+      private void ensureArticleFloorDtoIsMutable() {
+        if (!((bitField0_ & 0x00000001) != 0)) {
+          articleFloorDto_ = new java.util.ArrayList<ArticleFloorDto>(articleFloorDto_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          ArticleFloorDto, ArticleFloorDto.Builder, ArticleFloorDtoOrBuilder> articleFloorDtoBuilder_;
+
+      /**
+       * <code>repeated .ArticleFloorDto articleFloorDto = 1;</code>
+       */
+      public java.util.List<ArticleFloorDto> getArticleFloorDtoList() {
+        if (articleFloorDtoBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(articleFloorDto_);
+        } else {
+          return articleFloorDtoBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .ArticleFloorDto articleFloorDto = 1;</code>
+       */
+      public int getArticleFloorDtoCount() {
+        if (articleFloorDtoBuilder_ == null) {
+          return articleFloorDto_.size();
+        } else {
+          return articleFloorDtoBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .ArticleFloorDto articleFloorDto = 1;</code>
+       */
+      public ArticleFloorDto getArticleFloorDto(int index) {
+        if (articleFloorDtoBuilder_ == null) {
+          return articleFloorDto_.get(index);
+        } else {
+          return articleFloorDtoBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .ArticleFloorDto articleFloorDto = 1;</code>
+       */
+      public Builder setArticleFloorDto(
+          int index, ArticleFloorDto value) {
+        if (articleFloorDtoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureArticleFloorDtoIsMutable();
+          articleFloorDto_.set(index, value);
+          onChanged();
+        } else {
+          articleFloorDtoBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ArticleFloorDto articleFloorDto = 1;</code>
+       */
+      public Builder setArticleFloorDto(
+          int index, ArticleFloorDto.Builder builderForValue) {
+        if (articleFloorDtoBuilder_ == null) {
+          ensureArticleFloorDtoIsMutable();
+          articleFloorDto_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          articleFloorDtoBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ArticleFloorDto articleFloorDto = 1;</code>
+       */
+      public Builder addArticleFloorDto(ArticleFloorDto value) {
+        if (articleFloorDtoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureArticleFloorDtoIsMutable();
+          articleFloorDto_.add(value);
+          onChanged();
+        } else {
+          articleFloorDtoBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ArticleFloorDto articleFloorDto = 1;</code>
+       */
+      public Builder addArticleFloorDto(
+          int index, ArticleFloorDto value) {
+        if (articleFloorDtoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureArticleFloorDtoIsMutable();
+          articleFloorDto_.add(index, value);
+          onChanged();
+        } else {
+          articleFloorDtoBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ArticleFloorDto articleFloorDto = 1;</code>
+       */
+      public Builder addArticleFloorDto(
+          ArticleFloorDto.Builder builderForValue) {
+        if (articleFloorDtoBuilder_ == null) {
+          ensureArticleFloorDtoIsMutable();
+          articleFloorDto_.add(builderForValue.build());
+          onChanged();
+        } else {
+          articleFloorDtoBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ArticleFloorDto articleFloorDto = 1;</code>
+       */
+      public Builder addArticleFloorDto(
+          int index, ArticleFloorDto.Builder builderForValue) {
+        if (articleFloorDtoBuilder_ == null) {
+          ensureArticleFloorDtoIsMutable();
+          articleFloorDto_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          articleFloorDtoBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ArticleFloorDto articleFloorDto = 1;</code>
+       */
+      public Builder addAllArticleFloorDto(
+          Iterable<? extends ArticleFloorDto> values) {
+        if (articleFloorDtoBuilder_ == null) {
+          ensureArticleFloorDtoIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, articleFloorDto_);
+          onChanged();
+        } else {
+          articleFloorDtoBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ArticleFloorDto articleFloorDto = 1;</code>
+       */
+      public Builder clearArticleFloorDto() {
+        if (articleFloorDtoBuilder_ == null) {
+          articleFloorDto_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          articleFloorDtoBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ArticleFloorDto articleFloorDto = 1;</code>
+       */
+      public Builder removeArticleFloorDto(int index) {
+        if (articleFloorDtoBuilder_ == null) {
+          ensureArticleFloorDtoIsMutable();
+          articleFloorDto_.remove(index);
+          onChanged();
+        } else {
+          articleFloorDtoBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ArticleFloorDto articleFloorDto = 1;</code>
+       */
+      public ArticleFloorDto.Builder getArticleFloorDtoBuilder(
+          int index) {
+        return getArticleFloorDtoFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .ArticleFloorDto articleFloorDto = 1;</code>
+       */
+      public ArticleFloorDtoOrBuilder getArticleFloorDtoOrBuilder(
+          int index) {
+        if (articleFloorDtoBuilder_ == null) {
+          return articleFloorDto_.get(index);  } else {
+          return articleFloorDtoBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .ArticleFloorDto articleFloorDto = 1;</code>
+       */
+      public java.util.List<? extends ArticleFloorDtoOrBuilder>
+           getArticleFloorDtoOrBuilderList() {
+        if (articleFloorDtoBuilder_ != null) {
+          return articleFloorDtoBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(articleFloorDto_);
+        }
+      }
+      /**
+       * <code>repeated .ArticleFloorDto articleFloorDto = 1;</code>
+       */
+      public ArticleFloorDto.Builder addArticleFloorDtoBuilder() {
+        return getArticleFloorDtoFieldBuilder().addBuilder(
+            ArticleFloorDto.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .ArticleFloorDto articleFloorDto = 1;</code>
+       */
+      public ArticleFloorDto.Builder addArticleFloorDtoBuilder(
+          int index) {
+        return getArticleFloorDtoFieldBuilder().addBuilder(
+            index, ArticleFloorDto.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .ArticleFloorDto articleFloorDto = 1;</code>
+       */
+      public java.util.List<ArticleFloorDto.Builder>
+           getArticleFloorDtoBuilderList() {
+        return getArticleFloorDtoFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          ArticleFloorDto, ArticleFloorDto.Builder, ArticleFloorDtoOrBuilder>
+          getArticleFloorDtoFieldBuilder() {
+        if (articleFloorDtoBuilder_ == null) {
+          articleFloorDtoBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              ArticleFloorDto, ArticleFloorDto.Builder, ArticleFloorDtoOrBuilder>(
+                  articleFloorDto_,
+                  ((bitField0_ & 0x00000001) != 0),
+                  getParentForChildren(),
+                  isClean());
+          articleFloorDto_ = null;
+        }
+        return articleFloorDtoBuilder_;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:FindAllCanGetResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:FindAllCanGetResponse)
+    private static final FindAllCanGetResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new FindAllCanGetResponse();
+    }
+
+    public static FindAllCanGetResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<FindAllCanGetResponse>
+        PARSER = new com.google.protobuf.AbstractParser<FindAllCanGetResponse>() {
+      @Override
+      public FindAllCanGetResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new FindAllCanGetResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<FindAllCanGetResponse> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<FindAllCanGetResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public FindAllCanGetResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface GetArticleFromFloorResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:GetArticleFromFloorResponse)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code GetArticleFromFloorResponse}
+   */
+  public static final class GetArticleFromFloorResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:GetArticleFromFloorResponse)
+      GetArticleFromFloorResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use GetArticleFromFloorResponse.newBuilder() to construct.
+    private GetArticleFromFloorResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private GetArticleFromFloorResponse() {
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetArticleFromFloorResponse();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private GetArticleFromFloorResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return BackPackModel.internal_static_GetArticleFromFloorResponse_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return BackPackModel.internal_static_GetArticleFromFloorResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              GetArticleFromFloorResponse.class, Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof GetArticleFromFloorResponse)) {
+        return super.equals(obj);
+      }
+      GetArticleFromFloorResponse other = (GetArticleFromFloorResponse) obj;
+
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static GetArticleFromFloorResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static GetArticleFromFloorResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static GetArticleFromFloorResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static GetArticleFromFloorResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static GetArticleFromFloorResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static GetArticleFromFloorResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static GetArticleFromFloorResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static GetArticleFromFloorResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static GetArticleFromFloorResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static GetArticleFromFloorResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static GetArticleFromFloorResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static GetArticleFromFloorResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(GetArticleFromFloorResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code GetArticleFromFloorResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:GetArticleFromFloorResponse)
+        GetArticleFromFloorResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return BackPackModel.internal_static_GetArticleFromFloorResponse_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return BackPackModel.internal_static_GetArticleFromFloorResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                GetArticleFromFloorResponse.class, Builder.class);
+      }
+
+      // Construct using BackPackModel.GetArticleFromFloorResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return BackPackModel.internal_static_GetArticleFromFloorResponse_descriptor;
+      }
+
+      @Override
+      public GetArticleFromFloorResponse getDefaultInstanceForType() {
+        return GetArticleFromFloorResponse.getDefaultInstance();
+      }
+
+      @Override
+      public GetArticleFromFloorResponse build() {
+        GetArticleFromFloorResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public GetArticleFromFloorResponse buildPartial() {
+        GetArticleFromFloorResponse result = new GetArticleFromFloorResponse(this);
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof GetArticleFromFloorResponse) {
+          return mergeFrom((GetArticleFromFloorResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(GetArticleFromFloorResponse other) {
+        if (other == GetArticleFromFloorResponse.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        GetArticleFromFloorResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (GetArticleFromFloorResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:GetArticleFromFloorResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:GetArticleFromFloorResponse)
+    private static final GetArticleFromFloorResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new GetArticleFromFloorResponse();
+    }
+
+    public static GetArticleFromFloorResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<GetArticleFromFloorResponse>
+        PARSER = new com.google.protobuf.AbstractParser<GetArticleFromFloorResponse>() {
+      @Override
+      public GetArticleFromFloorResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GetArticleFromFloorResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<GetArticleFromFloorResponse> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<GetArticleFromFloorResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public GetArticleFromFloorResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -6789,19 +12692,19 @@ public final class BackPackModel {
 
   }
 
-  public interface ArticleDtoOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:ArticleDto)
+  public interface ArticleFloorDtoOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:ArticleFloorDto)
       com.google.protobuf.MessageOrBuilder {
 
     /**
      * <pre>
-     *背包中物品id
+     *地面下标
      * </pre>
      *
-     * <code>int32 articleId = 1;</code>
-     * @return The articleId.
+     * <code>int32 floorIndex = 1;</code>
+     * @return The floorIndex.
      */
-    int getArticleId();
+    int getFloorIndex();
 
     /**
      * <pre>
@@ -6842,27 +12745,37 @@ public final class BackPackModel {
      * @return The nowDurability.
      */
     int getNowDurability();
+
+    /**
+     * <pre>
+     *装备实例id
+     * </pre>
+     *
+     * <code>int32 equipmentId = 6;</code>
+     * @return The equipmentId.
+     */
+    int getEquipmentId();
   }
   /**
-   * Protobuf type {@code ArticleDto}
+   * Protobuf type {@code ArticleFloorDto}
    */
-  public static final class ArticleDto extends
+  public static final class ArticleFloorDto extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:ArticleDto)
-      ArticleDtoOrBuilder {
+      // @@protoc_insertion_point(message_implements:ArticleFloorDto)
+      ArticleFloorDtoOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use ArticleDto.newBuilder() to construct.
-    private ArticleDto(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use ArticleFloorDto.newBuilder() to construct.
+    private ArticleFloorDto(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private ArticleDto() {
+    private ArticleFloorDto() {
     }
 
     @Override
     @SuppressWarnings({"unused"})
     protected Object newInstance(
         UnusedPrivateParameter unused) {
-      return new ArticleDto();
+      return new ArticleFloorDto();
     }
 
     @Override
@@ -6870,7 +12783,7 @@ public final class BackPackModel {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private ArticleDto(
+    private ArticleFloorDto(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -6890,7 +12803,7 @@ public final class BackPackModel {
               break;
             case 8: {
 
-              articleId_ = input.readInt32();
+              floorIndex_ = input.readInt32();
               break;
             }
             case 16: {
@@ -6911,6 +12824,11 @@ public final class BackPackModel {
             case 40: {
 
               nowDurability_ = input.readInt32();
+              break;
+            }
+            case 48: {
+
+              equipmentId_ = input.readInt32();
               break;
             }
             default: {
@@ -6934,30 +12852,30 @@ public final class BackPackModel {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return BackPackModel.internal_static_ArticleDto_descriptor;
+      return BackPackModel.internal_static_ArticleFloorDto_descriptor;
     }
 
     @Override
     protected FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return BackPackModel.internal_static_ArticleDto_fieldAccessorTable
+      return BackPackModel.internal_static_ArticleFloorDto_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              ArticleDto.class, Builder.class);
+              ArticleFloorDto.class, Builder.class);
     }
 
-    public static final int ARTICLEID_FIELD_NUMBER = 1;
-    private int articleId_;
+    public static final int FLOORINDEX_FIELD_NUMBER = 1;
+    private int floorIndex_;
     /**
      * <pre>
-     *背包中物品id
+     *地面下标
      * </pre>
      *
-     * <code>int32 articleId = 1;</code>
-     * @return The articleId.
+     * <code>int32 floorIndex = 1;</code>
+     * @return The floorIndex.
      */
     @Override
-    public int getArticleId() {
-      return articleId_;
+    public int getFloorIndex() {
+      return floorIndex_;
     }
 
     public static final int ID_FIELD_NUMBER = 2;
@@ -7020,6 +12938,21 @@ public final class BackPackModel {
       return nowDurability_;
     }
 
+    public static final int EQUIPMENTID_FIELD_NUMBER = 6;
+    private int equipmentId_;
+    /**
+     * <pre>
+     *装备实例id
+     * </pre>
+     *
+     * <code>int32 equipmentId = 6;</code>
+     * @return The equipmentId.
+     */
+    @Override
+    public int getEquipmentId() {
+      return equipmentId_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -7034,8 +12967,8 @@ public final class BackPackModel {
     @Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (articleId_ != 0) {
-        output.writeInt32(1, articleId_);
+      if (floorIndex_ != 0) {
+        output.writeInt32(1, floorIndex_);
       }
       if (id_ != 0) {
         output.writeInt32(2, id_);
@@ -7049,6 +12982,9 @@ public final class BackPackModel {
       if (nowDurability_ != 0) {
         output.writeInt32(5, nowDurability_);
       }
+      if (equipmentId_ != 0) {
+        output.writeInt32(6, equipmentId_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -7058,9 +12994,9 @@ public final class BackPackModel {
       if (size != -1) return size;
 
       size = 0;
-      if (articleId_ != 0) {
+      if (floorIndex_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, articleId_);
+          .computeInt32Size(1, floorIndex_);
       }
       if (id_ != 0) {
         size += com.google.protobuf.CodedOutputStream
@@ -7078,6 +13014,10 @@ public final class BackPackModel {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(5, nowDurability_);
       }
+      if (equipmentId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(6, equipmentId_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -7088,13 +13028,13 @@ public final class BackPackModel {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof ArticleDto)) {
+      if (!(obj instanceof ArticleFloorDto)) {
         return super.equals(obj);
       }
-      ArticleDto other = (ArticleDto) obj;
+      ArticleFloorDto other = (ArticleFloorDto) obj;
 
-      if (getArticleId()
-          != other.getArticleId()) return false;
+      if (getFloorIndex()
+          != other.getFloorIndex()) return false;
       if (getId()
           != other.getId()) return false;
       if (getQuantity()
@@ -7103,6 +13043,8 @@ public final class BackPackModel {
           != other.getArticleType()) return false;
       if (getNowDurability()
           != other.getNowDurability()) return false;
+      if (getEquipmentId()
+          != other.getEquipmentId()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -7114,8 +13056,8 @@ public final class BackPackModel {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + ARTICLEID_FIELD_NUMBER;
-      hash = (53 * hash) + getArticleId();
+      hash = (37 * hash) + FLOORINDEX_FIELD_NUMBER;
+      hash = (53 * hash) + getFloorIndex();
       hash = (37 * hash) + ID_FIELD_NUMBER;
       hash = (53 * hash) + getId();
       hash = (37 * hash) + QUANTITY_FIELD_NUMBER;
@@ -7124,74 +13066,76 @@ public final class BackPackModel {
       hash = (53 * hash) + getArticleType();
       hash = (37 * hash) + NOWDURABILITY_FIELD_NUMBER;
       hash = (53 * hash) + getNowDurability();
+      hash = (37 * hash) + EQUIPMENTID_FIELD_NUMBER;
+      hash = (53 * hash) + getEquipmentId();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static ArticleDto parseFrom(
+    public static ArticleFloorDto parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static ArticleDto parseFrom(
+    public static ArticleFloorDto parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static ArticleDto parseFrom(
+    public static ArticleFloorDto parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static ArticleDto parseFrom(
+    public static ArticleFloorDto parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static ArticleDto parseFrom(byte[] data)
+    public static ArticleFloorDto parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static ArticleDto parseFrom(
+    public static ArticleFloorDto parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static ArticleDto parseFrom(java.io.InputStream input)
+    public static ArticleFloorDto parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static ArticleDto parseFrom(
+    public static ArticleFloorDto parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static ArticleDto parseDelimitedFrom(java.io.InputStream input)
+    public static ArticleFloorDto parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static ArticleDto parseDelimitedFrom(
+    public static ArticleFloorDto parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static ArticleDto parseFrom(
+    public static ArticleFloorDto parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static ArticleDto parseFrom(
+    public static ArticleFloorDto parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -7204,7 +13148,7 @@ public final class BackPackModel {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(ArticleDto prototype) {
+    public static Builder newBuilder(ArticleFloorDto prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     @Override
@@ -7220,26 +13164,26 @@ public final class BackPackModel {
       return builder;
     }
     /**
-     * Protobuf type {@code ArticleDto}
+     * Protobuf type {@code ArticleFloorDto}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:ArticleDto)
-        ArticleDtoOrBuilder {
+        // @@protoc_insertion_point(builder_implements:ArticleFloorDto)
+        ArticleFloorDtoOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return BackPackModel.internal_static_ArticleDto_descriptor;
+        return BackPackModel.internal_static_ArticleFloorDto_descriptor;
       }
 
       @Override
       protected FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return BackPackModel.internal_static_ArticleDto_fieldAccessorTable
+        return BackPackModel.internal_static_ArticleFloorDto_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                ArticleDto.class, Builder.class);
+                ArticleFloorDto.class, Builder.class);
       }
 
-      // Construct using BackPackModel.ArticleDto.newBuilder()
+      // Construct using BackPackModel.ArticleFloorDto.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -7257,7 +13201,7 @@ public final class BackPackModel {
       @Override
       public Builder clear() {
         super.clear();
-        articleId_ = 0;
+        floorIndex_ = 0;
 
         id_ = 0;
 
@@ -7267,23 +13211,25 @@ public final class BackPackModel {
 
         nowDurability_ = 0;
 
+        equipmentId_ = 0;
+
         return this;
       }
 
       @Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return BackPackModel.internal_static_ArticleDto_descriptor;
+        return BackPackModel.internal_static_ArticleFloorDto_descriptor;
       }
 
       @Override
-      public ArticleDto getDefaultInstanceForType() {
-        return ArticleDto.getDefaultInstance();
+      public ArticleFloorDto getDefaultInstanceForType() {
+        return ArticleFloorDto.getDefaultInstance();
       }
 
       @Override
-      public ArticleDto build() {
-        ArticleDto result = buildPartial();
+      public ArticleFloorDto build() {
+        ArticleFloorDto result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
@@ -7291,13 +13237,14 @@ public final class BackPackModel {
       }
 
       @Override
-      public ArticleDto buildPartial() {
-        ArticleDto result = new ArticleDto(this);
-        result.articleId_ = articleId_;
+      public ArticleFloorDto buildPartial() {
+        ArticleFloorDto result = new ArticleFloorDto(this);
+        result.floorIndex_ = floorIndex_;
         result.id_ = id_;
         result.quantity_ = quantity_;
         result.articleType_ = articleType_;
         result.nowDurability_ = nowDurability_;
+        result.equipmentId_ = equipmentId_;
         onBuilt();
         return result;
       }
@@ -7336,18 +13283,18 @@ public final class BackPackModel {
       }
       @Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof ArticleDto) {
-          return mergeFrom((ArticleDto)other);
+        if (other instanceof ArticleFloorDto) {
+          return mergeFrom((ArticleFloorDto)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(ArticleDto other) {
-        if (other == ArticleDto.getDefaultInstance()) return this;
-        if (other.getArticleId() != 0) {
-          setArticleId(other.getArticleId());
+      public Builder mergeFrom(ArticleFloorDto other) {
+        if (other == ArticleFloorDto.getDefaultInstance()) return this;
+        if (other.getFloorIndex() != 0) {
+          setFloorIndex(other.getFloorIndex());
         }
         if (other.getId() != 0) {
           setId(other.getId());
@@ -7360,6 +13307,9 @@ public final class BackPackModel {
         }
         if (other.getNowDurability() != 0) {
           setNowDurability(other.getNowDurability());
+        }
+        if (other.getEquipmentId() != 0) {
+          setEquipmentId(other.getEquipmentId());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -7376,11 +13326,11 @@ public final class BackPackModel {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        ArticleDto parsedMessage = null;
+        ArticleFloorDto parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (ArticleDto) e.getUnfinishedMessage();
+          parsedMessage = (ArticleFloorDto) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -7390,45 +13340,45 @@ public final class BackPackModel {
         return this;
       }
 
-      private int articleId_ ;
+      private int floorIndex_ ;
       /**
        * <pre>
-       *背包中物品id
+       *地面下标
        * </pre>
        *
-       * <code>int32 articleId = 1;</code>
-       * @return The articleId.
+       * <code>int32 floorIndex = 1;</code>
+       * @return The floorIndex.
        */
       @Override
-      public int getArticleId() {
-        return articleId_;
+      public int getFloorIndex() {
+        return floorIndex_;
       }
       /**
        * <pre>
-       *背包中物品id
+       *地面下标
        * </pre>
        *
-       * <code>int32 articleId = 1;</code>
-       * @param value The articleId to set.
+       * <code>int32 floorIndex = 1;</code>
+       * @param value The floorIndex to set.
        * @return This builder for chaining.
        */
-      public Builder setArticleId(int value) {
+      public Builder setFloorIndex(int value) {
         
-        articleId_ = value;
+        floorIndex_ = value;
         onChanged();
         return this;
       }
       /**
        * <pre>
-       *背包中物品id
+       *地面下标
        * </pre>
        *
-       * <code>int32 articleId = 1;</code>
+       * <code>int32 floorIndex = 1;</code>
        * @return This builder for chaining.
        */
-      public Builder clearArticleId() {
+      public Builder clearFloorIndex() {
         
-        articleId_ = 0;
+        floorIndex_ = 0;
         onChanged();
         return this;
       }
@@ -7604,6 +13554,1007 @@ public final class BackPackModel {
         onChanged();
         return this;
       }
+
+      private int equipmentId_ ;
+      /**
+       * <pre>
+       *装备实例id
+       * </pre>
+       *
+       * <code>int32 equipmentId = 6;</code>
+       * @return The equipmentId.
+       */
+      @Override
+      public int getEquipmentId() {
+        return equipmentId_;
+      }
+      /**
+       * <pre>
+       *装备实例id
+       * </pre>
+       *
+       * <code>int32 equipmentId = 6;</code>
+       * @param value The equipmentId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setEquipmentId(int value) {
+        
+        equipmentId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       *装备实例id
+       * </pre>
+       *
+       * <code>int32 equipmentId = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearEquipmentId() {
+        
+        equipmentId_ = 0;
+        onChanged();
+        return this;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:ArticleFloorDto)
+    }
+
+    // @@protoc_insertion_point(class_scope:ArticleFloorDto)
+    private static final ArticleFloorDto DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ArticleFloorDto();
+    }
+
+    public static ArticleFloorDto getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ArticleFloorDto>
+        PARSER = new com.google.protobuf.AbstractParser<ArticleFloorDto>() {
+      @Override
+      public ArticleFloorDto parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ArticleFloorDto(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ArticleFloorDto> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<ArticleFloorDto> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public ArticleFloorDto getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface ArticleDtoOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:ArticleDto)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     *背包中物品id
+     * </pre>
+     *
+     * <code>int32 articleId = 1;</code>
+     * @return The articleId.
+     */
+    int getArticleId();
+
+    /**
+     * <pre>
+     *物品id
+     * </pre>
+     *
+     * <code>int32 id = 2;</code>
+     * @return The id.
+     */
+    int getId();
+
+    /**
+     * <pre>
+     *装备实例id
+     * </pre>
+     *
+     * <code>int32 equipmentId = 3;</code>
+     * @return The equipmentId.
+     */
+    int getEquipmentId();
+
+    /**
+     * <pre>
+     *数量
+     * </pre>
+     *
+     * <code>int32 quantity = 4;</code>
+     * @return The quantity.
+     */
+    int getQuantity();
+
+    /**
+     * <pre>
+     *物品类型
+     * </pre>
+     *
+     * <code>int32 articleType = 5;</code>
+     * @return The articleType.
+     */
+    int getArticleType();
+
+    /**
+     * <pre>
+     *耐久度
+     * </pre>
+     *
+     * <code>int32 nowDurability = 6;</code>
+     * @return The nowDurability.
+     */
+    int getNowDurability();
+  }
+  /**
+   * Protobuf type {@code ArticleDto}
+   */
+  public static final class ArticleDto extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:ArticleDto)
+      ArticleDtoOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use ArticleDto.newBuilder() to construct.
+    private ArticleDto(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ArticleDto() {
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ArticleDto();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ArticleDto(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+
+              articleId_ = input.readInt32();
+              break;
+            }
+            case 16: {
+
+              id_ = input.readInt32();
+              break;
+            }
+            case 24: {
+
+              equipmentId_ = input.readInt32();
+              break;
+            }
+            case 32: {
+
+              quantity_ = input.readInt32();
+              break;
+            }
+            case 40: {
+
+              articleType_ = input.readInt32();
+              break;
+            }
+            case 48: {
+
+              nowDurability_ = input.readInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return BackPackModel.internal_static_ArticleDto_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return BackPackModel.internal_static_ArticleDto_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ArticleDto.class, Builder.class);
+    }
+
+    public static final int ARTICLEID_FIELD_NUMBER = 1;
+    private int articleId_;
+    /**
+     * <pre>
+     *背包中物品id
+     * </pre>
+     *
+     * <code>int32 articleId = 1;</code>
+     * @return The articleId.
+     */
+    @Override
+    public int getArticleId() {
+      return articleId_;
+    }
+
+    public static final int ID_FIELD_NUMBER = 2;
+    private int id_;
+    /**
+     * <pre>
+     *物品id
+     * </pre>
+     *
+     * <code>int32 id = 2;</code>
+     * @return The id.
+     */
+    @Override
+    public int getId() {
+      return id_;
+    }
+
+    public static final int EQUIPMENTID_FIELD_NUMBER = 3;
+    private int equipmentId_;
+    /**
+     * <pre>
+     *装备实例id
+     * </pre>
+     *
+     * <code>int32 equipmentId = 3;</code>
+     * @return The equipmentId.
+     */
+    @Override
+    public int getEquipmentId() {
+      return equipmentId_;
+    }
+
+    public static final int QUANTITY_FIELD_NUMBER = 4;
+    private int quantity_;
+    /**
+     * <pre>
+     *数量
+     * </pre>
+     *
+     * <code>int32 quantity = 4;</code>
+     * @return The quantity.
+     */
+    @Override
+    public int getQuantity() {
+      return quantity_;
+    }
+
+    public static final int ARTICLETYPE_FIELD_NUMBER = 5;
+    private int articleType_;
+    /**
+     * <pre>
+     *物品类型
+     * </pre>
+     *
+     * <code>int32 articleType = 5;</code>
+     * @return The articleType.
+     */
+    @Override
+    public int getArticleType() {
+      return articleType_;
+    }
+
+    public static final int NOWDURABILITY_FIELD_NUMBER = 6;
+    private int nowDurability_;
+    /**
+     * <pre>
+     *耐久度
+     * </pre>
+     *
+     * <code>int32 nowDurability = 6;</code>
+     * @return The nowDurability.
+     */
+    @Override
+    public int getNowDurability() {
+      return nowDurability_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (articleId_ != 0) {
+        output.writeInt32(1, articleId_);
+      }
+      if (id_ != 0) {
+        output.writeInt32(2, id_);
+      }
+      if (equipmentId_ != 0) {
+        output.writeInt32(3, equipmentId_);
+      }
+      if (quantity_ != 0) {
+        output.writeInt32(4, quantity_);
+      }
+      if (articleType_ != 0) {
+        output.writeInt32(5, articleType_);
+      }
+      if (nowDurability_ != 0) {
+        output.writeInt32(6, nowDurability_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (articleId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, articleId_);
+      }
+      if (id_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, id_);
+      }
+      if (equipmentId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, equipmentId_);
+      }
+      if (quantity_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, quantity_);
+      }
+      if (articleType_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, articleType_);
+      }
+      if (nowDurability_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(6, nowDurability_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ArticleDto)) {
+        return super.equals(obj);
+      }
+      ArticleDto other = (ArticleDto) obj;
+
+      if (getArticleId()
+          != other.getArticleId()) return false;
+      if (getId()
+          != other.getId()) return false;
+      if (getEquipmentId()
+          != other.getEquipmentId()) return false;
+      if (getQuantity()
+          != other.getQuantity()) return false;
+      if (getArticleType()
+          != other.getArticleType()) return false;
+      if (getNowDurability()
+          != other.getNowDurability()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + ARTICLEID_FIELD_NUMBER;
+      hash = (53 * hash) + getArticleId();
+      hash = (37 * hash) + ID_FIELD_NUMBER;
+      hash = (53 * hash) + getId();
+      hash = (37 * hash) + EQUIPMENTID_FIELD_NUMBER;
+      hash = (53 * hash) + getEquipmentId();
+      hash = (37 * hash) + QUANTITY_FIELD_NUMBER;
+      hash = (53 * hash) + getQuantity();
+      hash = (37 * hash) + ARTICLETYPE_FIELD_NUMBER;
+      hash = (53 * hash) + getArticleType();
+      hash = (37 * hash) + NOWDURABILITY_FIELD_NUMBER;
+      hash = (53 * hash) + getNowDurability();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ArticleDto parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ArticleDto parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ArticleDto parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ArticleDto parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ArticleDto parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ArticleDto parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ArticleDto parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static ArticleDto parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ArticleDto parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static ArticleDto parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ArticleDto parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static ArticleDto parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ArticleDto prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code ArticleDto}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:ArticleDto)
+        ArticleDtoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return BackPackModel.internal_static_ArticleDto_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return BackPackModel.internal_static_ArticleDto_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ArticleDto.class, Builder.class);
+      }
+
+      // Construct using BackPackModel.ArticleDto.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        articleId_ = 0;
+
+        id_ = 0;
+
+        equipmentId_ = 0;
+
+        quantity_ = 0;
+
+        articleType_ = 0;
+
+        nowDurability_ = 0;
+
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return BackPackModel.internal_static_ArticleDto_descriptor;
+      }
+
+      @Override
+      public ArticleDto getDefaultInstanceForType() {
+        return ArticleDto.getDefaultInstance();
+      }
+
+      @Override
+      public ArticleDto build() {
+        ArticleDto result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public ArticleDto buildPartial() {
+        ArticleDto result = new ArticleDto(this);
+        result.articleId_ = articleId_;
+        result.id_ = id_;
+        result.equipmentId_ = equipmentId_;
+        result.quantity_ = quantity_;
+        result.articleType_ = articleType_;
+        result.nowDurability_ = nowDurability_;
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ArticleDto) {
+          return mergeFrom((ArticleDto)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ArticleDto other) {
+        if (other == ArticleDto.getDefaultInstance()) return this;
+        if (other.getArticleId() != 0) {
+          setArticleId(other.getArticleId());
+        }
+        if (other.getId() != 0) {
+          setId(other.getId());
+        }
+        if (other.getEquipmentId() != 0) {
+          setEquipmentId(other.getEquipmentId());
+        }
+        if (other.getQuantity() != 0) {
+          setQuantity(other.getQuantity());
+        }
+        if (other.getArticleType() != 0) {
+          setArticleType(other.getArticleType());
+        }
+        if (other.getNowDurability() != 0) {
+          setNowDurability(other.getNowDurability());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        ArticleDto parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (ArticleDto) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private int articleId_ ;
+      /**
+       * <pre>
+       *背包中物品id
+       * </pre>
+       *
+       * <code>int32 articleId = 1;</code>
+       * @return The articleId.
+       */
+      @Override
+      public int getArticleId() {
+        return articleId_;
+      }
+      /**
+       * <pre>
+       *背包中物品id
+       * </pre>
+       *
+       * <code>int32 articleId = 1;</code>
+       * @param value The articleId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setArticleId(int value) {
+        
+        articleId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       *背包中物品id
+       * </pre>
+       *
+       * <code>int32 articleId = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearArticleId() {
+        
+        articleId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int id_ ;
+      /**
+       * <pre>
+       *物品id
+       * </pre>
+       *
+       * <code>int32 id = 2;</code>
+       * @return The id.
+       */
+      @Override
+      public int getId() {
+        return id_;
+      }
+      /**
+       * <pre>
+       *物品id
+       * </pre>
+       *
+       * <code>int32 id = 2;</code>
+       * @param value The id to set.
+       * @return This builder for chaining.
+       */
+      public Builder setId(int value) {
+        
+        id_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       *物品id
+       * </pre>
+       *
+       * <code>int32 id = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearId() {
+        
+        id_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int equipmentId_ ;
+      /**
+       * <pre>
+       *装备实例id
+       * </pre>
+       *
+       * <code>int32 equipmentId = 3;</code>
+       * @return The equipmentId.
+       */
+      @Override
+      public int getEquipmentId() {
+        return equipmentId_;
+      }
+      /**
+       * <pre>
+       *装备实例id
+       * </pre>
+       *
+       * <code>int32 equipmentId = 3;</code>
+       * @param value The equipmentId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setEquipmentId(int value) {
+        
+        equipmentId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       *装备实例id
+       * </pre>
+       *
+       * <code>int32 equipmentId = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearEquipmentId() {
+        
+        equipmentId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int quantity_ ;
+      /**
+       * <pre>
+       *数量
+       * </pre>
+       *
+       * <code>int32 quantity = 4;</code>
+       * @return The quantity.
+       */
+      @Override
+      public int getQuantity() {
+        return quantity_;
+      }
+      /**
+       * <pre>
+       *数量
+       * </pre>
+       *
+       * <code>int32 quantity = 4;</code>
+       * @param value The quantity to set.
+       * @return This builder for chaining.
+       */
+      public Builder setQuantity(int value) {
+        
+        quantity_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       *数量
+       * </pre>
+       *
+       * <code>int32 quantity = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearQuantity() {
+        
+        quantity_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int articleType_ ;
+      /**
+       * <pre>
+       *物品类型
+       * </pre>
+       *
+       * <code>int32 articleType = 5;</code>
+       * @return The articleType.
+       */
+      @Override
+      public int getArticleType() {
+        return articleType_;
+      }
+      /**
+       * <pre>
+       *物品类型
+       * </pre>
+       *
+       * <code>int32 articleType = 5;</code>
+       * @param value The articleType to set.
+       * @return This builder for chaining.
+       */
+      public Builder setArticleType(int value) {
+        
+        articleType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       *物品类型
+       * </pre>
+       *
+       * <code>int32 articleType = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearArticleType() {
+        
+        articleType_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int nowDurability_ ;
+      /**
+       * <pre>
+       *耐久度
+       * </pre>
+       *
+       * <code>int32 nowDurability = 6;</code>
+       * @return The nowDurability.
+       */
+      @Override
+      public int getNowDurability() {
+        return nowDurability_;
+      }
+      /**
+       * <pre>
+       *耐久度
+       * </pre>
+       *
+       * <code>int32 nowDurability = 6;</code>
+       * @param value The nowDurability to set.
+       * @return This builder for chaining.
+       */
+      public Builder setNowDurability(int value) {
+        
+        nowDurability_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       *耐久度
+       * </pre>
+       *
+       * <code>int32 nowDurability = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearNowDurability() {
+        
+        nowDurability_ = 0;
+        onChanged();
+        return this;
+      }
       @Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -7663,6 +14614,26 @@ public final class BackPackModel {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_BackPackModelMessage_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_CheckMoneyNumberRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_CheckMoneyNumberRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_BuyGoodsRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_BuyGoodsRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_CheckMoneyNumberResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_CheckMoneyNumberResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_BuyGoodsResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_BuyGoodsResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_AbandonRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -7677,6 +14648,26 @@ public final class BackPackModel {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_UseRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_FindAllCanGetRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_FindAllCanGetRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_GetArticleFromFloorRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_GetArticleFromFloorRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_FindAllCanGetResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_FindAllCanGetResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_GetArticleFromFloorResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_GetArticleFromFloorResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_AbandonResponse_descriptor;
   private static final 
@@ -7703,6 +14694,11 @@ public final class BackPackModel {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_AddArticleResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_ArticleFloorDto_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_ArticleFloorDto_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_ArticleDto_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -7716,7 +14712,7 @@ public final class BackPackModel {
       descriptor;
   static {
     String[] descriptorData = {
-      "\n\023BackPackModel.proto\"\346\004\n\024BackPackModelM" +
+      "\n\023BackPackModel.proto\"\222\n\n\024BackPackModelM" +
       "essage\0221\n\tdata_type\030\001 \001(\0162\036.BackPackMode" +
       "lMessage.DateType\022+\n\017backPackRequest\030\002 \001" +
       "(\0132\020.BackPackRequestH\000\022)\n\016abandonRequest" +
@@ -7727,22 +14723,51 @@ public final class BackPackModel {
       "esponse\030\007 \001(\0132\014.UseResponseH\000\022/\n\021addArti" +
       "cleRequest\030\010 \001(\0132\022.AddArticleRequestH\000\0221" +
       "\n\022addArticleResponse\030\t \001(\0132\023.AddArticleR" +
-      "esponseH\000\"\256\001\n\010DateType\022\022\n\016AbandonRequest" +
-      "\020\000\022\023\n\017BackPackRequest\020\001\022\016\n\nUseRequest\020\002\022" +
-      "\023\n\017AbandonResponse\020\003\022\024\n\020BackPackResponse" +
-      "\020\004\022\017\n\013UseResponse\020\005\022\025\n\021AddArticleRequest" +
-      "\020\006\022\026\n\022AddArticleResponse\020\007B\n\n\010dateBody\"3" +
-      "\n\016AbandonRequest\022\021\n\tarticleId\030\001 \001(\005\022\016\n\006n" +
-      "umber\030\002 \001(\005\"\021\n\017BackPackRequest\"\037\n\nUseReq" +
-      "uest\022\021\n\tarticleId\030\001 \001(\005\"\021\n\017AbandonRespon" +
-      "se\"4\n\020BackPackResponse\022 \n\013articleDtos\030\001 " +
-      "\003(\0132\013.ArticleDto\"\r\n\013UseResponse\"D\n\021AddAr" +
-      "ticleRequest\022\n\n\002id\030\001 \001(\005\022\023\n\013articleType\030" +
-      "\002 \001(\005\022\016\n\006number\030\003 \001(\005\"\024\n\022AddArticleRespo" +
-      "nse\"i\n\nArticleDto\022\021\n\tarticleId\030\001 \001(\005\022\n\n\002" +
-      "id\030\002 \001(\005\022\020\n\010quantity\030\003 \001(\005\022\023\n\013articleTyp" +
-      "e\030\004 \001(\005\022\025\n\rnowDurability\030\005 \001(\005B\017B\rBackPa" +
-      "ckModelb\006proto3"
+      "esponseH\000\0225\n\024findAllCanGetRequest\030\n \001(\0132" +
+      "\025.FindAllCanGetRequestH\000\022A\n\032getArticleFr" +
+      "omFloorRequest\030\013 \001(\0132\033.GetArticleFromFlo" +
+      "orRequestH\000\0227\n\025findAllCanGetResponse\030\014 \001" +
+      "(\0132\026.FindAllCanGetResponseH\000\022C\n\033getArtic" +
+      "leFromFloorResponse\030\r \001(\0132\034.GetArticleFr" +
+      "omFloorResponseH\000\022;\n\027checkMoneyNumberReq" +
+      "uest\030\016 \001(\0132\030.CheckMoneyNumberRequestH\000\022+" +
+      "\n\017buyGoodsRequest\030\017 \001(\0132\020.BuyGoodsReques" +
+      "tH\000\022=\n\030checkMoneyNumberResponse\030\020 \001(\0132\031." +
+      "CheckMoneyNumberResponseH\000\022-\n\020buyGoodsRe" +
+      "sponse\030\021 \001(\0132\021.BuyGoodsResponseH\000\"\212\003\n\010Da" +
+      "teType\022\022\n\016AbandonRequest\020\000\022\023\n\017BackPackRe" +
+      "quest\020\001\022\016\n\nUseRequest\020\002\022\023\n\017AbandonRespon" +
+      "se\020\003\022\024\n\020BackPackResponse\020\004\022\017\n\013UseRespons" +
+      "e\020\005\022\025\n\021AddArticleRequest\020\006\022\026\n\022AddArticle" +
+      "Response\020\007\022\030\n\024FindAllCanGetRequest\020\010\022\036\n\032" +
+      "GetArticleFromFloorRequest\020\t\022\031\n\025FindAllC" +
+      "anGetResponse\020\n\022\037\n\033GetArticleFromFloorRe" +
+      "sponse\020\013\022\033\n\027CheckMoneyNumberRequest\020\014\022\023\n" +
+      "\017BuyGoodsRequest\020\r\022\034\n\030CheckMoneyNumberRe" +
+      "sponse\020\016\022\024\n\020BuyGoodsResponse\020\017B\n\n\010dateBo" +
+      "dy\"\031\n\027CheckMoneyNumberRequest\"/\n\017BuyGood" +
+      "sRequest\022\017\n\007goodsId\030\001 \001(\005\022\013\n\003num\030\002 \001(\005\")" +
+      "\n\030CheckMoneyNumberResponse\022\r\n\005money\030\001 \001(" +
+      "\005\"\022\n\020BuyGoodsResponse\"3\n\016AbandonRequest\022" +
+      "\021\n\tarticleId\030\001 \001(\005\022\016\n\006number\030\002 \001(\005\"\021\n\017Ba" +
+      "ckPackRequest\"\037\n\nUseRequest\022\021\n\tarticleId" +
+      "\030\001 \001(\005\"\026\n\024FindAllCanGetRequest\"+\n\032GetArt" +
+      "icleFromFloorRequest\022\r\n\005index\030\001 \001(\005\"B\n\025F" +
+      "indAllCanGetResponse\022)\n\017articleFloorDto\030" +
+      "\001 \003(\0132\020.ArticleFloorDto\"\035\n\033GetArticleFro" +
+      "mFloorResponse\"\021\n\017AbandonResponse\"4\n\020Bac" +
+      "kPackResponse\022 \n\013articleDtos\030\001 \003(\0132\013.Art" +
+      "icleDto\"\r\n\013UseResponse\"D\n\021AddArticleRequ" +
+      "est\022\n\n\002id\030\001 \001(\005\022\023\n\013articleType\030\002 \001(\005\022\016\n\006" +
+      "number\030\003 \001(\005\"\024\n\022AddArticleResponse\"\204\001\n\017A" +
+      "rticleFloorDto\022\022\n\nfloorIndex\030\001 \001(\005\022\n\n\002id" +
+      "\030\002 \001(\005\022\020\n\010quantity\030\003 \001(\005\022\023\n\013articleType\030" +
+      "\004 \001(\005\022\025\n\rnowDurability\030\005 \001(\005\022\023\n\013equipmen" +
+      "tId\030\006 \001(\005\"~\n\nArticleDto\022\021\n\tarticleId\030\001 \001" +
+      "(\005\022\n\n\002id\030\002 \001(\005\022\023\n\013equipmentId\030\003 \001(\005\022\020\n\010q" +
+      "uantity\030\004 \001(\005\022\023\n\013articleType\030\005 \001(\005\022\025\n\rno" +
+      "wDurability\030\006 \001(\005B\017B\rBackPackModelb\006prot" +
+      "o3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -7753,61 +14778,115 @@ public final class BackPackModel {
     internal_static_BackPackModelMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BackPackModelMessage_descriptor,
-        new String[] { "DataType", "BackPackRequest", "AbandonRequest", "UseRequest", "AbandonResponse", "BackPackResponse", "UseResponse", "AddArticleRequest", "AddArticleResponse", "DateBody", });
-    internal_static_AbandonRequest_descriptor =
+        new String[] { "DataType", "BackPackRequest", "AbandonRequest", "UseRequest", "AbandonResponse", "BackPackResponse", "UseResponse", "AddArticleRequest", "AddArticleResponse", "FindAllCanGetRequest", "GetArticleFromFloorRequest", "FindAllCanGetResponse", "GetArticleFromFloorResponse", "CheckMoneyNumberRequest", "BuyGoodsRequest", "CheckMoneyNumberResponse", "BuyGoodsResponse", "DateBody", });
+    internal_static_CheckMoneyNumberRequest_descriptor =
       getDescriptor().getMessageTypes().get(1);
+    internal_static_CheckMoneyNumberRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_CheckMoneyNumberRequest_descriptor,
+        new String[] { });
+    internal_static_BuyGoodsRequest_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_BuyGoodsRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_BuyGoodsRequest_descriptor,
+        new String[] { "GoodsId", "Num", });
+    internal_static_CheckMoneyNumberResponse_descriptor =
+      getDescriptor().getMessageTypes().get(3);
+    internal_static_CheckMoneyNumberResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_CheckMoneyNumberResponse_descriptor,
+        new String[] { "Money", });
+    internal_static_BuyGoodsResponse_descriptor =
+      getDescriptor().getMessageTypes().get(4);
+    internal_static_BuyGoodsResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_BuyGoodsResponse_descriptor,
+        new String[] { });
+    internal_static_AbandonRequest_descriptor =
+      getDescriptor().getMessageTypes().get(5);
     internal_static_AbandonRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_AbandonRequest_descriptor,
         new String[] { "ArticleId", "Number", });
     internal_static_BackPackRequest_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_BackPackRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BackPackRequest_descriptor,
         new String[] { });
     internal_static_UseRequest_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_UseRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_UseRequest_descriptor,
         new String[] { "ArticleId", });
+    internal_static_FindAllCanGetRequest_descriptor =
+      getDescriptor().getMessageTypes().get(8);
+    internal_static_FindAllCanGetRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_FindAllCanGetRequest_descriptor,
+        new String[] { });
+    internal_static_GetArticleFromFloorRequest_descriptor =
+      getDescriptor().getMessageTypes().get(9);
+    internal_static_GetArticleFromFloorRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_GetArticleFromFloorRequest_descriptor,
+        new String[] { "Index", });
+    internal_static_FindAllCanGetResponse_descriptor =
+      getDescriptor().getMessageTypes().get(10);
+    internal_static_FindAllCanGetResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_FindAllCanGetResponse_descriptor,
+        new String[] { "ArticleFloorDto", });
+    internal_static_GetArticleFromFloorResponse_descriptor =
+      getDescriptor().getMessageTypes().get(11);
+    internal_static_GetArticleFromFloorResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_GetArticleFromFloorResponse_descriptor,
+        new String[] { });
     internal_static_AbandonResponse_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_AbandonResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_AbandonResponse_descriptor,
         new String[] { });
     internal_static_BackPackResponse_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_BackPackResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BackPackResponse_descriptor,
         new String[] { "ArticleDtos", });
     internal_static_UseResponse_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(14);
     internal_static_UseResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_UseResponse_descriptor,
         new String[] { });
     internal_static_AddArticleRequest_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(15);
     internal_static_AddArticleRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_AddArticleRequest_descriptor,
         new String[] { "Id", "ArticleType", "Number", });
     internal_static_AddArticleResponse_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(16);
     internal_static_AddArticleResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_AddArticleResponse_descriptor,
         new String[] { });
+    internal_static_ArticleFloorDto_descriptor =
+      getDescriptor().getMessageTypes().get(17);
+    internal_static_ArticleFloorDto_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_ArticleFloorDto_descriptor,
+        new String[] { "FloorIndex", "Id", "Quantity", "ArticleType", "NowDurability", "EquipmentId", });
     internal_static_ArticleDto_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(18);
     internal_static_ArticleDto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ArticleDto_descriptor,
-        new String[] { "ArticleId", "Id", "Quantity", "ArticleType", "NowDurability", });
+        new String[] { "ArticleId", "Id", "EquipmentId", "Quantity", "ArticleType", "NowDurability", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

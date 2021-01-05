@@ -9,6 +9,42 @@ public class CopySceneMessage {
     private String name;
     private Integer lastTime;
     private String bossIds;
+    /**
+     * 可掉落药品ids集合
+     */
+    private String medicineIds;
+    /**
+     * 可掉落装备ids集合
+     */
+    private String equipmentIds;
+    /**
+     * 挑战成功每人所得金币
+     */
+    private Integer money;
+
+    public String getMedicineIds() {
+        return medicineIds;
+    }
+
+    public void setMedicineIds(String medicineIds) {
+        this.medicineIds = medicineIds;
+    }
+
+    public String getEquipmentIds() {
+        return equipmentIds;
+    }
+
+    public void setEquipmentIds(String equipmentIds) {
+        this.equipmentIds = equipmentIds;
+    }
+
+    public Integer getMoney() {
+        return money;
+    }
+
+    public void setMoney(Integer money) {
+        this.money = money;
+    }
 
     public Integer getId() {
         return id;

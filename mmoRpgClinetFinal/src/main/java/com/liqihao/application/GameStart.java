@@ -5,14 +5,17 @@ import com.liqihao.commons.MmoCacheCilent;
 import com.liqihao.commons.CmdCode;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyRequest;
+import com.liqihao.commons.enums.ArticleTypeCode;
 import com.liqihao.commons.enums.SkillAttackTypeCode;
 import com.liqihao.commons.enums.SkillTypeCode;
 import com.liqihao.pojo.MmoRole;
 import com.liqihao.pojo.baseMessage.CopySceneMessage;
+import com.liqihao.pojo.baseMessage.GoodsMessage;
 import com.liqihao.pojo.baseMessage.SceneMessage;
 import com.liqihao.pojo.baseMessage.SkillMessage;
 import com.liqihao.protobufObject.*;
 import com.liqihao.utils.CommonsUtil;
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import io.netty.channel.Channel;
 
 
@@ -196,9 +199,90 @@ public class GameStart {
                     case ConstantValue.DELETE_SEND_EMAIL_REQUEST:
                         deleteSendEmailRequest(scanner);
                         break;
+                    case ConstantValue.FIND_ALL_CAN_REQUEST:
+                        findAllCanRequest(scanner);
+                        break;
+                    case ConstantValue.GET_ARTICLE_FROM_FLOOR_REQUEST:
+                        getArticleFromFloor(scanner);
+                        break;
+                    case ConstantValue.CHECK_MONEY_NUMBER_REQUEST:
+                        checkMoneyRequest(scanner);
+                        break;
+                    case ConstantValue.BUY_GOODS_REQUEST:
+                        buyGoodsRequest(scanner);
+                        break;
                     default:
                         System.out.println("GameStart-handler:收到错误cmd");
                 }
+    }
+
+    private void buyGoodsRequest(Scanner scanner) {
+        System.out.println("请输入你要购买的商品的Id：");
+        Integer goodsId=scanner.nextInt();
+        scanner.nextLine();
+        GoodsMessage goodsMessage=MmoCacheCilent.getInstance().getGoodsMessageConcurrentHashMap().get(goodsId);
+        if (goodsMessage==null){
+            System.out.println("没有该商品");
+            return;
+        }
+        Integer num=1;
+        if (!goodsMessage.getArticleTypeId().equals(ArticleTypeCode.EQUIPMENT.getCode())){
+            System.out.println("请输入要购买的数量");
+            num=scanner.nextInt();
+            scanner.nextLine();
+            if (num<=0){
+                System.out.println("输入错误数字");
+                return;
+            }
+        }
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.BUY_GOODS_REQUEST);
+        BackPackModel.BackPackModelMessage myMessage;
+        myMessage=BackPackModel.BackPackModelMessage.newBuilder()
+                .setDataType(BackPackModel.BackPackModelMessage.DateType.BuyGoodsRequest)
+                .setBuyGoodsRequest(BackPackModel.BuyGoodsRequest.newBuilder().setGoodsId(goodsId).setNum(num).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void checkMoneyRequest(Scanner scanner) {
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.CHECK_MONEY_NUMBER_REQUEST);
+        BackPackModel.BackPackModelMessage myMessage;
+        myMessage=BackPackModel.BackPackModelMessage.newBuilder()
+                .setDataType(BackPackModel.BackPackModelMessage.DateType.CheckMoneyNumberRequest)
+                .setCheckMoneyNumberRequest(BackPackModel.CheckMoneyNumberRequest.newBuilder().build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void findAllCanRequest(Scanner scanner) {
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.FIND_ALL_CAN_REQUEST);
+        BackPackModel.BackPackModelMessage myMessage;
+        myMessage=BackPackModel.BackPackModelMessage.newBuilder()
+                .setDataType(BackPackModel.BackPackModelMessage.DateType.FindAllCanGetRequest)
+                .setFindAllCanGetRequest(BackPackModel.FindAllCanGetRequest.newBuilder().build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void getArticleFromFloor(Scanner scanner) {
+        System.out.println("请输入你要拾取的物品的floodIndex：");
+        Integer floodIndex=scanner.nextInt();
+        scanner.nextLine();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.GET_ARTICLE_FROM_FLOOR_REQUEST);
+        BackPackModel.BackPackModelMessage myMessage;
+        myMessage=BackPackModel.BackPackModelMessage.newBuilder()
+                .setDataType(BackPackModel.BackPackModelMessage.DateType.GetArticleFromFloorRequest)
+                .setGetArticleFromFloorRequest(BackPackModel.GetArticleFromFloorRequest.newBuilder().setIndex(floodIndex).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
     }
 
     private void deleteSendEmailRequest(Scanner scanner) {

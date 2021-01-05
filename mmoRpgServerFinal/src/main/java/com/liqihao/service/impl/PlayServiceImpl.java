@@ -132,7 +132,7 @@ public class PlayServiceImpl implements PlayService {
                 EquipmentMessage message = EquipmentMessageCache.getInstance().get(mmoEquipmentPOJO.getMessageId());
                 EquipmentBean equipmentBean = CommonsUtil.equipmentMessageToEquipmentBean(message);
                 equipmentBean.setQuantity(mmoBagPOJO.getNumber());
-                equipmentBean.setEquipmentId(mmoEquipmentPOJO.getMessageId());
+                equipmentBean.setEquipmentId(mmoEquipmentPOJO.getId());
                 equipmentBean.setBagId(mmoBagPOJO.getBagId());
                 equipmentBean.setNowDurability(mmoEquipmentPOJO.getNowDurability());
                 backPackManager.put(equipmentBean);
@@ -241,7 +241,13 @@ public class PlayServiceImpl implements PlayService {
         mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO);
         //缓存角色集合删除
         OnlineRoleMessageCache.getInstance().remove(role.getId());
-        SceneBeanMessageCache.getInstance().get(role.getMmoSceneId()).getRoles().remove(role.getId());
+        if (role.getMmoSceneId()!=null) {
+            SceneBeanMessageCache.getInstance().get(role.getMmoSceneId()).getRoles().remove(role.getId());
+        }else{
+            Integer teamId=role.getTeamId();
+            TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(teamId);
+            teamBean.exitPeople(role.getId());
+        }
         //protobuf生成消息
 
         PlayModel.PlayModelMessage.Builder myMessageBuilder = PlayModel.PlayModelMessage.newBuilder();

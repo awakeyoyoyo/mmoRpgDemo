@@ -6,10 +6,7 @@ import com.liqihao.Cache.SkillMessageCache;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
-import com.liqihao.commons.enums.CopySceneStatusCode;
-import com.liqihao.commons.enums.RoleOnStatusCode;
-import com.liqihao.commons.enums.RoleStatusCode;
-import com.liqihao.commons.enums.RoleTypeCode;
+import com.liqihao.commons.enums.*;
 import com.liqihao.dao.*;
 import com.liqihao.pojo.*;
 import com.liqihao.pojo.baseMessage.*;
@@ -19,7 +16,6 @@ import com.liqihao.pojo.dto.EquipmentDto;
 import com.liqihao.protobufObject.CopySceneModel;
 import com.liqihao.protobufObject.EmailModel;
 import com.liqihao.provider.EmailServiceProvider;
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
 import org.springframework.beans.BeansException;
@@ -128,6 +124,17 @@ public class CommonsUtil implements ApplicationContextAware {
         return emailDto;
     }
 
+    public static GoodsBean goodMessageToGoodBean(GoodsMessage g) {
+        GoodsBean goodsBean=new GoodsBean();
+        goodsBean.setId(g.getId());
+        goodsBean.setNowNum(g.getNum());
+        goodsBean.setPrice(g.getPrice());
+        goodsBean.setArticleMessageId(g.getArticleMessageId());
+        goodsBean.setArticleId(g.getArticleId());
+        goodsBean.setNum(g.getNum());
+        return goodsBean;
+    }
+
 
     @Override
     public void setApplicationContext(ApplicationContext context) throws BeansException {
@@ -180,6 +187,9 @@ public class CommonsUtil implements ApplicationContextAware {
         copySceneBean.setId(copySceneMessage.getId());
         copySceneBean.setLastTime(copySceneMessage.getLastTime());
         copySceneBean.setName(copySceneMessage.getName());
+        copySceneBean.setMedicineIds(copySceneMessage.getMedicineIds());
+        copySceneBean.setEquipmentIds(copySceneMessage.getEquipmentIds());
+        copySceneBean.setMoney(copySceneMessage.getMoney());
         return copySceneBean;
     }
 
@@ -197,9 +207,6 @@ public class CommonsUtil implements ApplicationContextAware {
         bossBean.setNowHp(bossMessage.getBlood());
         bossBean.setDamageAdd(bossMessage.getDamageAdd());
         bossBean.setId(bossMessage.getId());
-        bossBean.setEquipmentIds(bossMessage.getEquipmentIds());
-        bossBean.setMedicines(bossMessage.getMedicines());
-        bossBean.setMoney(bossMessage.getMoney());
         bossBean.setMp(bossMessage.getMp());
         bossBean.setName(bossMessage.getName());
         bossBean.setSkillIds(bossMessage.getSkillIds());
@@ -257,13 +264,33 @@ public class CommonsUtil implements ApplicationContextAware {
             mmoBagPOJO.setArticleType(a.getArticleType());
             mmoBagPOJO.setNumber(a.getQuantity());
             mmoBagPOJO.setRoleId(roleId);
-            mmoBagPOJO.setwId(a.getId());
+            if (a.getArticleType().equals(ArticleTypeCode.EQUIPMENT.getCode())) {
+                mmoBagPOJO.setwId(a.getEquipmentId());
+            }else{
+                mmoBagPOJO.setwId(a.getId());
+            }
             if (a.getBagId()!=null){
                 mmoBagPOJO.setBagId(a.getBagId());
                 mmoBagPOJOMapper.updateByPrimaryKey(mmoBagPOJO);
             }else{
                 //新的
                 mmoBagPOJOMapper.insert(mmoBagPOJO);
+            }
+            /**
+             * 新产生的装备以及 更新旧 的装备
+             */
+            if (a.getArticleType().equals(ArticleTypeCode.EQUIPMENT.getCode())) {
+               MmoEquipmentPOJO e=mmoEquipmentPOJOMapper.selectByPrimaryKey(mmoBagPOJO.getwId());
+               if (e==null){
+                   e=new MmoEquipmentPOJO();
+                   e.setId(a.getEquipmentId());
+                   e.setNowDurability(a.getNowDurability());
+                   e.setMessageId(a.getId());
+                   mmoEquipmentPOJOMapper.insert(e);
+               }else{
+                   e.setNowDurability(a.getNowDurability());
+                   mmoEquipmentPOJOMapper.updateByPrimaryKey(e);
+               }
             }
         }
         //需要删除的记录
@@ -295,8 +322,13 @@ public class CommonsUtil implements ApplicationContextAware {
             MmoEquipmentPOJO equipmentPOJO=new MmoEquipmentPOJO();
             equipmentPOJO.setId(e.getEquipmentId());
             equipmentPOJO.setMessageId(e.getId());
-            equipmentPOJO.setNowDurability(e.getNowdurability());
-            mmoEquipmentPOJOMapper.updateByPrimaryKey(equipmentPOJO);
+            equipmentPOJO.setNowDurability(e.getNowDurability());
+            MmoEquipmentPOJO pojo=mmoEquipmentPOJOMapper.selectByPrimaryKey(equipmentPOJO.getId());
+            if (pojo==null){
+                mmoEquipmentPOJOMapper.insert(equipmentPOJO);
+            }else{
+                mmoEquipmentPOJOMapper.updateByPrimaryKey(equipmentPOJO);
+            }
         }
         //需要删除的记录
         List<Integer> equBagIds=mmoSimpleRole.getNeedDeleteEquipmentIds();

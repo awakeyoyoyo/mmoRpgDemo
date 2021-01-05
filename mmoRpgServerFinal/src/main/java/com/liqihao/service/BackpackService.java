@@ -40,5 +40,38 @@ public interface BackpackService {
      * @throws InvalidProtocolBufferException
      */
     void addArticleRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException;
+    /**
+     *  副本中可捡去的物品
+     * @param myMessage
+     * @param mmoSimpleRole
+     * @throws InvalidProtocolBufferException
+     */
+    void findAllCanGetRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException;
+
+    /**
+     * 从副本地面上拾取东西
+     * @param myMessage
+     * @param mmoSimpleRole
+     * @throws InvalidProtocolBufferException
+     */
+    void getArticleFromFloorRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException;
+
+
+    /**
+     * 查看有多少钱
+     * @param myMessage
+     * @param mmoSimpleRole
+     * @throws InvalidProtocolBufferException
+     */
+    void checkMoneyNumber(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException;
+
+
+    /**
+     * 购买商品 需id以及数量
+     * @param myMessage
+     * @param mmoSimpleRole
+     * @throws Exception
+     */
+    void buyGoods(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws Exception;
 
 }

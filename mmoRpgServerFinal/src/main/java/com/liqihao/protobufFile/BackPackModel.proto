@@ -11,6 +11,14 @@ message BackPackModelMessage{
     UseResponse=5;
     AddArticleRequest=6;
     AddArticleResponse=7;
+    FindAllCanGetRequest=8;
+    GetArticleFromFloorRequest=9;
+    FindAllCanGetResponse=10;
+    GetArticleFromFloorResponse=11;
+    CheckMoneyNumberRequest=12;
+    BuyGoodsRequest=13;
+    CheckMoneyNumberResponse=14;
+    BuyGoodsResponse=15;
   }
   //用date_type来标识传的是哪一个枚举类型
   DateType data_type=1;
@@ -24,7 +32,28 @@ message BackPackModelMessage{
     UseResponse useResponse=7;
     AddArticleRequest addArticleRequest=8;
     AddArticleResponse addArticleResponse=9;
+    FindAllCanGetRequest findAllCanGetRequest=10;
+    GetArticleFromFloorRequest getArticleFromFloorRequest=11;
+    FindAllCanGetResponse findAllCanGetResponse=12;
+    GetArticleFromFloorResponse getArticleFromFloorResponse=13;
+    CheckMoneyNumberRequest checkMoneyNumberRequest=14;
+    BuyGoodsRequest buyGoodsRequest=15;
+    CheckMoneyNumberResponse checkMoneyNumberResponse=16;
+    BuyGoodsResponse buyGoodsResponse=17;
   }
+}
+message CheckMoneyNumberRequest{
+
+}
+message BuyGoodsRequest{
+  int32 goodsId=1;
+  int32 num=2;
+}
+message CheckMoneyNumberResponse{
+  int32 money=1;
+}
+message BuyGoodsResponse{
+
 }
 message AbandonRequest{
   int32 articleId=1;
@@ -35,7 +64,16 @@ message BackPackRequest{
 message UseRequest{
   int32 articleId=1;
 }
-
+message FindAllCanGetRequest{
+}
+message GetArticleFromFloorRequest{
+  int32 index=1;
+}
+message FindAllCanGetResponse{
+    repeated ArticleFloorDto articleFloorDto=1;
+}
+message GetArticleFromFloorResponse{
+}
 message AbandonResponse{
 }
 message BackPackResponse{
@@ -51,9 +89,9 @@ message AddArticleRequest{
 message AddArticleResponse{
 
 }
-message ArticleDto{
-  //背包中物品id
-  int32 articleId=1;
+message ArticleFloorDto{
+  //地面下标
+  int32 floorIndex=1;
   //物品id
   int32 id=2;
   //数量
@@ -61,5 +99,22 @@ message ArticleDto{
   //物品类型
   int32 articleType=4;
   //耐久度
-  int32  nowDurability=5;
+  int32 nowDurability=5;
+  //装备实例id
+  int32 equipmentId=6;
+}
+
+message ArticleDto{
+  //背包中物品id
+  int32 articleId=1;
+  //物品id
+  int32 id=2;
+  //装备实例id
+  int32 equipmentId=3;
+  //数量
+  int32 quantity=4;
+  //物品类型
+  int32 articleType=5;
+  //耐久度
+  int32  nowDurability=6;
 }

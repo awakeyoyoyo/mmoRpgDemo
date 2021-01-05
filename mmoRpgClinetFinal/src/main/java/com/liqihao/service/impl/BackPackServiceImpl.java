@@ -37,14 +37,14 @@ public class BackPackServiceImpl implements BackPackService {
                 EquipmentMessage equipmentMessage=equipmentMessageConcurrentHashMap.get(a.getId());
                 System.out.println("[-]");
                 System.out.println("[-][-]名字: "+equipmentMessage.getName()+" 耐久度： "+a.getNowDurability()+ "描述: "+equipmentMessage.getDescription());
-                System.out.println("[-][-]背包中的id: "+a.getArticleId()+" 物品id: "+a.getId()+" 物品数量: "+a.getQuantity());
+                System.out.println("[-][-]背包中的id: "+a.getArticleId()+" 装备基本信息id: "+a.getId()+" 装备实例id: "+a.getEquipmentId()+" 物品数量: "+a.getQuantity());
                 System.out.println("[-]");
             }else if (a.getArticleType()== ArticleTypeCode.MEDICINE.getCode()){
                 //药品
                 MedicineMessage medicineMessage=medicineMessageConcurrentHashMap.get(a.getId());
                 System.out.println("[-]");
                 System.out.println("[-][-]名字: "+medicineMessage.getName()+ "描述: "+medicineMessage.getDescription());
-                System.out.println("[-][-]背包中的id: "+a.getArticleId()+" 物品id: "+a.getId()+" 物品数量: "+a.getQuantity());
+                System.out.println("[-][-]背包中的id: "+a.getArticleId()+" 药品基本信息id: "+a.getId()+" 物品数量: "+a.getQuantity());
                 System.out.println("[-]");
             }else {
                 System.out.println("[-]");
@@ -95,6 +95,72 @@ public class BackPackServiceImpl implements BackPackService {
         myMessage=BackPackModel.BackPackModelMessage.parseFrom(data);
         System.out.println("[-]--------------------------------------------------------");
         System.out.println("[-]增加成功");
+        System.out.println("[-]--------------------------------------------------------");
+    }
+
+    @Override
+    public void getArticleFromFloorResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
+        byte[] data=nettyResponse.getData();
+        BackPackModel.BackPackModelMessage myMessage;
+        myMessage=BackPackModel.BackPackModelMessage.parseFrom(data);
+        System.out.println("[-]--------------------------------------------------------");
+        System.out.println("[-]拾取成功");
+        System.out.println("[-]--------------------------------------------------------");
+    }
+
+    @Override
+    public void findAllCanResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
+        byte[] data=nettyResponse.getData();
+        BackPackModel.BackPackModelMessage myMessage;
+        myMessage=BackPackModel.BackPackModelMessage.parseFrom(data);
+        List<BackPackModel.ArticleFloorDto> articleFloorDtos=myMessage.getFindAllCanGetResponse().getArticleFloorDtoList();
+        ConcurrentHashMap<Integer, MedicineMessage> medicineMessageConcurrentHashMap=MmoCacheCilent.getInstance().getMedicineMessageConcurrentHashMap();
+        ConcurrentHashMap<Integer, EquipmentMessage> equipmentMessageConcurrentHashMap=MmoCacheCilent.getInstance().getEquipmentMessageConcurrentHashMap();
+        System.out.println("[-]--------------------------------------------------------");
+        for (BackPackModel.ArticleFloorDto a:articleFloorDtos) {
+            if (a.getArticleType()== ArticleTypeCode.EQUIPMENT.getCode()){
+                //装备
+                EquipmentMessage equipmentMessage=equipmentMessageConcurrentHashMap.get(a.getId());
+                System.out.println("[-]");
+                System.out.println("[-][-]名字: "+equipmentMessage.getName()+" 耐久度： "+a.getNowDurability()+ "描述: "+equipmentMessage.getDescription());
+                System.out.println("[-][-]装备基本信息id: "+a.getId()+" 装备实例id: "+a.getEquipmentId()+" 物品数量: "+a.getQuantity());
+                System.out.println("[-][-]地面物品id："+a.getFloorIndex());
+                System.out.println("[-]");
+            }else if (a.getArticleType()== ArticleTypeCode.MEDICINE.getCode()){
+                //药品
+                MedicineMessage medicineMessage=medicineMessageConcurrentHashMap.get(a.getId());
+                System.out.println("[-]");
+                System.out.println("[-][-]名字: "+medicineMessage.getName()+ "描述: "+medicineMessage.getDescription());
+                System.out.println("[-][-]药品基本信息id: "+a.getId()+" 物品数量: "+a.getQuantity());
+                System.out.println("[-][-]地面物品id："+a.getFloorIndex());
+                System.out.println("[-]");
+            }else {
+                System.out.println("[-]");
+                System.out.println("[-]什么鬼东西？？？");
+                System.out.println("[-]");
+            }
+        }
+        System.out.println("[-]--------------------------------------------------------");
+    }
+
+    @Override
+    public void buyGoodsResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
+        byte[] data=nettyResponse.getData();
+        BackPackModel.BackPackModelMessage myMessage;
+        myMessage=BackPackModel.BackPackModelMessage.parseFrom(data);
+        System.out.println("[-]--------------------------------------------------------");
+        System.out.println("[-]购买成功");
+        System.out.println("[-]--------------------------------------------------------");
+    }
+
+    @Override
+    public void checkMoneyNumberResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
+        byte[] data=nettyResponse.getData();
+        BackPackModel.BackPackModelMessage myMessage;
+        myMessage=BackPackModel.BackPackModelMessage.parseFrom(data);
+        Integer money=myMessage.getCheckMoneyNumberResponse().getMoney();
+        System.out.println("[-]--------------------------------------------------------");
+        System.out.println("[-]角色的金币数量："+money);
         System.out.println("[-]--------------------------------------------------------");
     }
 }

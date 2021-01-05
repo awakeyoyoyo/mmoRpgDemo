@@ -19,7 +19,7 @@ public class EquipmentDto {
      *  当前耐久度
      */
 
-    private Integer Nowdurability;
+    private Integer nowDurability;
     /**
      *   装备栏id
      */
@@ -28,7 +28,6 @@ public class EquipmentDto {
     /**
      * 装备数据库id
      */
-
     private Integer equipmentId;
 
     public Integer getEquipmentId() {
@@ -63,11 +62,11 @@ public class EquipmentDto {
         this.position = position;
     }
 
-    public Integer getNowdurability() {
-        return Nowdurability;
+    public Integer getNowDurability() {
+        return nowDurability;
     }
 
-    public void setNowdurability(Integer nowdurability) {
-        Nowdurability = nowdurability;
+    public void setNowDurability(Integer nowDurability) {
+        this.nowDurability = nowDurability;
     }
 }

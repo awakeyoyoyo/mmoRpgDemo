@@ -27,6 +27,20 @@ public class EquipmentBean extends EquipmentMessage implements Article{
      */
     private Integer equipmentBagId;
 
+    /**
+     *
+     *地面物品的下标
+     */
+    private Integer floorIndex;
+
+    public Integer getFloorIndex() {
+        return floorIndex;
+    }
+
+    public void setFloorIndex(Integer floorIndex) {
+        this.floorIndex = floorIndex;
+    }
+
     public Integer getEquipmentBagId() {
         return equipmentBagId;
     }

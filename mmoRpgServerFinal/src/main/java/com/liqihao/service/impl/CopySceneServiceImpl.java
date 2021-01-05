@@ -33,15 +33,15 @@ public class CopySceneServiceImpl implements CopySceneService {
         Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
         Integer teamId=mmoSimpleRole.getTeamId();
         if (teamId==null){
-            NettyResponse errotResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"当前角色还没是组队状态".getBytes());
-            channel.writeAndFlush(errotResponse);
+            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"当前角色还没是组队状态".getBytes());
+            channel.writeAndFlush(errorResponse);
             return;
         }
         //判断是否已经有进入副本
         Integer copySceneId=mmoSimpleRole.getCopySceneId();
         if (copySceneId==null){
-            NettyResponse errotResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"当前角色还未进入副本".getBytes());
-            channel.writeAndFlush(errotResponse);
+            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"当前角色还未进入副本".getBytes());
+            channel.writeAndFlush(errorResponse);
             return;
         }
         Integer copySceneBeanId=TeamServiceProvider.getTeamBeanByTeamId(teamId).getCopySceneBeanId();
@@ -59,14 +59,14 @@ public class CopySceneServiceImpl implements CopySceneService {
         //判断是否在组队状态
         Integer teamId=mmoSimpleRole.getTeamId();
         if (teamId==null){
-            NettyResponse errotResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"非组队状态不能进去".getBytes());
-            channel.writeAndFlush(errotResponse);
+            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"非组队状态不能进去".getBytes());
+            channel.writeAndFlush(errorResponse);
             return;
         }
         //判断人物是否已经在副本
         if (mmoSimpleRole.getCopySceneId()!=null){
-            NettyResponse errotResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"人物已经在副本中，请退出当前你副本再尝试".getBytes());
-            channel.writeAndFlush(errotResponse);
+            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"人物已经在副本中，请退出当前你副本再尝试".getBytes());
+            channel.writeAndFlush(errorResponse);
             return;
         }
         //判断队伍是否关联了副本

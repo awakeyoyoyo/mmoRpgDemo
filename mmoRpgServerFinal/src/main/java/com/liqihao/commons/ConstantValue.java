@@ -111,6 +111,23 @@ public interface ConstantValue {
      */
     String BAKCPACK_MODULE="backpackServiceImpl";
     /**
+     * 查看有多少钱
+     */
+    int CHECK_MONEY_NUMBER_REQUEST=4006;
+    /**
+     * 购买商品 需id以及数量
+     */
+    int BUY_GOODS_REQUEST=4007;
+    /**
+     * 查看有多少钱
+     */
+    int CHECK_MONEY_NUMBER_RESPONSE=4506;
+    /**
+     * 购买商品 需id以及数量
+     */
+    int BUY_GOODS_RESPONSE=4507;
+
+    /**
      * 背包信息请求
      */
     int BACKPACK_MSG_REQUEST=4000;
@@ -126,6 +143,24 @@ public interface ConstantValue {
      * 放入物品请求
      */
     int ADD_ARTICLE_REQUEST=4003;
+
+    /**
+     * 查看副本地面可拾取物品
+     */
+    int FIND_ALL_CAN_REQUEST=4004;
+    /**
+     * 拾取地面物品
+     */
+    int GET_ARTICLE_FROM_FLOOR_REQUEST=4005;
+
+    /**
+     * 查看副本地面可拾取物品
+     */
+    int FIND_ALL_CAN_RESPONSE=4504;
+    /**
+     * 拾取地面物品
+     */
+    int GET_ARTICLE_FROM_FLOOR_RESPONSE=4505;
     /**
      * 背包信息响应
      */
@@ -142,6 +177,7 @@ public interface ConstantValue {
      * 放入物品响应
      */
     int ADD_ARTICLE_RESPONSE=4503;
+
     /**
      * 装备模块
      */

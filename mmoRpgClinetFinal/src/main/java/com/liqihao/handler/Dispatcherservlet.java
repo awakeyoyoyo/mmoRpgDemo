@@ -77,6 +77,12 @@ public class Dispatcherservlet {
             case ConstantValue.ADD_ARTICLE_RESPONSE:
                 backPackService.addArticleResponse(nettyResponse);
                 break;
+            case ConstantValue.FIND_ALL_CAN_RESPONSE:
+                backPackService.findAllCanResponse(nettyResponse);
+                break;
+            case ConstantValue.GET_ARTICLE_FROM_FLOOR_RESPONSE:
+                backPackService.getArticleFromFloorResponse(nettyResponse);
+                break;
             case ConstantValue.ADD_EQUIPMENT_RESPONSE:
                 equipmentService.addEquipmentResponse(nettyResponse);
                 break;
@@ -172,6 +178,12 @@ public class Dispatcherservlet {
                 break;
             case ConstantValue.DELETE_SEND_EMAIL_RESPONSE:
                 emailService.deleteSendEmailResponse(nettyResponse);
+                break;
+            case ConstantValue.CHECK_MONEY_NUMBER_RESPONSE:
+                backPackService.checkMomeyNumberResponse(nettyResponse);
+                break;
+            case ConstantValue.BUY_GOODS_RESPONSE:
+                backPackService.buyGoodsResponse(nettyResponse);
                 break;
             default:
                 System.out.println("handler:收到");

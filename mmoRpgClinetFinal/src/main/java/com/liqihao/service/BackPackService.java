@@ -12,4 +12,11 @@ public interface BackPackService {
 
     void addArticleResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException;
 
+    void getArticleFromFloorResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException;
+
+    void findAllCanResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException;
+
+    void buyGoodsResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException;
+
+    void checkMoneyNumberResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException;
 }

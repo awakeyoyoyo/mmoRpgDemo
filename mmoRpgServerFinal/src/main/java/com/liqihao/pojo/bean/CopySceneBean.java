@@ -11,8 +11,10 @@ import com.liqihao.commons.enums.RoleTypeCode;
 import com.liqihao.pojo.baseMessage.CopySceneMessage;
 import com.liqihao.protobufObject.CopySceneModel;
 import com.liqihao.protobufObject.SceneModel;
+import com.liqihao.provider.ArticleServiceProvider;
 import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.provider.TeamServiceProvider;
+import com.liqihao.util.CommonsUtil;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
 
@@ -20,7 +22,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 /**
@@ -28,14 +32,66 @@ import java.util.concurrent.ScheduledFuture;
  * @author lqhao
  */
 public class CopySceneBean extends CopySceneMessage {
+    /**
+     * 开始时间
+     */
     private long createTime;
+    /**
+     * 结束时间
+     */
     private long endTime;
+    /**
+     * BOSS列表
+     */
     private LinkedList<BossBean> bossBeans;
+    /**
+     * 副本角色包括 召唤兽
+     */
     private List<Role> roles;
+    /**
+     * 副本状态
+     */
     private Integer status;
+    /**
+     * 副本实例id
+     */
     private Integer copySceneBeanId;
+    /**
+     * 副本对应队伍id
+     */
     private Integer teamId;
+    /**
+     * 当前boss
+     */
     private BossBean nowBoss;
+    /**
+     * 地面掉落物品
+     */
+    private ConcurrentHashMap<Integer,Article> articlesMap=new ConcurrentHashMap<>();
+
+
+    /**
+     *
+     * @return
+     */
+    private AtomicInteger floorArticleIdAuto=new AtomicInteger(0);
+
+    /**
+     *
+     *
+     */
+    public Integer getFloorIndex(){
+        return floorArticleIdAuto.incrementAndGet();
+    }
+
+    public ConcurrentHashMap<Integer, Article> getArticlesMap() {
+        return articlesMap;
+    }
+
+    public void setArticlesMap(ConcurrentHashMap<Integer, Article> articlesMap) {
+        this.articlesMap = articlesMap;
+    }
+
 
     public BossBean getNowBoss() {
         return nowBoss;
@@ -150,7 +206,9 @@ public class CopySceneBean extends CopySceneMessage {
                     builder.setWentResponse(wentResponseBuilder.build());
                     byte[] data2=builder.build().toByteArray();
                     nettyResponse.setData(data2);
-                    c.writeAndFlush(nettyResponse);
+                    if (c!=null) {
+                        c.writeAndFlush(nettyResponse);
+                    }
                     break;
                 }
             }
@@ -169,7 +227,7 @@ public class CopySceneBean extends CopySceneMessage {
 
 
     /**
-     *     副本结束
+     * 副本结束
      */
     public void end(TeamBean teamBean,Integer cause) {
         Iterator iterator=roles.iterator();
@@ -241,8 +299,19 @@ public class CopySceneBean extends CopySceneMessage {
                 role.setNowHp(role.getHp());
             }
         }
-        //副本解散
-        end(teamBean,CopySceneDeleteCauseCode.SUCCESS.getCode());
+        //发奖励了
+        List<MedicineBean> medicineBeans= ArticleServiceProvider.productMedicineToCopyScene(this,CommonsUtil.split(getMedicineIds()));
+        List<EquipmentBean> equipmentBeans= ArticleServiceProvider.productEquipmentToCopyScene(this,CommonsUtil.split(getEquipmentIds()));
+        if (medicineBeans.size()>0) {
+            for (MedicineBean m:medicineBeans) {
+                articlesMap.put(m.getFloorIndex(),m);
+            }
+        }
+        if (equipmentBeans.size()>0){
+            for (EquipmentBean e:equipmentBeans) {
+                articlesMap.put(e.getFloorIndex(),e);
+            }
+        }
         // 广播队伍副本挑战成功
         NettyResponse nettyResponse=new NettyResponse();
         nettyResponse.setCmd(ConstantValue.CHANGE_SUCCESS_RESPONSE);
@@ -253,6 +322,10 @@ public class CopySceneBean extends CopySceneMessage {
         nettyResponse.setData(builder.build().toByteArray());
         for (MmoSimpleRole role:teamBean.getMmoSimpleRoles()) {
             Channel c=ChannelMessageCache.getInstance().get(role.getId());
+            /**
+             * 队伍中玩家全部加金币 上锁，防止购买物品与副本挑战成功获取金币冲突
+             */
+            role.setMoney(role.getMoney() + getMoney());
             if (c!=null) {
                 c.writeAndFlush(nettyResponse);
             }
@@ -311,6 +384,12 @@ public class CopySceneBean extends CopySceneMessage {
             }
         }
     }
+
+    /**
+     * 发送副本解散消息
+     * @param teamBean
+     * @param cause
+     */
     public void sendCopySceneDelete(TeamBean teamBean,Integer cause){
         NettyResponse nettyResponse=new NettyResponse();
         nettyResponse.setCmd(ConstantValue.COPY_SCENE_FINISH_RESPONSE);
@@ -328,6 +407,9 @@ public class CopySceneBean extends CopySceneMessage {
         }
     }
 
+    /**
+     * BOSS挑战是否完成
+     */
     public void bossComeOrFinish() {
         if (bossBeans.size()>0){
             BossBean bossBean=bossBeans.pop();
@@ -337,6 +419,18 @@ public class CopySceneBean extends CopySceneMessage {
             // 挑战成功
             TeamBean teamBean= TeamServiceProvider.getTeamBeanByTeamId(getTeamId());
             changeResult(teamBean);
+        }
+    }
+    /**
+     * 根据index获取副本物品
+     */
+    public Article getArticleByIndex(Integer index){
+        synchronized (articlesMap) {
+            Article article = articlesMap.get(index);
+            if (article!=null){
+                articlesMap.remove(index);
+            }
+            return article;
         }
     }
 }

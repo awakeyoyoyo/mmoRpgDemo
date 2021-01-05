@@ -10,19 +10,9 @@ public class BossMessage {
     private Integer blood;
     private Integer mp;
     private String skillIds;
-    private String medicines;
-    private String equipmentIds;
     private Integer attack;
     private double damageAdd;
-    private Integer money;
 
-    public Integer getMoney() {
-        return money;
-    }
-
-    public void setMoney(Integer money) {
-        this.money = money;
-    }
 
     public Integer getId() {
         return id;
@@ -62,22 +52,6 @@ public class BossMessage {
 
     public void setSkillIds(String skillIds) {
         this.skillIds = skillIds;
-    }
-
-    public String getMedicines() {
-        return medicines;
-    }
-
-    public void setMedicines(String medicines) {
-        this.medicines = medicines;
-    }
-
-    public String getEquipmentIds() {
-        return equipmentIds;
-    }
-
-    public void setEquipmentIds(String equipmentIds) {
-        this.equipmentIds = equipmentIds;
     }
 
     public Integer getAttack() {

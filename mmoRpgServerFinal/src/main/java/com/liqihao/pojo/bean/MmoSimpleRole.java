@@ -39,6 +39,10 @@ public class MmoSimpleRole extends Role implements MyObserver {
     private Integer lastSceneId;
     private Integer teamApplyOrInviteSize;
     /**
+     * 金币
+     */
+    private Integer money=0;
+    /**
      * 装备栏
      */
     private HashMap<Integer, EquipmentBean> equipmentBeanHashMap;
@@ -58,6 +62,14 @@ public class MmoSimpleRole extends Role implements MyObserver {
      * 已接受邮件
      */
     private ConcurrentHashMap<Integer,MmoEmailBean> toMmoEmailBeanConcurrentHashMap=new ConcurrentHashMap<>();
+
+    public Integer getMoney() {
+        return money;
+    }
+
+    public void setMoney(Integer money) {
+        this.money = money;
+    }
 
     public ConcurrentHashMap<Integer, MmoEmailBean> getFromMmoEmailBeanConcurrentHashMap() {
         return fromMmoEmailBeanConcurrentHashMap;
@@ -292,7 +304,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
         for (EquipmentBean bean : equipmentBeanHashMap.values()) {
             EquipmentDto equipmentDto = new EquipmentDto();
             equipmentDto.setId(bean.getId());
-            equipmentDto.setNowdurability(bean.getNowDurability());
+            equipmentDto.setNowDurability(bean.getNowDurability());
             equipmentDto.setPosition(bean.getPosition());
             equipmentDto.setEquipmentBagId(bean.getEquipmentBagId());
             equipmentDto.setEquipmentId(bean.getEquipmentId());

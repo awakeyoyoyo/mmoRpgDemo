@@ -242,7 +242,8 @@ public class BackPackManager {
                 articleDto.setArticleType(equipmentBean.getArticleType());
                 articleDto.setQuantity(equipmentBean.getQuantity());
                 articleDto.setBagId(equipmentBean.getBagId());
-                articleDto.setNowdurability(equipmentBean.getNowDurability());
+                articleDto.setNowDurability(equipmentBean.getNowDurability());
+                articleDto.setEquipmentId(equipmentBean.getEquipmentId());
             }
             articleDtos.add(articleDto);
         }
