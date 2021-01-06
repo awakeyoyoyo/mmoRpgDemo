@@ -198,6 +198,9 @@ public class CopySceneBean extends CopySceneMessage {
                         msr.setNowMp(mmoRole.getNowMp());
                         msr.setAttack(mmoRole.getAttack());
                         msr.setAttackAdd(mmoRole.getDamageAdd());
+                        if(msr.getType()== RoleTypeCode.PLAYER.getCode()){
+                            msr.setProfessionId(mmoSimpleRole.getProfessionId());
+                        }
                         SceneModel.RoleDTO msrObject=msr.build();
                         roleDTOS.add(msrObject);
                     }
@@ -266,6 +269,9 @@ public class CopySceneBean extends CopySceneMessage {
                 msr.setNowMp(mmoRole.getNowMp());
                 msr.setAttack(mmoRole.getAttack());
                 msr.setAttackAdd(mmoRole.getDamageAdd());
+                if(msr.getType()== RoleTypeCode.PLAYER.getCode()){
+                    msr.setProfessionId(mmoSimpleRole.getProfessionId());
+                }
                 SceneModel.RoleDTO msrobject=msr.build();
                 roleDTOS.add(msrobject);
             }

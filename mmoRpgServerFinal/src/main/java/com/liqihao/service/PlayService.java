@@ -41,5 +41,5 @@ public interface PlayService {
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
      */
-    void useSkillRequest(PlayModel.PlayModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException;
+    void useSkillRequest(PlayModel.PlayModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws Exception;
 }

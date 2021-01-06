@@ -12,7 +12,9 @@ public enum BufferTypeCode {
     REDUCE_MP(2,"扣蓝buffer"),
     ADD_MP(3,"加蓝buffer"),
     ADD_ATTACK(4,"增加攻击力"),
-    REDUCE_ATTACK(5,"减少攻击力");
+    REDUCE_ATTACK(5,"减少攻击力"),
+    GG_ATTACK(6,"嘲讽");
+
     private  int code;
     private  String value;
     BufferTypeCode(int code,String name)

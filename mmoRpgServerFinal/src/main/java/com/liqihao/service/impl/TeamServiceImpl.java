@@ -98,6 +98,7 @@ public class TeamServiceImpl implements TeamService {
                 .setHp(mmoSimpleRole.getHp()).setMp(mmoSimpleRole.getMp())
                 .setName(mmoSimpleRole.getName()).setNowHp(mmoSimpleRole.getNowHp())
                 .setTeamId(mmoSimpleRole.getTeamId())
+                .setProfessionId(mmoSimpleRole.getProfessionId())
                 .setNowMP(mmoSimpleRole.getNowMp()).build();
         List<TeamModel.RoleDto> roles=new ArrayList<>();
         roles.add(role);
@@ -453,6 +454,7 @@ public class TeamServiceImpl implements TeamService {
             TeamModel.RoleDto role = TeamModel.RoleDto.newBuilder().setId(simpleRole.getId())
                     .setHp(simpleRole.getHp()).setMp(simpleRole.getMp())
                     .setTeamId(mmoSimpleRole.getTeamId())
+                    .setProfessionId(mmoSimpleRole.getProfessionId())
                     .setName(simpleRole.getName()).setNowHp(simpleRole.getNowHp())
                     .setNowMP(simpleRole.getNowMp()).build();
             roles.add(role);

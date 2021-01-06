@@ -1,23 +1,16 @@
 package com.liqihao.commons.enums;
 
 /**
- * buffer枚举类型类
- * @author LQHAO
+ * buffer的生效方式，间隔还是持续
+ * @author lqhao
  */
-
-public enum BufferTypeCode {
+public enum BufferStyleCode {
     //
-    ADD_HP(0,"加血buffer"),
-    REDUCE_HP(1,"扣血buffer"),
-    REDUCE_MP(2,"扣蓝buffer"),
-    ADD_MP(3,"加蓝buffer"),
-    ADD_ATTACK(4,"增加攻击力"),
-    REDUCE_ATTACK(5,"减少攻击力"),
-    GG_ATTACK(6,"嘲讽");
-
+    SPACE_DO(0,"间隔生效"),
+    EVERYTIME_DO(1,"持续生效");
     private  int code;
     private  String value;
-    BufferTypeCode(int code,String name)
+    BufferStyleCode(int code,String name)
     {
         this.code=code;
         this.value = name;
@@ -39,7 +32,7 @@ public enum BufferTypeCode {
         return value;
     }
     public static String getValue(int code) {
-        for (BufferTypeCode ele : values()) {
+        for (BufferStyleCode ele : values()) {
             if(ele.getCode()==code){
                 return ele.getValue();
             }

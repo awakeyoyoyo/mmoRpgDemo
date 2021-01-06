@@ -18,4 +18,5 @@ public interface MmoUserPOJOMapper {
     Integer selectByUsername(String username);
 
     Integer checkByUernameAndPassword(@Param("username") String username, @Param("password") String password);
+
 }

@@ -21617,6 +21617,12 @@ public final class TeamModel {
      * @return The teamId.
      */
     int getTeamId();
+
+    /**
+     * <code>int32 professionId = 8;</code>
+     * @return The professionId.
+     */
+    int getProfessionId();
   }
   /**
    * Protobuf type {@code RoleDto}
@@ -21698,6 +21704,11 @@ public final class TeamModel {
             case 56: {
 
               teamId_ = input.readInt32();
+              break;
+            }
+            case 64: {
+
+              professionId_ = input.readInt32();
               break;
             }
             default: {
@@ -21836,6 +21847,17 @@ public final class TeamModel {
       return teamId_;
     }
 
+    public static final int PROFESSIONID_FIELD_NUMBER = 8;
+    private int professionId_;
+    /**
+     * <code>int32 professionId = 8;</code>
+     * @return The professionId.
+     */
+    @Override
+    public int getProfessionId() {
+      return professionId_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -21870,6 +21892,9 @@ public final class TeamModel {
       }
       if (teamId_ != 0) {
         output.writeInt32(7, teamId_);
+      }
+      if (professionId_ != 0) {
+        output.writeInt32(8, professionId_);
       }
       unknownFields.writeTo(output);
     }
@@ -21907,6 +21932,10 @@ public final class TeamModel {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(7, teamId_);
       }
+      if (professionId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(8, professionId_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -21936,6 +21965,8 @@ public final class TeamModel {
           != other.getNowMP()) return false;
       if (getTeamId()
           != other.getTeamId()) return false;
+      if (getProfessionId()
+          != other.getProfessionId()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -21961,6 +21992,8 @@ public final class TeamModel {
       hash = (53 * hash) + getNowMP();
       hash = (37 * hash) + TEAMID_FIELD_NUMBER;
       hash = (53 * hash) + getTeamId();
+      hash = (37 * hash) + PROFESSIONID_FIELD_NUMBER;
+      hash = (53 * hash) + getProfessionId();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -22108,6 +22141,8 @@ public final class TeamModel {
 
         teamId_ = 0;
 
+        professionId_ = 0;
+
         return this;
       }
 
@@ -22141,6 +22176,7 @@ public final class TeamModel {
         result.nowHp_ = nowHp_;
         result.nowMP_ = nowMP_;
         result.teamId_ = teamId_;
+        result.professionId_ = professionId_;
         onBuilt();
         return result;
       }
@@ -22210,6 +22246,9 @@ public final class TeamModel {
         }
         if (other.getTeamId() != 0) {
           setTeamId(other.getTeamId());
+        }
+        if (other.getProfessionId() != 0) {
+          setProfessionId(other.getProfessionId());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -22501,6 +22540,37 @@ public final class TeamModel {
         onChanged();
         return this;
       }
+
+      private int professionId_ ;
+      /**
+       * <code>int32 professionId = 8;</code>
+       * @return The professionId.
+       */
+      @Override
+      public int getProfessionId() {
+        return professionId_;
+      }
+      /**
+       * <code>int32 professionId = 8;</code>
+       * @param value The professionId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setProfessionId(int value) {
+        
+        professionId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 professionId = 8;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearProfessionId() {
+        
+        professionId_ = 0;
+        onChanged();
+        return this;
+      }
       @Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -22783,10 +22853,11 @@ public final class TeamModel {
       "\030\006 \001(\022\"\213\001\n\013TeamBeanDto\022\016\n\006teamId\030\001 \001(\005\022\032" +
       "\n\010roleDtos\030\002 \003(\0132\010.RoleDto\022\020\n\010leaderId\030\003" +
       " \001(\005\022\020\n\010teamName\030\004 \001(\t\022\023\n\013copySceneId\030\005 " +
-      "\001(\005\022\027\n\017copySceneBeanId\030\006 \001(\005\"i\n\007RoleDto\022" +
+      "\001(\005\022\027\n\017copySceneBeanId\030\006 \001(\005\"\177\n\007RoleDto\022" +
       "\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\n\n\002hp\030\003 \001(\005\022\n\n" +
       "\002mp\030\004 \001(\005\022\r\n\005nowHp\030\005 \001(\005\022\r\n\005nowMP\030\006 \001(\005\022" +
-      "\016\n\006teamId\030\007 \001(\005B\013B\tTeamModelb\006proto3"
+      "\016\n\006teamId\030\007 \001(\005\022\024\n\014professionId\030\010 \001(\005B\013B" +
+      "\tTeamModelb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -22959,7 +23030,7 @@ public final class TeamModel {
     internal_static_RoleDto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_RoleDto_descriptor,
-        new String[] { "Id", "Name", "Hp", "Mp", "NowHp", "NowMP", "TeamId", });
+        new String[] { "Id", "Name", "Hp", "Mp", "NowHp", "NowMP", "TeamId", "ProfessionId", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

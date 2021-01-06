@@ -197,35 +197,32 @@ public class ScheduledThreadPoolUtil {
         private BufferBean bufferBean;
         private Integer count;
         private Role toRole;
+
         public BufferTask() {
         }
 
-        public BufferTask(BufferBean bufferBean, Integer count,Role toRole) {
+        public BufferTask(BufferBean bufferBean, Integer count, Role toRole) {
             this.bufferBean = bufferBean;
             this.count = count;
-            this.toRole=toRole;
+            this.toRole = toRole;
         }
 
         @Override
         public void run() {
             logger.info("buffer线程-------------------" + Thread.currentThread().getName());
-            Integer bufferType = bufferBean.getBuffType();
-            if (bufferType.equals(BufferTypeCode.ADD_HP.getCode()) ||
-                    bufferType.equals(BufferTypeCode.REDUCE_HP.getCode()) ||
-                    bufferType.equals(BufferTypeCode.ADD_MP.getCode()) ||
-                    bufferType.equals(BufferTypeCode.REDUCE_MP.getCode())) {
-                Integer toroleId = bufferBean.getToRoleId();
-                if (toRole == null || toRole.getStatus().equals(RoleStatusCode.DIE.getCode()) || count <= 0) {
-                        //删除该buffer
-                        String taskId = toroleId.toString() + bufferBean.getId().toString();
-                        bufferRole.get(Integer.parseInt(taskId)).cancel(false);
-                        bufferRole.remove(taskId);
-                }
-                toRole.effectByBuffer(bufferBean);
+            Integer toroleId = bufferBean.getToRoleId();
+            if (toRole == null || toRole.getStatus().equals(RoleStatusCode.DIE.getCode()) || count <= 0) {
+                //删除该buffer
+                String taskId = toroleId.toString() + bufferBean.getId().toString();
+                bufferRole.remove(taskId);
+                toRole.getBufferBeans().remove(bufferBean);
+                bufferRole.get(Integer.parseInt(taskId)).cancel(false);
+                //人物身上删除buffer
 
-                }
-                count--;
             }
+            toRole.effectByBuffer(bufferBean);
+            count--;
+        }
     }
 
     public static class NpcAttackTask implements Runnable {
@@ -334,7 +331,7 @@ public class ScheduledThreadPoolUtil {
             this.bossBean = bossBean;
             attackCount = 1;
             this.skillBeans = skillBeans;
-            this.copySceneBean=copySceneBean;
+            this.copySceneBean = copySceneBean;
         }
 
         @Override
@@ -358,7 +355,7 @@ public class ScheduledThreadPoolUtil {
             }
             if (role == null) {
                 // 挑战失败
-                TeamBean teamBean= TeamServiceProvider.getTeamBeanByTeamId(copySceneBean.getTeamId());
+                TeamBean teamBean = TeamServiceProvider.getTeamBeanByTeamId(copySceneBean.getTeamId());
                 copySceneBean.changePeopleDie(teamBean);
                 bossTaskMap.get(bossBean.getBossBeanId()).cancel(false);
                 bossTaskMap.remove(bossBean.getBossBeanId());

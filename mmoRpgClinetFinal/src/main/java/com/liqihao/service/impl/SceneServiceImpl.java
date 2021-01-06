@@ -6,6 +6,7 @@ import com.liqihao.commons.enums.RoleStatusCode;
 import com.liqihao.commons.enums.RoleTypeCode;
 import com.liqihao.commons.enums.StateCode;
 import com.liqihao.pojo.MmoRole;
+import com.liqihao.pojo.baseMessage.ProfessionMessage;
 import com.liqihao.pojo.baseMessage.SceneMessage;
 import com.liqihao.protobufObject.SceneModel;
 import com.liqihao.service.SceneService;
@@ -58,6 +59,7 @@ public class SceneServiceImpl implements SceneService {
         MmoCacheCilent.getInstance().setRoleHashMap(roles);
         //本地缓存设置当前的场景
         SceneMessage m=MmoCacheCilent.getInstance().getSceneMessageConcurrentHashMap().get(mmoScene);
+        ConcurrentHashMap<Integer, ProfessionMessage> p=MmoCacheCilent.getInstance().getProfessionMessageConcurrentHashMap();
         MmoCacheCilent.getInstance().setNowSceneId(mmoScene);
         System.out.println("[-]--------------------------------------------------------");
         System.out.println("[-]当前场景是: "+m.getPlaceName());
@@ -67,6 +69,10 @@ public class SceneServiceImpl implements SceneService {
             System.out.println("[-]");
             System.out.println("[-][-]角色id：" + roleDTO.getId() + " 角色名: " + roleDTO.getName());
             System.out.println("[-][-]类型: " + RoleTypeCode.getValue(roleDTO.getType()) + " 状态: " + RoleStatusCode.getValue(roleDTO.getStatus()));
+            if (roleDTO.getType()==RoleTypeCode.PLAYER.getCode()){
+                System.out.println("[-][-]职业："+p.get(roleDTO.getProfessionId()).getName());
+
+            }
             System.out.println("[-][-]血量： " + roleDTO.getNowBlood() + "/" + roleDTO.getBlood());
             System.out.println("[-][-]蓝量： " + roleDTO.getNowMp() + "/" + roleDTO.getMp());
             System.out.println("[-][-]攻击力： "+roleDTO.getAttack()+" 技能伤害加成: "+roleDTO.getAttackAdd());
@@ -88,6 +94,7 @@ public class SceneServiceImpl implements SceneService {
         myMessage=SceneModel.SceneModelMessage.parseFrom(data);
         SceneModel.FindAllRolesResponse findAllRolesResponse=myMessage.getFindAllRolesResponse();
         List<SceneModel.RoleDTO> roleDTOS=findAllRolesResponse.getRoleDTOList();
+        ConcurrentHashMap<Integer, ProfessionMessage> p=MmoCacheCilent.getInstance().getProfessionMessageConcurrentHashMap();
         System.out.println("[-]--------------------------------------------------------");
         System.out.println("[-][-]当前场景角色有: ");
         HashMap<Integer,MmoRole> roles=new HashMap<>();
@@ -106,6 +113,10 @@ public class SceneServiceImpl implements SceneService {
             roles.put(mmoRole.getId(),mmoRole);
             System.out.println("[-]");
             System.out.println("[-][-]角色id：" + roleDTO.getId() + " 角色名: " + roleDTO.getName());
+            if (roleDTO.getType()==RoleTypeCode.PLAYER.getCode()){
+                System.out.println("[-][-]职业："+p.get(roleDTO.getProfessionId()).getName());
+
+            }
             System.out.println("[-][-]类型: " + RoleTypeCode.getValue(roleDTO.getType()) + " 状态: " + RoleStatusCode.getValue(roleDTO.getStatus()));
             System.out.println("[-][-]血量： " + roleDTO.getNowBlood() + "/" + roleDTO.getBlood());
             System.out.println("[-][-]蓝量： " + roleDTO.getNowMp() + "/" + roleDTO.getMp());

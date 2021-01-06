@@ -24,10 +24,30 @@ public class MmoRole {
 
     private Integer nowMp;
 
+    private Integer professionId;
+
+    private Integer money;
+
     private HashMap<Integer,Long> cdMap;
 
     private List<Integer> skillIdList;
     private Integer teamId;
+
+    public Integer getProfessionId() {
+        return professionId;
+    }
+
+    public void setProfessionId(Integer professionId) {
+        this.professionId = professionId;
+    }
+
+    public Integer getMoney() {
+        return money;
+    }
+
+    public void setMoney(Integer money) {
+        this.money = money;
+    }
 
     public Integer getTeamId() {
         return teamId;

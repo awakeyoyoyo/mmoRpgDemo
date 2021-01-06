@@ -92,4 +92,5 @@
     from mmo_user
     where user_name = #{username} and user_pwd=#{password}
   </select>
+
 </mapper>

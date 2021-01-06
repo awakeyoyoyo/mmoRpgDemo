@@ -27,9 +27,18 @@ public class MmoCacheCilent {
     private ConcurrentHashMap<Integer, BossMessage> bossMessageConcurrentHashMap;
     //商品基本信息
     private ConcurrentHashMap<Integer, GoodsMessage> goodsMessageConcurrentHashMap;
-
+    //商品基本信息
+    private ConcurrentHashMap<Integer, ProfessionMessage> professionMessageConcurrentHashMap;
     //基础配置信息
     private BaseDetailMessage baseDetailMessage;
+
+    public ConcurrentHashMap<Integer, ProfessionMessage> getProfessionMessageConcurrentHashMap() {
+        return professionMessageConcurrentHashMap;
+    }
+
+    public void setProfessionMessageConcurrentHashMap(ConcurrentHashMap<Integer, ProfessionMessage> professionMessageConcurrentHashMap) {
+        this.professionMessageConcurrentHashMap = professionMessageConcurrentHashMap;
+    }
 
     public ConcurrentHashMap<Integer, GoodsMessage> getGoodsMessageConcurrentHashMap() {
         return goodsMessageConcurrentHashMap;

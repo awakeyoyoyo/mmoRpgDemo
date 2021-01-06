@@ -11,6 +11,15 @@ public class BufferMessage {
     private Integer buffNum;
     private Integer lastTime ;
     private Integer spaceTime ;
+    private Integer bufferStyle;
+
+    public Integer getBufferStyle() {
+        return bufferStyle;
+    }
+
+    public void setBufferStyle(Integer bufferStyle) {
+        this.bufferStyle = bufferStyle;
+    }
 
     public Integer getId() {
         return id;

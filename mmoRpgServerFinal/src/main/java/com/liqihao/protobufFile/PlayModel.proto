@@ -82,6 +82,8 @@ message RoleDTO{
   double attackAdd=12;
   int32 teamId=13;
   int32 sceneId=14;
+  int32 professionId=15;
+  int32 money=16;
 }
 message RoleIdDamage{
   int32 fromRoleId=1;

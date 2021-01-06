@@ -4,6 +4,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.liqihao.commons.MmoCacheCilent;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.pojo.MmoRole;
+import com.liqihao.pojo.baseMessage.ProfessionMessage;
 import com.liqihao.protobufObject.TeamModel;
 import com.liqihao.service.TeamService;
 import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class TeamServiceImpl implements TeamService {
@@ -21,6 +23,7 @@ public class TeamServiceImpl implements TeamService {
         TeamModel.TeamModelMessage myMessage;
         myMessage = TeamModel.TeamModelMessage.parseFrom(data);
         TeamModel.TeamMessageResponse messageResponse = myMessage.getTeamMessageResponse();
+        ConcurrentHashMap<Integer, ProfessionMessage> p=MmoCacheCilent.getInstance().getProfessionMessageConcurrentHashMap();
         TeamModel.TeamBeanDto teamBeanDto = messageResponse.getTeamBeanDto();
         System.out.println("[-]--------------------------------------------------------");
         System.out.println("[-]队伍的id： " + teamBeanDto.getTeamId() + " 队伍的名称： " + teamBeanDto.getTeamName());
@@ -33,7 +36,7 @@ public class TeamServiceImpl implements TeamService {
                 mmoRole.setTeamId(r.getTeamId());
             }
             System.out.println("[-]");
-            System.out.println("[-][-]角色id： " + r.getId() + "角色名称： " + r.getName() + " 所在队伍id： " + r.getTeamId());
+            System.out.println("[-][-]角色id： " + r.getId() + "角色名称： " + r.getName() +"职业："+p.get(r.getProfessionId()).getName()+ " 所在队伍id： " + r.getTeamId());
             System.out.println("[-][-]Hp:" + r.getNowHp() + "/" + r.getHp());
             System.out.println("[-][-]Mp:" + r.getNowMP() + "/" + r.getMp());
             System.out.println("[-]");

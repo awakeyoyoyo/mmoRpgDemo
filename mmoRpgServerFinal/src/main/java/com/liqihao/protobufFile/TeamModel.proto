@@ -162,4 +162,5 @@ message RoleDto{
   int32 nowHp=5;
   int32 nowMP=6;
   int32 teamId=7;
+  int32 professionId=8;
 }

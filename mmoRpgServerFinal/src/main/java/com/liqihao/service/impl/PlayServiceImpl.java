@@ -42,6 +42,7 @@ public class PlayServiceImpl implements PlayService {
     private MmoEquipmentBagPOJOMapper equipmentBagPOJOMapper;
     @Autowired
     private MmoEmailPOJOMapper emailPOJOMapper;
+
     @Override
     @HandlerCmdTag(cmd = ConstantValue.REGISTER_REQUEST, module = ConstantValue.PLAY_MODULE)
     public void registerRequest(PlayModel.PlayModelMessage myMessage, Channel channel) {
@@ -148,15 +149,15 @@ public class PlayServiceImpl implements PlayService {
         simpleRole.setBackpackManager(backPackManager);
         //初始化收件邮箱信息
         List<MmoEmailPOJO> toEmailPOJOS = emailPOJOMapper.selectByToRoleId(role.getId());
-        for (MmoEmailPOJO m:toEmailPOJOS) {
-            MmoEmailBean emailBean=CommonsUtil.emailPOJOToMmoEmailBean(m);
-            simpleRole.getToMmoEmailBeanConcurrentHashMap().put(emailBean.getId(),emailBean);
+        for (MmoEmailPOJO m : toEmailPOJOS) {
+            MmoEmailBean emailBean = CommonsUtil.emailPOJOToMmoEmailBean(m);
+            simpleRole.getToMmoEmailBeanConcurrentHashMap().put(emailBean.getId(), emailBean);
         }
         //初始化已发送邮箱信息
         List<MmoEmailPOJO> fromEmailPOJOS = emailPOJOMapper.selectByFromRoleId(role.getId());
-        for (MmoEmailPOJO m:fromEmailPOJOS) {
-            MmoEmailBean emailBean=CommonsUtil.emailPOJOToMmoEmailBean(m);
-            simpleRole.getFromMmoEmailBeanConcurrentHashMap().put(emailBean.getId(),emailBean);
+        for (MmoEmailPOJO m : fromEmailPOJOS) {
+            MmoEmailBean emailBean = CommonsUtil.emailPOJOToMmoEmailBean(m);
+            simpleRole.getFromMmoEmailBeanConcurrentHashMap().put(emailBean.getId(), emailBean);
         }
         //初始化装备栏
         List<MmoEquipmentBagPOJO> equipmentBagPOJOS = equipmentBagPOJOMapper.selectByRoleId(role.getId());
@@ -201,6 +202,8 @@ public class PlayServiceImpl implements PlayService {
                 .setTeamId(simpleRole.getTeamId() == null ? -1 : simpleRole.getTeamId())
                 .setAttack(simpleRole.getAttack())
                 .setAttackAdd(simpleRole.getDamageAdd())
+                .setMoney(simpleRole.getMoney())
+                .setProfessionId(simpleRole.getProfessionId())
                 .build();
         loginResponseBuilder.setRoleDto(roleDTO);
         //场景信息
@@ -229,10 +232,10 @@ public class PlayServiceImpl implements PlayService {
         CommonsUtil.bagIntoDataBase(role.getBackpackManager(), role.getId());
         CommonsUtil.equipmentIntoDataBase(role);
         CommonsUtil.RoleInfoIntoDataBase(role);
-        for (MmoEmailBean m:role.getFromMmoEmailBeanConcurrentHashMap().values()) {
+        for (MmoEmailBean m : role.getFromMmoEmailBeanConcurrentHashMap().values()) {
             CommonsUtil.mmoEmailPOJOIntoDataBase(m);
         }
-        for (MmoEmailBean m:role.getToMmoEmailBeanConcurrentHashMap().values()) {
+        for (MmoEmailBean m : role.getToMmoEmailBeanConcurrentHashMap().values()) {
             CommonsUtil.mmoEmailPOJOIntoDataBase(m);
         }
         //将数据库中设置为离线
@@ -241,11 +244,11 @@ public class PlayServiceImpl implements PlayService {
         mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO);
         //缓存角色集合删除
         OnlineRoleMessageCache.getInstance().remove(role.getId());
-        if (role.getMmoSceneId()!=null) {
+        if (role.getMmoSceneId() != null) {
             SceneBeanMessageCache.getInstance().get(role.getMmoSceneId()).getRoles().remove(role.getId());
-        }else{
-            Integer teamId=role.getTeamId();
-            TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(teamId);
+        } else {
+            Integer teamId = role.getTeamId();
+            TeamBean teamBean = TeamServiceProvider.getTeamBeanByTeamId(teamId);
             teamBean.exitPeople(role.getId());
         }
         //protobuf生成消息
@@ -267,12 +270,12 @@ public class PlayServiceImpl implements PlayService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.USE_SKILL_REQUEST, module = ConstantValue.PLAY_MODULE)
-    public void useSkillRequest(PlayModel.PlayModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
+    public void useSkillRequest(PlayModel.PlayModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws Exception {
 
         Integer skillId = myMessage.getUseSkillRequest().getSkillId();
         Integer targetId = myMessage.getUseSkillRequest().getRoleId();
-        Integer roleType=myMessage.getUseSkillRequest().getRoleType();
-        Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        Integer roleType = myMessage.getUseSkillRequest().getRoleType();
+        Channel channel = ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
         //判断cd
         Long nextTime = mmoSimpleRole.getCdMap().get(skillId);
         if (nextTime != null) {
@@ -309,76 +312,97 @@ public class PlayServiceImpl implements PlayService {
             channel.writeAndFlush(new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE, "武器耐久度为0，请脱落武器再攻击".getBytes()));
             return;
         }
-        //判断是单体技能 还是群体技能  可以攻击所有玩家 除了队友 npc
+        //判断是单体技能 还是群体技能   可以攻击所有玩家 除了队友 npc
         //从缓存中查找出 怪物
         ArrayList<Role> target = new ArrayList<>();
         if (mmoSimpleRole.getMmoSceneId() != null) {
-            //在场景中
-            if (targetId == -1) {
-                //群攻
-                //可以攻击所有场景的人 除了队友 npc
-                SceneBean sceneBean = SceneBeanMessageCache.getInstance().get(mmoSimpleRole.getMmoSceneId());
-
-                for (Integer id : sceneBean.getNpcs()) {
-                    MmoSimpleNPC npc = NpcMessageCache.getInstance().get(id);
-                    if (npc.getType().equals(RoleTypeCode.ENEMY.getCode())) {
-                        target.add(npc);
-                    }
-                }
-                for (Integer id : sceneBean.getRoles()) {
-                    MmoSimpleRole role = OnlineRoleMessageCache.getInstance().get(id);
-                    if (role.getId().equals(mmoSimpleRole.getId())){
-                        continue;
-                    }
-                    if (mmoSimpleRole.getTeamId() == null ) {
-                        target.add(role);
-                    }else{
-                        if(role.getTeamId() == null){
-                            target.add(role);
-                        } else if (!mmoSimpleRole.getTeamId().equals(role.getTeamId())){
-                            target.add(role);
-                        }
-                    }
-                }
-            } else {
-                //在场景中 只能打npcOF
-                Role role;
-                if (roleType.equals(RoleTypeCode.ENEMY.getCode())) {
-                    role = NpcMessageCache.getInstance().get(targetId);
-                }else if(roleType.equals(RoleTypeCode.PLAYER.getCode())){
-                    role=OnlineRoleMessageCache.getInstance().get(targetId);
-                }else{
-                    role=null;
-                }
-                if (role == null) {
-                    channel.writeAndFlush(new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE, "当前场景没有该id的角色或者选择了攻击npc".getBytes()));
-                    return;
-                }
-                if (!role.getMmoSceneId().equals(mmoSimpleRole.getMmoSceneId())) {
-                    channel.writeAndFlush(new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE, "当前场景没有该id的角色".getBytes()));
-                    return;
-                }
-                if (mmoSimpleRole.getTeamId() != null) {
-                    TeamBean teamBean = TeamServiceProvider.getTeamBeanByTeamId(mmoSimpleRole.getTeamId());
-                    if (teamBean.getMmoSimpleRoles().contains(role)) {
-                        channel.writeAndFlush(new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE, "该角色是队友啊，兄弟".getBytes()));
-                        return;
-                    }
-                }
-                target.add(role);
-            }
+            target.addAll(findTargetInScene(mmoSimpleRole,roleType,targetId));
         } else {
-            //在副本中
-            Integer copySceneBeanId = mmoSimpleRole.getCopySceneBeanId();
-            CopySceneBean copySceneBean = CopySceneProvider.getCopySceneBeanById(copySceneBeanId);
-            if (copySceneBean.getNowBoss() != null) {
-                target.add(copySceneBean.getNowBoss());
-            }
+            target.addAll(findTargetInCopyScene(mmoSimpleRole));
         }
         //使用技能
         if (target.size() > 0) {
             mmoSimpleRole.useSkill(target, skillId);
         }
         return;
+    }
+
+    /**
+     * 场景中的目标
+     * @param mmoSimpleRole
+     * @param roleType
+     * @param targetId
+     * @return
+     * @throws Exception
+     */
+    private List<Role> findTargetInScene(MmoSimpleRole mmoSimpleRole, Integer roleType, Integer targetId) throws Exception {
+        ArrayList<Role> target = new ArrayList<>();
+        //在场景中
+        if (targetId == -1) {
+            //群攻
+            //可以攻击所有场景的人 除了队友 npc
+            SceneBean sceneBean = SceneBeanMessageCache.getInstance().get(mmoSimpleRole.getMmoSceneId());
+            for (Integer id : sceneBean.getNpcs()) {
+                MmoSimpleNPC npc = NpcMessageCache.getInstance().get(id);
+                if (npc.getType().equals(RoleTypeCode.ENEMY.getCode())) {
+                    target.add(npc);
+                }
+            }
+            for (Integer id : sceneBean.getRoles()) {
+                MmoSimpleRole role = OnlineRoleMessageCache.getInstance().get(id);
+                if (role.getId().equals(mmoSimpleRole.getId())) {
+                    continue;
+                }
+                if (mmoSimpleRole.getTeamId() == null) {
+                    target.add(role);
+                } else {
+                    if (role.getTeamId() == null) {
+                        target.add(role);
+                    } else if (!mmoSimpleRole.getTeamId().equals(role.getTeamId())) {
+                        target.add(role);
+                    }
+                }
+            }
+        } else {
+            //单体攻击 在场景中 只能打怪物和玩家
+            Role role;
+            if (roleType.equals(RoleTypeCode.ENEMY.getCode())) {
+                role = NpcMessageCache.getInstance().get(targetId);
+            } else if (roleType.equals(RoleTypeCode.PLAYER.getCode())) {
+                role = OnlineRoleMessageCache.getInstance().get(targetId);
+            } else {
+                role = null;
+            }
+            if (role == null) {
+                throw new Exception("当前场景没有该id的角色或者选择了攻击npc");
+            }
+            if (!role.getMmoSceneId().equals(mmoSimpleRole.getMmoSceneId())) {
+                throw new Exception("当前场景没有该id的角色");
+            }
+            if (mmoSimpleRole.getTeamId() != null) {
+                TeamBean teamBean = TeamServiceProvider.getTeamBeanByTeamId(mmoSimpleRole.getTeamId());
+                if (teamBean.getMmoSimpleRoles().contains(role)) {
+                    throw new Exception("该角色是队友啊，兄弟");
+                }
+            }
+            target.add(role);
+        }
+        return target;
+    }
+
+    /**
+     * 副本中目标
+     * @param mmoSimpleRole
+     * @return
+     */
+    private List<Role> findTargetInCopyScene(MmoSimpleRole mmoSimpleRole) {
+        ArrayList<Role> target = new ArrayList<>();
+        //在副本中
+        Integer copySceneBeanId = mmoSimpleRole.getCopySceneBeanId();
+        CopySceneBean copySceneBean = CopySceneProvider.getCopySceneBeanById(copySceneBeanId);
+        if (copySceneBean.getNowBoss() != null) {
+            target.add(copySceneBean.getNowBoss());
+        }
+        return target;
     }
 }

@@ -9013,6 +9013,18 @@ public final class PlayModel {
      * @return The sceneId.
      */
     int getSceneId();
+
+    /**
+     * <code>int32 professionId = 15;</code>
+     * @return The professionId.
+     */
+    int getProfessionId();
+
+    /**
+     * <code>int32 money = 16;</code>
+     * @return The money.
+     */
+    int getMoney();
   }
   /**
    * Protobuf type {@code RoleDTO}
@@ -9147,6 +9159,16 @@ public final class PlayModel {
             case 112: {
 
               sceneId_ = input.readInt32();
+              break;
+            }
+            case 120: {
+
+              professionId_ = input.readInt32();
+              break;
+            }
+            case 128: {
+
+              money_ = input.readInt32();
               break;
             }
             default: {
@@ -9382,6 +9404,28 @@ public final class PlayModel {
       return sceneId_;
     }
 
+    public static final int PROFESSIONID_FIELD_NUMBER = 15;
+    private int professionId_;
+    /**
+     * <code>int32 professionId = 15;</code>
+     * @return The professionId.
+     */
+    @Override
+    public int getProfessionId() {
+      return professionId_;
+    }
+
+    public static final int MONEY_FIELD_NUMBER = 16;
+    private int money_;
+    /**
+     * <code>int32 money = 16;</code>
+     * @return The money.
+     */
+    @Override
+    public int getMoney() {
+      return money_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -9442,6 +9486,12 @@ public final class PlayModel {
       }
       if (sceneId_ != 0) {
         output.writeInt32(14, sceneId_);
+      }
+      if (professionId_ != 0) {
+        output.writeInt32(15, professionId_);
+      }
+      if (money_ != 0) {
+        output.writeInt32(16, money_);
       }
       unknownFields.writeTo(output);
     }
@@ -9517,6 +9567,14 @@ public final class PlayModel {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(14, sceneId_);
       }
+      if (professionId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(15, professionId_);
+      }
+      if (money_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(16, money_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -9561,6 +9619,10 @@ public final class PlayModel {
           != other.getTeamId()) return false;
       if (getSceneId()
           != other.getSceneId()) return false;
+      if (getProfessionId()
+          != other.getProfessionId()) return false;
+      if (getMoney()
+          != other.getMoney()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -9603,6 +9665,10 @@ public final class PlayModel {
       hash = (53 * hash) + getTeamId();
       hash = (37 * hash) + SCENEID_FIELD_NUMBER;
       hash = (53 * hash) + getSceneId();
+      hash = (37 * hash) + PROFESSIONID_FIELD_NUMBER;
+      hash = (53 * hash) + getProfessionId();
+      hash = (37 * hash) + MONEY_FIELD_NUMBER;
+      hash = (53 * hash) + getMoney();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -9764,6 +9830,10 @@ public final class PlayModel {
 
         sceneId_ = 0;
 
+        professionId_ = 0;
+
+        money_ = 0;
+
         return this;
       }
 
@@ -9809,6 +9879,8 @@ public final class PlayModel {
         result.attackAdd_ = attackAdd_;
         result.teamId_ = teamId_;
         result.sceneId_ = sceneId_;
+        result.professionId_ = professionId_;
+        result.money_ = money_;
         onBuilt();
         return result;
       }
@@ -9906,6 +9978,12 @@ public final class PlayModel {
         }
         if (other.getSceneId() != 0) {
           setSceneId(other.getSceneId());
+        }
+        if (other.getProfessionId() != 0) {
+          setProfessionId(other.getProfessionId());
+        }
+        if (other.getMoney() != 0) {
+          setMoney(other.getMoney());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -10460,6 +10538,68 @@ public final class PlayModel {
       public Builder clearSceneId() {
         
         sceneId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int professionId_ ;
+      /**
+       * <code>int32 professionId = 15;</code>
+       * @return The professionId.
+       */
+      @Override
+      public int getProfessionId() {
+        return professionId_;
+      }
+      /**
+       * <code>int32 professionId = 15;</code>
+       * @param value The professionId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setProfessionId(int value) {
+        
+        professionId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 professionId = 15;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearProfessionId() {
+        
+        professionId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int money_ ;
+      /**
+       * <code>int32 money = 16;</code>
+       * @return The money.
+       */
+      @Override
+      public int getMoney() {
+        return money_;
+      }
+      /**
+       * <code>int32 money = 16;</code>
+       * @param value The money to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMoney(int value) {
+        
+        money_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 money = 16;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMoney() {
+        
+        money_ = 0;
         onChanged();
         return this;
       }
@@ -12012,21 +12152,22 @@ public final class PlayModel {
       " \001(\005\022\016\n\006roleId\030\002 \001(\005\022\020\n\010roleType\030\003 \001(\005\"8" +
       "\n\020UseSkillResponse\022$\n\rroleIdDamages\030\001 \003(" +
       "\0132\r.RoleIdDamage\"<\n\025DamagesNoticeRespons" +
-      "e\022#\n\014roleIdDamage\030\001 \001(\0132\r.RoleIdDamage\"\350" +
-      "\001\n\007RoleDTO\022\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\016\n\006" +
+      "e\022#\n\014roleIdDamage\030\001 \001(\0132\r.RoleIdDamage\"\215" +
+      "\002\n\007RoleDTO\022\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\016\n\006" +
       "status\030\003 \001(\005\022\014\n\004type\030\004 \001(\005\022\020\n\010onStatus\030\005" +
       " \001(\005\022\r\n\005blood\030\006 \001(\005\022\020\n\010nowBlood\030\007 \001(\005\022\n\n" +
       "\002mp\030\010 \001(\005\022\r\n\005nowMp\030\t \001(\005\022\023\n\013skillIdList\030" +
       "\n \003(\005\022\016\n\006attack\030\013 \001(\005\022\021\n\tattackAdd\030\014 \001(\001" +
-      "\022\016\n\006teamId\030\r \001(\005\022\017\n\007sceneId\030\016 \001(\005\"\217\002\n\014Ro" +
-      "leIdDamage\022\022\n\nfromRoleId\030\001 \001(\005\022\020\n\010toRole" +
-      "Id\030\002 \001(\005\022\020\n\010bufferId\030\003 \001(\005\022\017\n\007skillId\030\004 " +
-      "\001(\005\022\023\n\013attackStyle\030\005 \001(\005\022\022\n\ndamageType\030\006" +
-      " \001(\005\022\016\n\006damage\030\007 \001(\005\022\020\n\010nowblood\030\010 \001(\005\022\n" +
-      "\n\002mp\030\t \001(\005\022\r\n\005State\030\n \001(\005\022\024\n\014fromRoleTyp" +
-      "e\030\013 \001(\005\022\022\n\ntoRoleType\030\014 \001(\005\022\021\n\tarticleId" +
-      "\030\r \001(\005\022\023\n\013articleType\030\016 \001(\005B\013B\tPlayModel" +
-      "b\006proto3"
+      "\022\016\n\006teamId\030\r \001(\005\022\017\n\007sceneId\030\016 \001(\005\022\024\n\014pro" +
+      "fessionId\030\017 \001(\005\022\r\n\005money\030\020 \001(\005\"\217\002\n\014RoleI" +
+      "dDamage\022\022\n\nfromRoleId\030\001 \001(\005\022\020\n\010toRoleId\030" +
+      "\002 \001(\005\022\020\n\010bufferId\030\003 \001(\005\022\017\n\007skillId\030\004 \001(\005" +
+      "\022\023\n\013attackStyle\030\005 \001(\005\022\022\n\ndamageType\030\006 \001(" +
+      "\005\022\016\n\006damage\030\007 \001(\005\022\020\n\010nowblood\030\010 \001(\005\022\n\n\002m" +
+      "p\030\t \001(\005\022\r\n\005State\030\n \001(\005\022\024\n\014fromRoleType\030\013" +
+      " \001(\005\022\022\n\ntoRoleType\030\014 \001(\005\022\021\n\tarticleId\030\r " +
+      "\001(\005\022\023\n\013articleType\030\016 \001(\005B\013B\tPlayModelb\006p" +
+      "roto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -12097,7 +12238,7 @@ public final class PlayModel {
     internal_static_RoleDTO_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_RoleDTO_descriptor,
-        new String[] { "Id", "Name", "Status", "Type", "OnStatus", "Blood", "NowBlood", "Mp", "NowMp", "SkillIdList", "Attack", "AttackAdd", "TeamId", "SceneId", });
+        new String[] { "Id", "Name", "Status", "Type", "OnStatus", "Blood", "NowBlood", "Mp", "NowMp", "SkillIdList", "Attack", "AttackAdd", "TeamId", "SceneId", "ProfessionId", "Money", });
     internal_static_RoleIdDamage_descriptor =
       getDescriptor().getMessageTypes().get(11);
     internal_static_RoleIdDamage_fieldAccessorTable = new

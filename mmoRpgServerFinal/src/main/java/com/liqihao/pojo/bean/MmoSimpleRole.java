@@ -9,6 +9,7 @@ import com.liqihao.commons.enums.*;
 import com.liqihao.pojo.*;
 import com.liqihao.pojo.baseMessage.BaseRoleMessage;
 import com.liqihao.pojo.baseMessage.BufferMessage;
+import com.liqihao.pojo.baseMessage.ProfessionMessage;
 import com.liqihao.pojo.dto.EquipmentDto;
 import com.liqihao.protobufObject.ChatModel;
 import com.liqihao.protobufObject.PlayModel;
@@ -41,7 +42,11 @@ public class MmoSimpleRole extends Role implements MyObserver {
     /**
      * 金币
      */
-    private Integer money=100;
+    private Integer money;
+    /**
+     * 职业id
+     */
+    private Integer professionId;
     /**
      * 装备栏
      */
@@ -166,6 +171,15 @@ public class MmoSimpleRole extends Role implements MyObserver {
     public void setCdMap(HashMap<Integer, Long> cdMap) {
         this.cdMap = cdMap;
     }
+
+    public Integer getProfessionId() {
+        return professionId;
+    }
+
+    public void setProfessionId(Integer professionId) {
+        this.professionId = professionId;
+    }
+
     /**
      * 增加邀请
      * @param teamApplyOrInviteBean
@@ -205,16 +219,26 @@ public class MmoSimpleRole extends Role implements MyObserver {
         setOnStatus(role.getOnStatus());
         setStatus(role.getStatus());
         setType(role.getType());
-        List<SkillBean> skillBeans = CommonsUtil.skillIdsToSkillBeans(role.getSkillIds());
-        setSkillBeans(skillBeans);
+
         setHp(baseRoleMessage.getHp());
         setNowHp(baseRoleMessage.getHp());
         setMp(baseRoleMessage.getMp());
+        setMoney(role.getMoney());
+        setProfessionId(role.getProfessionId());
         setDamageAdd(baseRoleMessage.getDamageAdd());
         setNowMp(baseRoleMessage.getMp());
         setAttack(baseRoleMessage.getAttack());
-        List<Integer> skillIds = CommonsUtil.split(role.getSkillIds());
+        //根据职业获取技能
+        List<Integer> skillIds = new ArrayList();
+        if (role.getSkillIds()!=null){
+            skillIds.addAll(CommonsUtil.split(role.getSkillIds()));
+        }
+        //根据职业id获取技能
+        ProfessionMessage professionMessage=ProfessionMessageCache.getInstance().get(professionId);
+        skillIds.addAll(CommonsUtil.split(professionMessage.getSkillIds()));
         setSkillIdList(skillIds);
+        List<SkillBean> skillBeans = CommonsUtil.skillIdsToSkillBeans(skillIds);
+        setSkillBeans(skillBeans);
         setCdMap(new HashMap<Integer, Long>());
         setBufferBeans(new CopyOnWriteArrayList<>());
         setEquipmentBeanHashMap(new HashMap<>());
@@ -408,15 +432,23 @@ public class MmoSimpleRole extends Role implements MyObserver {
         }
 
 
+        if (!skillBean.getSkillAttackType().equals(SkillAttackTypeCode.CALL.getCode())) {
+            //  被攻击怪物or人物orBoss
+            for (Role r : target) {
+                if (!skillBean.getBaseDamage().equals(0)) {
+                    //伤害不为0才触发怪物的被攻击
+                    r.beAttack(skillBean, this);
+                }
+                //伤害为0则是buffer技能 例如嘲讽
+                //buffer
+                for (Integer bufferId : skillBean.getBufferIds()) {
+                    BufferMessage bufferMessage = BufferMessageCache.getInstance().get(bufferId);
 
-        //  被攻击怪物or人物orBoss
-        for (Role r :target) {
-            r.beAttack(skillBean,this);
-            //buffer
-            for (Integer bufferId:skillBean.getBufferIds()) {
-                BufferMessage bufferMessage=BufferMessageCache.getInstance().get(bufferId);
-                skillBean.bufferToPeople(bufferMessage, this,r);
+                    skillBean.bufferToPeople(bufferMessage, this, r);
+                }
             }
+        }else{
+            // todo 召唤的逻辑
         }
 
         //cd
@@ -521,6 +553,49 @@ public class MmoSimpleRole extends Role implements MyObserver {
             damageU.setDamageType(ConsumeTypeCode.HP.getCode());
             damageU.setSkillId(-1);
             changeMp(-bufferBean.getBuffNum(),damageU);
+        }else if (bufferBean.getBuffType().equals(BufferTypeCode.GG_ATTACK.getCode())){
+            PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();
+            damageU.setFromRoleId(bufferBean.getFromRoleId());
+            damageU.setFromRoleType(bufferBean.getFromRoleType());
+            damageU.setToRoleId(getId());
+            damageU.setToRoleType(getType());
+            damageU.setBufferId(bufferBean.getId());
+            damageU.setDamageType(ConsumeTypeCode.HP.getCode());
+            damageU.setSkillId(-1);
+            damageU.setAttackStyle(AttackStyleCode.GG_ATTACK.getCode());
+            damageU.setMp(getNowMp());
+            damageU.setNowblood(getNowHp());
+            damageU.setState(getStatus());
+            PlayModel.PlayModelMessage.Builder myMessageBuilder = PlayModel.PlayModelMessage.newBuilder();
+            myMessageBuilder.setDataType(PlayModel.PlayModelMessage.DateType.DamagesNoticeResponse);
+            PlayModel.DamagesNoticeResponse.Builder damagesNoticeBuilder = PlayModel.DamagesNoticeResponse.newBuilder();
+            damagesNoticeBuilder.setRoleIdDamage(damageU);
+            myMessageBuilder.setDamagesNoticeResponse(damagesNoticeBuilder.build());
+            NettyResponse nettyResponse = new NettyResponse();
+            nettyResponse.setCmd(ConstantValue.DAMAGES_NOTICE_RESPONSE);
+            nettyResponse.setStateCode(StateCode.SUCCESS);
+            nettyResponse.setData(myMessageBuilder.build().toByteArray());
+            List<Integer> players;
+            if (getMmoSceneId()!=null) {
+                players = SceneBeanMessageCache.getInstance().get(getMmoSceneId()).getRoles();
+                for (Integer playerId:players){
+                    Channel c= ChannelMessageCache.getInstance().get(playerId);
+                    if (c!=null){
+                        c.writeAndFlush(nettyResponse);
+                    }
+                }
+
+            }else{
+                List<Role> roles = CopySceneProvider.getCopySceneBeanById(getCopySceneBeanId()).getRoles();
+                for (Role role:roles) {
+                    if (role.getType().equals(RoleTypeCode.PLAYER.getCode())){
+                        Channel c= ChannelMessageCache.getInstance().get(role.getId());
+                        if (c!=null){
+                            c.writeAndFlush(nettyResponse);
+                        }
+                    }
+                }
+            }
         }
     }
 

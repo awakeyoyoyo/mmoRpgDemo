@@ -210,7 +210,7 @@ public class CommonsUtil implements ApplicationContextAware {
         bossBean.setMp(bossMessage.getMp());
         bossBean.setName(bossMessage.getName());
         bossBean.setSkillIds(bossMessage.getSkillIds());
-        List<SkillBean> skillBeans=skillIdsToSkillBeans(bossMessage.getSkillIds());
+        List<SkillBean> skillBeans=skillIdsToSkillBeans(CommonsUtil.split(bossMessage.getSkillIds()));
         bossBean.setSkillBeans(skillBeans);
         return bossBean;
     }
@@ -247,7 +247,9 @@ public class CommonsUtil implements ApplicationContextAware {
         mmoRolePOJO.setOnStatus(mmoSimpleRole.getOnStatus());
         mmoRolePOJO.setMmoSceneId(mmoSimpleRole.getMmoSceneId());
         mmoRolePOJO.setName(mmoSimpleRole.getName());
-        mmoRolePOJO.setSkillIds(CommonsUtil.listToString(mmoSimpleRole.getSkillIdList()));
+        mmoRolePOJO.setProfessionId(mmoSimpleRole.getProfessionId());
+        mmoRolePOJO.setMoney(mmoSimpleRole.getMoney());
+//        mmoRolePOJO.setSkillIds(CommonsUtil.listToString(mmoSimpleRole.getSkillIdList()));
         mmoRolePOJO.setType(mmoSimpleRole.getType());
         mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO);
     }
@@ -502,9 +504,9 @@ public class CommonsUtil implements ApplicationContextAware {
      * @param skillIds
      * @return
      */
-    public static List<SkillBean> skillIdsToSkillBeans(String skillIds) {
+    public static List<SkillBean> skillIdsToSkillBeans(List<Integer> skillIds) {
         List<SkillBean> list=new ArrayList<>();
-        for (Integer id:split(skillIds)) {
+        for (Integer id:skillIds) {
             SkillMessage message= SkillMessageCache.getInstance().get(id);
             SkillBean skillBean=new SkillBean();
             skillBean.setId(message.getId());
@@ -516,6 +518,8 @@ public class CommonsUtil implements ApplicationContextAware {
             skillBean.setBaseDamage(message.getBaseDamage());
             skillBean.setConsumeNum(message.getConsumeNum());
             skillBean.setCd(message.getCd());
+            skillBean.setChantTime(message.getChantTime());
+            skillBean.setSkillDamageType(message.getSkillDamageType());
             skillBean.setBufferIds(split(message.getBufferIds()));
             list.add(skillBean);
         }

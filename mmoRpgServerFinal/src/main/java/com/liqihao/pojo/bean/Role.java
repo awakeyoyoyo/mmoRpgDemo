@@ -71,23 +71,6 @@ public class Role {
         return ;
     }
 
-    public List<MmoSimpleNPC> getAllNpcs(){
-        List<MmoSimpleNPC> npcs=new ArrayList<>();
-        if (getMmoSceneId()!=null){
-            //场景中
-            SceneBean sceneBean= SceneBeanMessageCache.getInstance().get(getMmoSceneId());
-            for (Integer id:sceneBean.getNpcs()) {
-                MmoSimpleNPC role= NpcMessageCache.getInstance().get(id);
-                if (role!=null){
-                    npcs.add(role);
-                }
-            }
-        }else {
-            //副本中
-
-        }
-        return npcs;
-    }
 
     public void setId(Integer id) {
         this.id = id;

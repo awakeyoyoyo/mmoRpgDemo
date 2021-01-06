@@ -1,5 +1,7 @@
 package com.liqihao.pojo.bean;
 
+import com.liqihao.commons.enums.BufferStyleCode;
+import com.liqihao.commons.enums.BufferTypeCode;
 import com.liqihao.pojo.baseMessage.BufferMessage;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 
@@ -13,16 +15,70 @@ import java.util.concurrent.TimeUnit;
  * @author lqhao
  */
 public class SkillBean {
+    /**
+     * 基本信息id
+     */
     private Integer id;
+    /**
+     * 技能名称
+     */
     private String  skillName;
+    /**
+     * 基础伤害
+     */
     private Integer baseDamage;
+    /**
+     * cd时间
+     */
     private Integer cd;
+    /**
+     * 消耗类型
+     */
     private Integer consumeType;
+    /**
+     * 消耗
+     */
     private Integer consumeNum;
+    /**
+     * 所造成buffer
+     */
     private List<Integer> bufferIds;
+    /**
+     * 技能类型
+     */
     private Integer skillType;
+    /**
+     * 按照攻击力加成
+     */
     private double addPerson;
+    /**
+     * 技能攻击类型
+     */
     private Integer skillAttackType;
+    /**
+     * 吟唱时间
+     */
+    private Integer chantTime;
+    /**
+     * 伤害类型
+     */
+    private Integer skillDamageType;
+
+    public Integer getChantTime() {
+        return chantTime;
+    }
+
+    public void setChantTime(Integer chantTime) {
+        this.chantTime = chantTime;
+    }
+
+    public Integer getSkillDamageType() {
+        return skillDamageType;
+    }
+
+    public void setSkillDamageType(Integer skillDamageType) {
+        this.skillDamageType = skillDamageType;
+    }
 
     public Integer getSkillAttackType() {
         return skillAttackType;
@@ -46,23 +102,38 @@ public class SkillBean {
         bufferBean.setName(b.getName());
         bufferBean.setId(b.getId());
         bufferBean.setLastTime(b.getLastTime());
+        bufferBean.setBufferStyle(b.getBufferStyle());
         bufferBean.setSpaceTime(b.getSpaceTime());
         bufferBean.setCreateTime(System.currentTimeMillis());
 //        bufferBeans.add(bufferBean);
         bufferBean.setToRoleId(toRole.getId());
-        Integer count=bufferBean.getLastTime()/bufferBean.getSpaceTime();
-        //增加bufferid
+        //人物增加buffer
         toRole.getBufferBeans().add(bufferBean);
         //线程池中放入任务
-        ScheduledThreadPoolUtil.BufferTask bufferTask = new ScheduledThreadPoolUtil.BufferTask(bufferBean, count,toRole);
-        //查看是否已经有了该buffer 有则覆盖无则直接加入
-        Integer key=Integer.parseInt(toRole.getId().toString()+bufferBean.getId().toString());
-        ConcurrentHashMap<Integer, ScheduledFuture<?>> bufferRole=ScheduledThreadPoolUtil.getBufferRole();
-        if (bufferRole.containsKey(key)){
-            bufferRole.get(key).cancel(false);
+        if (bufferBean.getBufferStyle().equals(BufferStyleCode.SPACE_DO.getCode())) {
+            //间隔生效
+            Integer count=bufferBean.getLastTime()/bufferBean.getSpaceTime();
+            ScheduledThreadPoolUtil.BufferTask bufferTask = new ScheduledThreadPoolUtil.BufferTask(bufferBean, count, toRole);
+            //查看是否已经有了该buffer 有则覆盖无则直接加入
+            Integer key = Integer.parseInt(toRole.getId().toString() + bufferBean.getId().toString());
+            ConcurrentHashMap<Integer, ScheduledFuture<?>> bufferRole = ScheduledThreadPoolUtil.getBufferRole();
+            if (bufferRole.containsKey(key)) {
+                bufferRole.get(key).cancel(false);
+            }
+            ScheduledFuture<?> t = ScheduledThreadPoolUtil.getScheduledExecutorService().scheduleAtFixedRate(bufferTask, 0, bufferBean.getSpaceTime(), TimeUnit.SECONDS);
+            bufferRole.put(key, t);
+        }else{
+            //持续生效
+            ScheduledThreadPoolUtil.BufferTask bufferTask = new ScheduledThreadPoolUtil.BufferTask(bufferBean, 1, toRole);
+            //用该嘲讽buffer id 作为主键，目的是让其每次都会覆盖就得嘲讽buffer
+            Integer key = Integer.parseInt(bufferBean.getId().toString());
+            ConcurrentHashMap<Integer, ScheduledFuture<?>> bufferRole = ScheduledThreadPoolUtil.getBufferRole();
+            if (bufferRole.containsKey(key)) {
+                bufferRole.get(key).cancel(false);
+            }
+            ScheduledFuture<?> t = ScheduledThreadPoolUtil.getScheduledExecutorService().scheduleAtFixedRate(bufferTask, 0, bufferBean.getLastTime(), TimeUnit.SECONDS);
+            bufferRole.put(key, t);
         }
-        ScheduledFuture<?> t =ScheduledThreadPoolUtil.getScheduledExecutorService().scheduleAtFixedRate(bufferTask,0,bufferBean.getSpaceTime(), TimeUnit.SECONDS);
-        bufferRole.put(key,t);
         return bufferBean;
     }
     /**

@@ -9,6 +9,7 @@ import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.*;
 import com.liqihao.commons.StateCode;
+import com.liqihao.commons.enums.RoleTypeCode;
 import com.liqihao.pojo.bean.*;
 import com.liqihao.protobufObject.SceneModel;
 import com.liqihao.provider.CopySceneProvider;
@@ -37,7 +38,7 @@ public class SceneServiceImpl implements SceneService {
 
         Integer nextSceneId=myMessage.getWentRequest().getSceneId();
         Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
-        //先查询palyId所在场景
+        //先查询playId所在场景
         //查询该场景可进入的场景与sceneId判断
         Integer nowSceneId=mmoSimpleRole.getMmoSceneId();
         SceneBean sceneBean=SceneBeanMessageCache.getInstance().get(nowSceneId);
@@ -82,8 +83,11 @@ public class SceneServiceImpl implements SceneService {
             msr.setTeamId(mmoRole.getTeamId()==null?-1:mmoRole.getTeamId());
             msr.setAttack(mmoRole.getAttack());
             msr.setAttackAdd(mmoRole.getDamageAdd());
-            SceneModel.RoleDTO msrobject=msr.build();
-            roleDTOS.add(msrobject);
+            if (mmoRole.getType().equals(RoleTypeCode.PLAYER.getCode())){
+                msr.setProfessionId(mmoRole.getProfessionId());
+            }
+            SceneModel.RoleDTO msrObject=msr.build();
+            roleDTOS.add(msrObject);
         }
         wentResponsebuilder.setSceneId(nextSceneId);
         wentResponsebuilder.addAllRoleDTO(roleDTOS);
@@ -139,7 +143,7 @@ public class SceneServiceImpl implements SceneService {
         SceneModel.FindAllRolesResponse.Builder findAllRolesResponseBuilder=SceneModel.FindAllRolesResponse.newBuilder();
         List<SceneModel.RoleDTO> roleDTOS=new ArrayList<>();
         for (Role m :sceneRoles) {
-            SceneModel.RoleDTO msr=SceneModel.RoleDTO.newBuilder().setId(m.getId())
+            SceneModel.RoleDTO.Builder msr=SceneModel.RoleDTO.newBuilder().setId(m.getId())
                     .setName(m.getName())
                     .setOnStatus(m.getOnStatus())
                     .setStatus(m.getStatus())
@@ -150,9 +154,12 @@ public class SceneServiceImpl implements SceneService {
                     .setTeamId(m.getTeamId()==null?-1:m.getTeamId())
                     .setNowMp(m.getNowMp())
                     .setAttack(m.getAttack())
-                    .setAttackAdd(m.getDamageAdd())
-                    .build();
-            roleDTOS.add(msr);
+                    .setAttackAdd(m.getDamageAdd());
+            if (m.getType().equals(RoleTypeCode.PLAYER.getCode())){
+                MmoSimpleRole mmoSimpleRole1= (MmoSimpleRole) m;
+                msr.setProfessionId(mmoSimpleRole1.getProfessionId());
+            }
+            roleDTOS.add(msr.build());
         }
         findAllRolesResponseBuilder.addAllRoleDTO(roleDTOS);
         messagedataBuilder.setFindAllRolesResponse(findAllRolesResponseBuilder.build());

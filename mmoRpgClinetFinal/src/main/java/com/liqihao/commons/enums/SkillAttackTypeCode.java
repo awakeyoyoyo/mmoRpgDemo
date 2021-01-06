@@ -1,12 +1,14 @@
 package com.liqihao.commons.enums;
 
 /**
- * 技能类型 单体或者AOE
+ * 技能类型 单体或者AOE或者召唤
  * @author lqhao
  */
-public enum SkillAttackTypeCode {
+public enum  SkillAttackTypeCode {
+    //
     SINGLE(0,"单体"),
-    ALLPEOPLE(1,"群攻");
+    ALL_PEOPLE(1,"群攻"),
+    CALL(2,"召唤");
     private  int code;
     private  String value;
     SkillAttackTypeCode(int code, String name)
@@ -22,17 +24,17 @@ public enum SkillAttackTypeCode {
         this.code = code;
     }
 
-    public void setvalue(String name) {
+    public void setValue(String name) {
         this.value = name;
     }
 
-    public String getvalue() {
+    public String getValue() {
         return value;
     }
     public static String getValue(int code) {
         for (SkillAttackTypeCode ele : values()) {
             if(ele.getCode()==code){
-                return ele.getvalue();
+                return ele.getValue();
             }
         }
         return null;
