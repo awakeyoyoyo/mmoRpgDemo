@@ -12,7 +12,8 @@ public enum AttackStyleCode {
     USE_SKILL(2,"使用技能造成"),
     AUTO_RE(3,"自动恢复"),
     MEDICINE(4,"药品恢复"),
-    GG_ATTACK(5,"被嘲讽");
+    GG_ATTACK(5,"被嘲讽"),
+    SKILL_ADD(6,"技能治疗");
     private  int code;
     private  String value;
     AttackStyleCode(int code,String name)

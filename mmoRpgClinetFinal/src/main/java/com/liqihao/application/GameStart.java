@@ -7,6 +7,7 @@ import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyRequest;
 import com.liqihao.commons.enums.ArticleTypeCode;
 import com.liqihao.commons.enums.SkillAttackTypeCode;
+import com.liqihao.commons.enums.SkillDamageTypeCode;
 import com.liqihao.commons.enums.SkillTypeCode;
 import com.liqihao.pojo.MmoRole;
 import com.liqihao.pojo.baseMessage.CopySceneMessage;
@@ -865,10 +866,20 @@ public class GameStart {
         Integer roleId=null;
         Integer roleType=null;
         if (map.get(skillId).getSkillAttackType().equals(SkillAttackTypeCode.SINGLE.getCode())){
-            System.out.println("请输入你的施法目标的类型： 玩家为1 怪物为2");
-            roleType=scanner.nextInt();scanner.nextLine();;
-            System.out.println("请输入你的施法目标的id");
-            roleId=scanner.nextInt();scanner.nextLine();;
+            if (!map.get(skillId).getSkillDamageType().equals(SkillDamageTypeCode.ADD.getCode())){
+                System.out.println("请输入你的施法目标的类型： 玩家为1 怪物为2");
+                roleType=scanner.nextInt();scanner.nextLine();;
+                if(roleType!=1&&roleType!=2){
+                    System.out.println("请输入正确数字");
+                    return;
+                }
+                System.out.println("请输入你的施法目标的id");
+                roleId=scanner.nextInt();scanner.nextLine();
+            }else{
+                roleType=1;
+                System.out.println("请输入你的施玩家的id");
+                roleId=scanner.nextInt();scanner.nextLine();
+            }
         }
         NettyRequest nettyRequest=new NettyRequest();
         nettyRequest.setCmd(ConstantValue.USE_SKILL_REQUEST);

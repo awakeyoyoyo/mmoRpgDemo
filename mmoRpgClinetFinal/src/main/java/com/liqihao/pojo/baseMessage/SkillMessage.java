@@ -1,16 +1,74 @@
 package com.liqihao.pojo.baseMessage;
 
+/**
+ * 技能信息类
+ * @author lqhao
+ */
 public class SkillMessage {
+    /**
+     * 基本信息id
+     */
     private Integer id;
+    /**
+     * 技能名称
+     */
     private String  skillName;
+    /**
+     * 基础伤害
+     */
     private Integer baseDamage;
+    /**
+     * cd时间
+     */
     private Integer cd;
+    /**
+     * 消耗类型
+     */
     private Integer consumeType;
+    /**
+     * 消耗
+     */
     private Integer consumeNum;
+    /**
+     * 所造成buffer
+     */
     private String bufferIds;
+    /**
+     * 技能类型
+     */
     private Integer skillType;
-    private double addPercon;
+    /**
+     * 按照攻击力加成
+     */
+    private double addPerson;
+    /**
+     * 技能攻击类型
+     */
     private Integer skillAttackType;
+    /**
+     * 吟唱时间
+     */
+    private Integer chantTime;
+    /**
+     * 伤害类型
+     */
+    private Integer skillDamageType;
+
+    public Integer getChantTime() {
+        return chantTime;
+    }
+
+    public void setChantTime(Integer chantTime) {
+        this.chantTime = chantTime;
+    }
+
+    public Integer getSkillDamageType() {
+        return skillDamageType;
+    }
+
+    public void setSkillDamageType(Integer skillDamageType) {
+        this.skillDamageType = skillDamageType;
+    }
 
     public Integer getSkillAttackType() {
         return skillAttackType;
@@ -31,16 +89,16 @@ public class SkillMessage {
                 ", consumeNum=" + consumeNum +
                 ", bufferIds='" + bufferIds + '\'' +
                 ", skillType=" + skillType +
-                ", addPercon=" + addPercon +
+                ", addPerson=" + addPerson +
                 '}';
     }
 
-    public double getAddPercon() {
-        return addPercon;
+    public double getAddPerson() {
+        return addPerson;
     }
 
-    public void setAddPercon(double addPercon) {
-        this.addPercon = addPercon;
+    public void setAddPerson(double addPerson) {
+        this.addPerson = addPerson;
     }
 
     public Integer getSkillType() {

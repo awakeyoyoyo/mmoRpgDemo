@@ -232,6 +232,15 @@ public class PlayServiceImpl implements PlayService {
             System.out.println("[-]");
             System.out.println("[-]角色："+mmoRole.getName()+"收到了buffer名为："+bufferMessage.getName()+"的影响");
             System.out.println("[-]无奈只能被迫攻击id为："+roleIdDamage.getFromRoleId()+"的"+RoleTypeCode.getValue(roleIdDamage.getFromRoleType()));
+        }else if (roleIdDamage.getAttackStyle()==AttackStyleCode.SKILL_ADD.getCode()){
+            SkillMessage skillMessage = MmoCacheCilent.getInstance().getSkillMessageConcurrentHashMap().get(roleIdDamage.getSkillId());
+            System.out.println("[-]角色id：" + mmoRole.getId() + " 角色名: " + mmoRole.getName());
+            System.out.println("[-]类型: " + RoleTypeCode.getValue(mmoRole.getType()) + " 状态: " + RoleStatusCode.getValue(mmoRole.getStatus()));
+            System.out.println("[-]血量： " + mmoRole.getNowBlood() + "/" + mmoRole.getBlood());
+            System.out.println("[-]蓝量： " + mmoRole.getNowMp() + "/" + mmoRole.getMp());
+            System.out.println("[-]");
+            System.out.println("[-]角色："+mmoRole.getName()+"被Id为:"+roleIdDamage.getFromRoleId()+"的"+RoleTypeCode.getValue(roleIdDamage.getFromRoleType())+"潇洒地使用了： "+skillMessage.getSkillName()+"给奶了一下血量");
+            System.out.println("[-]增加了"+roleIdDamage.getDamage()+"点"+DamageTypeCode.getValue(roleIdDamage.getDamageType()));
         }
         System.out.println("[-]--------------------------------------------------------");
     }

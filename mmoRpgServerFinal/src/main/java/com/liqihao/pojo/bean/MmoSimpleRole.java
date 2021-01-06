@@ -474,11 +474,16 @@ public class MmoSimpleRole extends Role implements MyObserver {
             damageU.setFromRoleType(fromRole.getType());
             damageU.setToRoleId(getId());
             damageU.setToRoleType(getType());
-            damageU.setAttackStyle(AttackStyleCode.ATTACK.getCode());
             damageU.setBufferId(-1);
             damageU.setDamageType(ConsumeTypeCode.HP.getCode());
             damageU.setSkillId(skillBean.getId());
-            changeNowBlood(-reduce,damageU,AttackStyleCode.USE_SKILL.getCode());
+            if(skillBean.getSkillDamageType().equals(SkillDamageTypeCode.ADD.getCode())) {
+                damageU.setAttackStyle(AttackStyleCode.SKILL_ADD.getCode());
+                changeNowBlood(reduce,damageU,AttackStyleCode.SKILL_ADD.getCode());
+            }else{
+                damageU.setAttackStyle(AttackStyleCode.ATTACK.getCode());
+                changeNowBlood(-reduce,damageU,AttackStyleCode.USE_SKILL.getCode());
+            }
         }
         if (skillBean.getSkillType().equals(SkillTypeCode.PERCENTAGE.getCode())) {
             //百分比 按照攻击力比例增加
@@ -489,11 +494,17 @@ public class MmoSimpleRole extends Role implements MyObserver {
             damageU.setFromRoleType(fromRole.getType());
             damageU.setToRoleId(getId());
             damageU.setToRoleType(getType());
-            damageU.setAttackStyle(AttackStyleCode.ATTACK.getCode());
             damageU.setBufferId(-1);
             damageU.setDamageType(ConsumeTypeCode.HP.getCode());
             damageU.setSkillId(skillBean.getId());
-            changeNowBlood(-reduce,damageU,AttackStyleCode.USE_SKILL.getCode());
+            if(skillBean.getSkillDamageType().equals(SkillDamageTypeCode.ADD.getCode())) {
+                damageU.setAttackStyle(AttackStyleCode.SKILL_ADD.getCode());
+                changeNowBlood(reduce,damageU,AttackStyleCode.SKILL_ADD.getCode());
+            }else{
+                damageU.setAttackStyle(AttackStyleCode.ATTACK.getCode());
+                changeNowBlood(-reduce,damageU,AttackStyleCode.USE_SKILL.getCode());
+            }
+
         }
 
     }
@@ -748,7 +759,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
             logger.info("当前changeHpByBuffer线程是：" + Thread.currentThread().getName() + " 操作的角色是： " + mmoSimpleRole.getName());
             Integer oldHp = mmoSimpleRole.getNowHp();
             Integer newNumber = oldHp + number;
-            if (newNumber > getNowHp()) {
+            if (newNumber > getHp()) {
                 mmoSimpleRole.setNowHp(getHp());
                 newNumber = getHp() - oldHp;
             } else {
@@ -895,7 +906,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
             logger.info("当前changeHpByAttack线程是：" + Thread.currentThread().getName() + " 操作的角色是： " + mmoSimpleRole.getName());
             Integer oldHp = mmoSimpleRole.getNowHp();
             Integer newNumber = oldHp + number;
-            if (newNumber > getNowHp()) {
+            if (newNumber > getHp()) {
                 mmoSimpleRole.setNowHp(getHp());
                 newNumber = getHp() - oldHp;
             } else {
