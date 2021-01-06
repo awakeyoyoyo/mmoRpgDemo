@@ -11,6 +11,7 @@ import com.liqihao.commons.StateCode;
 import com.liqihao.pojo.bean.MmoSimpleRole;
 import com.liqihao.util.CommonsUtil;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandlerContext;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,18 +43,23 @@ public class DispatcherServlet implements ApplicationContextAware {
      * @param nettyRequest
      * @return
      */
-    public void handler(NettyRequest nettyRequest, Channel channel) throws InvalidProtocolBufferException, InvocationTargetException, IllegalAccessException, ClassNotFoundException, NoSuchMethodException {
+    public void handler(NettyRequest nettyRequest, Channel channel){
         logger.info("线程：" + Thread.currentThread().getName() + " 正在处理该请求");
         int cmd = nettyRequest.getCmd();
         Method m = methodHashMap.get(cmd);
         MmoSimpleRole mmoSimpleRole=null;
         //特殊的登陆以及注册接口
-        if (cmd== ConstantValue.LOGIN_REQUEST||cmd==ConstantValue.REGISTER_REQUEST
+        if (cmd==ConstantValue.LOGIN_REQUEST||cmd==ConstantValue.REGISTER_REQUEST
                 ||cmd==ConstantValue.LOGOUT_REQUEST||cmd==ConstantValue.OUT_RIME_RESPONSE) {
             String beanName = m.getAnnotation(HandlerCmdTag.class).module();
             ServiceObject serviceObject = services.get(beanName);
+            try {
             Object object = serviceObject.getParser().parseFrom(nettyRequest.getData());
             m.invoke(serviceObject.getService(), object, channel);
+            }catch (Exception e){
+                e.printStackTrace();
+                sendException(channel,e.getMessage());
+            }
         }
         //检测登陆
         mmoSimpleRole = CommonsUtil.checkLogin(channel);
@@ -62,15 +69,33 @@ public class DispatcherServlet implements ApplicationContextAware {
         if (m != null) {
             String beanName = m.getAnnotation(HandlerCmdTag.class).module();
             ServiceObject serviceObject = services.get(beanName);
+            try {
             Object object = serviceObject.getParser().parseFrom(nettyRequest.getData());
-
             m.invoke(serviceObject.getService(), object, mmoSimpleRole);
+            }catch (InvocationTargetException e){
+                e.printStackTrace();
+                sendException(channel,e.getTargetException().getMessage());
+            } catch (InvalidProtocolBufferException e) {
+                e.printStackTrace();
+                sendException(channel,e.getMessage());
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+                sendException(channel,e.getMessage());
+            }
             return;
         }
         channel.writeAndFlush(new NettyResponse(StateCode.FAIL, 444, "传入错误的cmd".getBytes()));
         return;
     }
 
+    private void sendException(Channel ctx, String  cause){
+        NettyResponse nettyResponse=new NettyResponse();
+        nettyResponse.setCmd(ConstantValue.FAIL_RESPONSE);
+        String message="服务端抛出异常："+cause;
+        nettyResponse.setData(message.getBytes(StandardCharsets.UTF_8));
+        nettyResponse.setStateCode(StateCode.FAIL);
+        ctx.writeAndFlush(nettyResponse);
+    }
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;

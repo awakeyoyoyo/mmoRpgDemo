@@ -275,6 +275,51 @@ public final class BackPackModel {
      */
     BuyGoodsResponseOrBuilder getBuyGoodsResponseOrBuilder();
 
+    /**
+     * <code>.FindAllGoodsRequest findAllGoodsRequest = 18;</code>
+     * @return Whether the findAllGoodsRequest field is set.
+     */
+    boolean hasFindAllGoodsRequest();
+    /**
+     * <code>.FindAllGoodsRequest findAllGoodsRequest = 18;</code>
+     * @return The findAllGoodsRequest.
+     */
+    FindAllGoodsRequest getFindAllGoodsRequest();
+    /**
+     * <code>.FindAllGoodsRequest findAllGoodsRequest = 18;</code>
+     */
+    FindAllGoodsRequestOrBuilder getFindAllGoodsRequestOrBuilder();
+
+    /**
+     * <code>.FindAllGoodsResponse findAllGoodsResponse = 19;</code>
+     * @return Whether the findAllGoodsResponse field is set.
+     */
+    boolean hasFindAllGoodsResponse();
+    /**
+     * <code>.FindAllGoodsResponse findAllGoodsResponse = 19;</code>
+     * @return The findAllGoodsResponse.
+     */
+    FindAllGoodsResponse getFindAllGoodsResponse();
+    /**
+     * <code>.FindAllGoodsResponse findAllGoodsResponse = 19;</code>
+     */
+    FindAllGoodsResponseOrBuilder getFindAllGoodsResponseOrBuilder();
+
+    /**
+     * <code>.GoodsDto goodsDto = 20;</code>
+     * @return Whether the goodsDto field is set.
+     */
+    boolean hasGoodsDto();
+    /**
+     * <code>.GoodsDto goodsDto = 20;</code>
+     * @return The goodsDto.
+     */
+    GoodsDto getGoodsDto();
+    /**
+     * <code>.GoodsDto goodsDto = 20;</code>
+     */
+    GoodsDtoOrBuilder getGoodsDtoOrBuilder();
+
     public BackPackModelMessage.DateBodyCase getDateBodyCase();
   }
   /**
@@ -553,6 +598,48 @@ public final class BackPackModel {
               dateBodyCase_ = 17;
               break;
             }
+            case 146: {
+              FindAllGoodsRequest.Builder subBuilder = null;
+              if (dateBodyCase_ == 18) {
+                subBuilder = ((FindAllGoodsRequest) dateBody_).toBuilder();
+              }
+              dateBody_ =
+                  input.readMessage(FindAllGoodsRequest.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((FindAllGoodsRequest) dateBody_);
+                dateBody_ = subBuilder.buildPartial();
+              }
+              dateBodyCase_ = 18;
+              break;
+            }
+            case 154: {
+              FindAllGoodsResponse.Builder subBuilder = null;
+              if (dateBodyCase_ == 19) {
+                subBuilder = ((FindAllGoodsResponse) dateBody_).toBuilder();
+              }
+              dateBody_ =
+                  input.readMessage(FindAllGoodsResponse.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((FindAllGoodsResponse) dateBody_);
+                dateBody_ = subBuilder.buildPartial();
+              }
+              dateBodyCase_ = 19;
+              break;
+            }
+            case 162: {
+              GoodsDto.Builder subBuilder = null;
+              if (dateBodyCase_ == 20) {
+                subBuilder = ((GoodsDto) dateBody_).toBuilder();
+              }
+              dateBody_ =
+                  input.readMessage(GoodsDto.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((GoodsDto) dateBody_);
+                dateBody_ = subBuilder.buildPartial();
+              }
+              dateBodyCase_ = 20;
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -662,6 +749,18 @@ public final class BackPackModel {
        * <code>BuyGoodsResponse = 15;</code>
        */
       BuyGoodsResponse(15),
+      /**
+       * <code>FindAllGoodsRequest = 16;</code>
+       */
+      FindAllGoodsRequest(16),
+      /**
+       * <code>FindAllGoodsResponse = 17;</code>
+       */
+      FindAllGoodsResponse(17),
+      /**
+       * <code>GoodsDto = 18;</code>
+       */
+      GoodsDto(18),
       UNRECOGNIZED(-1),
       ;
 
@@ -733,6 +832,18 @@ public final class BackPackModel {
        * <code>BuyGoodsResponse = 15;</code>
        */
       public static final int BuyGoodsResponse_VALUE = 15;
+      /**
+       * <code>FindAllGoodsRequest = 16;</code>
+       */
+      public static final int FindAllGoodsRequest_VALUE = 16;
+      /**
+       * <code>FindAllGoodsResponse = 17;</code>
+       */
+      public static final int FindAllGoodsResponse_VALUE = 17;
+      /**
+       * <code>GoodsDto = 18;</code>
+       */
+      public static final int GoodsDto_VALUE = 18;
 
 
       public final int getNumber() {
@@ -775,6 +886,9 @@ public final class BackPackModel {
           case 13: return BuyGoodsRequest;
           case 14: return CheckMoneyNumberResponse;
           case 15: return BuyGoodsResponse;
+          case 16: return FindAllGoodsRequest;
+          case 17: return FindAllGoodsResponse;
+          case 18: return GoodsDto;
           default: return null;
         }
       }
@@ -852,6 +966,9 @@ public final class BackPackModel {
       BUYGOODSREQUEST(15),
       CHECKMONEYNUMBERRESPONSE(16),
       BUYGOODSRESPONSE(17),
+      FINDALLGOODSREQUEST(18),
+      FINDALLGOODSRESPONSE(19),
+      GOODSDTO(20),
       DATEBODY_NOT_SET(0);
       private final int value;
       private DateBodyCase(int value) {
@@ -885,6 +1002,9 @@ public final class BackPackModel {
           case 15: return BUYGOODSREQUEST;
           case 16: return CHECKMONEYNUMBERRESPONSE;
           case 17: return BUYGOODSRESPONSE;
+          case 18: return FINDALLGOODSREQUEST;
+          case 19: return FINDALLGOODSRESPONSE;
+          case 20: return GOODSDTO;
           case 0: return DATEBODY_NOT_SET;
           default: return null;
         }
@@ -1423,6 +1543,99 @@ public final class BackPackModel {
       return BuyGoodsResponse.getDefaultInstance();
     }
 
+    public static final int FINDALLGOODSREQUEST_FIELD_NUMBER = 18;
+    /**
+     * <code>.FindAllGoodsRequest findAllGoodsRequest = 18;</code>
+     * @return Whether the findAllGoodsRequest field is set.
+     */
+    @Override
+    public boolean hasFindAllGoodsRequest() {
+      return dateBodyCase_ == 18;
+    }
+    /**
+     * <code>.FindAllGoodsRequest findAllGoodsRequest = 18;</code>
+     * @return The findAllGoodsRequest.
+     */
+    @Override
+    public FindAllGoodsRequest getFindAllGoodsRequest() {
+      if (dateBodyCase_ == 18) {
+         return (FindAllGoodsRequest) dateBody_;
+      }
+      return FindAllGoodsRequest.getDefaultInstance();
+    }
+    /**
+     * <code>.FindAllGoodsRequest findAllGoodsRequest = 18;</code>
+     */
+    @Override
+    public FindAllGoodsRequestOrBuilder getFindAllGoodsRequestOrBuilder() {
+      if (dateBodyCase_ == 18) {
+         return (FindAllGoodsRequest) dateBody_;
+      }
+      return FindAllGoodsRequest.getDefaultInstance();
+    }
+
+    public static final int FINDALLGOODSRESPONSE_FIELD_NUMBER = 19;
+    /**
+     * <code>.FindAllGoodsResponse findAllGoodsResponse = 19;</code>
+     * @return Whether the findAllGoodsResponse field is set.
+     */
+    @Override
+    public boolean hasFindAllGoodsResponse() {
+      return dateBodyCase_ == 19;
+    }
+    /**
+     * <code>.FindAllGoodsResponse findAllGoodsResponse = 19;</code>
+     * @return The findAllGoodsResponse.
+     */
+    @Override
+    public FindAllGoodsResponse getFindAllGoodsResponse() {
+      if (dateBodyCase_ == 19) {
+         return (FindAllGoodsResponse) dateBody_;
+      }
+      return FindAllGoodsResponse.getDefaultInstance();
+    }
+    /**
+     * <code>.FindAllGoodsResponse findAllGoodsResponse = 19;</code>
+     */
+    @Override
+    public FindAllGoodsResponseOrBuilder getFindAllGoodsResponseOrBuilder() {
+      if (dateBodyCase_ == 19) {
+         return (FindAllGoodsResponse) dateBody_;
+      }
+      return FindAllGoodsResponse.getDefaultInstance();
+    }
+
+    public static final int GOODSDTO_FIELD_NUMBER = 20;
+    /**
+     * <code>.GoodsDto goodsDto = 20;</code>
+     * @return Whether the goodsDto field is set.
+     */
+    @Override
+    public boolean hasGoodsDto() {
+      return dateBodyCase_ == 20;
+    }
+    /**
+     * <code>.GoodsDto goodsDto = 20;</code>
+     * @return The goodsDto.
+     */
+    @Override
+    public GoodsDto getGoodsDto() {
+      if (dateBodyCase_ == 20) {
+         return (GoodsDto) dateBody_;
+      }
+      return GoodsDto.getDefaultInstance();
+    }
+    /**
+     * <code>.GoodsDto goodsDto = 20;</code>
+     */
+    @Override
+    public GoodsDtoOrBuilder getGoodsDtoOrBuilder() {
+      if (dateBodyCase_ == 20) {
+         return (GoodsDto) dateBody_;
+      }
+      return GoodsDto.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -1487,6 +1700,15 @@ public final class BackPackModel {
       }
       if (dateBodyCase_ == 17) {
         output.writeMessage(17, (BuyGoodsResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 18) {
+        output.writeMessage(18, (FindAllGoodsRequest) dateBody_);
+      }
+      if (dateBodyCase_ == 19) {
+        output.writeMessage(19, (FindAllGoodsResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 20) {
+        output.writeMessage(20, (GoodsDto) dateBody_);
       }
       unknownFields.writeTo(output);
     }
@@ -1564,6 +1786,18 @@ public final class BackPackModel {
       if (dateBodyCase_ == 17) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(17, (BuyGoodsResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 18) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(18, (FindAllGoodsRequest) dateBody_);
+      }
+      if (dateBodyCase_ == 19) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(19, (FindAllGoodsResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 20) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(20, (GoodsDto) dateBody_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1647,6 +1881,18 @@ public final class BackPackModel {
           if (!getBuyGoodsResponse()
               .equals(other.getBuyGoodsResponse())) return false;
           break;
+        case 18:
+          if (!getFindAllGoodsRequest()
+              .equals(other.getFindAllGoodsRequest())) return false;
+          break;
+        case 19:
+          if (!getFindAllGoodsResponse()
+              .equals(other.getFindAllGoodsResponse())) return false;
+          break;
+        case 20:
+          if (!getGoodsDto()
+              .equals(other.getGoodsDto())) return false;
+          break;
         case 0:
         default:
       }
@@ -1727,6 +1973,18 @@ public final class BackPackModel {
         case 17:
           hash = (37 * hash) + BUYGOODSRESPONSE_FIELD_NUMBER;
           hash = (53 * hash) + getBuyGoodsResponse().hashCode();
+          break;
+        case 18:
+          hash = (37 * hash) + FINDALLGOODSREQUEST_FIELD_NUMBER;
+          hash = (53 * hash) + getFindAllGoodsRequest().hashCode();
+          break;
+        case 19:
+          hash = (37 * hash) + FINDALLGOODSRESPONSE_FIELD_NUMBER;
+          hash = (53 * hash) + getFindAllGoodsResponse().hashCode();
+          break;
+        case 20:
+          hash = (37 * hash) + GOODSDTO_FIELD_NUMBER;
+          hash = (53 * hash) + getGoodsDto().hashCode();
           break;
         case 0:
         default:
@@ -2007,6 +2265,27 @@ public final class BackPackModel {
             result.dateBody_ = buyGoodsResponseBuilder_.build();
           }
         }
+        if (dateBodyCase_ == 18) {
+          if (findAllGoodsRequestBuilder_ == null) {
+            result.dateBody_ = dateBody_;
+          } else {
+            result.dateBody_ = findAllGoodsRequestBuilder_.build();
+          }
+        }
+        if (dateBodyCase_ == 19) {
+          if (findAllGoodsResponseBuilder_ == null) {
+            result.dateBody_ = dateBody_;
+          } else {
+            result.dateBody_ = findAllGoodsResponseBuilder_.build();
+          }
+        }
+        if (dateBodyCase_ == 20) {
+          if (goodsDtoBuilder_ == null) {
+            result.dateBody_ = dateBody_;
+          } else {
+            result.dateBody_ = goodsDtoBuilder_.build();
+          }
+        }
         result.dateBodyCase_ = dateBodyCase_;
         onBuilt();
         return result;
@@ -2122,6 +2401,18 @@ public final class BackPackModel {
           }
           case BUYGOODSRESPONSE: {
             mergeBuyGoodsResponse(other.getBuyGoodsResponse());
+            break;
+          }
+          case FINDALLGOODSREQUEST: {
+            mergeFindAllGoodsRequest(other.getFindAllGoodsRequest());
+            break;
+          }
+          case FINDALLGOODSRESPONSE: {
+            mergeFindAllGoodsResponse(other.getFindAllGoodsResponse());
+            break;
+          }
+          case GOODSDTO: {
+            mergeGoodsDto(other.getGoodsDto());
             break;
           }
           case DATEBODY_NOT_SET: {
@@ -4501,6 +4792,429 @@ public final class BackPackModel {
         onChanged();;
         return buyGoodsResponseBuilder_;
       }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          FindAllGoodsRequest, FindAllGoodsRequest.Builder, FindAllGoodsRequestOrBuilder> findAllGoodsRequestBuilder_;
+      /**
+       * <code>.FindAllGoodsRequest findAllGoodsRequest = 18;</code>
+       * @return Whether the findAllGoodsRequest field is set.
+       */
+      @Override
+      public boolean hasFindAllGoodsRequest() {
+        return dateBodyCase_ == 18;
+      }
+      /**
+       * <code>.FindAllGoodsRequest findAllGoodsRequest = 18;</code>
+       * @return The findAllGoodsRequest.
+       */
+      @Override
+      public FindAllGoodsRequest getFindAllGoodsRequest() {
+        if (findAllGoodsRequestBuilder_ == null) {
+          if (dateBodyCase_ == 18) {
+            return (FindAllGoodsRequest) dateBody_;
+          }
+          return FindAllGoodsRequest.getDefaultInstance();
+        } else {
+          if (dateBodyCase_ == 18) {
+            return findAllGoodsRequestBuilder_.getMessage();
+          }
+          return FindAllGoodsRequest.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.FindAllGoodsRequest findAllGoodsRequest = 18;</code>
+       */
+      public Builder setFindAllGoodsRequest(FindAllGoodsRequest value) {
+        if (findAllGoodsRequestBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dateBody_ = value;
+          onChanged();
+        } else {
+          findAllGoodsRequestBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 18;
+        return this;
+      }
+      /**
+       * <code>.FindAllGoodsRequest findAllGoodsRequest = 18;</code>
+       */
+      public Builder setFindAllGoodsRequest(
+          FindAllGoodsRequest.Builder builderForValue) {
+        if (findAllGoodsRequestBuilder_ == null) {
+          dateBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          findAllGoodsRequestBuilder_.setMessage(builderForValue.build());
+        }
+        dateBodyCase_ = 18;
+        return this;
+      }
+      /**
+       * <code>.FindAllGoodsRequest findAllGoodsRequest = 18;</code>
+       */
+      public Builder mergeFindAllGoodsRequest(FindAllGoodsRequest value) {
+        if (findAllGoodsRequestBuilder_ == null) {
+          if (dateBodyCase_ == 18 &&
+              dateBody_ != FindAllGoodsRequest.getDefaultInstance()) {
+            dateBody_ = FindAllGoodsRequest.newBuilder((FindAllGoodsRequest) dateBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dateBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dateBodyCase_ == 18) {
+            findAllGoodsRequestBuilder_.mergeFrom(value);
+          }
+          findAllGoodsRequestBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 18;
+        return this;
+      }
+      /**
+       * <code>.FindAllGoodsRequest findAllGoodsRequest = 18;</code>
+       */
+      public Builder clearFindAllGoodsRequest() {
+        if (findAllGoodsRequestBuilder_ == null) {
+          if (dateBodyCase_ == 18) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dateBodyCase_ == 18) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+          }
+          findAllGoodsRequestBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.FindAllGoodsRequest findAllGoodsRequest = 18;</code>
+       */
+      public FindAllGoodsRequest.Builder getFindAllGoodsRequestBuilder() {
+        return getFindAllGoodsRequestFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.FindAllGoodsRequest findAllGoodsRequest = 18;</code>
+       */
+      @Override
+      public FindAllGoodsRequestOrBuilder getFindAllGoodsRequestOrBuilder() {
+        if ((dateBodyCase_ == 18) && (findAllGoodsRequestBuilder_ != null)) {
+          return findAllGoodsRequestBuilder_.getMessageOrBuilder();
+        } else {
+          if (dateBodyCase_ == 18) {
+            return (FindAllGoodsRequest) dateBody_;
+          }
+          return FindAllGoodsRequest.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.FindAllGoodsRequest findAllGoodsRequest = 18;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          FindAllGoodsRequest, FindAllGoodsRequest.Builder, FindAllGoodsRequestOrBuilder>
+          getFindAllGoodsRequestFieldBuilder() {
+        if (findAllGoodsRequestBuilder_ == null) {
+          if (!(dateBodyCase_ == 18)) {
+            dateBody_ = FindAllGoodsRequest.getDefaultInstance();
+          }
+          findAllGoodsRequestBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              FindAllGoodsRequest, FindAllGoodsRequest.Builder, FindAllGoodsRequestOrBuilder>(
+                  (FindAllGoodsRequest) dateBody_,
+                  getParentForChildren(),
+                  isClean());
+          dateBody_ = null;
+        }
+        dateBodyCase_ = 18;
+        onChanged();;
+        return findAllGoodsRequestBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          FindAllGoodsResponse, FindAllGoodsResponse.Builder, FindAllGoodsResponseOrBuilder> findAllGoodsResponseBuilder_;
+      /**
+       * <code>.FindAllGoodsResponse findAllGoodsResponse = 19;</code>
+       * @return Whether the findAllGoodsResponse field is set.
+       */
+      @Override
+      public boolean hasFindAllGoodsResponse() {
+        return dateBodyCase_ == 19;
+      }
+      /**
+       * <code>.FindAllGoodsResponse findAllGoodsResponse = 19;</code>
+       * @return The findAllGoodsResponse.
+       */
+      @Override
+      public FindAllGoodsResponse getFindAllGoodsResponse() {
+        if (findAllGoodsResponseBuilder_ == null) {
+          if (dateBodyCase_ == 19) {
+            return (FindAllGoodsResponse) dateBody_;
+          }
+          return FindAllGoodsResponse.getDefaultInstance();
+        } else {
+          if (dateBodyCase_ == 19) {
+            return findAllGoodsResponseBuilder_.getMessage();
+          }
+          return FindAllGoodsResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.FindAllGoodsResponse findAllGoodsResponse = 19;</code>
+       */
+      public Builder setFindAllGoodsResponse(FindAllGoodsResponse value) {
+        if (findAllGoodsResponseBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dateBody_ = value;
+          onChanged();
+        } else {
+          findAllGoodsResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 19;
+        return this;
+      }
+      /**
+       * <code>.FindAllGoodsResponse findAllGoodsResponse = 19;</code>
+       */
+      public Builder setFindAllGoodsResponse(
+          FindAllGoodsResponse.Builder builderForValue) {
+        if (findAllGoodsResponseBuilder_ == null) {
+          dateBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          findAllGoodsResponseBuilder_.setMessage(builderForValue.build());
+        }
+        dateBodyCase_ = 19;
+        return this;
+      }
+      /**
+       * <code>.FindAllGoodsResponse findAllGoodsResponse = 19;</code>
+       */
+      public Builder mergeFindAllGoodsResponse(FindAllGoodsResponse value) {
+        if (findAllGoodsResponseBuilder_ == null) {
+          if (dateBodyCase_ == 19 &&
+              dateBody_ != FindAllGoodsResponse.getDefaultInstance()) {
+            dateBody_ = FindAllGoodsResponse.newBuilder((FindAllGoodsResponse) dateBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dateBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dateBodyCase_ == 19) {
+            findAllGoodsResponseBuilder_.mergeFrom(value);
+          }
+          findAllGoodsResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 19;
+        return this;
+      }
+      /**
+       * <code>.FindAllGoodsResponse findAllGoodsResponse = 19;</code>
+       */
+      public Builder clearFindAllGoodsResponse() {
+        if (findAllGoodsResponseBuilder_ == null) {
+          if (dateBodyCase_ == 19) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dateBodyCase_ == 19) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+          }
+          findAllGoodsResponseBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.FindAllGoodsResponse findAllGoodsResponse = 19;</code>
+       */
+      public FindAllGoodsResponse.Builder getFindAllGoodsResponseBuilder() {
+        return getFindAllGoodsResponseFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.FindAllGoodsResponse findAllGoodsResponse = 19;</code>
+       */
+      @Override
+      public FindAllGoodsResponseOrBuilder getFindAllGoodsResponseOrBuilder() {
+        if ((dateBodyCase_ == 19) && (findAllGoodsResponseBuilder_ != null)) {
+          return findAllGoodsResponseBuilder_.getMessageOrBuilder();
+        } else {
+          if (dateBodyCase_ == 19) {
+            return (FindAllGoodsResponse) dateBody_;
+          }
+          return FindAllGoodsResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.FindAllGoodsResponse findAllGoodsResponse = 19;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          FindAllGoodsResponse, FindAllGoodsResponse.Builder, FindAllGoodsResponseOrBuilder>
+          getFindAllGoodsResponseFieldBuilder() {
+        if (findAllGoodsResponseBuilder_ == null) {
+          if (!(dateBodyCase_ == 19)) {
+            dateBody_ = FindAllGoodsResponse.getDefaultInstance();
+          }
+          findAllGoodsResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              FindAllGoodsResponse, FindAllGoodsResponse.Builder, FindAllGoodsResponseOrBuilder>(
+                  (FindAllGoodsResponse) dateBody_,
+                  getParentForChildren(),
+                  isClean());
+          dateBody_ = null;
+        }
+        dateBodyCase_ = 19;
+        onChanged();;
+        return findAllGoodsResponseBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          GoodsDto, GoodsDto.Builder, GoodsDtoOrBuilder> goodsDtoBuilder_;
+      /**
+       * <code>.GoodsDto goodsDto = 20;</code>
+       * @return Whether the goodsDto field is set.
+       */
+      @Override
+      public boolean hasGoodsDto() {
+        return dateBodyCase_ == 20;
+      }
+      /**
+       * <code>.GoodsDto goodsDto = 20;</code>
+       * @return The goodsDto.
+       */
+      @Override
+      public GoodsDto getGoodsDto() {
+        if (goodsDtoBuilder_ == null) {
+          if (dateBodyCase_ == 20) {
+            return (GoodsDto) dateBody_;
+          }
+          return GoodsDto.getDefaultInstance();
+        } else {
+          if (dateBodyCase_ == 20) {
+            return goodsDtoBuilder_.getMessage();
+          }
+          return GoodsDto.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.GoodsDto goodsDto = 20;</code>
+       */
+      public Builder setGoodsDto(GoodsDto value) {
+        if (goodsDtoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dateBody_ = value;
+          onChanged();
+        } else {
+          goodsDtoBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 20;
+        return this;
+      }
+      /**
+       * <code>.GoodsDto goodsDto = 20;</code>
+       */
+      public Builder setGoodsDto(
+          GoodsDto.Builder builderForValue) {
+        if (goodsDtoBuilder_ == null) {
+          dateBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          goodsDtoBuilder_.setMessage(builderForValue.build());
+        }
+        dateBodyCase_ = 20;
+        return this;
+      }
+      /**
+       * <code>.GoodsDto goodsDto = 20;</code>
+       */
+      public Builder mergeGoodsDto(GoodsDto value) {
+        if (goodsDtoBuilder_ == null) {
+          if (dateBodyCase_ == 20 &&
+              dateBody_ != GoodsDto.getDefaultInstance()) {
+            dateBody_ = GoodsDto.newBuilder((GoodsDto) dateBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dateBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dateBodyCase_ == 20) {
+            goodsDtoBuilder_.mergeFrom(value);
+          }
+          goodsDtoBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 20;
+        return this;
+      }
+      /**
+       * <code>.GoodsDto goodsDto = 20;</code>
+       */
+      public Builder clearGoodsDto() {
+        if (goodsDtoBuilder_ == null) {
+          if (dateBodyCase_ == 20) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dateBodyCase_ == 20) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+          }
+          goodsDtoBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.GoodsDto goodsDto = 20;</code>
+       */
+      public GoodsDto.Builder getGoodsDtoBuilder() {
+        return getGoodsDtoFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.GoodsDto goodsDto = 20;</code>
+       */
+      @Override
+      public GoodsDtoOrBuilder getGoodsDtoOrBuilder() {
+        if ((dateBodyCase_ == 20) && (goodsDtoBuilder_ != null)) {
+          return goodsDtoBuilder_.getMessageOrBuilder();
+        } else {
+          if (dateBodyCase_ == 20) {
+            return (GoodsDto) dateBody_;
+          }
+          return GoodsDto.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.GoodsDto goodsDto = 20;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          GoodsDto, GoodsDto.Builder, GoodsDtoOrBuilder>
+          getGoodsDtoFieldBuilder() {
+        if (goodsDtoBuilder_ == null) {
+          if (!(dateBodyCase_ == 20)) {
+            dateBody_ = GoodsDto.getDefaultInstance();
+          }
+          goodsDtoBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              GoodsDto, GoodsDto.Builder, GoodsDtoOrBuilder>(
+                  (GoodsDto) dateBody_,
+                  getParentForChildren(),
+                  isClean());
+          dateBody_ = null;
+        }
+        dateBodyCase_ = 20;
+        onChanged();;
+        return goodsDtoBuilder_;
+      }
       @Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -4549,6 +5263,2055 @@ public final class BackPackModel {
 
     @Override
     public BackPackModelMessage getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface FindAllGoodsRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:FindAllGoodsRequest)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code FindAllGoodsRequest}
+   */
+  public static final class FindAllGoodsRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:FindAllGoodsRequest)
+      FindAllGoodsRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use FindAllGoodsRequest.newBuilder() to construct.
+    private FindAllGoodsRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private FindAllGoodsRequest() {
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new FindAllGoodsRequest();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private FindAllGoodsRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return BackPackModel.internal_static_FindAllGoodsRequest_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return BackPackModel.internal_static_FindAllGoodsRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              FindAllGoodsRequest.class, Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof FindAllGoodsRequest)) {
+        return super.equals(obj);
+      }
+      FindAllGoodsRequest other = (FindAllGoodsRequest) obj;
+
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static FindAllGoodsRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static FindAllGoodsRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static FindAllGoodsRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static FindAllGoodsRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static FindAllGoodsRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static FindAllGoodsRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static FindAllGoodsRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static FindAllGoodsRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static FindAllGoodsRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static FindAllGoodsRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static FindAllGoodsRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static FindAllGoodsRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(FindAllGoodsRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code FindAllGoodsRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:FindAllGoodsRequest)
+        FindAllGoodsRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return BackPackModel.internal_static_FindAllGoodsRequest_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return BackPackModel.internal_static_FindAllGoodsRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                FindAllGoodsRequest.class, Builder.class);
+      }
+
+      // Construct using BackPackModel.FindAllGoodsRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return BackPackModel.internal_static_FindAllGoodsRequest_descriptor;
+      }
+
+      @Override
+      public FindAllGoodsRequest getDefaultInstanceForType() {
+        return FindAllGoodsRequest.getDefaultInstance();
+      }
+
+      @Override
+      public FindAllGoodsRequest build() {
+        FindAllGoodsRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public FindAllGoodsRequest buildPartial() {
+        FindAllGoodsRequest result = new FindAllGoodsRequest(this);
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof FindAllGoodsRequest) {
+          return mergeFrom((FindAllGoodsRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(FindAllGoodsRequest other) {
+        if (other == FindAllGoodsRequest.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        FindAllGoodsRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (FindAllGoodsRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:FindAllGoodsRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:FindAllGoodsRequest)
+    private static final FindAllGoodsRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new FindAllGoodsRequest();
+    }
+
+    public static FindAllGoodsRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<FindAllGoodsRequest>
+        PARSER = new com.google.protobuf.AbstractParser<FindAllGoodsRequest>() {
+      @Override
+      public FindAllGoodsRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new FindAllGoodsRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<FindAllGoodsRequest> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<FindAllGoodsRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public FindAllGoodsRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface FindAllGoodsResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:FindAllGoodsResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>repeated .GoodsDto goodsDtos = 1;</code>
+     */
+    java.util.List<GoodsDto>
+        getGoodsDtosList();
+    /**
+     * <code>repeated .GoodsDto goodsDtos = 1;</code>
+     */
+    GoodsDto getGoodsDtos(int index);
+    /**
+     * <code>repeated .GoodsDto goodsDtos = 1;</code>
+     */
+    int getGoodsDtosCount();
+    /**
+     * <code>repeated .GoodsDto goodsDtos = 1;</code>
+     */
+    java.util.List<? extends GoodsDtoOrBuilder>
+        getGoodsDtosOrBuilderList();
+    /**
+     * <code>repeated .GoodsDto goodsDtos = 1;</code>
+     */
+    GoodsDtoOrBuilder getGoodsDtosOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code FindAllGoodsResponse}
+   */
+  public static final class FindAllGoodsResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:FindAllGoodsResponse)
+      FindAllGoodsResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use FindAllGoodsResponse.newBuilder() to construct.
+    private FindAllGoodsResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private FindAllGoodsResponse() {
+      goodsDtos_ = java.util.Collections.emptyList();
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new FindAllGoodsResponse();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private FindAllGoodsResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+                goodsDtos_ = new java.util.ArrayList<GoodsDto>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              goodsDtos_.add(
+                  input.readMessage(GoodsDto.parser(), extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+          goodsDtos_ = java.util.Collections.unmodifiableList(goodsDtos_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return BackPackModel.internal_static_FindAllGoodsResponse_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return BackPackModel.internal_static_FindAllGoodsResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              FindAllGoodsResponse.class, Builder.class);
+    }
+
+    public static final int GOODSDTOS_FIELD_NUMBER = 1;
+    private java.util.List<GoodsDto> goodsDtos_;
+    /**
+     * <code>repeated .GoodsDto goodsDtos = 1;</code>
+     */
+    @Override
+    public java.util.List<GoodsDto> getGoodsDtosList() {
+      return goodsDtos_;
+    }
+    /**
+     * <code>repeated .GoodsDto goodsDtos = 1;</code>
+     */
+    @Override
+    public java.util.List<? extends GoodsDtoOrBuilder>
+        getGoodsDtosOrBuilderList() {
+      return goodsDtos_;
+    }
+    /**
+     * <code>repeated .GoodsDto goodsDtos = 1;</code>
+     */
+    @Override
+    public int getGoodsDtosCount() {
+      return goodsDtos_.size();
+    }
+    /**
+     * <code>repeated .GoodsDto goodsDtos = 1;</code>
+     */
+    @Override
+    public GoodsDto getGoodsDtos(int index) {
+      return goodsDtos_.get(index);
+    }
+    /**
+     * <code>repeated .GoodsDto goodsDtos = 1;</code>
+     */
+    @Override
+    public GoodsDtoOrBuilder getGoodsDtosOrBuilder(
+        int index) {
+      return goodsDtos_.get(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      for (int i = 0; i < goodsDtos_.size(); i++) {
+        output.writeMessage(1, goodsDtos_.get(i));
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < goodsDtos_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, goodsDtos_.get(i));
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof FindAllGoodsResponse)) {
+        return super.equals(obj);
+      }
+      FindAllGoodsResponse other = (FindAllGoodsResponse) obj;
+
+      if (!getGoodsDtosList()
+          .equals(other.getGoodsDtosList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (getGoodsDtosCount() > 0) {
+        hash = (37 * hash) + GOODSDTOS_FIELD_NUMBER;
+        hash = (53 * hash) + getGoodsDtosList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static FindAllGoodsResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static FindAllGoodsResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static FindAllGoodsResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static FindAllGoodsResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static FindAllGoodsResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static FindAllGoodsResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static FindAllGoodsResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static FindAllGoodsResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static FindAllGoodsResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static FindAllGoodsResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static FindAllGoodsResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static FindAllGoodsResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(FindAllGoodsResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code FindAllGoodsResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:FindAllGoodsResponse)
+        FindAllGoodsResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return BackPackModel.internal_static_FindAllGoodsResponse_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return BackPackModel.internal_static_FindAllGoodsResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                FindAllGoodsResponse.class, Builder.class);
+      }
+
+      // Construct using BackPackModel.FindAllGoodsResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getGoodsDtosFieldBuilder();
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        if (goodsDtosBuilder_ == null) {
+          goodsDtos_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          goodsDtosBuilder_.clear();
+        }
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return BackPackModel.internal_static_FindAllGoodsResponse_descriptor;
+      }
+
+      @Override
+      public FindAllGoodsResponse getDefaultInstanceForType() {
+        return FindAllGoodsResponse.getDefaultInstance();
+      }
+
+      @Override
+      public FindAllGoodsResponse build() {
+        FindAllGoodsResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public FindAllGoodsResponse buildPartial() {
+        FindAllGoodsResponse result = new FindAllGoodsResponse(this);
+        int from_bitField0_ = bitField0_;
+        if (goodsDtosBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) != 0)) {
+            goodsDtos_ = java.util.Collections.unmodifiableList(goodsDtos_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.goodsDtos_ = goodsDtos_;
+        } else {
+          result.goodsDtos_ = goodsDtosBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof FindAllGoodsResponse) {
+          return mergeFrom((FindAllGoodsResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(FindAllGoodsResponse other) {
+        if (other == FindAllGoodsResponse.getDefaultInstance()) return this;
+        if (goodsDtosBuilder_ == null) {
+          if (!other.goodsDtos_.isEmpty()) {
+            if (goodsDtos_.isEmpty()) {
+              goodsDtos_ = other.goodsDtos_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureGoodsDtosIsMutable();
+              goodsDtos_.addAll(other.goodsDtos_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.goodsDtos_.isEmpty()) {
+            if (goodsDtosBuilder_.isEmpty()) {
+              goodsDtosBuilder_.dispose();
+              goodsDtosBuilder_ = null;
+              goodsDtos_ = other.goodsDtos_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              goodsDtosBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getGoodsDtosFieldBuilder() : null;
+            } else {
+              goodsDtosBuilder_.addAllMessages(other.goodsDtos_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        FindAllGoodsResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (FindAllGoodsResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.util.List<GoodsDto> goodsDtos_ =
+        java.util.Collections.emptyList();
+      private void ensureGoodsDtosIsMutable() {
+        if (!((bitField0_ & 0x00000001) != 0)) {
+          goodsDtos_ = new java.util.ArrayList<GoodsDto>(goodsDtos_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          GoodsDto, GoodsDto.Builder, GoodsDtoOrBuilder> goodsDtosBuilder_;
+
+      /**
+       * <code>repeated .GoodsDto goodsDtos = 1;</code>
+       */
+      public java.util.List<GoodsDto> getGoodsDtosList() {
+        if (goodsDtosBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(goodsDtos_);
+        } else {
+          return goodsDtosBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .GoodsDto goodsDtos = 1;</code>
+       */
+      public int getGoodsDtosCount() {
+        if (goodsDtosBuilder_ == null) {
+          return goodsDtos_.size();
+        } else {
+          return goodsDtosBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .GoodsDto goodsDtos = 1;</code>
+       */
+      public GoodsDto getGoodsDtos(int index) {
+        if (goodsDtosBuilder_ == null) {
+          return goodsDtos_.get(index);
+        } else {
+          return goodsDtosBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .GoodsDto goodsDtos = 1;</code>
+       */
+      public Builder setGoodsDtos(
+          int index, GoodsDto value) {
+        if (goodsDtosBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureGoodsDtosIsMutable();
+          goodsDtos_.set(index, value);
+          onChanged();
+        } else {
+          goodsDtosBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GoodsDto goodsDtos = 1;</code>
+       */
+      public Builder setGoodsDtos(
+          int index, GoodsDto.Builder builderForValue) {
+        if (goodsDtosBuilder_ == null) {
+          ensureGoodsDtosIsMutable();
+          goodsDtos_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          goodsDtosBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GoodsDto goodsDtos = 1;</code>
+       */
+      public Builder addGoodsDtos(GoodsDto value) {
+        if (goodsDtosBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureGoodsDtosIsMutable();
+          goodsDtos_.add(value);
+          onChanged();
+        } else {
+          goodsDtosBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GoodsDto goodsDtos = 1;</code>
+       */
+      public Builder addGoodsDtos(
+          int index, GoodsDto value) {
+        if (goodsDtosBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureGoodsDtosIsMutable();
+          goodsDtos_.add(index, value);
+          onChanged();
+        } else {
+          goodsDtosBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GoodsDto goodsDtos = 1;</code>
+       */
+      public Builder addGoodsDtos(
+          GoodsDto.Builder builderForValue) {
+        if (goodsDtosBuilder_ == null) {
+          ensureGoodsDtosIsMutable();
+          goodsDtos_.add(builderForValue.build());
+          onChanged();
+        } else {
+          goodsDtosBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GoodsDto goodsDtos = 1;</code>
+       */
+      public Builder addGoodsDtos(
+          int index, GoodsDto.Builder builderForValue) {
+        if (goodsDtosBuilder_ == null) {
+          ensureGoodsDtosIsMutable();
+          goodsDtos_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          goodsDtosBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GoodsDto goodsDtos = 1;</code>
+       */
+      public Builder addAllGoodsDtos(
+          Iterable<? extends GoodsDto> values) {
+        if (goodsDtosBuilder_ == null) {
+          ensureGoodsDtosIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, goodsDtos_);
+          onChanged();
+        } else {
+          goodsDtosBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GoodsDto goodsDtos = 1;</code>
+       */
+      public Builder clearGoodsDtos() {
+        if (goodsDtosBuilder_ == null) {
+          goodsDtos_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          goodsDtosBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GoodsDto goodsDtos = 1;</code>
+       */
+      public Builder removeGoodsDtos(int index) {
+        if (goodsDtosBuilder_ == null) {
+          ensureGoodsDtosIsMutable();
+          goodsDtos_.remove(index);
+          onChanged();
+        } else {
+          goodsDtosBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GoodsDto goodsDtos = 1;</code>
+       */
+      public GoodsDto.Builder getGoodsDtosBuilder(
+          int index) {
+        return getGoodsDtosFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .GoodsDto goodsDtos = 1;</code>
+       */
+      public GoodsDtoOrBuilder getGoodsDtosOrBuilder(
+          int index) {
+        if (goodsDtosBuilder_ == null) {
+          return goodsDtos_.get(index);  } else {
+          return goodsDtosBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .GoodsDto goodsDtos = 1;</code>
+       */
+      public java.util.List<? extends GoodsDtoOrBuilder>
+           getGoodsDtosOrBuilderList() {
+        if (goodsDtosBuilder_ != null) {
+          return goodsDtosBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(goodsDtos_);
+        }
+      }
+      /**
+       * <code>repeated .GoodsDto goodsDtos = 1;</code>
+       */
+      public GoodsDto.Builder addGoodsDtosBuilder() {
+        return getGoodsDtosFieldBuilder().addBuilder(
+            GoodsDto.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .GoodsDto goodsDtos = 1;</code>
+       */
+      public GoodsDto.Builder addGoodsDtosBuilder(
+          int index) {
+        return getGoodsDtosFieldBuilder().addBuilder(
+            index, GoodsDto.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .GoodsDto goodsDtos = 1;</code>
+       */
+      public java.util.List<GoodsDto.Builder>
+           getGoodsDtosBuilderList() {
+        return getGoodsDtosFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          GoodsDto, GoodsDto.Builder, GoodsDtoOrBuilder>
+          getGoodsDtosFieldBuilder() {
+        if (goodsDtosBuilder_ == null) {
+          goodsDtosBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              GoodsDto, GoodsDto.Builder, GoodsDtoOrBuilder>(
+                  goodsDtos_,
+                  ((bitField0_ & 0x00000001) != 0),
+                  getParentForChildren(),
+                  isClean());
+          goodsDtos_ = null;
+        }
+        return goodsDtosBuilder_;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:FindAllGoodsResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:FindAllGoodsResponse)
+    private static final FindAllGoodsResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new FindAllGoodsResponse();
+    }
+
+    public static FindAllGoodsResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<FindAllGoodsResponse>
+        PARSER = new com.google.protobuf.AbstractParser<FindAllGoodsResponse>() {
+      @Override
+      public FindAllGoodsResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new FindAllGoodsResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<FindAllGoodsResponse> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<FindAllGoodsResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public FindAllGoodsResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface GoodsDtoOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:GoodsDto)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>int32 id = 1;</code>
+     * @return The id.
+     */
+    int getId();
+
+    /**
+     * <code>int32 articleMessageId = 2;</code>
+     * @return The articleMessageId.
+     */
+    int getArticleMessageId();
+
+    /**
+     * <code>int32 articleTypeId = 3;</code>
+     * @return The articleTypeId.
+     */
+    int getArticleTypeId();
+
+    /**
+     * <code>int32 num = 4;</code>
+     * @return The num.
+     */
+    int getNum();
+
+    /**
+     * <code>int32 nowNum = 5;</code>
+     * @return The nowNum.
+     */
+    int getNowNum();
+
+    /**
+     * <code>int32 price = 6;</code>
+     * @return The price.
+     */
+    int getPrice();
+  }
+  /**
+   * Protobuf type {@code GoodsDto}
+   */
+  public static final class GoodsDto extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:GoodsDto)
+      GoodsDtoOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use GoodsDto.newBuilder() to construct.
+    private GoodsDto(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private GoodsDto() {
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GoodsDto();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private GoodsDto(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+
+              id_ = input.readInt32();
+              break;
+            }
+            case 16: {
+
+              articleMessageId_ = input.readInt32();
+              break;
+            }
+            case 24: {
+
+              articleTypeId_ = input.readInt32();
+              break;
+            }
+            case 32: {
+
+              num_ = input.readInt32();
+              break;
+            }
+            case 40: {
+
+              nowNum_ = input.readInt32();
+              break;
+            }
+            case 48: {
+
+              price_ = input.readInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return BackPackModel.internal_static_GoodsDto_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return BackPackModel.internal_static_GoodsDto_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              GoodsDto.class, Builder.class);
+    }
+
+    public static final int ID_FIELD_NUMBER = 1;
+    private int id_;
+    /**
+     * <code>int32 id = 1;</code>
+     * @return The id.
+     */
+    @Override
+    public int getId() {
+      return id_;
+    }
+
+    public static final int ARTICLEMESSAGEID_FIELD_NUMBER = 2;
+    private int articleMessageId_;
+    /**
+     * <code>int32 articleMessageId = 2;</code>
+     * @return The articleMessageId.
+     */
+    @Override
+    public int getArticleMessageId() {
+      return articleMessageId_;
+    }
+
+    public static final int ARTICLETYPEID_FIELD_NUMBER = 3;
+    private int articleTypeId_;
+    /**
+     * <code>int32 articleTypeId = 3;</code>
+     * @return The articleTypeId.
+     */
+    @Override
+    public int getArticleTypeId() {
+      return articleTypeId_;
+    }
+
+    public static final int NUM_FIELD_NUMBER = 4;
+    private int num_;
+    /**
+     * <code>int32 num = 4;</code>
+     * @return The num.
+     */
+    @Override
+    public int getNum() {
+      return num_;
+    }
+
+    public static final int NOWNUM_FIELD_NUMBER = 5;
+    private int nowNum_;
+    /**
+     * <code>int32 nowNum = 5;</code>
+     * @return The nowNum.
+     */
+    @Override
+    public int getNowNum() {
+      return nowNum_;
+    }
+
+    public static final int PRICE_FIELD_NUMBER = 6;
+    private int price_;
+    /**
+     * <code>int32 price = 6;</code>
+     * @return The price.
+     */
+    @Override
+    public int getPrice() {
+      return price_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (id_ != 0) {
+        output.writeInt32(1, id_);
+      }
+      if (articleMessageId_ != 0) {
+        output.writeInt32(2, articleMessageId_);
+      }
+      if (articleTypeId_ != 0) {
+        output.writeInt32(3, articleTypeId_);
+      }
+      if (num_ != 0) {
+        output.writeInt32(4, num_);
+      }
+      if (nowNum_ != 0) {
+        output.writeInt32(5, nowNum_);
+      }
+      if (price_ != 0) {
+        output.writeInt32(6, price_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (id_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, id_);
+      }
+      if (articleMessageId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, articleMessageId_);
+      }
+      if (articleTypeId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, articleTypeId_);
+      }
+      if (num_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, num_);
+      }
+      if (nowNum_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, nowNum_);
+      }
+      if (price_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(6, price_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof GoodsDto)) {
+        return super.equals(obj);
+      }
+      GoodsDto other = (GoodsDto) obj;
+
+      if (getId()
+          != other.getId()) return false;
+      if (getArticleMessageId()
+          != other.getArticleMessageId()) return false;
+      if (getArticleTypeId()
+          != other.getArticleTypeId()) return false;
+      if (getNum()
+          != other.getNum()) return false;
+      if (getNowNum()
+          != other.getNowNum()) return false;
+      if (getPrice()
+          != other.getPrice()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + ID_FIELD_NUMBER;
+      hash = (53 * hash) + getId();
+      hash = (37 * hash) + ARTICLEMESSAGEID_FIELD_NUMBER;
+      hash = (53 * hash) + getArticleMessageId();
+      hash = (37 * hash) + ARTICLETYPEID_FIELD_NUMBER;
+      hash = (53 * hash) + getArticleTypeId();
+      hash = (37 * hash) + NUM_FIELD_NUMBER;
+      hash = (53 * hash) + getNum();
+      hash = (37 * hash) + NOWNUM_FIELD_NUMBER;
+      hash = (53 * hash) + getNowNum();
+      hash = (37 * hash) + PRICE_FIELD_NUMBER;
+      hash = (53 * hash) + getPrice();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static GoodsDto parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static GoodsDto parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static GoodsDto parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static GoodsDto parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static GoodsDto parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static GoodsDto parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static GoodsDto parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static GoodsDto parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static GoodsDto parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static GoodsDto parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static GoodsDto parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static GoodsDto parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(GoodsDto prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code GoodsDto}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:GoodsDto)
+        GoodsDtoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return BackPackModel.internal_static_GoodsDto_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return BackPackModel.internal_static_GoodsDto_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                GoodsDto.class, Builder.class);
+      }
+
+      // Construct using BackPackModel.GoodsDto.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        id_ = 0;
+
+        articleMessageId_ = 0;
+
+        articleTypeId_ = 0;
+
+        num_ = 0;
+
+        nowNum_ = 0;
+
+        price_ = 0;
+
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return BackPackModel.internal_static_GoodsDto_descriptor;
+      }
+
+      @Override
+      public GoodsDto getDefaultInstanceForType() {
+        return GoodsDto.getDefaultInstance();
+      }
+
+      @Override
+      public GoodsDto build() {
+        GoodsDto result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public GoodsDto buildPartial() {
+        GoodsDto result = new GoodsDto(this);
+        result.id_ = id_;
+        result.articleMessageId_ = articleMessageId_;
+        result.articleTypeId_ = articleTypeId_;
+        result.num_ = num_;
+        result.nowNum_ = nowNum_;
+        result.price_ = price_;
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof GoodsDto) {
+          return mergeFrom((GoodsDto)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(GoodsDto other) {
+        if (other == GoodsDto.getDefaultInstance()) return this;
+        if (other.getId() != 0) {
+          setId(other.getId());
+        }
+        if (other.getArticleMessageId() != 0) {
+          setArticleMessageId(other.getArticleMessageId());
+        }
+        if (other.getArticleTypeId() != 0) {
+          setArticleTypeId(other.getArticleTypeId());
+        }
+        if (other.getNum() != 0) {
+          setNum(other.getNum());
+        }
+        if (other.getNowNum() != 0) {
+          setNowNum(other.getNowNum());
+        }
+        if (other.getPrice() != 0) {
+          setPrice(other.getPrice());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        GoodsDto parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (GoodsDto) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private int id_ ;
+      /**
+       * <code>int32 id = 1;</code>
+       * @return The id.
+       */
+      @Override
+      public int getId() {
+        return id_;
+      }
+      /**
+       * <code>int32 id = 1;</code>
+       * @param value The id to set.
+       * @return This builder for chaining.
+       */
+      public Builder setId(int value) {
+        
+        id_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 id = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearId() {
+        
+        id_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int articleMessageId_ ;
+      /**
+       * <code>int32 articleMessageId = 2;</code>
+       * @return The articleMessageId.
+       */
+      @Override
+      public int getArticleMessageId() {
+        return articleMessageId_;
+      }
+      /**
+       * <code>int32 articleMessageId = 2;</code>
+       * @param value The articleMessageId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setArticleMessageId(int value) {
+        
+        articleMessageId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 articleMessageId = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearArticleMessageId() {
+        
+        articleMessageId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int articleTypeId_ ;
+      /**
+       * <code>int32 articleTypeId = 3;</code>
+       * @return The articleTypeId.
+       */
+      @Override
+      public int getArticleTypeId() {
+        return articleTypeId_;
+      }
+      /**
+       * <code>int32 articleTypeId = 3;</code>
+       * @param value The articleTypeId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setArticleTypeId(int value) {
+        
+        articleTypeId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 articleTypeId = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearArticleTypeId() {
+        
+        articleTypeId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int num_ ;
+      /**
+       * <code>int32 num = 4;</code>
+       * @return The num.
+       */
+      @Override
+      public int getNum() {
+        return num_;
+      }
+      /**
+       * <code>int32 num = 4;</code>
+       * @param value The num to set.
+       * @return This builder for chaining.
+       */
+      public Builder setNum(int value) {
+        
+        num_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 num = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearNum() {
+        
+        num_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int nowNum_ ;
+      /**
+       * <code>int32 nowNum = 5;</code>
+       * @return The nowNum.
+       */
+      @Override
+      public int getNowNum() {
+        return nowNum_;
+      }
+      /**
+       * <code>int32 nowNum = 5;</code>
+       * @param value The nowNum to set.
+       * @return This builder for chaining.
+       */
+      public Builder setNowNum(int value) {
+        
+        nowNum_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 nowNum = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearNowNum() {
+        
+        nowNum_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int price_ ;
+      /**
+       * <code>int32 price = 6;</code>
+       * @return The price.
+       */
+      @Override
+      public int getPrice() {
+        return price_;
+      }
+      /**
+       * <code>int32 price = 6;</code>
+       * @param value The price to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPrice(int value) {
+        
+        price_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 price = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPrice() {
+        
+        price_ = 0;
+        onChanged();
+        return this;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:GoodsDto)
+    }
+
+    // @@protoc_insertion_point(class_scope:GoodsDto)
+    private static final GoodsDto DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new GoodsDto();
+    }
+
+    public static GoodsDto getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<GoodsDto>
+        PARSER = new com.google.protobuf.AbstractParser<GoodsDto>() {
+      @Override
+      public GoodsDto parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GoodsDto(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<GoodsDto> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<GoodsDto> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public GoodsDto getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -14614,6 +17377,21 @@ public final class BackPackModel {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_BackPackModelMessage_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_FindAllGoodsRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_FindAllGoodsRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_FindAllGoodsResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_FindAllGoodsResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_GoodsDto_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_GoodsDto_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_CheckMoneyNumberRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -14712,7 +17490,7 @@ public final class BackPackModel {
       descriptor;
   static {
     String[] descriptorData = {
-      "\n\023BackPackModel.proto\"\222\n\n\024BackPackModelM" +
+      "\n\023BackPackModel.proto\"\336\013\n\024BackPackModelM" +
       "essage\0221\n\tdata_type\030\001 \001(\0162\036.BackPackMode" +
       "lMessage.DateType\022+\n\017backPackRequest\030\002 \001" +
       "(\0132\020.BackPackRequestH\000\022)\n\016abandonRequest" +
@@ -14734,40 +17512,49 @@ public final class BackPackModel {
       "\n\017buyGoodsRequest\030\017 \001(\0132\020.BuyGoodsReques" +
       "tH\000\022=\n\030checkMoneyNumberResponse\030\020 \001(\0132\031." +
       "CheckMoneyNumberResponseH\000\022-\n\020buyGoodsRe" +
-      "sponse\030\021 \001(\0132\021.BuyGoodsResponseH\000\"\212\003\n\010Da" +
-      "teType\022\022\n\016AbandonRequest\020\000\022\023\n\017BackPackRe" +
-      "quest\020\001\022\016\n\nUseRequest\020\002\022\023\n\017AbandonRespon" +
-      "se\020\003\022\024\n\020BackPackResponse\020\004\022\017\n\013UseRespons" +
-      "e\020\005\022\025\n\021AddArticleRequest\020\006\022\026\n\022AddArticle" +
-      "Response\020\007\022\030\n\024FindAllCanGetRequest\020\010\022\036\n\032" +
-      "GetArticleFromFloorRequest\020\t\022\031\n\025FindAllC" +
-      "anGetResponse\020\n\022\037\n\033GetArticleFromFloorRe" +
-      "sponse\020\013\022\033\n\027CheckMoneyNumberRequest\020\014\022\023\n" +
-      "\017BuyGoodsRequest\020\r\022\034\n\030CheckMoneyNumberRe" +
-      "sponse\020\016\022\024\n\020BuyGoodsResponse\020\017B\n\n\010dateBo" +
-      "dy\"\031\n\027CheckMoneyNumberRequest\"/\n\017BuyGood" +
-      "sRequest\022\017\n\007goodsId\030\001 \001(\005\022\013\n\003num\030\002 \001(\005\")" +
-      "\n\030CheckMoneyNumberResponse\022\r\n\005money\030\001 \001(" +
-      "\005\"\022\n\020BuyGoodsResponse\"3\n\016AbandonRequest\022" +
-      "\021\n\tarticleId\030\001 \001(\005\022\016\n\006number\030\002 \001(\005\"\021\n\017Ba" +
-      "ckPackRequest\"\037\n\nUseRequest\022\021\n\tarticleId" +
-      "\030\001 \001(\005\"\026\n\024FindAllCanGetRequest\"+\n\032GetArt" +
-      "icleFromFloorRequest\022\r\n\005index\030\001 \001(\005\"B\n\025F" +
-      "indAllCanGetResponse\022)\n\017articleFloorDto\030" +
-      "\001 \003(\0132\020.ArticleFloorDto\"\035\n\033GetArticleFro" +
-      "mFloorResponse\"\021\n\017AbandonResponse\"4\n\020Bac" +
-      "kPackResponse\022 \n\013articleDtos\030\001 \003(\0132\013.Art" +
-      "icleDto\"\r\n\013UseResponse\"D\n\021AddArticleRequ" +
-      "est\022\n\n\002id\030\001 \001(\005\022\023\n\013articleType\030\002 \001(\005\022\016\n\006" +
-      "number\030\003 \001(\005\"\024\n\022AddArticleResponse\"\204\001\n\017A" +
-      "rticleFloorDto\022\022\n\nfloorIndex\030\001 \001(\005\022\n\n\002id" +
-      "\030\002 \001(\005\022\020\n\010quantity\030\003 \001(\005\022\023\n\013articleType\030" +
-      "\004 \001(\005\022\025\n\rnowDurability\030\005 \001(\005\022\023\n\013equipmen" +
-      "tId\030\006 \001(\005\"~\n\nArticleDto\022\021\n\tarticleId\030\001 \001" +
-      "(\005\022\n\n\002id\030\002 \001(\005\022\023\n\013equipmentId\030\003 \001(\005\022\020\n\010q" +
-      "uantity\030\004 \001(\005\022\023\n\013articleType\030\005 \001(\005\022\025\n\rno" +
-      "wDurability\030\006 \001(\005B\017B\rBackPackModelb\006prot" +
-      "o3"
+      "sponse\030\021 \001(\0132\021.BuyGoodsResponseH\000\0223\n\023fin" +
+      "dAllGoodsRequest\030\022 \001(\0132\024.FindAllGoodsReq" +
+      "uestH\000\0225\n\024findAllGoodsResponse\030\023 \001(\0132\025.F" +
+      "indAllGoodsResponseH\000\022\035\n\010goodsDto\030\024 \001(\0132" +
+      "\t.GoodsDtoH\000\"\313\003\n\010DateType\022\022\n\016AbandonRequ" +
+      "est\020\000\022\023\n\017BackPackRequest\020\001\022\016\n\nUseRequest" +
+      "\020\002\022\023\n\017AbandonResponse\020\003\022\024\n\020BackPackRespo" +
+      "nse\020\004\022\017\n\013UseResponse\020\005\022\025\n\021AddArticleRequ" +
+      "est\020\006\022\026\n\022AddArticleResponse\020\007\022\030\n\024FindAll" +
+      "CanGetRequest\020\010\022\036\n\032GetArticleFromFloorRe" +
+      "quest\020\t\022\031\n\025FindAllCanGetResponse\020\n\022\037\n\033Ge" +
+      "tArticleFromFloorResponse\020\013\022\033\n\027CheckMone" +
+      "yNumberRequest\020\014\022\023\n\017BuyGoodsRequest\020\r\022\034\n" +
+      "\030CheckMoneyNumberResponse\020\016\022\024\n\020BuyGoodsR" +
+      "esponse\020\017\022\027\n\023FindAllGoodsRequest\020\020\022\030\n\024Fi" +
+      "ndAllGoodsResponse\020\021\022\014\n\010GoodsDto\020\022B\n\n\010da" +
+      "teBody\"\025\n\023FindAllGoodsRequest\"4\n\024FindAll" +
+      "GoodsResponse\022\034\n\tgoodsDtos\030\001 \003(\0132\t.Goods" +
+      "Dto\"s\n\010GoodsDto\022\n\n\002id\030\001 \001(\005\022\030\n\020articleMe" +
+      "ssageId\030\002 \001(\005\022\025\n\rarticleTypeId\030\003 \001(\005\022\013\n\003" +
+      "num\030\004 \001(\005\022\016\n\006nowNum\030\005 \001(\005\022\r\n\005price\030\006 \001(\005" +
+      "\"\031\n\027CheckMoneyNumberRequest\"/\n\017BuyGoodsR" +
+      "equest\022\017\n\007goodsId\030\001 \001(\005\022\013\n\003num\030\002 \001(\005\")\n\030" +
+      "CheckMoneyNumberResponse\022\r\n\005money\030\001 \001(\005\"" +
+      "\022\n\020BuyGoodsResponse\"3\n\016AbandonRequest\022\021\n" +
+      "\tarticleId\030\001 \001(\005\022\016\n\006number\030\002 \001(\005\"\021\n\017Back" +
+      "PackRequest\"\037\n\nUseRequest\022\021\n\tarticleId\030\001" +
+      " \001(\005\"\026\n\024FindAllCanGetRequest\"+\n\032GetArtic" +
+      "leFromFloorRequest\022\r\n\005index\030\001 \001(\005\"B\n\025Fin" +
+      "dAllCanGetResponse\022)\n\017articleFloorDto\030\001 " +
+      "\003(\0132\020.ArticleFloorDto\"\035\n\033GetArticleFromF" +
+      "loorResponse\"\021\n\017AbandonResponse\"4\n\020BackP" +
+      "ackResponse\022 \n\013articleDtos\030\001 \003(\0132\013.Artic" +
+      "leDto\"\r\n\013UseResponse\"D\n\021AddArticleReques" +
+      "t\022\n\n\002id\030\001 \001(\005\022\023\n\013articleType\030\002 \001(\005\022\016\n\006nu" +
+      "mber\030\003 \001(\005\"\024\n\022AddArticleResponse\"\204\001\n\017Art" +
+      "icleFloorDto\022\022\n\nfloorIndex\030\001 \001(\005\022\n\n\002id\030\002" +
+      " \001(\005\022\020\n\010quantity\030\003 \001(\005\022\023\n\013articleType\030\004 " +
+      "\001(\005\022\025\n\rnowDurability\030\005 \001(\005\022\023\n\013equipmentI" +
+      "d\030\006 \001(\005\"~\n\nArticleDto\022\021\n\tarticleId\030\001 \001(\005" +
+      "\022\n\n\002id\030\002 \001(\005\022\023\n\013equipmentId\030\003 \001(\005\022\020\n\010qua" +
+      "ntity\030\004 \001(\005\022\023\n\013articleType\030\005 \001(\005\022\025\n\rnowD" +
+      "urability\030\006 \001(\005B\017B\rBackPackModelb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -14778,111 +17565,129 @@ public final class BackPackModel {
     internal_static_BackPackModelMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BackPackModelMessage_descriptor,
-        new String[] { "DataType", "BackPackRequest", "AbandonRequest", "UseRequest", "AbandonResponse", "BackPackResponse", "UseResponse", "AddArticleRequest", "AddArticleResponse", "FindAllCanGetRequest", "GetArticleFromFloorRequest", "FindAllCanGetResponse", "GetArticleFromFloorResponse", "CheckMoneyNumberRequest", "BuyGoodsRequest", "CheckMoneyNumberResponse", "BuyGoodsResponse", "DateBody", });
-    internal_static_CheckMoneyNumberRequest_descriptor =
+        new String[] { "DataType", "BackPackRequest", "AbandonRequest", "UseRequest", "AbandonResponse", "BackPackResponse", "UseResponse", "AddArticleRequest", "AddArticleResponse", "FindAllCanGetRequest", "GetArticleFromFloorRequest", "FindAllCanGetResponse", "GetArticleFromFloorResponse", "CheckMoneyNumberRequest", "BuyGoodsRequest", "CheckMoneyNumberResponse", "BuyGoodsResponse", "FindAllGoodsRequest", "FindAllGoodsResponse", "GoodsDto", "DateBody", });
+    internal_static_FindAllGoodsRequest_descriptor =
       getDescriptor().getMessageTypes().get(1);
+    internal_static_FindAllGoodsRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_FindAllGoodsRequest_descriptor,
+        new String[] { });
+    internal_static_FindAllGoodsResponse_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_FindAllGoodsResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_FindAllGoodsResponse_descriptor,
+        new String[] { "GoodsDtos", });
+    internal_static_GoodsDto_descriptor =
+      getDescriptor().getMessageTypes().get(3);
+    internal_static_GoodsDto_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_GoodsDto_descriptor,
+        new String[] { "Id", "ArticleMessageId", "ArticleTypeId", "Num", "NowNum", "Price", });
+    internal_static_CheckMoneyNumberRequest_descriptor =
+      getDescriptor().getMessageTypes().get(4);
     internal_static_CheckMoneyNumberRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_CheckMoneyNumberRequest_descriptor,
         new String[] { });
     internal_static_BuyGoodsRequest_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_BuyGoodsRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BuyGoodsRequest_descriptor,
         new String[] { "GoodsId", "Num", });
     internal_static_CheckMoneyNumberResponse_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_CheckMoneyNumberResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_CheckMoneyNumberResponse_descriptor,
         new String[] { "Money", });
     internal_static_BuyGoodsResponse_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_BuyGoodsResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BuyGoodsResponse_descriptor,
         new String[] { });
     internal_static_AbandonRequest_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_AbandonRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_AbandonRequest_descriptor,
         new String[] { "ArticleId", "Number", });
     internal_static_BackPackRequest_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_BackPackRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BackPackRequest_descriptor,
         new String[] { });
     internal_static_UseRequest_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_UseRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_UseRequest_descriptor,
         new String[] { "ArticleId", });
     internal_static_FindAllCanGetRequest_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_FindAllCanGetRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_FindAllCanGetRequest_descriptor,
         new String[] { });
     internal_static_GetArticleFromFloorRequest_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_GetArticleFromFloorRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_GetArticleFromFloorRequest_descriptor,
         new String[] { "Index", });
     internal_static_FindAllCanGetResponse_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_FindAllCanGetResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_FindAllCanGetResponse_descriptor,
         new String[] { "ArticleFloorDto", });
     internal_static_GetArticleFromFloorResponse_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(14);
     internal_static_GetArticleFromFloorResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_GetArticleFromFloorResponse_descriptor,
         new String[] { });
     internal_static_AbandonResponse_descriptor =
-      getDescriptor().getMessageTypes().get(12);
+      getDescriptor().getMessageTypes().get(15);
     internal_static_AbandonResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_AbandonResponse_descriptor,
         new String[] { });
     internal_static_BackPackResponse_descriptor =
-      getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(16);
     internal_static_BackPackResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BackPackResponse_descriptor,
         new String[] { "ArticleDtos", });
     internal_static_UseResponse_descriptor =
-      getDescriptor().getMessageTypes().get(14);
+      getDescriptor().getMessageTypes().get(17);
     internal_static_UseResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_UseResponse_descriptor,
         new String[] { });
     internal_static_AddArticleRequest_descriptor =
-      getDescriptor().getMessageTypes().get(15);
+      getDescriptor().getMessageTypes().get(18);
     internal_static_AddArticleRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_AddArticleRequest_descriptor,
         new String[] { "Id", "ArticleType", "Number", });
     internal_static_AddArticleResponse_descriptor =
-      getDescriptor().getMessageTypes().get(16);
+      getDescriptor().getMessageTypes().get(19);
     internal_static_AddArticleResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_AddArticleResponse_descriptor,
         new String[] { });
     internal_static_ArticleFloorDto_descriptor =
-      getDescriptor().getMessageTypes().get(17);
+      getDescriptor().getMessageTypes().get(20);
     internal_static_ArticleFloorDto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ArticleFloorDto_descriptor,
         new String[] { "FloorIndex", "Id", "Quantity", "ArticleType", "NowDurability", "EquipmentId", });
     internal_static_ArticleDto_descriptor =
-      getDescriptor().getMessageTypes().get(18);
+      getDescriptor().getMessageTypes().get(21);
     internal_static_ArticleDto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ArticleDto_descriptor,

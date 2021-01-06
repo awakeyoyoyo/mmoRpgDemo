@@ -19,4 +19,6 @@ public interface BackPackService {
     void buyGoodsResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException;
 
     void checkMoneyNumberResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException;
+
+    void findAllGoodsResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException;
 }

@@ -11,7 +11,9 @@ import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /**
  * 商品服务提供类
@@ -29,6 +31,16 @@ public class GoodsServiceProvider {
 
     }
 
+    /**
+     * 获取所有商品列表
+     * @return
+     */
+    public static List<GoodsBean> getAllArticles(){
+        synchronized (goodsBeanConcurrentHashMap) {
+            List<GoodsBean> beans = goodsBeanConcurrentHashMap.values().stream().collect(Collectors.toList());
+            return beans;
+        }
+    }
     /**
      *  对外提供买东西接口
      */
@@ -51,13 +63,13 @@ public class GoodsServiceProvider {
         }
         boolean flag=false;
         Article article=null;
-        if(goodsBean.getArticleTypeId().equals(ArticleTypeCode.EQUIPMENT)){
+        if(goodsBean.getArticleTypeId().equals(ArticleTypeCode.EQUIPMENT.getCode())){
             //装备
             article= sellEquipment(goodsBean.getArticleMessageId());
             flag=mmoSimpleRole.getBackpackManager().put(article);
         }else{
             //药品
-            article= sellMedicineBean(goodsBean.getArticleMessageId(),goodsBean.getNum());
+            article= sellMedicineBean(goodsBean.getArticleMessageId(),num);
             flag=mmoSimpleRole.getBackpackManager().put(article);
         }
         if (!flag){
@@ -74,12 +86,12 @@ public class GoodsServiceProvider {
     /**
      * 卖药品
      */
-
     private static MedicineBean sellMedicineBean(Integer medicineId,Integer num){
         MedicineBean medicineBean=ArticleServiceProvider.productMedicine(medicineId);
         medicineBean.setQuantity(num);
         return medicineBean;
     }
+
     /**
      * 卖装备
      */

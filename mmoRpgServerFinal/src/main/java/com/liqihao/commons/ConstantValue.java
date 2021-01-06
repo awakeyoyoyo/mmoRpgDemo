@@ -111,6 +111,14 @@ public interface ConstantValue {
      */
     String BAKCPACK_MODULE="backpackServiceImpl";
     /**
+     * 商品列表请求
+     */
+    int FIND_ALL_GOODS_REQUEST=4008;
+    /**
+     * 商品列表响应
+     */
+    int FIND_ALL_GOODS_RESPONSE=4508;
+    /**
      * 查看有多少钱
      */
     int CHECK_MONEY_NUMBER_REQUEST=4006;

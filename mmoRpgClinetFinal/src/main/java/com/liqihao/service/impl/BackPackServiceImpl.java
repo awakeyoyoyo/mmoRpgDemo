@@ -163,4 +163,39 @@ public class BackPackServiceImpl implements BackPackService {
         System.out.println("[-]角色的金币数量："+money);
         System.out.println("[-]--------------------------------------------------------");
     }
+
+    @Override
+    public void findAllGoodsResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
+        byte[] data=nettyResponse.getData();
+        BackPackModel.BackPackModelMessage myMessage;
+        myMessage=BackPackModel.BackPackModelMessage.parseFrom(data);
+        List<BackPackModel.GoodsDto> goodsDtos=myMessage.getFindAllGoodsResponse().getGoodsDtosList();
+        ConcurrentHashMap<Integer, MedicineMessage> medicineMessageConcurrentHashMap=MmoCacheCilent.getInstance().getMedicineMessageConcurrentHashMap();
+        ConcurrentHashMap<Integer, EquipmentMessage> equipmentMessageConcurrentHashMap=MmoCacheCilent.getInstance().getEquipmentMessageConcurrentHashMap();
+        System.out.println("[-]--------------------------------------------------------");
+        for (BackPackModel.GoodsDto a:goodsDtos) {
+            if (a.getArticleTypeId()== ArticleTypeCode.EQUIPMENT.getCode()){
+                //装备
+                EquipmentMessage equipmentMessage=equipmentMessageConcurrentHashMap.get(a.getArticleMessageId());
+                System.out.println("[-]");
+                System.out.println("[-][-]商品id："+a.getId()+" 名字: "+equipmentMessage.getName()+ "描述: "+equipmentMessage.getDescription());
+                System.out.println("[-][-]装备基本信息id: "+a.getId()+" 商品数量: "+a.getNowNum()+"/"+a.getNum());
+                System.out.println("[-][-]价格："+a.getPrice());
+                System.out.println("[-]");
+            }else if (a.getArticleTypeId()== ArticleTypeCode.MEDICINE.getCode()){
+                //药品
+                MedicineMessage medicineMessage=medicineMessageConcurrentHashMap.get(a.getId());
+                System.out.println("[-]");
+                System.out.println("[-][-]商品id："+a.getId()+" 名字: "+medicineMessage.getName()+ "描述: "+medicineMessage.getDescription());
+                System.out.println("[-][-]药品基本信息id: "+a.getId()+" 商品数量: "+a.getNowNum()+"/"+a.getNum());
+                System.out.println("[-][-]价格："+a.getPrice());
+                System.out.println("[-]");
+            }else {
+                System.out.println("[-]");
+                System.out.println("[-]什么鬼东西？？？");
+                System.out.println("[-]");
+            }
+        }
+        System.out.println("[-]--------------------------------------------------------");
+    }
 }

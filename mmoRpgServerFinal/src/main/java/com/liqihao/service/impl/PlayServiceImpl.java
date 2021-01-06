@@ -135,13 +135,13 @@ public class PlayServiceImpl implements PlayService {
                 equipmentBean.setEquipmentId(mmoEquipmentPOJO.getId());
                 equipmentBean.setBagId(mmoBagPOJO.getBagId());
                 equipmentBean.setNowDurability(mmoEquipmentPOJO.getNowDurability());
-                backPackManager.put(equipmentBean);
+                backPackManager.putOnDatabase(equipmentBean);
             } else if (mmoBagPOJO.getArticleType().equals(ArticleTypeCode.MEDICINE.getCode())) {
                 MedicineMessage message = MediceneMessageCache.getInstance().get(mmoBagPOJO.getwId());
                 MedicineBean medicineBean = CommonsUtil.medicineMessageToMedicineBean(message);
                 medicineBean.setQuantity(mmoBagPOJO.getNumber());
                 medicineBean.setBagId(mmoBagPOJO.getBagId());
-                backPackManager.put(medicineBean);
+                backPackManager.putOnDatabase(medicineBean);
             } else {
             }
         }

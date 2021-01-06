@@ -58,24 +58,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
         LogicThreadPool.getInstance().execute(new Runnable() {
             @Override
             public void run() {
-                try {
-                    dispatcherservlet.handler(request,ctx.channel());
-                } catch (InvalidProtocolBufferException e) {
-                    e.printStackTrace();
-                    sendException(ctx,e);
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
-                    sendException(ctx,e);
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                    sendException(ctx,e);
-                } catch (NoSuchMethodException e) {
-                    e.printStackTrace();
-                    sendException(ctx,e);
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                    sendException(ctx,e);
-                }
+                dispatcherservlet.handler(request,ctx.channel());
             }
         },index);
     }
@@ -84,7 +67,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         log.error("ServerHandler exception message: "+cause);
         cause.printStackTrace();
-        sendException(ctx,cause);
+        sendException(ctx,cause.getMessage());
     }
 
     @Override
@@ -111,10 +94,10 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
             ctx.channel().close();
         }
     }
-    private void sendException(ChannelHandlerContext ctx,Throwable cause){
+    private void sendException(ChannelHandlerContext ctx,String  cause){
         NettyResponse nettyResponse=new NettyResponse();
         nettyResponse.setCmd(ConstantValue.FAIL_RESPONSE);
-        String message="服务端抛出异常："+cause.getMessage();
+        String message="服务端抛出异常："+cause;
         nettyResponse.setData(message.getBytes(StandardCharsets.UTF_8));
         nettyResponse.setStateCode(StateCode.FAIL);
         ctx.channel().writeAndFlush(nettyResponse);

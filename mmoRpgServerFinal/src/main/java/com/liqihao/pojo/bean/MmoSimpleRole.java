@@ -41,7 +41,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
     /**
      * 金币
      */
-    private Integer money=0;
+    private Integer money=100;
     /**
      * 装备栏
      */

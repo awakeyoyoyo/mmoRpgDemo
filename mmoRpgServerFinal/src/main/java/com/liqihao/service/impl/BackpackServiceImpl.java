@@ -264,11 +264,12 @@ public class BackpackServiceImpl implements BackpackService {
             channel.writeAndFlush(errorResponse);
             return;
         }
+        //放入背包
         mmoSimpleRole.getBackpackManager().put(article);
+        //传输数据
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.GET_ARTICLE_FROM_FLOOR_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        //protobuf 生成registerResponse
         BackPackModel.BackPackModelMessage.Builder messageData = BackPackModel.BackPackModelMessage.newBuilder();
         messageData.setDataType(BackPackModel.BackPackModelMessage.DateType.GetArticleFromFloorResponse);
         BackPackModel.GetArticleFromFloorResponse.Builder getArticleFromFloorResponseBuilder = BackPackModel.GetArticleFromFloorResponse.newBuilder();
@@ -282,6 +283,7 @@ public class BackpackServiceImpl implements BackpackService {
     public void checkMoneyNumber(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
         Channel channel = ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
         Integer money=mmoSimpleRole.getMoney();
+        //传输数据
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.CHECK_MONEY_NUMBER_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
@@ -301,7 +303,7 @@ public class BackpackServiceImpl implements BackpackService {
         Integer goodsId=myMessage.getBuyGoodsRequest().getGoodsId();
         //买
         GoodsServiceProvider.sellArticle(goodsId,num,mmoSimpleRole);
-
+        //传输数据
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.BUY_GOODS_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
@@ -312,5 +314,30 @@ public class BackpackServiceImpl implements BackpackService {
         nettyResponse.setData(messageData.build().toByteArray());
         channel.writeAndFlush(nettyResponse);
 
+    }
+
+    @Override
+    @HandlerCmdTag(cmd = ConstantValue.FIND_ALL_GOODS_REQUEST, module = ConstantValue.BAKCPACK_MODULE)
+    public void findAllGoods(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws Exception {
+        Channel channel = ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        List<GoodsBean> goodsBeans=GoodsServiceProvider.getAllArticles();
+        //传输数据
+        List<BackPackModel.GoodsDto> goodsDtos=new ArrayList<>();
+        for (GoodsBean gg:goodsBeans) {
+            BackPackModel.GoodsDto goodsDto= BackPackModel.GoodsDto.newBuilder()
+                    .setId(gg.getId()).setNowNum(gg.getNowNum()).setNum(gg.getNum())
+                    .setPrice(gg.getPrice()).setArticleTypeId(gg.getArticleTypeId()).setArticleMessageId(gg.getArticleMessageId()).build();
+            goodsDtos.add(goodsDto);
+        }
+
+        NettyResponse nettyResponse = new NettyResponse();
+        nettyResponse.setCmd(ConstantValue.FIND_ALL_GOODS_RESPONSE);
+        nettyResponse.setStateCode(StateCode.SUCCESS);
+        BackPackModel.BackPackModelMessage.Builder messageData = BackPackModel.BackPackModelMessage.newBuilder();
+        messageData.setDataType(BackPackModel.BackPackModelMessage.DateType.FindAllGoodsResponse);
+        BackPackModel.FindAllGoodsResponse.Builder findAllGoodsResponse = BackPackModel.FindAllGoodsResponse.newBuilder().addAllGoodsDtos(goodsDtos);
+        messageData.setFindAllGoodsResponse(findAllGoodsResponse.build());
+        nettyResponse.setData(messageData.build().toByteArray());
+        channel.writeAndFlush(nettyResponse);
     }
 }

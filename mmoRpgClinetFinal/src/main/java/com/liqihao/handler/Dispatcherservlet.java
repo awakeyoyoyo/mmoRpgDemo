@@ -180,10 +180,13 @@ public class Dispatcherservlet {
                 emailService.deleteSendEmailResponse(nettyResponse);
                 break;
             case ConstantValue.CHECK_MONEY_NUMBER_RESPONSE:
-                backPackService.checkMomeyNumberResponse(nettyResponse);
+                backPackService.checkMoneyNumberResponse(nettyResponse);
                 break;
             case ConstantValue.BUY_GOODS_RESPONSE:
                 backPackService.buyGoodsResponse(nettyResponse);
+                break;
+            case ConstantValue.FIND_ALL_GOODS_RESPONSE:
+                backPackService.findAllGoodsResponse(nettyResponse);
                 break;
             default:
                 System.out.println("handler:收到");

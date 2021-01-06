@@ -130,7 +130,7 @@ public class CommonsUtil implements ApplicationContextAware {
         goodsBean.setNowNum(g.getNum());
         goodsBean.setPrice(g.getPrice());
         goodsBean.setArticleMessageId(g.getArticleMessageId());
-        goodsBean.setArticleId(g.getArticleId());
+        goodsBean.setArticleTypeId(g.getArticleTypeId());
         goodsBean.setNum(g.getNum());
         return goodsBean;
     }

@@ -74,4 +74,11 @@ public interface BackpackService {
      */
     void buyGoods(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws Exception;
 
+    /**
+     * 查看商品列表
+     * @param myMessage
+     * @param mmoSimpleRole
+     * @throws Exception
+     */
+    void findAllGoods(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws Exception;
 }

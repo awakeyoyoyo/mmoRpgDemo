@@ -110,7 +110,14 @@ public interface ConstantValue {
      * 查看有多少钱
      */
     int CHECK_MONEY_NUMBER_REQUEST=4006;
-
+    /**
+     * 商品列表请求
+     */
+    int FIND_ALL_GOODS_REQUEST=4008;
+    /**
+     * 商品列表响应
+     */
+    int FIND_ALL_GOODS_RESPONSE=4508;
     /**
      * 购买商品 需id以及数量
      */
@@ -467,7 +474,7 @@ public interface ConstantValue {
     /**
      * 指令
      */
-
+    String FIND_ALL_GOODS_REQUEST_CMD="findAllGoods";
     String CHECK_MONEY_NUMBER_REQUEST_CMD="checkMoney";
     String BUY_GOODS_REQUEST_CMD="buyGoods";
     /**

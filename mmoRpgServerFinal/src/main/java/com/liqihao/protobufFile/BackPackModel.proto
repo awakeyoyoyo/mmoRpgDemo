@@ -19,6 +19,9 @@ message BackPackModelMessage{
     BuyGoodsRequest=13;
     CheckMoneyNumberResponse=14;
     BuyGoodsResponse=15;
+    FindAllGoodsRequest=16;
+    FindAllGoodsResponse=17;
+    GoodsDto=18;
   }
   //用date_type来标识传的是哪一个枚举类型
   DateType data_type=1;
@@ -40,7 +43,24 @@ message BackPackModelMessage{
     BuyGoodsRequest buyGoodsRequest=15;
     CheckMoneyNumberResponse checkMoneyNumberResponse=16;
     BuyGoodsResponse buyGoodsResponse=17;
+    FindAllGoodsRequest findAllGoodsRequest=18;
+    FindAllGoodsResponse findAllGoodsResponse=19;
+    GoodsDto goodsDto=20;
   }
+}
+message FindAllGoodsRequest{
+
+}
+message FindAllGoodsResponse{
+  repeated GoodsDto goodsDtos=1;
+}
+message GoodsDto{
+  int32 id=1;
+  int32 articleMessageId=2;
+  int32 articleTypeId=3;
+  int32 num=4;
+  int32 nowNum=5;
+  int32 price=6;
 }
 message CheckMoneyNumberRequest{
 

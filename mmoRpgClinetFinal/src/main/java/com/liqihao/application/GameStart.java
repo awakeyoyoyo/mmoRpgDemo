@@ -211,9 +211,24 @@ public class GameStart {
                     case ConstantValue.BUY_GOODS_REQUEST:
                         buyGoodsRequest(scanner);
                         break;
+                    case ConstantValue.FIND_ALL_GOODS_REQUEST:
+                        findAllGoodsRequest(scanner);
+                        break;
                     default:
                         System.out.println("GameStart-handler:收到错误cmd");
                 }
+    }
+
+    private void findAllGoodsRequest(Scanner scanner) {
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.FIND_ALL_GOODS_REQUEST);
+        BackPackModel.BackPackModelMessage myMessage;
+        myMessage=BackPackModel.BackPackModelMessage.newBuilder()
+                .setDataType(BackPackModel.BackPackModelMessage.DateType.FindAllGoodsRequest)
+                .setFindAllGoodsRequest(BackPackModel.FindAllGoodsRequest.newBuilder().build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
     }
 
     private void buyGoodsRequest(Scanner scanner) {
