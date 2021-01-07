@@ -48,6 +48,10 @@ public interface ConstantValue {
      */
     int TALK_NPC_RESPONSE=1503;
     /**
+     * 场景出现新角色响应
+     */
+    int ROLE_RESPONSE=1504;
+    /**
      *   玩家模块
      */
     String PLAY_MODULE="playServiceImpl";

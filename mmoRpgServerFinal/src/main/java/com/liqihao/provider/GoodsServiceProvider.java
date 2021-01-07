@@ -46,10 +46,10 @@ public class GoodsServiceProvider {
      */
     public static Article sellArticle(Integer goodsId,Integer num, MmoSimpleRole mmoSimpleRole) throws Exception {
         GoodsBean goodsBean=goodsBeanConcurrentHashMap.get(goodsId);
+        if (goodsBean == null) {
+            throw new Exception("查无该商品");
+        }
         synchronized (goodsBean) {
-            if (goodsBean == null) {
-                throw new Exception("查无该商品");
-            }
             if (goodsBean.getNowNum()<=0){
                 throw new Exception("该商品数量不足");
             }
@@ -66,10 +66,12 @@ public class GoodsServiceProvider {
         if(goodsBean.getArticleTypeId().equals(ArticleTypeCode.EQUIPMENT.getCode())){
             //装备
             article= sellEquipment(goodsBean.getArticleMessageId());
+            //todo
             flag=mmoSimpleRole.getBackpackManager().put(article);
         }else{
             //药品
             article= sellMedicineBean(goodsBean.getArticleMessageId(),num);
+
             flag=mmoSimpleRole.getBackpackManager().put(article);
         }
         if (!flag){

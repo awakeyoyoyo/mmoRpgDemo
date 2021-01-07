@@ -146,4 +146,31 @@ public class SceneServiceImpl implements SceneService {
         }
         System.out.println("[-]--------------------------------------------------------");
     }
+
+    @Override
+    public void roleResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
+        if (nettyResponse.getStateCode()== StateCode.FAIL){
+            System.out.println(new String(nettyResponse.getData()));
+            return;
+        }
+        byte[] data=nettyResponse.getData();
+        SceneModel.SceneModelMessage myMessage;
+        myMessage=SceneModel.SceneModelMessage.parseFrom(data);
+        SceneModel.RoleResponse findAllRolesResponse=myMessage.getRoleResponse();
+        List<SceneModel.RoleDTO> roleDTOS=findAllRolesResponse.getRoleDtosList();
+        for (SceneModel.RoleDTO roleDTO:roleDTOS) {
+            MmoRole mmoRole=new MmoRole();
+            mmoRole.setId(roleDTO.getId());
+            mmoRole.setBlood(roleDTO.getBlood());
+            mmoRole.setName(roleDTO.getName());
+            mmoRole.setNowBlood(roleDTO.getNowBlood());
+            mmoRole.setSkillIdList(roleDTO.getSkillIdListList());
+            mmoRole.setMp(roleDTO.getMp());
+            mmoRole.setOnstatus(roleDTO.getOnStatus());
+            mmoRole.setStatus(roleDTO.getStatus());
+            mmoRole.setNowMp(roleDTO.getNowMp());
+            mmoRole.setType(roleDTO.getType());
+            MmoCacheCilent.getInstance().getRoleHashMap().put(mmoRole.getId(),mmoRole);
+        }
+    }
 }

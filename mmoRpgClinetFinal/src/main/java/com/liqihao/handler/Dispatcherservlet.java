@@ -44,6 +44,9 @@ public class Dispatcherservlet {
             case ConstantValue.FIND_ALL_ROLES_RESPONSE:
                 sceneService.findAllRolesResponse(nettyResponse);
                 break;
+            case ConstantValue.ROLE_RESPONSE:
+                sceneService.roleResponse(nettyResponse);
+                break;
             case ConstantValue.LOGIN_RESPONSE:
                 playService.loginResponse(nettyResponse);
                 break;

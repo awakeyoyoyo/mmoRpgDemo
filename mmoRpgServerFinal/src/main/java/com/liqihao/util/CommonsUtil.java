@@ -1,7 +1,9 @@
 package com.liqihao.util;
 
 
+import com.liqihao.Cache.ChannelMessageCache;
 import com.liqihao.Cache.NpcMessageCache;
+import com.liqihao.Cache.SceneBeanMessageCache;
 import com.liqihao.Cache.SkillMessageCache;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
@@ -16,6 +18,7 @@ import com.liqihao.pojo.dto.EquipmentDto;
 import com.liqihao.protobufObject.CopySceneModel;
 import com.liqihao.protobufObject.EmailModel;
 import com.liqihao.protobufObject.SceneModel;
+import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.provider.EmailServiceProvider;
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
@@ -531,13 +534,13 @@ public class CommonsUtil implements ApplicationContextAware {
     /**
      * 向场景仲角色发送人物登场
      */
-    public static void sendRoleResponse(List<Role> roles,Integer sceneId,Integer copySceneId){
+    public static void sendRoleResponse(List<Role> newRoles,Integer sceneId,Integer copySceneId){
         //protobuf
         SceneModel.SceneModelMessage.Builder messagedataBuilder = SceneModel.SceneModelMessage.newBuilder();
         messagedataBuilder.setDataType(SceneModel.SceneModelMessage.DateType.RoleResponse);
         SceneModel.RoleResponse.Builder roleResponseBuilder = SceneModel.RoleResponse.newBuilder();
         List<SceneModel.RoleDTO> roleDTOS = new ArrayList<>();
-        for (Role m : roles) {
+        for (Role m : newRoles) {
             SceneModel.RoleDTO.Builder msr = SceneModel.RoleDTO.newBuilder().setId(m.getId())
                     .setName(m.getName())
                     .setOnStatus(m.getOnStatus())
@@ -563,6 +566,26 @@ public class CommonsUtil implements ApplicationContextAware {
         nettyResponse.setCmd(ConstantValue.FIND_ALL_ROLES_RESPONSE);
         nettyResponse.setStateCode(200);
         nettyResponse.setData(data2);
-        return;
+        List<Integer> players;
+        if (sceneId!=null) {
+            players = SceneBeanMessageCache.getInstance().get(sceneId).getRoles();
+            for (Integer playerId:players){
+                Channel c= ChannelMessageCache.getInstance().get(playerId);
+                if (c!=null){
+                    c.writeAndFlush(nettyResponse);
+                }
+            }
+
+        }else{
+            List<Role> roles = CopySceneProvider.getCopySceneBeanById(copySceneId).getRoles();
+            for (Role role:roles) {
+                if (role.getType().equals(RoleTypeCode.PLAYER.getCode())){
+                    Channel c= ChannelMessageCache.getInstance().get(role.getId());
+                    if (c!=null){
+                        c.writeAndFlush(nettyResponse);
+                    }
+                }
+            }
+        }
     }
 }

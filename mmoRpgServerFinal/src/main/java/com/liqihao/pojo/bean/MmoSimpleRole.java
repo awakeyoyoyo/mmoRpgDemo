@@ -531,8 +531,14 @@ public class MmoSimpleRole extends Role implements MyObserver {
             if (mmoHelperBean.getMmoSceneId() != null) {
                 SceneBean sceneBean = SceneBeanMessageCache.getInstance().get(mmoHelperBean.getMmoSceneId());
                 sceneBean.getHelperBeans().add(mmoHelperBean);
+                List<Role> newRoles=new ArrayList<>();
+                newRoles.add(mmoHelperBean);
+                CommonsUtil.sendRoleResponse(newRoles,mmoHelperBean.getMmoSceneId(),null);
             } else if (mmoHelperBean.getCopySceneBeanId() != null) {
                 CopySceneProvider.getCopySceneBeanById(mmoHelperBean.getCopySceneBeanId()).getRoles().add(mmoHelperBean);
+                List<Role> newRoles=new ArrayList<>();
+                newRoles.add(mmoHelperBean);
+                CommonsUtil.sendRoleResponse(newRoles,null,mmoHelperBean.getCopySceneBeanId());
             }
         }
     }
@@ -728,6 +734,9 @@ public class MmoSimpleRole extends Role implements MyObserver {
         }
         //Helper
         nextSceneRoles.addAll(helpers);
+        List<Role> newRoles=new ArrayList<>();
+        newRoles.add(this);
+        CommonsUtil.sendRoleResponse(newRoles,nextSceneId,null);
         return nextSceneRoles;
     }
 
@@ -804,6 +813,9 @@ public class MmoSimpleRole extends Role implements MyObserver {
         if (copySceneBean.getNowBoss()==null) {
             copySceneBean.bossComeOrFinish();
         }
+        List<Role> newRoles=new ArrayList<>();
+        newRoles.add(this);
+        CommonsUtil.sendRoleResponse(newRoles,null,copySceneBean.getCopySceneBeanId());
         return true;
     }
 
