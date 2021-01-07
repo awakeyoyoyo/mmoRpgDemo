@@ -865,20 +865,26 @@ public class GameStart {
         Integer skillId=scanner.nextInt();scanner.nextLine();;
         Integer roleId=null;
         Integer roleType=null;
-        if (map.get(skillId).getSkillAttackType().equals(SkillAttackTypeCode.SINGLE.getCode())){
-            if (!map.get(skillId).getSkillDamageType().equals(SkillDamageTypeCode.ADD.getCode())){
-                System.out.println("请输入你的施法目标的类型： 玩家为1 怪物为2");
-                roleType=scanner.nextInt();scanner.nextLine();;
-                if(roleType!=1&&roleType!=2){
-                    System.out.println("请输入正确数字");
-                    return;
+        if (!map.get(skillId).getSkillAttackType().equals(SkillAttackTypeCode.CALL.getCode())) {
+            if (map.get(skillId).getSkillAttackType().equals(SkillAttackTypeCode.SINGLE.getCode())) {
+                if (!map.get(skillId).getSkillDamageType().equals(SkillDamageTypeCode.ADD.getCode())) {
+                    System.out.println("请输入你的施法目标的类型： 玩家为1 怪物为2");
+                    roleType = scanner.nextInt();
+                    scanner.nextLine();
+                    ;
+                    if (roleType != 1 && roleType != 2) {
+                        System.out.println("请输入正确数字");
+                        return;
+                    }
+                    System.out.println("请输入你的施法目标的id");
+                    roleId = scanner.nextInt();
+                    scanner.nextLine();
+                } else {
+                    roleType = 1;
+                    System.out.println("请输入你的施玩家的id");
+                    roleId = scanner.nextInt();
+                    scanner.nextLine();
                 }
-                System.out.println("请输入你的施法目标的id");
-                roleId=scanner.nextInt();scanner.nextLine();
-            }else{
-                roleType=1;
-                System.out.println("请输入你的施玩家的id");
-                roleId=scanner.nextInt();scanner.nextLine();
             }
         }
         NettyRequest nettyRequest=new NettyRequest();

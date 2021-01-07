@@ -15,6 +15,7 @@ import com.liqihao.pojo.dto.ArticleDto;
 import com.liqihao.pojo.dto.EquipmentDto;
 import com.liqihao.protobufObject.CopySceneModel;
 import com.liqihao.protobufObject.EmailModel;
+import com.liqihao.protobufObject.SceneModel;
 import com.liqihao.provider.EmailServiceProvider;
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
@@ -489,6 +490,7 @@ public class CommonsUtil implements ApplicationContextAware {
         sceneBean.setName(m.getPlaceName());
         sceneBean.setCanScenes(split(m.getCanScene()));
         sceneBean.setRoles(new ArrayList<>());
+        sceneBean.setHelperBeans(new ArrayList<>());
         List<Integer> npcs=new ArrayList<>();
         for (MmoSimpleNPC mpc: NpcMessageCache.getInstance().values()) {
             if (mpc.getMmoSceneId().equals(m.getId())){
@@ -526,5 +528,41 @@ public class CommonsUtil implements ApplicationContextAware {
         return list;
     }
 
-
+    /**
+     * 向场景仲角色发送人物登场
+     */
+    public static void sendRoleResponse(List<Role> roles,Integer sceneId,Integer copySceneId){
+        //protobuf
+        SceneModel.SceneModelMessage.Builder messagedataBuilder = SceneModel.SceneModelMessage.newBuilder();
+        messagedataBuilder.setDataType(SceneModel.SceneModelMessage.DateType.RoleResponse);
+        SceneModel.RoleResponse.Builder roleResponseBuilder = SceneModel.RoleResponse.newBuilder();
+        List<SceneModel.RoleDTO> roleDTOS = new ArrayList<>();
+        for (Role m : roles) {
+            SceneModel.RoleDTO.Builder msr = SceneModel.RoleDTO.newBuilder().setId(m.getId())
+                    .setName(m.getName())
+                    .setOnStatus(m.getOnStatus())
+                    .setStatus(m.getStatus())
+                    .setType(m.getType())
+                    .setBlood(m.getHp())
+                    .setNowBlood(m.getNowHp())
+                    .setMp(m.getMp())
+                    .setTeamId(m.getTeamId() == null ? -1 : m.getTeamId())
+                    .setNowMp(m.getNowMp())
+                    .setAttack(m.getAttack())
+                    .setAttackAdd(m.getDamageAdd());
+            if (m.getType().equals(RoleTypeCode.PLAYER.getCode())) {
+                MmoSimpleRole mmoSimpleRole1 = (MmoSimpleRole) m;
+                msr.setProfessionId(mmoSimpleRole1.getProfessionId());
+            }
+            roleDTOS.add(msr.build());
+        }
+        roleResponseBuilder.addAllRoleDtos(roleDTOS);
+        messagedataBuilder.setRoleResponse(roleResponseBuilder.build());
+        byte[] data2 = messagedataBuilder.build().toByteArray();
+        NettyResponse nettyResponse = new NettyResponse();
+        nettyResponse.setCmd(ConstantValue.FIND_ALL_ROLES_RESPONSE);
+        nettyResponse.setStateCode(200);
+        nettyResponse.setData(data2);
+        return;
+    }
 }

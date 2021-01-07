@@ -8,13 +8,13 @@ message SceneModelMessage{
     AskCanRequest=0;//在proto3 要求enum的编号从0开始
     FindAllRolesRequest=1;
     WentRequest=2;
-    WhereRequest=3;
-    AskCanResponse=4;
-    FindAllRolesResponse=5;
-    WentResponse=6;
-    WhereResponse=7;
-    TalkNPCRequest=8;
-    TalkNPCResponse=9;
+    AskCanResponse=3;
+    FindAllRolesResponse=4;
+    WentResponse=5;
+    WhereResponse=6;
+    TalkNPCRequest=7;
+    TalkNPCResponse=8;
+    RoleResponse=9;
   }
   //用date_type来标识传的是哪一个枚举类型
   DateType data_type=1;
@@ -28,8 +28,13 @@ message SceneModelMessage{
     WentResponse wentResponse=7;
     TalkNPCRequest talkNPCRequest=8;
     TalkNPCResponse talkNPCResponse=9;
+    RoleResponse roleResponse=10;
   }
 }
+message RoleResponse{
+  repeated RoleDTO roleDtos=1;
+}
+
 message AskCanRequest{
   int32  sceneId=1;
 }

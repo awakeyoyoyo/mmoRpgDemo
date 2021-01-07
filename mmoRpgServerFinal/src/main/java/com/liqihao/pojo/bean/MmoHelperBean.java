@@ -16,7 +16,6 @@ import io.netty.channel.Channel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
@@ -24,82 +23,58 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
- * boss bean
+ * 召唤兽实体类
  * @author lqhao
  */
-public class BossBean extends Role{
-    private String skillIds;
-    private String medicines;
-    private String equipmentIds;
-    private Integer money;
+public class MmoHelperBean extends Role{
     /**
-     * 仇恨
+     * 锁
      */
-    private ConcurrentHashMap<Role,Integer> hatredMap;
-    /**
-     * 技能&cd
-     */
-    private List<SkillBean> skillBeans;
-    private HashMap<Integer, Long> cdMap;
-    private Integer BossBeanId;
     public final ReentrantReadWriteLock hpRwLock = new ReentrantReadWriteLock();
     public final ReentrantReadWriteLock mpRwLock = new ReentrantReadWriteLock();
-    private Integer copySceneBeanId;
+    /**
+     * 主人id
+     */
+    Integer masterId;
+    /**
+     * 技能id
+     */
+    private List<Integer> skillIdList;
+    /**
+     * 技能实体bean
+     */
+    private List<SkillBean> skillBeans;
+    /**
+     * 攻击目标
+     */
+    private Role target;
+    /**
+     * CD Map
+     */
+    private volatile HashMap<Integer, Long> cdMap=new HashMap<>();
 
-    @Override
-    public Integer getCopySceneBeanId() {
-        return copySceneBeanId;
-    }
-
-    @Override
-    public void setCopySceneBeanId(Integer copySceneBeanId) {
-        this.copySceneBeanId = copySceneBeanId;
-    }
-
-    public Integer getMoney() {
-        return money;
-    }
-    public void setMoney(Integer money) {
-        this.money = money;
-    }
-    public String getSkillIds() {
-        return skillIds;
-    }
-
-    public void setSkillIds(String skillIds) {
-        this.skillIds = skillIds;
-    }
-
-    public String getMedicines() {
-        return medicines;
+    public Role getTarget() {
+        return target;
     }
 
-    public void setMedicines(String medicines) {
-        this.medicines = medicines;
+    public void setTarget(Role target) {
+        this.target = target;
     }
 
-    public String getEquipmentIds() {
-        return equipmentIds;
+    public Integer getMasterId() {
+        return masterId;
     }
 
-    public void setEquipmentIds(String equipmentIds) {
-        this.equipmentIds = equipmentIds;
+    public void setMasterId(Integer masterId) {
+        this.masterId = masterId;
     }
 
-    public Integer getBossBeanId() {
-        return BossBeanId;
+    public List<Integer> getSkillIdList() {
+        return skillIdList;
     }
 
-    public void setBossBeanId(Integer bossBeanId) {
-        BossBeanId = bossBeanId;
-    }
-
-    public ConcurrentHashMap<Role, Integer> getHatredMap() {
-        return hatredMap;
-    }
-
-    public void setHatredMap(ConcurrentHashMap<Role, Integer> hatredMap) {
-        this.hatredMap = hatredMap;
+    public void setSkillIdList(List<Integer> skillIdList) {
+        this.skillIdList = skillIdList;
     }
 
     public List<SkillBean> getSkillBeans() {
@@ -119,14 +94,18 @@ public class BossBean extends Role{
     }
 
 
-
+    /**
+     * 被攻击
+     * @param skillBean
+     * @param fromRole
+     */
     @Override
-    public void beAttack(SkillBean skillBean,Role fromRole) {
-        BossBean bossBean=this;
+    public void beAttack(SkillBean skillBean, Role fromRole) {
+        MmoHelperBean mmoHelperBean=this;
         Integer reduce = 0;
         try {
             hpRwLock.writeLock().lock();
-            Integer hp = bossBean.getNowHp();
+            Integer hp = mmoHelperBean.getNowHp();
             if (skillBean.getSkillType().equals(SkillTypeCode.FIX.getCode())) {
                 //固伤 只有技能伤害
                 reduce = (int) Math.ceil(skillBean.getBaseDamage() * (1 + fromRole.getDamageAdd()));
@@ -142,31 +121,36 @@ public class BossBean extends Role{
             if (hp <= 0) {
                 reduce = reduce + hp;
                 hp = 0;
-                bossBean.setStatus(RoleStatusCode.DIE.getCode());
-                // 挑战成功
-                CopySceneBean copySceneBean=CopySceneProvider.getCopySceneBeanById(copySceneBeanId);
-                copySceneBean.bossComeOrFinish();
+                mmoHelperBean.setStatus(RoleStatusCode.DIE.getCode());
+                //消失
+                MmoSimpleRole role=OnlineRoleMessageCache.getInstance().get(getMasterId());
+                role.setMmoHelperBean(null);
+                if (mmoHelperBean.getMmoSceneId()!=null){
+                    SceneBean sceneBean=SceneBeanMessageCache.getInstance().get(mmoHelperBean.getMmoSceneId());
+                    sceneBean.getHelperBeans().remove(mmoHelperBean);
+                }
+                if (mmoHelperBean.getCopySceneBeanId()!=null){
+                    CopySceneProvider.getCopySceneBeanById(mmoHelperBean.getCopySceneBeanId()).getRoles().remove(mmoHelperBean);
+                }
             }
-            bossBean.setNowHp(hp);
+            mmoHelperBean.setNowHp(hp);
         }finally {
             hpRwLock.writeLock().unlock();
         }
-        //增加仇恨
-        addHatred(fromRole,reduce);
         // 扣血伤害
         PlayModel.RoleIdDamage.Builder damageR = PlayModel.RoleIdDamage.newBuilder();
         damageR.setFromRoleId(fromRole.getId());
         damageR.setFromRoleType(fromRole.getType());
-        damageR.setToRoleId(bossBean.getId());
+        damageR.setToRoleId(mmoHelperBean.getId());
         damageR.setToRoleType(getType());
         damageR.setAttackStyle(AttackStyleCode.ATTACK.getCode());
         damageR.setBufferId(-1);
         damageR.setDamage(reduce);
         damageR.setDamageType(DamageTypeCode.HP.getCode());
-        damageR.setMp(bossBean.getNowMp());
-        damageR.setNowblood(bossBean.getNowHp());
+        damageR.setMp(mmoHelperBean.getNowMp());
+        damageR.setNowblood(mmoHelperBean.getNowHp());
         damageR.setSkillId(skillBean.getId());
-        damageR.setState(bossBean.getStatus());
+        damageR.setState(mmoHelperBean.getStatus());
         PlayModel.PlayModelMessage.Builder myMessageBuilder=PlayModel.PlayModelMessage.newBuilder();
         myMessageBuilder.setDataType(PlayModel.PlayModelMessage.DateType.DamagesNoticeResponse);
         PlayModel.DamagesNoticeResponse.Builder damagesBuilder=PlayModel.DamagesNoticeResponse.newBuilder();
@@ -179,7 +163,7 @@ public class BossBean extends Role{
         //广播给所有当前场景
         List<Integer> players;
         if (getMmoSceneId()!=null) {
-            players = SceneBeanMessageCache.getInstance().get(this.getMmoSceneId()).getRoles();
+            players = SceneBeanMessageCache.getInstance().get(getMmoSceneId()).getRoles();
             for (Integer playerId:players){
                 Channel c= ChannelMessageCache.getInstance().get(playerId);
                 if (c!=null){
@@ -198,29 +182,131 @@ public class BossBean extends Role{
                 }
             }
         }
-        //怪物攻击本人
-        if (!bossBean.getStatus().equals(RoleStatusCode.DIE.getCode())) {
-            bossBean.bossAttack();
-        }
+        //召唤兽
     }
 
-    public void bossAttack() {
-        synchronized (this) {
-            ScheduledFuture<?> t = ScheduledThreadPoolUtil.getNpcTaskMap().get(getId());
+    /**
+     * 攻击
+     * @param role
+     */
+    public void npcAttack(Role role) {
+        ScheduledFuture<?> t = ScheduledThreadPoolUtil.getHelperTaskMap().get(getId());
+        if (getTarget() != null) {
             if (t != null) {
-                //代表着该npc已经启动攻击线程
-                return;
-            } else {
-                CopySceneBean copySceneBean = CopySceneProvider.getCopySceneBeanById(getCopySceneBeanId());
-                ScheduledThreadPoolUtil.BossAttackTask bossAttackTask = new ScheduledThreadPoolUtil.BossAttackTask(this, copySceneBean, getSkillBeans());
-                t = ScheduledThreadPoolUtil.getScheduledExecutorService().scheduleAtFixedRate(bossAttackTask, 0, 5, TimeUnit.SECONDS);
-                ScheduledThreadPoolUtil.getNpcTaskMap().put(getId(), t);
+                //代表着该npc正在攻击一个目标
+                if (role != getTarget()) {
+                    //与npc攻击的不是同一个目标 则切换
+                    ScheduledThreadPoolUtil.getHelperTaskMap().remove(getId());
+                    t.cancel(false);
+                    ScheduledThreadPoolUtil.HeplerAttackTask helperAttackTask =
+                            new ScheduledThreadPoolUtil.HeplerAttackTask(this, getSkillBeans(), role);
+                    t = ScheduledThreadPoolUtil.getScheduledExecutorService().scheduleAtFixedRate(helperAttackTask, 0, 6, TimeUnit.SECONDS);
+                    ScheduledThreadPoolUtil.getHelperTaskMap().put(getId(), t);
+                    setTarget(role);
+                    return;
+                } else {
+                    //相同则无需操作 跳过
+                    return;
+                }
+            }
+        }
+        setTarget(role);
+        ScheduledThreadPoolUtil.HeplerAttackTask helperAttackTask =
+                new ScheduledThreadPoolUtil.HeplerAttackTask(this, getSkillBeans(), role);
+        t = ScheduledThreadPoolUtil.getScheduledExecutorService().scheduleAtFixedRate(helperAttackTask, 0, 6, TimeUnit.SECONDS);
+        ScheduledThreadPoolUtil.getHelperTaskMap().put(getId(), t);
+    }
+
+    /**
+     * 使用技能
+     * @param targetRoles
+     * @param id
+     */
+    public void useSkill(List<Role> targetRoles, Integer id) {
+        SkillBean skillBean = getSkillBeanBySkillId(id);
+
+        if (skillBean.getConsumeType().equals(ConsumeTypeCode.HP.getCode())) {
+            //扣血
+            setNowHp(getNowHp() - skillBean.getConsumeNum());
+        } else {
+            //扣篮
+            setNowMp(getNowMp() - skillBean.getConsumeNum());
+        }
+        List<PlayModel.RoleIdDamage> list = new ArrayList<>();
+        // 生成一个角色扣血或者扣篮
+        PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();
+        damageU.setFromRoleId(getId());
+        damageU.setToRoleId(getId());
+        damageU.setToRoleType(RoleTypeCode.BOSS.getCode());
+        damageU.setFromRoleType(RoleTypeCode.BOSS.getCode());
+        damageU.setArticleId(-1);
+        damageU.setArticleType(-1);
+        damageU.setAttackStyle(AttackStyleCode.USE_SKILL.getCode());
+        damageU.setBufferId(-1);
+        damageU.setDamage(skillBean.getConsumeNum());
+        damageU.setDamageType(skillBean.getConsumeType());
+        damageU.setMp(getNowMp());
+        damageU.setNowblood(getNowHp());
+        damageU.setSkillId(skillBean.getId());
+        damageU.setState(getStatus());
+        list.add(damageU.build());
+        PlayModel.PlayModelMessage.Builder myMessageBuilder=PlayModel.PlayModelMessage.newBuilder();
+        myMessageBuilder.setDataType(PlayModel.PlayModelMessage.DateType.UseSkillResponse);
+        PlayModel.UseSkillResponse.Builder useSkillBuilder=PlayModel.UseSkillResponse.newBuilder();
+        useSkillBuilder.addAllRoleIdDamages(list);
+        myMessageBuilder.setUseSkillResponse(useSkillBuilder.build());
+        NettyResponse nettyResponse=new NettyResponse();
+        nettyResponse.setCmd(ConstantValue.USE_SKILL_RSPONSE);
+        nettyResponse.setStateCode(StateCode.SUCCESS);
+        nettyResponse.setData(myMessageBuilder.build().toByteArray());
+        //广播
+        List<Integer> players;
+        if (getMmoSceneId()!=null) {
+            players = SceneBeanMessageCache.getInstance().get(getMmoSceneId()).getRoles();
+            for (Integer playerId:players){
+                Channel c= ChannelMessageCache.getInstance().get(playerId);
+                if (c!=null){
+                    c.writeAndFlush(nettyResponse);
+                }
+            }
+
+        }else{
+            List<Role> roles = CopySceneProvider.getCopySceneBeanById(getCopySceneBeanId()).getRoles();
+            for (Role role:roles) {
+                if (role.getType().equals(RoleTypeCode.PLAYER.getCode())){
+                    Channel c= ChannelMessageCache.getInstance().get(role.getId());
+                    if (c!=null){
+                        c.writeAndFlush(nettyResponse);
+                    }
+                }
+            }
+        }
+
+        //  被攻击怪物or人物orBoss
+        for (Role r :targetRoles) {
+            r.beAttack(skillBean,this);
+            //buffer
+            for (Integer bufferId:skillBean.getBufferIds()) {
+                BufferMessage bufferMessage= BufferMessageCache.getInstance().get(bufferId);
+                skillBean.bufferToPeople(bufferMessage, this,r);
             }
         }
     }
-
-
+    /**
+     * 根据skillI获取技能
+     */
+    public SkillBean getSkillBeanBySkillId(Integer skillId) {
+        for (SkillBean b : getSkillBeans()) {
+            if (b.getId().equals(skillId)) {
+                return b;
+            }
+        }
+        return null;
+    }
     @Override
+    /**
+     * BUFFER的影响
+     */
     public void effectByBuffer(BufferBean bufferBean) {
         //根据buffer类型扣血扣蓝
         if (bufferBean.getBuffType().equals(BufferTypeCode.REDUCE_HP.getCode())) {
@@ -230,6 +316,16 @@ public class BossBean extends Role{
                 if (hp <= 0) {
                     hp = 0;
                     setStatus(RoleStatusCode.DIE.getCode());
+                    //消失
+                    MmoSimpleRole role=OnlineRoleMessageCache.getInstance().get(getMasterId());
+                    role.setMmoHelperBean(null);
+                    if (getMmoSceneId()!=null){
+                        SceneBean sceneBean=SceneBeanMessageCache.getInstance().get(getMmoSceneId());
+                        sceneBean.getHelperBeans().remove(this);
+                    }
+                    if (getCopySceneBeanId()!=null){
+                        CopySceneProvider.getCopySceneBeanById(getCopySceneBeanId()).getRoles().remove(this);
+                    }
                 }
                 setNowHp(hp);
             } finally {
@@ -330,142 +426,4 @@ public class BossBean extends Role{
         }
 
     }
-
-    public Role getTarget() {
-        synchronized (hatredMap) {
-            ConcurrentHashMap<Role, Integer> hatredMap = getHatredMap();
-            //判断是否有嘲讽buffer,则直接攻击嘲讽对象
-            Iterator<BufferBean> buffers=getBufferBeans().iterator();
-            while(buffers.hasNext()){
-                BufferBean bufferBean=buffers.next();
-               if (bufferBean.getBuffType().equals(BufferTypeCode.GG_ATTACK.getCode())){
-                   Role role= OnlineRoleMessageCache.getInstance().get(bufferBean.getFromRoleId());
-                   return role;
-               }
-            }
-            if (hatredMap.size() > 0) {
-                Role target = null;
-                Integer max = 0;
-                for (Role role : hatredMap.keySet()) {
-                    if (role.getStatus().equals(RoleStatusCode.DIE.getCode())) {
-                        //如果以及死了就消除仇恨了
-                        removeHatred(role);
-                        continue;
-                    }
-                    if (hatredMap.get(role) > max) {
-                        target = role;
-                        max = hatredMap.get(role);
-                    }
-                }
-                return target;
-            } else {
-                return null;
-            }
-        }
-    }
-    public void addHatred(Role role,Integer number){
-        synchronized (hatredMap) {
-            ConcurrentHashMap<Role, Integer> hatredMap = getHatredMap();
-            if (hatredMap.containsKey(role)) {
-                Integer hart = hatredMap.get(role);
-                hart += number;
-                hatredMap.put(role, hart);
-            } else {
-                hatredMap.put(role, number);
-            }
-        }
-    }
-    //消除仇恨
-    public void removeHatred(Role role){
-        if (getHatredMap().containsKey(role)){
-            getHatredMap().remove(role);
-        }
-    }
-    //根据skillI获取技能
-    public SkillBean getSkillBeanBySkillId(Integer skillId) {
-        for (SkillBean b : getSkillBeans()) {
-            if (b.getId().equals(skillId)) {
-                return b;
-            }
-        }
-        return null;
-    }
-    //使用技能
-    public  void useSkill(List<Role> target, Integer skillId) {
-        SkillBean skillBean = getSkillBeanBySkillId(skillId);
-
-        if (skillBean.getConsumeType().equals(ConsumeTypeCode.HP.getCode())) {
-            //扣血
-            setNowHp(getNowHp() - skillBean.getConsumeNum());
-        } else {
-            //扣篮
-            setNowMp(getNowMp() - skillBean.getConsumeNum());
-        }
-        List<PlayModel.RoleIdDamage> list = new ArrayList<>();
-        // 生成一个角色扣血或者扣篮
-        PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();
-        damageU.setFromRoleId(getId());
-        damageU.setToRoleId(getId());
-        damageU.setToRoleType(RoleTypeCode.BOSS.getCode());
-        damageU.setFromRoleType(RoleTypeCode.BOSS.getCode());
-        damageU.setArticleId(-1);
-        damageU.setArticleType(-1);
-        damageU.setAttackStyle(AttackStyleCode.USE_SKILL.getCode());
-        damageU.setBufferId(-1);
-        damageU.setDamage(skillBean.getConsumeNum());
-        damageU.setDamageType(skillBean.getConsumeType());
-        damageU.setMp(getNowMp());
-        damageU.setNowblood(getNowHp());
-        damageU.setSkillId(skillBean.getId());
-        damageU.setState(getStatus());
-        list.add(damageU.build());
-        PlayModel.PlayModelMessage.Builder myMessageBuilder=PlayModel.PlayModelMessage.newBuilder();
-        myMessageBuilder.setDataType(PlayModel.PlayModelMessage.DateType.UseSkillResponse);
-        PlayModel.UseSkillResponse.Builder useSkillBuilder=PlayModel.UseSkillResponse.newBuilder();
-        useSkillBuilder.addAllRoleIdDamages(list);
-        myMessageBuilder.setUseSkillResponse(useSkillBuilder.build());
-        NettyResponse nettyResponse=new NettyResponse();
-        nettyResponse.setCmd(ConstantValue.USE_SKILL_RSPONSE);
-        nettyResponse.setStateCode(StateCode.SUCCESS);
-        nettyResponse.setData(myMessageBuilder.build().toByteArray());
-        //广播
-        List<Integer> players;
-        if (getMmoSceneId()!=null) {
-            players = SceneBeanMessageCache.getInstance().get(getMmoSceneId()).getRoles();
-            for (Integer playerId:players){
-                Channel c= ChannelMessageCache.getInstance().get(playerId);
-                if (c!=null){
-                    c.writeAndFlush(nettyResponse);
-                }
-            }
-
-        }else{
-            List<Role> roles = CopySceneProvider.getCopySceneBeanById(getCopySceneBeanId()).getRoles();
-            for (Role role:roles) {
-                if (role.getType().equals(RoleTypeCode.PLAYER.getCode())){
-                    Channel c= ChannelMessageCache.getInstance().get(role.getId());
-                    if (c!=null){
-                        c.writeAndFlush(nettyResponse);
-                    }
-                }
-            }
-        }
-
-        //  被攻击怪物or人物orBoss
-        for (Role r :target) {
-            r.beAttack(skillBean,this);
-            //buffer
-            for (Integer bufferId:skillBean.getBufferIds()) {
-                BufferMessage bufferMessage= BufferMessageCache.getInstance().get(bufferId);
-                skillBean.bufferToPeople(bufferMessage, this,r);
-            }
-        }
-//        //cd
-//        Map<Integer, Long> map = getCdMap();
-//        Long time = System.currentTimeMillis();
-//        int addTime = skillBean.getCd() * 1000;
-//        map.put(skillBean.getId(), time + addTime);
-        //buffer
-    }
-
 }

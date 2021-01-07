@@ -115,8 +115,8 @@ public class SkillBean {
             Integer count=bufferBean.getLastTime()/bufferBean.getSpaceTime();
             ScheduledThreadPoolUtil.BufferTask bufferTask = new ScheduledThreadPoolUtil.BufferTask(bufferBean, count, toRole);
             //查看是否已经有了该buffer 有则覆盖无则直接加入
-            Integer key = Integer.parseInt(toRole.getId().toString() + bufferBean.getId().toString());
-            ConcurrentHashMap<Integer, ScheduledFuture<?>> bufferRole = ScheduledThreadPoolUtil.getBufferRole();
+            String key = toRole.getId().toString() + bufferBean.getId().toString()+toRole.getName()+fromRole.getName();
+            ConcurrentHashMap<String, ScheduledFuture<?>> bufferRole = ScheduledThreadPoolUtil.getBufferRole();
             if (bufferRole.containsKey(key)) {
                 bufferRole.get(key).cancel(false);
             }
@@ -126,8 +126,8 @@ public class SkillBean {
             //持续生效
             ScheduledThreadPoolUtil.BufferTask bufferTask = new ScheduledThreadPoolUtil.BufferTask(bufferBean, 1, toRole);
             //用该嘲讽buffer id 作为主键，目的是让其每次都会覆盖就得嘲讽buffer
-            Integer key = Integer.parseInt(bufferBean.getId().toString());
-            ConcurrentHashMap<Integer, ScheduledFuture<?>> bufferRole = ScheduledThreadPoolUtil.getBufferRole();
+            String key = toRole.getId().toString() + bufferBean.getId().toString()+toRole.getName()+fromRole.getName();
+            ConcurrentHashMap<String, ScheduledFuture<?>> bufferRole = ScheduledThreadPoolUtil.getBufferRole();
             if (bufferRole.containsKey(key)) {
                 bufferRole.get(key).cancel(false);
             }

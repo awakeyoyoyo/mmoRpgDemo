@@ -18,6 +18,9 @@ public interface ConstantValue {
      * 场景模块
      */
      String SCENE_MODULE="sceneServiceImpl";
+
+
+
     /**
      *请求可以前往的场景
      */
@@ -51,6 +54,12 @@ public interface ConstantValue {
      *与npc对话响应
      */
     int TALK_NPC_RESPONSE=1503;
+
+    /**
+     * 场景出现新角色响应
+     */
+    int ROLE_RESPONSE=1504;
+
     /**
      *   玩家模块
      */

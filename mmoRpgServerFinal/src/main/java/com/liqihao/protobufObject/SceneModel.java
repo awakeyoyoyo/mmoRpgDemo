@@ -155,6 +155,21 @@ public final class SceneModel {
      */
     TalkNPCResponseOrBuilder getTalkNPCResponseOrBuilder();
 
+    /**
+     * <code>.RoleResponse roleResponse = 10;</code>
+     * @return Whether the roleResponse field is set.
+     */
+    boolean hasRoleResponse();
+    /**
+     * <code>.RoleResponse roleResponse = 10;</code>
+     * @return The roleResponse.
+     */
+    RoleResponse getRoleResponse();
+    /**
+     * <code>.RoleResponse roleResponse = 10;</code>
+     */
+    RoleResponseOrBuilder getRoleResponseOrBuilder();
+
     public SceneModelMessage.DateBodyCase getDateBodyCase();
   }
   /**
@@ -325,6 +340,20 @@ public final class SceneModel {
               dateBodyCase_ = 9;
               break;
             }
+            case 82: {
+              RoleResponse.Builder subBuilder = null;
+              if (dateBodyCase_ == 10) {
+                subBuilder = ((RoleResponse) dateBody_).toBuilder();
+              }
+              dateBody_ =
+                  input.readMessage(RoleResponse.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((RoleResponse) dateBody_);
+                dateBody_ = subBuilder.buildPartial();
+              }
+              dateBodyCase_ = 10;
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -383,33 +412,33 @@ public final class SceneModel {
        */
       WentRequest(2),
       /**
-       * <code>WhereRequest = 3;</code>
+       * <code>AskCanResponse = 3;</code>
        */
-      WhereRequest(3),
+      AskCanResponse(3),
       /**
-       * <code>AskCanResponse = 4;</code>
+       * <code>FindAllRolesResponse = 4;</code>
        */
-      AskCanResponse(4),
+      FindAllRolesResponse(4),
       /**
-       * <code>FindAllRolesResponse = 5;</code>
+       * <code>WentResponse = 5;</code>
        */
-      FindAllRolesResponse(5),
+      WentResponse(5),
       /**
-       * <code>WentResponse = 6;</code>
+       * <code>WhereResponse = 6;</code>
        */
-      WentResponse(6),
+      WhereResponse(6),
       /**
-       * <code>WhereResponse = 7;</code>
+       * <code>TalkNPCRequest = 7;</code>
        */
-      WhereResponse(7),
+      TalkNPCRequest(7),
       /**
-       * <code>TalkNPCRequest = 8;</code>
+       * <code>TalkNPCResponse = 8;</code>
        */
-      TalkNPCRequest(8),
+      TalkNPCResponse(8),
       /**
-       * <code>TalkNPCResponse = 9;</code>
+       * <code>RoleResponse = 9;</code>
        */
-      TalkNPCResponse(9),
+      RoleResponse(9),
       UNRECOGNIZED(-1),
       ;
 
@@ -430,33 +459,33 @@ public final class SceneModel {
        */
       public static final int WentRequest_VALUE = 2;
       /**
-       * <code>WhereRequest = 3;</code>
+       * <code>AskCanResponse = 3;</code>
        */
-      public static final int WhereRequest_VALUE = 3;
+      public static final int AskCanResponse_VALUE = 3;
       /**
-       * <code>AskCanResponse = 4;</code>
+       * <code>FindAllRolesResponse = 4;</code>
        */
-      public static final int AskCanResponse_VALUE = 4;
+      public static final int FindAllRolesResponse_VALUE = 4;
       /**
-       * <code>FindAllRolesResponse = 5;</code>
+       * <code>WentResponse = 5;</code>
        */
-      public static final int FindAllRolesResponse_VALUE = 5;
+      public static final int WentResponse_VALUE = 5;
       /**
-       * <code>WentResponse = 6;</code>
+       * <code>WhereResponse = 6;</code>
        */
-      public static final int WentResponse_VALUE = 6;
+      public static final int WhereResponse_VALUE = 6;
       /**
-       * <code>WhereResponse = 7;</code>
+       * <code>TalkNPCRequest = 7;</code>
        */
-      public static final int WhereResponse_VALUE = 7;
+      public static final int TalkNPCRequest_VALUE = 7;
       /**
-       * <code>TalkNPCRequest = 8;</code>
+       * <code>TalkNPCResponse = 8;</code>
        */
-      public static final int TalkNPCRequest_VALUE = 8;
+      public static final int TalkNPCResponse_VALUE = 8;
       /**
-       * <code>TalkNPCResponse = 9;</code>
+       * <code>RoleResponse = 9;</code>
        */
-      public static final int TalkNPCResponse_VALUE = 9;
+      public static final int RoleResponse_VALUE = 9;
 
 
       public final int getNumber() {
@@ -486,13 +515,13 @@ public final class SceneModel {
           case 0: return AskCanRequest;
           case 1: return FindAllRolesRequest;
           case 2: return WentRequest;
-          case 3: return WhereRequest;
-          case 4: return AskCanResponse;
-          case 5: return FindAllRolesResponse;
-          case 6: return WentResponse;
-          case 7: return WhereResponse;
-          case 8: return TalkNPCRequest;
-          case 9: return TalkNPCResponse;
+          case 3: return AskCanResponse;
+          case 4: return FindAllRolesResponse;
+          case 5: return WentResponse;
+          case 6: return WhereResponse;
+          case 7: return TalkNPCRequest;
+          case 8: return TalkNPCResponse;
+          case 9: return RoleResponse;
           default: return null;
         }
       }
@@ -562,6 +591,7 @@ public final class SceneModel {
       WENTRESPONSE(7),
       TALKNPCREQUEST(8),
       TALKNPCRESPONSE(9),
+      ROLERESPONSE(10),
       DATEBODY_NOT_SET(0);
       private final int value;
       private DateBodyCase(int value) {
@@ -587,6 +617,7 @@ public final class SceneModel {
           case 7: return WENTRESPONSE;
           case 8: return TALKNPCREQUEST;
           case 9: return TALKNPCRESPONSE;
+          case 10: return ROLERESPONSE;
           case 0: return DATEBODY_NOT_SET;
           default: return null;
         }
@@ -877,6 +908,37 @@ public final class SceneModel {
       return TalkNPCResponse.getDefaultInstance();
     }
 
+    public static final int ROLERESPONSE_FIELD_NUMBER = 10;
+    /**
+     * <code>.RoleResponse roleResponse = 10;</code>
+     * @return Whether the roleResponse field is set.
+     */
+    @Override
+    public boolean hasRoleResponse() {
+      return dateBodyCase_ == 10;
+    }
+    /**
+     * <code>.RoleResponse roleResponse = 10;</code>
+     * @return The roleResponse.
+     */
+    @Override
+    public RoleResponse getRoleResponse() {
+      if (dateBodyCase_ == 10) {
+         return (RoleResponse) dateBody_;
+      }
+      return RoleResponse.getDefaultInstance();
+    }
+    /**
+     * <code>.RoleResponse roleResponse = 10;</code>
+     */
+    @Override
+    public RoleResponseOrBuilder getRoleResponseOrBuilder() {
+      if (dateBodyCase_ == 10) {
+         return (RoleResponse) dateBody_;
+      }
+      return RoleResponse.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -917,6 +979,9 @@ public final class SceneModel {
       }
       if (dateBodyCase_ == 9) {
         output.writeMessage(9, (TalkNPCResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 10) {
+        output.writeMessage(10, (RoleResponse) dateBody_);
       }
       unknownFields.writeTo(output);
     }
@@ -962,6 +1027,10 @@ public final class SceneModel {
       if (dateBodyCase_ == 9) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(9, (TalkNPCResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 10) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(10, (RoleResponse) dateBody_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1013,6 +1082,10 @@ public final class SceneModel {
           if (!getTalkNPCResponse()
               .equals(other.getTalkNPCResponse())) return false;
           break;
+        case 10:
+          if (!getRoleResponse()
+              .equals(other.getRoleResponse())) return false;
+          break;
         case 0:
         default:
       }
@@ -1061,6 +1134,10 @@ public final class SceneModel {
         case 9:
           hash = (37 * hash) + TALKNPCRESPONSE_FIELD_NUMBER;
           hash = (53 * hash) + getTalkNPCResponse().hashCode();
+          break;
+        case 10:
+          hash = (37 * hash) + ROLERESPONSE_FIELD_NUMBER;
+          hash = (53 * hash) + getRoleResponse().hashCode();
           break;
         case 0:
         default:
@@ -1289,6 +1366,13 @@ public final class SceneModel {
             result.dateBody_ = talkNPCResponseBuilder_.build();
           }
         }
+        if (dateBodyCase_ == 10) {
+          if (roleResponseBuilder_ == null) {
+            result.dateBody_ = dateBody_;
+          } else {
+            result.dateBody_ = roleResponseBuilder_.build();
+          }
+        }
         result.dateBodyCase_ = dateBodyCase_;
         onBuilt();
         return result;
@@ -1372,6 +1456,10 @@ public final class SceneModel {
           }
           case TALKNPCRESPONSE: {
             mergeTalkNPCResponse(other.getTalkNPCResponse());
+            break;
+          }
+          case ROLERESPONSE: {
+            mergeRoleResponse(other.getRoleResponse());
             break;
           }
           case DATEBODY_NOT_SET: {
@@ -2623,6 +2711,147 @@ public final class SceneModel {
         onChanged();;
         return talkNPCResponseBuilder_;
       }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          RoleResponse, RoleResponse.Builder, RoleResponseOrBuilder> roleResponseBuilder_;
+      /**
+       * <code>.RoleResponse roleResponse = 10;</code>
+       * @return Whether the roleResponse field is set.
+       */
+      @Override
+      public boolean hasRoleResponse() {
+        return dateBodyCase_ == 10;
+      }
+      /**
+       * <code>.RoleResponse roleResponse = 10;</code>
+       * @return The roleResponse.
+       */
+      @Override
+      public RoleResponse getRoleResponse() {
+        if (roleResponseBuilder_ == null) {
+          if (dateBodyCase_ == 10) {
+            return (RoleResponse) dateBody_;
+          }
+          return RoleResponse.getDefaultInstance();
+        } else {
+          if (dateBodyCase_ == 10) {
+            return roleResponseBuilder_.getMessage();
+          }
+          return RoleResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.RoleResponse roleResponse = 10;</code>
+       */
+      public Builder setRoleResponse(RoleResponse value) {
+        if (roleResponseBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dateBody_ = value;
+          onChanged();
+        } else {
+          roleResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 10;
+        return this;
+      }
+      /**
+       * <code>.RoleResponse roleResponse = 10;</code>
+       */
+      public Builder setRoleResponse(
+          RoleResponse.Builder builderForValue) {
+        if (roleResponseBuilder_ == null) {
+          dateBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          roleResponseBuilder_.setMessage(builderForValue.build());
+        }
+        dateBodyCase_ = 10;
+        return this;
+      }
+      /**
+       * <code>.RoleResponse roleResponse = 10;</code>
+       */
+      public Builder mergeRoleResponse(RoleResponse value) {
+        if (roleResponseBuilder_ == null) {
+          if (dateBodyCase_ == 10 &&
+              dateBody_ != RoleResponse.getDefaultInstance()) {
+            dateBody_ = RoleResponse.newBuilder((RoleResponse) dateBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dateBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dateBodyCase_ == 10) {
+            roleResponseBuilder_.mergeFrom(value);
+          }
+          roleResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 10;
+        return this;
+      }
+      /**
+       * <code>.RoleResponse roleResponse = 10;</code>
+       */
+      public Builder clearRoleResponse() {
+        if (roleResponseBuilder_ == null) {
+          if (dateBodyCase_ == 10) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dateBodyCase_ == 10) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+          }
+          roleResponseBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.RoleResponse roleResponse = 10;</code>
+       */
+      public RoleResponse.Builder getRoleResponseBuilder() {
+        return getRoleResponseFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.RoleResponse roleResponse = 10;</code>
+       */
+      @Override
+      public RoleResponseOrBuilder getRoleResponseOrBuilder() {
+        if ((dateBodyCase_ == 10) && (roleResponseBuilder_ != null)) {
+          return roleResponseBuilder_.getMessageOrBuilder();
+        } else {
+          if (dateBodyCase_ == 10) {
+            return (RoleResponse) dateBody_;
+          }
+          return RoleResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.RoleResponse roleResponse = 10;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          RoleResponse, RoleResponse.Builder, RoleResponseOrBuilder>
+          getRoleResponseFieldBuilder() {
+        if (roleResponseBuilder_ == null) {
+          if (!(dateBodyCase_ == 10)) {
+            dateBody_ = RoleResponse.getDefaultInstance();
+          }
+          roleResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              RoleResponse, RoleResponse.Builder, RoleResponseOrBuilder>(
+                  (RoleResponse) dateBody_,
+                  getParentForChildren(),
+                  isClean());
+          dateBody_ = null;
+        }
+        dateBodyCase_ = 10;
+        onChanged();;
+        return roleResponseBuilder_;
+      }
       @Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -2671,6 +2900,799 @@ public final class SceneModel {
 
     @Override
     public SceneModelMessage getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface RoleResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:RoleResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>repeated .RoleDTO roleDtos = 1;</code>
+     */
+    java.util.List<RoleDTO>
+        getRoleDtosList();
+    /**
+     * <code>repeated .RoleDTO roleDtos = 1;</code>
+     */
+    RoleDTO getRoleDtos(int index);
+    /**
+     * <code>repeated .RoleDTO roleDtos = 1;</code>
+     */
+    int getRoleDtosCount();
+    /**
+     * <code>repeated .RoleDTO roleDtos = 1;</code>
+     */
+    java.util.List<? extends RoleDTOOrBuilder>
+        getRoleDtosOrBuilderList();
+    /**
+     * <code>repeated .RoleDTO roleDtos = 1;</code>
+     */
+    RoleDTOOrBuilder getRoleDtosOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code RoleResponse}
+   */
+  public static final class RoleResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:RoleResponse)
+      RoleResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use RoleResponse.newBuilder() to construct.
+    private RoleResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private RoleResponse() {
+      roleDtos_ = java.util.Collections.emptyList();
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new RoleResponse();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private RoleResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+                roleDtos_ = new java.util.ArrayList<RoleDTO>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              roleDtos_.add(
+                  input.readMessage(RoleDTO.parser(), extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+          roleDtos_ = java.util.Collections.unmodifiableList(roleDtos_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return SceneModel.internal_static_RoleResponse_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return SceneModel.internal_static_RoleResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              RoleResponse.class, Builder.class);
+    }
+
+    public static final int ROLEDTOS_FIELD_NUMBER = 1;
+    private java.util.List<RoleDTO> roleDtos_;
+    /**
+     * <code>repeated .RoleDTO roleDtos = 1;</code>
+     */
+    @Override
+    public java.util.List<RoleDTO> getRoleDtosList() {
+      return roleDtos_;
+    }
+    /**
+     * <code>repeated .RoleDTO roleDtos = 1;</code>
+     */
+    @Override
+    public java.util.List<? extends RoleDTOOrBuilder>
+        getRoleDtosOrBuilderList() {
+      return roleDtos_;
+    }
+    /**
+     * <code>repeated .RoleDTO roleDtos = 1;</code>
+     */
+    @Override
+    public int getRoleDtosCount() {
+      return roleDtos_.size();
+    }
+    /**
+     * <code>repeated .RoleDTO roleDtos = 1;</code>
+     */
+    @Override
+    public RoleDTO getRoleDtos(int index) {
+      return roleDtos_.get(index);
+    }
+    /**
+     * <code>repeated .RoleDTO roleDtos = 1;</code>
+     */
+    @Override
+    public RoleDTOOrBuilder getRoleDtosOrBuilder(
+        int index) {
+      return roleDtos_.get(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      for (int i = 0; i < roleDtos_.size(); i++) {
+        output.writeMessage(1, roleDtos_.get(i));
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < roleDtos_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, roleDtos_.get(i));
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof RoleResponse)) {
+        return super.equals(obj);
+      }
+      RoleResponse other = (RoleResponse) obj;
+
+      if (!getRoleDtosList()
+          .equals(other.getRoleDtosList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (getRoleDtosCount() > 0) {
+        hash = (37 * hash) + ROLEDTOS_FIELD_NUMBER;
+        hash = (53 * hash) + getRoleDtosList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static RoleResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static RoleResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static RoleResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static RoleResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static RoleResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static RoleResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static RoleResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static RoleResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static RoleResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static RoleResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static RoleResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static RoleResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(RoleResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code RoleResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:RoleResponse)
+        RoleResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return SceneModel.internal_static_RoleResponse_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return SceneModel.internal_static_RoleResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                RoleResponse.class, Builder.class);
+      }
+
+      // Construct using SceneModel.RoleResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getRoleDtosFieldBuilder();
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        if (roleDtosBuilder_ == null) {
+          roleDtos_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          roleDtosBuilder_.clear();
+        }
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return SceneModel.internal_static_RoleResponse_descriptor;
+      }
+
+      @Override
+      public RoleResponse getDefaultInstanceForType() {
+        return RoleResponse.getDefaultInstance();
+      }
+
+      @Override
+      public RoleResponse build() {
+        RoleResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public RoleResponse buildPartial() {
+        RoleResponse result = new RoleResponse(this);
+        int from_bitField0_ = bitField0_;
+        if (roleDtosBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) != 0)) {
+            roleDtos_ = java.util.Collections.unmodifiableList(roleDtos_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.roleDtos_ = roleDtos_;
+        } else {
+          result.roleDtos_ = roleDtosBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof RoleResponse) {
+          return mergeFrom((RoleResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(RoleResponse other) {
+        if (other == RoleResponse.getDefaultInstance()) return this;
+        if (roleDtosBuilder_ == null) {
+          if (!other.roleDtos_.isEmpty()) {
+            if (roleDtos_.isEmpty()) {
+              roleDtos_ = other.roleDtos_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureRoleDtosIsMutable();
+              roleDtos_.addAll(other.roleDtos_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.roleDtos_.isEmpty()) {
+            if (roleDtosBuilder_.isEmpty()) {
+              roleDtosBuilder_.dispose();
+              roleDtosBuilder_ = null;
+              roleDtos_ = other.roleDtos_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              roleDtosBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getRoleDtosFieldBuilder() : null;
+            } else {
+              roleDtosBuilder_.addAllMessages(other.roleDtos_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        RoleResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (RoleResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.util.List<RoleDTO> roleDtos_ =
+        java.util.Collections.emptyList();
+      private void ensureRoleDtosIsMutable() {
+        if (!((bitField0_ & 0x00000001) != 0)) {
+          roleDtos_ = new java.util.ArrayList<RoleDTO>(roleDtos_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          RoleDTO, RoleDTO.Builder, RoleDTOOrBuilder> roleDtosBuilder_;
+
+      /**
+       * <code>repeated .RoleDTO roleDtos = 1;</code>
+       */
+      public java.util.List<RoleDTO> getRoleDtosList() {
+        if (roleDtosBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(roleDtos_);
+        } else {
+          return roleDtosBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .RoleDTO roleDtos = 1;</code>
+       */
+      public int getRoleDtosCount() {
+        if (roleDtosBuilder_ == null) {
+          return roleDtos_.size();
+        } else {
+          return roleDtosBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .RoleDTO roleDtos = 1;</code>
+       */
+      public RoleDTO getRoleDtos(int index) {
+        if (roleDtosBuilder_ == null) {
+          return roleDtos_.get(index);
+        } else {
+          return roleDtosBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .RoleDTO roleDtos = 1;</code>
+       */
+      public Builder setRoleDtos(
+          int index, RoleDTO value) {
+        if (roleDtosBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRoleDtosIsMutable();
+          roleDtos_.set(index, value);
+          onChanged();
+        } else {
+          roleDtosBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .RoleDTO roleDtos = 1;</code>
+       */
+      public Builder setRoleDtos(
+          int index, RoleDTO.Builder builderForValue) {
+        if (roleDtosBuilder_ == null) {
+          ensureRoleDtosIsMutable();
+          roleDtos_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          roleDtosBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .RoleDTO roleDtos = 1;</code>
+       */
+      public Builder addRoleDtos(RoleDTO value) {
+        if (roleDtosBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRoleDtosIsMutable();
+          roleDtos_.add(value);
+          onChanged();
+        } else {
+          roleDtosBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .RoleDTO roleDtos = 1;</code>
+       */
+      public Builder addRoleDtos(
+          int index, RoleDTO value) {
+        if (roleDtosBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRoleDtosIsMutable();
+          roleDtos_.add(index, value);
+          onChanged();
+        } else {
+          roleDtosBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .RoleDTO roleDtos = 1;</code>
+       */
+      public Builder addRoleDtos(
+          RoleDTO.Builder builderForValue) {
+        if (roleDtosBuilder_ == null) {
+          ensureRoleDtosIsMutable();
+          roleDtos_.add(builderForValue.build());
+          onChanged();
+        } else {
+          roleDtosBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .RoleDTO roleDtos = 1;</code>
+       */
+      public Builder addRoleDtos(
+          int index, RoleDTO.Builder builderForValue) {
+        if (roleDtosBuilder_ == null) {
+          ensureRoleDtosIsMutable();
+          roleDtos_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          roleDtosBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .RoleDTO roleDtos = 1;</code>
+       */
+      public Builder addAllRoleDtos(
+          Iterable<? extends RoleDTO> values) {
+        if (roleDtosBuilder_ == null) {
+          ensureRoleDtosIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, roleDtos_);
+          onChanged();
+        } else {
+          roleDtosBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .RoleDTO roleDtos = 1;</code>
+       */
+      public Builder clearRoleDtos() {
+        if (roleDtosBuilder_ == null) {
+          roleDtos_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          roleDtosBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .RoleDTO roleDtos = 1;</code>
+       */
+      public Builder removeRoleDtos(int index) {
+        if (roleDtosBuilder_ == null) {
+          ensureRoleDtosIsMutable();
+          roleDtos_.remove(index);
+          onChanged();
+        } else {
+          roleDtosBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .RoleDTO roleDtos = 1;</code>
+       */
+      public RoleDTO.Builder getRoleDtosBuilder(
+          int index) {
+        return getRoleDtosFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .RoleDTO roleDtos = 1;</code>
+       */
+      public RoleDTOOrBuilder getRoleDtosOrBuilder(
+          int index) {
+        if (roleDtosBuilder_ == null) {
+          return roleDtos_.get(index);  } else {
+          return roleDtosBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .RoleDTO roleDtos = 1;</code>
+       */
+      public java.util.List<? extends RoleDTOOrBuilder>
+           getRoleDtosOrBuilderList() {
+        if (roleDtosBuilder_ != null) {
+          return roleDtosBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(roleDtos_);
+        }
+      }
+      /**
+       * <code>repeated .RoleDTO roleDtos = 1;</code>
+       */
+      public RoleDTO.Builder addRoleDtosBuilder() {
+        return getRoleDtosFieldBuilder().addBuilder(
+            RoleDTO.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .RoleDTO roleDtos = 1;</code>
+       */
+      public RoleDTO.Builder addRoleDtosBuilder(
+          int index) {
+        return getRoleDtosFieldBuilder().addBuilder(
+            index, RoleDTO.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .RoleDTO roleDtos = 1;</code>
+       */
+      public java.util.List<RoleDTO.Builder>
+           getRoleDtosBuilderList() {
+        return getRoleDtosFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          RoleDTO, RoleDTO.Builder, RoleDTOOrBuilder>
+          getRoleDtosFieldBuilder() {
+        if (roleDtosBuilder_ == null) {
+          roleDtosBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              RoleDTO, RoleDTO.Builder, RoleDTOOrBuilder>(
+                  roleDtos_,
+                  ((bitField0_ & 0x00000001) != 0),
+                  getParentForChildren(),
+                  isClean());
+          roleDtos_ = null;
+        }
+        return roleDtosBuilder_;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:RoleResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:RoleResponse)
+    private static final RoleResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new RoleResponse();
+    }
+
+    public static RoleResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<RoleResponse>
+        PARSER = new com.google.protobuf.AbstractParser<RoleResponse>() {
+      @Override
+      public RoleResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new RoleResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<RoleResponse> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<RoleResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public RoleResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -9638,6 +10660,11 @@ public final class SceneModel {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_SceneModelMessage_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_RoleResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_RoleResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_AskCanRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -9696,7 +10723,7 @@ public final class SceneModel {
       descriptor;
   static {
     String[] descriptorData = {
-      "\n\020SceneModel.proto\"\213\005\n\021SceneModelMessage" +
+      "\n\020SceneModel.proto\"\262\005\n\021SceneModelMessage" +
       "\022.\n\tdata_type\030\001 \001(\0162\033.SceneModelMessage." +
       "DateType\022\'\n\raskCanRequest\030\002 \001(\0132\016.AskCan" +
       "RequestH\000\0223\n\023findAllRolesRequest\030\003 \001(\0132\024" +
@@ -9707,28 +10734,30 @@ public final class SceneModel {
       "\014wentResponse\030\007 \001(\0132\r.WentResponseH\000\022)\n\016" +
       "talkNPCRequest\030\010 \001(\0132\017.TalkNPCRequestH\000\022" +
       "+\n\017talkNPCResponse\030\t \001(\0132\020.TalkNPCRespon" +
-      "seH\000\"\325\001\n\010DateType\022\021\n\rAskCanRequest\020\000\022\027\n\023" +
-      "FindAllRolesRequest\020\001\022\017\n\013WentRequest\020\002\022\020" +
-      "\n\014WhereRequest\020\003\022\022\n\016AskCanResponse\020\004\022\030\n\024" +
-      "FindAllRolesResponse\020\005\022\020\n\014WentResponse\020\006" +
-      "\022\021\n\rWhereResponse\020\007\022\022\n\016TalkNPCRequest\020\010\022" +
-      "\023\n\017TalkNPCResponse\020\tB\n\n\010dateBody\" \n\rAskC" +
-      "anRequest\022\017\n\007sceneId\030\001 \001(\005\"&\n\023FindAllRol" +
-      "esRequest\022\017\n\007sceneId\030\001 \001(\005\"\036\n\013WentReques" +
-      "t\022\017\n\007sceneId\030\001 \001(\005\" \n\016TalkNPCRequest\022\016\n\006" +
-      "roleId\030\001 \001(\005\"#\n\016AskCanResponse\022\021\n\tscenes" +
-      "Ids\030\001 \003(\005\"1\n\024FindAllRolesResponse\022\031\n\007rol" +
-      "eDTO\030\001 \003(\0132\010.RoleDTO\":\n\014WentResponse\022\017\n\007" +
-      "sceneId\030\001 \001(\005\022\031\n\007roleDTO\030\002 \003(\0132\010.RoleDTO" +
-      "\" \n\017TalkNPCResponse\022\r\n\005npcId\030\001 \001(\005\"\355\001\n\007R" +
-      "oleDTO\022\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\016\n\006stat" +
-      "us\030\003 \001(\005\022\014\n\004type\030\004 \001(\005\022\020\n\010onStatus\030\005 \001(\005" +
-      "\022\r\n\005blood\030\006 \001(\005\022\020\n\010nowBlood\030\007 \001(\005\022\n\n\002mp\030" +
-      "\010 \001(\005\022\r\n\005nowMp\030\t \001(\005\022\023\n\013skillIdList\030\n \003(" +
-      "\005\022\016\n\006attack\030\013 \001(\005\022\021\n\tattackAdd\030\014 \001(\001\022\016\n\006" +
-      "teamId\030\r \001(\005\022\024\n\014professionId\030\016 \001(\005\"/\n\016Mm" +
-      "oSimpleScene\022\n\n\002id\030\001 \001(\005\022\021\n\tpalceName\030\002 " +
-      "\001(\tB\014B\nSceneModelb\006proto3"
+      "seH\000\022%\n\014roleResponse\030\n \001(\0132\r.RoleRespons" +
+      "eH\000\"\325\001\n\010DateType\022\021\n\rAskCanRequest\020\000\022\027\n\023F" +
+      "indAllRolesRequest\020\001\022\017\n\013WentRequest\020\002\022\022\n" +
+      "\016AskCanResponse\020\003\022\030\n\024FindAllRolesRespons" +
+      "e\020\004\022\020\n\014WentResponse\020\005\022\021\n\rWhereResponse\020\006" +
+      "\022\022\n\016TalkNPCRequest\020\007\022\023\n\017TalkNPCResponse\020" +
+      "\010\022\020\n\014RoleResponse\020\tB\n\n\010dateBody\"*\n\014RoleR" +
+      "esponse\022\032\n\010roleDtos\030\001 \003(\0132\010.RoleDTO\" \n\rA" +
+      "skCanRequest\022\017\n\007sceneId\030\001 \001(\005\"&\n\023FindAll" +
+      "RolesRequest\022\017\n\007sceneId\030\001 \001(\005\"\036\n\013WentReq" +
+      "uest\022\017\n\007sceneId\030\001 \001(\005\" \n\016TalkNPCRequest\022" +
+      "\016\n\006roleId\030\001 \001(\005\"#\n\016AskCanResponse\022\021\n\tsce" +
+      "nesIds\030\001 \003(\005\"1\n\024FindAllRolesResponse\022\031\n\007" +
+      "roleDTO\030\001 \003(\0132\010.RoleDTO\":\n\014WentResponse\022" +
+      "\017\n\007sceneId\030\001 \001(\005\022\031\n\007roleDTO\030\002 \003(\0132\010.Role" +
+      "DTO\" \n\017TalkNPCResponse\022\r\n\005npcId\030\001 \001(\005\"\355\001" +
+      "\n\007RoleDTO\022\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\016\n\006s" +
+      "tatus\030\003 \001(\005\022\014\n\004type\030\004 \001(\005\022\020\n\010onStatus\030\005 " +
+      "\001(\005\022\r\n\005blood\030\006 \001(\005\022\020\n\010nowBlood\030\007 \001(\005\022\n\n\002" +
+      "mp\030\010 \001(\005\022\r\n\005nowMp\030\t \001(\005\022\023\n\013skillIdList\030\n" +
+      " \003(\005\022\016\n\006attack\030\013 \001(\005\022\021\n\tattackAdd\030\014 \001(\001\022" +
+      "\016\n\006teamId\030\r \001(\005\022\024\n\014professionId\030\016 \001(\005\"/\n" +
+      "\016MmoSimpleScene\022\n\n\002id\030\001 \001(\005\022\021\n\tpalceName" +
+      "\030\002 \001(\tB\014B\nSceneModelb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -9739,63 +10768,69 @@ public final class SceneModel {
     internal_static_SceneModelMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SceneModelMessage_descriptor,
-        new String[] { "DataType", "AskCanRequest", "FindAllRolesRequest", "WentRequest", "AskCanResponse", "FindAllRolesResponse", "WentResponse", "TalkNPCRequest", "TalkNPCResponse", "DateBody", });
-    internal_static_AskCanRequest_descriptor =
+        new String[] { "DataType", "AskCanRequest", "FindAllRolesRequest", "WentRequest", "AskCanResponse", "FindAllRolesResponse", "WentResponse", "TalkNPCRequest", "TalkNPCResponse", "RoleResponse", "DateBody", });
+    internal_static_RoleResponse_descriptor =
       getDescriptor().getMessageTypes().get(1);
+    internal_static_RoleResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_RoleResponse_descriptor,
+        new String[] { "RoleDtos", });
+    internal_static_AskCanRequest_descriptor =
+      getDescriptor().getMessageTypes().get(2);
     internal_static_AskCanRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_AskCanRequest_descriptor,
         new String[] { "SceneId", });
     internal_static_FindAllRolesRequest_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(3);
     internal_static_FindAllRolesRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_FindAllRolesRequest_descriptor,
         new String[] { "SceneId", });
     internal_static_WentRequest_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(4);
     internal_static_WentRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_WentRequest_descriptor,
         new String[] { "SceneId", });
     internal_static_TalkNPCRequest_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_TalkNPCRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_TalkNPCRequest_descriptor,
         new String[] { "RoleId", });
     internal_static_AskCanResponse_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_AskCanResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_AskCanResponse_descriptor,
         new String[] { "ScenesIds", });
     internal_static_FindAllRolesResponse_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_FindAllRolesResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_FindAllRolesResponse_descriptor,
         new String[] { "RoleDTO", });
     internal_static_WentResponse_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_WentResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_WentResponse_descriptor,
         new String[] { "SceneId", "RoleDTO", });
     internal_static_TalkNPCResponse_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_TalkNPCResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_TalkNPCResponse_descriptor,
         new String[] { "NpcId", });
     internal_static_RoleDTO_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_RoleDTO_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_RoleDTO_descriptor,
         new String[] { "Id", "Name", "Status", "Type", "OnStatus", "Blood", "NowBlood", "Mp", "NowMp", "SkillIdList", "Attack", "AttackAdd", "TeamId", "ProfessionId", });
     internal_static_MmoSimpleScene_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_MmoSimpleScene_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_MmoSimpleScene_descriptor,

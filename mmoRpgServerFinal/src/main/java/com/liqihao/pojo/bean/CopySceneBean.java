@@ -6,6 +6,7 @@ import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.CopySceneDeleteCauseCode;
+import com.liqihao.commons.enums.ProfessionCode;
 import com.liqihao.commons.enums.RoleStatusCode;
 import com.liqihao.commons.enums.RoleTypeCode;
 import com.liqihao.pojo.baseMessage.CopySceneMessage;
@@ -163,56 +164,67 @@ public class CopySceneBean extends CopySceneMessage {
      * @param roleId
      */
     public void  peopleExit(Integer roleId) {
-        Iterator iterator=roles.iterator();
+        Iterator<Role> iterator=roles.iterator();
         synchronized (roles) {
             while (iterator.hasNext()) {
-                MmoSimpleRole mmoSimpleRole = (MmoSimpleRole) iterator.next();
-                if (mmoSimpleRole.getId().equals(roleId)) {
-                    //副本角色删除
-                    roles.remove(mmoSimpleRole);
-                    Channel c = ChannelMessageCache.getInstance().get(roleId);
-                    //从副本回到原来场景
-                    Integer nextSceneId=mmoSimpleRole.getLastSceneId();
-                    mmoSimpleRole.setLastSceneId(null);
-                    List<MmoSimpleRole> nextRoles=mmoSimpleRole.wentScene(nextSceneId);
-                    //修改人物
-                    mmoSimpleRole.setCopySceneId(null);
-                    NettyResponse nettyResponse=new NettyResponse();
-                    nettyResponse.setCmd(ConstantValue.WENT_RESPONSE);
-                    nettyResponse.setStateCode(StateCode.SUCCESS);
-                    SceneModel.SceneModelMessage.Builder builder=SceneModel.SceneModelMessage.newBuilder();
-                    builder.setDataType(SceneModel.SceneModelMessage.DateType.WentResponse);
-                    SceneModel.WentResponse.Builder wentResponseBuilder=SceneModel.WentResponse.newBuilder();
-                    //simpleRole
-                    List<SceneModel.RoleDTO> roleDTOS=new ArrayList<>();
-                    for (MmoSimpleRole mmoRole :nextRoles){
-                        SceneModel.RoleDTO.Builder msr=SceneModel.RoleDTO.newBuilder();
-                        msr.setId(mmoRole.getId());
-                        msr.setName(mmoRole.getName());
-                        msr.setType(mmoRole.getType());
-                        msr.setStatus(mmoRole.getStatus());
-                        msr.setOnStatus(mmoRole.getOnStatus());
-                        msr.setBlood(mmoRole.getHp());
-                        msr.setNowBlood(mmoRole.getNowHp());
-                        msr.setMp(mmoRole.getMp());
-                        msr.setNowMp(mmoRole.getNowMp());
-                        msr.setAttack(mmoRole.getAttack());
-                        msr.setAttackAdd(mmoRole.getDamageAdd());
-                        if(msr.getType()== RoleTypeCode.PLAYER.getCode()){
-                            msr.setProfessionId(mmoSimpleRole.getProfessionId());
+                Role role = iterator.next();
+                if (role.getType().equals(RoleTypeCode.PLAYER.getCode())) {
+                    MmoSimpleRole mmoSimpleRole= (MmoSimpleRole) role;
+                    if (mmoSimpleRole.getId().equals(roleId)) {
+                        //副本角色删除
+                        if (mmoSimpleRole.getProfessionId().equals(ProfessionCode.TRAINER.getCode())){
+                            //召唤兽也离开
+                            MmoHelperBean helperBean=mmoSimpleRole.getMmoHelperBean();
+                            if (helperBean!=null){
+                                roles.remove(helperBean);
+                            }
                         }
-                        SceneModel.RoleDTO msrObject=msr.build();
-                        roleDTOS.add(msrObject);
+                        roles.remove(mmoSimpleRole);
+                        Channel c = ChannelMessageCache.getInstance().get(roleId);
+                        //从副本回到原来场景
+                        Integer nextSceneId = mmoSimpleRole.getLastSceneId();
+                        mmoSimpleRole.setLastSceneId(null);
+                        List<Role> nextRoles = mmoSimpleRole.wentScene(nextSceneId);
+                        //修改人物
+                        mmoSimpleRole.setCopySceneId(null);
+                        NettyResponse nettyResponse = new NettyResponse();
+                        nettyResponse.setCmd(ConstantValue.WENT_RESPONSE);
+                        nettyResponse.setStateCode(StateCode.SUCCESS);
+
+                        SceneModel.SceneModelMessage.Builder builder = SceneModel.SceneModelMessage.newBuilder();
+                        builder.setDataType(SceneModel.SceneModelMessage.DateType.WentResponse);
+                        SceneModel.WentResponse.Builder wentResponseBuilder = SceneModel.WentResponse.newBuilder();
+                        //simpleRole
+                        List<SceneModel.RoleDTO> roleDTOS = new ArrayList<>();
+                        for (Role mmoRole : nextRoles) {
+                            SceneModel.RoleDTO.Builder msr = SceneModel.RoleDTO.newBuilder();
+                            msr.setId(mmoRole.getId());
+                            msr.setName(mmoRole.getName());
+                            msr.setType(mmoRole.getType());
+                            msr.setStatus(mmoRole.getStatus());
+                            msr.setOnStatus(mmoRole.getOnStatus());
+                            msr.setBlood(mmoRole.getHp());
+                            msr.setNowBlood(mmoRole.getNowHp());
+                            msr.setMp(mmoRole.getMp());
+                            msr.setNowMp(mmoRole.getNowMp());
+                            msr.setAttack(mmoRole.getAttack());
+                            msr.setAttackAdd(mmoRole.getDamageAdd());
+                            if (msr.getType() == RoleTypeCode.PLAYER.getCode()) {
+                                msr.setProfessionId(mmoSimpleRole.getProfessionId());
+                            }
+                            SceneModel.RoleDTO msrObject = msr.build();
+                            roleDTOS.add(msrObject);
+                        }
+                        wentResponseBuilder.setSceneId(nextSceneId);
+                        wentResponseBuilder.addAllRoleDTO(roleDTOS);
+                        builder.setWentResponse(wentResponseBuilder.build());
+                        byte[] data2 = builder.build().toByteArray();
+                        nettyResponse.setData(data2);
+                        if (c != null) {
+                            c.writeAndFlush(nettyResponse);
+                        }
+                        break;
                     }
-                    wentResponseBuilder.setSceneId(nextSceneId);
-                    wentResponseBuilder.addAllRoleDTO(roleDTOS);
-                    builder.setWentResponse(wentResponseBuilder.build());
-                    byte[] data2=builder.build().toByteArray();
-                    nettyResponse.setData(data2);
-                    if (c!=null) {
-                        c.writeAndFlush(nettyResponse);
-                    }
-                    break;
                 }
             }
         }
@@ -245,7 +257,7 @@ public class CopySceneBean extends CopySceneMessage {
             //从副本回到原来场景
             Integer nextSceneId=mmoSimpleRole.getLastSceneId();
             mmoSimpleRole.setLastSceneId(null);
-            List<MmoSimpleRole> nextRoles=mmoSimpleRole.wentScene(nextSceneId);
+            List<Role> nextRoles=mmoSimpleRole.wentScene(nextSceneId);
             //修改人物
             mmoSimpleRole.setCopySceneId(null);
             NettyResponse nettyResponse=new NettyResponse();
@@ -256,7 +268,7 @@ public class CopySceneBean extends CopySceneMessage {
             SceneModel.WentResponse.Builder wentResponsebuilder=SceneModel.WentResponse.newBuilder();
             //simpleRole
             List<SceneModel.RoleDTO> roleDTOS=new ArrayList<>();
-            for (MmoSimpleRole mmoRole :nextRoles){
+            for (Role mmoRole :nextRoles){
                 SceneModel.RoleDTO.Builder msr=SceneModel.RoleDTO.newBuilder();
                 msr.setId(mmoRole.getId());
                 msr.setName(mmoRole.getName());

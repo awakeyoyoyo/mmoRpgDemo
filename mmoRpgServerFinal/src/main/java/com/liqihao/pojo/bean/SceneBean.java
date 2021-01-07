@@ -12,6 +12,15 @@ public class SceneBean {
     private List<Integer> canScenes;
     private List<Integer> roles;
     private List<Integer> npcs;
+    private List<MmoHelperBean> helperBeans;
+
+    public List<MmoHelperBean> getHelperBeans() {
+        return helperBeans;
+    }
+
+    public void setHelperBeans(List<MmoHelperBean> helperBeans) {
+        this.helperBeans = helperBeans;
+    }
 
     public List<Integer> getCanScenes() {
         return canScenes;

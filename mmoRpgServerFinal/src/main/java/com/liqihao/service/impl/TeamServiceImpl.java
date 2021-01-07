@@ -94,6 +94,9 @@ public class TeamServiceImpl implements TeamService {
         }
         TeamBean teamBean=TeamServiceProvider.createNewTeamBean(mmoSimpleRole,teamName);
         mmoSimpleRole.setTeamId(teamBean.getTeamId());
+        if(mmoSimpleRole.getMmoHelperBean()!=null){
+            mmoSimpleRole.getMmoHelperBean().setTeamId(teamBean.getTeamId());
+        }
         TeamModel.RoleDto role=TeamModel.RoleDto.newBuilder().setId(mmoSimpleRole.getId())
                 .setHp(mmoSimpleRole.getHp()).setMp(mmoSimpleRole.getMp())
                 .setName(mmoSimpleRole.getName()).setNowHp(mmoSimpleRole.getNowHp())

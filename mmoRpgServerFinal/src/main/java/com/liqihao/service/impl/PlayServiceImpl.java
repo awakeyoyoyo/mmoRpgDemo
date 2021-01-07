@@ -11,6 +11,7 @@ import com.liqihao.pojo.*;
 import com.liqihao.pojo.baseMessage.*;
 import com.liqihao.pojo.bean.*;
 import com.liqihao.protobufObject.PlayModel;
+import com.liqihao.provider.CallerServiceProvider;
 import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.provider.TeamServiceProvider;
 import com.liqihao.service.PlayService;
@@ -271,7 +272,6 @@ public class PlayServiceImpl implements PlayService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.USE_SKILL_REQUEST, module = ConstantValue.PLAY_MODULE)
     public void useSkillRequest(PlayModel.PlayModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws Exception {
-
         Integer skillId = myMessage.getUseSkillRequest().getSkillId();
         Integer targetId = myMessage.getUseSkillRequest().getRoleId();
         Integer roleType = myMessage.getUseSkillRequest().getRoleType();
@@ -314,6 +314,11 @@ public class PlayServiceImpl implements PlayService {
         }
         //判断是单体技能 还是群体技能   可以攻击所有玩家 除了队友 npc
         //从缓存中查找出 怪物
+        SkillBean skillBean=mmoSimpleRole.getSkillBeanBySkillId(skillId);
+        if (skillBean.getSkillAttackType().equals(SkillAttackTypeCode.CALL.getCode())) {
+            mmoSimpleRole.useSkill(null, skillId);
+            return;
+        }
         ArrayList<Role> target = new ArrayList<>();
         if (mmoSimpleRole.getMmoSceneId() != null) {
             target.addAll(findTargetInScene(mmoSimpleRole,roleType,targetId));
@@ -326,6 +331,7 @@ public class PlayServiceImpl implements PlayService {
         }
         return;
     }
+
 
     /**
      * 场景中的目标
@@ -342,12 +348,14 @@ public class PlayServiceImpl implements PlayService {
             //群攻
             //可以攻击所有场景的人 除了队友 npc
             SceneBean sceneBean = SceneBeanMessageCache.getInstance().get(mmoSimpleRole.getMmoSceneId());
+            //npc
             for (Integer id : sceneBean.getNpcs()) {
                 MmoSimpleNPC npc = NpcMessageCache.getInstance().get(id);
                 if (npc.getType().equals(RoleTypeCode.ENEMY.getCode())) {
                     target.add(npc);
                 }
             }
+            //people
             for (Integer id : sceneBean.getRoles()) {
                 MmoSimpleRole role = OnlineRoleMessageCache.getInstance().get(id);
                 if (role.getId().equals(mmoSimpleRole.getId())) {
@@ -360,6 +368,18 @@ public class PlayServiceImpl implements PlayService {
                         target.add(role);
                     } else if (!mmoSimpleRole.getTeamId().equals(role.getTeamId())) {
                         target.add(role);
+                    }
+                }
+            }
+            //hepler
+            for (MmoHelperBean h:sceneBean.getHelperBeans()) {
+                if (mmoSimpleRole.getTeamId() == null) {
+                    target.add(h);
+                } else {
+                    if (h.getTeamId() == null) {
+                        target.add(h);
+                    } else if (!mmoSimpleRole.getTeamId().equals(h.getTeamId())) {
+                        target.add(h);
                     }
                 }
             }

@@ -43,7 +43,7 @@ public class GameSystemServiceImpl implements com.liqihao.service.GameSystemServ
             mmoRolePOJO.setMmoSceneId(mmoRole.getMmoSceneId());
             mmoRolePOJO.setOnStatus(RoleOnStatusCode.EXIT.getCode());
             mmoRolePOJO.setName(mmoRole.getName());
-            mmoRolePOJO.setSkillIds(CommonsUtil.listToString(mmoRole.getSkillIdList()));
+//            mmoRolePOJO.setSkillIds(CommonsUtil.listToString(mmoRole.getSkillIdList()));
             mmoRolePOJO.setType(mmoRole.getType());
             mmoRolePOJO.setStatus(mmoRole.getStatus());
             //修改数据库

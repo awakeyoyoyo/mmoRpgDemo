@@ -125,6 +125,9 @@ public class TeamBean {
         for (MmoSimpleRole role:mmoSimpleRoles){
             Channel c= ChannelMessageCache.getInstance().get(role.getId());
             role.setTeamId(null);
+            if(role.getMmoHelperBean()!=null){
+                role.getMmoHelperBean().setTeamId(null);
+            }
             // 广播队伍解散
             c.writeAndFlush(nettyResponse);
             role.setCopySceneId(null);
@@ -149,6 +152,9 @@ public class TeamBean {
         checkInCopyScene(mmoSimpleRole);
         //玩家队伍id设置为空
         mmoSimpleRole.setTeamId(null);
+        if(mmoSimpleRole.getMmoHelperBean()!=null){
+            mmoSimpleRole.getMmoHelperBean().setTeamId(null);
+        }
         // 发送信息给被t者
         TeamModel.TeamModelMessage.Builder teamMessageBuilder=TeamModel.TeamModelMessage.newBuilder();
         teamMessageBuilder.setDataType(TeamModel.TeamModelMessage.DateType.BanPeopleResponse);
@@ -177,6 +183,9 @@ public class TeamBean {
             mmoSimpleRolesMap.remove(mmoSimpleRole.getId());
             checkInCopyScene(mmoSimpleRole);
             mmoSimpleRole.setTeamId(null);
+            if(mmoSimpleRole.getMmoHelperBean()!=null){
+                mmoSimpleRole.getMmoHelperBean().setTeamId(null);
+            }
             if (mmoSimpleRolesMap.values().isEmpty()){
                 //解散队伍
                 TeamServiceProvider.deleteTeamById(getTeamId());
@@ -328,6 +337,9 @@ public class TeamBean {
         }
         mmoSimpleRolesMap.put(mmoSimpleRole.getId(),mmoSimpleRole);
         mmoSimpleRole.setTeamId(getTeamId());
+        if(mmoSimpleRole.getMmoHelperBean()!=null){
+            mmoSimpleRole.getMmoHelperBean().setTeamId(getTeamId());
+        }
         // 广播给各个队友
         TeamModel.RoleDto roleDto=TeamModel.RoleDto.newBuilder().setId(mmoSimpleRole.getId()).setHp(mmoSimpleRole.getHp())
                 .setMp(mmoSimpleRole.getMp()).setName(mmoSimpleRole.getName()).setNowHp(mmoSimpleRole.getNowHp())
