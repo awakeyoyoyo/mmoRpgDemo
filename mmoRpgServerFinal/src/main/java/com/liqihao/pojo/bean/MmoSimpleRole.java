@@ -477,7 +477,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
             ScheduledThreadPoolUtil.skillAttackTask skillAttackTask=new ScheduledThreadPoolUtil.skillAttackTask(skillBean,target,this,mmoHelperBean);
             ScheduledThreadPoolUtil.getScheduledExecutorService().schedule(skillAttackTask,skillBean.getChantTime(),TimeUnit.SECONDS);
         }else{
-            skill(skillBean,target,this,mmoHelperBean);
+            skill(skillBean,target,mmoHelperBean);
         }
 
         //buffer
@@ -486,37 +486,36 @@ public class MmoSimpleRole extends Role implements MyObserver {
      * 技能释放
      */
 
-    public void skill(SkillBean skillBean, List<Role> target,MmoSimpleRole user,MmoHelperBean mmoHelperBean){
+    public void skill(SkillBean skillBean, List<Role> target,MmoHelperBean mmoHelperBean){
         if (!skillBean.getSkillAttackType().equals(SkillAttackTypeCode.CALL.getCode())) {
-            //  被攻击怪物or人物orBoss
-            if (target.size() > 0) {
-                //触发宠物帮忙
-                Role t = target.get(0);
-                if (user.getMmoHelperBean() != null) {
-                    user.getMmoHelperBean().npcAttack(t);
-                }
-            }
             for (Role r : target) {
                 if (!skillBean.getBaseDamage().equals(0)) {
                     //伤害不为0才触发怪物的被攻击
-                    r.beAttack(skillBean, user);
+                    r.beAttack(skillBean, this);
                 }
                 //伤害为0则是buffer技能 例如嘲讽
                 //buffer
                 for (Integer bufferId : skillBean.getBufferIds()) {
                     BufferMessage bufferMessage = BufferMessageCache.getInstance().get(bufferId);
 
-                    skillBean.bufferToPeople(bufferMessage, user, r);
+                    skillBean.bufferToPeople(bufferMessage, this, r);
+                }
+            }
+            if (target.size() > 0) {
+                //触发宠物帮忙
+                Role t = target.get(0);
+                if (getMmoHelperBean() != null) {
+                    getMmoHelperBean().npcAttack(t);
                 }
             }
         } else {
             //召唤的逻辑
-            MmoHelperBean helperBean = CallerServiceProvider.callHelper(user);
-            MmoHelperBean needDeleteBean = user.getMmoHelperBean();
+            MmoHelperBean helperBean = CallerServiceProvider.callHelper(this);
+            MmoHelperBean needDeleteBean = this.getMmoHelperBean();
             if (needDeleteBean != null) {
                 //已经有了则先消除
-                if (user.getMmoSceneId() != null) {
-                    user.setMmoHelperBean(null);
+                if (this.getMmoSceneId() != null) {
+                    this.setMmoHelperBean(null);
                     if (needDeleteBean.getMmoSceneId() != null) {
                         SceneBean sceneBean = SceneBeanMessageCache.getInstance().get(needDeleteBean.getMmoSceneId());
                         sceneBean.getHelperBeans().remove(needDeleteBean);
@@ -527,18 +526,18 @@ public class MmoSimpleRole extends Role implements MyObserver {
             }
             //新的召唤兽放到场景中
 
-            user.setMmoHelperBean(helperBean);
-            if (mmoHelperBean.getMmoSceneId() != null) {
-                SceneBean sceneBean = SceneBeanMessageCache.getInstance().get(mmoHelperBean.getMmoSceneId());
-                sceneBean.getHelperBeans().add(mmoHelperBean);
+            this.setMmoHelperBean(helperBean);
+            if (getMmoHelperBean().getMmoSceneId() != null) {
+                SceneBean sceneBean = SceneBeanMessageCache.getInstance().get(getMmoHelperBean().getMmoSceneId());
+                sceneBean.getHelperBeans().add(getMmoHelperBean());
                 List<Role> newRoles=new ArrayList<>();
-                newRoles.add(mmoHelperBean);
-                CommonsUtil.sendRoleResponse(newRoles,mmoHelperBean.getMmoSceneId(),null);
-            } else if (mmoHelperBean.getCopySceneBeanId() != null) {
-                CopySceneProvider.getCopySceneBeanById(mmoHelperBean.getCopySceneBeanId()).getRoles().add(mmoHelperBean);
+                newRoles.add(getMmoHelperBean());
+                CommonsUtil.sendRoleResponse(newRoles,getMmoHelperBean().getMmoSceneId(),null);
+            } else if (getMmoHelperBean().getCopySceneBeanId() != null) {
+                CopySceneProvider.getCopySceneBeanById(getMmoHelperBean().getCopySceneBeanId()).getRoles().add(getMmoHelperBean());
                 List<Role> newRoles=new ArrayList<>();
-                newRoles.add(mmoHelperBean);
-                CommonsUtil.sendRoleResponse(newRoles,null,mmoHelperBean.getCopySceneBeanId());
+                newRoles.add(getMmoHelperBean());
+                CommonsUtil.sendRoleResponse(newRoles,null,getMmoHelperBean().getCopySceneBeanId());
             }
         }
     }
@@ -551,7 +550,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
         Integer reduce = 0;
         if (skillBean.getSkillType().equals(SkillTypeCode.FIX.getCode())) {
             //固伤 只有技能伤害
-            reduce = (int) Math.ceil(skillBean.getBaseDamage() * (1 + this.getDamageAdd()));
+            reduce = (int) Math.ceil(skillBean.getBaseDamage() * (1 + fromRole.getDamageAdd()));
             PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();
             damageU.setFromRoleId(fromRole.getId());
             damageU.setFromRoleType(fromRole.getType());

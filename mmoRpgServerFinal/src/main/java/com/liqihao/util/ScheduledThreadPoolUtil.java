@@ -249,26 +249,25 @@ public class ScheduledThreadPoolUtil {
     }
 
     public static class NpcAttackTask implements Runnable {
-        private Integer targetRoleId;
+        private Role target;
         private Integer npcId;
         private Logger logger = Logger.getLogger(NpcAttackTask.class);
 
         public NpcAttackTask() {
         }
 
-        public NpcAttackTask(Integer targetRoleId, Integer npcId) {
-            this.targetRoleId = targetRoleId;
+        public NpcAttackTask(Role target, Integer npcId) {
+            this.target = target;
             this.npcId = npcId;
         }
 
         @Override
         public void run() {
             logger.info("怪物攻击线程");
-            MmoSimpleRole mmoSimpleRole = OnlineRoleMessageCache.getInstance().get(targetRoleId);
             MmoSimpleNPC npc = NpcMessageCache.getInstance().get(npcId);
-            if (mmoSimpleRole == null ||
-                    !npc.getMmoSceneId().equals(mmoSimpleRole.getMmoSceneId()) ||
-                    mmoSimpleRole.getStatus().equals(RoleStatusCode.DIE.getCode()) ||
+            if (target == null ||
+                    !npc.getMmoSceneId().equals(target.getMmoSceneId()) ||
+                    target.getStatus().equals(RoleStatusCode.DIE.getCode()) ||
                     npc.getStatus().equals(RoleStatusCode.DIE.getCode())) {
                 //中止任务  用户离线了 用户跑去别的场景了 死了
                 npcTaskMap.get(npcId).cancel(false);
@@ -276,7 +275,7 @@ public class ScheduledThreadPoolUtil {
                 return;
             }
             //扣血咯
-            if (mmoSimpleRole.getNowHp() <= 0) {
+            if (target.getNowHp() <= 0) {
                 npcTaskMap.get(npcId).cancel(false);
                 npcTaskMap.remove(npcId);
                 return;
@@ -297,8 +296,7 @@ public class ScheduledThreadPoolUtil {
                 skillBean.setChantTime(skillMessage.getChantTime());
                 skillBean.setAddPerson(skillMessage.getAddPerson());
                 skillBean.setSkillType(skillMessage.getSkillType());
-                mmoSimpleRole.beAttack(skillBean,npc);
-
+                target.beAttack(skillBean,npc);
             }
         }
     }
@@ -346,16 +344,16 @@ public class ScheduledThreadPoolUtil {
             //仇恨的第一人
             Role role = null;
             role = bossBean.getTarget();
-            if (role == null&&bossBean.getStatus().equals(RoleStatusCode.ALIVE.getCode())) {
+            if (bossBean.getStatus().equals(RoleStatusCode.DIE.getCode())){
+                bossTaskMap.remove(bossBean.getBossBeanId());
+                bossTaskMap.get(bossBean.getBossBeanId()).cancel(false);
+            }
+            if (role == null) {
                 // 挑战失败
                 TeamBean teamBean = TeamServiceProvider.getTeamBeanByTeamId(copySceneBean.getTeamId());
                 copySceneBean.changePeopleDie(teamBean);
-                bossTaskMap.get(bossBean.getBossBeanId()).cancel(false);
                 bossTaskMap.remove(bossBean.getBossBeanId());
-                return;
-            }else{
                 bossTaskMap.get(bossBean.getBossBeanId()).cancel(false);
-                bossTaskMap.remove(bossBean.getBossBeanId());
             }
             SkillBean skillBean = null;
             //使用不同的技能

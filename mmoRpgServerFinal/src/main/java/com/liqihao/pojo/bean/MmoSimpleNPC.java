@@ -114,20 +114,24 @@ public class MmoSimpleNPC extends Role {
         }
         //怪物攻击本人
         if (!mmoSimpleNPC.getStatus().equals(RoleStatusCode.DIE.getCode())) {
-            mmoSimpleNPC.npcAttack(fromRole.getId());
+            mmoSimpleNPC.npcAttack(fromRole);
         }
     }
 
 
-    public void npcAttack(Integer roleId) {
+    public void npcAttack(Role target) {
         ScheduledFuture<?> t = ScheduledThreadPoolUtil.getNpcTaskMap().get(getId());
         if (t != null) {
-            //代表着该npc正在攻击一个目标
-            return;
+            //代表着该npc已启动攻击线程
         } else {
-            ScheduledThreadPoolUtil.NpcAttackTask npcAttackTask = new ScheduledThreadPoolUtil.NpcAttackTask(roleId, getId());
-            t = ScheduledThreadPoolUtil.getScheduledExecutorService().scheduleAtFixedRate(npcAttackTask, 0, 6, TimeUnit.SECONDS);
-            ScheduledThreadPoolUtil.getNpcTaskMap().put(getId(), t);
+            synchronized (this) {
+                t = ScheduledThreadPoolUtil.getNpcTaskMap().get(getId());
+                if (t==null) {
+                    ScheduledThreadPoolUtil.NpcAttackTask npcAttackTask = new ScheduledThreadPoolUtil.NpcAttackTask(target, getId());
+                    t = ScheduledThreadPoolUtil.getScheduledExecutorService().scheduleAtFixedRate(npcAttackTask, 0, 6, TimeUnit.SECONDS);
+                    ScheduledThreadPoolUtil.getNpcTaskMap().put(getId(), t);
+                }
+            }
         }
     }
 

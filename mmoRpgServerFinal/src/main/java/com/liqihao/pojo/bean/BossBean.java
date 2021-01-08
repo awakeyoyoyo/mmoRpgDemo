@@ -205,16 +205,18 @@ public class BossBean extends Role{
     }
 
     public void bossAttack() {
-        synchronized (this) {
-            ScheduledFuture<?> t = ScheduledThreadPoolUtil.getNpcTaskMap().get(getId());
-            if (t != null) {
-                //代表着该npc已经启动攻击线程
-                return;
-            } else {
-                CopySceneBean copySceneBean = CopySceneProvider.getCopySceneBeanById(getCopySceneBeanId());
-                ScheduledThreadPoolUtil.BossAttackTask bossAttackTask = new ScheduledThreadPoolUtil.BossAttackTask(this, copySceneBean, getSkillBeans());
-                t = ScheduledThreadPoolUtil.getScheduledExecutorService().scheduleAtFixedRate(bossAttackTask, 0, 5, TimeUnit.SECONDS);
-                ScheduledThreadPoolUtil.getNpcTaskMap().put(getId(), t);
+        ScheduledFuture<?> t = ScheduledThreadPoolUtil.getBossTaskMap().get(getId());
+        if (t != null) {
+            //代表着该boss已启动攻击线程
+        } else {
+            synchronized (this) {
+                t = ScheduledThreadPoolUtil.getBossTaskMap().get(getId());
+                if (t==null) {
+                    CopySceneBean copySceneBean = CopySceneProvider.getCopySceneBeanById(getCopySceneBeanId());
+                    ScheduledThreadPoolUtil.BossAttackTask bossAttackTask = new ScheduledThreadPoolUtil.BossAttackTask(this, copySceneBean, getSkillBeans());
+                    t = ScheduledThreadPoolUtil.getScheduledExecutorService().scheduleAtFixedRate(bossAttackTask, 0, 5, TimeUnit.SECONDS);
+                    ScheduledThreadPoolUtil.getBossTaskMap().put(getId(), t);
+                }
             }
         }
     }
@@ -363,10 +365,9 @@ public class BossBean extends Role{
                     }
                 }
                 return target;
-            } else {
-                return null;
             }
         }
+        return null;
     }
     public void addHatred(Role role,Integer number){
         synchronized (hatredMap) {
