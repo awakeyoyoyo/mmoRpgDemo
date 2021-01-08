@@ -231,12 +231,10 @@ public class CommonsUtil implements ApplicationContextAware {
      * @param channel
      * @return
      */
-    public static MmoSimpleRole checkLogin(Channel channel){
+    public static MmoSimpleRole checkLogin(Channel channel) throws Exception {
         MmoSimpleRole mmoSimpleRole= CommonsUtil.getRoleByChannel(channel);
         if (mmoSimpleRole==null){
-            NettyResponse errotResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"请先登录".getBytes());
-            channel.writeAndFlush(errotResponse);
-            return null;
+            throw new Exception("用户未登录");
         }
         return mmoSimpleRole;
     }
@@ -263,7 +261,7 @@ public class CommonsUtil implements ApplicationContextAware {
      * @param roleId
      */
     public static  void bagIntoDataBase(BackPackManager backPackManager,Integer roleId){
-        List<ArticleDto> articles=backPackManager.getBackpacks();
+        List<ArticleDto> articles=backPackManager.getBackpacksMessage();
         //需要修改或者新增的记录
         for (ArticleDto a:articles) {
             MmoBagPOJO mmoBagPOJO=new MmoBagPOJO();

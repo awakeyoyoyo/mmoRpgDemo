@@ -313,47 +313,55 @@ public class MmoSimpleRole extends Role implements MyObserver {
     private Boolean useEquipment(EquipmentBean equipmentBean) {
         //判断该位置是否有装备
         EquipmentBean oldBean = getEquipmentBeanHashMap().get(equipmentBean.getPosition());
-        if (oldBean != null) {
-            //放回背包内
-            //背包新增数据
-            //修改人物属性
-            setAttack(getAttack() - oldBean.getAttackAdd());
-            setDamageAdd(getDamageAdd() - oldBean.getDamageAdd());
-            needDeleteEquipmentIds.add(oldBean.getEquipmentBagId());
-            backpackManager.put(oldBean);
+        synchronized (backpackManager) {
+            if (oldBean != null) {
+                //放回背包内
+                //背包新增数据
+                //修改人物属性
+                setAttack(getAttack() - oldBean.getAttackAdd());
+                setDamageAdd(getDamageAdd() - oldBean.getDamageAdd());
+                needDeleteEquipmentIds.add(oldBean.getEquipmentBagId());
+                backpackManager.put(oldBean);
+            }
+            //背包减少装备
+            backpackManager.useOrAbandonArticle(equipmentBean.getArticleId(), 1);
+            //装备栏增加装备
+            equipmentBeanHashMap.put(equipmentBean.getPosition(), equipmentBean);
+            //人物属性
+            setAttack(getAttack() + equipmentBean.getAttackAdd());
+            setDamageAdd(getDamageAdd() + equipmentBean.getDamageAdd());
+            return true;
         }
-        //背包减少装备
-        backpackManager.useOrAbandonArticle(equipmentBean.getArticleId(), 1);
-        //装备栏增加装备
-        equipmentBeanHashMap.put(equipmentBean.getPosition(), equipmentBean);
-        //人物属性
-        setAttack(getAttack() + equipmentBean.getAttackAdd());
-        setDamageAdd(getDamageAdd() + equipmentBean.getDamageAdd());
-        return true;
     }
 
     /**
      * 脱装备
      */
-    public Boolean unUseEquipment(Integer position) {
+    public Boolean unUseEquipment(Integer position) throws Exception {
         //判断该位置是否有装备
         EquipmentBean equipmentBean = getEquipmentBeanHashMap().get(position);
-        if (equipmentBean == null) {
-            //无装备
-            return false;
-        } else {
-            equipmentBeanHashMap.remove(position);
-            //装备栏数据库减少该装备
-            if (equipmentBean.getEquipmentBagId() != null) {
-                needDeleteEquipmentIds.add(equipmentBean.getEquipmentBagId());
+        //锁住背包
+        synchronized (backpackManager) {
+            if (equipmentBean == null) {
+                //无装备
+                return false;
+            } else {
+                equipmentBeanHashMap.remove(position);
+                //装备栏数据库减少该装备
+                if (equipmentBean.getEquipmentBagId() != null) {
+                    needDeleteEquipmentIds.add(equipmentBean.getEquipmentBagId());
+                }
+                //装备栏id为null
+                equipmentBean.setEquipmentBagId(null);
+                //放入背包
+                if (!backpackManager.canPutArticle(equipmentBean)){
+                    throw new Exception("背包已经满了");
+                }
+                backpackManager.put(equipmentBean);
+                setAttack(getAttack() - equipmentBean.getAttackAdd());
+                setDamageAdd(getDamageAdd() - equipmentBean.getDamageAdd());
+                return true;
             }
-            //装备栏id为null
-            equipmentBean.setEquipmentBagId(null);
-            //放入背包
-            backpackManager.put(equipmentBean);
-            setAttack(getAttack() - equipmentBean.getAttackAdd());
-            setDamageAdd(getDamageAdd() - equipmentBean.getDamageAdd());
-            return true;
         }
     }
 

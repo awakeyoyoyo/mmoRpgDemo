@@ -49,6 +49,7 @@ public class GoodsServiceProvider {
         if (goodsBean == null) {
             throw new Exception("查无该商品");
         }
+
         synchronized (goodsBean) {
             if (goodsBean.getNowNum()<=0){
                 throw new Exception("该商品数量不足");
@@ -66,21 +67,21 @@ public class GoodsServiceProvider {
         if(goodsBean.getArticleTypeId().equals(ArticleTypeCode.EQUIPMENT.getCode())){
             //装备
             article= sellEquipment(goodsBean.getArticleMessageId());
-            //todo
-            flag=mmoSimpleRole.getBackpackManager().put(article);
         }else{
             //药品
             article= sellMedicineBean(goodsBean.getArticleMessageId(),num);
-
-            flag=mmoSimpleRole.getBackpackManager().put(article);
         }
-        if (!flag){
-            //背包满了
-            //恢复
-            synchronized (goodsBean) {
-                goodsBean.setNowNum(goodsBean.getNowNum()+num);
+        synchronized (mmoSimpleRole.getBackpackManager()) {
+            flag = mmoSimpleRole.getBackpackManager().canPutArticle(article);
+            if (!flag) {
+                //背包满了
+                //恢复
+                synchronized (goodsBean) {
+                    goodsBean.setNowNum(goodsBean.getNowNum() + num);
+                }
+                throw new Exception("背包已经满了");
             }
-            throw new Exception("背包已经满了");
+            mmoSimpleRole.getBackpackManager().put(article);
         }
         return  article;
     }

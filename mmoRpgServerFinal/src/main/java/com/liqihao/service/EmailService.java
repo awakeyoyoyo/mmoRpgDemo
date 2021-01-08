@@ -20,7 +20,7 @@ public interface EmailService {
      * @param myMessage
      * @param mmoSimpleRole
      */
-    void getEmailArticleRequest(EmailModel.EmailModelMessage myMessage, MmoSimpleRole mmoSimpleRole);
+    void getEmailArticleRequest(EmailModel.EmailModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws Exception;
     /**
      * 已接受邮件列表
      * @param myMessage

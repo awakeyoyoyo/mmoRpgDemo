@@ -39,7 +39,7 @@ public interface BackpackService {
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
      */
-    void addArticleRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException;
+    void addArticleRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws Exception;
     /**
      *  副本中可捡去的物品
      * @param myMessage
@@ -54,7 +54,7 @@ public interface BackpackService {
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
      */
-    void getArticleFromFloorRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException;
+    void getArticleFromFloorRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws Exception;
 
 
     /**
@@ -81,4 +81,13 @@ public interface BackpackService {
      * @throws Exception
      */
     void findAllGoods(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws Exception;
+
+
+    /**
+     * 整理背包
+     * @param myMessage
+     * @param mmoSimpleRole
+     * @throws Exception
+     */
+    void sortBackPack(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws Exception;
 }

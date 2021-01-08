@@ -71,7 +71,7 @@ public class BackpackServiceImpl implements BackpackService {
     @HandlerCmdTag(cmd = ConstantValue.BACKPACK_MSG_REQUEST, module = ConstantValue.BAKCPACK_MODULE)
     public void backPackMsgRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
         Channel channel = ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
-        List<ArticleDto> articles = mmoSimpleRole.getBackpackManager().getBackpacks();
+        List<ArticleDto> articles = mmoSimpleRole.getBackpackManager().getBackpacksMessage();
         List<BackPackModel.ArticleDto> articleDtoList = new ArrayList<>();
         for (ArticleDto a : articles) {
             BackPackModel.ArticleDto.Builder dtoBuilder = BackPackModel.ArticleDto.newBuilder();
@@ -127,7 +127,7 @@ public class BackpackServiceImpl implements BackpackService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.ADD_ARTICLE_REQUEST, module = ConstantValue.BAKCPACK_MODULE)
-    public void addArticleRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
+    public void addArticleRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws Exception {
         Integer id = myMessage.getAddArticleRequest().getId();
         Integer articleType = myMessage.getAddArticleRequest().getArticleType();
         Integer number = myMessage.getAddArticleRequest().getNumber();
@@ -172,15 +172,14 @@ public class BackpackServiceImpl implements BackpackService {
             channel.writeAndFlush(nettyResponse);
             return;
         }
-        if (!mmoSimpleRole.getBackpackManager().put(article)) {
-            NettyResponse nettyResponse = new NettyResponse();
-            nettyResponse.setCmd(ConstantValue.FAIL_RESPONSE);
-            nettyResponse.setStateCode(StateCode.FAIL);
-            //protobuf 生成registerResponse
-            nettyResponse.setData("背包已满".getBytes());
-            channel.writeAndFlush(nettyResponse);
-            return;
+        //上锁
+        synchronized (mmoSimpleRole.getBackpackManager()) {
+            if (!mmoSimpleRole.getBackpackManager().canPutArticle(article)) {
+                throw new Exception("背包已经满了");
+            }
+            mmoSimpleRole.getBackpackManager().put(article);
         }
+
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.ADD_ARTICLE_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
@@ -248,7 +247,7 @@ public class BackpackServiceImpl implements BackpackService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.GET_ARTICLE_FROM_FLOOR_REQUEST, module = ConstantValue.BAKCPACK_MODULE)
-    public void getArticleFromFloorRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
+    public void getArticleFromFloorRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws Exception {
         Integer index = myMessage.getGetArticleFromFloorRequest().getIndex();
         Channel channel = ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
         Integer copySceneBeanId = mmoSimpleRole.getCopySceneBeanId();
@@ -265,7 +264,12 @@ public class BackpackServiceImpl implements BackpackService {
             return;
         }
         //放入背包
-        mmoSimpleRole.getBackpackManager().put(article);
+        synchronized (mmoSimpleRole.getBackpackManager()) {
+            if (!mmoSimpleRole.getBackpackManager().canPutArticle(article)) {
+                throw new Exception("背包已经满了");
+            }
+            mmoSimpleRole.getBackpackManager().put(article);
+        }
         //传输数据
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.GET_ARTICLE_FROM_FLOOR_RESPONSE);
@@ -339,5 +343,11 @@ public class BackpackServiceImpl implements BackpackService {
         messageData.setFindAllGoodsResponse(findAllGoodsResponse.build());
         nettyResponse.setData(messageData.build().toByteArray());
         channel.writeAndFlush(nettyResponse);
+    }
+
+    @Override
+    @HandlerCmdTag(cmd = ConstantValue.SORT_BACKPACK_REQUEST, module = ConstantValue.BAKCPACK_MODULE)
+    public void sortBackPack(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws Exception {
+        mmoSimpleRole.getBackpackManager().clearBackPack();
     }
 }

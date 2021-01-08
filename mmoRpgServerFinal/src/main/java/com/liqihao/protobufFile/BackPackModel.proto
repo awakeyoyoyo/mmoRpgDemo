@@ -22,6 +22,7 @@ message BackPackModelMessage{
     FindAllGoodsRequest=16;
     FindAllGoodsResponse=17;
     GoodsDto=18;
+    SortBackPackRequest=19;
   }
   //用date_type来标识传的是哪一个枚举类型
   DateType data_type=1;
@@ -46,7 +47,11 @@ message BackPackModelMessage{
     FindAllGoodsRequest findAllGoodsRequest=18;
     FindAllGoodsResponse findAllGoodsResponse=19;
     GoodsDto goodsDto=20;
+      SortBackPackRequest sortBackPackRequest=21;
   }
+}
+message SortBackPackRequest{
+
 }
 message FindAllGoodsRequest{
 

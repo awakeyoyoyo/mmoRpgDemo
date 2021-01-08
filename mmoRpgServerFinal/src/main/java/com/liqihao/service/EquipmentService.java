@@ -31,7 +31,7 @@ public interface EquipmentService {
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
      */
-    void reduceEquipmentRequest(EquipmentModel.EquipmentModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException;
+    void reduceEquipmentRequest(EquipmentModel.EquipmentModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws Exception;
 
     /**
      * 修复装备

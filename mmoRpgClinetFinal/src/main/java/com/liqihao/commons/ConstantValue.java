@@ -111,6 +111,10 @@ public interface ConstantValue {
      */
     String BAKCPACK_MODULE="backpackServiceImpl";
     /**
+     * 整理背包
+     */
+    int SORT_BACKPACK_REQUEST=4009;
+    /**
      * 查看有多少钱
      */
     int CHECK_MONEY_NUMBER_REQUEST=4006;
@@ -478,6 +482,7 @@ public interface ConstantValue {
     /**
      * 指令
      */
+    String SORT_BACKPACK_REQUEST_CMD="sortBackPack";
     String FIND_ALL_GOODS_REQUEST_CMD="findAllGoods";
     String CHECK_MONEY_NUMBER_REQUEST_CMD="checkMoney";
     String BUY_GOODS_REQUEST_CMD="buyGoods";

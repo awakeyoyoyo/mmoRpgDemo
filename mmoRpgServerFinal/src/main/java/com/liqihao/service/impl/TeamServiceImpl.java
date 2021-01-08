@@ -457,7 +457,7 @@ public class TeamServiceImpl implements TeamService {
             TeamModel.RoleDto role = TeamModel.RoleDto.newBuilder().setId(simpleRole.getId())
                     .setHp(simpleRole.getHp()).setMp(simpleRole.getMp())
                     .setTeamId(mmoSimpleRole.getTeamId())
-                    .setProfessionId(mmoSimpleRole.getProfessionId())
+                    .setProfessionId(simpleRole.getProfessionId())
                     .setName(simpleRole.getName()).setNowHp(simpleRole.getNowHp())
                     .setNowMP(simpleRole.getNowMp()).build();
             roles.add(role);

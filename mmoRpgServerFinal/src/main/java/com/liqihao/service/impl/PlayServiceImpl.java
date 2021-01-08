@@ -222,13 +222,11 @@ public class PlayServiceImpl implements PlayService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.LOGOUT_REQUEST, module = ConstantValue.PLAY_MODULE)
-    public void logoutRequest(PlayModel.PlayModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException {
+    public void logoutRequest(PlayModel.PlayModelMessage myMessage, Channel channel) throws Exception {
         MmoSimpleRole role = CommonsUtil.checkLogin(channel);
-        if (role == null) {
-            return;
-        } else {
-            ChannelMessageCache.getInstance().remove(role.getId());
-        }
+        ChannelMessageCache.getInstance().remove(role.getId());
+        AttributeKey<MmoSimpleRole> key = AttributeKey.valueOf("role");
+        channel.attr(key).set(null);
         //保存背包信息入数据库
         CommonsUtil.bagIntoDataBase(role.getBackpackManager(), role.getId());
         CommonsUtil.equipmentIntoDataBase(role);

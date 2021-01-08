@@ -5,6 +5,7 @@ import com.liqihao.commons.enums.ArticleTypeCode;
 import com.liqihao.pojo.dto.ArticleDto;
 import org.springframework.beans.BeanUtils;
 
+import javax.print.DocFlavor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -31,6 +32,7 @@ public class BackPackManager {
         this.needDeleteBagId = needDeleteBagId;
     }
 
+
     public BackPackManager() {
     }
 
@@ -51,11 +53,14 @@ public class BackPackManager {
         return ++articleId;
     }
 
-    //背包放入东西
-    public boolean put(Article article) {
+    public CopyOnWriteArrayList<Article> getBackpacks() {
+        return backpacks;
+    }
+
+    //背包格子是否足够
+    public boolean canPutArticle(Article article) {
         //判断物品类型
         if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())) {
-            //查找背包中是否有
             MedicineBean medicineBean = (MedicineBean) article;
             List<Article> medicines = backpacks.stream()
                     .filter(a -> a.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())).collect(Collectors.toList());
@@ -66,7 +71,92 @@ public class BackPackManager {
                 //物品类型
                 if (medicineBean.getId().equals(temp.getId()) && number > 0) {
                     //判断是否已经满了
-                    if (temp.getQuantity() == ConstantValue.BAG_MAX_VALUE) {
+                    if (temp.getQuantity().equals(size)) {
+                        continue;
+                    }
+                    Integer nowNum = temp.getQuantity();
+                    Integer sum = nowNum + number;
+                    //判断加上后是否已经超过99
+                    if (sum <= size) {
+                        //不超过加上
+                        return true;
+                    } else {
+                        number = number - (size - temp.getQuantity());
+                    }
+                }
+            }
+            //表明背包中没有该物品或者该物品的数量都是99或者是剩余的 新建
+            int gridNum = 0;
+            if (number <= 0) {
+                return true;
+            }
+            //生成新的格子
+            while (number > 0) {
+                if (number > ConstantValue.BAG_MAX_VALUE) {
+                    number -= ConstantValue.BAG_MAX_VALUE;
+                } else {
+                    number = 0;
+                }
+                gridNum++;
+            }
+            if (nowSize + gridNum <= size) {
+                return true;
+            } else {
+                return false;
+            }
+        } else if ((article.getArticleTypeCode().equals(ArticleTypeCode.EQUIPMENT.getCode()))) {
+            if (nowSize > size) {
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    //整理背包
+    public synchronized void clearBackPack(){
+        CopyOnWriteArrayList<Article> newBackPack=new CopyOnWriteArrayList<>();
+        CopyOnWriteArrayList<Article> oldBackPack=getBackpacks();
+        setBackpacks(newBackPack);
+        articleId=0;
+        for (Article a:oldBackPack) {
+            if (a.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())) {
+                MedicineBean medicineBean = (MedicineBean) a;
+                if (medicineBean.getBagId()!=null){
+                    needDeleteBagId.add(medicineBean.getBagId());
+                }
+                medicineBean.setArticleId(getNewArticleId());
+                medicineBean.setBagId(null);
+                put(medicineBean);
+            } else if ((a.getArticleTypeCode().equals(ArticleTypeCode.EQUIPMENT.getCode()))) {
+                //判断背包大小
+                EquipmentBean equipmentBean = (EquipmentBean) a;
+                if (equipmentBean.getBagId()!=null){
+                    needDeleteBagId.add(equipmentBean.getBagId());
+                }
+                //设置背包物品id
+                equipmentBean.setArticleId(getNewArticleId());
+                equipmentBean.setBagId(null);
+                put(equipmentBean);
+            }
+        }
+    }
+    //背包放入东西
+    public boolean put(Article article) {
+        //判断物品类型
+        if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())) {
+            //查找背包中是否有
+            MedicineBean medicineBean = (MedicineBean) article;
+            List<Article> medicines = getBackpacks().stream()
+                    .filter(a -> a.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())).collect(Collectors.toList());
+            //总数量
+            Integer number = medicineBean.getQuantity();
+            for (Article a : medicines) {
+                MedicineBean temp = (MedicineBean) a;
+                //物品类型
+                if (medicineBean.getId().equals(temp.getId()) && number > 0) {
+                    //判断是否已经满了
+                    if (temp.getQuantity().equals(ConstantValue.BAG_MAX_VALUE)) {
                         continue;
                     }
                     Integer nowNum = temp.getQuantity();
@@ -87,15 +177,15 @@ public class BackPackManager {
                 while (number > 0) {
                     MedicineBean newMedicine = new MedicineBean();
                     BeanUtils.copyProperties(medicineBean, newMedicine);
-                    if (number > 99) {
-                        newMedicine.setQuantity(99);
-                        number -= 99;
+                    if (number > ConstantValue.BAG_MAX_VALUE) {
+                        newMedicine.setQuantity(ConstantValue.BAG_MAX_VALUE);
+                        number -= ConstantValue.BAG_MAX_VALUE;
                     } else {
                         newMedicine.setQuantity(number);
                         number = 0;
                     }
                     newMedicine.setArticleId(getNewArticleId());
-                    backpacks.add(newMedicine);
+                    getBackpacks().add(newMedicine);
                     nowSize++;
                 }
 
@@ -113,7 +203,7 @@ public class BackPackManager {
                 //设置背包物品id
                 equipmentBean.setArticleId(getNewArticleId());
                 nowSize++;
-                backpacks.add(equipmentBean);
+                getBackpacks().add(equipmentBean);
 
                 return true;
             }
@@ -123,12 +213,11 @@ public class BackPackManager {
     }
 
     //背包放入东西 按照数据库格式来存放
-    public void putOnDatabase(Article article) {
-
+    public synchronized void putOnDatabase(Article article) {
         if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())) {
             MedicineBean medicineBean = (MedicineBean) article;
             medicineBean.setArticleId(getNewArticleId());
-            backpacks.add(medicineBean);
+            getBackpacks().add(medicineBean);
             nowSize++;
         } else if ((article.getArticleTypeCode().equals(ArticleTypeCode.EQUIPMENT.getCode()))) {
             //判断背包大小
@@ -136,18 +225,18 @@ public class BackPackManager {
             //设置背包物品id
             equipmentBean.setArticleId(getNewArticleId());
             nowSize++;
-            backpacks.add(equipmentBean);
+            getBackpacks().add(equipmentBean);
         }
     }
 
     //判断背包是否存在某样东西
-    public boolean contains(Article a) {
-        return backpacks.contains(a);
+    public synchronized boolean contains(Article a) {
+        return getBackpacks().contains(a);
     }
 
     //减少某样物品数量/丢弃装备
-    public Article useOrAbandonArticle(Integer articleId, Integer number) {
-        for (Article a : backpacks) {
+    public synchronized Article useOrAbandonArticle(Integer articleId, Integer number) {
+        for (Article a : getBackpacks()) {
             if (a.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())) {
                 MedicineBean medicineBean = (MedicineBean) a;
                 if (medicineBean.getArticleId().equals(articleId)) {
@@ -158,9 +247,9 @@ public class BackPackManager {
                         if (medicineBean.getQuantity() == 0) {
                             //需要删除数据库的记录
 
-                            needDeleteBagId.add(medicineBean.getBagId());
+                            getNeedDeleteBagId().add(medicineBean.getBagId());
                             ((MedicineBean) a).setBagId(null);
-                            backpacks.remove(a);
+                            getBackpacks().remove(a);
                             nowSize--;
 
                         }
@@ -173,9 +262,9 @@ public class BackPackManager {
                 EquipmentBean equipmentBean = (EquipmentBean) a;
                 if (equipmentBean.getArticleId().equals(articleId)) {
                     //需要删除数据库的记录
-                    needDeleteBagId.add(equipmentBean.getBagId());
+                    getNeedDeleteBagId().add(equipmentBean.getBagId());
                     ((EquipmentBean) a).setBagId(null);
-                    backpacks.remove(a);
+                    getBackpacks().remove(a);
                     nowSize--;
                     return a;
                 }
@@ -204,9 +293,9 @@ public class BackPackManager {
     }
 
     //根据articleId获取物品信息
-    public Article getArticleByArticleId(Integer articleId) {
+    public synchronized Article getArticleByArticleId(Integer articleId) {
 
-        for (Article article : backpacks) {
+        for (Article article : getBackpacks()) {
             Integer id = null;
             if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())) {
                 MedicineBean medicineBean = (MedicineBean) article;
@@ -223,10 +312,9 @@ public class BackPackManager {
     }
 
     //获取背包内物品信息
-    public ArrayList<ArticleDto> getBackpacks() {
-
+    public synchronized ArrayList<ArticleDto> getBackpacksMessage() {
         ArrayList<ArticleDto> articleDtos = new ArrayList<>();
-        for (Article article : backpacks) {
+        for (Article article : getBackpacks()) {
             ArticleDto articleDto = new ArticleDto();
             if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())) {
                 MedicineBean medicineBean = (MedicineBean) article;
@@ -248,8 +336,6 @@ public class BackPackManager {
             articleDtos.add(articleDto);
         }
         return articleDtos;
-
-
     }
 
     public void setBackpacks(CopyOnWriteArrayList<Article> backpacks) {

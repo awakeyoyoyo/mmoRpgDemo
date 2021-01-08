@@ -43,7 +43,7 @@ public class DispatcherServlet implements ApplicationContextAware {
      * @param nettyRequest
      * @return
      */
-    public void handler(NettyRequest nettyRequest, Channel channel){
+    public void handler(NettyRequest nettyRequest, Channel channel) {
         logger.info("线程：" + Thread.currentThread().getName() + " 正在处理该请求");
         int cmd = nettyRequest.getCmd();
         Method m = methodHashMap.get(cmd);
@@ -56,36 +56,34 @@ public class DispatcherServlet implements ApplicationContextAware {
             try {
             Object object = serviceObject.getParser().parseFrom(nettyRequest.getData());
             m.invoke(serviceObject.getService(), object, channel);
-            }catch (Exception e){
+            }catch (InvocationTargetException e){
+                e.printStackTrace();
+                sendException(channel,e.getTargetException().getMessage());
+            } catch (Exception e) {
                 e.printStackTrace();
                 sendException(channel,e.getMessage());
             }
-        }
-        //检测登陆
-        mmoSimpleRole = CommonsUtil.checkLogin(channel);
-        if (mmoSimpleRole==null){
             return;
         }
+        //检测登陆
+
+
         if (m != null) {
             String beanName = m.getAnnotation(HandlerCmdTag.class).module();
             ServiceObject serviceObject = services.get(beanName);
             try {
-            Object object = serviceObject.getParser().parseFrom(nettyRequest.getData());
-            m.invoke(serviceObject.getService(), object, mmoSimpleRole);
+                mmoSimpleRole = CommonsUtil.checkLogin(channel);
+                Object object = serviceObject.getParser().parseFrom(nettyRequest.getData());
+                m.invoke(serviceObject.getService(), object, mmoSimpleRole);
             }catch (InvocationTargetException e){
                 e.printStackTrace();
                 sendException(channel,e.getTargetException().getMessage());
-            } catch (InvalidProtocolBufferException e) {
-                e.printStackTrace();
-                sendException(channel,e.getMessage());
-            } catch (IllegalAccessException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 sendException(channel,e.getMessage());
             }
-            return;
         }
         channel.writeAndFlush(new NettyResponse(StateCode.FAIL, 444, "传入错误的cmd".getBytes()));
-        return;
     }
 
     private void sendException(Channel ctx, String  cause){

@@ -120,6 +120,10 @@ public interface ConstantValue {
      */
     String BAKCPACK_MODULE="backpackServiceImpl";
     /**
+     * 整理背包
+     */
+    int SORT_BACKPACK_REQUEST=4009;
+    /**
      * 商品列表请求
      */
     int FIND_ALL_GOODS_REQUEST=4008;

@@ -18,7 +18,7 @@ public class RequestEncoder extends MessageToByteEncoder<NettyRequest> {
     private static Logger logger=Logger.getLogger(RequestEncoder.class);
     @Override
     protected void encode(ChannelHandlerContext channelHandlerContext, NettyRequest nettyRequest, ByteBuf byteBuf) throws Exception {
-       logger.info("Client :RequestEncoder");
+//       logger.info("Client :RequestEncoder");
         //写入包头
         byteBuf.writeInt(ConstantValue.FLAG);
         //cmd
@@ -28,7 +28,7 @@ public class RequestEncoder extends MessageToByteEncoder<NettyRequest> {
         //data
         byteBuf.writeBytes(nettyRequest.getData());
 
-        logger.info("Client :RequestEncoder: 包头: "+ConstantValue.FLAG+"cmd: "+nettyRequest.getCmd()+"数据长度: "+nettyRequest.getDataLength() );
-        logger.error("Client :RequestEncoder readableBytes "+byteBuf.readableBytes());
+//        logger.info("Client :RequestEncoder: 包头: "+ConstantValue.FLAG+"cmd: "+nettyRequest.getCmd()+"数据长度: "+nettyRequest.getDataLength() );
+//        logger.error("Client :RequestEncoder readableBytes "+byteBuf.readableBytes());
     }
 }

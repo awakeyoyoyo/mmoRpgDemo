@@ -23,7 +23,7 @@ public class CommonsCache<T>{
         concurrentHashMap.remove(id);
     }
     public boolean contains(Integer id){
-        return concurrentHashMap.contains(id);
+        return concurrentHashMap.containsKey(id);
     }
     public Collection<T> values(){return concurrentHashMap.values();}
 }

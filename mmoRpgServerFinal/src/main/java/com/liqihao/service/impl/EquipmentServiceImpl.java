@@ -84,7 +84,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.REDUCE_EQUIPMENT_REQUEST, module = ConstantValue.EQUIPMENT_MODULE)
-    public void reduceEquipmentRequest(EquipmentModel.EquipmentModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
+    public void reduceEquipmentRequest(EquipmentModel.EquipmentModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws Exception {
 
         Integer position = myMessage.getReduceEquipmentRequest().getPosition();
         Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());

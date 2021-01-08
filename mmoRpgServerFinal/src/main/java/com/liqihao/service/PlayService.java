@@ -33,7 +33,7 @@ public interface PlayService {
      * @param channel
      * @throws InvalidProtocolBufferException
      */
-    void logoutRequest(PlayModel.PlayModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException;
+    void logoutRequest(PlayModel.PlayModelMessage myMessage, Channel channel) throws Exception;
 
     /**
      * 使用技能

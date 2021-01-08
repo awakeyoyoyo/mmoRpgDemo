@@ -53,7 +53,7 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.GET_EMAIL_ARTICLE_REQUEST,module = ConstantValue.EMAIL_MODULE)
-    public void getEmailArticleRequest(EmailModel.EmailModelMessage myMessage, MmoSimpleRole mmoSimpleRole) {
+    public void getEmailArticleRequest(EmailModel.EmailModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws Exception {
         Integer emailId=myMessage.getGetEmailArticleRequest().getEmailId();
         Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
         //获取邮件详情
@@ -75,14 +75,12 @@ public class EmailServiceImpl implements EmailService {
             MedicineMessage medicineMessage= MediceneMessageCache.getInstance().get(mmoEmailBean.getArticleMessageId());
             MedicineBean medicineBean=CommonsUtil.medicineMessageToMedicineBean(medicineMessage);
             medicineBean.setQuantity(mmoEmailBean.getArticleNum());
-            if (!backPackManager.put(medicineBean)){
-                NettyResponse nettyResponse=new NettyResponse();
-                nettyResponse.setCmd(ConstantValue.FAIL_RESPONSE);
-                nettyResponse.setStateCode(StateCode.FAIL);
-                //protobuf 生成registerResponse
-                nettyResponse.setData("背包已满".getBytes());
-                channel.writeAndFlush(nettyResponse);
-                return;
+            //上锁
+            synchronized (mmoSimpleRole.getBackpackManager()) {
+                if (!mmoSimpleRole.getBackpackManager().canPutArticle(medicineBean)) {
+                    throw new Exception("背包已经满了");
+                }
+                mmoSimpleRole.getBackpackManager().put(medicineBean);
             }
             //邮件设置为没有物品
             mmoEmailBean.setArticleMessageId(-1);
