@@ -17,7 +17,6 @@ import io.netty.channel.Channel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -198,8 +197,8 @@ public class MmoHelperBean extends Role{
                     //与npc攻击的不是同一个目标 则切换
                     ScheduledThreadPoolUtil.getHelperTaskMap().remove(getId());
                     t.cancel(false);
-                    ScheduledThreadPoolUtil.HeplerAttackTask helperAttackTask =
-                            new ScheduledThreadPoolUtil.HeplerAttackTask(this, getSkillBeans(), role);
+                    ScheduledThreadPoolUtil.HelperAttackTask helperAttackTask =
+                            new ScheduledThreadPoolUtil.HelperAttackTask(this, getSkillBeans(), role);
                     t = ScheduledThreadPoolUtil.getScheduledExecutorService().scheduleAtFixedRate(helperAttackTask, 0, 6, TimeUnit.SECONDS);
                     ScheduledThreadPoolUtil.getHelperTaskMap().put(getId(), t);
                     setTarget(role);
@@ -211,8 +210,8 @@ public class MmoHelperBean extends Role{
             }
         }
         setTarget(role);
-        ScheduledThreadPoolUtil.HeplerAttackTask helperAttackTask =
-                new ScheduledThreadPoolUtil.HeplerAttackTask(this, getSkillBeans(), role);
+        ScheduledThreadPoolUtil.HelperAttackTask helperAttackTask =
+                new ScheduledThreadPoolUtil.HelperAttackTask(this, getSkillBeans(), role);
         t = ScheduledThreadPoolUtil.getScheduledExecutorService().scheduleAtFixedRate(helperAttackTask, 0, 6, TimeUnit.SECONDS);
         ScheduledThreadPoolUtil.getHelperTaskMap().put(getId(), t);
     }

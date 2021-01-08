@@ -142,7 +142,7 @@ public class PlayServiceImpl implements PlayService {
                 System.out.println("[-]蓝量： " + mmoRole.getNowMp() + "/" + mmoRole.getMp());
                 System.out.println("[-]");
                 System.out.println("[-]角色:"+mmoRole.getId()+" 潇洒地使用了： "+skillMessage.getSkillName()+" 消耗了： "+roleIdDamage.getDamage()+"点"+DamageTypeCode.getValue(roleIdDamage.getDamageType()));
-                if (skillMessage.getChantTime()!=null){
+                if (skillMessage.getChantTime()>0){
                     System.out.println("[-]该技能在吟唱中。。。。。。。。小心了");
                 }
             } else {

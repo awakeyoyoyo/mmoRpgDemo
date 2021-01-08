@@ -263,7 +263,7 @@ public class ScheduledThreadPoolUtil {
 
         @Override
         public void run() {
-            logger.info("npc攻击线程");
+            logger.info("怪物攻击线程");
             MmoSimpleRole mmoSimpleRole = OnlineRoleMessageCache.getInstance().get(targetRoleId);
             MmoSimpleNPC npc = NpcMessageCache.getInstance().get(npcId);
             if (mmoSimpleRole == null ||
@@ -297,26 +297,6 @@ public class ScheduledThreadPoolUtil {
                 skillBean.setChantTime(skillMessage.getChantTime());
                 skillBean.setAddPerson(skillMessage.getAddPerson());
                 skillBean.setSkillType(skillMessage.getSkillType());
-//                Integer number = 0;
-//                if (skillBean.getSkillType().equals(SkillTypeCode.FIX.getCode())) {
-//                    //固伤 只有技能伤害
-//                    number = skillBean.getBaseDamage();
-//                }
-//                if (skillBean.getSkillType().equals(SkillTypeCode.PERCENTAGE.getCode())) {
-//                    //百分比 增加攻击力的10%
-//                    Integer damage = skillBean.getBaseDamage();
-//                    number = (int) Math.ceil(damage + mmoSimpleRole.getAttack() * skillBean.getAddPerson());
-//                }
-
-//                //广播
-//                // 生成一个角色扣血或者扣篮
-//                PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();
-//                damageU.setFromRoleId(npcId);
-//                damageU.setToRoleId(targetRoleId);
-//                damageU.setAttackStyle(AttackStyleCode.ATTACK.getCode());
-//                damageU.setBufferId(-1);
-//                damageU.setDamageType(ConsumeTypeCode.HP.getCode());
-//                damageU.setSkillId(skillBean.getId());
                 mmoSimpleRole.beAttack(skillBean,npc);
 
             }
@@ -366,19 +346,23 @@ public class ScheduledThreadPoolUtil {
             //仇恨的第一人
             Role role = null;
             role = bossBean.getTarget();
-            if (role == null) {
+            if (role == null&&bossBean.getStatus().equals(RoleStatusCode.ALIVE.getCode())) {
                 // 挑战失败
                 TeamBean teamBean = TeamServiceProvider.getTeamBeanByTeamId(copySceneBean.getTeamId());
                 copySceneBean.changePeopleDie(teamBean);
                 bossTaskMap.get(bossBean.getBossBeanId()).cancel(false);
                 bossTaskMap.remove(bossBean.getBossBeanId());
                 return;
+            }else{
+                bossTaskMap.get(bossBean.getBossBeanId()).cancel(false);
+                bossTaskMap.remove(bossBean.getBossBeanId());
             }
             SkillBean skillBean = null;
             //使用不同的技能
-            if (attackCount % 6 == 0) {
+            if (attackCount%5==0){
                 skillBean = skillBeans.get(1);
-            } else {
+                attackCount=0;
+            }else{
                 skillBean = skillBeans.get(0);
             }
             attackCount++;
@@ -397,17 +381,17 @@ public class ScheduledThreadPoolUtil {
         }
     }
 
-    public static class HeplerAttackTask implements Runnable {
+    public static class HelperAttackTask implements Runnable {
         private MmoHelperBean helperBean;
         private List<SkillBean> skillBeans;
         private Role target;
         private Integer attackCount;
         private Logger logger = Logger.getLogger(NpcAttackTask.class);
 
-        public HeplerAttackTask() {
+        public HelperAttackTask() {
         }
 
-        public HeplerAttackTask(MmoHelperBean helperBean, List<SkillBean> skillBeans,Role target) {
+        public HelperAttackTask(MmoHelperBean helperBean, List<SkillBean> skillBeans, Role target) {
             this.helperBean = helperBean;
             attackCount = 1;
             this.skillBeans = skillBeans;
@@ -439,9 +423,10 @@ public class ScheduledThreadPoolUtil {
             }
             SkillBean skillBean = null;
             //使用不同的技能
-            if (attackCount % 6 == 0) {
+            if (attackCount%5==0){
                 skillBean = skillBeans.get(1);
-            } else {
+                attackCount=0;
+            }else{
                 skillBean = skillBeans.get(0);
             }
             attackCount++;

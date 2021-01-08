@@ -143,7 +143,7 @@ public class BossBean extends Role{
                 reduce = reduce + hp;
                 hp = 0;
                 bossBean.setStatus(RoleStatusCode.DIE.getCode());
-                // 挑战成功
+                // 挑战成功or出现下一个boss
                 CopySceneBean copySceneBean=CopySceneProvider.getCopySceneBeanById(copySceneBeanId);
                 copySceneBean.bossComeOrFinish();
             }
@@ -332,6 +332,9 @@ public class BossBean extends Role{
     }
 
     public Role getTarget() {
+        if (getStatus().equals(RoleStatusCode.DIE.getCode())){
+            return null;
+        }
         synchronized (hatredMap) {
             ConcurrentHashMap<Role, Integer> hatredMap = getHatredMap();
             //判断是否有嘲讽buffer,则直接攻击嘲讽对象
@@ -340,7 +343,9 @@ public class BossBean extends Role{
                 BufferBean bufferBean=buffers.next();
                if (bufferBean.getBuffType().equals(BufferTypeCode.GG_ATTACK.getCode())){
                    Role role= OnlineRoleMessageCache.getInstance().get(bufferBean.getFromRoleId());
-                   return role;
+                   if(role.getStatus().equals(RoleStatusCode.ALIVE.getCode())) {
+                       return role;
+                   }
                }
             }
             if (hatredMap.size() > 0) {
@@ -392,6 +397,9 @@ public class BossBean extends Role{
     }
     //使用技能
     public  void useSkill(List<Role> target, Integer skillId) {
+        if (getStatus().equals(RoleStatusCode.DIE.getCode())){
+            return;
+        }
         SkillBean skillBean = getSkillBeanBySkillId(skillId);
 
         if (skillBean.getConsumeType().equals(ConsumeTypeCode.HP.getCode())) {

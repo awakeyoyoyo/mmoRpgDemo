@@ -473,7 +473,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
         int addTime = skillBean.getCd() * 1000;
         map.put(skillBean.getId(), time + addTime);
         //吟唱时间
-        if (skillBean.getChantTime()!=null) {
+        if (skillBean.getChantTime()>0) {
             ScheduledThreadPoolUtil.skillAttackTask skillAttackTask=new ScheduledThreadPoolUtil.skillAttackTask(skillBean,target,this,mmoHelperBean);
             ScheduledThreadPoolUtil.getScheduledExecutorService().schedule(skillAttackTask,skillBean.getChantTime(),TimeUnit.SECONDS);
         }else{

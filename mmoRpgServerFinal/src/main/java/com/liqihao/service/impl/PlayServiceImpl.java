@@ -329,7 +329,6 @@ public class PlayServiceImpl implements PlayService {
         if (target.size() > 0) {
             mmoSimpleRole.useSkill(target, skillId);
         }
-        return;
     }
 
 
