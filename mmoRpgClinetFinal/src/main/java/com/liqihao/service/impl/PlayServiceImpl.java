@@ -55,6 +55,7 @@ public class PlayServiceImpl implements PlayService {
         mmoRole.setStatus(roleDTO.getStatus());
         mmoRole.setType(roleDTO.getType());
         MmoCacheCilent.getInstance().setNowRole(mmoRole);
+        MmoCacheCilent.getInstance().getRoleHashMap().put(mmoRole.getId(),mmoRole);
         ConcurrentHashMap<Integer, ProfessionMessage> p=MmoCacheCilent.getInstance().getProfessionMessageConcurrentHashMap();
         //将当前场景存入客户端缓存中
         //构建mmoscene对象

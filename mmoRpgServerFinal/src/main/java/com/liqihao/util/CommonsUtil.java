@@ -534,8 +534,8 @@ public class CommonsUtil implements ApplicationContextAware {
      */
     public static void sendRoleResponse(List<Role> newRoles,Integer sceneId,Integer copySceneId){
         //protobuf
-        SceneModel.SceneModelMessage.Builder messagedataBuilder = SceneModel.SceneModelMessage.newBuilder();
-        messagedataBuilder.setDataType(SceneModel.SceneModelMessage.DateType.RoleResponse);
+        SceneModel.SceneModelMessage.Builder messageDataBuilder = SceneModel.SceneModelMessage.newBuilder();
+        messageDataBuilder.setDataType(SceneModel.SceneModelMessage.DateType.RoleResponse);
         SceneModel.RoleResponse.Builder roleResponseBuilder = SceneModel.RoleResponse.newBuilder();
         List<SceneModel.RoleDTO> roleDTOS = new ArrayList<>();
         for (Role m : newRoles) {
@@ -558,10 +558,10 @@ public class CommonsUtil implements ApplicationContextAware {
             roleDTOS.add(msr.build());
         }
         roleResponseBuilder.addAllRoleDtos(roleDTOS);
-        messagedataBuilder.setRoleResponse(roleResponseBuilder.build());
-        byte[] data2 = messagedataBuilder.build().toByteArray();
+        messageDataBuilder.setRoleResponse(roleResponseBuilder.build());
+        byte[] data2 = messageDataBuilder.build().toByteArray();
         NettyResponse nettyResponse = new NettyResponse();
-        nettyResponse.setCmd(ConstantValue.FIND_ALL_ROLES_RESPONSE);
+        nettyResponse.setCmd(ConstantValue.ROLE_RESPONSE);
         nettyResponse.setStateCode(200);
         nettyResponse.setData(data2);
         List<Integer> players;

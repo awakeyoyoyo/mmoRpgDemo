@@ -56,7 +56,7 @@ public class SceneServiceImpl implements SceneService {
             roles.put(mmoRole.getId(),mmoRole);
         }
         //本地缓存设置当前场景角色
-        MmoCacheCilent.getInstance().setRoleHashMap(roles);
+        MmoCacheCilent.getInstance().getRoleHashMap().putAll(roles);
         //本地缓存设置当前的场景
         SceneMessage m=MmoCacheCilent.getInstance().getSceneMessageConcurrentHashMap().get(mmoScene);
         ConcurrentHashMap<Integer, ProfessionMessage> p=MmoCacheCilent.getInstance().getProfessionMessageConcurrentHashMap();
@@ -123,7 +123,7 @@ public class SceneServiceImpl implements SceneService {
             System.out.println("[-][-]所在队伍id："+roleDTO.getTeamId());
             System.out.println("[-]");
         }
-        MmoCacheCilent.getInstance().setRoleHashMap(roles);
+        MmoCacheCilent.getInstance().getRoleHashMap().putAll(roles);
         System.out.println("[-]--------------------------------------------------------");
     }
 
@@ -149,6 +149,7 @@ public class SceneServiceImpl implements SceneService {
 
     @Override
     public void roleResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
+        System.out.println("[-]新角色进入");
         if (nettyResponse.getStateCode()== StateCode.FAIL){
             System.out.println(new String(nettyResponse.getData()));
             return;

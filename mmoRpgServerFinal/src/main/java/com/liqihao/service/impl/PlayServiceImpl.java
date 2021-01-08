@@ -210,6 +210,9 @@ public class PlayServiceImpl implements PlayService {
         //场景信息
         loginResponseBuilder.setSceneId(role.getMmoSceneId());
         SceneBeanMessageCache.getInstance().get(role.getMmoSceneId()).getRoles().add(role.getId());
+        List<Role> newRoles = new ArrayList<>();
+        newRoles.add(simpleRole);
+        CommonsUtil.sendRoleResponse(newRoles, simpleRole.getMmoSceneId(), null);
         //打包成messageData
         messageData.setLoginResponse(loginResponseBuilder.build());
         NettyResponse nettyResponse = new NettyResponse();
@@ -217,6 +220,39 @@ public class PlayServiceImpl implements PlayService {
         nettyResponse.setCmd(ConstantValue.LOGIN_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
         channel.writeAndFlush(nettyResponse);
+        //获取信息
+        List<Role> sceneRoles = new ArrayList<>();
+        SceneBean sceneBean = SceneBeanMessageCache.getInstance().get(simpleRole.getMmoSceneId());
+        //NPC
+        for (Integer id : sceneBean.getNpcs()) {
+            MmoSimpleNPC temp = NpcMessageCache.getInstance().get(id);
+            MmoSimpleRole roleTemp = new MmoSimpleRole();
+            roleTemp.setId(temp.getId());
+            roleTemp.setName(temp.getName());
+            roleTemp.setStatus(temp.getStatus());
+            roleTemp.setType(temp.getType());
+            roleTemp.setOnStatus(temp.getOnStatus());
+            roleTemp.setHp(temp.getHp());
+            roleTemp.setNowHp(temp.getNowHp());
+            roleTemp.setMp(temp.getMp());
+            roleTemp.setNowMp(temp.getNowMp());
+            roleTemp.setMmoSceneId(temp.getMmoSceneId());
+            roleTemp.setAttack(temp.getAttack());
+            roleTemp.setDamageAdd(temp.getDamageAdd());
+            sceneRoles.add(roleTemp);
+        }
+        //ROLES
+        for (Integer id : sceneBean.getRoles()) {
+            MmoSimpleRole temp = OnlineRoleMessageCache.getInstance().get(id);
+            sceneRoles.add(temp);
+        }
+        //helper
+        if (sceneBean.getHelperBeans().size() > 0) {
+            for (MmoHelperBean helperBean : sceneBean.getHelperBeans()) {
+                sceneRoles.add(helperBean);
+            }
+        }
+        CommonsUtil.sendRoleResponse(sceneRoles, simpleRole.getMmoSceneId(), null);
         return;
     }
 
@@ -227,6 +263,14 @@ public class PlayServiceImpl implements PlayService {
         ChannelMessageCache.getInstance().remove(role.getId());
         AttributeKey<MmoSimpleRole> key = AttributeKey.valueOf("role");
         channel.attr(key).set(null);
+        //退出副本
+        if (role.getCopySceneBeanId()!=null){
+            CopySceneProvider.getCopySceneBeanById(role.getCopySceneBeanId()).peopleExit(role.getId());
+        }
+        //退出队伍
+        if(role.getTeamId()!=null){
+            TeamServiceProvider.getTeamBeanByTeamId(role.getTeamId()).exitPeople(role.getId());
+        }
         //保存背包信息入数据库
         CommonsUtil.bagIntoDataBase(role.getBackpackManager(), role.getId());
         CommonsUtil.equipmentIntoDataBase(role);
@@ -312,14 +356,14 @@ public class PlayServiceImpl implements PlayService {
         }
         //判断是单体技能 还是群体技能   可以攻击所有玩家 除了队友 npc
         //从缓存中查找出 怪物
-        SkillBean skillBean=mmoSimpleRole.getSkillBeanBySkillId(skillId);
+        SkillBean skillBean = mmoSimpleRole.getSkillBeanBySkillId(skillId);
         if (skillBean.getSkillAttackType().equals(SkillAttackTypeCode.CALL.getCode())) {
             mmoSimpleRole.useSkill(null, skillId);
             return;
         }
         ArrayList<Role> target = new ArrayList<>();
         if (mmoSimpleRole.getMmoSceneId() != null) {
-            target.addAll(findTargetInScene(mmoSimpleRole,roleType,targetId));
+            target.addAll(findTargetInScene(mmoSimpleRole, roleType, targetId));
         } else {
             target.addAll(findTargetInCopyScene(mmoSimpleRole));
         }
@@ -332,6 +376,7 @@ public class PlayServiceImpl implements PlayService {
 
     /**
      * 场景中的目标
+     *
      * @param mmoSimpleRole
      * @param roleType
      * @param targetId
@@ -369,7 +414,7 @@ public class PlayServiceImpl implements PlayService {
                 }
             }
             //hepler
-            for (MmoHelperBean h:sceneBean.getHelperBeans()) {
+            for (MmoHelperBean h : sceneBean.getHelperBeans()) {
                 if (mmoSimpleRole.getTeamId() == null) {
                     target.add(h);
                 } else {
@@ -409,6 +454,7 @@ public class PlayServiceImpl implements PlayService {
 
     /**
      * 副本中目标
+     *
      * @param mmoSimpleRole
      * @return
      */

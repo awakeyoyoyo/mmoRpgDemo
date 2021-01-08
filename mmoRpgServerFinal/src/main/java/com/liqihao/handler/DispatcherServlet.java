@@ -82,6 +82,7 @@ public class DispatcherServlet implements ApplicationContextAware {
                 e.printStackTrace();
                 sendException(channel,e.getMessage());
             }
+            return;
         }
         channel.writeAndFlush(new NettyResponse(StateCode.FAIL, 444, "传入错误的cmd".getBytes()));
     }
