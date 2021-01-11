@@ -54,7 +54,9 @@ public class BackPackManager {
         return backpacks;
     }
 
-    //背包格子是否足够
+    /**
+     * 背包格子是否足够
+     */
     public boolean canPutArticle(Article article) {
         //判断物品类型
         return article.checkCanPut(this);

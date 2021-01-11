@@ -47,4 +47,8 @@ public interface Article {
      * 检查是否可以放入
      */
     boolean checkCanPut(BackPackManager backPackManager);
+    /**
+     * 检查是否可以放入
+     */
+    boolean use(BackPackManager backpackManager,MmoSimpleRole mmoSimpleRole);
 }

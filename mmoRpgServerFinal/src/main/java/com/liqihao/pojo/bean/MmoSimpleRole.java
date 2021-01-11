@@ -299,54 +299,10 @@ public class MmoSimpleRole extends Role implements MyObserver {
         if (article==null){
             return false;
         }
-        if ( article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())) {
-            //药品
-            MedicineBean medicineBean = (MedicineBean) article;
-            //删减
-            backpackManager.useOrAbandonArticle(articleId, 1);
-            Boolean flag = medicineBean.useMedicene(getId());
-            return flag;
-        } else if (article.getArticleTypeCode().equals(ArticleTypeCode.EQUIPMENT.getCode())) {
-            //装备
-            EquipmentBean equipmentBean = (EquipmentBean) article;
-            //删减
-            backpackManager.useOrAbandonArticle(articleId, 1);
-            //穿
-            return useEquipment(equipmentBean);
-        } else {
-            return false;
-        }
-
+        backpackManager.useOrAbandonArticle(articleId, 1);
+        return article.use(getBackpackManager(),this);
     }
 
-    /**
-     *  穿装备 or替换装备
-     */
-
-    private Boolean useEquipment(EquipmentBean equipmentBean) {
-        EquipmentMessage equipmentMessage= EquipmentMessageCache.getInstance().get(equipmentBean.getEquipmentMessageId());
-        //判断该位置是否有装备
-        EquipmentBean oldBean = getEquipmentBeanHashMap().get(equipmentMessage.getPosition());
-        synchronized (backpackManager) {
-            if (oldBean != null) {
-                //放回背包内
-                //背包新增数据
-                //修改人物属性
-                setAttack(getAttack() - equipmentMessage.getAttackAdd());
-                setDamageAdd(getDamageAdd() - equipmentMessage.getDamageAdd());
-                needDeleteEquipmentIds.add(oldBean.getEquipmentBagId());
-                backpackManager.put(oldBean);
-            }
-            //背包减少装备
-            backpackManager.useOrAbandonArticle(equipmentBean.getArticleId(), 1);
-            //装备栏增加装备
-            equipmentBeanHashMap.put(equipmentMessage.getPosition(), equipmentBean);
-            //人物属性
-            setAttack(getAttack() + equipmentMessage.getAttackAdd());
-            setDamageAdd(getDamageAdd() + equipmentMessage.getDamageAdd());
-            return true;
-        }
-    }
 
     /**
      * 脱装备

@@ -213,4 +213,33 @@ public class EquipmentBean implements Article{
         }
         return true;
     }
+    /**
+     *  穿装备 or替换装备
+     */
+
+    @Override
+    public boolean use(BackPackManager backpackManager,MmoSimpleRole mmoSimpleRole) {
+        EquipmentMessage equipmentMessage= EquipmentMessageCache.getInstance().get(getEquipmentMessageId());
+        //判断该位置是否有装备
+        EquipmentBean oldBean = mmoSimpleRole.getEquipmentBeanHashMap().get(equipmentMessage.getPosition());
+        synchronized (backpackManager) {
+            if (oldBean != null) {
+                //放回背包内
+                //背包新增数据
+                //修改人物属性
+                mmoSimpleRole.setAttack(mmoSimpleRole.getAttack() - equipmentMessage.getAttackAdd());
+                mmoSimpleRole.setDamageAdd(mmoSimpleRole.getDamageAdd() - equipmentMessage.getDamageAdd());
+                mmoSimpleRole.getNeedDeleteEquipmentIds().add(oldBean.getEquipmentBagId());
+                backpackManager.put(oldBean);
+            }
+            //背包减少装备
+            backpackManager.useOrAbandonArticle(getArticleId(), 1);
+            //装备栏增加装备
+            mmoSimpleRole.getEquipmentBeanHashMap().put(equipmentMessage.getPosition(), this);
+            //人物属性
+            mmoSimpleRole.setAttack(mmoSimpleRole.getAttack() + equipmentMessage.getAttackAdd());
+            mmoSimpleRole.setDamageAdd(mmoSimpleRole.getDamageAdd() + equipmentMessage.getDamageAdd());
+            return true;
+        }
+    }
 }
