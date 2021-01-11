@@ -24,17 +24,8 @@ public class AttractBufferBean extends BaseBufferBean {
     @Override
     public void effectToPeople(Role toRole){
         //嘲讽类型
-        PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();
-        damageU.setFromRoleId(getFromRoleId());
-        damageU.setFromRoleType(getFromRoleType());
-        damageU.setToRoleId(toRole.getId());
-        damageU.setToRoleType(toRole.getType());
-        damageU.setBufferId(getBufferMessageId());
-        damageU.setSkillId(-1);
+        PlayModel.RoleIdDamage.Builder damageU =builderRoleDamage(toRole);
         damageU.setAttackStyle(AttackStyleCode.GG_ATTACK.getCode());
-        damageU.setMp(toRole.getNowMp());
-        damageU.setNowblood(toRole.getNowHp());
-        damageU.setState(toRole.getStatus());
         PlayModel.PlayModelMessage.Builder myMessageBuilder = PlayModel.PlayModelMessage.newBuilder();
         myMessageBuilder.setDataType(PlayModel.PlayModelMessage.DateType.DamagesNoticeResponse);
         PlayModel.DamagesNoticeResponse.Builder damagesNoticeBuilder = PlayModel.DamagesNoticeResponse.newBuilder();
@@ -68,17 +59,8 @@ public class AttractBufferBean extends BaseBufferBean {
     }
     @Override
     public void effectToRole(Role toRole){
-        PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();
-        damageU.setFromRoleId(getFromRoleId());
-        damageU.setFromRoleType(getFromRoleType());
-        damageU.setToRoleId(toRole.getId());
-        damageU.setToRoleType(toRole.getType());
-        damageU.setBufferId(getBufferMessageId());
-        damageU.setSkillId(-1);
+        PlayModel.RoleIdDamage.Builder damageU =builderRoleDamage(toRole);
         damageU.setAttackStyle(AttackStyleCode.GG_ATTACK.getCode());
-        damageU.setMp(toRole.getNowMp());
-        damageU.setNowblood(toRole.getNowHp());
-        damageU.setState(toRole.getStatus());
         PlayModel.PlayModelMessage.Builder myMessageBuilder = PlayModel.PlayModelMessage.newBuilder();
         myMessageBuilder.setDataType(PlayModel.PlayModelMessage.DateType.DamagesNoticeResponse);
         PlayModel.DamagesNoticeResponse.Builder damagesNoticeBuilder = PlayModel.DamagesNoticeResponse.newBuilder();

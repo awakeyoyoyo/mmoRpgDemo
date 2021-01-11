@@ -60,15 +60,42 @@ public class Role {
     public Integer getId() {
         return id;
     }
+
+    /**
+     * 改变蓝量
+     * @param number
+     * @param damageU
+     */
     public void changeMp(int number, PlayModel.RoleIdDamage.Builder damageU) {
     }
+
+    /**
+     * 改变当前血量
+     * @param number
+     * @param damageU
+     * @param type
+     */
     public void changeNowBlood(int number, PlayModel.RoleIdDamage.Builder damageU, int type) {
     }
+
+    /**
+     * buffer影响
+     * @param bufferBean
+     */
     public void effectByBuffer(BaseBufferBean bufferBean){
     }
+
+    /**
+     * 角色被攻击调用
+     * @param skillBean
+     * @param fromRole
+     */
     public void beAttack(SkillBean skillBean, Role fromRole) {
     }
 
+    /**
+     * 死角色死亡调用
+     */
     public void die(){
     }
     public void setId(Integer id) {

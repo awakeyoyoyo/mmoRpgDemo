@@ -84,16 +84,11 @@ public class BaseBufferBean {
     }
 
     public void sendAllRoleDamage(Role toRole){
-        BufferMessage bufferMessage=BufferMessageCache.getInstance().get(getBufferMessageId());
         //生成数据包
+        PlayModel.DamagesNoticeResponse.Builder damagesNoticeBuilder = PlayModel.DamagesNoticeResponse.newBuilder();
+        damagesNoticeBuilder.setRoleIdDamage(builderRoleDamage(toRole));
         PlayModel.PlayModelMessage.Builder myMessageBuilder = PlayModel.PlayModelMessage.newBuilder();
         myMessageBuilder.setDataType(PlayModel.PlayModelMessage.DateType.DamagesNoticeResponse);
-        PlayModel.DamagesNoticeResponse.Builder damagesNoticeBuilder = PlayModel.DamagesNoticeResponse.newBuilder();
-        PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();
-        damageU.setDamageType(DamageTypeCode.HP.getCode()).setAttackStyle(AttackStyleCode.BUFFER.getCode())
-                .setDamage(bufferMessage.getBuffNum()).setFromRoleId(getFromRoleId()).setToRoleId(getToRoleId())
-                .setState(toRole.getStatus()).setMp(toRole.getNowMp()).setBufferId(getBufferMessageId()).setNowblood(toRole.getNowHp());
-        damagesNoticeBuilder.setRoleIdDamage(damageU);
         myMessageBuilder.setDamagesNoticeResponse(damagesNoticeBuilder.build());
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.DAMAGES_NOTICE_RESPONSE);
@@ -123,7 +118,7 @@ public class BaseBufferBean {
         }
     }
 
-    public  PlayModel.RoleIdDamage.Builder builderRoleDamage(Role toRole){
+    public  PlayModel.RoleIdDamage.Builder builderSimpleRoleDamage(Role toRole){
         //扣血类型
         PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();
         damageU.setFromRoleId(getFromRoleId());
@@ -134,4 +129,14 @@ public class BaseBufferBean {
         damageU.setSkillId(-1);
         return damageU;
     }
+
+    public PlayModel.RoleIdDamage.Builder builderRoleDamage(Role toRole){
+        BufferMessage bufferMessage=BufferMessageCache.getInstance().get(getBufferMessageId());
+        PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();
+        damageU.setDamageType(DamageTypeCode.HP.getCode()).setAttackStyle(AttackStyleCode.BUFFER.getCode())
+                .setDamage(bufferMessage.getBuffNum()).setFromRoleId(getFromRoleId()).setToRoleId(getToRoleId())
+                .setState(toRole.getStatus()).setMp(toRole.getNowMp()).setBufferId(getBufferMessageId()).setNowblood(toRole.getNowHp());
+        return damageU;
+    }
+
 }

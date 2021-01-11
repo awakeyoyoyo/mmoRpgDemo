@@ -34,16 +34,10 @@ public class HpBufferBean extends BaseBufferBean {
     public void effectToPeople(Role toRole){
         BufferMessage bufferMessage= BufferMessageCache.getInstance().get(getBufferMessageId());
         //扣血类型
-        PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();
-        damageU.setFromRoleId(getFromRoleId());
-        damageU.setFromRoleType(getFromRoleType());
-        damageU.setToRoleId(toRole.getId());
-        damageU.setToRoleType(toRole.getType());
-        damageU.setAttackStyle(AttackStyleCode.BUFFER.getCode());
-        damageU.setBufferId(getBufferMessageId());
-        damageU.setDamageType(ConsumeTypeCode.HP.getCode());
-        damageU.setSkillId(-1);
-        toRole.changeNowBlood(flag*bufferMessage.getBuffNum(),damageU,AttackStyleCode.BUFFER.getCode());
+        PlayModel.RoleIdDamage.Builder builder = builderSimpleRoleDamage(toRole);
+        builder.setAttackStyle(AttackStyleCode.BUFFER.getCode());
+        builder.setDamageType(ConsumeTypeCode.HP.getCode());
+        toRole.changeNowBlood(flag*bufferMessage.getBuffNum(),builder,AttackStyleCode.BUFFER.getCode());
     }
     @Override
     public void effectToRole(Role toRole){

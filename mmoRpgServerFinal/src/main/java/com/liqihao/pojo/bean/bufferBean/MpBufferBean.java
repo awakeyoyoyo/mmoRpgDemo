@@ -35,7 +35,9 @@ public class MpBufferBean extends BaseBufferBean {
     @Override
     public void effectToPeople(Role toRole){
         BufferMessage bufferMessage= BufferMessageCache.getInstance().get(getBufferMessageId());
-        PlayModel.RoleIdDamage.Builder builder = builderRoleDamage(toRole);
+        PlayModel.RoleIdDamage.Builder builder = builderSimpleRoleDamage(toRole);
+        builder.setAttackStyle(AttackStyleCode.BUFFER.getCode());
+        builder.setDamageType(ConsumeTypeCode.MP.getCode());
         toRole.changeMp(flag*bufferMessage.getBuffNum(), builder);
     }
 
