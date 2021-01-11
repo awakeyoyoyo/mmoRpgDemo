@@ -1,10 +1,7 @@
 package com.liqihao.util;
 
 
-import com.liqihao.Cache.ChannelMessageCache;
-import com.liqihao.Cache.NpcMessageCache;
-import com.liqihao.Cache.SceneBeanMessageCache;
-import com.liqihao.Cache.SkillMessageCache;
+import com.liqihao.Cache.*;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
@@ -71,8 +68,9 @@ public class CommonsUtil implements ApplicationContextAware {
 
     private static CopySceneModel.BufferDto bufferBeanToBufferDto(BufferBean b) {
         CopySceneModel.BufferDto.Builder bufferDtoBuilder=CopySceneModel.BufferDto.newBuilder();
-        return bufferDtoBuilder.setId(b.getId()).setName(b.getName()).setFromRoleId(b.getFromRoleId())
-                .setToRoleId(b.getToRoleId()).setCreateTime(b.getCreateTime()).setLastTime(b.getLastTime())
+        BufferMessage bufferMessage= BufferMessageCache.getInstance().get(b.getBufferMessageId());
+        return bufferDtoBuilder.setId(bufferMessage.getId()).setName(bufferMessage.getName()).setFromRoleId(b.getFromRoleId())
+                .setToRoleId(b.getToRoleId()).setCreateTime(b.getCreateTime()).setLastTime(bufferMessage.getLastTime())
                 .build();
     }
 
@@ -132,10 +130,7 @@ public class CommonsUtil implements ApplicationContextAware {
         GoodsBean goodsBean=new GoodsBean();
         goodsBean.setId(g.getId());
         goodsBean.setNowNum(g.getNum());
-        goodsBean.setPrice(g.getPrice());
-        goodsBean.setArticleMessageId(g.getArticleMessageId());
-        goodsBean.setArticleTypeId(g.getArticleTypeId());
-        goodsBean.setNum(g.getNum());
+        goodsBean.setGoodsMessageId(g.getArticleMessageId());
         return goodsBean;
     }
 
@@ -187,13 +182,7 @@ public class CommonsUtil implements ApplicationContextAware {
         copySceneBean.setEndTime(System.currentTimeMillis()+1000*copySceneMessage.getLastTime());
         copySceneBean.setRoles(new CopyOnWriteArrayList<>());
         copySceneBean.setStatus(CopySceneStatusCode.ON_DOING.getCode());
-        copySceneBean.setBossIds(copySceneMessage.getBossIds());
-        copySceneBean.setId(copySceneMessage.getId());
-        copySceneBean.setLastTime(copySceneMessage.getLastTime());
-        copySceneBean.setName(copySceneMessage.getName());
-        copySceneBean.setMedicineIds(copySceneMessage.getMedicineIds());
-        copySceneBean.setEquipmentIds(copySceneMessage.getEquipmentIds());
-        copySceneBean.setMoney(copySceneMessage.getMoney());
+        copySceneBean.setCopySceneMessageId(copySceneMessage.getId());
         return copySceneBean;
     }
 
@@ -211,11 +200,9 @@ public class CommonsUtil implements ApplicationContextAware {
         bossBean.setNowHp(bossMessage.getBlood());
         bossBean.setDamageAdd(bossMessage.getDamageAdd());
         bossBean.setId(bossMessage.getId());
+        bossBean.setBossMessageId(bossMessage.getId());
         bossBean.setMp(bossMessage.getMp());
         bossBean.setName(bossMessage.getName());
-        bossBean.setSkillIds(bossMessage.getSkillIds());
-        List<SkillBean> skillBeans=skillIdsToSkillBeans(CommonsUtil.split(bossMessage.getSkillIds()));
-        bossBean.setSkillBeans(skillBeans);
         return bossBean;
     }
     /**
@@ -362,18 +349,7 @@ public class CommonsUtil implements ApplicationContextAware {
      */
     public static MedicineBean medicineMessageToMedicineBean(MedicineMessage medicineMessage){
         MedicineBean bean=new MedicineBean();
-        bean.setArticleId(null);
-        bean.setCd(medicineMessage.getCd());
-        bean.setLastTime(medicineMessage.getLastTime());
-        bean.setMedicineType(medicineMessage.getMedicineType());
-        bean.setSecondValue(medicineMessage.getSecondValue());
-        bean.setArticleType(medicineMessage.getArticleType());
-        bean.setDescription(medicineMessage.getDescription());
-        bean.setId(medicineMessage.getId());
-        bean.setName(medicineMessage.getName());
-        bean.setSingleFlag(medicineMessage.getSingleFlag());
-        bean.setDamageType(medicineMessage.getDamageType());
-        bean.setDamageValue(medicineMessage.getDamageValue());
+        bean.setMedicineMessageId(medicineMessage.getId());
         return bean;
     }
 
@@ -385,17 +361,10 @@ public class CommonsUtil implements ApplicationContextAware {
     public static EquipmentBean equipmentMessageToEquipmentBean(EquipmentMessage equipmentMessage){
         EquipmentBean bean=new EquipmentBean();
         bean.setArticleId(null);
-        bean.setAttackAdd(equipmentMessage.getAttackAdd());
         bean.setNowDurability(equipmentMessage.getDurability());
-        bean.setArticleType(equipmentMessage.getArticleType());
-        bean.setDamageAdd(equipmentMessage.getDamageAdd());
-        bean.setDescription(equipmentMessage.getDescription());
         bean.setQuantity(1);
-        bean.setDurability(equipmentMessage.getDurability());
-        bean.setId(equipmentMessage.getId());
-        bean.setName(equipmentMessage.getName());
-        bean.setPosition(equipmentMessage.getPosition());
-        bean.setSingleFlag(equipmentMessage.getSingleFlag());
+        bean.setEquipmentMessageId(equipmentMessage.getId());
+        bean.setEquipmentMessageId(equipmentMessage.getId());
         return bean;
     }
 
@@ -488,8 +457,6 @@ public class CommonsUtil implements ApplicationContextAware {
     public static SceneBean sceneMessageToSceneBean(SceneMessage m) {
         SceneBean sceneBean=new SceneBean();
         sceneBean.setId(m.getId());
-        sceneBean.setName(m.getPlaceName());
-        sceneBean.setCanScenes(split(m.getCanScene()));
         sceneBean.setRoles(new ArrayList<>());
         sceneBean.setHelperBeans(new ArrayList<>());
         List<Integer> npcs=new ArrayList<>();

@@ -33,7 +33,7 @@ public class EquipmentServiceImpl implements EquipmentService {
     public void addEquipmentRequest(EquipmentModel.EquipmentModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
 
         Integer articleId = myMessage.getAddEquipmentRequest().getArticleId();
-        Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        Channel channel = mmoSimpleRole.getChannel();
 
         Article article = mmoSimpleRole.getBackpackManager().getArticleByArticleId(articleId);
         if (article == null || !article.getArticleTypeCode().equals(ArticleTypeCode.EQUIPMENT.getCode())) {
@@ -62,7 +62,7 @@ public class EquipmentServiceImpl implements EquipmentService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.EQUIPMENT_MSG_REQUEST, module = ConstantValue.EQUIPMENT_MODULE)
     public void equipmentMasRequest(EquipmentModel.EquipmentModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
-        Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        Channel channel = mmoSimpleRole.getChannel();
         List<EquipmentDto> equipmentDtos = mmoSimpleRole.getEquipments();
         //转化为protobuf
         List<EquipmentModel.EquipmentDto> equipmentDtoList = new ArrayList<>();
@@ -87,7 +87,7 @@ public class EquipmentServiceImpl implements EquipmentService {
     public void reduceEquipmentRequest(EquipmentModel.EquipmentModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws Exception {
 
         Integer position = myMessage.getReduceEquipmentRequest().getPosition();
-        Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        Channel channel = mmoSimpleRole.getChannel();
         if (position > 6 || position <= 0) {
             NettyResponse errorResponse = new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE, "传入无效的部位id".getBytes());
             channel.writeAndFlush(errorResponse);
@@ -119,7 +119,7 @@ public class EquipmentServiceImpl implements EquipmentService {
     @HandlerCmdTag(cmd = ConstantValue.FIX_EQUIPMENT_REQUEST, module = ConstantValue.EQUIPMENT_MODULE)
     public void fixEquipmentRequest(EquipmentModel.EquipmentModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
         Integer articleId = myMessage.getFixEquipmentRequest().getArticleId();
-        Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        Channel channel = mmoSimpleRole.getChannel();
         Article article = mmoSimpleRole.getBackpackManager().getArticleByArticleId(articleId);
         if (article == null) {
             NettyResponse errorResponse = new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE, "传入无效物品id".getBytes());

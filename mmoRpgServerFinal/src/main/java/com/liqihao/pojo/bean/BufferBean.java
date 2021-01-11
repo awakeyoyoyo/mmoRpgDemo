@@ -6,12 +6,21 @@ import com.liqihao.pojo.baseMessage.BufferMessage;
  * buffer Bean
  * @author lqhao
  */
-public class BufferBean extends BufferMessage {
+public class BufferBean {
     private Integer fromRoleId;
     private Integer toRoleId;
     private Long createTime;
     private Integer fromRoleType;
     private Integer toRoleType;
+    private Integer BufferMessageId;
+
+    public Integer getBufferMessageId() {
+        return BufferMessageId;
+    }
+
+    public void setBufferMessageId(Integer bufferMessageId) {
+        BufferMessageId = bufferMessageId;
+    }
 
     public Integer getFromRoleType() {
         return fromRoleType;

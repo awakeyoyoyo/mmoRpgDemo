@@ -48,6 +48,7 @@ public class DispatcherServlet implements ApplicationContextAware {
         int cmd = nettyRequest.getCmd();
         Method m = methodHashMap.get(cmd);
         MmoSimpleRole mmoSimpleRole=null;
+
         //特殊的登陆以及注册接口
         if (cmd==ConstantValue.LOGIN_REQUEST||cmd==ConstantValue.REGISTER_REQUEST
                 ||cmd==ConstantValue.LOGOUT_REQUEST||cmd==ConstantValue.OUT_RIME_RESPONSE) {
@@ -65,9 +66,8 @@ public class DispatcherServlet implements ApplicationContextAware {
             }
             return;
         }
-        //检测登陆
 
-
+        //业务逻辑处理
         if (m != null) {
             String beanName = m.getAnnotation(HandlerCmdTag.class).module();
             ServiceObject serviceObject = services.get(beanName);

@@ -1,6 +1,7 @@
 package com.liqihao.pojo.bean;
 
 import com.liqihao.Cache.ChannelMessageCache;
+import com.liqihao.Cache.CopySceneMessageCache;
 import com.liqihao.Cache.OnlineRoleMessageCache;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
@@ -32,7 +33,12 @@ import java.util.concurrent.atomic.AtomicInteger;
  * 副本bean
  * @author lqhao
  */
-public class CopySceneBean extends CopySceneMessage {
+public class CopySceneBean{
+    /**
+     * 副本基本信息Id
+     */
+    private Integer copySceneMessageId;
+
     /**
      * 开始时间
      */
@@ -69,18 +75,19 @@ public class CopySceneBean extends CopySceneMessage {
      * 地面掉落物品
      */
     private ConcurrentHashMap<Integer,Article> articlesMap=new ConcurrentHashMap<>();
-
-
     /**
      *
-     * @return
+     * 掉落物品的下标
      */
     private AtomicInteger floorArticleIdAuto=new AtomicInteger(0);
 
-    /**
-     *
-     *
-     */
+    public Integer getCopySceneMessageId() {
+        return copySceneMessageId;
+    }
+    public void setCopySceneMessageId(Integer copySceneMessageId) {
+        this.copySceneMessageId = copySceneMessageId;
+    }
+
     public Integer getFloorIndex(){
         return floorArticleIdAuto.incrementAndGet();
     }
@@ -310,6 +317,8 @@ public class CopySceneBean extends CopySceneMessage {
      * 挑战成功
      */
     public void changeResult(TeamBean teamBean){
+        CopySceneMessage copySceneMessage= CopySceneMessageCache.getInstance().get(getCopySceneMessageId());
+
         //将副本中的人物全部状态改为存活
         for (Role role:roles) {
             if (role.getType().equals(RoleTypeCode.PLAYER.getCode())) {
@@ -318,8 +327,8 @@ public class CopySceneBean extends CopySceneMessage {
             }
         }
         //发奖励了
-        List<MedicineBean> medicineBeans= ArticleServiceProvider.productMedicineToCopyScene(this,CommonsUtil.split(getMedicineIds()));
-        List<EquipmentBean> equipmentBeans= ArticleServiceProvider.productEquipmentToCopyScene(this,CommonsUtil.split(getEquipmentIds()));
+        List<MedicineBean> medicineBeans= ArticleServiceProvider.productMedicineToCopyScene(this,CommonsUtil.split(copySceneMessage.getMedicineIds()));
+        List<EquipmentBean> equipmentBeans= ArticleServiceProvider.productEquipmentToCopyScene(this,CommonsUtil.split(copySceneMessage.getEquipmentIds()));
         if (medicineBeans.size()>0) {
             for (MedicineBean m:medicineBeans) {
                 articlesMap.put(m.getFloorIndex(),m);
@@ -343,7 +352,7 @@ public class CopySceneBean extends CopySceneMessage {
             /**
              * 队伍中玩家全部加金币 上锁，防止购买物品与副本挑战成功获取金币冲突
              */
-            role.setMoney(role.getMoney() + getMoney());
+            role.setMoney(role.getMoney() + copySceneMessage.getMoney());
             if (c!=null) {
                 c.writeAndFlush(nettyResponse);
             }
@@ -415,7 +424,7 @@ public class CopySceneBean extends CopySceneMessage {
         CopySceneModel.CopySceneModelMessage.Builder builder=CopySceneModel.CopySceneModelMessage.newBuilder();
         builder.setDataType(CopySceneModel.CopySceneModelMessage.DateType.CopySceneDeleteResponse);
         builder.setCopySceneDeleteResponse(CopySceneModel.CopySceneDeleteResponse.newBuilder()
-                .setCopySceneId(getId()).setCause(cause).build());
+                .setCopySceneId(getCopySceneMessageId()).setCause(cause).build());
         nettyResponse.setData(builder.build().toByteArray());
         for (MmoSimpleRole role:teamBean.getMmoSimpleRoles()) {
             Channel c=ChannelMessageCache.getInstance().get(role.getId());

@@ -30,7 +30,7 @@ public class CopySceneServiceImpl implements CopySceneService {
     public void copySceneMessageRequest(CopySceneModel.CopySceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) {
         //copySceneBeanId
         //判断是否在线 并且返回玩家对象
-        Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        Channel channel = mmoSimpleRole.getChannel();
         Integer teamId=mmoSimpleRole.getTeamId();
         if (teamId==null){
             NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"当前角色还没是组队状态".getBytes());
@@ -55,7 +55,7 @@ public class CopySceneServiceImpl implements CopySceneService {
     public void enterCopySceneRequest(CopySceneModel.CopySceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) {
         //copySceneId
         Integer copySceneId=myMessage.getEnterCopySceneRequest().getCopySceneId();
-        Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        Channel channel = mmoSimpleRole.getChannel();
         //判断是否在组队状态
         Integer teamId=mmoSimpleRole.getTeamId();
         if (teamId==null){
@@ -101,7 +101,7 @@ public class CopySceneServiceImpl implements CopySceneService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.EXIT_COPY_SCENE_REQUEST,module = ConstantValue.COPY_MODULE)
     public void exitCopySceneRequest(CopySceneModel.CopySceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) {
-        Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        Channel channel = mmoSimpleRole.getChannel();
         //判断玩家是否在副本中
         if (mmoSimpleRole.getCopySceneId()==null){
             NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"当前玩家不在副本中".getBytes());
@@ -134,7 +134,7 @@ public class CopySceneServiceImpl implements CopySceneService {
     @HandlerCmdTag(cmd = ConstantValue.CREATE_COPY_SCENE_REQUEST,module = ConstantValue.COPY_MODULE)
     public void createCopySceneBeanRequest(CopySceneModel.CopySceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) {
         Integer copySceneId=myMessage.getCreateCopySceneRequest().getCopySceneId();
-        Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        Channel channel = mmoSimpleRole.getChannel();
         //判断是否在组队状态
         if (mmoSimpleRole.getTeamId()==null){
             NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"请先组队".getBytes());
@@ -157,7 +157,7 @@ public class CopySceneServiceImpl implements CopySceneService {
         CopySceneBean copySceneBean=CopySceneProvider.createNewCopyScene(copySceneId,teamBean);
 
         teamBean.setCopySceneBeanId(copySceneBean.getCopySceneBeanId());
-        teamBean.setCopySceneId(copySceneBean.getId());
+        teamBean.setCopySceneId(copySceneBean.getCopySceneMessageId());
         // 创建成功 对队伍的人广播
         for (MmoSimpleRole m:teamBean.getMmoSimpleRoles()) {
             Channel c= ChannelMessageCache.getInstance().get(m.getId());
@@ -197,7 +197,7 @@ public class CopySceneServiceImpl implements CopySceneService {
                         .setCopySceneBeanDto(copySceneBeanDtoBuilder
                                 .addAllRoleDto(roleDtos).addAllBossBeans(bossBeanDtos)
                                 .setNowBoss(bossBeanDto)
-                                .setCopySceneId(copySceneBean.getId()).setCopySceneBeanId(copySceneBean.getCopySceneBeanId())
+                                .setCopySceneId(copySceneBean.getCopySceneMessageId()).setCopySceneBeanId(copySceneBean.getCopySceneBeanId())
                                 .setStatus(copySceneBean.getStatus())
                                 .setCreateTime(copySceneBean.getCreateTime())
                                 .setEndTime(copySceneBean.getEndTime())
@@ -233,7 +233,7 @@ public class CopySceneServiceImpl implements CopySceneService {
                         .setCopySceneBeanDto(copySceneBeanDtoBuilder
                                 .addAllRoleDto(roleDtos).addAllBossBeans(bossBeanDtos)
                                 .setNowBoss(nowBoss)
-                                .setCopySceneId(copySceneBean.getId()).setCopySceneBeanId(copySceneBean.getCopySceneBeanId())
+                                .setCopySceneId(copySceneBean.getCopySceneMessageId()).setCopySceneBeanId(copySceneBean.getCopySceneBeanId())
                                 .setStatus(copySceneBean.getStatus())
                                 .setCreateTime(copySceneBean.getCreateTime())
                                 .setEndTime(copySceneBean.getEndTime())

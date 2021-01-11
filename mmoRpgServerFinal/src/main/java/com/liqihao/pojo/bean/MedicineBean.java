@@ -1,6 +1,7 @@
 package com.liqihao.pojo.bean;
 
 import com.liqihao.Cache.ChannelMessageCache;
+import com.liqihao.Cache.MediceneMessageCache;
 import com.liqihao.Cache.OnlineRoleMessageCache;
 import com.liqihao.Cache.SceneBeanMessageCache;
 import com.liqihao.commons.ConstantValue;
@@ -22,9 +23,15 @@ import java.util.concurrent.TimeUnit;
  *
  * @author lqhao
  */
-public class MedicineBean extends MedicineMessage implements Article{
-
+public class MedicineBean  implements Article{
+    /**
+     * 药品基本信息Id
+     */
+    private Integer medicineMessageId;
     private Integer quantity;
+    /**
+     * 缓存中背包id
+     */
     private Integer articleId;
     /**
      * 数据库行记录id
@@ -35,30 +42,40 @@ public class MedicineBean extends MedicineMessage implements Article{
      *地面物品的下标
      */
     private Integer floorIndex;
-
     public Integer getFloorIndex() {
         return floorIndex;
     }
-
     public void setFloorIndex(Integer floorIndex) {
         this.floorIndex = floorIndex;
     }
-
     public Integer getBagId() {
         return bagId;
     }
-
     public void setBagId(Integer bagId) {
         this.bagId = bagId;
     }
+    public Integer getMedicineMessageId() {
+        return medicineMessageId;
+    }
+    public void setMedicineMessageId(Integer medicineMessageId) {
+        this.medicineMessageId = medicineMessageId;
+    }
 
+    public Integer getArticleId() {
+        return articleId;
+    }
+
+    public void setArticleId(Integer articleId) {
+        this.articleId = articleId;
+    }
 
     public boolean useMedicene(Integer roleId){
         //判断是瞬间恢复还是持续性恢复
         MmoSimpleRole mmoSimpleRole= OnlineRoleMessageCache.getInstance().get(roleId);
-        if (getMedicineType().equals(MedicineTypeCode.MOMENT.getCode())){
-            Integer addNumber=getDamageValue();
-            if (getDamageType().equals(DamageTypeCode.MP.getCode())) {
+        MedicineMessage medicineMessage= MediceneMessageCache.getInstance().get(getMedicineMessageId());
+        if (medicineMessage.getMedicineType().equals(MedicineTypeCode.MOMENT.getCode())){
+            Integer addNumber=medicineMessage.getDamageValue();
+            if (medicineMessage.getDamageType().equals(DamageTypeCode.MP.getCode())) {
                 Integer oldMp = mmoSimpleRole.getNowMp();
                 Integer newNumber = oldMp + addNumber;
                 if (newNumber > mmoSimpleRole.getMp()) {
@@ -84,7 +101,7 @@ public class MedicineBean extends MedicineMessage implements Article{
             damageU.setAttackStyle(AttackStyleCode.MEDICINE.getCode());
             damageU.setBufferId(-1);
             damageU.setDamage(addNumber);
-            damageU.setDamageType(getDamageType());
+            damageU.setDamageType(medicineMessage.getDamageType());
             damageU.setMp(mmoSimpleRole.getNowMp());
             damageU.setNowblood(mmoSimpleRole.getNowHp());
             damageU.setSkillId(-1);
@@ -112,16 +129,16 @@ public class MedicineBean extends MedicineMessage implements Article{
             //判断是否已经有持续性药品任务
             ConcurrentHashMap<String, ScheduledFuture<?>> replyMpRoleMap = ScheduledThreadPoolUtil.getReplyMpRole();
             String key = roleId.toString();
-            if (getDamageType().equals(DamageTypeCode.MP.getCode())) {
+            if (medicineMessage.getDamageType().equals(DamageTypeCode.MP.getCode())) {
                 key = key + "MP";
             } else {
                 key = key + "HP";
             }
             if (!replyMpRoleMap.containsKey(key)) {
                 //传入每秒恢复量
-                Integer lastTime=getLastTime();
-                Integer secondValue=getSecondValue();
-                ScheduledThreadPoolUtil.ReplyMpTask replyMpTask = new ScheduledThreadPoolUtil.ReplyMpTask(mmoSimpleRole, secondValue, getDamageType(), key,lastTime);
+                Integer lastTime=medicineMessage.getLastTime();
+                Integer secondValue=medicineMessage.getSecondValue();
+                ScheduledThreadPoolUtil.ReplyMpTask replyMpTask = new ScheduledThreadPoolUtil.ReplyMpTask(mmoSimpleRole, secondValue, medicineMessage.getDamageType(), key,lastTime);
                 // 周期性执行，每3秒执行一次
                 ScheduledFuture<?> t = ScheduledThreadPoolUtil.getScheduledExecutorService().scheduleAtFixedRate(replyMpTask, 0, 1, TimeUnit.SECONDS);
                 replyMpRoleMap.put(key, t);
@@ -134,13 +151,6 @@ public class MedicineBean extends MedicineMessage implements Article{
     }
 
 
-    public Integer getArticleId() {
-        return articleId;
-    }
-
-    public void setArticleId(Integer articleId) {
-        this.articleId = articleId;
-    }
 
     public Integer getQuantity() {
         return quantity;
@@ -152,6 +162,7 @@ public class MedicineBean extends MedicineMessage implements Article{
 
     @Override
     public Integer getArticleTypeCode() {
-        return getArticleType();
+        MedicineMessage medicineMessage= MediceneMessageCache.getInstance().get(getMedicineMessageId());
+        return medicineMessage.getArticleType();
     }
 }

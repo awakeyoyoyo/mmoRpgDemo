@@ -3,6 +3,7 @@ package com.liqihao.service.impl;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.liqihao.Cache.ChannelMessageCache;
 import com.liqihao.Cache.EquipmentMessageCache;
+import com.liqihao.Cache.GoodsMessageCache;
 import com.liqihao.Cache.MediceneMessageCache;
 import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
@@ -11,6 +12,7 @@ import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.enums.ArticleTypeCode;
 import com.liqihao.commons.StateCode;
 import com.liqihao.pojo.baseMessage.EquipmentMessage;
+import com.liqihao.pojo.baseMessage.GoodsMessage;
 import com.liqihao.pojo.baseMessage.MedicineMessage;
 import com.liqihao.pojo.bean.*;
 import com.liqihao.pojo.dto.ArticleDto;
@@ -38,7 +40,7 @@ public class BackpackServiceImpl implements BackpackService {
     public void abandonRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
         Integer articleId = myMessage.getAbandonRequest().getArticleId();
         Integer number = myMessage.getAbandonRequest().getNumber();
-        Channel channel = ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        Channel channel = mmoSimpleRole.getChannel();
         BackPackManager manager = mmoSimpleRole.getBackpackManager();
         Article article = manager.useOrAbandonArticle(articleId, number);
         if (article == null) {
@@ -70,7 +72,7 @@ public class BackpackServiceImpl implements BackpackService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.BACKPACK_MSG_REQUEST, module = ConstantValue.BAKCPACK_MODULE)
     public void backPackMsgRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
-        Channel channel = ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        Channel channel = mmoSimpleRole.getChannel();
         List<ArticleDto> articles = mmoSimpleRole.getBackpackManager().getBackpacksMessage();
         List<BackPackModel.ArticleDto> articleDtoList = new ArrayList<>();
         for (ArticleDto a : articles) {
@@ -103,7 +105,7 @@ public class BackpackServiceImpl implements BackpackService {
     @HandlerCmdTag(cmd = ConstantValue.USE_REQUEST, module = ConstantValue.BAKCPACK_MODULE)
     public void useRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
         Integer article = myMessage.getUseRequest().getArticleId();
-        Channel channel = ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        Channel channel = mmoSimpleRole.getChannel();
         boolean flag = mmoSimpleRole.useArticle(article);
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.USE_RESPONSE);
@@ -131,7 +133,7 @@ public class BackpackServiceImpl implements BackpackService {
         Integer id = myMessage.getAddArticleRequest().getId();
         Integer articleType = myMessage.getAddArticleRequest().getArticleType();
         Integer number = myMessage.getAddArticleRequest().getNumber();
-        Channel channel = ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        Channel channel = mmoSimpleRole.getChannel();
         //根据 articleType判断 然后生成物品对象存
         Article article;
         if (articleType.equals(ArticleTypeCode.MEDICINE.getCode())) {
@@ -196,7 +198,7 @@ public class BackpackServiceImpl implements BackpackService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.FIND_ALL_CAN_REQUEST, module = ConstantValue.BAKCPACK_MODULE)
     public void findAllCanGetRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
-        Channel channel = ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        Channel channel = mmoSimpleRole.getChannel();
         //副本中可捡去的物品
         Integer copySceneBeanId = mmoSimpleRole.getCopySceneBeanId();
         if (copySceneBeanId == null) {
@@ -212,8 +214,9 @@ public class BackpackServiceImpl implements BackpackService {
                 if (a.getArticleTypeCode().equals(ArticleTypeCode.EQUIPMENT.getCode())) {
                     //装备
                     EquipmentBean equipmentBean = (EquipmentBean) a;
-                    dtoBuilder.setId(equipmentBean.getId())
-                            .setArticleType(equipmentBean.getArticleType())
+                    EquipmentMessage equipmentMessage=EquipmentMessageCache.getInstance().get(equipmentBean.getEquipmentMessageId());
+                    dtoBuilder.setId(equipmentMessage.getId())
+                            .setArticleType(equipmentMessage.getArticleType())
                             .setFloorIndex(equipmentBean.getFloorIndex())
                             .setNowDurability(equipmentBean.getNowDurability())
                             .setQuantity(1)
@@ -221,8 +224,9 @@ public class BackpackServiceImpl implements BackpackService {
                 } else {
                     //道具
                     MedicineBean medicineBean = (MedicineBean) a;
-                    dtoBuilder.setId(medicineBean.getId())
-                            .setArticleType(medicineBean.getArticleType())
+                    MedicineMessage medicineMessage=MediceneMessageCache.getInstance().get(medicineBean.getMedicineMessageId());
+                    dtoBuilder.setId(medicineBean.getMedicineMessageId())
+                            .setArticleType(medicineMessage.getArticleType())
                             .setFloorIndex(medicineBean.getFloorIndex())
                             .setNowDurability(-1)
                             .setQuantity(1)
@@ -249,7 +253,7 @@ public class BackpackServiceImpl implements BackpackService {
     @HandlerCmdTag(cmd = ConstantValue.GET_ARTICLE_FROM_FLOOR_REQUEST, module = ConstantValue.BAKCPACK_MODULE)
     public void getArticleFromFloorRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws Exception {
         Integer index = myMessage.getGetArticleFromFloorRequest().getIndex();
-        Channel channel = ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        Channel channel = mmoSimpleRole.getChannel();
         Integer copySceneBeanId = mmoSimpleRole.getCopySceneBeanId();
         if (copySceneBeanId == null) {
             NettyResponse errorResponse = new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE, "当前角色还未进入副本".getBytes());
@@ -285,7 +289,7 @@ public class BackpackServiceImpl implements BackpackService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.CHECK_MONEY_NUMBER_REQUEST, module = ConstantValue.BAKCPACK_MODULE)
     public void checkMoneyNumber(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
-        Channel channel = ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        Channel channel = mmoSimpleRole.getChannel();
         Integer money=mmoSimpleRole.getMoney();
         //传输数据
         NettyResponse nettyResponse = new NettyResponse();
@@ -302,9 +306,12 @@ public class BackpackServiceImpl implements BackpackService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.BUY_GOODS_REQUEST, module = ConstantValue.BAKCPACK_MODULE)
     public void buyGoods(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws Exception {
-        Channel channel = ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        Channel channel = mmoSimpleRole.getChannel();
         Integer num=myMessage.getBuyGoodsRequest().getNum();
         Integer goodsId=myMessage.getBuyGoodsRequest().getGoodsId();
+        if (num<=0){
+            throw new Exception("请输入正确范围的数字");
+        }
         //买
         GoodsServiceProvider.sellArticle(goodsId,num,mmoSimpleRole);
         //传输数据
@@ -323,14 +330,15 @@ public class BackpackServiceImpl implements BackpackService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.FIND_ALL_GOODS_REQUEST, module = ConstantValue.BAKCPACK_MODULE)
     public void findAllGoods(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws Exception {
-        Channel channel = ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        Channel channel = mmoSimpleRole.getChannel();
         List<GoodsBean> goodsBeans=GoodsServiceProvider.getAllArticles();
         //传输数据
         List<BackPackModel.GoodsDto> goodsDtos=new ArrayList<>();
         for (GoodsBean gg:goodsBeans) {
+            GoodsMessage goodsMessage= GoodsMessageCache.getInstance().get(gg.getGoodsMessageId());
             BackPackModel.GoodsDto goodsDto= BackPackModel.GoodsDto.newBuilder()
-                    .setId(gg.getId()).setNowNum(gg.getNowNum()).setNum(gg.getNum())
-                    .setPrice(gg.getPrice()).setArticleTypeId(gg.getArticleTypeId()).setArticleMessageId(gg.getArticleMessageId()).build();
+                    .setId(gg.getId()).setNowNum(gg.getNowNum()).setNum(goodsMessage.getNum())
+                    .setPrice(goodsMessage.getPrice()).setArticleTypeId(goodsMessage.getArticleTypeId()).setArticleMessageId(goodsMessage.getArticleMessageId()).build();
             goodsDtos.add(goodsDto);
         }
 

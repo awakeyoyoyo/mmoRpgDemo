@@ -39,7 +39,7 @@ public class SceneServiceImpl implements SceneService {
     public void wentRequest(SceneModel.SceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
 
         Integer nextSceneId = myMessage.getWentRequest().getSceneId();
-        Channel channel = ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        Channel channel = mmoSimpleRole.getChannel();
         //先查询playId所在场景
         //查询该场景可进入的场景与sceneId判断
         Integer nowSceneId = mmoSimpleRole.getMmoSceneId();
@@ -104,7 +104,7 @@ public class SceneServiceImpl implements SceneService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.FIND_ALL_ROLES_REQUEST, module = ConstantValue.SCENE_MODULE)
     public void findAllRolesRequest(SceneModel.SceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
-        Channel channel = ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        Channel channel = mmoSimpleRole.getChannel();
         Integer sceneId = mmoSimpleRole.getMmoSceneId();
 
         List<Role> sceneRoles = new ArrayList<>();
@@ -185,8 +185,7 @@ public class SceneServiceImpl implements SceneService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.TALK_NPC_REQUEST, module = ConstantValue.SCENE_MODULE)
     public void talkNpcRequest(SceneModel.SceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
-        Channel channel = ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
-
+        Channel channel = mmoSimpleRole.getChannel();
         Integer npcId = myMessage.getTalkNPCRequest().getRoleId();
         if (npcId == null) {
             channel.writeAndFlush(new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE, "传入的参数为空".getBytes()));

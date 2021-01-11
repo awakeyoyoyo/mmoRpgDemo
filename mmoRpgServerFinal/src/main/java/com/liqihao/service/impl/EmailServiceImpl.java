@@ -33,7 +33,7 @@ public class EmailServiceImpl implements EmailService {
     @HandlerCmdTag(cmd = ConstantValue.GET_EMAIL_MESSAGE_REQUEST,module = ConstantValue.EMAIL_MODULE)
     public void getEmailMessageRequest(EmailModel.EmailModelMessage myMessage, MmoSimpleRole mmoSimpleRole) {
         Integer emailId=myMessage.getGetEmailMessageRequest().getEmailId();
-        Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        Channel channel = mmoSimpleRole.getChannel();
         MmoEmailBean mmoEmailBean=EmailServiceProvider.getEmailMessage(mmoSimpleRole,emailId);
         if (mmoEmailBean==null){
             NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"没有该id的邮件".getBytes());
@@ -55,7 +55,7 @@ public class EmailServiceImpl implements EmailService {
     @HandlerCmdTag(cmd = ConstantValue.GET_EMAIL_ARTICLE_REQUEST,module = ConstantValue.EMAIL_MODULE)
     public void getEmailArticleRequest(EmailModel.EmailModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws Exception {
         Integer emailId=myMessage.getGetEmailArticleRequest().getEmailId();
-        Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        Channel channel = mmoSimpleRole.getChannel();
         //获取邮件详情
         MmoEmailBean mmoEmailBean=EmailServiceProvider.getEmailMessage(mmoSimpleRole,emailId);
         if (mmoEmailBean==null){
@@ -101,7 +101,7 @@ public class EmailServiceImpl implements EmailService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.ACCEPT_EMAIL_LIST_REQUEST,module = ConstantValue.EMAIL_MODULE)
     public void acceptEmailListRequest(EmailModel.EmailModelMessage myMessage, MmoSimpleRole mmoSimpleRole) {
-        Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        Channel channel = mmoSimpleRole.getChannel();
         List<MmoEmailBean> mmoEmailBeans=EmailServiceProvider.getToEmails(mmoSimpleRole);
         List<EmailModel.EmailSimpleDto> list=new ArrayList<>();
         if (mmoEmailBeans.size()>0){
@@ -123,7 +123,7 @@ public class EmailServiceImpl implements EmailService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.IS_SEND_EMAIL_LIST_REQUEST,module = ConstantValue.EMAIL_MODULE)
     public void isSendEmailListRequest(EmailModel.EmailModelMessage myMessage, MmoSimpleRole mmoSimpleRole) {
-        Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        Channel channel = mmoSimpleRole.getChannel();
         List<MmoEmailBean> mmoEmailBeans=EmailServiceProvider.getFromEmails(mmoSimpleRole);
         List<EmailModel.EmailSimpleDto> list=new ArrayList<>();
         if (mmoEmailBeans.size()>0){
@@ -146,7 +146,7 @@ public class EmailServiceImpl implements EmailService {
     @HandlerCmdTag(cmd = ConstantValue.SEND_EMAIL_REQUEST,module = ConstantValue.EMAIL_MODULE)
     public void sendEmailRequest(EmailModel.EmailModelMessage myMessage, MmoSimpleRole mmoSimpleRole) {
         Integer articleId=myMessage.getSendEmailRequest().getArticleId();
-        Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        Channel channel = mmoSimpleRole.getChannel();
         String context=myMessage.getSendEmailRequest().getContext();
         String title=myMessage.getSendEmailRequest().getTitle();
         Integer articleNum=myMessage.getSendEmailRequest().getArticleNum();
@@ -170,7 +170,7 @@ public class EmailServiceImpl implements EmailService {
            mmoEmailBean.setArticleType(article.getArticleTypeCode());
            if (mmoEmailBean.getArticleType().equals(ArticleTypeCode.MEDICINE.getCode())) {
                MedicineBean medicineBean= (MedicineBean) article;
-               mmoEmailBean.setArticleMessageId(medicineBean.getId());
+               mmoEmailBean.setArticleMessageId(medicineBean.getMedicineMessageId());
            }
         }
         mmoEmailBean.setToRoleId(toRoleId);
@@ -190,7 +190,7 @@ public class EmailServiceImpl implements EmailService {
     @HandlerCmdTag(cmd = ConstantValue.DELETE_ACCEPT_EMAIL_REQUEST,module = ConstantValue.EMAIL_MODULE)
     public void deleteAcceptEmailRequest(EmailModel.EmailModelMessage myMessage, MmoSimpleRole mmoSimpleRole) {
         Integer emailId=myMessage.getDeleteAcceptEmailRequest().getEmailId();
-        Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        Channel channel = mmoSimpleRole.getChannel();
         EmailServiceProvider.deleteAcceptEmail(mmoSimpleRole,emailId);
         EmailModel.EmailModelMessage messageData=EmailModel.EmailModelMessage.newBuilder()
                 .setDataType(EmailModel.EmailModelMessage.DateType.DeleteAcceptEmailResponse)
@@ -206,7 +206,7 @@ public class EmailServiceImpl implements EmailService {
     @HandlerCmdTag(cmd = ConstantValue.DELETE_SEND_EMAIL_REQUEST,module = ConstantValue.EMAIL_MODULE)
     public void deleteSendEmailRequest(EmailModel.EmailModelMessage myMessage, MmoSimpleRole mmoSimpleRole) {
         Integer emailId=myMessage.getDeleteSendEmailRequest().getEmailId();
-        Channel channel= ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        Channel channel = mmoSimpleRole.getChannel();
         EmailServiceProvider.deleteIsSendEmail(mmoSimpleRole,emailId);
         EmailModel.EmailModelMessage messageData=EmailModel.EmailModelMessage.newBuilder()
                 .setDataType(EmailModel.EmailModelMessage.DateType.DeleteSendEmailResponse)

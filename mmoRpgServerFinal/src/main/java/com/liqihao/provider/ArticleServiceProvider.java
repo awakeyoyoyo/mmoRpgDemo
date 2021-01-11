@@ -98,7 +98,7 @@ public class ArticleServiceProvider implements ApplicationContextAware {
         EquipmentMessage equipmentMessage= EquipmentMessageCache.getInstance().get(equipmentId);
         EquipmentBean equipmentBean= CommonsUtil.equipmentMessageToEquipmentBean(equipmentMessage);
         equipmentBean.setEquipmentId(equipmentBeanIdAuto.incrementAndGet());
-        equipmentBean.setNowDurability(equipmentBean.getDurability());
+        equipmentBean.setNowDurability(equipmentMessage.getDurability());
         equipmentBean.setQuantity(1);
         return equipmentBean;
     }
@@ -111,7 +111,7 @@ public class ArticleServiceProvider implements ApplicationContextAware {
     public static MedicineBean productMedicine(Integer medicineId){
         MedicineMessage medicineMessage=MediceneMessageCache.getInstance().get(medicineId);
         MedicineBean medicineBean= CommonsUtil.medicineMessageToMedicineBean(medicineMessage);
-        medicineBean.setQuantity(1);
+        medicineBean.setMedicineMessageId(medicineMessage.getId());
         return medicineBean;
     }
 }

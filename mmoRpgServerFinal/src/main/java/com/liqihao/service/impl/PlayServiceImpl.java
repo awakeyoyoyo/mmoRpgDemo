@@ -101,7 +101,6 @@ public class PlayServiceImpl implements PlayService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.LOGIN_REQUEST, module = ConstantValue.PLAY_MODULE)
     public void loginRequest(PlayModel.PlayModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException {
-
         String username = myMessage.getLoginRequest().getUsername();
         String password = myMessage.getLoginRequest().getPassword();
         Integer mmoUserId = mmoUserPOJOMapper.checkByUernameAndPassword(username, password);
@@ -170,15 +169,16 @@ public class PlayServiceImpl implements PlayService {
             equipmentBean.setNowDurability(mmoEquipmentPOJO.getNowDurability());
             equipmentBean.setEquipmentId(m.getEquipmentId());
             equipmentBean.setEquipmentBagId(m.getEquipmentBagId());
-            equipmentBeanConcurrentHashMap.put(equipmentBean.getPosition(), equipmentBean);
+            equipmentBeanConcurrentHashMap.put(message.getPosition(), equipmentBean);
             //修改人物属性
-            simpleRole.setAttack(simpleRole.getAttack() + equipmentBean.getAttackAdd());
-            simpleRole.setDamageAdd(simpleRole.getDamageAdd() + equipmentBean.getDamageAdd());
+            simpleRole.setAttack(simpleRole.getAttack() + message.getAttackAdd());
+            simpleRole.setDamageAdd(simpleRole.getDamageAdd() + message.getDamageAdd());
         }
         OnlineRoleMessageCache.getInstance().put(role.getId(), simpleRole);
         //数据库中人物状态
         mmoRolePOJOMapper.updateByPrimaryKeySelective(role);
         //将channel绑定用户信息存储
+        simpleRole.setChannel(channel);
         ChannelMessageCache.getInstance().put(role.getId(), channel);
         //channle绑定roleId
         AttributeKey<MmoSimpleRole> key = AttributeKey.valueOf("role");

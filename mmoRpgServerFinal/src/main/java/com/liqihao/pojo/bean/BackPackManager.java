@@ -1,7 +1,9 @@
 package com.liqihao.pojo.bean;
 
+import com.liqihao.Cache.MediceneMessageCache;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.enums.ArticleTypeCode;
+import com.liqihao.pojo.baseMessage.MedicineMessage;
 import com.liqihao.pojo.dto.ArticleDto;
 import org.springframework.beans.BeanUtils;
 
@@ -69,7 +71,7 @@ public class BackPackManager {
             for (Article a : medicines) {
                 MedicineBean temp = (MedicineBean) a;
                 //物品类型
-                if (medicineBean.getId().equals(temp.getId()) && number > 0) {
+                if (medicineBean.getMedicineMessageId().equals(temp.getMedicineMessageId()) && number > 0) {
                     //判断是否已经满了
                     if (temp.getQuantity().equals(size)) {
                         continue;
@@ -154,7 +156,7 @@ public class BackPackManager {
             for (Article a : medicines) {
                 MedicineBean temp = (MedicineBean) a;
                 //物品类型
-                if (medicineBean.getId().equals(temp.getId()) && number > 0) {
+                if (medicineBean.getMedicineMessageId().equals(temp.getMedicineMessageId()) && number > 0) {
                     //判断是否已经满了
                     if (temp.getQuantity().equals(ConstantValue.BAG_MAX_VALUE)) {
                         continue;
@@ -319,15 +321,15 @@ public class BackPackManager {
             if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())) {
                 MedicineBean medicineBean = (MedicineBean) article;
                 articleDto.setArticleId(medicineBean.getArticleId());
-                articleDto.setId(medicineBean.getId());
-                articleDto.setArticleType(medicineBean.getArticleType());
+                articleDto.setId(medicineBean.getMedicineMessageId());
+                articleDto.setArticleType(medicineBean.getArticleTypeCode());
                 articleDto.setQuantity(medicineBean.getQuantity());
                 articleDto.setBagId(medicineBean.getBagId());
             } else {
                 EquipmentBean equipmentBean = (EquipmentBean) article;
                 articleDto.setArticleId(equipmentBean.getArticleId());
-                articleDto.setId(equipmentBean.getId());
-                articleDto.setArticleType(equipmentBean.getArticleType());
+                articleDto.setId(equipmentBean.getEquipmentMessageId());
+                articleDto.setArticleType(equipmentBean.getArticleTypeCode());
                 articleDto.setQuantity(equipmentBean.getQuantity());
                 articleDto.setBagId(equipmentBean.getBagId());
                 articleDto.setNowDurability(equipmentBean.getNowDurability());
@@ -343,21 +345,5 @@ public class BackPackManager {
     }
 
     public static void main(String[] args) {
-        Article a = new EquipmentBean();
-        Article b = new MedicineBean();
-        List<Article> articles = new ArrayList<>();
-        articles.add(a);
-        articles.add(b);
-        for (Article c : articles) {
-            if (c instanceof EquipmentBean) {
-                EquipmentBean equipmentBean = (EquipmentBean) c;
-                equipmentBean.setAttackAdd(10);
-                System.out.println(equipmentBean.getAttackAdd());
-            } else if (c instanceof MedicineBean) {
-                MedicineBean medicineBean = (MedicineBean) (c);
-                medicineBean.setDescription("蓝药");
-                System.out.println(medicineBean.getDescription());
-            }
-        }
     }
 }

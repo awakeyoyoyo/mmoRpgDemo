@@ -50,7 +50,7 @@ public class CopySceneProvider {
         //开启定时任务
         ScheduledFuture<?> t=ScheduledThreadPoolUtil.getScheduledExecutorService().schedule(
                 new ScheduledThreadPoolUtil.CopySceneOutTimeTask(teamBean,copySceneBean)
-                , copySceneBean.getLastTime(), TimeUnit.SECONDS);
+                , copySceneMessage.getLastTime(), TimeUnit.SECONDS);
         ScheduledThreadPoolUtil.getCopySceneTaskMap().put(copySceneBean.getCopySceneBeanId(),t);
 
         copySceneBeans.put(copySceneBean.getCopySceneBeanId(),copySceneBean);

@@ -236,7 +236,7 @@ public class ScheduledThreadPoolUtil {
             Integer toroleId = bufferBean.getToRoleId();
             if (toRole == null || toRole.getStatus().equals(RoleStatusCode.DIE.getCode()) || count <= 0) {
                 //删除该buffer
-                String taskId = toroleId.toString() + bufferBean.getId().toString();
+                String taskId = toroleId.toString() + bufferBean.getBufferMessageId().toString();
                 bufferRole.remove(taskId);
                 toRole.getBufferBeans().remove(bufferBean);
                 bufferRole.get(Integer.parseInt(taskId)).cancel(false);

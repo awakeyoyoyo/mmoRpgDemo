@@ -307,11 +307,12 @@ public class MmoHelperBean extends Role{
      * BUFFER的影响
      */
     public void effectByBuffer(BufferBean bufferBean) {
+        BufferMessage bufferMessage= BufferMessageCache.getInstance().get(bufferBean.getBufferMessageId());
         //根据buffer类型扣血扣蓝
-        if (bufferBean.getBuffType().equals(BufferTypeCode.REDUCE_HP.getCode())) {
+        if (bufferMessage.getBuffType().equals(BufferTypeCode.REDUCE_HP.getCode())) {
             hpRwLock.writeLock().lock();
             try {
-                Integer hp = getNowHp() - bufferBean.getBuffNum();
+                Integer hp = getNowHp() - bufferMessage.getBuffNum();
                 if (hp <= 0) {
                     hp = 0;
                     setStatus(RoleStatusCode.DIE.getCode());
@@ -331,10 +332,10 @@ public class MmoHelperBean extends Role{
                 hpRwLock.writeLock().unlock();
             }
 
-        } else if (bufferBean.getBuffType().equals(BufferTypeCode.REDUCE_MP.getCode())) {
+        } else if (bufferMessage.getBuffType().equals(BufferTypeCode.REDUCE_MP.getCode())) {
             mpRwLock.writeLock().lock();
             try {
-                Integer mp = getNowMp() - bufferBean.getBuffNum();
+                Integer mp = getNowMp() - bufferMessage.getBuffNum();
                 if (mp <= 0) {
                     mp = 0;
                 }
@@ -342,13 +343,13 @@ public class MmoHelperBean extends Role{
             } finally {
                 mpRwLock.writeLock().unlock();
             }
-        }else if (bufferBean.getBuffType().equals(BufferTypeCode.GG_ATTACK.getCode())){
+        }else if (bufferMessage.getBuffType().equals(BufferTypeCode.GG_ATTACK.getCode())){
             PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();
             damageU.setFromRoleId(bufferBean.getFromRoleId());
             damageU.setFromRoleType(bufferBean.getFromRoleType());
             damageU.setToRoleId(getId());
             damageU.setToRoleType(getType());
-            damageU.setBufferId(bufferBean.getId());
+            damageU.setBufferId(bufferBean.getBufferMessageId());
             damageU.setDamageType(ConsumeTypeCode.HP.getCode());
             damageU.setSkillId(-1);
             damageU.setAttackStyle(AttackStyleCode.GG_ATTACK.getCode());
@@ -394,8 +395,8 @@ public class MmoHelperBean extends Role{
         PlayModel.DamagesNoticeResponse.Builder damagesNoticeBuilder = PlayModel.DamagesNoticeResponse.newBuilder();
         PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();
         damageU.setDamageType(DamageTypeCode.HP.getCode()).setAttackStyle(AttackStyleCode.BUFFER.getCode())
-                .setDamage(bufferBean.getBuffNum()).setFromRoleId(bufferBean.getFromRoleId()).setToRoleId(bufferBean.getToRoleId())
-                .setState(getStatus()).setMp(getNowMp()).setBufferId(bufferBean.getId()).setNowblood(getNowHp());
+                .setDamage(bufferMessage.getBuffNum()).setFromRoleId(bufferBean.getFromRoleId()).setToRoleId(bufferBean.getToRoleId())
+                .setState(getStatus()).setMp(getNowMp()).setBufferId(bufferMessage.getId()).setNowblood(getNowHp());
         damagesNoticeBuilder.setRoleIdDamage(damageU);
         myMessageBuilder.setDamagesNoticeResponse(damagesNoticeBuilder.build());
         NettyResponse nettyResponse = new NettyResponse();

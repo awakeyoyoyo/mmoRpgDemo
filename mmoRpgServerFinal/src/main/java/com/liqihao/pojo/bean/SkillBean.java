@@ -1,5 +1,6 @@
 package com.liqihao.pojo.bean;
 
+import com.liqihao.Cache.BufferMessageCache;
 import com.liqihao.commons.enums.BufferStyleCode;
 import com.liqihao.commons.enums.BufferTypeCode;
 import com.liqihao.pojo.baseMessage.BufferMessage;
@@ -91,47 +92,41 @@ public class SkillBean {
     /**
      * 作用于npc
      */
-    public BufferBean bufferToPeople(BufferMessage b,Role fromRole,Role toRole){
+    public BufferBean bufferToPeople(BufferMessage bufferMessage,Role fromRole,Role toRole){
         //生成buffer类
         BufferBean bufferBean=new BufferBean();
         bufferBean.setFromRoleType(fromRole.getType());
         bufferBean.setToRoleType(toRole.getType());
         bufferBean.setFromRoleId(fromRole.getId());
-        bufferBean.setBuffNum(b.getBuffNum());
-        bufferBean.setBuffType(b.getBuffType());
-        bufferBean.setName(b.getName());
-        bufferBean.setId(b.getId());
-        bufferBean.setLastTime(b.getLastTime());
-        bufferBean.setBufferStyle(b.getBufferStyle());
-        bufferBean.setSpaceTime(b.getSpaceTime());
         bufferBean.setCreateTime(System.currentTimeMillis());
+        bufferBean.setBufferMessageId(bufferMessage.getId());
 //        bufferBeans.add(bufferBean);
         bufferBean.setToRoleId(toRole.getId());
         //人物增加buffer
         toRole.getBufferBeans().add(bufferBean);
         //线程池中放入任务
-        if (bufferBean.getBufferStyle().equals(BufferStyleCode.SPACE_DO.getCode())) {
+        if (bufferMessage.getBufferStyle().equals(BufferStyleCode.SPACE_DO.getCode())) {
             //间隔生效
-            Integer count=bufferBean.getLastTime()/bufferBean.getSpaceTime();
+            Integer count=bufferMessage.getLastTime()/bufferMessage.getSpaceTime();
             ScheduledThreadPoolUtil.BufferTask bufferTask = new ScheduledThreadPoolUtil.BufferTask(bufferBean, count, toRole);
             //查看是否已经有了该buffer 有则覆盖无则直接加入
-            String key = toRole.getId().toString() + bufferBean.getId().toString()+toRole.getName()+fromRole.getName();
+            String key = toRole.getId().toString() + bufferBean.getBufferMessageId().toString()+toRole.getName()+fromRole.getName();
             ConcurrentHashMap<String, ScheduledFuture<?>> bufferRole = ScheduledThreadPoolUtil.getBufferRole();
             if (bufferRole.containsKey(key)) {
                 bufferRole.get(key).cancel(false);
             }
-            ScheduledFuture<?> t = ScheduledThreadPoolUtil.getScheduledExecutorService().scheduleAtFixedRate(bufferTask, 0, bufferBean.getSpaceTime(), TimeUnit.SECONDS);
+            ScheduledFuture<?> t = ScheduledThreadPoolUtil.getScheduledExecutorService().scheduleAtFixedRate(bufferTask, 0, bufferMessage.getSpaceTime(), TimeUnit.SECONDS);
             bufferRole.put(key, t);
         }else{
             //持续生效
             ScheduledThreadPoolUtil.BufferTask bufferTask = new ScheduledThreadPoolUtil.BufferTask(bufferBean, 1, toRole);
             //用该嘲讽buffer id 作为主键，目的是让其每次都会覆盖就得嘲讽buffer
-            String key = toRole.getId().toString() + bufferBean.getId().toString()+toRole.getName()+fromRole.getName();
+            String key = toRole.getId().toString() + bufferMessage.getId().toString()+toRole.getName()+fromRole.getName();
             ConcurrentHashMap<String, ScheduledFuture<?>> bufferRole = ScheduledThreadPoolUtil.getBufferRole();
             if (bufferRole.containsKey(key)) {
                 bufferRole.get(key).cancel(false);
             }
-            ScheduledFuture<?> t = ScheduledThreadPoolUtil.getScheduledExecutorService().scheduleAtFixedRate(bufferTask, 0, bufferBean.getLastTime(), TimeUnit.SECONDS);
+            ScheduledFuture<?> t = ScheduledThreadPoolUtil.getScheduledExecutorService().scheduleAtFixedRate(bufferTask, 0, bufferMessage.getLastTime(), TimeUnit.SECONDS);
             bufferRole.put(key, t);
         }
         return bufferBean;

@@ -12,24 +12,11 @@ public class GoodsBean {
     /**
      * 商品信息Id
      */
-    private Integer articleMessageId;
-    /**
-     * 商品类型
-     */
-    private Integer articleTypeId;
-    /**
-     * 数量
-     */
-    private Integer num;
+    private Integer goodsMessageId;
     /**
      * 剩余数量
      */
     private volatile Integer nowNum;
-    /**
-     * 价格
-     */
-    private Integer price;
-
 
     public Integer getId() {
         return id;
@@ -39,28 +26,12 @@ public class GoodsBean {
         this.id = id;
     }
 
-    public Integer getArticleMessageId() {
-        return articleMessageId;
+    public Integer getGoodsMessageId() {
+        return goodsMessageId;
     }
 
-    public void setArticleMessageId(Integer articleMessageId) {
-        this.articleMessageId = articleMessageId;
-    }
-
-    public Integer getArticleTypeId() {
-        return articleTypeId;
-    }
-
-    public void setArticleTypeId(Integer articleTypeId) {
-        this.articleTypeId = articleTypeId;
-    }
-
-    public Integer getNum() {
-        return num;
-    }
-
-    public void setNum(Integer num) {
-        this.num = num;
+    public void setGoodsMessageId(Integer goodsMessageId) {
+        this.goodsMessageId = goodsMessageId;
     }
 
     public Integer getNowNum() {
@@ -71,11 +42,4 @@ public class GoodsBean {
         this.nowNum = nowNum;
     }
 
-    public Integer getPrice() {
-        return price;
-    }
-
-    public void setPrice(Integer price) {
-        this.price = price;
-    }
 }

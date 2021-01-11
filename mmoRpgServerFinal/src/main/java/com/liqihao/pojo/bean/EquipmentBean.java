@@ -1,5 +1,6 @@
 package com.liqihao.pojo.bean;
 
+import com.liqihao.Cache.EquipmentMessageCache;
 import com.liqihao.Cache.MmoBaseMessageCache;
 import com.liqihao.pojo.baseMessage.EquipmentMessage;
 
@@ -7,7 +8,11 @@ import com.liqihao.pojo.baseMessage.EquipmentMessage;
  * Equipment Bean
  * @author Administrator
  */
-public class EquipmentBean extends EquipmentMessage implements Article{
+public class EquipmentBean implements Article{
+    /**
+     * 装备信息Id
+     */
+    private Integer equipmentMessageId;
     private Integer nowDurability;
     private Integer quantity;
     /**
@@ -32,6 +37,14 @@ public class EquipmentBean extends EquipmentMessage implements Article{
      *地面物品的下标
      */
     private Integer floorIndex;
+
+    public Integer getEquipmentMessageId() {
+        return equipmentMessageId;
+    }
+
+    public void setEquipmentMessageId(Integer equipmentMessageId) {
+        this.equipmentMessageId = equipmentMessageId;
+    }
 
     public Integer getFloorIndex() {
         return floorIndex;
@@ -83,7 +96,8 @@ public class EquipmentBean extends EquipmentMessage implements Article{
      * @return
      */
     public Integer fixDurability(){
-        nowDurability=getDurability();
+        EquipmentMessage equipmentMessage= EquipmentMessageCache.getInstance().get(getEquipmentMessageId());
+        nowDurability=equipmentMessage.getDurability();
         return nowDurability;
     }
 
@@ -112,6 +126,7 @@ public class EquipmentBean extends EquipmentMessage implements Article{
 
     @Override
     public Integer getArticleTypeCode() {
-        return getArticleType();
+        EquipmentMessage equipmentMessage= EquipmentMessageCache.getInstance().get(getEquipmentMessageId());
+        return equipmentMessage.getArticleType();
     }
 }

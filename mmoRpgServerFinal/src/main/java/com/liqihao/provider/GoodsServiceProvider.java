@@ -11,6 +11,7 @@ import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -21,7 +22,7 @@ import java.util.stream.Collectors;
  */
 @Component
 public class GoodsServiceProvider {
-    private static ConcurrentHashMap<Integer, GoodsBean> goodsBeanConcurrentHashMap=new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<Integer, GoodsBean> goodsBeanConcurrentHashMap=new ConcurrentHashMap<>();
     @PostConstruct
     private  void init(){
         for (GoodsMessage g:GoodsMessageCache.getInstance().values()){
@@ -37,7 +38,7 @@ public class GoodsServiceProvider {
      */
     public static List<GoodsBean> getAllArticles(){
         synchronized (goodsBeanConcurrentHashMap) {
-            List<GoodsBean> beans = goodsBeanConcurrentHashMap.values().stream().collect(Collectors.toList());
+            List<GoodsBean> beans = new ArrayList<>(goodsBeanConcurrentHashMap.values());
             return beans;
         }
     }
@@ -49,13 +50,13 @@ public class GoodsServiceProvider {
         if (goodsBean == null) {
             throw new Exception("查无该商品");
         }
-
+        GoodsMessage goodsMessage=GoodsMessageCache.getInstance().get(goodsBean.getGoodsMessageId());
         synchronized (goodsBean) {
             if (goodsBean.getNowNum()<=0){
                 throw new Exception("该商品数量不足");
             }
 
-            Integer needMoney=num*goodsBean.getPrice();
+            Integer needMoney=num*goodsMessage.getPrice();
             if (mmoSimpleRole.getMoney()<needMoney){
                 throw new Exception("用户不够钱");
             }
@@ -64,12 +65,12 @@ public class GoodsServiceProvider {
         }
         boolean flag=false;
         Article article=null;
-        if(goodsBean.getArticleTypeId().equals(ArticleTypeCode.EQUIPMENT.getCode())){
+        if(goodsMessage.getArticleTypeId().equals(ArticleTypeCode.EQUIPMENT.getCode())){
             //装备
-            article= sellEquipment(goodsBean.getArticleMessageId());
+            article= sellEquipment(goodsMessage.getArticleMessageId());
         }else{
             //药品
-            article= sellMedicineBean(goodsBean.getArticleMessageId(),num);
+            article= sellMedicineBean(goodsMessage.getArticleMessageId(),num);
         }
         synchronized (mmoSimpleRole.getBackpackManager()) {
             flag = mmoSimpleRole.getBackpackManager().canPutArticle(article);

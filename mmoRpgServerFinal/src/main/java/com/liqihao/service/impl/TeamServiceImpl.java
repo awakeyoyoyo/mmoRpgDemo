@@ -30,7 +30,7 @@ public class TeamServiceImpl implements TeamService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.APPLY_FOR_TEAM_REQUEST,module = ConstantValue.TEAM_MODULE)
     public void applyForTeamRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
-        Channel channel=ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        Channel channel = mmoSimpleRole.getChannel();
         Integer teamId=myMessage.getApplyForTeamRequest().getTeamId();
         if (teamId==0){
             NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"请输入参数".getBytes());
@@ -78,7 +78,7 @@ public class TeamServiceImpl implements TeamService {
     @HandlerCmdTag(cmd = ConstantValue.CREATE_TEAM_REQUEST,module = ConstantValue.TEAM_MODULE)
     public void createTeamRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
         //判断是否在线 并且返回玩家对象
-        Channel channel=ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        Channel channel = mmoSimpleRole.getChannel();
         String teamName=myMessage.getCreateTeamRequest().getName();
         if (teamName==null){
             NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"请输入参数".getBytes());
@@ -124,7 +124,7 @@ public class TeamServiceImpl implements TeamService {
     public void banPeopleRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
         Integer roleId=myMessage.getBanPeopleRequest().getRoleId();
         MmoSimpleRole player=OnlineRoleMessageCache.getInstance().get(roleId);
-        Channel channel=ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        Channel channel = mmoSimpleRole.getChannel();
         //判断玩家是否已经有队伍
         if (mmoSimpleRole.getTeamId()==null){
             NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"不在任何队伍中".getBytes());
@@ -154,7 +154,7 @@ public class TeamServiceImpl implements TeamService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.DELETE_TEAM_REQUEST,module = ConstantValue.TEAM_MODULE)
     public void deleteTeamRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
-        Channel channel=ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        Channel channel = mmoSimpleRole.getChannel();
         //判断玩家是否已经有队伍
         Integer teamId=mmoSimpleRole.getTeamId();
         TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(teamId);
@@ -185,7 +185,7 @@ public class TeamServiceImpl implements TeamService {
 
         Integer roleId=myMessage.getEntryPeopleRequest().getRoleId();
         Integer teamId=myMessage.getEntryPeopleRequest().getTeamId();
-        Channel channel=ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        Channel channel = mmoSimpleRole.getChannel();
         if (roleId.equals(mmoSimpleRole.getId())){
             TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(teamId);
             if (teamBean==null){
@@ -243,7 +243,7 @@ public class TeamServiceImpl implements TeamService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.EXIT_TEAM_REQUEST,module = ConstantValue.TEAM_MODULE)
     public void exitTeamRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
-        Channel channel=ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        Channel channel = mmoSimpleRole.getChannel();
         //判断是否有队伍
         Integer teamId=mmoSimpleRole.getTeamId();
         if (teamId==null){
@@ -259,7 +259,7 @@ public class TeamServiceImpl implements TeamService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.INVITE_PEOPLE_REQUEST,module = ConstantValue.TEAM_MODULE)
     public void invitePeopleRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
-        Channel channel=ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        Channel channel = mmoSimpleRole.getChannel();
         Integer roleId=myMessage.getInvitePeopleRequest().getRoleId();
         if (roleId==0){
             NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"请输入参数".getBytes());
@@ -317,7 +317,7 @@ public class TeamServiceImpl implements TeamService {
         //teamId和roleId和teamApplyId给队长
         //判断是否在线 并且返回玩家对象
         Integer roleId=myMessage.getRefuseApplyRequest().getRoleId();
-        Channel channel=ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        Channel channel = mmoSimpleRole.getChannel();
         Integer teamId=mmoSimpleRole.getTeamId();
         if (teamId==null){
             NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,("你根本无队伍").getBytes());
@@ -352,7 +352,7 @@ public class TeamServiceImpl implements TeamService {
 
         //判断是否在线 并且返回玩家对象
         Integer teamId=myMessage.getRefuseInviteRequest().getTeamId();
-        Channel channel=ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        Channel channel = mmoSimpleRole.getChannel();
         TeamApplyOrInviteBean bean=mmoSimpleRole.refuseInvite(teamId);
         if (bean==null){
             return;
@@ -376,7 +376,7 @@ public class TeamServiceImpl implements TeamService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.APPLY_MESSAGE_REQUEST,module = ConstantValue.TEAM_MODULE)
     public void applyMessageRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
-        Channel channel=ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        Channel channel = mmoSimpleRole.getChannel();
 
         Integer teamId=mmoSimpleRole.getTeamId();
         if (teamId==null){
@@ -416,7 +416,7 @@ public class TeamServiceImpl implements TeamService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.INVITE_MESSAGE_REQUEST,module = ConstantValue.TEAM_MODULE)
     public void inviteMessage(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
-        Channel channel=ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        Channel channel = mmoSimpleRole.getChannel();
         List<TeamApplyOrInviteBean> inviteBeanList=mmoSimpleRole.getInviteBeans();
         //发送给角色
         List<TeamModel.ApplyInviteBeanDto> inviteBeanDtos=new ArrayList<>();
@@ -444,7 +444,7 @@ public class TeamServiceImpl implements TeamService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.TEAM_MESSAGE_REQUEST,module = ConstantValue.TEAM_MODULE)
     public void teamMessageRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
-        Channel channel=ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
+        Channel channel = mmoSimpleRole.getChannel();
         Integer teamId=mmoSimpleRole.getTeamId();
         if (teamId==null){
             NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"没有进入任何队伍".getBytes());

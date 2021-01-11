@@ -1,16 +1,15 @@
 package com.liqihao.pojo.bean;
 
-import com.liqihao.Cache.BufferMessageCache;
-import com.liqihao.Cache.ChannelMessageCache;
-import com.liqihao.Cache.OnlineRoleMessageCache;
-import com.liqihao.Cache.SceneBeanMessageCache;
+import com.liqihao.Cache.*;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.*;
+import com.liqihao.pojo.baseMessage.BossMessage;
 import com.liqihao.pojo.baseMessage.BufferMessage;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.provider.CopySceneProvider;
+import com.liqihao.util.CommonsUtil;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
 
@@ -28,23 +27,27 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * @author lqhao
  */
 public class BossBean extends Role{
-    private String skillIds;
-    private String medicines;
-    private String equipmentIds;
-    private Integer money;
+    /**
+     * boss基本信息id
+     */
+    private Integer BossMessageId;
     /**
      * 仇恨
      */
     private ConcurrentHashMap<Role,Integer> hatredMap;
-    /**
-     * 技能&cd
-     */
-    private List<SkillBean> skillBeans;
     private HashMap<Integer, Long> cdMap;
     private Integer BossBeanId;
     public final ReentrantReadWriteLock hpRwLock = new ReentrantReadWriteLock();
     public final ReentrantReadWriteLock mpRwLock = new ReentrantReadWriteLock();
     private Integer copySceneBeanId;
+
+    public Integer getBossMessageId() {
+        return BossMessageId;
+    }
+
+    public void setBossMessageId(Integer bossMessageId) {
+        BossMessageId = bossMessageId;
+    }
 
     @Override
     public Integer getCopySceneBeanId() {
@@ -56,35 +59,6 @@ public class BossBean extends Role{
         this.copySceneBeanId = copySceneBeanId;
     }
 
-    public Integer getMoney() {
-        return money;
-    }
-    public void setMoney(Integer money) {
-        this.money = money;
-    }
-    public String getSkillIds() {
-        return skillIds;
-    }
-
-    public void setSkillIds(String skillIds) {
-        this.skillIds = skillIds;
-    }
-
-    public String getMedicines() {
-        return medicines;
-    }
-
-    public void setMedicines(String medicines) {
-        this.medicines = medicines;
-    }
-
-    public String getEquipmentIds() {
-        return equipmentIds;
-    }
-
-    public void setEquipmentIds(String equipmentIds) {
-        this.equipmentIds = equipmentIds;
-    }
 
     public Integer getBossBeanId() {
         return BossBeanId;
@@ -102,13 +76,6 @@ public class BossBean extends Role{
         this.hatredMap = hatredMap;
     }
 
-    public List<SkillBean> getSkillBeans() {
-        return skillBeans;
-    }
-
-    public void setSkillBeans(List<SkillBean> skillBeans) {
-        this.skillBeans = skillBeans;
-    }
 
     public HashMap<Integer, Long> getCdMap() {
         return cdMap;
@@ -213,7 +180,10 @@ public class BossBean extends Role{
                 t = ScheduledThreadPoolUtil.getBossTaskMap().get(getId());
                 if (t==null) {
                     CopySceneBean copySceneBean = CopySceneProvider.getCopySceneBeanById(getCopySceneBeanId());
-                    ScheduledThreadPoolUtil.BossAttackTask bossAttackTask = new ScheduledThreadPoolUtil.BossAttackTask(this, copySceneBean, getSkillBeans());
+                    List<SkillBean> skillBeans;
+                    BossMessage bossMessage= BossMessageCache.getInstance().get(getBossMessageId());
+                    skillBeans= CommonsUtil.skillIdsToSkillBeans(CommonsUtil.split(bossMessage.getSkillIds()));
+                    ScheduledThreadPoolUtil.BossAttackTask bossAttackTask = new ScheduledThreadPoolUtil.BossAttackTask(this, copySceneBean, skillBeans);
                     t = ScheduledThreadPoolUtil.getScheduledExecutorService().scheduleAtFixedRate(bossAttackTask, 0, 5, TimeUnit.SECONDS);
                     ScheduledThreadPoolUtil.getBossTaskMap().put(getId(), t);
                 }
@@ -224,11 +194,12 @@ public class BossBean extends Role{
 
     @Override
     public void effectByBuffer(BufferBean bufferBean) {
+        BufferMessage bufferMessage=BufferMessageCache.getInstance().get(bufferBean.getBufferMessageId());
         //根据buffer类型扣血扣蓝
-        if (bufferBean.getBuffType().equals(BufferTypeCode.REDUCE_HP.getCode())) {
+        if (bufferMessage.getBuffType().equals(BufferTypeCode.REDUCE_HP.getCode())) {
             hpRwLock.writeLock().lock();
             try {
-                Integer hp = getNowHp() - bufferBean.getBuffNum();
+                Integer hp = getNowHp() - bufferMessage.getBuffNum();
                 if (hp <= 0) {
                     hp = 0;
                     setStatus(RoleStatusCode.DIE.getCode());
@@ -238,10 +209,10 @@ public class BossBean extends Role{
                 hpRwLock.writeLock().unlock();
             }
 
-        } else if (bufferBean.getBuffType().equals(BufferTypeCode.REDUCE_MP.getCode())) {
+        } else if (bufferMessage.getBuffType().equals(BufferTypeCode.REDUCE_MP.getCode())) {
             mpRwLock.writeLock().lock();
             try {
-                Integer mp = getNowMp() - bufferBean.getBuffNum();
+                Integer mp = getNowMp() - bufferMessage.getBuffNum();
                 if (mp <= 0) {
                     mp = 0;
                 }
@@ -249,13 +220,13 @@ public class BossBean extends Role{
             } finally {
                 mpRwLock.writeLock().unlock();
             }
-        }else if (bufferBean.getBuffType().equals(BufferTypeCode.GG_ATTACK.getCode())){
+        }else if (bufferMessage.getBuffType().equals(BufferTypeCode.GG_ATTACK.getCode())){
             PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();
             damageU.setFromRoleId(bufferBean.getFromRoleId());
             damageU.setFromRoleType(bufferBean.getFromRoleType());
             damageU.setToRoleId(getId());
             damageU.setToRoleType(getType());
-            damageU.setBufferId(bufferBean.getId());
+            damageU.setBufferId(bufferBean.getBufferMessageId());
             damageU.setDamageType(ConsumeTypeCode.HP.getCode());
             damageU.setSkillId(-1);
             damageU.setAttackStyle(AttackStyleCode.GG_ATTACK.getCode());
@@ -301,8 +272,8 @@ public class BossBean extends Role{
         PlayModel.DamagesNoticeResponse.Builder damagesNoticeBuilder = PlayModel.DamagesNoticeResponse.newBuilder();
         PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();
         damageU.setDamageType(DamageTypeCode.HP.getCode()).setAttackStyle(AttackStyleCode.BUFFER.getCode())
-                .setDamage(bufferBean.getBuffNum()).setFromRoleId(bufferBean.getFromRoleId()).setToRoleId(bufferBean.getToRoleId())
-                .setState(getStatus()).setMp(getNowMp()).setBufferId(bufferBean.getId()).setNowblood(getNowHp());
+                .setDamage(bufferMessage.getBuffNum()).setFromRoleId(bufferBean.getFromRoleId()).setToRoleId(bufferBean.getToRoleId())
+                .setState(getStatus()).setMp(getNowMp()).setBufferId(bufferBean.getBufferMessageId()).setNowblood(getNowHp());
         damagesNoticeBuilder.setRoleIdDamage(damageU);
         myMessageBuilder.setDamagesNoticeResponse(damagesNoticeBuilder.build());
         NettyResponse nettyResponse = new NettyResponse();
@@ -343,7 +314,8 @@ public class BossBean extends Role{
             Iterator<BufferBean> buffers=getBufferBeans().iterator();
             while(buffers.hasNext()){
                 BufferBean bufferBean=buffers.next();
-               if (bufferBean.getBuffType().equals(BufferTypeCode.GG_ATTACK.getCode())){
+                BufferMessage bufferMessage=BufferMessageCache.getInstance().get(bufferBean.getBufferMessageId());
+               if (bufferMessage.getBuffType().equals(BufferTypeCode.GG_ATTACK.getCode())){
                    Role role= OnlineRoleMessageCache.getInstance().get(bufferBean.getFromRoleId());
                    if(role.getStatus().equals(RoleStatusCode.ALIVE.getCode())) {
                        return role;
@@ -389,7 +361,10 @@ public class BossBean extends Role{
     }
     //根据skillI获取技能
     public SkillBean getSkillBeanBySkillId(Integer skillId) {
-        for (SkillBean b : getSkillBeans()) {
+        List<SkillBean> skillBeans;
+        BossMessage bossMessage= BossMessageCache.getInstance().get(getBossMessageId());
+        skillBeans= CommonsUtil.skillIdsToSkillBeans(CommonsUtil.split(bossMessage.getSkillIds()));
+        for (SkillBean b : skillBeans) {
             if (b.getId().equals(skillId)) {
                 return b;
             }

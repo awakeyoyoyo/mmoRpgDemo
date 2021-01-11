@@ -7,7 +7,7 @@ import java.util.List;
  * @author lqhao
  */
 public class SceneBean {
-    private  Integer id;
+    private Integer id;
     private String name;
     private List<Integer> canScenes;
     private List<Integer> roles;
