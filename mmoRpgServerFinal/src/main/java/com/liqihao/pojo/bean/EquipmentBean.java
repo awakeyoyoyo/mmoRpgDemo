@@ -3,6 +3,10 @@ package com.liqihao.pojo.bean;
 import com.liqihao.Cache.EquipmentMessageCache;
 import com.liqihao.Cache.MmoBaseMessageCache;
 import com.liqihao.pojo.baseMessage.EquipmentMessage;
+import com.liqihao.pojo.dto.ArticleDto;
+
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Equipment Bean
@@ -124,9 +128,89 @@ public class EquipmentBean implements Article{
         this.quantity = quantity;
     }
 
+    /**
+     * 获取类型
+     * @return
+     */
     @Override
     public Integer getArticleTypeCode() {
         EquipmentMessage equipmentMessage= EquipmentMessageCache.getInstance().get(getEquipmentMessageId());
         return equipmentMessage.getArticleType();
+    }
+
+    /**
+     * 获取背包id
+     * @return
+     */
+    @Override
+    public Integer getArticleIdCode() {
+        return getArticleId();
+    }
+
+    /**
+     * 丢弃或者使用装备
+     * @param number
+     * @return
+     */
+    @Override
+    public Article useOrAbandon(Integer number,BackPackManager backPackManager) {
+        //需要删除数据库的记录
+        backPackManager.getNeedDeleteBagId().add(getBagId());
+        setBagId(null);
+        backPackManager.getBackpacks().remove(this);
+        backPackManager.setNowSize(backPackManager.getNowSize()-1);
+        return this;
+    }
+
+    @Override
+    public ArticleDto getArticleMessage() {
+        ArticleDto articleDto = new ArticleDto();
+        articleDto.setArticleId(getArticleId());
+        articleDto.setId(getEquipmentMessageId());
+        articleDto.setArticleType(getArticleTypeCode());
+        articleDto.setQuantity(getQuantity());
+        articleDto.setBagId(getBagId());
+        articleDto.setNowDurability(getNowDurability());
+        articleDto.setEquipmentId(getEquipmentId());
+        return articleDto;
+    }
+
+    @Override
+    public <T extends Article> T getArticle() {
+        return (T)this;
+    }
+
+    @Override
+    public boolean put(BackPackManager backPackManager) {
+        //判断背包大小
+        if ((backPackManager.getSize() - backPackManager.getNowSize()) <= 0) {
+            //背包一个格子的空间都没有 无法存放
+            return false;
+        } else {
+            //设置背包物品id
+            setArticleId(backPackManager.getNewArticleId());
+            backPackManager.setNowSize(backPackManager.getNowSize()+1);
+            backPackManager.getBackpacks().add(this);
+            return true;
+        }
+    }
+
+    @Override
+    public void clearPut(BackPackManager backPackManager) {
+        if (getBagId()!=null){
+            backPackManager.getNeedDeleteBagId().add(getBagId());
+        }
+        //设置背包物品id
+        setArticleId(backPackManager.getNewArticleId());
+        setBagId(null);
+        backPackManager.put(this);
+    }
+
+    @Override
+    public boolean checkCanPut(BackPackManager backPackManager) {
+        if (backPackManager.getNowSize() > backPackManager.getSize()) {
+            return false;
+        }
+        return true;
     }
 }

@@ -84,7 +84,7 @@ public class DispatcherServlet implements ApplicationContextAware {
             }
             return;
         }
-        channel.writeAndFlush(new NettyResponse(StateCode.FAIL, 444, "传入错误的cmd".getBytes()));
+        channel.writeAndFlush(new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE, "传入错误的cmd".getBytes()));
     }
 
     private void sendException(Channel ctx, String  cause){
@@ -111,9 +111,7 @@ public class DispatcherServlet implements ApplicationContextAware {
                     clazz = Class.forName(packet + protobufModel);
                     Method method = clazz.getMethod("parser");
                     parser = (Parser) method.invoke(null);
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                } catch (NoSuchMethodException e) {
+                } catch (ClassNotFoundException | NoSuchMethodException e) {
                     e.printStackTrace();
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();

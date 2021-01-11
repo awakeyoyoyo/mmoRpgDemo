@@ -4,6 +4,7 @@ import com.liqihao.Cache.OnlineRoleMessageCache;
 import com.liqihao.Cache.SceneBeanMessageCache;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
+import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.ChatTypeCode;
 import com.liqihao.commons.enums.RoleTypeCode;
@@ -84,7 +85,7 @@ public class ChatServiceProvider implements MySubject{
         if (sceneId!=null) {
             SceneBean sceneBean = SceneBeanMessageCache.getInstance().get(sceneId);
             if (sceneBean == null) {
-                throw new Exception("错误的sceneId");
+                throw new RpgServerException(StateCode.FAIL,"错误的sceneId");
             }
             List<Integer> roleIds = sceneBean.getRoles();
             for (Integer roleId : roleIds) {
@@ -113,7 +114,7 @@ public class ChatServiceProvider implements MySubject{
     public void notifyTeam(Integer teamBeanId, Role fromRole, String str) throws Exception {
         TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(teamBeanId);
         if (teamBean==null){
-            throw new Exception("错误的copySceneBeanId");
+            throw new RpgServerException(StateCode.FAIL,"错误的copySceneBeanId");
         }
         for (MmoSimpleRole role:teamBean.getMmoSimpleRoles()) {
             role.update(fromRole,str,ChatTypeCode.TEAM_PEOPLE.getCode());

@@ -1,6 +1,7 @@
 package com.liqihao.service;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.liqihao.commons.RpgServerException;
 import com.liqihao.pojo.bean.MmoSimpleRole;
 import com.liqihao.protobufObject.SceneModel;
 
@@ -15,7 +16,7 @@ public interface SceneService {
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
      */
-    void wentRequest(SceneModel.SceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException;
+    void wentRequest(SceneModel.SceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
 
     /**
      * 查找当前场景所有角色
@@ -31,5 +32,5 @@ public interface SceneService {
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
      */
-    void talkNpcRequest(SceneModel.SceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException;
+    void talkNpcRequest(SceneModel.SceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
 }

@@ -6,6 +6,7 @@ import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
+import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.enums.ArticleTypeCode;
 import com.liqihao.commons.StateCode;
 import com.liqihao.pojo.bean.Article;
@@ -30,7 +31,7 @@ import java.util.List;
 public class EquipmentServiceImpl implements EquipmentService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.ADD_EQUIPMENT_REQUEST, module = ConstantValue.EQUIPMENT_MODULE)
-    public void addEquipmentRequest(EquipmentModel.EquipmentModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
+    public void addEquipmentRequest(EquipmentModel.EquipmentModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws RpgServerException {
 
         Integer articleId = myMessage.getAddEquipmentRequest().getArticleId();
         Channel channel = mmoSimpleRole.getChannel();
@@ -38,13 +39,7 @@ public class EquipmentServiceImpl implements EquipmentService {
         Article article = mmoSimpleRole.getBackpackManager().getArticleByArticleId(articleId);
         if (article == null || !article.getArticleTypeCode().equals(ArticleTypeCode.EQUIPMENT.getCode())) {
             //不是装备
-            NettyResponse nettyResponse = new NettyResponse();
-            nettyResponse.setCmd(ConstantValue.FAIL_RESPONSE);
-            nettyResponse.setStateCode(StateCode.FAIL);
-            //protobuf 生成registerResponse
-            nettyResponse.setData("该物品不是装备or找不到该装备".getBytes());
-            channel.writeAndFlush(nettyResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"该物品不是装备or找不到该装备");
         }
         mmoSimpleRole.useArticle(articleId);
         NettyResponse nettyResponse = new NettyResponse();
@@ -89,20 +84,12 @@ public class EquipmentServiceImpl implements EquipmentService {
         Integer position = myMessage.getReduceEquipmentRequest().getPosition();
         Channel channel = mmoSimpleRole.getChannel();
         if (position > 6 || position <= 0) {
-            NettyResponse errorResponse = new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE, "传入无效的部位id".getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"传入无效的部位id");
         }
         boolean flag = mmoSimpleRole.unUseEquipment(position);
         if (!flag) {
             //不是装备
-            NettyResponse nettyResponse = new NettyResponse();
-            nettyResponse.setCmd(ConstantValue.FAIL_RESPONSE);
-            nettyResponse.setStateCode(StateCode.FAIL);
-            //protobuf 生成registerResponse
-            nettyResponse.setData("该部位没有装备".getBytes());
-            channel.writeAndFlush(nettyResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"该部位没有装备");
         }
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.REDUCE_EQUIPMENT_RESPONSE);
@@ -117,23 +104,15 @@ public class EquipmentServiceImpl implements EquipmentService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.FIX_EQUIPMENT_REQUEST, module = ConstantValue.EQUIPMENT_MODULE)
-    public void fixEquipmentRequest(EquipmentModel.EquipmentModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
+    public void fixEquipmentRequest(EquipmentModel.EquipmentModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException {
         Integer articleId = myMessage.getFixEquipmentRequest().getArticleId();
         Channel channel = mmoSimpleRole.getChannel();
         Article article = mmoSimpleRole.getBackpackManager().getArticleByArticleId(articleId);
         if (article == null) {
-            NettyResponse errorResponse = new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE, "传入无效物品id".getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"传入无效物品id");
         }
         if (article.getArticleTypeCode() != ArticleTypeCode.EQUIPMENT.getCode()) {
-            NettyResponse nettyResponse = new NettyResponse();
-            nettyResponse.setCmd(ConstantValue.FAIL_RESPONSE);
-            nettyResponse.setStateCode(StateCode.FAIL);
-            //protobuf 生成registerResponse
-            nettyResponse.setData("该物品不是装备".getBytes());
-            channel.writeAndFlush(nettyResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"该物品不是装备");
         }
         EquipmentBean equipmentBean = (EquipmentBean) article;
         //修复武器

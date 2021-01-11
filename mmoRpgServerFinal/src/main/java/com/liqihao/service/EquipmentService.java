@@ -1,6 +1,7 @@
 package com.liqihao.service;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.liqihao.commons.RpgServerException;
 import com.liqihao.pojo.bean.MmoSimpleRole;
 import com.liqihao.protobufObject.EquipmentModel;
 
@@ -15,7 +16,7 @@ public interface EquipmentService {
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
      */
-    void addEquipmentRequest(EquipmentModel.EquipmentModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException;
+    void addEquipmentRequest(EquipmentModel.EquipmentModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
 
     /**
      * 背包信息
@@ -39,5 +40,5 @@ public interface EquipmentService {
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
      */
-    void fixEquipmentRequest(EquipmentModel.EquipmentModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException;
+    void fixEquipmentRequest(EquipmentModel.EquipmentModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
 }

@@ -3,6 +3,7 @@ package com.liqihao.pojo.bean;
 import com.liqihao.Cache.ChannelMessageCache;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
+import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.CopySceneDeleteCauseCode;
 import com.liqihao.commons.enums.TeamApplyInviteCode;
@@ -327,13 +328,11 @@ public class TeamBean {
      * 增加队友
      * @param mmoSimpleRole
      */
-    public void addRole(MmoSimpleRole mmoSimpleRole,Channel channel) {
+    public void addRole(MmoSimpleRole mmoSimpleRole,Channel channel) throws RpgServerException {
         //判断队伍人数上限
         if (getTeamRoleSize()<=mmoSimpleRolesMap.size()){
             //队伍已经满了
-            NettyResponse errotResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"队伍已经满了".getBytes());
-            channel.writeAndFlush(errotResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"队伍已经满了");
         }
         mmoSimpleRolesMap.put(mmoSimpleRole.getId(),mmoSimpleRole);
         mmoSimpleRole.setTeamId(getTeamId());

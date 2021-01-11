@@ -9,6 +9,7 @@ import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
+import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.enums.ArticleTypeCode;
 import com.liqihao.commons.StateCode;
 import com.liqihao.pojo.baseMessage.EquipmentMessage;
@@ -37,7 +38,7 @@ import java.util.List;
 public class BackpackServiceImpl implements BackpackService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.ABANDON_REQUEST, module = ConstantValue.BAKCPACK_MODULE)
-    public void abandonRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
+    public void abandonRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException {
         Integer articleId = myMessage.getAbandonRequest().getArticleId();
         Integer number = myMessage.getAbandonRequest().getNumber();
         Channel channel = mmoSimpleRole.getChannel();
@@ -45,14 +46,7 @@ public class BackpackServiceImpl implements BackpackService {
         Article article = manager.useOrAbandonArticle(articleId, number);
         if (article == null) {
             //使用失败，无该物品或者该数量超过
-            //返回成功的数据包
-            NettyResponse nettyResponse = new NettyResponse();
-            nettyResponse.setCmd(ConstantValue.FAIL_RESPONSE);
-            nettyResponse.setStateCode(StateCode.FAIL);
-            //protobuf 生成registerResponse
-            nettyResponse.setData("使用失败，无该物品或者数量不足".getBytes());
-            channel.writeAndFlush(nettyResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"使用失败，无该物品或者数量不足");
         } else {
             //返回成功的数据包
             NettyResponse nettyResponse = new NettyResponse();
@@ -65,7 +59,6 @@ public class BackpackServiceImpl implements BackpackService {
             messageData.setAbandonResponse(abandonResponseBuilder.build());
             nettyResponse.setData(messageData.build().toByteArray());
             channel.writeAndFlush(nettyResponse);
-            return;
         }
     }
 
@@ -103,7 +96,7 @@ public class BackpackServiceImpl implements BackpackService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.USE_REQUEST, module = ConstantValue.BAKCPACK_MODULE)
-    public void useRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
+    public void useRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException {
         Integer article = myMessage.getUseRequest().getArticleId();
         Channel channel = mmoSimpleRole.getChannel();
         boolean flag = mmoSimpleRole.useArticle(article);
@@ -117,13 +110,11 @@ public class BackpackServiceImpl implements BackpackService {
             BackPackModel.UseResponse.Builder useResponse = BackPackModel.UseResponse.newBuilder();
             messageData.setUseResponse(useResponse.build());
             nettyResponse.setData(messageData.build().toByteArray());
+            channel.writeAndFlush(nettyResponse);
         } else {
-            nettyResponse.setStateCode(StateCode.FAIL);
-            nettyResponse.setCmd(ConstantValue.FAIL_RESPONSE);
-            //protobuf 生成registerResponse
-            nettyResponse.setData("使用道具失败".getBytes());
+            throw new RpgServerException(StateCode.FAIL,"使用道具失败");
         }
-        channel.writeAndFlush(nettyResponse);
+
         return;
     }
 
@@ -139,13 +130,7 @@ public class BackpackServiceImpl implements BackpackService {
         if (articleType.equals(ArticleTypeCode.MEDICINE.getCode())) {
             MedicineMessage medicineMessage = MediceneMessageCache.getInstance().get(id);
             if (medicineMessage == null) {
-                NettyResponse nettyResponse = new NettyResponse();
-                nettyResponse.setCmd(ConstantValue.FAIL_RESPONSE);
-                nettyResponse.setStateCode(StateCode.FAIL);
-                //protobuf 生成registerResponse
-                nettyResponse.setData("存入错误物品id".getBytes());
-                channel.writeAndFlush(nettyResponse);
-                return;
+                throw new RpgServerException(StateCode.FAIL,"存入错误物品id");
             }
             MedicineBean medicineBean = CommonsUtil.medicineMessageToMedicineBean(medicineMessage);
             medicineBean.setQuantity(number);
@@ -153,31 +138,19 @@ public class BackpackServiceImpl implements BackpackService {
         } else if (articleType.equals(ArticleTypeCode.EQUIPMENT.getCode())) {
             EquipmentMessage equipmentMessage = EquipmentMessageCache.getInstance().get(id);
             if (equipmentMessage == null) {
-                NettyResponse nettyResponse = new NettyResponse();
-                nettyResponse.setCmd(ConstantValue.FAIL_RESPONSE);
-                nettyResponse.setStateCode(StateCode.FAIL);
-                //protobuf 生成registerResponse
-                nettyResponse.setData("存入错误物品id".getBytes());
-                channel.writeAndFlush(nettyResponse);
-                return;
+                throw new RpgServerException(StateCode.FAIL,"存入错误物品id");
             }
             EquipmentBean equipmentBean = CommonsUtil.equipmentMessageToEquipmentBean(equipmentMessage);
             equipmentBean.setQuantity(number);
             article = equipmentBean;
         } else {
             //未知物品
-            NettyResponse nettyResponse = new NettyResponse();
-            nettyResponse.setCmd(ConstantValue.FAIL_RESPONSE);
-            nettyResponse.setStateCode(StateCode.FAIL);
-            //protobuf 生成registerResponse
-            nettyResponse.setData("未知物品不能存储".getBytes());
-            channel.writeAndFlush(nettyResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"未知物品不能存储");
         }
         //上锁
         synchronized (mmoSimpleRole.getBackpackManager()) {
             if (!mmoSimpleRole.getBackpackManager().canPutArticle(article)) {
-                throw new Exception("背包已经满了");
+                throw new RpgServerException(StateCode.FAIL,"背包已经满了");
             }
             mmoSimpleRole.getBackpackManager().put(article);
         }
@@ -197,14 +170,12 @@ public class BackpackServiceImpl implements BackpackService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.FIND_ALL_CAN_REQUEST, module = ConstantValue.BAKCPACK_MODULE)
-    public void findAllCanGetRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
+    public void findAllCanGetRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException {
         Channel channel = mmoSimpleRole.getChannel();
         //副本中可捡去的物品
         Integer copySceneBeanId = mmoSimpleRole.getCopySceneBeanId();
         if (copySceneBeanId == null) {
-            NettyResponse errorResponse = new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE, "当前角色还未进入副本".getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"当前角色还未进入副本");
         }
         CopySceneBean copySceneBean = CopySceneProvider.getCopySceneBeanById(copySceneBeanId);
         List<BackPackModel.ArticleFloorDto> resultList = new ArrayList<>();
@@ -256,21 +227,17 @@ public class BackpackServiceImpl implements BackpackService {
         Channel channel = mmoSimpleRole.getChannel();
         Integer copySceneBeanId = mmoSimpleRole.getCopySceneBeanId();
         if (copySceneBeanId == null) {
-            NettyResponse errorResponse = new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE, "当前角色还未进入副本".getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"当前角色还未进入副本");
         }
         CopySceneBean copySceneBean = CopySceneProvider.getCopySceneBeanById(copySceneBeanId);
         Article article = copySceneBean.getArticleByIndex(index);
         if (article == null) {
-            NettyResponse errorResponse = new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE, "该物品已经被其他玩家获取了".getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"该物品已经被其他玩家获取了");
         }
         //放入背包
         synchronized (mmoSimpleRole.getBackpackManager()) {
             if (!mmoSimpleRole.getBackpackManager().canPutArticle(article)) {
-                throw new Exception("背包已经满了");
+                throw new RpgServerException(StateCode.FAIL,"背包已经满了");
             }
             mmoSimpleRole.getBackpackManager().put(article);
         }
@@ -310,7 +277,7 @@ public class BackpackServiceImpl implements BackpackService {
         Integer num=myMessage.getBuyGoodsRequest().getNum();
         Integer goodsId=myMessage.getBuyGoodsRequest().getGoodsId();
         if (num<=0){
-            throw new Exception("请输入正确范围的数字");
+            throw new RpgServerException(StateCode.FAIL,"请输入正确范围的数字");
         }
         //买
         GoodsServiceProvider.sellArticle(goodsId,num,mmoSimpleRole);
@@ -335,7 +302,7 @@ public class BackpackServiceImpl implements BackpackService {
         //传输数据
         List<BackPackModel.GoodsDto> goodsDtos=new ArrayList<>();
         for (GoodsBean gg:goodsBeans) {
-            GoodsMessage goodsMessage= GoodsMessageCache.getInstance().get(gg.getGoodsMessageId());
+            GoodsMessage goodsMessage= GoodsMessageCache.getInstance().get(gg.getId());
             BackPackModel.GoodsDto goodsDto= BackPackModel.GoodsDto.newBuilder()
                     .setId(gg.getId()).setNowNum(gg.getNowNum()).setNum(goodsMessage.getNum())
                     .setPrice(goodsMessage.getPrice()).setArticleTypeId(goodsMessage.getArticleTypeId()).setArticleMessageId(goodsMessage.getArticleMessageId()).build();

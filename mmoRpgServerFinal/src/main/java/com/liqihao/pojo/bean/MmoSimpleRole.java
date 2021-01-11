@@ -4,6 +4,7 @@ package com.liqihao.pojo.bean;
 import com.liqihao.Cache.*;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
+import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.*;
 import com.liqihao.pojo.*;
@@ -295,14 +296,17 @@ public class MmoSimpleRole extends Role implements MyObserver {
      */
     public Boolean useArticle(Integer articleId) {
         Article article = backpackManager.getArticleByArticleId(articleId);
-        if (article != null && article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())) {
+        if (article==null){
+            return false;
+        }
+        if ( article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())) {
             //药品
             MedicineBean medicineBean = (MedicineBean) article;
             //删减
             backpackManager.useOrAbandonArticle(articleId, 1);
             Boolean flag = medicineBean.useMedicene(getId());
             return flag;
-        } else if (article != null && article.getArticleTypeCode().equals(ArticleTypeCode.EQUIPMENT.getCode())) {
+        } else if (article.getArticleTypeCode().equals(ArticleTypeCode.EQUIPMENT.getCode())) {
             //装备
             EquipmentBean equipmentBean = (EquipmentBean) article;
             //删减
@@ -367,7 +371,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
                 equipmentBean.setEquipmentBagId(null);
                 //放入背包
                 if (!backpackManager.canPutArticle(equipmentBean)){
-                    throw new Exception("背包已经满了");
+                    throw new RpgServerException(StateCode.FAIL,"背包已经满了");
                 }
                 backpackManager.put(equipmentBean);
                 setAttack(getAttack() - equipmentMessage.getAttackAdd());

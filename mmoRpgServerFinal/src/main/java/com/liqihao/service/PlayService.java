@@ -2,6 +2,7 @@ package com.liqihao.service;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 
+import com.liqihao.commons.RpgServerException;
 import com.liqihao.pojo.bean.MmoSimpleRole;
 import com.liqihao.protobufObject.PlayModel;
 import io.netty.channel.Channel;
@@ -25,7 +26,7 @@ public interface PlayService {
      * @param channel
      * @throws InvalidProtocolBufferException
      */
-    void loginRequest(PlayModel.PlayModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException;
+    void loginRequest(PlayModel.PlayModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException, RpgServerException;
 
     /**
      * 登出

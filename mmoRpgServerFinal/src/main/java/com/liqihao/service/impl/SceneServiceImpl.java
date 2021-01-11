@@ -36,7 +36,7 @@ public class SceneServiceImpl implements SceneService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.WENT_REQUEST, module = ConstantValue.SCENE_MODULE)
-    public void wentRequest(SceneModel.SceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
+    public void wentRequest(SceneModel.SceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws RpgServerException {
 
         Integer nextSceneId = myMessage.getWentRequest().getSceneId();
         Channel channel = mmoSimpleRole.getChannel();
@@ -54,9 +54,7 @@ public class SceneServiceImpl implements SceneService {
         }
         if (!canFlag) {
             //不包含 即不可进入
-            NettyResponse errorResponse = new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE, "无法前往该场景".getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"无法前往该场景");
         }
 
         //进入场景，修改数据库 player 和scene
@@ -135,9 +133,7 @@ public class SceneServiceImpl implements SceneService {
             }
             //helper
             if (sceneBean.getHelperBeans().size() > 0) {
-                for (MmoHelperBean helperBean : sceneBean.getHelperBeans()) {
-                    sceneRoles.add(helperBean);
-                }
+                sceneRoles.addAll(sceneBean.getHelperBeans());
             }
         } else {
             //在副本中
@@ -148,8 +144,8 @@ public class SceneServiceImpl implements SceneService {
             sceneRoles.add(bossBean);
         }
         //protobuf
-        SceneModel.SceneModelMessage.Builder messagedataBuilder = SceneModel.SceneModelMessage.newBuilder();
-        messagedataBuilder.setDataType(SceneModel.SceneModelMessage.DateType.FindAllRolesResponse);
+        SceneModel.SceneModelMessage.Builder messageDataBuilder = SceneModel.SceneModelMessage.newBuilder();
+        messageDataBuilder.setDataType(SceneModel.SceneModelMessage.DateType.FindAllRolesResponse);
         SceneModel.FindAllRolesResponse.Builder findAllRolesResponseBuilder = SceneModel.FindAllRolesResponse.newBuilder();
         List<SceneModel.RoleDTO> roleDTOS = new ArrayList<>();
         for (Role m : sceneRoles) {
@@ -172,8 +168,8 @@ public class SceneServiceImpl implements SceneService {
             roleDTOS.add(msr.build());
         }
         findAllRolesResponseBuilder.addAllRoleDTO(roleDTOS);
-        messagedataBuilder.setFindAllRolesResponse(findAllRolesResponseBuilder.build());
-        byte[] data2 = messagedataBuilder.build().toByteArray();
+        messageDataBuilder.setFindAllRolesResponse(findAllRolesResponseBuilder.build());
+        byte[] data2 = messageDataBuilder.build().toByteArray();
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.FIND_ALL_ROLES_RESPONSE);
         nettyResponse.setStateCode(200);
@@ -184,29 +180,25 @@ public class SceneServiceImpl implements SceneService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.TALK_NPC_REQUEST, module = ConstantValue.SCENE_MODULE)
-    public void talkNpcRequest(SceneModel.SceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
+    public void talkNpcRequest(SceneModel.SceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws RpgServerException {
         Channel channel = mmoSimpleRole.getChannel();
         Integer npcId = myMessage.getTalkNPCRequest().getRoleId();
-        if (npcId == null) {
-            channel.writeAndFlush(new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE, "传入的参数为空".getBytes()));
-            return;
-        }
+
         //缓存中获取NPC
         MmoSimpleNPC npc = NpcMessageCache.getInstance().get(npcId);
         if (!npc.getMmoSceneId().equals(mmoSimpleRole.getMmoSceneId())) {
-            channel.writeAndFlush(new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE, "该NPC不在当前场景".getBytes()));
-            return;
+            throw new RpgServerException(StateCode.FAIL,"该NPC不在当前场景");
         }
         //无问题 返回npcId
-        SceneModel.SceneModelMessage Messagedata;
-        Messagedata = SceneModel.SceneModelMessage.newBuilder()
+        SceneModel.SceneModelMessage MessageData;
+        MessageData = SceneModel.SceneModelMessage.newBuilder()
                 .setDataType(SceneModel.SceneModelMessage.DateType.TalkNPCResponse)
                 .setTalkNPCResponse(SceneModel.TalkNPCResponse.newBuilder().setNpcId(npcId).build()).build();
         //封装到NettyResponse中
         NettyResponse response = new NettyResponse();
         response.setCmd(ConstantValue.TALK_NPC_RESPONSE);
         response.setStateCode(StateCode.SUCCESS);
-        byte[] data2 = Messagedata.toByteArray();
+        byte[] data2 = MessageData.toByteArray();
         response.setData(data2);
         channel.writeAndFlush(response);
         return;

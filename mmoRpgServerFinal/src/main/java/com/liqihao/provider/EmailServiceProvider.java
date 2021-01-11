@@ -4,6 +4,7 @@ import com.liqihao.Cache.ChannelMessageCache;
 import com.liqihao.Cache.OnlineRoleMessageCache;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
+import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.StateCode;
 import com.liqihao.dao.MmoEmailPOJOMapper;
 import com.liqihao.dao.MmoUserPOJOMapper;
@@ -74,7 +75,7 @@ public class EmailServiceProvider implements ApplicationContextAware {
     /**
      * 发送邮件
      */
-    public static void sendArticleEmail(MmoSimpleRole fromRole, MmoSimpleRole toRole, MmoEmailBean emailBean){
+    public static void sendArticleEmail(MmoSimpleRole fromRole, MmoSimpleRole toRole, MmoEmailBean emailBean) throws RpgServerException {
         emailBean.setId(emailBeanIdAuto.incrementAndGet());
         emailBean.setHasArticle(emailBean.getArticleMessageId()!=-1);
         emailBean.setCreateTime(System.currentTimeMillis());
@@ -91,12 +92,7 @@ public class EmailServiceProvider implements ApplicationContextAware {
             //查看是否有该玩家
             MmoUserPOJO userPOJO=userPOJOMapper.selectByPrimaryKey(emailBean.getToRoleId());
             if (userPOJO==null){
-                NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"该用户不存在".getBytes());
-                Channel channel=ChannelMessageCache.getInstance().get(fromRole.getId());
-                if (channel!=null) {
-                    channel.writeAndFlush(errorResponse);
-                }
-                return;
+                throw new RpgServerException(StateCode.FAIL,"该用户不存在");
             }
             emailBean.setIntoDataBase(true);
             CommonsUtil.mmoEmailPOJOIntoDataBase(emailBean);

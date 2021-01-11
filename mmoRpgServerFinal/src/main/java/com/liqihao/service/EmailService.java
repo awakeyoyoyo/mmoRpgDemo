@@ -1,5 +1,6 @@
 package com.liqihao.service;
 
+import com.liqihao.commons.RpgServerException;
 import com.liqihao.pojo.bean.MmoSimpleRole;
 import com.liqihao.protobufObject.CopySceneModel;
 import com.liqihao.protobufObject.EmailModel;
@@ -14,7 +15,7 @@ public interface EmailService {
      * @param myMessage
      * @param mmoSimpleRole
      */
-    void getEmailMessageRequest(EmailModel.EmailModelMessage myMessage, MmoSimpleRole mmoSimpleRole);
+    void getEmailMessageRequest(EmailModel.EmailModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws RpgServerException;
     /**
      * 收取邮件上的道具
      * @param myMessage
@@ -38,7 +39,7 @@ public interface EmailService {
      * @param myMessage
      * @param mmoSimpleRole
      */
-    void sendEmailRequest(EmailModel.EmailModelMessage myMessage, MmoSimpleRole mmoSimpleRole);
+    void sendEmailRequest(EmailModel.EmailModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws RpgServerException;
     /**
      * 删除已接收邮件
      * @param myMessage

@@ -7,6 +7,7 @@ import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
+import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.ArticleTypeCode;
 import com.liqihao.pojo.baseMessage.MedicineMessage;
@@ -31,14 +32,12 @@ import java.util.List;
 public class EmailServiceImpl implements EmailService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.GET_EMAIL_MESSAGE_REQUEST,module = ConstantValue.EMAIL_MODULE)
-    public void getEmailMessageRequest(EmailModel.EmailModelMessage myMessage, MmoSimpleRole mmoSimpleRole) {
+    public void getEmailMessageRequest(EmailModel.EmailModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws RpgServerException {
         Integer emailId=myMessage.getGetEmailMessageRequest().getEmailId();
         Channel channel = mmoSimpleRole.getChannel();
         MmoEmailBean mmoEmailBean=EmailServiceProvider.getEmailMessage(mmoSimpleRole,emailId);
         if (mmoEmailBean==null){
-            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"没有该id的邮件".getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"没有该id的邮件");
         }
         EmailModel.EmailDto emailDto= CommonsUtil.mmoEmailBeanToEmailDto(mmoEmailBean);
         EmailModel.EmailModelMessage messageData=EmailModel.EmailModelMessage.newBuilder()
@@ -59,15 +58,11 @@ public class EmailServiceImpl implements EmailService {
         //获取邮件详情
         MmoEmailBean mmoEmailBean=EmailServiceProvider.getEmailMessage(mmoSimpleRole,emailId);
         if (mmoEmailBean==null){
-            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"没有该id的邮件".getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"没有该id的邮件");
         }
         //判断邮件是否有物品
         if (!mmoEmailBean.getHasArticle()){
-            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"该邮件没有物品".getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"该邮件没有物品");
         }
         //根据邮件实体类信息初始化物品
         if (mmoEmailBean.getArticleType().equals(ArticleTypeCode.MEDICINE.getCode())){
@@ -78,7 +73,7 @@ public class EmailServiceImpl implements EmailService {
             //上锁
             synchronized (mmoSimpleRole.getBackpackManager()) {
                 if (!mmoSimpleRole.getBackpackManager().canPutArticle(medicineBean)) {
-                    throw new Exception("背包已经满了");
+                    throw new RpgServerException(StateCode.FAIL,"背包已经满了");
                 }
                 mmoSimpleRole.getBackpackManager().put(medicineBean);
             }
@@ -144,7 +139,7 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.SEND_EMAIL_REQUEST,module = ConstantValue.EMAIL_MODULE)
-    public void sendEmailRequest(EmailModel.EmailModelMessage myMessage, MmoSimpleRole mmoSimpleRole) {
+    public void sendEmailRequest(EmailModel.EmailModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws RpgServerException {
         Integer articleId=myMessage.getSendEmailRequest().getArticleId();
         Channel channel = mmoSimpleRole.getChannel();
         String context=myMessage.getSendEmailRequest().getContext();
@@ -163,9 +158,7 @@ public class EmailServiceImpl implements EmailService {
            BackPackManager backPackManager=mmoSimpleRole.getBackpackManager();
            Article article=backPackManager.useOrAbandonArticle(articleId,articleNum);
            if (article==null){
-               NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"背包中该物品数量不足".getBytes());
-               channel.writeAndFlush(errorResponse);
-               return;
+               throw new RpgServerException(StateCode.FAIL,"背包中该物品数量不足");
            }
            mmoEmailBean.setArticleType(article.getArticleTypeCode());
            if (mmoEmailBean.getArticleType().equals(ArticleTypeCode.MEDICINE.getCode())) {

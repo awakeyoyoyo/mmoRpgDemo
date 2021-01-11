@@ -9,14 +9,18 @@ import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.*;
 import com.liqihao.pojo.baseMessage.MedicineMessage;
+import com.liqihao.pojo.dto.ArticleDto;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
+import org.springframework.beans.BeanUtils;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * medicine bean
@@ -160,9 +164,171 @@ public class MedicineBean  implements Article{
         this.quantity = quantity;
     }
 
+    /**
+     * 获取类型
+     * @return
+     */
     @Override
     public Integer getArticleTypeCode() {
         MedicineMessage medicineMessage= MediceneMessageCache.getInstance().get(getMedicineMessageId());
         return medicineMessage.getArticleType();
+    }
+
+    /**
+     * 获取背包id
+     * @return
+     */
+    @Override
+    public Integer getArticleIdCode() {
+        return getArticleId();
+    }
+
+    /**
+     * 丢弃或者使用药品
+     * @param number
+     * @return
+     */
+    @Override
+    public Article useOrAbandon(Integer number,BackPackManager backPackManager) {
+        if (number <= getQuantity()) {
+            //可以丢弃
+            setQuantity(getQuantity() - number);
+            //判断是否数量为0 为0则删除
+            if (getQuantity() == 0) {
+                //需要删除数据库的记录
+                backPackManager.getNeedDeleteBagId().add(getBagId());
+                setBagId(null);
+                backPackManager.getBackpacks().remove(this);
+                backPackManager.setNowSize(backPackManager.getNowSize()-1);
+            }
+            return this;
+        } else {
+            return null;
+        }
+    }
+    /**
+     * 物品转化为物品dto
+     * @return
+     */
+    @Override
+    public ArticleDto getArticleMessage() {
+        ArticleDto articleDto = new ArticleDto();
+        articleDto.setArticleId(getArticleId());
+        articleDto.setId(getMedicineMessageId());
+        articleDto.setArticleType(getArticleTypeCode());
+        articleDto.setQuantity(getQuantity());
+        articleDto.setBagId(getBagId());
+        return articleDto;
+    }
+
+    @Override
+    public <T extends Article> T getArticle() {
+        return (T)this;
+    }
+
+    @Override
+    public boolean put(BackPackManager backPackManager) {
+        //查找背包中是否有
+        List<Article> medicines = backPackManager.getBackpacks().stream()
+                .filter(a -> a.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())).collect(Collectors.toList());
+        //总数量
+        Integer number = getQuantity();
+        for (Article a : medicines) {
+            MedicineBean temp = (MedicineBean) a;
+            //物品类型
+            if (getMedicineMessageId().equals(temp.getMedicineMessageId()) && number > 0) {
+                //判断是否已经满了
+                if (temp.getQuantity().equals(ConstantValue.BAG_MAX_VALUE)) {
+                    continue;
+                }
+                Integer nowNum = temp.getQuantity();
+                Integer sum = nowNum + number;
+                //判断加上后是否已经超过99
+                if (sum <= ConstantValue.BAG_MAX_VALUE) {
+                    //不超过加上
+                    temp.setQuantity(sum);
+                    return true;
+                } else {
+                    number = number - (ConstantValue.BAG_MAX_VALUE - temp.getQuantity());
+                    temp.setQuantity(ConstantValue.BAG_MAX_VALUE);
+                }
+            }
+        }
+        //表明背包中没有该物品或者该物品的数量都是99或者是剩余的 新建
+        if (number != 0) {
+            while (number > 0) {
+                MedicineBean newMedicine = new MedicineBean();
+                BeanUtils.copyProperties(this, newMedicine);
+                if (number > ConstantValue.BAG_MAX_VALUE) {
+                    newMedicine.setQuantity(ConstantValue.BAG_MAX_VALUE);
+                    number -= ConstantValue.BAG_MAX_VALUE;
+                } else {
+                    newMedicine.setQuantity(number);
+                    number = 0;
+                }
+                newMedicine.setArticleId(backPackManager.getNewArticleId());
+                backPackManager.getBackpacks().add(newMedicine);
+                backPackManager.setNowSize(backPackManager.getNowSize()+1);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void clearPut(BackPackManager backPackManager) {
+        if (getBagId()!=null){
+            backPackManager.getNeedDeleteBagId().add(getBagId());
+        }
+        setArticleId(backPackManager.getNewArticleId());
+        setBagId(null);
+        backPackManager.put(this);
+    }
+
+    @Override
+    public boolean checkCanPut(BackPackManager backPackManager) {
+        MedicineBean medicineBean = this;
+        List<Article> medicines = backPackManager.getBackpacks().stream()
+                .filter(a -> a.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())).collect(Collectors.toList());
+        //总数量
+        Integer number = medicineBean.getQuantity();
+        for (Article a : medicines) {
+            MedicineBean temp = (MedicineBean) a;
+            //物品类型
+            if (medicineBean.getMedicineMessageId().equals(temp.getMedicineMessageId()) && number > 0) {
+                //判断是否已经满了
+                if (temp.getQuantity().equals(backPackManager.getSize())) {
+                    continue;
+                }
+                Integer nowNum = temp.getQuantity();
+                Integer sum = nowNum + number;
+                //判断加上后是否已经超过99
+                if (sum <= backPackManager.getSize()) {
+                    //不超过加上
+                    return true;
+                } else {
+                    number = number - (backPackManager.getSize() - temp.getQuantity());
+                }
+            }
+        }
+        //表明背包中没有该物品或者该物品的数量都是99或者是剩余的 新建
+        int gridNum = 0;
+        if (number <= 0) {
+            return true;
+        }
+        //生成新的格子
+        while (number > 0) {
+            if (number > ConstantValue.BAG_MAX_VALUE) {
+                number -= ConstantValue.BAG_MAX_VALUE;
+            } else {
+                number = 0;
+            }
+            gridNum++;
+        }
+        if (backPackManager.getNowSize() + gridNum <= backPackManager.getSize()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

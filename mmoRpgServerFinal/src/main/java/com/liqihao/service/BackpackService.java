@@ -1,6 +1,7 @@
 package com.liqihao.service;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.liqihao.commons.RpgServerException;
 import com.liqihao.pojo.bean.MmoSimpleRole;
 import com.liqihao.protobufObject.BackPackModel;
 
@@ -15,7 +16,7 @@ public interface BackpackService {
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
      */
-    void abandonRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException;
+    void abandonRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
 
     /**
      * 查看背包信息
@@ -31,7 +32,7 @@ public interface BackpackService {
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
      */
-    void useRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException;
+    void useRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
 
     /**
      * 放入背包
@@ -46,7 +47,7 @@ public interface BackpackService {
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
      */
-    void findAllCanGetRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException;
+    void findAllCanGetRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
 
     /**
      * 从副本地面上拾取东西

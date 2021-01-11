@@ -2,6 +2,8 @@ package com.liqihao.provider;
 
 import com.liqihao.Cache.EquipmentMessageCache;
 import com.liqihao.Cache.GoodsMessageCache;
+import com.liqihao.commons.RpgServerException;
+import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.ArticleTypeCode;
 import com.liqihao.pojo.baseMessage.EquipmentMessage;
 import com.liqihao.pojo.baseMessage.GoodsMessage;
@@ -48,17 +50,19 @@ public class GoodsServiceProvider {
     public static Article sellArticle(Integer goodsId,Integer num, MmoSimpleRole mmoSimpleRole) throws Exception {
         GoodsBean goodsBean=goodsBeanConcurrentHashMap.get(goodsId);
         if (goodsBean == null) {
-            throw new Exception("查无该商品");
+            throw new RpgServerException(StateCode.FAIL,"查无该商品");
+
         }
-        GoodsMessage goodsMessage=GoodsMessageCache.getInstance().get(goodsBean.getGoodsMessageId());
+        GoodsMessage goodsMessage=GoodsMessageCache.getInstance().get(goodsBean.getId());
         synchronized (goodsBean) {
             if (goodsBean.getNowNum()<=0){
-                throw new Exception("该商品数量不足");
+                throw new RpgServerException(StateCode.FAIL,"该商品数量不足");
             }
 
             Integer needMoney=num*goodsMessage.getPrice();
             if (mmoSimpleRole.getMoney()<needMoney){
-                throw new Exception("用户不够钱");
+                throw new RpgServerException(StateCode.FAIL,"用户不够钱");
+
             }
             mmoSimpleRole.setMoney(mmoSimpleRole.getMoney()-needMoney);
             goodsBean.setNowNum(goodsBean.getNowNum()-num);
@@ -80,7 +84,7 @@ public class GoodsServiceProvider {
                 synchronized (goodsBean) {
                     goodsBean.setNowNum(goodsBean.getNowNum() + num);
                 }
-                throw new Exception("背包已经满了");
+                throw new RpgServerException(StateCode.FAIL,"背包已经满了");
             }
             mmoSimpleRole.getBackpackManager().put(article);
         }

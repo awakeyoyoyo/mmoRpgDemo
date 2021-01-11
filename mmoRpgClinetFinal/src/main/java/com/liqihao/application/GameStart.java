@@ -880,6 +880,10 @@ public class GameStart {
         Integer skillId=scanner.nextInt();scanner.nextLine();;
         Integer roleId=null;
         Integer roleType=null;
+        if (map.get(skillId)==null){
+            System.out.println("没有该技能");
+            return;
+        }
         if (!map.get(skillId).getSkillAttackType().equals(SkillAttackTypeCode.CALL.getCode())) {
             if (map.get(skillId).getSkillAttackType().equals(SkillAttackTypeCode.SINGLE.getCode())) {
                 if (!map.get(skillId).getSkillDamageType().equals(SkillDamageTypeCode.ADD.getCode())) {

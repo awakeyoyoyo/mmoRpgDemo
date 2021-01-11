@@ -7,6 +7,7 @@ import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
+import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.StateCode;
 import com.liqihao.pojo.bean.MmoSimpleRole;
 import com.liqihao.pojo.bean.TeamApplyOrInviteBean;
@@ -29,32 +30,24 @@ import java.util.List;
 public class TeamServiceImpl implements TeamService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.APPLY_FOR_TEAM_REQUEST,module = ConstantValue.TEAM_MODULE)
-    public void applyForTeamRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
+    public void applyForTeamRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException {
         Channel channel = mmoSimpleRole.getChannel();
         Integer teamId=myMessage.getApplyForTeamRequest().getTeamId();
         if (teamId==0){
-            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"请输入参数".getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"请输入参数");
         }
         //判断玩家是否已经有队伍
         if (mmoSimpleRole.getTeamId()!=null){
-            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"已经有队伍了".getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"已经有队伍了");
         }
         TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(teamId);
         if (teamBean==null){
-            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"该队伍已不存在".getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"该队伍已不存在");
         }
         Integer leaderId=teamBean.getLeaderId();
         Channel c=ChannelMessageCache.getInstance().get(leaderId);
         if (c==null){
-            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"队长已经离线".getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"队长已经离线");
         }
         TeamApplyOrInviteBean teamApplyBean=teamBean.applyTeam(mmoSimpleRole);
         TeamModel.ApplyInviteBeanDto.Builder applyBeanBuilder=TeamModel.ApplyInviteBeanDto.newBuilder();
@@ -76,21 +69,17 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.CREATE_TEAM_REQUEST,module = ConstantValue.TEAM_MODULE)
-    public void createTeamRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
+    public void createTeamRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException {
         //判断是否在线 并且返回玩家对象
         Channel channel = mmoSimpleRole.getChannel();
         String teamName=myMessage.getCreateTeamRequest().getName();
         if (teamName==null){
-            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"请输入参数".getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"请输入参数");
         }
 
         //判断玩家是否已经有队伍
         if (mmoSimpleRole.getTeamId()!=null){
-            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"已经有队伍了".getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"已经有队伍了");
         }
         TeamBean teamBean=TeamServiceProvider.createNewTeamBean(mmoSimpleRole,teamName);
         mmoSimpleRole.setTeamId(teamBean.getTeamId());
@@ -121,54 +110,43 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.BAN_PEOPLE_REQUEST,module = ConstantValue.TEAM_MODULE)
-    public void banPeopleRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
+    public void banPeopleRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException {
         Integer roleId=myMessage.getBanPeopleRequest().getRoleId();
         MmoSimpleRole player=OnlineRoleMessageCache.getInstance().get(roleId);
         Channel channel = mmoSimpleRole.getChannel();
         //判断玩家是否已经有队伍
         if (mmoSimpleRole.getTeamId()==null){
-            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"不在任何队伍中".getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"不在任何队伍中");
         }
         TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(mmoSimpleRole.getTeamId());
         if (!teamBean.getLeaderId().equals(mmoSimpleRole.getId())){
-            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"不是队长没有该权利".getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"不是队长没有该权利");
+
         }
         if (player.getId().equals(mmoSimpleRole.getId())){
-            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"不能自己踢除自己".getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"不能自己踢除自己");
         }
         //判断玩家是否在队伍里
         if (player.getTeamId()==null||!player.getTeamId().equals(mmoSimpleRole.getTeamId())){
-            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"该玩家已不在队伍中".getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"该玩家已不在队伍中");
         }
         teamBean.banPeople(roleId);
     }
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.DELETE_TEAM_REQUEST,module = ConstantValue.TEAM_MODULE)
-    public void deleteTeamRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
+    public void deleteTeamRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException {
         Channel channel = mmoSimpleRole.getChannel();
         //判断玩家是否已经有队伍
         Integer teamId=mmoSimpleRole.getTeamId();
         TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(teamId);
         //判断当前玩家是否有队伍
         if (teamBean==null){
-            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"当前角色无队伍".getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"当前角色无队伍");
         }
         //判断当前玩家是否为队长
         if (!teamBean.getLeaderId().equals(mmoSimpleRole.getId())){
-            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"不是队长，无权解散队伍".getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"不是队长，无权解散队伍");
         }
         //解散队伍
         //广播队伍已经解散信息
@@ -177,7 +155,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.ENTRY_PEOPLE_REQUEST,module = ConstantValue.TEAM_MODULE)
-    public void entryPeopleRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
+    public void entryPeopleRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException {
         /**
          *  若当前channle的role与传入的roleId相等,则表示用户接受了该队伍的邀请
          *  若当前channle的role与传入的roleId不相等，则是队长同意该用户的申请，需要判断当前channel role是否为队长
@@ -189,23 +167,17 @@ public class TeamServiceImpl implements TeamService {
         if (roleId.equals(mmoSimpleRole.getId())){
             TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(teamId);
             if (teamBean==null){
-                NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"没有该队伍 ".getBytes());
-                channel.writeAndFlush(errorResponse);
-                return;
+                throw new RpgServerException(StateCode.FAIL,"没有该队伍");
             }
             //玩家角色
             if (mmoSimpleRole.getTeamId()!=null){
-                NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"已经有队伍了".getBytes());
-                channel.writeAndFlush(errorResponse);
-                return;
+                throw new RpgServerException(StateCode.FAIL,"已经有队伍了");
             }
             //用户接受队伍邀请
             //查看人物中是否有该请求
             TeamApplyOrInviteBean applyOrInviteBean=mmoSimpleRole.containInvite(teamId);
             if (applyOrInviteBean==null){
-                NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"没有该邀请或者邀请已经过期".getBytes());
-                channel.writeAndFlush(errorResponse);
-                return;
+                throw new RpgServerException(StateCode.FAIL,"没有该邀请或者邀请已经过期");
             }
 
             // 此时传入的channel是用户的，mmo是玩家
@@ -216,22 +188,17 @@ public class TeamServiceImpl implements TeamService {
             //队长同意该用户进队伍
             TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(teamId);
             if (teamBean==null){
-                NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"请先创建队伍".getBytes());
-                channel.writeAndFlush(errorResponse);
-                return;
+                throw new RpgServerException(StateCode.FAIL,"请先创建队伍");
             }
             //获取玩家
             mmoSimpleRole=OnlineRoleMessageCache.getInstance().get(roleId);
             if (mmoSimpleRole.getTeamId()!=null){
-                NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"已经有队伍了".getBytes());
-                channel.writeAndFlush(errorResponse);
-                return;
+                throw new RpgServerException(StateCode.FAIL,"已经有队伍了");
             }
             TeamApplyOrInviteBean inviteBean=teamBean.containsInvite(roleId);
             if (inviteBean==null){
-                NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"该申请已经过期了".getBytes());
-                channel.writeAndFlush(errorResponse);
-                return;
+                throw new RpgServerException(StateCode.FAIL,"该申请已经过期了");
+
             }
             // 此时传入的channel是队长，mmorole是玩家
             teamBean.addRole(mmoSimpleRole, channel);
@@ -242,14 +209,12 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.EXIT_TEAM_REQUEST,module = ConstantValue.TEAM_MODULE)
-    public void exitTeamRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
+    public void exitTeamRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException {
         Channel channel = mmoSimpleRole.getChannel();
         //判断是否有队伍
         Integer teamId=mmoSimpleRole.getTeamId();
         if (teamId==null){
-            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"当前不在队伍中".getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"当前不在队伍中");
         }
         //离开队伍
         TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(teamId);
@@ -258,38 +223,28 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.INVITE_PEOPLE_REQUEST,module = ConstantValue.TEAM_MODULE)
-    public void invitePeopleRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
+    public void invitePeopleRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException {
         Channel channel = mmoSimpleRole.getChannel();
         Integer roleId=myMessage.getInvitePeopleRequest().getRoleId();
         if (roleId==0){
-            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"请输入参数".getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"请输入参数");
         }
         MmoSimpleRole inviteRole=OnlineRoleMessageCache.getInstance().get(roleId);
         if (inviteRole==null){
-            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"该用户不在线".getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"该用户不在线");
         }
         //判断是否有队伍
         if (mmoSimpleRole.getTeamId()==null){
-            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,("请先创建队伍").getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"请先创建队伍");
         }
         //判断是否有队伍
         if (inviteRole.getTeamId()!=null){
-            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,("该用户已经有队伍了").getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"该用户已经有队伍了");
         }
         //判断是否是队长
         TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(mmoSimpleRole.getTeamId());
         if (!teamBean.getLeaderId().equals(mmoSimpleRole.getId())){
-            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,("你不是队长无法邀请玩家进队伍").getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"你不是队长无法邀请玩家进队伍");
         }
         TeamApplyOrInviteBean inviteBean=teamBean.invitePeople(inviteRole);
         Channel c=ChannelMessageCache.getInstance().get(roleId);
@@ -312,7 +267,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.REFUSE_APPLY_REQUEST,module = ConstantValue.TEAM_MODULE)
-    public void refuseApplyRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
+    public void refuseApplyRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException {
 
         //teamId和roleId和teamApplyId给队长
         //判断是否在线 并且返回玩家对象
@@ -320,9 +275,7 @@ public class TeamServiceImpl implements TeamService {
         Channel channel = mmoSimpleRole.getChannel();
         Integer teamId=mmoSimpleRole.getTeamId();
         if (teamId==null){
-            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,("你根本无队伍").getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"你根本无队伍");
         }
         TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(mmoSimpleRole.getTeamId());
         TeamApplyOrInviteBean bean=teamBean.refuseApply(roleId);
@@ -375,20 +328,17 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.APPLY_MESSAGE_REQUEST,module = ConstantValue.TEAM_MODULE)
-    public void applyMessageRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
+    public void applyMessageRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException {
         Channel channel = mmoSimpleRole.getChannel();
 
         Integer teamId=mmoSimpleRole.getTeamId();
         if (teamId==null){
-            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"当前角色无队伍".getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"当前角色无队伍");
+
         }
         TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(teamId);
         if (!teamBean.getLeaderId().equals(mmoSimpleRole.getId())){
-            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"不是队长无权限获取队伍申请信息".getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"不是队长无权限获取队伍申请信息");
         }
         List<TeamApplyOrInviteBean> applyOrInviteBeans=teamBean.getTeamApplyBean();
         //发送给角色
@@ -443,13 +393,11 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.TEAM_MESSAGE_REQUEST,module = ConstantValue.TEAM_MODULE)
-    public void teamMessageRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
+    public void teamMessageRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException {
         Channel channel = mmoSimpleRole.getChannel();
         Integer teamId=mmoSimpleRole.getTeamId();
         if (teamId==null){
-            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"没有进入任何队伍".getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"没有进入任何队伍");
         }
         TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(teamId);
         List<TeamModel.RoleDto> roles=new ArrayList<>();

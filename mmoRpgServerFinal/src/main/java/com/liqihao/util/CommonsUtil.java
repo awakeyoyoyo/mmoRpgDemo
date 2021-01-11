@@ -4,6 +4,7 @@ package com.liqihao.util;
 import com.liqihao.Cache.*;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
+import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.*;
 import com.liqihao.dao.*;
@@ -221,7 +222,8 @@ public class CommonsUtil implements ApplicationContextAware {
     public static MmoSimpleRole checkLogin(Channel channel) throws Exception {
         MmoSimpleRole mmoSimpleRole= CommonsUtil.getRoleByChannel(channel);
         if (mmoSimpleRole==null){
-            throw new Exception("用户未登录");
+            throw new RpgServerException(StateCode.FAIL,"用户未登录");
+
         }
         return mmoSimpleRole;
     }

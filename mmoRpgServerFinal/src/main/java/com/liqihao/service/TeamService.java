@@ -1,6 +1,7 @@
 package com.liqihao.service;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.liqihao.commons.RpgServerException;
 import com.liqihao.pojo.bean.MmoSimpleRole;
 import com.liqihao.protobufObject.TeamModel;
 
@@ -15,56 +16,56 @@ public interface TeamService {
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
      */
-    void applyForTeamRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException;
+    void applyForTeamRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
     /**
      * 踢除玩家请求
      * @param myMessage
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
      */
-    void banPeopleRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException;
+    void banPeopleRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
     /**
      * 创建队伍请求
      * @param myMessage
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
      */
-    void createTeamRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException;
+    void createTeamRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
     /**
      * 解散队伍请求
      * @param myMessage
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
      */
-    void deleteTeamRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException;
+    void deleteTeamRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
     /**
      * 用户接受邀请or 队长同意玩家申请请求
      * @param myMessage
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
      */
-    void entryPeopleRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException;
+    void entryPeopleRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
     /**
      * 退出队伍请求
      * @param myMessage
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
      */
-    void exitTeamRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException;
+    void exitTeamRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
     /**
      * 邀请玩家入队伍请求
      * @param myMessage
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
      */
-    void invitePeopleRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException;
+    void invitePeopleRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
     /**
      * 拒绝玩家队伍申请
      * @param myMessage
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
      */
-    void refuseApplyRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException;
+    void refuseApplyRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
     /**
      * 拒绝玩家队伍邀请
      * @param myMessage
@@ -79,7 +80,7 @@ public interface TeamService {
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
      */
-    void applyMessageRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException;
+    void applyMessageRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
 
     /**
      * 角色被邀请的信息
@@ -94,5 +95,5 @@ public interface TeamService {
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
      */
-    void teamMessageRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException;
+    void teamMessageRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
 }

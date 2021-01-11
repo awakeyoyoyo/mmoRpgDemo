@@ -5,6 +5,7 @@ import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
+import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.StateCode;
 import com.liqihao.pojo.bean.MmoSimpleRole;
 import com.liqihao.protobufObject.ChatModel;
@@ -45,9 +46,7 @@ public class ChatServiceImpl implements ChatService {
         String str=myMessage.getSendToTeamRequest().getStr();
         Integer teamId=mmoSimpleRole.getTeamId();
         if (teamId==null){
-            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"当前角色不在组队状态".getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"当前角色不在组队状态");
         }
         ChatServiceProvider.getInstance().notifyTeam(teamId,mmoSimpleRole,str);
     }

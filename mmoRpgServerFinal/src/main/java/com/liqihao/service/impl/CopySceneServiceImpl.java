@@ -5,6 +5,7 @@ import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
+import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.RoleTypeCode;
 import com.liqihao.pojo.bean.*;
@@ -27,22 +28,18 @@ import java.util.List;
 public class CopySceneServiceImpl implements CopySceneService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.COPY_SCENE_MESSAGE_REQUEST,module = ConstantValue.COPY_MODULE)
-    public void copySceneMessageRequest(CopySceneModel.CopySceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) {
+    public void copySceneMessageRequest(CopySceneModel.CopySceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws RpgServerException {
         //copySceneBeanId
         //判断是否在线 并且返回玩家对象
         Channel channel = mmoSimpleRole.getChannel();
         Integer teamId=mmoSimpleRole.getTeamId();
         if (teamId==null){
-            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"当前角色还没是组队状态".getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"当前角色还没是组队状态");
         }
         //判断是否已经有进入副本
         Integer copySceneId=mmoSimpleRole.getCopySceneId();
         if (copySceneId==null){
-            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"当前角色还未进入副本".getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"当前角色还未进入副本");
         }
         Integer copySceneBeanId=TeamServiceProvider.getTeamBeanByTeamId(teamId).getCopySceneBeanId();
         CopySceneBean copySceneBean=CopySceneProvider.getCopySceneBeanById(copySceneBeanId);
@@ -52,29 +49,23 @@ public class CopySceneServiceImpl implements CopySceneService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.ENTER_COPY_SCENE_REQUEST,module = ConstantValue.COPY_MODULE)
-    public void enterCopySceneRequest(CopySceneModel.CopySceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) {
+    public void enterCopySceneRequest(CopySceneModel.CopySceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws RpgServerException {
         //copySceneId
         Integer copySceneId=myMessage.getEnterCopySceneRequest().getCopySceneId();
         Channel channel = mmoSimpleRole.getChannel();
         //判断是否在组队状态
         Integer teamId=mmoSimpleRole.getTeamId();
         if (teamId==null){
-            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"非组队状态不能进去".getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"非组队状态不能进去");
         }
         //判断人物是否已经在副本
         if (mmoSimpleRole.getCopySceneId()!=null){
-            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"人物已经在副本中，请退出当前你副本再尝试".getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"人物已经在副本中，请退出当前你副本再尝试");
         }
         //判断队伍是否关联了副本
         TeamBean teamBean= TeamServiceProvider.getTeamBeanByTeamId(teamId);
         if (teamBean.getCopySceneBeanId()==null||!teamBean.getCopySceneId().equals(copySceneId)){
-            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"当前队伍不在副本中或者队伍不是关联该副本".getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"当前队伍不在副本中或者队伍不是关联该副本");
         }
         CopySceneBean copySceneBean=CopySceneProvider.getCopySceneBeanById(teamBean.getCopySceneBeanId());
         mmoSimpleRole.wentCopyScene(copySceneBean);
@@ -100,13 +91,11 @@ public class CopySceneServiceImpl implements CopySceneService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.EXIT_COPY_SCENE_REQUEST,module = ConstantValue.COPY_MODULE)
-    public void exitCopySceneRequest(CopySceneModel.CopySceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) {
+    public void exitCopySceneRequest(CopySceneModel.CopySceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws RpgServerException {
         Channel channel = mmoSimpleRole.getChannel();
         //判断玩家是否在副本中
         if (mmoSimpleRole.getCopySceneId()==null){
-            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"当前玩家不在副本中".getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"当前玩家不在副本中");
         }
         TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(mmoSimpleRole.getTeamId());
         Integer copySceneBeanId=teamBean.getCopySceneBeanId();
@@ -132,27 +121,21 @@ public class CopySceneServiceImpl implements CopySceneService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.CREATE_COPY_SCENE_REQUEST,module = ConstantValue.COPY_MODULE)
-    public void createCopySceneBeanRequest(CopySceneModel.CopySceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) {
+    public void createCopySceneBeanRequest(CopySceneModel.CopySceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws RpgServerException {
         Integer copySceneId=myMessage.getCreateCopySceneRequest().getCopySceneId();
         Channel channel = mmoSimpleRole.getChannel();
         //判断是否在组队状态
         if (mmoSimpleRole.getTeamId()==null){
-            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"请先组队".getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"请先组队");
         }
         TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(mmoSimpleRole.getTeamId());
         //判断是否是队长
         if (!teamBean.getLeaderId().equals(mmoSimpleRole.getId())){
-            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"你不是队长没有该权利".getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"你不是队长没有该权利");
         }
         //判断队伍是否绑定了副本
         if (teamBean.getCopySceneBeanId()!=null){
-            NettyResponse errorResponse=new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE,"该队伍已经绑定副本，无法在创建".getBytes());
-            channel.writeAndFlush(errorResponse);
-            return;
+            throw new RpgServerException(StateCode.FAIL,"该队伍已经绑定副本，无法在创建");
         }
         CopySceneBean copySceneBean=CopySceneProvider.createNewCopyScene(copySceneId,teamBean);
 
