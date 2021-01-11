@@ -212,7 +212,6 @@ public class PlayServiceImpl implements PlayService {
         SceneBeanMessageCache.getInstance().get(role.getMmoSceneId()).getRoles().add(role.getId());
         List<Role> newRoles = new ArrayList<>();
         newRoles.add(simpleRole);
-        CommonsUtil.sendRoleResponse(newRoles, simpleRole.getMmoSceneId(), null);
         //打包成messageData
         messageData.setLoginResponse(loginResponseBuilder.build());
         NettyResponse nettyResponse = new NettyResponse();
@@ -252,6 +251,7 @@ public class PlayServiceImpl implements PlayService {
                 sceneRoles.add(helperBean);
             }
         }
+        //发送给场景中其他角色 有角色登陆
         CommonsUtil.sendRoleResponse(sceneRoles, simpleRole.getMmoSceneId(), null);
         return;
     }
@@ -295,7 +295,6 @@ public class PlayServiceImpl implements PlayService {
             teamBean.exitPeople(role.getId());
         }
         //protobuf生成消息
-
         PlayModel.PlayModelMessage.Builder myMessageBuilder = PlayModel.PlayModelMessage.newBuilder();
         myMessageBuilder.setDataType(PlayModel.PlayModelMessage.DateType.LogoutResponse);
         PlayModel.LogoutResponse.Builder logoutResponseBuilder = PlayModel.LogoutResponse.newBuilder();

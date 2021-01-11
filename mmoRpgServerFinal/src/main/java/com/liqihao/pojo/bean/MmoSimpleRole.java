@@ -743,6 +743,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
         nextSceneRoles.addAll(helpers);
         List<Role> newRoles=new ArrayList<>();
         newRoles.add(this);
+        //同步给场景中的角色 有用户来了
         CommonsUtil.sendRoleResponse(newRoles,nextSceneId,null);
         return nextSceneRoles;
     }
@@ -822,6 +823,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
         }
         List<Role> newRoles=new ArrayList<>();
         newRoles.add(this);
+        //同步给场景中的角色 有角色进入
         CommonsUtil.sendRoleResponse(newRoles,null,copySceneBean.getCopySceneBeanId());
         return true;
     }

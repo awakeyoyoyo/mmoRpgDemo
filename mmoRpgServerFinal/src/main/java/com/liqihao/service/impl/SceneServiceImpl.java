@@ -69,7 +69,7 @@ public class SceneServiceImpl implements SceneService {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         SceneModel.SceneModelMessage.Builder builder = SceneModel.SceneModelMessage.newBuilder();
         builder.setDataType(SceneModel.SceneModelMessage.DateType.WentResponse);
-        SceneModel.WentResponse.Builder wentResponsebuilder = SceneModel.WentResponse.newBuilder();
+        SceneModel.WentResponse.Builder wentResponseBuilder = SceneModel.WentResponse.newBuilder();
         //simpleRole
         List<SceneModel.RoleDTO> roleDTOS = new ArrayList<>();
         for (Role mmoRole : nextSceneRoles) {
@@ -93,9 +93,9 @@ public class SceneServiceImpl implements SceneService {
             SceneModel.RoleDTO msrObject = msr.build();
             roleDTOS.add(msrObject);
         }
-        wentResponsebuilder.setSceneId(nextSceneId);
-        wentResponsebuilder.addAllRoleDTO(roleDTOS);
-        builder.setWentResponse(wentResponsebuilder.build());
+        wentResponseBuilder.setSceneId(nextSceneId);
+        wentResponseBuilder.addAllRoleDTO(roleDTOS);
+        builder.setWentResponse(wentResponseBuilder.build());
         byte[] data2 = builder.build().toByteArray();
         nettyResponse.setData(data2);
         channel.writeAndFlush(nettyResponse);

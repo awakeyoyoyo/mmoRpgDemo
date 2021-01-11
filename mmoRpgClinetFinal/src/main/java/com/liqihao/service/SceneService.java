@@ -13,3 +13,4 @@ public interface SceneService {
 
     void roleResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException;
 }
+
