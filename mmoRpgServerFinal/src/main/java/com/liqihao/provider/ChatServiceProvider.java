@@ -2,17 +2,16 @@ package com.liqihao.provider;
 
 import com.liqihao.Cache.OnlineRoleMessageCache;
 import com.liqihao.Cache.SceneBeanMessageCache;
-import com.liqihao.commons.ConstantValue;
-import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.ChatTypeCode;
 import com.liqihao.commons.enums.RoleTypeCode;
 import com.liqihao.pojo.bean.*;
-import com.liqihao.protobufObject.ChatModel;
+import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
+import com.liqihao.pojo.bean.roleBean.Role;
+import com.liqihao.pojo.bean.teamBean.TeamBean;
 
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 /**

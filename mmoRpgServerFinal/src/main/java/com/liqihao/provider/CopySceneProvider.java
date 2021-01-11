@@ -2,21 +2,18 @@ package com.liqihao.provider;
 
 import com.liqihao.Cache.BossMessageCache;
 import com.liqihao.Cache.CopySceneMessageCache;
-import com.liqihao.commons.enums.CopySceneBeanStatusCode;
 import com.liqihao.pojo.baseMessage.BossMessage;
 import com.liqihao.pojo.baseMessage.CopySceneMessage;
-import com.liqihao.pojo.bean.BossBean;
+import com.liqihao.pojo.bean.roleBean.BossBean;
 import com.liqihao.pojo.bean.CopySceneBean;
-import com.liqihao.pojo.bean.TeamBean;
+import com.liqihao.pojo.bean.teamBean.TeamBean;
 import com.liqihao.util.CommonsUtil;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;

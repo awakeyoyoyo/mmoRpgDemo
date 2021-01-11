@@ -1,9 +1,6 @@
 package com.liqihao.pojo.dto;
 
-import com.liqihao.pojo.bean.BufferBean;
-
 import java.util.ArrayList;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * boss传输类

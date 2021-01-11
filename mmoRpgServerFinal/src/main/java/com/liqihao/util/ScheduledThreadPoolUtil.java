@@ -5,6 +5,9 @@ import com.liqihao.commons.enums.*;
 import com.liqihao.pojo.baseMessage.BufferMessage;
 import com.liqihao.pojo.baseMessage.SkillMessage;
 import com.liqihao.pojo.bean.*;
+import com.liqihao.pojo.bean.bufferBean.BaseBufferBean;
+import com.liqihao.pojo.bean.roleBean.*;
+import com.liqihao.pojo.bean.teamBean.TeamBean;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.provider.CallerServiceProvider;
 import com.liqihao.provider.CopySceneProvider;
@@ -12,7 +15,6 @@ import com.liqihao.provider.TeamServiceProvider;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -217,14 +219,14 @@ public class ScheduledThreadPoolUtil {
 
     public static class BufferTask implements Runnable {
         private Logger logger = Logger.getLogger(BufferTask.class);
-        private BufferBean bufferBean;
+        private BaseBufferBean bufferBean;
         private Integer count;
         private Role toRole;
 
         public BufferTask() {
         }
 
-        public BufferTask(BufferBean bufferBean, Integer count, Role toRole) {
+        public BufferTask(BaseBufferBean bufferBean, Integer count, Role toRole) {
             this.bufferBean = bufferBean;
             this.count = count;
             this.toRole = toRole;

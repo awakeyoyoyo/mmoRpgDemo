@@ -1,30 +1,20 @@
 package com.liqihao.provider;
 
-import com.liqihao.Cache.ChannelMessageCache;
-import com.liqihao.Cache.OnlineRoleMessageCache;
-import com.liqihao.commons.ConstantValue;
-import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.StateCode;
 import com.liqihao.dao.MmoEmailPOJOMapper;
 import com.liqihao.dao.MmoUserPOJOMapper;
-import com.liqihao.netty.ServerHandler;
-import com.liqihao.pojo.MmoEmailPOJO;
 import com.liqihao.pojo.MmoUserPOJO;
 import com.liqihao.pojo.bean.MmoEmailBean;
-import com.liqihao.pojo.bean.MmoSimpleRole;
+import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.util.CommonsUtil;
-import io.netty.channel.Channel;
-import org.apache.poi.ss.formula.functions.T;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
-import javax.print.DocFlavor;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;

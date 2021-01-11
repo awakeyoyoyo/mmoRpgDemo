@@ -1,6 +1,6 @@
 package com.liqihao.netModule.player.response;
 
-import com.liqihao.pojo.bean.MmoSimpleRole;
+import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 
 public class LoginResponse {
     /**

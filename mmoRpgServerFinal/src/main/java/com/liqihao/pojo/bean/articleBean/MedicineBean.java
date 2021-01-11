@@ -1,14 +1,15 @@
-package com.liqihao.pojo.bean;
+package com.liqihao.pojo.bean.articleBean;
 
 import com.liqihao.Cache.ChannelMessageCache;
 import com.liqihao.Cache.MediceneMessageCache;
-import com.liqihao.Cache.OnlineRoleMessageCache;
 import com.liqihao.Cache.SceneBeanMessageCache;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.*;
 import com.liqihao.pojo.baseMessage.MedicineMessage;
+import com.liqihao.pojo.bean.BackPackManager;
+import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.pojo.dto.ArticleDto;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.util.ScheduledThreadPoolUtil;
@@ -17,7 +18,6 @@ import org.springframework.beans.BeanUtils;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -106,7 +106,7 @@ public class MedicineBean  implements Article{
      * @return
      */
     @Override
-    public Article useOrAbandon(Integer number,BackPackManager backPackManager) {
+    public Article useOrAbandon(Integer number, BackPackManager backPackManager) {
         if (number <= getQuantity()) {
             //可以丢弃
             setQuantity(getQuantity() - number);
@@ -250,7 +250,7 @@ public class MedicineBean  implements Article{
     }
 
     @Override
-    public boolean use(BackPackManager backpackManager,MmoSimpleRole mmoSimpleRole) {
+    public boolean use(BackPackManager backpackManager, MmoSimpleRole mmoSimpleRole) {
         backpackManager.useOrAbandonArticle(articleId, 1);
         //判断是瞬间恢复还是持续性恢复
         MedicineMessage medicineMessage= MediceneMessageCache.getInstance().get(getMedicineMessageId());

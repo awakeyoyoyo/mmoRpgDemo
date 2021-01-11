@@ -1,5 +1,7 @@
 package com.liqihao.pojo.bean;
 
+import com.liqihao.pojo.bean.roleBean.MmoHelperBean;
+
 import java.util.List;
 
 /**

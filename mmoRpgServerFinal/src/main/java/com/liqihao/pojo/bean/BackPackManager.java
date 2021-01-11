@@ -1,13 +1,14 @@
 package com.liqihao.pojo.bean;
 
-import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.enums.ArticleTypeCode;
+import com.liqihao.pojo.bean.articleBean.Article;
+import com.liqihao.pojo.bean.articleBean.EquipmentBean;
+import com.liqihao.pojo.bean.articleBean.MedicineBean;
 import com.liqihao.pojo.dto.ArticleDto;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.stream.Collectors;
 
 /**
  * 背包管理类

@@ -1,6 +1,6 @@
 package com.liqihao.provider;
 
-import com.liqihao.pojo.bean.Role;
+import com.liqihao.pojo.bean.roleBean.Role;
 
 /**
  * 观察者接口

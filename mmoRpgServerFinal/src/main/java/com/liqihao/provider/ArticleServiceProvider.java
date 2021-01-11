@@ -7,8 +7,8 @@ import com.liqihao.dao.MmoEquipmentPOJOMapper;
 import com.liqihao.pojo.baseMessage.EquipmentMessage;
 import com.liqihao.pojo.baseMessage.MedicineMessage;
 import com.liqihao.pojo.bean.CopySceneBean;
-import com.liqihao.pojo.bean.EquipmentBean;
-import com.liqihao.pojo.bean.MedicineBean;
+import com.liqihao.pojo.bean.articleBean.EquipmentBean;
+import com.liqihao.pojo.bean.articleBean.MedicineBean;
 import com.liqihao.util.CommonsUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +16,6 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;

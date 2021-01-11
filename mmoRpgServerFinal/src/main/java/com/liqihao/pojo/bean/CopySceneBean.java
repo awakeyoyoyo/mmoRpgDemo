@@ -11,6 +11,14 @@ import com.liqihao.commons.enums.ProfessionCode;
 import com.liqihao.commons.enums.RoleStatusCode;
 import com.liqihao.commons.enums.RoleTypeCode;
 import com.liqihao.pojo.baseMessage.CopySceneMessage;
+import com.liqihao.pojo.bean.articleBean.Article;
+import com.liqihao.pojo.bean.articleBean.EquipmentBean;
+import com.liqihao.pojo.bean.articleBean.MedicineBean;
+import com.liqihao.pojo.bean.roleBean.BossBean;
+import com.liqihao.pojo.bean.roleBean.MmoHelperBean;
+import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
+import com.liqihao.pojo.bean.roleBean.Role;
+import com.liqihao.pojo.bean.teamBean.TeamBean;
 import com.liqihao.protobufObject.CopySceneModel;
 import com.liqihao.protobufObject.SceneModel;
 import com.liqihao.provider.ArticleServiceProvider;
@@ -74,7 +82,7 @@ public class CopySceneBean{
     /**
      * 地面掉落物品
      */
-    private ConcurrentHashMap<Integer,Article> articlesMap=new ConcurrentHashMap<>();
+    private ConcurrentHashMap<Integer, Article> articlesMap=new ConcurrentHashMap<>();
     /**
      *
      * 掉落物品的下标

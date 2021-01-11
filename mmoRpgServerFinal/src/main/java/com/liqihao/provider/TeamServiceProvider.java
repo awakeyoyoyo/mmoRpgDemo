@@ -1,14 +1,11 @@
 package com.liqihao.provider;
 
 import com.liqihao.Cache.MmoBaseMessageCache;
-import com.liqihao.pojo.bean.CopySceneBean;
-import com.liqihao.pojo.bean.MmoSimpleRole;
-import com.liqihao.pojo.bean.TeamBean;
-import org.apache.poi.ss.formula.functions.T;
+import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
+import com.liqihao.pojo.bean.teamBean.TeamBean;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**

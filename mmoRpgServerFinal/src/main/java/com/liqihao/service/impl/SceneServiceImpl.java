@@ -1,7 +1,6 @@
 package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.liqihao.Cache.ChannelMessageCache;
 import com.liqihao.Cache.NpcMessageCache;
 import com.liqihao.Cache.OnlineRoleMessageCache;
 import com.liqihao.Cache.SceneBeanMessageCache;
@@ -11,10 +10,13 @@ import com.liqihao.commons.*;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.RoleTypeCode;
 import com.liqihao.pojo.bean.*;
+import com.liqihao.pojo.bean.roleBean.BossBean;
+import com.liqihao.pojo.bean.roleBean.MmoSimpleNPC;
+import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
+import com.liqihao.pojo.bean.roleBean.Role;
 import com.liqihao.protobufObject.SceneModel;
 import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.service.SceneService;
-import com.liqihao.util.CommonsUtil;
 import io.netty.channel.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

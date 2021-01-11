@@ -11,6 +11,13 @@ import com.liqihao.dao.*;
 import com.liqihao.pojo.*;
 import com.liqihao.pojo.baseMessage.*;
 import com.liqihao.pojo.bean.*;
+import com.liqihao.pojo.bean.articleBean.EquipmentBean;
+import com.liqihao.pojo.bean.articleBean.MedicineBean;
+import com.liqihao.pojo.bean.bufferBean.BaseBufferBean;
+import com.liqihao.pojo.bean.roleBean.BossBean;
+import com.liqihao.pojo.bean.roleBean.MmoSimpleNPC;
+import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
+import com.liqihao.pojo.bean.roleBean.Role;
 import com.liqihao.pojo.dto.ArticleDto;
 import com.liqihao.pojo.dto.EquipmentDto;
 import com.liqihao.protobufObject.CopySceneModel;
@@ -58,7 +65,7 @@ public class CommonsUtil implements ApplicationContextAware {
         bossDtoBuilder.setBlood(boss.getHp());
         List<CopySceneModel.BufferDto> bufferDtoList=new ArrayList<>();
         if (boss.getBufferBeans().size()>0){
-            for (BufferBean b:boss.getBufferBeans()) {
+            for (BaseBufferBean b:boss.getBufferBeans()) {
                 CopySceneModel.BufferDto bufferDto= bufferBeanToBufferDto(b);
                 bufferDtoList.add(bufferDto);
             }
@@ -67,7 +74,7 @@ public class CommonsUtil implements ApplicationContextAware {
         return  bossDtoBuilder.build();
     }
 
-    private static CopySceneModel.BufferDto bufferBeanToBufferDto(BufferBean b) {
+    private static CopySceneModel.BufferDto bufferBeanToBufferDto(BaseBufferBean b) {
         CopySceneModel.BufferDto.Builder bufferDtoBuilder=CopySceneModel.BufferDto.newBuilder();
         BufferMessage bufferMessage= BufferMessageCache.getInstance().get(b.getBufferMessageId());
         return bufferDtoBuilder.setId(bufferMessage.getId()).setName(bufferMessage.getName()).setFromRoleId(b.getFromRoleId())
@@ -79,7 +86,7 @@ public class CommonsUtil implements ApplicationContextAware {
         CopySceneModel.RoleDto.Builder roleDtoBuilder=CopySceneModel.RoleDto.newBuilder();
         List<CopySceneModel.BufferDto> bufferDtoList=new ArrayList<>();
         if (role.getBufferBeans().size()>0){
-            for (BufferBean b:role.getBufferBeans()) {
+            for (BaseBufferBean b:role.getBufferBeans()) {
                 CopySceneModel.BufferDto bufferDto= bufferBeanToBufferDto(b);
                 bufferDtoList.add(bufferDto);
             }
@@ -189,7 +196,7 @@ public class CommonsUtil implements ApplicationContextAware {
 
     public static BossBean bossMessageToBossBean(BossMessage bossMessage) {
         BossBean bossBean=new BossBean();
-        bossBean.setBufferBeans(new CopyOnWriteArrayList<BufferBean>());
+        bossBean.setBufferBeans(new CopyOnWriteArrayList<BaseBufferBean>());
         bossBean.setCdMap(new HashMap<>());
         bossBean.setHatredMap(new ConcurrentHashMap<>());
         bossBean.setHp(bossMessage.getBlood());
@@ -501,7 +508,7 @@ public class CommonsUtil implements ApplicationContextAware {
     /**
      * 向场景仲角色发送人物登场
      */
-    public static void sendRoleResponse(List<Role> newRoles,Integer sceneId,Integer copySceneId){
+    public static void sendRoleResponse(List<Role> newRoles, Integer sceneId, Integer copySceneId){
         //protobuf
         SceneModel.SceneModelMessage.Builder messageDataBuilder = SceneModel.SceneModelMessage.newBuilder();
         messageDataBuilder.setDataType(SceneModel.SceneModelMessage.DateType.RoleResponse);

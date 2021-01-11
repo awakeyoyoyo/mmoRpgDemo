@@ -1,4 +1,4 @@
-package com.liqihao.pojo.bean;
+package com.liqihao.pojo.bean.roleBean;
 
 import com.liqihao.Cache.*;
 import com.liqihao.commons.ConstantValue;
@@ -7,6 +7,9 @@ import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.*;
 import com.liqihao.pojo.baseMessage.BossMessage;
 import com.liqihao.pojo.baseMessage.BufferMessage;
+import com.liqihao.pojo.bean.CopySceneBean;
+import com.liqihao.pojo.bean.SkillBean;
+import com.liqihao.pojo.bean.bufferBean.BaseBufferBean;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.util.CommonsUtil;
@@ -26,7 +29,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * boss bean
  * @author lqhao
  */
-public class BossBean extends Role{
+public class BossBean extends Role {
     /**
      * boss基本信息id
      */
@@ -88,7 +91,7 @@ public class BossBean extends Role{
 
 
     @Override
-    public void beAttack(SkillBean skillBean,Role fromRole) {
+    public void beAttack(SkillBean skillBean, Role fromRole) {
         BossBean bossBean=this;
         Integer reduce = 0;
         try {
@@ -193,116 +196,36 @@ public class BossBean extends Role{
 
 
     @Override
-    public void effectByBuffer(BufferBean bufferBean) {
-        BufferMessage bufferMessage=BufferMessageCache.getInstance().get(bufferBean.getBufferMessageId());
+    public void effectByBuffer(BaseBufferBean bufferBean) {
         //根据buffer类型扣血扣蓝
-        if (bufferMessage.getBuffType().equals(BufferTypeCode.REDUCE_HP.getCode())) {
-            hpRwLock.writeLock().lock();
-            try {
-                Integer hp = getNowHp() - bufferMessage.getBuffNum();
-                if (hp <= 0) {
-                    hp = 0;
-                    setStatus(RoleStatusCode.DIE.getCode());
-                }
-                setNowHp(hp);
-            } finally {
-                hpRwLock.writeLock().unlock();
-            }
-
-        } else if (bufferMessage.getBuffType().equals(BufferTypeCode.REDUCE_MP.getCode())) {
-            mpRwLock.writeLock().lock();
-            try {
-                Integer mp = getNowMp() - bufferMessage.getBuffNum();
-                if (mp <= 0) {
-                    mp = 0;
-                }
-                setNowMp(mp);
-            } finally {
-                mpRwLock.writeLock().unlock();
-            }
-        }else if (bufferMessage.getBuffType().equals(BufferTypeCode.GG_ATTACK.getCode())){
-            PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();
-            damageU.setFromRoleId(bufferBean.getFromRoleId());
-            damageU.setFromRoleType(bufferBean.getFromRoleType());
-            damageU.setToRoleId(getId());
-            damageU.setToRoleType(getType());
-            damageU.setBufferId(bufferBean.getBufferMessageId());
-            damageU.setDamageType(ConsumeTypeCode.HP.getCode());
-            damageU.setSkillId(-1);
-            damageU.setAttackStyle(AttackStyleCode.GG_ATTACK.getCode());
-            damageU.setMp(getNowMp());
-            damageU.setNowblood(getNowHp());
-            damageU.setState(getStatus());
-            PlayModel.PlayModelMessage.Builder myMessageBuilder = PlayModel.PlayModelMessage.newBuilder();
-            myMessageBuilder.setDataType(PlayModel.PlayModelMessage.DateType.DamagesNoticeResponse);
-            PlayModel.DamagesNoticeResponse.Builder damagesNoticeBuilder = PlayModel.DamagesNoticeResponse.newBuilder();
-            damagesNoticeBuilder.setRoleIdDamage(damageU);
-            myMessageBuilder.setDamagesNoticeResponse(damagesNoticeBuilder.build());
-            NettyResponse nettyResponse = new NettyResponse();
-            nettyResponse.setCmd(ConstantValue.DAMAGES_NOTICE_RESPONSE);
-            nettyResponse.setStateCode(StateCode.SUCCESS);
-            nettyResponse.setData(myMessageBuilder.build().toByteArray());
-            List<Integer> players;
-            if (getMmoSceneId()!=null) {
-                players = SceneBeanMessageCache.getInstance().get(getMmoSceneId()).getRoles();
-                for (Integer playerId:players){
-                    Channel c= ChannelMessageCache.getInstance().get(playerId);
-                    if (c!=null){
-                        c.writeAndFlush(nettyResponse);
-                    }
-                }
-
-            }else{
-                List<Role> roles = CopySceneProvider.getCopySceneBeanById(getCopySceneBeanId()).getRoles();
-                for (Role role:roles) {
-                    if (role.getType().equals(RoleTypeCode.PLAYER.getCode())){
-                        Channel c= ChannelMessageCache.getInstance().get(role.getId());
-                        if (c!=null){
-                            c.writeAndFlush(nettyResponse);
-                        }
-                    }
-                }
-            }
-            return;
-        }
-        //广播信息
-        //生成数据包
-        PlayModel.PlayModelMessage.Builder myMessageBuilder = PlayModel.PlayModelMessage.newBuilder();
-        myMessageBuilder.setDataType(PlayModel.PlayModelMessage.DateType.DamagesNoticeResponse);
-        PlayModel.DamagesNoticeResponse.Builder damagesNoticeBuilder = PlayModel.DamagesNoticeResponse.newBuilder();
-        PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();
-        damageU.setDamageType(DamageTypeCode.HP.getCode()).setAttackStyle(AttackStyleCode.BUFFER.getCode())
-                .setDamage(bufferMessage.getBuffNum()).setFromRoleId(bufferBean.getFromRoleId()).setToRoleId(bufferBean.getToRoleId())
-                .setState(getStatus()).setMp(getNowMp()).setBufferId(bufferBean.getBufferMessageId()).setNowblood(getNowHp());
-        damagesNoticeBuilder.setRoleIdDamage(damageU);
-        myMessageBuilder.setDamagesNoticeResponse(damagesNoticeBuilder.build());
-        NettyResponse nettyResponse = new NettyResponse();
-        nettyResponse.setCmd(ConstantValue.DAMAGES_NOTICE_RESPONSE);
-        nettyResponse.setStateCode(StateCode.SUCCESS);
-        nettyResponse.setData(myMessageBuilder.build().toByteArray());
-        List<Integer> players;
-        if (getMmoSceneId()!=null) {
-            players = SceneBeanMessageCache.getInstance().get(this.getMmoSceneId()).getRoles();
-            for (Integer playerId:players){
-                Channel c= ChannelMessageCache.getInstance().get(playerId);
-                if (c!=null){
-                    c.writeAndFlush(nettyResponse);
-                }
-            }
-
-        }else{
-            List<Role> roles = CopySceneProvider.getCopySceneBeanById(getCopySceneBeanId()).getRoles();
-            for (Role role:roles) {
-                if (role.getType().equals(RoleTypeCode.PLAYER.getCode())){
-                    Channel c= ChannelMessageCache.getInstance().get(role.getId());
-                    if (c!=null){
-                        c.writeAndFlush(nettyResponse);
-                    }
-                }
-            }
-        }
-
+        bufferBean.effectToRole(this);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public Role getTarget() {
         if (getStatus().equals(RoleStatusCode.DIE.getCode())){
@@ -311,9 +234,9 @@ public class BossBean extends Role{
         synchronized (hatredMap) {
             ConcurrentHashMap<Role, Integer> hatredMap = getHatredMap();
             //判断是否有嘲讽buffer,则直接攻击嘲讽对象
-            Iterator<BufferBean> buffers=getBufferBeans().iterator();
+            Iterator<BaseBufferBean> buffers=getBufferBeans().iterator();
             while(buffers.hasNext()){
-                BufferBean bufferBean=buffers.next();
+                BaseBufferBean bufferBean=buffers.next();
                 BufferMessage bufferMessage=BufferMessageCache.getInstance().get(bufferBean.getBufferMessageId());
                if (bufferMessage.getBuffType().equals(BufferTypeCode.GG_ATTACK.getCode())){
                    Role role= OnlineRoleMessageCache.getInstance().get(bufferBean.getFromRoleId());

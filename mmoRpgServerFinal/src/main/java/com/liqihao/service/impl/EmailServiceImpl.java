@@ -1,6 +1,5 @@
 package com.liqihao.service.impl;
 
-import com.liqihao.Cache.ChannelMessageCache;
 import com.liqihao.Cache.MediceneMessageCache;
 import com.liqihao.Cache.OnlineRoleMessageCache;
 import com.liqihao.annotation.HandlerCmdTag;
@@ -12,7 +11,9 @@ import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.ArticleTypeCode;
 import com.liqihao.pojo.baseMessage.MedicineMessage;
 import com.liqihao.pojo.bean.*;
-import com.liqihao.protobufObject.CopySceneModel;
+import com.liqihao.pojo.bean.articleBean.Article;
+import com.liqihao.pojo.bean.articleBean.MedicineBean;
+import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.protobufObject.EmailModel;
 import com.liqihao.provider.EmailServiceProvider;
 import com.liqihao.service.EmailService;

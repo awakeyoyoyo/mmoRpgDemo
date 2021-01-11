@@ -1,17 +1,14 @@
 package com.liqihao.service.impl;
 
-import com.liqihao.Cache.ChannelMessageCache;
 import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.ConstantValue;
-import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.StateCode;
-import com.liqihao.pojo.bean.MmoSimpleRole;
+import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.protobufObject.ChatModel;
 import com.liqihao.provider.ChatServiceProvider;
 import com.liqihao.service.ChatService;
-import com.liqihao.util.CommonsUtil;
 import io.netty.channel.Channel;
 import org.springframework.stereotype.Service;
 

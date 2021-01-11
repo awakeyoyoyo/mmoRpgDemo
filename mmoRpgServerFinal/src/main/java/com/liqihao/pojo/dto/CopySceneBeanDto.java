@@ -1,8 +1,5 @@
 package com.liqihao.pojo.dto;
 
-import com.liqihao.pojo.bean.BossBean;
-import com.liqihao.pojo.bean.MmoSimpleRole;
-
 import java.util.List;
 
 /**

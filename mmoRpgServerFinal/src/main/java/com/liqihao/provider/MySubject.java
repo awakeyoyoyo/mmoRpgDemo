@@ -1,7 +1,6 @@
 package com.liqihao.provider;
 
-import com.liqihao.pojo.bean.MmoSimpleRole;
-import com.liqihao.pojo.bean.Role;
+import com.liqihao.pojo.bean.roleBean.Role;
 
 /**
  * 通知中心接口

@@ -1,12 +1,11 @@
-package com.liqihao.pojo.bean;
+package com.liqihao.pojo.bean.articleBean;
 
 import com.liqihao.Cache.EquipmentMessageCache;
 import com.liqihao.Cache.MmoBaseMessageCache;
 import com.liqihao.pojo.baseMessage.EquipmentMessage;
+import com.liqihao.pojo.bean.BackPackManager;
+import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.pojo.dto.ArticleDto;
-
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Equipment Bean
@@ -153,7 +152,7 @@ public class EquipmentBean implements Article{
      * @return
      */
     @Override
-    public Article useOrAbandon(Integer number,BackPackManager backPackManager) {
+    public Article useOrAbandon(Integer number, BackPackManager backPackManager) {
         //需要删除数据库的记录
         backPackManager.getNeedDeleteBagId().add(getBagId());
         setBagId(null);
@@ -218,7 +217,7 @@ public class EquipmentBean implements Article{
      */
 
     @Override
-    public boolean use(BackPackManager backpackManager,MmoSimpleRole mmoSimpleRole) {
+    public boolean use(BackPackManager backpackManager, MmoSimpleRole mmoSimpleRole) {
         EquipmentMessage equipmentMessage= EquipmentMessageCache.getInstance().get(getEquipmentMessageId());
         //判断该位置是否有装备
         EquipmentBean oldBean = mmoSimpleRole.getEquipmentBeanHashMap().get(equipmentMessage.getPosition());

@@ -1,4 +1,4 @@
-package com.liqihao.pojo.bean;
+package com.liqihao.pojo.bean.teamBean;
 
 import com.liqihao.Cache.ChannelMessageCache;
 import com.liqihao.commons.ConstantValue;
@@ -7,6 +7,8 @@ import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.CopySceneDeleteCauseCode;
 import com.liqihao.commons.enums.TeamApplyInviteCode;
+import com.liqihao.pojo.bean.CopySceneBean;
+import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.protobufObject.TeamModel;
 import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.provider.TeamServiceProvider;
@@ -25,7 +27,7 @@ import java.util.stream.Collectors;
 public class TeamBean {
     private Integer teamId;
     private String teamName;
-    private ConcurrentHashMap<Integer,MmoSimpleRole> mmoSimpleRolesMap;
+    private ConcurrentHashMap<Integer, MmoSimpleRole> mmoSimpleRolesMap;
     private Integer leaderId;
     private Integer copySceneId;
     private Integer copySceneBeanId;
@@ -252,7 +254,7 @@ public class TeamBean {
         //每次插入都删除申请过时或者
         while (iterator.hasNext()){
             TeamApplyOrInviteBean bean= (TeamApplyOrInviteBean) iterator.next();
-            if (bean.endTime<System.currentTimeMillis()){
+            if (bean.getEndTime()<System.currentTimeMillis()){
                 teamApplyOrInviteBeans.remove(bean);
             }
         }

@@ -1,8 +1,5 @@
 package com.liqihao.Cache;
 
-import com.liqihao.pojo.baseMessage.BaseDetailMessage;
-import com.liqihao.pojo.baseMessage.BaseRoleMessage;
-import com.liqihao.pojo.bean.MmoSimpleNPC;
 import io.netty.channel.Channel;
 import org.springframework.stereotype.Component;
 

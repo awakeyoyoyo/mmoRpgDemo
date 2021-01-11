@@ -1,6 +1,5 @@
 package com.liqihao.handler;
 
-import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.Parser;
 import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
@@ -8,10 +7,9 @@ import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyRequest;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
-import com.liqihao.pojo.bean.MmoSimpleRole;
+import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.util.CommonsUtil;
 import io.netty.channel.Channel;
-import io.netty.channel.ChannelHandlerContext;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

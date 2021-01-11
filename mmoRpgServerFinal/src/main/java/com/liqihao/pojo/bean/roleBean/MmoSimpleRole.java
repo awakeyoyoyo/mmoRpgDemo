@@ -1,4 +1,4 @@
-package com.liqihao.pojo.bean;
+package com.liqihao.pojo.bean.roleBean;
 
 
 import com.liqihao.Cache.*;
@@ -9,6 +9,11 @@ import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.*;
 import com.liqihao.pojo.*;
 import com.liqihao.pojo.baseMessage.*;
+import com.liqihao.pojo.bean.*;
+import com.liqihao.pojo.bean.articleBean.Article;
+import com.liqihao.pojo.bean.articleBean.EquipmentBean;
+import com.liqihao.pojo.bean.bufferBean.BaseBufferBean;
+import com.liqihao.pojo.bean.teamBean.TeamApplyOrInviteBean;
 import com.liqihao.pojo.dto.EquipmentDto;
 import com.liqihao.protobufObject.ChatModel;
 import com.liqihao.protobufObject.PlayModel;
@@ -21,7 +26,6 @@ import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
 import org.apache.log4j.Logger;
 
-import java.lang.annotation.Target;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
@@ -89,7 +93,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
     /**
      * 已发送邮件
      */
-    private ConcurrentHashMap<Integer,MmoEmailBean> fromMmoEmailBeanConcurrentHashMap=new ConcurrentHashMap<>();
+    private ConcurrentHashMap<Integer, MmoEmailBean> fromMmoEmailBeanConcurrentHashMap=new ConcurrentHashMap<>();
     /**
      * 已接受邮件
      */
@@ -247,7 +251,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
         //每次插入都删除申请过时或者
         while (iterator.hasNext()) {
             TeamApplyOrInviteBean bean = (TeamApplyOrInviteBean) iterator.next();
-            if (bean.endTime < System.currentTimeMillis()) {
+            if (bean.getEndTime() < System.currentTimeMillis()) {
                 teamApplyOrInviteBeans.remove(bean);
             }
         }
@@ -605,74 +609,9 @@ public class MmoSimpleRole extends Role implements MyObserver {
      * @param bufferBean
      */
     @Override
-    public void effectByBuffer(BufferBean bufferBean) {
-        BufferMessage bufferMessage= BufferMessageCache.getInstance().get(bufferBean.getBufferMessageId());
-        if (bufferMessage.getBuffType().equals(BufferTypeCode.REDUCE_HP.getCode())) {
-            PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();
-            damageU.setFromRoleId(bufferBean.getFromRoleId());
-            damageU.setFromRoleType(bufferBean.getFromRoleType());
-            damageU.setToRoleId(getId());
-            damageU.setToRoleType(getType());
-            damageU.setAttackStyle(AttackStyleCode.BUFFER.getCode());
-            damageU.setBufferId(bufferBean.getBufferMessageId());
-            damageU.setDamageType(ConsumeTypeCode.HP.getCode());
-            damageU.setSkillId(-1);
-            changeNowBlood(-bufferMessage.getBuffNum(),damageU,AttackStyleCode.BUFFER.getCode());
-        } else if (bufferMessage.getBuffType().equals(BufferTypeCode.REDUCE_MP.getCode())) {
-            PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();
-            damageU.setFromRoleId(bufferBean.getFromRoleId());
-            damageU.setFromRoleType(bufferBean.getFromRoleType());
-            damageU.setToRoleId(getId());
-            damageU.setToRoleType(getType());
-            damageU.setAttackStyle(AttackStyleCode.BUFFER.getCode());
-            damageU.setBufferId(bufferBean.getBufferMessageId());
-            damageU.setDamageType(ConsumeTypeCode.HP.getCode());
-            damageU.setSkillId(-1);
-            changeMp(-bufferMessage.getBuffNum(),damageU);
-        }else if (bufferMessage.getBuffType().equals(BufferTypeCode.GG_ATTACK.getCode())){
-            PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();
-            damageU.setFromRoleId(bufferBean.getFromRoleId());
-            damageU.setFromRoleType(bufferBean.getFromRoleType());
-            damageU.setToRoleId(getId());
-            damageU.setToRoleType(getType());
-            damageU.setBufferId(bufferBean.getBufferMessageId());
-            damageU.setDamageType(ConsumeTypeCode.HP.getCode());
-            damageU.setSkillId(-1);
-            damageU.setAttackStyle(AttackStyleCode.GG_ATTACK.getCode());
-            damageU.setMp(getNowMp());
-            damageU.setNowblood(getNowHp());
-            damageU.setState(getStatus());
-            PlayModel.PlayModelMessage.Builder myMessageBuilder = PlayModel.PlayModelMessage.newBuilder();
-            myMessageBuilder.setDataType(PlayModel.PlayModelMessage.DateType.DamagesNoticeResponse);
-            PlayModel.DamagesNoticeResponse.Builder damagesNoticeBuilder = PlayModel.DamagesNoticeResponse.newBuilder();
-            damagesNoticeBuilder.setRoleIdDamage(damageU);
-            myMessageBuilder.setDamagesNoticeResponse(damagesNoticeBuilder.build());
-            NettyResponse nettyResponse = new NettyResponse();
-            nettyResponse.setCmd(ConstantValue.DAMAGES_NOTICE_RESPONSE);
-            nettyResponse.setStateCode(StateCode.SUCCESS);
-            nettyResponse.setData(myMessageBuilder.build().toByteArray());
-            List<Integer> players;
-            if (getMmoSceneId()!=null) {
-                players = SceneBeanMessageCache.getInstance().get(getMmoSceneId()).getRoles();
-                for (Integer playerId:players){
-                    Channel c= ChannelMessageCache.getInstance().get(playerId);
-                    if (c!=null){
-                        c.writeAndFlush(nettyResponse);
-                    }
-                }
-
-            }else{
-                List<Role> roles = CopySceneProvider.getCopySceneBeanById(getCopySceneBeanId()).getRoles();
-                for (Role role:roles) {
-                    if (role.getType().equals(RoleTypeCode.PLAYER.getCode())){
-                        Channel c= ChannelMessageCache.getInstance().get(role.getId());
-                        if (c!=null){
-                            c.writeAndFlush(nettyResponse);
-                        }
-                    }
-                }
-            }
-        }
+    public void effectByBuffer(BaseBufferBean bufferBean) {
+        //根据buffer类型扣血扣蓝
+        bufferBean.effectToPeople(this);
     }
 
     /**

@@ -1,7 +1,6 @@
 package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.liqihao.Cache.ChannelMessageCache;
 import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.ConstantValue;
@@ -9,9 +8,9 @@ import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.enums.ArticleTypeCode;
 import com.liqihao.commons.StateCode;
-import com.liqihao.pojo.bean.Article;
-import com.liqihao.pojo.bean.EquipmentBean;
-import com.liqihao.pojo.bean.MmoSimpleRole;
+import com.liqihao.pojo.bean.articleBean.Article;
+import com.liqihao.pojo.bean.articleBean.EquipmentBean;
+import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.pojo.dto.EquipmentDto;
 import com.liqihao.protobufObject.EquipmentModel;
 import com.liqihao.service.EquipmentService;

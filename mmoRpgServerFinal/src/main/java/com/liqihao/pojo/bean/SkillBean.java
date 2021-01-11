@@ -1,9 +1,13 @@
 package com.liqihao.pojo.bean;
 
-import com.liqihao.Cache.BufferMessageCache;
 import com.liqihao.commons.enums.BufferStyleCode;
 import com.liqihao.commons.enums.BufferTypeCode;
 import com.liqihao.pojo.baseMessage.BufferMessage;
+import com.liqihao.pojo.bean.bufferBean.AttractBufferBean;
+import com.liqihao.pojo.bean.bufferBean.BaseBufferBean;
+import com.liqihao.pojo.bean.bufferBean.HpBufferBean;
+import com.liqihao.pojo.bean.bufferBean.MpBufferBean;
+import com.liqihao.pojo.bean.roleBean.Role;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 
 import java.util.List;
@@ -92,14 +96,22 @@ public class SkillBean {
     /**
      * 作用于npc
      */
-    public BufferBean bufferToPeople(BufferMessage bufferMessage,Role fromRole,Role toRole){
+    public BaseBufferBean bufferToPeople(BufferMessage bufferMessage, Role fromRole, Role toRole){
         //生成buffer类
-        BufferBean bufferBean=new BufferBean();
+        BaseBufferBean bufferBean;
+        if (bufferMessage.getBufferStyle().equals(BufferTypeCode.GG_ATTACK.getCode())){
+            bufferBean=new AttractBufferBean();
+        }else if (bufferMessage.getBufferStyle().equals(BufferTypeCode.REDUCE_MP.getCode())){
+            bufferBean=new MpBufferBean(-1);
+        }else{
+            bufferBean=new HpBufferBean(-1);
+        }
         bufferBean.setFromRoleType(fromRole.getType());
         bufferBean.setToRoleType(toRole.getType());
         bufferBean.setFromRoleId(fromRole.getId());
         bufferBean.setCreateTime(System.currentTimeMillis());
         bufferBean.setBufferMessageId(bufferMessage.getId());
+        bufferBean.setToRoleId(toRole.getId());
 //        bufferBeans.add(bufferBean);
         bufferBean.setToRoleId(toRole.getId());
         //人物增加buffer

@@ -1,6 +1,6 @@
 package com.liqihao.service;
 
-import com.liqihao.pojo.bean.MmoSimpleRole;
+import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.protobufObject.ChatModel;
 
 /**

@@ -1,7 +1,6 @@
 package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.liqihao.Cache.ChannelMessageCache;
 import com.liqihao.Cache.EquipmentMessageCache;
 import com.liqihao.Cache.GoodsMessageCache;
 import com.liqihao.Cache.MediceneMessageCache;
@@ -16,6 +15,10 @@ import com.liqihao.pojo.baseMessage.EquipmentMessage;
 import com.liqihao.pojo.baseMessage.GoodsMessage;
 import com.liqihao.pojo.baseMessage.MedicineMessage;
 import com.liqihao.pojo.bean.*;
+import com.liqihao.pojo.bean.articleBean.Article;
+import com.liqihao.pojo.bean.articleBean.EquipmentBean;
+import com.liqihao.pojo.bean.articleBean.MedicineBean;
+import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.pojo.dto.ArticleDto;
 import com.liqihao.protobufObject.BackPackModel;
 import com.liqihao.provider.CopySceneProvider;

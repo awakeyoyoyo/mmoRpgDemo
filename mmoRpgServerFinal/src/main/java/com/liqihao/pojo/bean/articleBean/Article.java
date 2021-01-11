@@ -1,9 +1,8 @@
-package com.liqihao.pojo.bean;
+package com.liqihao.pojo.bean.articleBean;
 
+import com.liqihao.pojo.bean.BackPackManager;
+import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.pojo.dto.ArticleDto;
-
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * 背包物品接口
@@ -22,7 +21,7 @@ public interface Article {
     /**
      * 物品减少或者删除
      */
-    Article useOrAbandon(Integer number,BackPackManager backPackManager);
+    Article useOrAbandon(Integer number, BackPackManager backPackManager);
 
     /**
      * 物品转化为物品dto
@@ -50,5 +49,5 @@ public interface Article {
     /**
      * 检查是否可以放入
      */
-    boolean use(BackPackManager backpackManager,MmoSimpleRole mmoSimpleRole);
+    boolean use(BackPackManager backpackManager, MmoSimpleRole mmoSimpleRole);
 }

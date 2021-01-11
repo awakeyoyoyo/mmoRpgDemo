@@ -1,22 +1,22 @@
 package com.liqihao.provider;
 
-import com.liqihao.Cache.EquipmentMessageCache;
 import com.liqihao.Cache.GoodsMessageCache;
 import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.ArticleTypeCode;
-import com.liqihao.pojo.baseMessage.EquipmentMessage;
 import com.liqihao.pojo.baseMessage.GoodsMessage;
 import com.liqihao.pojo.bean.*;
+import com.liqihao.pojo.bean.articleBean.Article;
+import com.liqihao.pojo.bean.articleBean.EquipmentBean;
+import com.liqihao.pojo.bean.articleBean.MedicineBean;
+import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.util.CommonsUtil;
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 /**
  * 商品服务提供类
@@ -47,7 +47,7 @@ public class GoodsServiceProvider {
     /**
      *  对外提供买东西接口
      */
-    public static Article sellArticle(Integer goodsId,Integer num, MmoSimpleRole mmoSimpleRole) throws Exception {
+    public static Article sellArticle(Integer goodsId, Integer num, MmoSimpleRole mmoSimpleRole) throws Exception {
         GoodsBean goodsBean=goodsBeanConcurrentHashMap.get(goodsId);
         if (goodsBean == null) {
             throw new RpgServerException(StateCode.FAIL,"查无该商品");
@@ -94,7 +94,7 @@ public class GoodsServiceProvider {
     /**
      * 卖药品
      */
-    private static MedicineBean sellMedicineBean(Integer medicineId,Integer num){
+    private static MedicineBean sellMedicineBean(Integer medicineId, Integer num){
         MedicineBean medicineBean=ArticleServiceProvider.productMedicine(medicineId);
         medicineBean.setQuantity(num);
         return medicineBean;

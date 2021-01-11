@@ -8,8 +8,8 @@ import com.liqihao.commons.enums.RoleStatusCode;
 import com.liqihao.commons.enums.RoleTypeCode;
 import com.liqihao.pojo.baseMessage.ProfessionMessage;
 import com.liqihao.pojo.bean.CopySceneBean;
-import com.liqihao.pojo.bean.MmoHelperBean;
-import com.liqihao.pojo.bean.MmoSimpleRole;
+import com.liqihao.pojo.bean.roleBean.MmoHelperBean;
+import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.pojo.bean.SceneBean;
 import com.liqihao.util.CommonsUtil;
 

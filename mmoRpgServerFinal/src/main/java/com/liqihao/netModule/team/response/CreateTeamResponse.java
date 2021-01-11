@@ -1,6 +1,5 @@
 package com.liqihao.netModule.team.response;
 
-import com.liqihao.pojo.bean.TeamBean;
 import com.liqihao.pojo.dto.TeamBeanDto;
 
 /**

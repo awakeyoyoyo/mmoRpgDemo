@@ -1,7 +1,7 @@
 package com.liqihao.Cache;
 
 import com.liqihao.pojo.baseMessage.NpcMessage;
-import com.liqihao.pojo.bean.MmoSimpleNPC;
+import com.liqihao.pojo.bean.roleBean.MmoSimpleNPC;
 import com.liqihao.util.ExcelReaderUtil;
 import org.springframework.stereotype.Component;
 

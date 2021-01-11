@@ -1,14 +1,11 @@
-package com.liqihao.pojo.bean;
+package com.liqihao.pojo.bean.roleBean;
 
-import com.liqihao.Cache.NpcMessageCache;
-import com.liqihao.Cache.OnlineRoleMessageCache;
-import com.liqihao.Cache.SceneBeanMessageCache;
+import com.liqihao.pojo.bean.SkillBean;
+import com.liqihao.pojo.bean.bufferBean.BaseBufferBean;
 import com.liqihao.protobufObject.PlayModel;
-import com.liqihao.provider.CopySceneProvider;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * 所有角色的父类
@@ -24,12 +21,17 @@ public class Role {
     private Integer type;
     private Integer status;
     private Integer onStatus;
-    private CopyOnWriteArrayList<BufferBean> bufferBeans;
+    private CopyOnWriteArrayList<BaseBufferBean> bufferBeans;
     private volatile Integer nowHp;
     private volatile Integer nowMp;
     private Integer copySceneBeanId;
     private Integer mmoSceneId;
     private Integer teamId;
+    /**
+     * 锁
+     */
+    public final ReentrantReadWriteLock hpRwLock = new ReentrantReadWriteLock();
+    public final ReentrantReadWriteLock mpRwLock = new ReentrantReadWriteLock();
 
     public Integer getTeamId() {
         return teamId;
@@ -59,19 +61,16 @@ public class Role {
         return id;
     }
     public void changeMp(int number, PlayModel.RoleIdDamage.Builder damageU) {
-        return;
     }
     public void changeNowBlood(int number, PlayModel.RoleIdDamage.Builder damageU, int type) {
-        return;
     }
-    public void effectByBuffer(BufferBean bufferBean){
-        return;
+    public void effectByBuffer(BaseBufferBean bufferBean){
     }
-    public void beAttack(SkillBean skillBean,Role fromRole) {
-        return ;
+    public void beAttack(SkillBean skillBean, Role fromRole) {
     }
 
-
+    public void die(){
+    }
     public void setId(Integer id) {
         this.id = id;
     }
@@ -140,11 +139,11 @@ public class Role {
         this.onStatus = onStatus;
     }
 
-    public CopyOnWriteArrayList<BufferBean> getBufferBeans() {
+    public CopyOnWriteArrayList<BaseBufferBean> getBufferBeans() {
         return bufferBeans;
     }
 
-    public void setBufferBeans(CopyOnWriteArrayList<BufferBean> bufferBeans) {
+    public void setBufferBeans(CopyOnWriteArrayList<BaseBufferBean> bufferBeans) {
         this.bufferBeans = bufferBeans;
     }
 
@@ -163,4 +162,5 @@ public class Role {
     public void setNowMp(Integer nowMp) {
         this.nowMp = nowMp;
     }
+
 }

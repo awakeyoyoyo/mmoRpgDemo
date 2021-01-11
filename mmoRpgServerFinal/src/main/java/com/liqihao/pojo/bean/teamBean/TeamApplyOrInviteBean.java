@@ -1,4 +1,4 @@
-package com.liqihao.pojo.bean;
+package com.liqihao.pojo.bean.teamBean;
 
 /**
  * @author 入队申请bean 或者是 邀请入队申请bean
@@ -7,8 +7,8 @@ public class TeamApplyOrInviteBean {
     Integer roleId;
     Integer type;
     Integer teamId;
-    long endTime;
-    long createTime;
+    private long endTime;
+    private long createTime;
 
     public Integer getTeamId() {
         return teamId;
