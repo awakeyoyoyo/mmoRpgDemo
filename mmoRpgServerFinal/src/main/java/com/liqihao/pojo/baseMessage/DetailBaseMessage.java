@@ -4,7 +4,7 @@ package com.liqihao.pojo.baseMessage;
  * 基础信息类
  * @author lqhao
  */
-public class BaseDetailMessage {
+public class DetailBaseMessage {
     private Integer bagSize;
     private Integer reduceDurability;
     private Integer teamApplyOrInviteSize;

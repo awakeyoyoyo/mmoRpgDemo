@@ -1,6 +1,6 @@
 package com.liqihao.util;
 
-import com.liqihao.pojo.baseMessage.BaseDetailMessage;
+import com.liqihao.pojo.baseMessage.DetailBaseMessage;
 import com.liqihao.pojo.baseMessage.SkillMessage;
 import org.apache.poi.hssf.usermodel.HSSFDataFormatter;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -127,8 +127,8 @@ public class ExcelReaderUtil {
         for (SkillMessage npc:messages) {
             System.out.println(npc.toString());
         }
-        List<BaseDetailMessage> message=readExcelFromFileName("classpath:message/baseDetailMessage.xlsx",BaseDetailMessage.class);
-        for (BaseDetailMessage npc:message) {
+        List<DetailBaseMessage> message=readExcelFromFileName("classpath:message/baseDetailMessage.xlsx", DetailBaseMessage.class);
+        for (DetailBaseMessage npc:message) {
             System.out.println(npc.toString());
         }
     }

@@ -13,6 +13,7 @@ import com.liqihao.pojo.bean.*;
 import com.liqihao.pojo.bean.articleBean.Article;
 import com.liqihao.pojo.bean.articleBean.EquipmentBean;
 import com.liqihao.pojo.bean.bufferBean.BaseBufferBean;
+import com.liqihao.pojo.bean.guildBean.GuildBean;
 import com.liqihao.pojo.bean.teamBean.TeamApplyOrInviteBean;
 import com.liqihao.pojo.dto.EquipmentDto;
 import com.liqihao.protobufObject.ChatModel;
@@ -102,6 +103,18 @@ public class MmoSimpleRole extends Role implements MyObserver {
      * 角色channel
      */
     private Channel channel;
+    /**
+     * 公会
+     */
+    private GuildBean guildBean;
+
+    public GuildBean getGuildBean() {
+        return guildBean;
+    }
+
+    public void setGuildBean(GuildBean guildBean) {
+        this.guildBean = guildBean;
+    }
 
     public Channel getChannel() {
         return channel;
@@ -263,7 +276,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
      * @param role
      * @param baseRoleMessage
      */
-    public void init(MmoRolePOJO role, BaseRoleMessage baseRoleMessage) {
+    public void init(MmoRolePOJO role, RoleBaseMessage baseRoleMessage) {
         setId(role.getId());
         setMmoSceneId(role.getMmoSceneId());
         setName(role.getName());

@@ -1,13 +1,12 @@
 package com.liqihao.Cache;
 
-import com.liqihao.pojo.baseMessage.BaseDetailMessage;
-import com.liqihao.pojo.baseMessage.BaseRoleMessage;
+import com.liqihao.pojo.baseMessage.DetailBaseMessage;
+import com.liqihao.pojo.baseMessage.RoleBaseMessage;
 import com.liqihao.util.ExcelReaderUtil;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 基本信息缓存
@@ -18,9 +17,9 @@ public class MmoBaseMessageCache {
     private static String baseRoleMessage_file = "classpath:message/baseRoleMessage.xlsx";
     private static String baseDetailMessage_file = "classpath:message/baseDetailMessage.xlsx";
     //用户角色的基本信息
-    private BaseRoleMessage baseRoleMessage;
+    private RoleBaseMessage baseRoleMessage;
     //基础配置信息
-    private BaseDetailMessage baseDetailMessage;
+    private DetailBaseMessage baseDetailMessage;
 
     private volatile  static MmoBaseMessageCache instance;
 
@@ -30,29 +29,29 @@ public class MmoBaseMessageCache {
     public MmoBaseMessageCache() {
     }
 
-    public MmoBaseMessageCache(BaseRoleMessage baseRoleMessage, BaseDetailMessage baseDetailMessage) {
+    public MmoBaseMessageCache(RoleBaseMessage baseRoleMessage, DetailBaseMessage baseDetailMessage) {
         this.baseRoleMessage = baseRoleMessage;
         this.baseDetailMessage = baseDetailMessage;
     }
     @PostConstruct
     public  void init() throws IllegalAccessException, IOException, InstantiationException {
        instance=this;
-       baseRoleMessage= ExcelReaderUtil.readExcelFromFileName(baseRoleMessage_file,BaseRoleMessage.class).get(0);
-       baseDetailMessage=ExcelReaderUtil.readExcelFromFileName(baseDetailMessage_file,BaseDetailMessage.class).get(0);
+       baseRoleMessage= ExcelReaderUtil.readExcelFromFileName(baseRoleMessage_file, RoleBaseMessage.class).get(0);
+       baseDetailMessage=ExcelReaderUtil.readExcelFromFileName(baseDetailMessage_file, DetailBaseMessage.class).get(0);
     }
-    public BaseRoleMessage getBaseRoleMessage() {
+    public RoleBaseMessage getBaseRoleMessage() {
         return baseRoleMessage;
     }
 
-    public  void setBaseRoleMessage(BaseRoleMessage baseRoleMessage) {
+    public  void setBaseRoleMessage(RoleBaseMessage baseRoleMessage) {
         this.baseRoleMessage = baseRoleMessage;
     }
 
-    public  BaseDetailMessage getBaseDetailMessage() {
+    public DetailBaseMessage getBaseDetailMessage() {
         return baseDetailMessage;
     }
 
-    public  void setBaseDetailMessage(BaseDetailMessage baseDetailMessage) {
+    public  void setBaseDetailMessage(DetailBaseMessage baseDetailMessage) {
         this.baseDetailMessage = baseDetailMessage;
     }
 }

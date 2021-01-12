@@ -120,9 +120,9 @@ public class PlayServiceImpl implements PlayService {
         //初始化基础信息获取
         MmoSimpleRole simpleRole = new MmoSimpleRole();
         role.setStatus(RoleStatusCode.ALIVE.getCode());
-        BaseDetailMessage baseDetailMessage = MmoBaseMessageCache.getInstance().getBaseDetailMessage();
+        DetailBaseMessage baseDetailMessage = MmoBaseMessageCache.getInstance().getBaseDetailMessage();
         simpleRole.setTeamApplyOrInviteSize(baseDetailMessage.getTeamApplyOrInviteSize());
-        BaseRoleMessage baseRoleMessage = MmoBaseMessageCache.getInstance().getBaseRoleMessage();
+        RoleBaseMessage baseRoleMessage = MmoBaseMessageCache.getInstance().getBaseRoleMessage();
         simpleRole.init(role, baseRoleMessage);
         BackPackManager backPackManager = new BackPackManager(MmoBaseMessageCache.getInstance().getBaseDetailMessage().getBagSize());
         //初始化背包

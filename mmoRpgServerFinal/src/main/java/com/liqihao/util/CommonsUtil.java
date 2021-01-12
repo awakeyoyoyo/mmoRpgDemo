@@ -14,6 +14,8 @@ import com.liqihao.pojo.bean.*;
 import com.liqihao.pojo.bean.articleBean.EquipmentBean;
 import com.liqihao.pojo.bean.articleBean.MedicineBean;
 import com.liqihao.pojo.bean.bufferBean.BaseBufferBean;
+import com.liqihao.pojo.bean.guildBean.GuildBean;
+import com.liqihao.pojo.bean.guildBean.WareHouseManager;
 import com.liqihao.pojo.bean.roleBean.BossBean;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleNPC;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
@@ -141,6 +143,17 @@ public class CommonsUtil implements ApplicationContextAware {
         goodsBean.setNowNum(g.getNum());
         goodsBean.setGoodsMessageId(g.getArticleMessageId());
         return goodsBean;
+    }
+
+    public static GuildBean mmoGuildPOJOToGuildBean(MmoGuildPOJO mmoGuildPOJO) {
+        GuildBean guildBean=new GuildBean();
+        guildBean.setId(mmoGuildPOJO.getId());
+        guildBean.setLevel(mmoGuildPOJO.getLevel());
+        guildBean.setPeopleNum(mmoGuildPOJO.getPeopleNum());
+        guildBean.setChairmanId(mmoGuildPOJO.getChairmanId());
+        guildBean.setWareHouseManager(new WareHouseManager());
+        guildBean.setCreateTime(mmoGuildPOJO.getCreateTime());
+        return guildBean;
     }
 
 

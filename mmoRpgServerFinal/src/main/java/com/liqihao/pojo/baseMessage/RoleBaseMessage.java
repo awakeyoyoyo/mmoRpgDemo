@@ -4,7 +4,7 @@ package com.liqihao.pojo.baseMessage;
  * 基础角色信息
  * @author lqhao
  */
-public class BaseRoleMessage {
+public class RoleBaseMessage {
     private Integer hp;
     private Integer mp;
     private Integer attack;

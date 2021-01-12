@@ -1,0 +1,89 @@
+syntax ="proto3";
+option java_outer_classname="GuildModel";
+//protoful 可以使用message 管理其他的mssage
+message GuildModelMessage{
+  //定义枚举类型
+  enum DateType{
+    CreateGuildRequest=0;
+    JoinGuildRequest=1;
+    SetGuildRequest=2;
+    OutGuildRequest=3;
+    ContributeMoneyRequest=4;
+    ContributeArticleRequest=5;
+    GetArticleRequest=6;
+    GetMoneyRequest=7;
+    CreateGuildResponse=8;
+    JoinGuildResponse=9;
+    SetGuildResponse=10;
+    OutGuildResponse=11;
+    ContributeMoneyResponse=12;
+    ContributeArticleResponse=13;
+    GetArticleResponse=14;
+    GetMoneyResponse=15;
+  }
+  //用date_type来标识传的是哪一个枚举类型
+  DateType data_type=1;
+  //表示每次枚举类型最多只能出现其中一个，节省空间
+  oneof dateBody{
+    CreateGuildRequest createGuildRequest=2;
+    JoinGuildRequest joinGuildRequest=3;
+    SetGuildRequest setGuildRequest=4;
+    OutGuildRequest outGuildRequest=5;
+    ContributeMoneyRequest contributeMoneyRequest=6;
+    ContributeArticleRequest contributeArticleRequest=7;
+    GetArticleRequest getArticleRequest=8;
+    GetMoneyRequest getMoneyRequest=9;
+    CreateGuildResponse createGuildResponse=10;
+    JoinGuildResponse joinGuildResponse=11;
+    SetGuildResponse setGuildResponse=12;
+    OutGuildResponse outGuildResponse=13;
+    ContributeMoneyResponse contributeMoneyResponse=14;
+    ContributeArticleResponse contributeArticleResponse=15;
+    GetArticleResponse getArticleResponse=16;
+    GetMoneyResponse getMoneyResponse=17;
+  }
+}
+message CreateGuildRequest{
+  string name=1;
+}
+message JoinGuildRequest{
+  int32 guildId=1;
+}
+message SetGuildRequest{
+  int32 roleId=1;
+  int32 guildPosition=2;
+}
+message OutGuildRequest{
+}
+message ContributeMoneyRequest{
+  int32 money=1;
+}
+message ContributeArticleRequest{
+  int32 articleMessageId=1;
+  int32 articleType=2;
+  int32 number=3;
+  int32 equipmentBeanId=4;
+}
+message GetArticleRequest{
+  int32 warehouseId=1;
+  int32 number=2;
+}
+message GetMoneyRequest{
+  int32 money=1;
+}
+message CreateGuildResponse{
+}
+message JoinGuildResponse{
+}
+message SetGuildResponse{
+}
+message OutGuildResponse{
+}
+message ContributeMoneyResponse{
+}
+message ContributeArticleResponse{
+}
+message GetArticleResponse{
+}
+message GetMoneyResponse{
+}
