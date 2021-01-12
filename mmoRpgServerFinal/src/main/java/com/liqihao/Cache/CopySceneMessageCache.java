@@ -16,7 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Component
 public class CopySceneMessageCache extends CommonsCache<CopySceneMessage>{
-    private static String equipmentMessage_file = "classpath:message/copySceneMessage.xlsx";
+    private static String excel_file = "classpath:message/copySceneMessage.xlsx";
     private volatile static CopySceneMessageCache instance ;
     public static CopySceneMessageCache getInstance(){
         return instance;
@@ -27,11 +27,7 @@ public class CopySceneMessageCache extends CommonsCache<CopySceneMessage>{
     @PostConstruct
     public  void init() throws IllegalAccessException, IOException, InstantiationException {
         instance=this;
-        this.concurrentHashMap=new ConcurrentHashMap<>();
-        List<CopySceneMessage> copySceneMessages= ExcelReaderUtil.readExcelFromFileName(equipmentMessage_file,CopySceneMessage.class);
-        for (CopySceneMessage copySceneMessage:copySceneMessages) {
-            concurrentHashMap.put(copySceneMessage.getId(),copySceneMessage);
-        }
+        super.init(excel_file, CopySceneMessage.class);
     }
     private CopySceneMessageCache(ConcurrentHashMap<Integer,CopySceneMessage> map) {
         super(map);

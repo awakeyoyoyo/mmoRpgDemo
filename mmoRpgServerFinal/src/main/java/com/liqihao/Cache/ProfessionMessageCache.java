@@ -1,5 +1,6 @@
 package com.liqihao.Cache;
 
+import com.liqihao.pojo.baseMessage.MedicineMessage;
 import com.liqihao.pojo.baseMessage.ProfessionMessage;
 import com.liqihao.pojo.baseMessage.SceneMessage;
 import com.liqihao.pojo.bean.SceneBean;
@@ -19,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Component
 public class ProfessionMessageCache extends CommonsCache<ProfessionMessage>{
-    private static String professionMessage_file = "classpath:message/professionMessage.xlsx";
+    private static String excel_file = "classpath:message/professionMessage.xlsx";
     private volatile static ProfessionMessageCache instance ;
     public static ProfessionMessageCache getInstance(){
         return instance;
@@ -28,13 +29,9 @@ public class ProfessionMessageCache extends CommonsCache<ProfessionMessage>{
 
     }
     @PostConstruct
-    public void init() throws IllegalAccessException, IOException, InstantiationException {
+    public  void init() throws IllegalAccessException, IOException, InstantiationException {
         instance=this;
-        this.concurrentHashMap=new ConcurrentHashMap<>();
-        List<ProfessionMessage> professionMessages= ExcelReaderUtil.readExcelFromFileName(professionMessage_file,ProfessionMessage.class);
-        for (ProfessionMessage m:professionMessages){
-            instance.put(m.getId(),m);
-        }
+        super.init(excel_file, ProfessionMessage.class);
     }
     private ProfessionMessageCache(ConcurrentHashMap<Integer,ProfessionMessage> map) {
         super(map);

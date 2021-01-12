@@ -78,15 +78,28 @@ public class BaseBufferBean {
         this.toRoleId = toRoleId;
     }
 
+    /**
+     * 对人物的影响
+     * @param toRole
+     */
     public void effectToPeople(Role toRole){
     }
+
+    /**
+     * 对角色的印象
+     * @param toRole
+     */
     public void effectToRole(Role toRole){
     }
 
-    public void sendAllRoleDamage(Role toRole){
+    /**
+     * 广播buffer伤害信息
+     * @param toRole
+     */
+    public void sendAllRoleDamage(Role toRole,PlayModel.RoleIdDamage.Builder damageU){
         //生成数据包
         PlayModel.DamagesNoticeResponse.Builder damagesNoticeBuilder = PlayModel.DamagesNoticeResponse.newBuilder();
-        damagesNoticeBuilder.setRoleIdDamage(builderRoleDamage(toRole));
+        damagesNoticeBuilder.setRoleIdDamage(damageU);
         PlayModel.PlayModelMessage.Builder myMessageBuilder = PlayModel.PlayModelMessage.newBuilder();
         myMessageBuilder.setDataType(PlayModel.PlayModelMessage.DateType.DamagesNoticeResponse);
         myMessageBuilder.setDamagesNoticeResponse(damagesNoticeBuilder.build());
@@ -118,6 +131,11 @@ public class BaseBufferBean {
         }
     }
 
+    /**
+     * 生成简单protobuf的buffer伤害类
+     * @param toRole
+     * @return
+     */
     public  PlayModel.RoleIdDamage.Builder builderSimpleRoleDamage(Role toRole){
         //扣血类型
         PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();
@@ -130,6 +148,11 @@ public class BaseBufferBean {
         return damageU;
     }
 
+    /**
+     * 生成protobuf的buffer伤害类
+     * @param toRole
+     * @return
+     */
     public PlayModel.RoleIdDamage.Builder builderRoleDamage(Role toRole){
         BufferMessage bufferMessage=BufferMessageCache.getInstance().get(getBufferMessageId());
         PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();

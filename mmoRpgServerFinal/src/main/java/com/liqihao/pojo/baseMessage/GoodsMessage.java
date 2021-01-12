@@ -4,7 +4,7 @@ package com.liqihao.pojo.baseMessage;
  * 商品基本信息类
  * @author lqhao
  */
-public class GoodsMessage {
+public class GoodsMessage extends BaseMessage {
     /**
      * 商品id
      */
@@ -26,6 +26,10 @@ public class GoodsMessage {
      */
     private Integer price;
 
+    @Override
+    public Integer getTheId() {
+        return getId();
+    }
     public Integer getId() {
         return id;
     }

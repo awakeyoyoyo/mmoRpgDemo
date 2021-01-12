@@ -34,6 +34,15 @@ public class CommonsCache<T extends BaseMessage>{
         return concurrentHashMap.containsKey(id);
     }
     public Collection<T> values(){return concurrentHashMap.values();}
+
+    /**
+     * 初始化
+     * @param excel_file
+     * @param clazz
+     * @throws IllegalAccessException
+     * @throws IOException
+     * @throws InstantiationException
+     */
     public  void init(String excel_file,Class clazz) throws IllegalAccessException, IOException, InstantiationException {
         this.concurrentHashMap=new ConcurrentHashMap<>();
         List<T> messages= ExcelReaderUtil.readExcelFromFileName(excel_file,clazz);

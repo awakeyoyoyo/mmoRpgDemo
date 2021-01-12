@@ -4,7 +4,7 @@ package com.liqihao.pojo.baseMessage;
  * npc信息
  * @author lqhao
  */
-public class NpcMessage {
+public class NpcMessage extends BaseMessage{
     private Integer id;
     private String name;
     private Integer mmoSceneId;
@@ -16,7 +16,10 @@ public class NpcMessage {
     private Integer mp;
     private Integer attack;
     private double damageAdd;
-
+    @Override
+    public Integer getTheId() {
+        return getId();
+    }
     public double getDamageAdd() {
         return damageAdd;
     }

@@ -16,7 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Component
 public class BufferMessageCache extends CommonsCache<BufferMessage>{
-    private static String bufferMessage_file = "classpath:message/bufferMessage.xlsx";
+    private static String excel_file = "classpath:message/bufferMessage.xlsx";
     private volatile static BufferMessageCache instance ;
     public static BufferMessageCache getInstance(){
         return instance;
@@ -27,11 +27,7 @@ public class BufferMessageCache extends CommonsCache<BufferMessage>{
     @PostConstruct
     public  void init() throws IllegalAccessException, IOException, InstantiationException {
         instance=this;
-        this.concurrentHashMap=new ConcurrentHashMap<>();
-        List<BufferMessage> bufferMessage= ExcelReaderUtil.readExcelFromFileName(bufferMessage_file,BufferMessage.class);
-        for (BufferMessage b:bufferMessage) {
-            concurrentHashMap.put(b.getId(),b);
-        }
+        super.init(excel_file, BufferMessage.class);
     }
     private BufferMessageCache(ConcurrentHashMap<Integer,BufferMessage> map) {
         super(map);

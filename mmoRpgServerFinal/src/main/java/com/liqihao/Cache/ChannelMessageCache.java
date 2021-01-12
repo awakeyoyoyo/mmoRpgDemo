@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author lqhao
  */
 @Component
-public class ChannelMessageCache extends CommonsCache<Channel>{
+public class ChannelMessageCache extends CommonsBeanCache<Channel>{
     private volatile static ChannelMessageCache instance ;
     public static ChannelMessageCache getInstance(){
         return instance;

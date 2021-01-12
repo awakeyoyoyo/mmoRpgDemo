@@ -4,7 +4,7 @@ package com.liqihao.pojo.baseMessage;
  * 副本基本信息
  * @author lqhao
  */
-public class CopySceneMessage {
+public class CopySceneMessage extends BaseMessage{
     private Integer id;
     private String name;
     private Integer lastTime;
@@ -21,6 +21,11 @@ public class CopySceneMessage {
      * 挑战成功每人所得金币
      */
     private Integer money;
+
+    @Override
+    public Integer getTheId() {
+        return getId();
+    }
 
     public String getMedicineIds() {
         return medicineIds;

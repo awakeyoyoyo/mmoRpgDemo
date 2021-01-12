@@ -1,5 +1,6 @@
 package com.liqihao.Cache;
 
+import com.liqihao.pojo.baseMessage.EquipmentMessage;
 import com.liqihao.pojo.baseMessage.GoodsMessage;
 import com.liqihao.pojo.baseMessage.MedicineMessage;
 import com.liqihao.util.ExcelReaderUtil;
@@ -16,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Component
 public class GoodsMessageCache extends CommonsCache<GoodsMessage>{
-    private static String goodsMessage_file = "classpath:message/goodsMessage.xlsx";
+    private static String excel_file = "classpath:message/goodsMessage.xlsx";
     private volatile static GoodsMessageCache instance ;
     public static GoodsMessageCache getInstance(){
         return instance;
@@ -27,12 +28,7 @@ public class GoodsMessageCache extends CommonsCache<GoodsMessage>{
     @PostConstruct
     public  void init() throws IllegalAccessException, IOException, InstantiationException {
         instance=this;
-        this.concurrentHashMap=new ConcurrentHashMap<>();
-        //药品信息
-        List<GoodsMessage> goodsMessages= ExcelReaderUtil.readExcelFromFileName(goodsMessage_file,GoodsMessage.class);
-        for (GoodsMessage goodsMessage:goodsMessages) {
-            concurrentHashMap.put(goodsMessage.getId(),goodsMessage);
-        }
+        super.init(excel_file, GoodsMessage.class);
     }
     private GoodsMessageCache(ConcurrentHashMap<Integer,GoodsMessage> map) {
         super(map);

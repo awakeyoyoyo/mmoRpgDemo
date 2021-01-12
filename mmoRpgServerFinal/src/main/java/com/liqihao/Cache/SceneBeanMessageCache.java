@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author lqhao
  */
 @Component
-public class SceneBeanMessageCache extends CommonsCache<SceneBean>{
+public class SceneBeanMessageCache extends CommonsBeanCache<SceneBean>{
     private static String sceneMessage_file = "classpath:message/sceneMessage.xlsx";
     private volatile static SceneBeanMessageCache instance ;
     @Autowired

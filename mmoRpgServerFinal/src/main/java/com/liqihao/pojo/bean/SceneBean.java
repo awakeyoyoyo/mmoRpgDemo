@@ -1,5 +1,6 @@
 package com.liqihao.pojo.bean;
 
+import com.liqihao.pojo.baseMessage.BaseMessage;
 import com.liqihao.pojo.bean.roleBean.MmoHelperBean;
 
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
  * 场景bean
  * @author lqhao
  */
-public class SceneBean {
+public class SceneBean extends BaseMessage {
     private Integer id;
     private String name;
     private List<Integer> canScenes;

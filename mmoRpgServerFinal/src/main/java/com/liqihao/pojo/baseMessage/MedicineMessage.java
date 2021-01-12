@@ -4,7 +4,7 @@ package com.liqihao.pojo.baseMessage;
  *装备信息
  * @author lqhao
  */
-public class MedicineMessage {
+public class MedicineMessage extends BaseMessage{
     private Integer id;
     private String name;
     private boolean singleFlag;
@@ -16,7 +16,10 @@ public class MedicineMessage {
     private Integer secondValue;
     private Integer medicineType;
     private Integer cd;
-
+    @Override
+    public Integer getTheId() {
+        return getId();
+    }
     public Integer getLastTime() {
         return lastTime;
     }

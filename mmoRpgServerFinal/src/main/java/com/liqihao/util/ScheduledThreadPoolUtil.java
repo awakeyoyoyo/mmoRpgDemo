@@ -15,6 +15,7 @@ import com.liqihao.provider.TeamServiceProvider;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -251,15 +252,13 @@ public class ScheduledThreadPoolUtil {
     }
 
     public static class NpcAttackTask implements Runnable {
-        private Role target;
         private Integer npcId;
         private Logger logger = Logger.getLogger(NpcAttackTask.class);
 
         public NpcAttackTask() {
         }
 
-        public NpcAttackTask(Role target, Integer npcId) {
-            this.target = target;
+        public NpcAttackTask(Integer npcId) {
             this.npcId = npcId;
         }
 
@@ -267,14 +266,18 @@ public class ScheduledThreadPoolUtil {
         public void run() {
             logger.info("怪物攻击线程");
             MmoSimpleNPC npc = NpcMessageCache.getInstance().get(npcId);
-            if (target == null ||
-                    !npc.getMmoSceneId().equals(target.getMmoSceneId()) ||
-                    target.getStatus().equals(RoleStatusCode.DIE.getCode()) ||
-                    npc.getStatus().equals(RoleStatusCode.DIE.getCode())) {
-                //中止任务  用户离线了 用户跑去别的场景了 死了
-                npcTaskMap.get(npcId).cancel(false);
-                npcTaskMap.remove(npcId);
-                return;
+            //判断是否有嘲讽buffer,则直接攻击嘲讽对象
+            Role target = null;
+            target = npc.getTarget();
+            if (npc.getStatus().equals(RoleStatusCode.DIE.getCode())){
+                //死亡
+                bossTaskMap.remove(npc.getId());
+                bossTaskMap.get(npc.getId()).cancel(false);
+            }
+            if (target == null) {
+                // 没目标
+                bossTaskMap.remove(npc.getId());
+                bossTaskMap.get(npc.getId()).cancel(false);
             }
             //扣血咯
             if (target.getNowHp() <= 0) {
@@ -346,6 +349,7 @@ public class ScheduledThreadPoolUtil {
             //仇恨的第一人
             Role role = null;
             role = bossBean.getTarget();
+
             if (bossBean.getStatus().equals(RoleStatusCode.DIE.getCode())){
                 bossTaskMap.remove(bossBean.getBossBeanId());
                 bossTaskMap.get(bossBean.getBossBeanId()).cancel(false);

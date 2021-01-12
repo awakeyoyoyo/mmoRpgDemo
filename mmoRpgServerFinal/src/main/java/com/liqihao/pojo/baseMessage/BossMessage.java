@@ -4,7 +4,7 @@ package com.liqihao.pojo.baseMessage;
  * boss基本信息类
  * @author lqhao
  */
-public class BossMessage {
+public class BossMessage  extends BaseMessage{
     private Integer id;
     private String name;
     private Integer blood;
@@ -13,6 +13,10 @@ public class BossMessage {
     private Integer attack;
     private double damageAdd;
 
+    @Override
+    public Integer getTheId() {
+        return getId();
+    }
 
     public Integer getId() {
         return id;

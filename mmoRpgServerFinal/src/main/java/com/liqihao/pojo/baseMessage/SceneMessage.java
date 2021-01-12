@@ -3,13 +3,16 @@ package com.liqihao.pojo.baseMessage;
  * 场景信息类
  * @author lqhao
  */
-public class SceneMessage {
+public class SceneMessage extends BaseMessage{
     private Integer id;
 
     private String placeName;
 
     private String canScene;
-
+    @Override
+    public Integer getTheId() {
+        return getId();
+    }
     public Integer getId() {
         return id;
     }

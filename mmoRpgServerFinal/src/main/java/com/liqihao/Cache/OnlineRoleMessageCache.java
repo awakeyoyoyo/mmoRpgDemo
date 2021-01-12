@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author lqhao
  */
 @Component
-public class OnlineRoleMessageCache extends CommonsCache<MmoSimpleRole> {
+public class OnlineRoleMessageCache extends CommonsBeanCache<MmoSimpleRole> {
     private volatile static OnlineRoleMessageCache instance;
 
     public static OnlineRoleMessageCache getInstance() {

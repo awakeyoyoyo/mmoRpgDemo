@@ -3,6 +3,7 @@ package com.liqihao.pojo.bean.bufferBean;
 import com.liqihao.Cache.BufferMessageCache;
 import com.liqihao.commons.enums.AttackStyleCode;
 import com.liqihao.commons.enums.ConsumeTypeCode;
+import com.liqihao.commons.enums.DamageTypeCode;
 import com.liqihao.pojo.baseMessage.BufferMessage;
 import com.liqihao.pojo.bean.roleBean.Role;
 import com.liqihao.protobufObject.PlayModel;
@@ -54,6 +55,8 @@ public class MpBufferBean extends BaseBufferBean {
         } finally {
             toRole.mpRwLock.writeLock().unlock();
         }
-        sendAllRoleDamage(toRole);
+        PlayModel.RoleIdDamage.Builder builder=builderRoleDamage(toRole);
+        builder.setDamageType(DamageTypeCode.MP.getCode());
+        sendAllRoleDamage(toRole,builder);
     }
 }

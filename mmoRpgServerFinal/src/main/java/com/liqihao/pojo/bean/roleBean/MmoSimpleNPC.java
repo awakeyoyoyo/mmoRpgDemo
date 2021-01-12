@@ -17,7 +17,9 @@ import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -31,6 +33,19 @@ public class MmoSimpleNPC extends Role {
 
 
     private String talk;
+
+    /**
+     * 仇恨
+     */
+    private ConcurrentHashMap<Role,Integer> hatredMap=new ConcurrentHashMap<>();
+
+    public ConcurrentHashMap<Role, Integer> getHatredMap() {
+        return hatredMap;
+    }
+
+    public void setHatredMap(ConcurrentHashMap<Role, Integer> hatredMap) {
+        this.hatredMap = hatredMap;
+    }
 
     public String getTalk() {
         return talk;
@@ -79,6 +94,8 @@ public class MmoSimpleNPC extends Role {
         }finally {
             hpRwLock.writeLock().unlock();
         }
+        //增加仇恨
+        addHatred(fromRole,reduce);
         // 扣血伤害
         PlayModel.RoleIdDamage.Builder damageR = PlayModel.RoleIdDamage.newBuilder();
         damageR.setFromRoleId(fromRole.getId());
@@ -116,12 +133,67 @@ public class MmoSimpleNPC extends Role {
         }
         //怪物攻击本人
         if (!mmoSimpleNPC.getStatus().equals(RoleStatusCode.DIE.getCode())) {
-            mmoSimpleNPC.npcAttack(fromRole);
+            mmoSimpleNPC.npcAttack();
         }
     }
-
-
-    public void npcAttack(Role target) {
+    //消除仇恨
+    public void removeHatred(Role role){
+        if (getHatredMap().containsKey(role)){
+            getHatredMap().remove(role);
+        }
+    }
+    //增加仇恨
+    public void addHatred(Role role,Integer number){
+        synchronized (hatredMap) {
+            ConcurrentHashMap<Role, Integer> hatredMap = getHatredMap();
+            if (hatredMap.containsKey(role)) {
+                Integer hart = hatredMap.get(role);
+                hart += number;
+                hatredMap.put(role, hart);
+            } else {
+                hatredMap.put(role, number);
+            }
+        }
+    }
+    //查找目标
+    public Role getTarget() {
+        if (getStatus().equals(RoleStatusCode.DIE.getCode())){
+            return null;
+        }
+        synchronized (hatredMap) {
+            ConcurrentHashMap<Role, Integer> hatredMap = getHatredMap();
+            //判断是否有嘲讽buffer,则直接攻击嘲讽对象
+            Iterator<BaseBufferBean> buffers=getBufferBeans().iterator();
+            while(buffers.hasNext()){
+                BaseBufferBean bufferBean=buffers.next();
+                BufferMessage bufferMessage=BufferMessageCache.getInstance().get(bufferBean.getBufferMessageId());
+                if (bufferMessage.getBuffType().equals(BufferTypeCode.GG_ATTACK.getCode())){
+                    Role role= OnlineRoleMessageCache.getInstance().get(bufferBean.getFromRoleId());
+                    if(role.getStatus().equals(RoleStatusCode.ALIVE.getCode())) {
+                        return role;
+                    }
+                }
+            }
+            if (hatredMap.size() > 0) {
+                Role target = null;
+                Integer max = 0;
+                for (Role role : hatredMap.keySet()) {
+                    if (role.getStatus().equals(RoleStatusCode.DIE.getCode())) {
+                        //如果以及死了就消除仇恨了
+                        removeHatred(role);
+                        continue;
+                    }
+                    if (hatredMap.get(role) > max) {
+                        target = role;
+                        max = hatredMap.get(role);
+                    }
+                }
+                return target;
+            }
+        }
+        return null;
+    }
+    public void npcAttack() {
         ScheduledFuture<?> t = ScheduledThreadPoolUtil.getNpcTaskMap().get(getId());
         if (t != null) {
             //代表着该npc已启动攻击线程
@@ -129,8 +201,8 @@ public class MmoSimpleNPC extends Role {
             synchronized (this) {
                 t = ScheduledThreadPoolUtil.getNpcTaskMap().get(getId());
                 if (t==null) {
-                    ScheduledThreadPoolUtil.NpcAttackTask npcAttackTask = new ScheduledThreadPoolUtil.NpcAttackTask(target, getId());
-                    t = ScheduledThreadPoolUtil.getScheduledExecutorService().scheduleAtFixedRate(npcAttackTask, 0, 6, TimeUnit.SECONDS);
+                    ScheduledThreadPoolUtil.NpcAttackTask npcAttackTask = new ScheduledThreadPoolUtil.NpcAttackTask(getId());
+                    t = ScheduledThreadPoolUtil.getScheduledExecutorService().scheduleAtFixedRate(npcAttackTask, 0, 3, TimeUnit.SECONDS);
                     ScheduledThreadPoolUtil.getNpcTaskMap().put(getId(), t);
                 }
             }

@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Component
 public class SkillMessageCache extends CommonsCache<SkillMessage> {
-    private static String skillMessage_file = "classpath:message/skillMessage.xlsx";
+    private static String excel_file = "classpath:message/skillMessage.xlsx";
     private volatile static SkillMessageCache instance ;
     public static SkillMessageCache getInstance(){
         return instance;
@@ -25,13 +25,9 @@ public class SkillMessageCache extends CommonsCache<SkillMessage> {
     public SkillMessageCache() {
     }
     @PostConstruct
-    public void init() throws IllegalAccessException, IOException, InstantiationException {
+    public  void init() throws IllegalAccessException, IOException, InstantiationException {
         instance=this;
-        this.concurrentHashMap=new ConcurrentHashMap<>();
-        List<SkillMessage> skillMessages= ExcelReaderUtil.readExcelFromFileName(skillMessage_file,SkillMessage.class);
-        for (SkillMessage s:skillMessages) {
-            concurrentHashMap.put(s.getId(),s);
-        }
+        super.init(excel_file, SkillMessage.class);
     }
     private SkillMessageCache(ConcurrentHashMap<Integer,SkillMessage> map) {
         super(map);

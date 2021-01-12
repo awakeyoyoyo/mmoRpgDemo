@@ -187,7 +187,7 @@ public class BossBean extends Role {
                     BossMessage bossMessage= BossMessageCache.getInstance().get(getBossMessageId());
                     skillBeans= CommonsUtil.skillIdsToSkillBeans(CommonsUtil.split(bossMessage.getSkillIds()));
                     ScheduledThreadPoolUtil.BossAttackTask bossAttackTask = new ScheduledThreadPoolUtil.BossAttackTask(this, copySceneBean, skillBeans);
-                    t = ScheduledThreadPoolUtil.getScheduledExecutorService().scheduleAtFixedRate(bossAttackTask, 0, 5, TimeUnit.SECONDS);
+                    t = ScheduledThreadPoolUtil.getScheduledExecutorService().scheduleAtFixedRate(bossAttackTask, 0, 3, TimeUnit.SECONDS);
                     ScheduledThreadPoolUtil.getBossTaskMap().put(getId(), t);
                 }
             }

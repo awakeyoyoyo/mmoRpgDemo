@@ -4,7 +4,7 @@ package com.liqihao.pojo.baseMessage;
  * 技能信息类
  * @author lqhao
  */
-public class SkillMessage {
+public class SkillMessage extends BaseMessage{
     /**
      * 基本信息id
      */
@@ -54,6 +54,10 @@ public class SkillMessage {
      */
     private Integer skillDamageType;
 
+    @Override
+    public Integer getTheId() {
+        return getId();
+    }
     public Integer getChantTime() {
         return chantTime;
     }

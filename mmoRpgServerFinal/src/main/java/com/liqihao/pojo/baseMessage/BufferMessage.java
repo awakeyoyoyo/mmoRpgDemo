@@ -4,7 +4,7 @@ package com.liqihao.pojo.baseMessage;
  * buffer信息
  * @author Administrator
  */
-public class BufferMessage {
+public class BufferMessage extends BaseMessage {
     private Integer id;
     private String name;
     private Integer buffType;
@@ -12,7 +12,10 @@ public class BufferMessage {
     private Integer lastTime ;
     private Integer spaceTime ;
     private Integer bufferStyle;
-
+    @Override
+    public Integer getTheId() {
+        return getId();
+    }
     public Integer getBufferStyle() {
         return bufferStyle;
     }

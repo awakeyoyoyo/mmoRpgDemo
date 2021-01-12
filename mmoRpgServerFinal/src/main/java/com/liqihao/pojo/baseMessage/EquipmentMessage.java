@@ -4,7 +4,7 @@ package com.liqihao.pojo.baseMessage;
  * 装备信息
  * @author lqhao
  */
-public class EquipmentMessage {
+public class EquipmentMessage extends BaseMessage {
     private Integer id;
     private String name;
     private boolean singleFlag;
@@ -14,7 +14,10 @@ public class EquipmentMessage {
     private Integer attackAdd;
     private double damageAdd;
     private Integer position;
-
+    @Override
+    public Integer getTheId() {
+        return getId();
+    }
     public Integer getId() {
         return id;
     }
