@@ -103,10 +103,18 @@ public class EmailServiceProvider implements ApplicationContextAware {
     /**
      * 获取邮件详情
      */
-    public static MmoEmailBean getEmailMessage(MmoSimpleRole role, Integer emailId){
+    public static MmoEmailBean getEmailMessage(MmoSimpleRole role, Integer emailId) throws RpgServerException {
         MmoEmailBean mmoEmailBean=role.getToMmoEmailBeanConcurrentHashMap().get(emailId);
-        mmoEmailBean.setChecked(true);
-        if (mmoEmailBean!=null&&mmoEmailBean.getToDelete()){
+        if(mmoEmailBean==null){
+            mmoEmailBean=role.getFromMmoEmailBeanConcurrentHashMap().get(emailId);
+        }
+        if(mmoEmailBean==null) {
+            throw new RpgServerException(StateCode.FAIL, "没有该邮件");
+        }
+        if (role.getId().equals(mmoEmailBean.getToRoleId())) {
+            mmoEmailBean.setChecked(true);
+        }
+        if (mmoEmailBean.getToDelete()){
             return null;
         }
         return mmoEmailBean;

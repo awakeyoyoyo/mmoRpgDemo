@@ -33,6 +33,19 @@ public class MmoEmailBean {
 
     private Boolean intoDataBase;
 
+    /**
+     * 是否已经被收取物品
+     */
+    private Boolean isGet=false;
+
+    public Boolean getGet() {
+        return isGet;
+    }
+
+    public void setGet(Boolean get) {
+        isGet = get;
+    }
+
     public Integer getArticleMessageId() {
         return articleMessageId;
     }

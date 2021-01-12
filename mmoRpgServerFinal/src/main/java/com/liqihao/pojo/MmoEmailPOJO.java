@@ -25,6 +25,8 @@ public class MmoEmailPOJO {
 
     private Boolean toDelete;
 
+    private Boolean isGet;
+
     public Integer getId() {
         return id;
     }
@@ -119,5 +121,13 @@ public class MmoEmailPOJO {
 
     public void setToDelete(Boolean toDelete) {
         this.toDelete = toDelete;
+    }
+
+    public Boolean getIsGet() {
+        return isGet;
+    }
+
+    public void setIsGet(Boolean isGet) {
+        this.isGet = isGet;
     }
 }

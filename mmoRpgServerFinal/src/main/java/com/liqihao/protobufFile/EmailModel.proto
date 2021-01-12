@@ -94,6 +94,7 @@ message EmailDto{
   bool hasArticle=9;
   sint64 createTime=10;
   bool checked=11;
+  bool isGet=12;
 }
 
 message EmailSimpleDto{

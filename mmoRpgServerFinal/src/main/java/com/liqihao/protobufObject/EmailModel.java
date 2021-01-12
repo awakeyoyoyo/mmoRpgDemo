@@ -11762,6 +11762,12 @@ public final class EmailModel {
      * @return The checked.
      */
     boolean getChecked();
+
+    /**
+     * <code>bool isGet = 12;</code>
+     * @return The isGet.
+     */
+    boolean getIsGet();
   }
   /**
    * Protobuf type {@code EmailDto}
@@ -11865,6 +11871,11 @@ public final class EmailModel {
             case 88: {
 
               checked_ = input.readBool();
+              break;
+            }
+            case 96: {
+
+              isGet_ = input.readBool();
               break;
             }
             default: {
@@ -12074,6 +12085,17 @@ public final class EmailModel {
       return checked_;
     }
 
+    public static final int ISGET_FIELD_NUMBER = 12;
+    private boolean isGet_;
+    /**
+     * <code>bool isGet = 12;</code>
+     * @return The isGet.
+     */
+    @Override
+    public boolean getIsGet() {
+      return isGet_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -12120,6 +12142,9 @@ public final class EmailModel {
       }
       if (checked_ != false) {
         output.writeBool(11, checked_);
+      }
+      if (isGet_ != false) {
+        output.writeBool(12, isGet_);
       }
       unknownFields.writeTo(output);
     }
@@ -12172,6 +12197,10 @@ public final class EmailModel {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(11, checked_);
       }
+      if (isGet_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(12, isGet_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -12209,6 +12238,8 @@ public final class EmailModel {
           != other.getCreateTime()) return false;
       if (getChecked()
           != other.getChecked()) return false;
+      if (getIsGet()
+          != other.getIsGet()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -12245,6 +12276,9 @@ public final class EmailModel {
       hash = (37 * hash) + CHECKED_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getChecked());
+      hash = (37 * hash) + ISGET_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getIsGet());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -12400,6 +12434,8 @@ public final class EmailModel {
 
         checked_ = false;
 
+        isGet_ = false;
+
         return this;
       }
 
@@ -12437,6 +12473,7 @@ public final class EmailModel {
         result.hasArticle_ = hasArticle_;
         result.createTime_ = createTime_;
         result.checked_ = checked_;
+        result.isGet_ = isGet_;
         onBuilt();
         return result;
       }
@@ -12519,6 +12556,9 @@ public final class EmailModel {
         }
         if (other.getChecked() != false) {
           setChecked(other.getChecked());
+        }
+        if (other.getIsGet() != false) {
+          setIsGet(other.getIsGet());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -12976,6 +13016,37 @@ public final class EmailModel {
       public Builder clearChecked() {
         
         checked_ = false;
+        onChanged();
+        return this;
+      }
+
+      private boolean isGet_ ;
+      /**
+       * <code>bool isGet = 12;</code>
+       * @return The isGet.
+       */
+      @Override
+      public boolean getIsGet() {
+        return isGet_;
+      }
+      /**
+       * <code>bool isGet = 12;</code>
+       * @param value The isGet to set.
+       * @return This builder for chaining.
+       */
+      public Builder setIsGet(boolean value) {
+        
+        isGet_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool isGet = 12;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearIsGet() {
+        
+        isGet_ = false;
         onChanged();
         return this;
       }
@@ -14316,16 +14387,17 @@ public final class EmailModel {
       "se\022(\n\017emailSimpleDtos\030\001 \003(\0132\017.EmailSimpl" +
       "eDto\"\033\n\031DeleteAcceptEmailResponse\"\023\n\021Sen" +
       "dEmailResponse\"\031\n\027DeleteSendEmailRespons" +
-      "e\"\330\001\n\010EmailDto\022\n\n\002id\030\001 \001(\005\022\r\n\005title\030\002 \001(" +
+      "e\"\347\001\n\010EmailDto\022\n\n\002id\030\001 \001(\005\022\r\n\005title\030\002 \001(" +
       "\t\022\017\n\007context\030\003 \001(\t\022\022\n\nfromRoleId\030\004 \001(\005\022\020" +
       "\n\010toRoleId\030\005 \001(\005\022\023\n\013articleType\030\006 \001(\005\022\030\n" +
       "\020articleMessageId\030\007 \001(\005\022\022\n\narticleNum\030\010 " +
       "\001(\005\022\022\n\nhasArticle\030\t \001(\010\022\022\n\ncreateTime\030\n " +
-      "\001(\022\022\017\n\007checked\030\013 \001(\010\"\233\001\n\016EmailSimpleDto\022" +
-      "\n\n\002id\030\001 \001(\005\022\r\n\005title\030\002 \001(\t\022\017\n\007context\030\003 " +
-      "\001(\t\022\022\n\nfromRoleId\030\004 \001(\005\022\020\n\010toRoleId\030\005 \001(" +
-      "\005\022\022\n\nhasArticle\030\006 \001(\010\022\022\n\ncreateTime\030\007 \001(" +
-      "\022\022\017\n\007checked\030\010 \001(\010B\014B\nEmailModelb\006proto3"
+      "\001(\022\022\017\n\007checked\030\013 \001(\010\022\r\n\005isGet\030\014 \001(\010\"\233\001\n\016" +
+      "EmailSimpleDto\022\n\n\002id\030\001 \001(\005\022\r\n\005title\030\002 \001(" +
+      "\t\022\017\n\007context\030\003 \001(\t\022\022\n\nfromRoleId\030\004 \001(\005\022\020" +
+      "\n\010toRoleId\030\005 \001(\005\022\022\n\nhasArticle\030\006 \001(\010\022\022\n\n" +
+      "createTime\030\007 \001(\022\022\017\n\007checked\030\010 \001(\010B\014B\nEma" +
+      "ilModelb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -14426,7 +14498,7 @@ public final class EmailModel {
     internal_static_EmailDto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_EmailDto_descriptor,
-        new String[] { "Id", "Title", "Context", "FromRoleId", "ToRoleId", "ArticleType", "ArticleMessageId", "ArticleNum", "HasArticle", "CreateTime", "Checked", });
+        new String[] { "Id", "Title", "Context", "FromRoleId", "ToRoleId", "ArticleType", "ArticleMessageId", "ArticleNum", "HasArticle", "CreateTime", "Checked", "IsGet", });
     internal_static_EmailSimpleDto_descriptor =
       getDescriptor().getMessageTypes().get(16);
     internal_static_EmailSimpleDto_fieldAccessorTable = new

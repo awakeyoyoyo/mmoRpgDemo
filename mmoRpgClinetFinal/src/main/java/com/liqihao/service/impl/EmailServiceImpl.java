@@ -25,6 +25,7 @@ public class EmailServiceImpl implements EmailService {
         System.out.println("[-]邮件id："+ emailDto.getId()+" 邮件标题："+emailDto.getTitle());
         System.out.println("[-]邮件内容："+ emailDto.getContext());
         if (emailDto.getHasArticle()) {
+            System.out.println("[-]是否已经签收："+emailDto.getIsGet());
             System.out.println("[-]附带的道具id：" + emailDto.getArticleMessageId());
             System.out.println("[-]附带的道具类型：" + ArticleTypeCode.getValue(emailDto.getArticleType()));
             System.out.println("[-]附带的道具数量：" + emailDto.getArticleNum());

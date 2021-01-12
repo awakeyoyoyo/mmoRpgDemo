@@ -114,6 +114,7 @@ public class CommonsUtil implements ApplicationContextAware {
         mmoEmailBean.setFromDelete(m.getFromDelete());
         mmoEmailBean.setChecked(m.getChecked());
         mmoEmailBean.setToRoleId(m.getToRoleId());
+        mmoEmailBean.setGet(m.getIsGet());
         return mmoEmailBean;
     }
 
@@ -122,7 +123,7 @@ public class CommonsUtil implements ApplicationContextAware {
                 .setArticleMessageId(mmoEmailBean.getArticleMessageId()).setArticleNum(mmoEmailBean.getArticleNum()).setArticleType(mmoEmailBean.getArticleType())
                 .setChecked(mmoEmailBean.getChecked()).setContext(mmoEmailBean.getContext()).setCreateTime(mmoEmailBean.getCreateTime())
                 .setId(mmoEmailBean.getId()).setFromRoleId(mmoEmailBean.getFromRoleId()).setToRoleId(mmoEmailBean.getToRoleId())
-                .setTitle(mmoEmailBean.getTitle()).setHasArticle(mmoEmailBean.getHasArticle()).build();
+                .setTitle(mmoEmailBean.getTitle()).setIsGet(mmoEmailBean.getGet()).setHasArticle(mmoEmailBean.getHasArticle()).build();
         return emailDto;
     }
 
@@ -169,6 +170,7 @@ public class CommonsUtil implements ApplicationContextAware {
         mmoEmailPOJO.setCreateTime(emailBean.getCreateTime());
         mmoEmailPOJO.setChecked(emailBean.getChecked());
         mmoEmailPOJO.setContext(emailBean.getContext());
+        mmoEmailPOJO.setIsGet(emailBean.getGet());
         //删除双方都是删除状态的
         if (mmoEmailPOJO.getFromDelete()==true&&mmoEmailPOJO.getToDelete()==true){
             //id小于初始化的id 则代表是旧数据 删除
@@ -179,7 +181,12 @@ public class CommonsUtil implements ApplicationContextAware {
             if (mmoEmailPOJO.getId()<=EmailServiceProvider.getId()) {
                 mmoEmailPOJOMapper.updateByPrimaryKeySelective(mmoEmailPOJO);
             }else {
-                mmoEmailPOJOMapper.insert(mmoEmailPOJO);
+                MmoEmailPOJO mmoEmail=mmoEmailPOJOMapper.selectByPrimaryKey(mmoEmailPOJO.getId());
+                if (mmoEmail==null) {
+                    mmoEmailPOJOMapper.insert(mmoEmailPOJO);
+                }else{
+                    mmoEmailPOJOMapper.updateByPrimaryKeySelective(mmoEmailPOJO);
+                }
             }
         }
     }

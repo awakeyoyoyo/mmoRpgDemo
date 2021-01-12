@@ -65,9 +65,15 @@ public class EmailServiceImpl implements EmailService {
         if (!mmoEmailBean.getHasArticle()){
             throw new RpgServerException(StateCode.FAIL,"该邮件没有物品");
         }
+        //判断邮件是否有物品
+        if (mmoEmailBean.getGet()){
+            throw new RpgServerException(StateCode.FAIL,"已经获取过该物品");
+        }
+        if (!mmoEmailBean.getToRoleId().equals(mmoSimpleRole.getId())){
+            throw new RpgServerException(StateCode.FAIL,"这道具不是给你的");
+        }
         //根据邮件实体类信息初始化物品
         if (mmoEmailBean.getArticleType().equals(ArticleTypeCode.MEDICINE.getCode())){
-            BackPackManager backPackManager=mmoSimpleRole.getBackpackManager();
             MedicineMessage medicineMessage= MediceneMessageCache.getInstance().get(mmoEmailBean.getArticleMessageId());
             MedicineBean medicineBean=CommonsUtil.medicineMessageToMedicineBean(medicineMessage);
             medicineBean.setQuantity(mmoEmailBean.getArticleNum());
@@ -79,10 +85,8 @@ public class EmailServiceImpl implements EmailService {
                 mmoSimpleRole.getBackpackManager().put(medicineBean);
             }
             //邮件设置为没有物品
-            mmoEmailBean.setArticleMessageId(-1);
-            mmoEmailBean.setArticleType(-1);
-            mmoEmailBean.setHasArticle(false);
-            mmoEmailBean.setArticleNum(-1);
+            mmoEmailBean.setHasArticle(true);
+            mmoEmailBean.setGet(true);
         }
         EmailModel.EmailModelMessage messageData=EmailModel.EmailModelMessage.newBuilder()
                 .setDataType(EmailModel.EmailModelMessage.DateType.GetEmailArticleResponse)

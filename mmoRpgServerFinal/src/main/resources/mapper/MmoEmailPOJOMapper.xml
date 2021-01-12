@@ -14,10 +14,11 @@
     <result column="checked" jdbcType="BIT" property="checked" />
     <result column="from_delete" jdbcType="BIT" property="fromDelete" />
     <result column="to_delete" jdbcType="BIT" property="toDelete" />
+    <result column="is_get" jdbcType="BIT" property="isGet" />
   </resultMap>
   <sql id="Base_Column_List">
     id, title, context, from_role_id, to_role_id, article_type, article_message_id, article_num, 
-    create_time, checked, from_delete, to_delete
+    create_time, checked, from_delete, to_delete, is_get
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -33,11 +34,13 @@
     insert into mmo_email (id, title, context, 
       from_role_id, to_role_id, article_type, 
       article_message_id, article_num, create_time, 
-      checked, from_delete, to_delete)
+      checked, from_delete, to_delete, 
+      is_get)
     values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{context,jdbcType=VARCHAR}, 
       #{fromRoleId,jdbcType=INTEGER}, #{toRoleId,jdbcType=INTEGER}, #{articleType,jdbcType=INTEGER}, 
       #{articleMessageId,jdbcType=INTEGER}, #{articleNum,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT}, 
-      #{checked,jdbcType=BIT}, #{fromDelete,jdbcType=BIT}, #{toDelete,jdbcType=BIT})
+      #{checked,jdbcType=BIT}, #{fromDelete,jdbcType=BIT}, #{toDelete,jdbcType=BIT}, 
+      #{isGet,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.liqihao.pojo.MmoEmailPOJO">
     insert into mmo_email
@@ -78,6 +81,9 @@
       <if test="toDelete != null">
         to_delete,
       </if>
+      <if test="isGet != null">
+        is_get,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -115,6 +121,9 @@
       </if>
       <if test="toDelete != null">
         #{toDelete,jdbcType=BIT},
+      </if>
+      <if test="isGet != null">
+        #{isGet,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -154,6 +163,9 @@
       <if test="toDelete != null">
         to_delete = #{toDelete,jdbcType=BIT},
       </if>
+      <if test="isGet != null">
+        is_get = #{isGet,jdbcType=BIT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -169,9 +181,11 @@
       create_time = #{createTime,jdbcType=BIGINT},
       checked = #{checked,jdbcType=BIT},
       from_delete = #{fromDelete,jdbcType=BIT},
-      to_delete = #{toDelete,jdbcType=BIT}
+      to_delete = #{toDelete,jdbcType=BIT},
+      is_get = #{isGet,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
   <select id="selectByToRoleId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
