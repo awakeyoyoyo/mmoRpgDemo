@@ -35,7 +35,7 @@ public class GameSystemServiceImpl implements com.liqihao.service.GameSystemServ
             MmoSimpleRole mmoSimpleRole=OnlineRoleMessageCache.getInstance().get(roleId);
             CommonsUtil.equipmentIntoDataBase(mmoSimpleRole);
             CommonsUtil.bagIntoDataBase(mmoSimpleRole.getBackpackManager(),roleId);
-            CommonsUtil.RoleInfoIntoDataBase(role);
+            CommonsUtil.roleInfoIntoDataBase(role);
             // 直接获取即可 父类
             MmoSimpleRole mmoRole= OnlineRoleMessageCache.getInstance().get(roleId);
             MmoRolePOJO mmoRolePOJO=new MmoRolePOJO();

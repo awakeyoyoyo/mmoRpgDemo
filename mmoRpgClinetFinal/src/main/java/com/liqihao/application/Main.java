@@ -29,6 +29,9 @@ public class Main {
     private static String baseDetailMessage_file = "classpath:message/baseDetailMessage.xlsx";
     private static String goodsMessage_file = "classpath:message/goodsMessage.xlsx";
     private static String professionMessage_file = "classpath:message/professionMessage.xlsx";
+    private static String guildAuthorityMessage_file = "classpath:message/guildAuthorityMessage.xlsx";
+    private static String guildBaseMessage_file = "classpath:message/guildBaseMessage.xlsx";
+    private static String guildPositionMessage_file = "classpath:message/guildPositionMessage.xlsx";
     public static void main(String[] args) throws Exception {
         //查询类路径 加载配置文件
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring.xml");
@@ -96,7 +99,24 @@ public class Main {
         MmoCacheCilent.getInstance().setSkillMessageConcurrentHashMap(skillMessageConcurrentHashMap);
         BaseDetailMessage baseDetailMessage=ExcelReaderUtil.readExcelFromFileName(baseDetailMessage_file,BaseDetailMessage.class).get(0);
         MmoCacheCilent.getInstance().setBaseDetailMessage(baseDetailMessage);
-        nettyTcpServer.run();
 
+        ConcurrentHashMap<Integer, GuildPositionMessage> guildPositionMessageConcurrentHashMap=new ConcurrentHashMap<>();
+        List<GuildPositionMessage> guildPositionMessages=ExcelReaderUtil.readExcelFromFileName(guildPositionMessage_file,GuildPositionMessage.class);
+        for (GuildPositionMessage guildPositionMessage:guildPositionMessages) {
+            guildPositionMessageConcurrentHashMap.put(guildPositionMessage.getId(),guildPositionMessage);
+        }
+        MmoCacheCilent.getInstance().setGuildPositionMessageConcurrentHashMap(guildPositionMessageConcurrentHashMap);
+
+        ConcurrentHashMap<Integer, GuildAuthorityMessage> guildAuthorityMessageConcurrentHashMap=new ConcurrentHashMap<>();
+        List<GuildAuthorityMessage> guildAuthorityMessages=ExcelReaderUtil.readExcelFromFileName(guildPositionMessage_file,GuildAuthorityMessage.class);
+        for (GuildAuthorityMessage guildAuthorityMessage:guildAuthorityMessages) {
+            guildAuthorityMessageConcurrentHashMap.put(guildAuthorityMessage.getId(),guildAuthorityMessage);
+        }
+        MmoCacheCilent.getInstance().setGuildAuthorityMessageConcurrentHashMap(guildAuthorityMessageConcurrentHashMap);
+
+        GuildBaseMessage guildBaseMessage=ExcelReaderUtil.readExcelFromFileName(guildBaseMessage_file,GuildBaseMessage.class).get(0);
+        MmoCacheCilent.getInstance().setGuildBaseMessage(guildBaseMessage);
+
+        nettyTcpServer.run();
     }
 }

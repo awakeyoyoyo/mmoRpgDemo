@@ -14,7 +14,9 @@ import com.liqihao.pojo.bean.*;
 import com.liqihao.pojo.bean.articleBean.EquipmentBean;
 import com.liqihao.pojo.bean.articleBean.MedicineBean;
 import com.liqihao.pojo.bean.bufferBean.BaseBufferBean;
+import com.liqihao.pojo.bean.guildBean.GuildApplyBean;
 import com.liqihao.pojo.bean.guildBean.GuildBean;
+import com.liqihao.pojo.bean.guildBean.GuildRoleBean;
 import com.liqihao.pojo.bean.guildBean.WareHouseManager;
 import com.liqihao.pojo.bean.roleBean.BossBean;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleNPC;
@@ -24,9 +26,11 @@ import com.liqihao.pojo.dto.ArticleDto;
 import com.liqihao.pojo.dto.EquipmentDto;
 import com.liqihao.protobufObject.CopySceneModel;
 import com.liqihao.protobufObject.EmailModel;
+import com.liqihao.protobufObject.GuildModel;
 import com.liqihao.protobufObject.SceneModel;
 import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.provider.EmailServiceProvider;
+import com.liqihao.provider.GuildServiceProvider;
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
 import org.springframework.beans.BeansException;
@@ -47,14 +51,73 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 @Component
 public class CommonsUtil implements ApplicationContextAware {
-
-
     private static ApplicationContext applicationContext;
     private static MmoBagPOJOMapper mmoBagPOJOMapper;
     private static MmoEquipmentPOJOMapper mmoEquipmentPOJOMapper;
     private static MmoEquipmentBagPOJOMapper equipmentBagPOJOMapper;
     private static MmoRolePOJOMapper mmoRolePOJOMapper;
     private static MmoEmailPOJOMapper mmoEmailPOJOMapper;
+    private static MmoGuildApplyPOJOMapper mmoGuildApplyPOJOMapper;
+    private static MmoGuildRolePOJOMapper mmoGuildRolePOJOMapper;
+    public static GuildBean MmoGuildPOJOToGuildBean(MmoGuildPOJO mmoGuildPOJO) {
+        GuildBean guildBean=new GuildBean();
+        guildBean.setId(mmoGuildPOJO.getId());
+        guildBean.setName(mmoGuildPOJO.getName());
+        guildBean.setLevel(mmoGuildPOJO.getLevel());
+        guildBean.setPeopleNum(mmoGuildPOJO.getPeopleNum());
+        guildBean.setCreateTime(mmoGuildPOJO.getCreateTime());
+        guildBean.setChairmanId(mmoGuildPOJO.getChairmanId());
+        List<MmoGuildApplyPOJO> guildApplyPOJOS=mmoGuildApplyPOJOMapper.selectByGuildId(guildBean.getId());
+        List<GuildApplyBean> guildApplyBeans=new ArrayList<>();
+        for (MmoGuildApplyPOJO guildApplyPOJO:guildApplyPOJOS) {
+            GuildApplyBean guildApplyBean=CommonsUtil.guildApplyPOJOToGuildApplyBean(guildApplyPOJO);
+            guildApplyBeans.add(guildApplyBean);
+        }
+        guildBean.getGuildApplyBeans().addAll(guildApplyBeans);
+        List<MmoGuildRolePOJO> guildRolePOJOS=mmoGuildRolePOJOMapper.selectByGuildId(guildBean.getId());
+        List<GuildRoleBean> guildRoleBeans=new ArrayList<>();
+        for (MmoGuildRolePOJO guildRolePOJO:guildRolePOJOS) {
+            GuildRoleBean guildRoleBean=CommonsUtil.guildRolePOJOToGuildRoleBean(guildRolePOJO);
+            guildRoleBeans.add(guildRoleBean);
+        }
+        guildBean.getGuildRoleBeans().addAll(guildRoleBeans);
+        // todo 公会仓库
+        guildBean.setWareHouseManager(new WareHouseManager());
+        return guildBean;
+    }
+
+    private static GuildRoleBean guildRolePOJOToGuildRoleBean(MmoGuildRolePOJO guildRolePOJO) {
+        GuildRoleBean guildRoleBean=new GuildRoleBean();
+        guildRoleBean.setId(guildRolePOJO.getId());
+        guildRoleBean.setContribution(guildRolePOJO.getContribution());
+        guildRoleBean.setGuildPositionId(guildRolePOJO.getGuildPositionId());
+        guildRoleBean.setGuildId(guildRolePOJO.getGuildId());
+        guildRoleBean.setRoleId(guildRolePOJO.getRoleId());
+        return guildRoleBean;
+    }
+
+    private static GuildApplyBean guildApplyPOJOToGuildApplyBean(MmoGuildApplyPOJO guildApplyPOJO) {
+        GuildApplyBean guildApplyBean=new GuildApplyBean();
+        guildApplyBean.setId(guildApplyPOJO.getId());
+        guildApplyBean.setGuildId(guildApplyPOJO.getGuildId());
+        guildApplyBean.setCreateTime(guildApplyPOJO.getCreateTime());
+        guildApplyBean.setEndTime(guildApplyPOJO.getEndTime());
+        guildApplyBean.setRoleId(guildApplyPOJO.getRoleId());
+        return guildApplyBean;
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext context) throws BeansException {
+        applicationContext = context;
+        mmoBagPOJOMapper=(MmoBagPOJOMapper)context.getBean("mmoBagPOJOMapper");
+        mmoEquipmentPOJOMapper=(MmoEquipmentPOJOMapper)context.getBean("mmoEquipmentPOJOMapper");
+        equipmentBagPOJOMapper=(MmoEquipmentBagPOJOMapper)context.getBean("mmoEquipmentBagPOJOMapper");
+        mmoRolePOJOMapper=(MmoRolePOJOMapper)context.getBean("mmoRolePOJOMapper");
+        mmoEmailPOJOMapper=(MmoEmailPOJOMapper)context.getBean("mmoEmailPOJOMapper");
+        mmoGuildApplyPOJOMapper=(MmoGuildApplyPOJOMapper) context.getBean("mmoGuildApplyPOJOMapper");;
+        mmoGuildRolePOJOMapper=(MmoGuildRolePOJOMapper) context.getBean("mmoGuildRolePOJOMapper");;
+    }
+
     public static CopySceneModel.BossBeanDto bossBeanToBossBeanDto(BossBean boss) {
         CopySceneModel.BossBeanDto.Builder bossDtoBuilder=CopySceneModel.BossBeanDto.newBuilder();
         bossDtoBuilder.setId(boss.getId());
@@ -153,19 +216,22 @@ public class CommonsUtil implements ApplicationContextAware {
         guildBean.setChairmanId(mmoGuildPOJO.getChairmanId());
         guildBean.setWareHouseManager(new WareHouseManager());
         guildBean.setCreateTime(mmoGuildPOJO.getCreateTime());
+        guildBean.setName(mmoGuildPOJO.getName());
         return guildBean;
     }
 
-
-    @Override
-    public void setApplicationContext(ApplicationContext context) throws BeansException {
-        applicationContext = context;
-        mmoBagPOJOMapper=(MmoBagPOJOMapper)context.getBean("mmoBagPOJOMapper");
-        mmoEquipmentPOJOMapper=(MmoEquipmentPOJOMapper)context.getBean("mmoEquipmentPOJOMapper");
-        equipmentBagPOJOMapper=(MmoEquipmentBagPOJOMapper)context.getBean("mmoEquipmentBagPOJOMapper");
-        mmoRolePOJOMapper=(MmoRolePOJOMapper)context.getBean("mmoRolePOJOMapper");
-        mmoEmailPOJOMapper=(MmoEmailPOJOMapper)context.getBean("mmoEmailPOJOMapper");
+    public static GuildModel.GuildApplyDto guildApplyBeanToGuildApplyDto(GuildApplyBean guildApplyBean) {
+        GuildModel.GuildApplyDto.Builder guildApplyDtoBuilder=GuildModel.GuildApplyDto.newBuilder();
+        GuildBean guildBean= GuildServiceProvider.getInstance().getGuildBeanById(guildApplyBean.getGuildId());
+        MmoRolePOJO mmoRolePOJO=RoleMessageCache.getInstance().get(guildApplyBean.getRoleId());
+        guildApplyDtoBuilder.setGuildId(guildApplyBean.getGuildId()).setGuildName(guildBean.getName())
+                .setId(guildApplyBean.getId()).setRoleId(guildApplyBean.getRoleId()).setRoleName(mmoRolePOJO.getName())
+                .setEndTime(guildApplyBean.getEndTime()).setCreateTime(guildApplyBean.getCreateTime());
+        return guildApplyDtoBuilder.build();
     }
+
+
+
     /**
      * 邮件信息入库
      */
@@ -258,7 +324,7 @@ public class CommonsUtil implements ApplicationContextAware {
     /**
      * 人物信息入库
      */
-    public static  void RoleInfoIntoDataBase(MmoSimpleRole mmoSimpleRole){
+    public static  void roleInfoIntoDataBase(MmoSimpleRole mmoSimpleRole){
         MmoRolePOJO mmoRolePOJO=new MmoRolePOJO();
         mmoRolePOJO.setId(mmoSimpleRole.getId());
         mmoRolePOJO.setStatus(mmoSimpleRole.getStatus());
@@ -267,7 +333,12 @@ public class CommonsUtil implements ApplicationContextAware {
         mmoRolePOJO.setName(mmoSimpleRole.getName());
         mmoRolePOJO.setProfessionId(mmoSimpleRole.getProfessionId());
         mmoRolePOJO.setMoney(mmoSimpleRole.getMoney());
-//        mmoRolePOJO.setSkillIds(CommonsUtil.listToString(mmoSimpleRole.getSkillIdList()));
+        if(mmoSimpleRole.getGuildBean()!=null) {
+            mmoRolePOJO.setGuildId(mmoSimpleRole.getGuildBean().getId());
+        }else {
+            mmoRolePOJO.setGuildId(-1);
+        }
+//        mmoRolePOJO.setSkillIds(CommonsUtil.listToString(mmoSimpleRole.getSkillIdList()))
         mmoRolePOJO.setType(mmoSimpleRole.getType());
         mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO);
     }

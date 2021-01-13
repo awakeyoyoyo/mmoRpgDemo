@@ -2,6 +2,8 @@ package com.liqihao.dao;
 
 import com.liqihao.pojo.MmoRolePOJO;
 
+import java.util.List;
+
 public interface MmoRolePOJOMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -18,4 +20,6 @@ public interface MmoRolePOJOMapper {
     Integer selectByRoleName(String roleName);
 
     MmoRolePOJO selectByPrimaryKeyAndOnStatus(Integer id);
+
+    List<MmoRolePOJO> selectAll();
 }

@@ -10,10 +10,7 @@ import com.liqihao.commons.enums.SkillAttackTypeCode;
 import com.liqihao.commons.enums.SkillDamageTypeCode;
 import com.liqihao.commons.enums.SkillTypeCode;
 import com.liqihao.pojo.MmoRole;
-import com.liqihao.pojo.baseMessage.CopySceneMessage;
-import com.liqihao.pojo.baseMessage.GoodsMessage;
-import com.liqihao.pojo.baseMessage.SceneMessage;
-import com.liqihao.pojo.baseMessage.SkillMessage;
+import com.liqihao.pojo.baseMessage.*;
 import com.liqihao.protobufObject.*;
 import com.liqihao.utils.CommonsUtil;
 import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
@@ -218,9 +215,151 @@ public class GameStart {
                     case ConstantValue.SORT_BACKPACK_REQUEST:
                         sortBackPackRequest(scanner);
                         break;
+                    case ConstantValue.CREATE_GUILD_REQUEST:
+                        createGuildRequest(scanner);
+                        break;
+                    case ConstantValue.SET_GUILD_POSITION_REQUEST:
+                        setGuildPositionRequest(scanner);
+                        break;
+                    case ConstantValue.JOIN_GUILD_REQUEST:
+                        joinGuildRequest(scanner);
+                        break;
+                    case ConstantValue.OUT_GUILD_REQUEST:
+                        outGuildRequest(scanner);
+                        break;
+                    case ConstantValue.AGREE_GUILD_APPLY_REQUEST:
+                        agreeGuildApplyRequest(scanner);
+                        break;
+                    case ConstantValue.REFUSE_GUILD_APPLY_REQUEST:
+                        refuseGuildApplyRequest(scanner);
+                        break;
+                    case ConstantValue.GET_GUILD_APPLY_LIST_REQUEST:
+                        getGuildApplyListRequest(scanner);
+                        break;
+                    case ConstantValue.GET_GUILD_MESSAGE_REQUEST:
+                        getGuildMessageRequest(scanner);
+                        break;
                     default:
                         System.out.println("GameStart-handler:收到错误cmd");
                 }
+    }
+
+    private void getGuildMessageRequest(Scanner scanner) {
+        System.out.println("请输入你要查看的公会的id：");
+        Integer guildBeanId=scanner.nextInt();
+        scanner.nextLine();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.GET_GUILD_MESSAGE_REQUEST);
+        GuildModel.GuildModelMessage myMessage;
+        myMessage=GuildModel.GuildModelMessage.newBuilder()
+                .setDataType(GuildModel.GuildModelMessage.DateType.GetGuildBeanRequest)
+                .setGetGuildBeanRequest(GuildModel.GetGuildBeanRequest.newBuilder().setGuildBeanId(guildBeanId).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void getGuildApplyListRequest(Scanner scanner) {
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.GET_GUILD_APPLY_LIST_REQUEST);
+        GuildModel.GuildModelMessage myMessage;
+        myMessage=GuildModel.GuildModelMessage.newBuilder()
+                .setDataType(GuildModel.GuildModelMessage.DateType.GetGuildApplyListRequest)
+                .setGetGuildApplyListRequest(GuildModel.GetGuildApplyListRequest.newBuilder().build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void refuseGuildApplyRequest(Scanner scanner) {
+        System.out.println("请输入你要删除的公会申请的id：");
+        Integer guildApplyId=scanner.nextInt();
+        scanner.nextLine();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.REFUSE_GUILD_APPLY_REQUEST);
+        GuildModel.GuildModelMessage myMessage;
+        myMessage=GuildModel.GuildModelMessage.newBuilder()
+                .setDataType(GuildModel.GuildModelMessage.DateType.RefuseGuildApplyRequest)
+                .setRefuseGuildApplyRequest(GuildModel.RefuseGuildApplyRequest.newBuilder().setGuildApplyId(guildApplyId).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void agreeGuildApplyRequest(Scanner scanner) {
+        System.out.println("请输入你要同意的公会申请的id：");
+        Integer guildApplyId=scanner.nextInt();
+        scanner.nextLine();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.AGREE_GUILD_APPLY_REQUEST);
+        GuildModel.GuildModelMessage myMessage;
+        myMessage=GuildModel.GuildModelMessage.newBuilder()
+                .setDataType(GuildModel.GuildModelMessage.DateType.AgreeGuildApplyRequest)
+                .setAgreeGuildApplyRequest(GuildModel.AgreeGuildApplyRequest.newBuilder().setGuildApplyId(guildApplyId).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void outGuildRequest(Scanner scanner) {
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.OUT_GUILD_REQUEST);
+        GuildModel.GuildModelMessage myMessage;
+        myMessage=GuildModel.GuildModelMessage.newBuilder()
+                .setDataType(GuildModel.GuildModelMessage.DateType.OutGuildRequest)
+                .setOutGuildRequest(GuildModel.OutGuildRequest.newBuilder().build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void joinGuildRequest(Scanner scanner) {
+        System.out.println("请输入你要加入的公会id：");
+        Integer guildId=scanner.nextInt();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.JOIN_GUILD_REQUEST);
+        GuildModel.GuildModelMessage myMessage;
+        myMessage=GuildModel.GuildModelMessage.newBuilder()
+                .setDataType(GuildModel.GuildModelMessage.DateType.JoinGuildRequest)
+                .setJoinGuildRequest(GuildModel.JoinGuildRequest.newBuilder().setGuildId(guildId).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void setGuildPositionRequest(Scanner scanner) {
+        System.out.println("请输入你要修改职位的玩家id：");
+        Integer roleId=scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("请选择该玩家的新职位：");
+        for (GuildPositionMessage guildPositionMessage:MmoCacheCilent.getInstance().getGuildPositionMessageConcurrentHashMap().values()) {
+            System.out.println("职位id："+guildPositionMessage.getId()+" 职位名称："+guildPositionMessage.getName());
+        }
+        Integer guildPositionId=scanner.nextInt();
+        scanner.nextLine();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.SET_GUILD_POSITION_REQUEST);
+        GuildModel.GuildModelMessage myMessage;
+        myMessage=GuildModel.GuildModelMessage.newBuilder()
+                .setDataType(GuildModel.GuildModelMessage.DateType.SetGuildRequest)
+                .setSetGuildRequest(GuildModel.SetGuildRequest.newBuilder().setRoleId(roleId).setGuildPosition(guildPositionId).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void createGuildRequest(Scanner scanner) {
+        System.out.println("请输入你要创建的公会名称：");
+        String name=scanner.nextLine();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.CREATE_GUILD_REQUEST);
+        GuildModel.GuildModelMessage myMessage;
+        myMessage=GuildModel.GuildModelMessage.newBuilder()
+                .setDataType(GuildModel.GuildModelMessage.DateType.CreateGuildRequest)
+                .setCreateGuildRequest(GuildModel.CreateGuildRequest.newBuilder().setName(name).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
     }
 
     private void sortBackPackRequest(Scanner scanner) {

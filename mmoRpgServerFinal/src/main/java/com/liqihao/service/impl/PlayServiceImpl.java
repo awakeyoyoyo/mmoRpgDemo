@@ -11,6 +11,7 @@ import com.liqihao.pojo.baseMessage.*;
 import com.liqihao.pojo.bean.*;
 import com.liqihao.pojo.bean.articleBean.EquipmentBean;
 import com.liqihao.pojo.bean.articleBean.MedicineBean;
+import com.liqihao.pojo.bean.guildBean.GuildBean;
 import com.liqihao.pojo.bean.roleBean.MmoHelperBean;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleNPC;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
@@ -18,6 +19,7 @@ import com.liqihao.pojo.bean.roleBean.Role;
 import com.liqihao.pojo.bean.teamBean.TeamBean;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.provider.CopySceneProvider;
+import com.liqihao.provider.GuildServiceProvider;
 import com.liqihao.provider.TeamServiceProvider;
 import com.liqihao.service.PlayService;
 import com.liqihao.util.CommonsUtil;
@@ -80,13 +82,17 @@ public class PlayServiceImpl implements PlayService {
         mmoRolePOJO.setStatus(RoleStatusCode.ALIVE.getCode());
         mmoRolePOJO.setOnStatus(RoleOnStatusCode.EXIT.getCode());
         mmoRolePOJO.setType(RoleTypeCode.PLAYER.getCode());
+        //职业
+        mmoRolePOJO.setProfessionId(1);
+        mmoRolePOJO.setGuildId(-1);
         mmoRolePOJOMapper.insert(mmoRolePOJO);
+        //角色表也新增该用户
+        RoleMessageCache.getInstance().put(mmoRolePOJO.getId(),mmoRolePOJO);
         MmoUserPOJO mmoUserPOJO = new MmoUserPOJO();
         mmoUserPOJO.setUserRoleId(mmoRolePOJO.getId().toString());
         mmoUserPOJO.setUserName(username);
         mmoUserPOJO.setUserPwd(password);
         mmoUserPOJOMapper.insert(mmoUserPOJO);
-
         //返回成功的数据包
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.REGISTER_RESPONSE);
@@ -173,6 +179,11 @@ public class PlayServiceImpl implements PlayService {
             //修改人物属性
             simpleRole.setAttack(simpleRole.getAttack() + message.getAttackAdd());
             simpleRole.setDamageAdd(simpleRole.getDamageAdd() + message.getDamageAdd());
+        }
+        //初始化公会信息
+        if (role.getGuildId()!=-1){
+            GuildBean guildBean=GuildServiceProvider.getInstance().getGuildBeanById(role.getGuildId());
+            simpleRole.setGuildBean(guildBean);
         }
         OnlineRoleMessageCache.getInstance().put(role.getId(), simpleRole);
         //数据库中人物状态
@@ -278,7 +289,7 @@ public class PlayServiceImpl implements PlayService {
         //保存背包信息入数据库
         CommonsUtil.bagIntoDataBase(role.getBackpackManager(), role.getId());
         CommonsUtil.equipmentIntoDataBase(role);
-        CommonsUtil.RoleInfoIntoDataBase(role);
+        CommonsUtil.roleInfoIntoDataBase(role);
         for (MmoEmailBean m : role.getFromMmoEmailBeanConcurrentHashMap().values()) {
             CommonsUtil.mmoEmailPOJOIntoDataBase(m);
         }

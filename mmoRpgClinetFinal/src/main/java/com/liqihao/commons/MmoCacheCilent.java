@@ -12,6 +12,14 @@ public class MmoCacheCilent {
     private  Integer nowSceneId;
     private MmoRole nowRole;
     private HashMap<Integer,MmoRole> roleHashMap;
+    /**
+     * 公会信息
+     */
+    private ConcurrentHashMap<Integer, GuildPositionMessage>  guildPositionMessageConcurrentHashMap;
+    private GuildBaseMessage guildBaseMessage;
+    private ConcurrentHashMap<Integer, GuildAuthorityMessage> guildAuthorityMessageConcurrentHashMap;
+
+
     private ConcurrentHashMap<Integer, SceneMessage> sceneMessageConcurrentHashMap;
     private ConcurrentHashMap<Integer, NPCMessage> npcMessageConcurrentHashMap;
     private ConcurrentHashMap<Integer, SkillMessage> skillMessageConcurrentHashMap;
@@ -31,6 +39,31 @@ public class MmoCacheCilent {
     private ConcurrentHashMap<Integer, ProfessionMessage> professionMessageConcurrentHashMap;
     //基础配置信息
     private BaseDetailMessage baseDetailMessage;
+
+
+    public GuildBaseMessage getGuildBaseMessage() {
+        return guildBaseMessage;
+    }
+
+    public void setGuildBaseMessage(GuildBaseMessage guildBaseMessage) {
+        this.guildBaseMessage = guildBaseMessage;
+    }
+
+    public ConcurrentHashMap<Integer, GuildPositionMessage> getGuildPositionMessageConcurrentHashMap() {
+        return guildPositionMessageConcurrentHashMap;
+    }
+
+    public void setGuildPositionMessageConcurrentHashMap(ConcurrentHashMap<Integer, GuildPositionMessage> guildPositionMessageConcurrentHashMap) {
+        this.guildPositionMessageConcurrentHashMap = guildPositionMessageConcurrentHashMap;
+    }
+
+    public ConcurrentHashMap<Integer, GuildAuthorityMessage> getGuildAuthorityMessageConcurrentHashMap() {
+        return guildAuthorityMessageConcurrentHashMap;
+    }
+
+    public void setGuildAuthorityMessageConcurrentHashMap(ConcurrentHashMap<Integer, GuildAuthorityMessage> guildAuthorityMessageConcurrentHashMap) {
+        this.guildAuthorityMessageConcurrentHashMap = guildAuthorityMessageConcurrentHashMap;
+    }
 
     public ConcurrentHashMap<Integer, ProfessionMessage> getProfessionMessageConcurrentHashMap() {
         return professionMessageConcurrentHashMap;

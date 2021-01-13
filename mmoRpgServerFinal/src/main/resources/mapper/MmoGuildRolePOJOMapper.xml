@@ -21,7 +21,7 @@
     delete from mmo_guild_role
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.liqihao.pojo.MmoGuildRolePOJO">
+  <insert id="insert" parameterType="com.liqihao.pojo.MmoGuildRolePOJO" useGeneratedKeys="true" keyProperty="id">
     insert into mmo_guild_role (id, guild_id, role_id, 
       guild_position_id, contribution)
     values (#{id,jdbcType=INTEGER}, #{guildId,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}, 
@@ -90,4 +90,10 @@
       contribution = #{contribution,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectByGuildId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from mmo_guild_role
+    where guild_id  = #{id,jdbcType=INTEGER}
+  </select>
 </mapper>

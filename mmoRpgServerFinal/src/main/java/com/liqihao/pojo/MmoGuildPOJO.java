@@ -1,42 +1,17 @@
-package com.liqihao.pojo.dto;
+package com.liqihao.pojo;
 
-import com.liqihao.pojo.bean.guildBean.GuildRoleBean;
-
-import java.util.List;
-
-/**
- * 公会信息
- * @author lqhao
- */
-public class GuildBeanDto {
-    /**
-     * 公会id
-     */
+public class MmoGuildPOJO {
     private Integer id;
-    /**
-     * 公会名称
-     */
+
     private String name;
-    /**
-     * 会长名称
-     */
+
     private Integer chairmanId;
-    /**
-     * 公会人数
-     */
+
     private Integer peopleNum;
-    /**
-     * 公会等级
-     */
+
     private Integer level;
-    /**
-     * 创建时间
-     */
-    private long createTime;
-    /**
-     * 人员id集合
-     */
-    private List<GuildRoleBean> guildRoleBeans;
+
+    private Long createTime;
 
     public Integer getId() {
         return id;
@@ -51,7 +26,7 @@ public class GuildBeanDto {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name == null ? null : name.trim();
     }
 
     public Integer getChairmanId() {
@@ -78,19 +53,11 @@ public class GuildBeanDto {
         this.level = level;
     }
 
-    public long getCreateTime() {
+    public Long getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(long createTime) {
+    public void setCreateTime(Long createTime) {
         this.createTime = createTime;
-    }
-
-    public List<GuildRoleBean> getGuildRoleBeans() {
-        return guildRoleBeans;
-    }
-
-    public void setGuildRoleBeans(List<GuildRoleBean> guildRoleBeans) {
-        this.guildRoleBeans = guildRoleBeans;
     }
 }

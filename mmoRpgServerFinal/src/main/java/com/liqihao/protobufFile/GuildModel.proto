@@ -20,6 +20,14 @@ message GuildModelMessage{
     ContributeArticleResponse=13;
     GetArticleResponse=14;
     GetMoneyResponse=15;
+    AgreeGuildApplyRequest=16;
+    RefuseGuildApplyRequest=17;
+    AgreeGuildApplyResponse=18;
+    RefuseGuildApplyResponse=19;
+    GetGuildApplyListRequest=20;
+    GetGuildBeanRequest=21;
+    GetGuildApplyListResponse=22;
+    GetGuildBeanResponse=23;
   }
   //用date_type来标识传的是哪一个枚举类型
   DateType data_type=1;
@@ -41,7 +49,54 @@ message GuildModelMessage{
     ContributeArticleResponse contributeArticleResponse=15;
     GetArticleResponse getArticleResponse=16;
     GetMoneyResponse getMoneyResponse=17;
+    AgreeGuildApplyRequest agreeGuildApplyRequest=18;
+    RefuseGuildApplyRequest refuseGuildApplyRequest=19;
+    AgreeGuildApplyResponse agreeGuildApplyResponse=20;
+    RefuseGuildApplyResponse refuseGuildApplyResponse=21;
+    GetGuildApplyListRequest getGuildApplyListRequest=22;
+    GetGuildBeanRequest getGuildBeanRequest=23;
+    GetGuildApplyListResponse getGuildApplyListResponse=24;
+    GetGuildBeanResponse getGuildBeanResponse=25;
   }
+}
+message GetGuildApplyListRequest{
+  int32 guildApplyId=1;
+}
+message GetGuildBeanRequest{
+  int32 guildBeanId=1;
+}
+message GetGuildApplyListResponse{
+  repeated GuildApplyDto guildApplyDtos=1;
+}
+message GetGuildBeanResponse{
+  GuildDto guildDto=1;
+}
+message GuildApplyDto{
+  int32 id=1;
+  int32 roleId=2;
+  string roleName=3;
+  int32 guildId=4;
+  string guildName=5;
+  sint64 createTime=6;
+  sint64 endTime=7;
+}
+message GuildDto{
+  int32 id=1;
+  string name=2;
+  int32 chairmanId=3;
+  int32 peopleNum=4;
+  int32 level=5;
+  sint64 createTime=6;
+}
+message AgreeGuildApplyRequest{
+  int32 guildApplyId=1;
+}
+message RefuseGuildApplyRequest{
+  int32 guildApplyId=1;
+}
+message AgreeGuildApplyResponse{
+}
+message RefuseGuildApplyResponse{
 }
 message CreateGuildRequest{
   string name=1;

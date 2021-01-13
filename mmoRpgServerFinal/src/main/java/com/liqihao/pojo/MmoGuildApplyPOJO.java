@@ -1,15 +1,15 @@
-package com.liqihao.pojo.bean.guildBean;
+package com.liqihao.pojo;
 
-/**
- * 申请入公会申请
- * @author lqhao
- */
-public class GuildApplyBean {
-    Integer id;
-    Integer roleId;
-    Integer guildId;
-    private long endTime;
-    private long createTime;
+public class MmoGuildApplyPOJO {
+    private Integer id;
+
+    private Integer roleId;
+
+    private Integer guildId;
+
+    private Long endTime;
+
+    private Long createTime;
 
     public Integer getId() {
         return id;
@@ -35,19 +35,19 @@ public class GuildApplyBean {
         this.guildId = guildId;
     }
 
-    public long getEndTime() {
+    public Long getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(long endTime) {
+    public void setEndTime(Long endTime) {
         this.endTime = endTime;
     }
 
-    public long getCreateTime() {
+    public Long getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(long createTime) {
+    public void setCreateTime(Long createTime) {
         this.createTime = createTime;
     }
 }

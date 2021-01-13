@@ -28,6 +28,8 @@ public class Dispatcherservlet {
     private ChatService chatService;
     @Autowired
     private EmailService emailService;
+    @Autowired
+    private GuildService guildService;
     /**
      * 根据model和cmd转发到不同的service
      *
@@ -190,6 +192,30 @@ public class Dispatcherservlet {
                 break;
             case ConstantValue.FIND_ALL_GOODS_RESPONSE:
                 backPackService.findAllGoodsResponse(nettyResponse);
+                break;
+            case ConstantValue.CREATE_GUILD_RESPONSE:
+                guildService.createGuild(nettyResponse);
+                break;
+            case ConstantValue.JOIN_GUILD_RESPONSE:
+                guildService.joinGuild(nettyResponse);
+                break;
+            case ConstantValue.SET_GUILD_POSITION_RESPONSE:
+                guildService.setGuildPosition(nettyResponse);
+                break;
+            case ConstantValue.OUT_GUILD_RESPONSE:
+                guildService.outGuild(nettyResponse);
+                break;
+            case ConstantValue.AGREE_GUILD_APPLY_RESPONSE:
+                guildService.agreeGuildApply(nettyResponse);
+                break;
+            case ConstantValue.REFUSE_GUILD_APPLY_RESPONSE:
+                guildService.refuseGuildApply(nettyResponse);
+                break;
+            case ConstantValue.GET_GUILD_APPLY_LIST_RESPONSE:
+                guildService.getGuildApply(nettyResponse);
+                break;
+            case ConstantValue.GET_GUILD_MESSAGE_RESPONSE:
+                guildService.getGuildBean(nettyResponse);
                 break;
             default:
                 System.out.println("handler:收到");

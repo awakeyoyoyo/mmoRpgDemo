@@ -19,6 +19,8 @@ public class MmoRolePOJO {
 
     private Integer professionId;
 
+    private Integer guildId;
+
     public Integer getId() {
         return id;
     }
@@ -89,5 +91,13 @@ public class MmoRolePOJO {
 
     public void setProfessionId(Integer professionId) {
         this.professionId = professionId;
+    }
+
+    public Integer getGuildId() {
+        return guildId;
+    }
+
+    public void setGuildId(Integer guildId) {
+        this.guildId = guildId;
     }
 }

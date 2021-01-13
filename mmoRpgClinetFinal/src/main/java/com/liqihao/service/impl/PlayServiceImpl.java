@@ -24,16 +24,7 @@ public class PlayServiceImpl implements PlayService {
 
     @Override
     public void loginResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
-        if (nettyResponse.getStateCode() == StateCode.FAIL) {
-            System.out.println(new String(nettyResponse.getData()));
-            return;
-        }
         byte[] data = nettyResponse.getData();
-        if (nettyResponse.getStateCode() == StateCode.FAIL) {
-            String s = new String(nettyResponse.getData());
-            log.info(s);
-            return;
-        }
         PlayModel.PlayModelMessage myMessage;
         myMessage = PlayModel.PlayModelMessage.parseFrom(data);
         PlayModel.LoginResponse loginResponse = myMessage.getLoginResponse();
