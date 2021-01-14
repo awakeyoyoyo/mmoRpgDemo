@@ -395,6 +395,21 @@ public final class GuildModel {
      */
     GetGuildBeanResponseOrBuilder getGetGuildBeanResponseOrBuilder();
 
+    /**
+     * <code>.ApplyResponse applyResponse = 26;</code>
+     * @return Whether the applyResponse field is set.
+     */
+    boolean hasApplyResponse();
+    /**
+     * <code>.ApplyResponse applyResponse = 26;</code>
+     * @return The applyResponse.
+     */
+    ApplyResponse getApplyResponse();
+    /**
+     * <code>.ApplyResponse applyResponse = 26;</code>
+     */
+    ApplyResponseOrBuilder getApplyResponseOrBuilder();
+
     public GuildModelMessage.DateBodyCase getDateBodyCase();
   }
   /**
@@ -789,6 +804,20 @@ public final class GuildModel {
               dateBodyCase_ = 25;
               break;
             }
+            case 210: {
+              ApplyResponse.Builder subBuilder = null;
+              if (dateBodyCase_ == 26) {
+                subBuilder = ((ApplyResponse) dateBody_).toBuilder();
+              }
+              dateBody_ =
+                  input.readMessage(ApplyResponse.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((ApplyResponse) dateBody_);
+                dateBody_ = subBuilder.buildPartial();
+              }
+              dateBodyCase_ = 26;
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -926,6 +955,10 @@ public final class GuildModel {
        * <code>GetGuildBeanResponse = 23;</code>
        */
       GetGuildBeanResponse(23),
+      /**
+       * <code>ApplyResponse = 26;</code>
+       */
+      ApplyResponse(26),
       UNRECOGNIZED(-1),
       ;
 
@@ -1025,6 +1058,10 @@ public final class GuildModel {
        * <code>GetGuildBeanResponse = 23;</code>
        */
       public static final int GetGuildBeanResponse_VALUE = 23;
+      /**
+       * <code>ApplyResponse = 26;</code>
+       */
+      public static final int ApplyResponse_VALUE = 26;
 
 
       public final int getNumber() {
@@ -1075,6 +1112,7 @@ public final class GuildModel {
           case 21: return GetGuildBeanRequest;
           case 22: return GetGuildApplyListResponse;
           case 23: return GetGuildBeanResponse;
+          case 26: return ApplyResponse;
           default: return null;
         }
       }
@@ -1160,6 +1198,7 @@ public final class GuildModel {
       GETGUILDBEANREQUEST(23),
       GETGUILDAPPLYLISTRESPONSE(24),
       GETGUILDBEANRESPONSE(25),
+      APPLYRESPONSE(26),
       DATEBODY_NOT_SET(0);
       private final int value;
       private DateBodyCase(int value) {
@@ -1201,6 +1240,7 @@ public final class GuildModel {
           case 23: return GETGUILDBEANREQUEST;
           case 24: return GETGUILDAPPLYLISTRESPONSE;
           case 25: return GETGUILDBEANRESPONSE;
+          case 26: return APPLYRESPONSE;
           case 0: return DATEBODY_NOT_SET;
           default: return null;
         }
@@ -1987,6 +2027,37 @@ public final class GuildModel {
       return GetGuildBeanResponse.getDefaultInstance();
     }
 
+    public static final int APPLYRESPONSE_FIELD_NUMBER = 26;
+    /**
+     * <code>.ApplyResponse applyResponse = 26;</code>
+     * @return Whether the applyResponse field is set.
+     */
+    @Override
+    public boolean hasApplyResponse() {
+      return dateBodyCase_ == 26;
+    }
+    /**
+     * <code>.ApplyResponse applyResponse = 26;</code>
+     * @return The applyResponse.
+     */
+    @Override
+    public ApplyResponse getApplyResponse() {
+      if (dateBodyCase_ == 26) {
+         return (ApplyResponse) dateBody_;
+      }
+      return ApplyResponse.getDefaultInstance();
+    }
+    /**
+     * <code>.ApplyResponse applyResponse = 26;</code>
+     */
+    @Override
+    public ApplyResponseOrBuilder getApplyResponseOrBuilder() {
+      if (dateBodyCase_ == 26) {
+         return (ApplyResponse) dateBody_;
+      }
+      return ApplyResponse.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -2075,6 +2146,9 @@ public final class GuildModel {
       }
       if (dateBodyCase_ == 25) {
         output.writeMessage(25, (GetGuildBeanResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 26) {
+        output.writeMessage(26, (ApplyResponse) dateBody_);
       }
       unknownFields.writeTo(output);
     }
@@ -2184,6 +2258,10 @@ public final class GuildModel {
       if (dateBodyCase_ == 25) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(25, (GetGuildBeanResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 26) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(26, (ApplyResponse) dateBody_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -2299,6 +2377,10 @@ public final class GuildModel {
           if (!getGetGuildBeanResponse()
               .equals(other.getGetGuildBeanResponse())) return false;
           break;
+        case 26:
+          if (!getApplyResponse()
+              .equals(other.getApplyResponse())) return false;
+          break;
         case 0:
         default:
       }
@@ -2411,6 +2493,10 @@ public final class GuildModel {
         case 25:
           hash = (37 * hash) + GETGUILDBEANRESPONSE_FIELD_NUMBER;
           hash = (53 * hash) + getGetGuildBeanResponse().hashCode();
+          break;
+        case 26:
+          hash = (37 * hash) + APPLYRESPONSE_FIELD_NUMBER;
+          hash = (53 * hash) + getApplyResponse().hashCode();
           break;
         case 0:
         default:
@@ -2751,6 +2837,13 @@ public final class GuildModel {
             result.dateBody_ = getGuildBeanResponseBuilder_.build();
           }
         }
+        if (dateBodyCase_ == 26) {
+          if (applyResponseBuilder_ == null) {
+            result.dateBody_ = dateBody_;
+          } else {
+            result.dateBody_ = applyResponseBuilder_.build();
+          }
+        }
         result.dateBodyCase_ = dateBodyCase_;
         onBuilt();
         return result;
@@ -2898,6 +2991,10 @@ public final class GuildModel {
           }
           case GETGUILDBEANRESPONSE: {
             mergeGetGuildBeanResponse(other.getGetGuildBeanResponse());
+            break;
+          }
+          case APPLYRESPONSE: {
+            mergeApplyResponse(other.getApplyResponse());
             break;
           }
           case DATEBODY_NOT_SET: {
@@ -6405,6 +6502,147 @@ public final class GuildModel {
         onChanged();;
         return getGuildBeanResponseBuilder_;
       }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          ApplyResponse, ApplyResponse.Builder, ApplyResponseOrBuilder> applyResponseBuilder_;
+      /**
+       * <code>.ApplyResponse applyResponse = 26;</code>
+       * @return Whether the applyResponse field is set.
+       */
+      @Override
+      public boolean hasApplyResponse() {
+        return dateBodyCase_ == 26;
+      }
+      /**
+       * <code>.ApplyResponse applyResponse = 26;</code>
+       * @return The applyResponse.
+       */
+      @Override
+      public ApplyResponse getApplyResponse() {
+        if (applyResponseBuilder_ == null) {
+          if (dateBodyCase_ == 26) {
+            return (ApplyResponse) dateBody_;
+          }
+          return ApplyResponse.getDefaultInstance();
+        } else {
+          if (dateBodyCase_ == 26) {
+            return applyResponseBuilder_.getMessage();
+          }
+          return ApplyResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.ApplyResponse applyResponse = 26;</code>
+       */
+      public Builder setApplyResponse(ApplyResponse value) {
+        if (applyResponseBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dateBody_ = value;
+          onChanged();
+        } else {
+          applyResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 26;
+        return this;
+      }
+      /**
+       * <code>.ApplyResponse applyResponse = 26;</code>
+       */
+      public Builder setApplyResponse(
+          ApplyResponse.Builder builderForValue) {
+        if (applyResponseBuilder_ == null) {
+          dateBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          applyResponseBuilder_.setMessage(builderForValue.build());
+        }
+        dateBodyCase_ = 26;
+        return this;
+      }
+      /**
+       * <code>.ApplyResponse applyResponse = 26;</code>
+       */
+      public Builder mergeApplyResponse(ApplyResponse value) {
+        if (applyResponseBuilder_ == null) {
+          if (dateBodyCase_ == 26 &&
+              dateBody_ != ApplyResponse.getDefaultInstance()) {
+            dateBody_ = ApplyResponse.newBuilder((ApplyResponse) dateBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dateBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dateBodyCase_ == 26) {
+            applyResponseBuilder_.mergeFrom(value);
+          }
+          applyResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 26;
+        return this;
+      }
+      /**
+       * <code>.ApplyResponse applyResponse = 26;</code>
+       */
+      public Builder clearApplyResponse() {
+        if (applyResponseBuilder_ == null) {
+          if (dateBodyCase_ == 26) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dateBodyCase_ == 26) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+          }
+          applyResponseBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.ApplyResponse applyResponse = 26;</code>
+       */
+      public ApplyResponse.Builder getApplyResponseBuilder() {
+        return getApplyResponseFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.ApplyResponse applyResponse = 26;</code>
+       */
+      @Override
+      public ApplyResponseOrBuilder getApplyResponseOrBuilder() {
+        if ((dateBodyCase_ == 26) && (applyResponseBuilder_ != null)) {
+          return applyResponseBuilder_.getMessageOrBuilder();
+        } else {
+          if (dateBodyCase_ == 26) {
+            return (ApplyResponse) dateBody_;
+          }
+          return ApplyResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.ApplyResponse applyResponse = 26;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          ApplyResponse, ApplyResponse.Builder, ApplyResponseOrBuilder>
+          getApplyResponseFieldBuilder() {
+        if (applyResponseBuilder_ == null) {
+          if (!(dateBodyCase_ == 26)) {
+            dateBody_ = ApplyResponse.getDefaultInstance();
+          }
+          applyResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              ApplyResponse, ApplyResponse.Builder, ApplyResponseOrBuilder>(
+                  (ApplyResponse) dateBody_,
+                  getParentForChildren(),
+                  isClean());
+          dateBody_ = null;
+        }
+        dateBodyCase_ = 26;
+        onChanged();;
+        return applyResponseBuilder_;
+      }
       @Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -6453,6 +6691,503 @@ public final class GuildModel {
 
     @Override
     public GuildModelMessage getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface ApplyResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:ApplyResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>bool successFlag = 1;</code>
+     * @return The successFlag.
+     */
+    boolean getSuccessFlag();
+  }
+  /**
+   * <pre>
+   *申请结果
+   * </pre>
+   *
+   * Protobuf type {@code ApplyResponse}
+   */
+  public static final class ApplyResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:ApplyResponse)
+      ApplyResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use ApplyResponse.newBuilder() to construct.
+    private ApplyResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ApplyResponse() {
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ApplyResponse();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ApplyResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+
+              successFlag_ = input.readBool();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return GuildModel.internal_static_ApplyResponse_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return GuildModel.internal_static_ApplyResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ApplyResponse.class, Builder.class);
+    }
+
+    public static final int SUCCESSFLAG_FIELD_NUMBER = 1;
+    private boolean successFlag_;
+    /**
+     * <code>bool successFlag = 1;</code>
+     * @return The successFlag.
+     */
+    @Override
+    public boolean getSuccessFlag() {
+      return successFlag_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (successFlag_ != false) {
+        output.writeBool(1, successFlag_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (successFlag_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(1, successFlag_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ApplyResponse)) {
+        return super.equals(obj);
+      }
+      ApplyResponse other = (ApplyResponse) obj;
+
+      if (getSuccessFlag()
+          != other.getSuccessFlag()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + SUCCESSFLAG_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getSuccessFlag());
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ApplyResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ApplyResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ApplyResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ApplyResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ApplyResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ApplyResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ApplyResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static ApplyResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ApplyResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static ApplyResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ApplyResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static ApplyResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ApplyResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     *申请结果
+     * </pre>
+     *
+     * Protobuf type {@code ApplyResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:ApplyResponse)
+        ApplyResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return GuildModel.internal_static_ApplyResponse_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return GuildModel.internal_static_ApplyResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ApplyResponse.class, Builder.class);
+      }
+
+      // Construct using GuildModel.ApplyResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        successFlag_ = false;
+
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return GuildModel.internal_static_ApplyResponse_descriptor;
+      }
+
+      @Override
+      public ApplyResponse getDefaultInstanceForType() {
+        return ApplyResponse.getDefaultInstance();
+      }
+
+      @Override
+      public ApplyResponse build() {
+        ApplyResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public ApplyResponse buildPartial() {
+        ApplyResponse result = new ApplyResponse(this);
+        result.successFlag_ = successFlag_;
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ApplyResponse) {
+          return mergeFrom((ApplyResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ApplyResponse other) {
+        if (other == ApplyResponse.getDefaultInstance()) return this;
+        if (other.getSuccessFlag() != false) {
+          setSuccessFlag(other.getSuccessFlag());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        ApplyResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (ApplyResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private boolean successFlag_ ;
+      /**
+       * <code>bool successFlag = 1;</code>
+       * @return The successFlag.
+       */
+      @Override
+      public boolean getSuccessFlag() {
+        return successFlag_;
+      }
+      /**
+       * <code>bool successFlag = 1;</code>
+       * @param value The successFlag to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSuccessFlag(boolean value) {
+        
+        successFlag_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool successFlag = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSuccessFlag() {
+        
+        successFlag_ = false;
+        onChanged();
+        return this;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:ApplyResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:ApplyResponse)
+    private static final ApplyResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ApplyResponse();
+    }
+
+    public static ApplyResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ApplyResponse>
+        PARSER = new com.google.protobuf.AbstractParser<ApplyResponse>() {
+      @Override
+      public ApplyResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ApplyResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ApplyResponse> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<ApplyResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public ApplyResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -9918,6 +10653,994 @@ public final class GuildModel {
 
   }
 
+  public interface GuildPeopleDtoOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:GuildPeopleDto)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>int32 id = 1;</code>
+     * @return The id.
+     */
+    int getId();
+
+    /**
+     * <code>int32 roleId = 2;</code>
+     * @return The roleId.
+     */
+    int getRoleId();
+
+    /**
+     * <code>int32 onStatus = 3;</code>
+     * @return The onStatus.
+     */
+    int getOnStatus();
+
+    /**
+     * <code>int32 professionId = 4;</code>
+     * @return The professionId.
+     */
+    int getProfessionId();
+
+    /**
+     * <code>int32 guildPosition = 5;</code>
+     * @return The guildPosition.
+     */
+    int getGuildPosition();
+
+    /**
+     * <code>int32 contribution = 6;</code>
+     * @return The contribution.
+     */
+    int getContribution();
+
+    /**
+     * <code>string name = 7;</code>
+     * @return The name.
+     */
+    String getName();
+    /**
+     * <code>string name = 7;</code>
+     * @return The bytes for name.
+     */
+    com.google.protobuf.ByteString
+        getNameBytes();
+  }
+  /**
+   * Protobuf type {@code GuildPeopleDto}
+   */
+  public static final class GuildPeopleDto extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:GuildPeopleDto)
+      GuildPeopleDtoOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use GuildPeopleDto.newBuilder() to construct.
+    private GuildPeopleDto(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private GuildPeopleDto() {
+      name_ = "";
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GuildPeopleDto();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private GuildPeopleDto(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+
+              id_ = input.readInt32();
+              break;
+            }
+            case 16: {
+
+              roleId_ = input.readInt32();
+              break;
+            }
+            case 24: {
+
+              onStatus_ = input.readInt32();
+              break;
+            }
+            case 32: {
+
+              professionId_ = input.readInt32();
+              break;
+            }
+            case 40: {
+
+              guildPosition_ = input.readInt32();
+              break;
+            }
+            case 48: {
+
+              contribution_ = input.readInt32();
+              break;
+            }
+            case 58: {
+              String s = input.readStringRequireUtf8();
+
+              name_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return GuildModel.internal_static_GuildPeopleDto_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return GuildModel.internal_static_GuildPeopleDto_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              GuildPeopleDto.class, Builder.class);
+    }
+
+    public static final int ID_FIELD_NUMBER = 1;
+    private int id_;
+    /**
+     * <code>int32 id = 1;</code>
+     * @return The id.
+     */
+    @Override
+    public int getId() {
+      return id_;
+    }
+
+    public static final int ROLEID_FIELD_NUMBER = 2;
+    private int roleId_;
+    /**
+     * <code>int32 roleId = 2;</code>
+     * @return The roleId.
+     */
+    @Override
+    public int getRoleId() {
+      return roleId_;
+    }
+
+    public static final int ONSTATUS_FIELD_NUMBER = 3;
+    private int onStatus_;
+    /**
+     * <code>int32 onStatus = 3;</code>
+     * @return The onStatus.
+     */
+    @Override
+    public int getOnStatus() {
+      return onStatus_;
+    }
+
+    public static final int PROFESSIONID_FIELD_NUMBER = 4;
+    private int professionId_;
+    /**
+     * <code>int32 professionId = 4;</code>
+     * @return The professionId.
+     */
+    @Override
+    public int getProfessionId() {
+      return professionId_;
+    }
+
+    public static final int GUILDPOSITION_FIELD_NUMBER = 5;
+    private int guildPosition_;
+    /**
+     * <code>int32 guildPosition = 5;</code>
+     * @return The guildPosition.
+     */
+    @Override
+    public int getGuildPosition() {
+      return guildPosition_;
+    }
+
+    public static final int CONTRIBUTION_FIELD_NUMBER = 6;
+    private int contribution_;
+    /**
+     * <code>int32 contribution = 6;</code>
+     * @return The contribution.
+     */
+    @Override
+    public int getContribution() {
+      return contribution_;
+    }
+
+    public static final int NAME_FIELD_NUMBER = 7;
+    private volatile Object name_;
+    /**
+     * <code>string name = 7;</code>
+     * @return The name.
+     */
+    @Override
+    public String getName() {
+      Object ref = name_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        name_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string name = 7;</code>
+     * @return The bytes for name.
+     */
+    @Override
+    public com.google.protobuf.ByteString
+        getNameBytes() {
+      Object ref = name_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (String) ref);
+        name_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (id_ != 0) {
+        output.writeInt32(1, id_);
+      }
+      if (roleId_ != 0) {
+        output.writeInt32(2, roleId_);
+      }
+      if (onStatus_ != 0) {
+        output.writeInt32(3, onStatus_);
+      }
+      if (professionId_ != 0) {
+        output.writeInt32(4, professionId_);
+      }
+      if (guildPosition_ != 0) {
+        output.writeInt32(5, guildPosition_);
+      }
+      if (contribution_ != 0) {
+        output.writeInt32(6, contribution_);
+      }
+      if (!getNameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 7, name_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (id_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, id_);
+      }
+      if (roleId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, roleId_);
+      }
+      if (onStatus_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, onStatus_);
+      }
+      if (professionId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, professionId_);
+      }
+      if (guildPosition_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, guildPosition_);
+      }
+      if (contribution_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(6, contribution_);
+      }
+      if (!getNameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, name_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof GuildPeopleDto)) {
+        return super.equals(obj);
+      }
+      GuildPeopleDto other = (GuildPeopleDto) obj;
+
+      if (getId()
+          != other.getId()) return false;
+      if (getRoleId()
+          != other.getRoleId()) return false;
+      if (getOnStatus()
+          != other.getOnStatus()) return false;
+      if (getProfessionId()
+          != other.getProfessionId()) return false;
+      if (getGuildPosition()
+          != other.getGuildPosition()) return false;
+      if (getContribution()
+          != other.getContribution()) return false;
+      if (!getName()
+          .equals(other.getName())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + ID_FIELD_NUMBER;
+      hash = (53 * hash) + getId();
+      hash = (37 * hash) + ROLEID_FIELD_NUMBER;
+      hash = (53 * hash) + getRoleId();
+      hash = (37 * hash) + ONSTATUS_FIELD_NUMBER;
+      hash = (53 * hash) + getOnStatus();
+      hash = (37 * hash) + PROFESSIONID_FIELD_NUMBER;
+      hash = (53 * hash) + getProfessionId();
+      hash = (37 * hash) + GUILDPOSITION_FIELD_NUMBER;
+      hash = (53 * hash) + getGuildPosition();
+      hash = (37 * hash) + CONTRIBUTION_FIELD_NUMBER;
+      hash = (53 * hash) + getContribution();
+      hash = (37 * hash) + NAME_FIELD_NUMBER;
+      hash = (53 * hash) + getName().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static GuildPeopleDto parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static GuildPeopleDto parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static GuildPeopleDto parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static GuildPeopleDto parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static GuildPeopleDto parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static GuildPeopleDto parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static GuildPeopleDto parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static GuildPeopleDto parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static GuildPeopleDto parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static GuildPeopleDto parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static GuildPeopleDto parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static GuildPeopleDto parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(GuildPeopleDto prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code GuildPeopleDto}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:GuildPeopleDto)
+        GuildPeopleDtoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return GuildModel.internal_static_GuildPeopleDto_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return GuildModel.internal_static_GuildPeopleDto_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                GuildPeopleDto.class, Builder.class);
+      }
+
+      // Construct using GuildModel.GuildPeopleDto.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        id_ = 0;
+
+        roleId_ = 0;
+
+        onStatus_ = 0;
+
+        professionId_ = 0;
+
+        guildPosition_ = 0;
+
+        contribution_ = 0;
+
+        name_ = "";
+
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return GuildModel.internal_static_GuildPeopleDto_descriptor;
+      }
+
+      @Override
+      public GuildPeopleDto getDefaultInstanceForType() {
+        return GuildPeopleDto.getDefaultInstance();
+      }
+
+      @Override
+      public GuildPeopleDto build() {
+        GuildPeopleDto result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public GuildPeopleDto buildPartial() {
+        GuildPeopleDto result = new GuildPeopleDto(this);
+        result.id_ = id_;
+        result.roleId_ = roleId_;
+        result.onStatus_ = onStatus_;
+        result.professionId_ = professionId_;
+        result.guildPosition_ = guildPosition_;
+        result.contribution_ = contribution_;
+        result.name_ = name_;
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof GuildPeopleDto) {
+          return mergeFrom((GuildPeopleDto)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(GuildPeopleDto other) {
+        if (other == GuildPeopleDto.getDefaultInstance()) return this;
+        if (other.getId() != 0) {
+          setId(other.getId());
+        }
+        if (other.getRoleId() != 0) {
+          setRoleId(other.getRoleId());
+        }
+        if (other.getOnStatus() != 0) {
+          setOnStatus(other.getOnStatus());
+        }
+        if (other.getProfessionId() != 0) {
+          setProfessionId(other.getProfessionId());
+        }
+        if (other.getGuildPosition() != 0) {
+          setGuildPosition(other.getGuildPosition());
+        }
+        if (other.getContribution() != 0) {
+          setContribution(other.getContribution());
+        }
+        if (!other.getName().isEmpty()) {
+          name_ = other.name_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        GuildPeopleDto parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (GuildPeopleDto) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private int id_ ;
+      /**
+       * <code>int32 id = 1;</code>
+       * @return The id.
+       */
+      @Override
+      public int getId() {
+        return id_;
+      }
+      /**
+       * <code>int32 id = 1;</code>
+       * @param value The id to set.
+       * @return This builder for chaining.
+       */
+      public Builder setId(int value) {
+        
+        id_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 id = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearId() {
+        
+        id_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int roleId_ ;
+      /**
+       * <code>int32 roleId = 2;</code>
+       * @return The roleId.
+       */
+      @Override
+      public int getRoleId() {
+        return roleId_;
+      }
+      /**
+       * <code>int32 roleId = 2;</code>
+       * @param value The roleId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRoleId(int value) {
+        
+        roleId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 roleId = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRoleId() {
+        
+        roleId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int onStatus_ ;
+      /**
+       * <code>int32 onStatus = 3;</code>
+       * @return The onStatus.
+       */
+      @Override
+      public int getOnStatus() {
+        return onStatus_;
+      }
+      /**
+       * <code>int32 onStatus = 3;</code>
+       * @param value The onStatus to set.
+       * @return This builder for chaining.
+       */
+      public Builder setOnStatus(int value) {
+        
+        onStatus_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 onStatus = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearOnStatus() {
+        
+        onStatus_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int professionId_ ;
+      /**
+       * <code>int32 professionId = 4;</code>
+       * @return The professionId.
+       */
+      @Override
+      public int getProfessionId() {
+        return professionId_;
+      }
+      /**
+       * <code>int32 professionId = 4;</code>
+       * @param value The professionId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setProfessionId(int value) {
+        
+        professionId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 professionId = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearProfessionId() {
+        
+        professionId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int guildPosition_ ;
+      /**
+       * <code>int32 guildPosition = 5;</code>
+       * @return The guildPosition.
+       */
+      @Override
+      public int getGuildPosition() {
+        return guildPosition_;
+      }
+      /**
+       * <code>int32 guildPosition = 5;</code>
+       * @param value The guildPosition to set.
+       * @return This builder for chaining.
+       */
+      public Builder setGuildPosition(int value) {
+        
+        guildPosition_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 guildPosition = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearGuildPosition() {
+        
+        guildPosition_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int contribution_ ;
+      /**
+       * <code>int32 contribution = 6;</code>
+       * @return The contribution.
+       */
+      @Override
+      public int getContribution() {
+        return contribution_;
+      }
+      /**
+       * <code>int32 contribution = 6;</code>
+       * @param value The contribution to set.
+       * @return This builder for chaining.
+       */
+      public Builder setContribution(int value) {
+        
+        contribution_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 contribution = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearContribution() {
+        
+        contribution_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private Object name_ = "";
+      /**
+       * <code>string name = 7;</code>
+       * @return The name.
+       */
+      public String getName() {
+        Object ref = name_;
+        if (!(ref instanceof String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          String s = bs.toStringUtf8();
+          name_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      /**
+       * <code>string name = 7;</code>
+       * @return The bytes for name.
+       */
+      public com.google.protobuf.ByteString
+          getNameBytes() {
+        Object ref = name_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (String) ref);
+          name_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string name = 7;</code>
+       * @param value The name to set.
+       * @return This builder for chaining.
+       */
+      public Builder setName(
+          String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        name_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string name = 7;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearName() {
+        
+        name_ = getDefaultInstance().getName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string name = 7;</code>
+       * @param value The bytes for name to set.
+       * @return This builder for chaining.
+       */
+      public Builder setNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        name_ = value;
+        onChanged();
+        return this;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:GuildPeopleDto)
+    }
+
+    // @@protoc_insertion_point(class_scope:GuildPeopleDto)
+    private static final GuildPeopleDto DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new GuildPeopleDto();
+    }
+
+    public static GuildPeopleDto getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<GuildPeopleDto>
+        PARSER = new com.google.protobuf.AbstractParser<GuildPeopleDto>() {
+      @Override
+      public GuildPeopleDto parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GuildPeopleDto(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<GuildPeopleDto> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<GuildPeopleDto> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public GuildPeopleDto getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface GuildDtoOrBuilder extends
       // @@protoc_insertion_point(interface_extends:GuildDto)
       com.google.protobuf.MessageOrBuilder {
@@ -9963,6 +11686,30 @@ public final class GuildModel {
      * @return The createTime.
      */
     long getCreateTime();
+
+    /**
+     * <code>repeated .GuildPeopleDto guildPeopleDtos = 7;</code>
+     */
+    java.util.List<GuildPeopleDto>
+        getGuildPeopleDtosList();
+    /**
+     * <code>repeated .GuildPeopleDto guildPeopleDtos = 7;</code>
+     */
+    GuildPeopleDto getGuildPeopleDtos(int index);
+    /**
+     * <code>repeated .GuildPeopleDto guildPeopleDtos = 7;</code>
+     */
+    int getGuildPeopleDtosCount();
+    /**
+     * <code>repeated .GuildPeopleDto guildPeopleDtos = 7;</code>
+     */
+    java.util.List<? extends GuildPeopleDtoOrBuilder>
+        getGuildPeopleDtosOrBuilderList();
+    /**
+     * <code>repeated .GuildPeopleDto guildPeopleDtos = 7;</code>
+     */
+    GuildPeopleDtoOrBuilder getGuildPeopleDtosOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code GuildDto}
@@ -9978,6 +11725,7 @@ public final class GuildModel {
     }
     private GuildDto() {
       name_ = "";
+      guildPeopleDtos_ = java.util.Collections.emptyList();
     }
 
     @Override
@@ -10000,6 +11748,7 @@ public final class GuildModel {
       if (extensionRegistry == null) {
         throw new NullPointerException();
       }
+      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -10041,6 +11790,15 @@ public final class GuildModel {
               createTime_ = input.readSInt64();
               break;
             }
+            case 58: {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+                guildPeopleDtos_ = new java.util.ArrayList<GuildPeopleDto>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              guildPeopleDtos_.add(
+                  input.readMessage(GuildPeopleDto.parser(), extensionRegistry));
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -10056,6 +11814,9 @@ public final class GuildModel {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+          guildPeopleDtos_ = java.util.Collections.unmodifiableList(guildPeopleDtos_);
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -10166,6 +11927,46 @@ public final class GuildModel {
       return createTime_;
     }
 
+    public static final int GUILDPEOPLEDTOS_FIELD_NUMBER = 7;
+    private java.util.List<GuildPeopleDto> guildPeopleDtos_;
+    /**
+     * <code>repeated .GuildPeopleDto guildPeopleDtos = 7;</code>
+     */
+    @Override
+    public java.util.List<GuildPeopleDto> getGuildPeopleDtosList() {
+      return guildPeopleDtos_;
+    }
+    /**
+     * <code>repeated .GuildPeopleDto guildPeopleDtos = 7;</code>
+     */
+    @Override
+    public java.util.List<? extends GuildPeopleDtoOrBuilder>
+        getGuildPeopleDtosOrBuilderList() {
+      return guildPeopleDtos_;
+    }
+    /**
+     * <code>repeated .GuildPeopleDto guildPeopleDtos = 7;</code>
+     */
+    @Override
+    public int getGuildPeopleDtosCount() {
+      return guildPeopleDtos_.size();
+    }
+    /**
+     * <code>repeated .GuildPeopleDto guildPeopleDtos = 7;</code>
+     */
+    @Override
+    public GuildPeopleDto getGuildPeopleDtos(int index) {
+      return guildPeopleDtos_.get(index);
+    }
+    /**
+     * <code>repeated .GuildPeopleDto guildPeopleDtos = 7;</code>
+     */
+    @Override
+    public GuildPeopleDtoOrBuilder getGuildPeopleDtosOrBuilder(
+        int index) {
+      return guildPeopleDtos_.get(index);
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -10197,6 +11998,9 @@ public final class GuildModel {
       }
       if (createTime_ != 0L) {
         output.writeSInt64(6, createTime_);
+      }
+      for (int i = 0; i < guildPeopleDtos_.size(); i++) {
+        output.writeMessage(7, guildPeopleDtos_.get(i));
       }
       unknownFields.writeTo(output);
     }
@@ -10230,6 +12034,10 @@ public final class GuildModel {
         size += com.google.protobuf.CodedOutputStream
           .computeSInt64Size(6, createTime_);
       }
+      for (int i = 0; i < guildPeopleDtos_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(7, guildPeopleDtos_.get(i));
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -10257,6 +12065,8 @@ public final class GuildModel {
           != other.getLevel()) return false;
       if (getCreateTime()
           != other.getCreateTime()) return false;
+      if (!getGuildPeopleDtosList()
+          .equals(other.getGuildPeopleDtosList())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -10281,6 +12091,10 @@ public final class GuildModel {
       hash = (37 * hash) + CREATETIME_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getCreateTime());
+      if (getGuildPeopleDtosCount() > 0) {
+        hash = (37 * hash) + GUILDPEOPLEDTOS_FIELD_NUMBER;
+        hash = (53 * hash) + getGuildPeopleDtosList().hashCode();
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -10409,6 +12223,7 @@ public final class GuildModel {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
+          getGuildPeopleDtosFieldBuilder();
         }
       }
       @Override
@@ -10426,6 +12241,12 @@ public final class GuildModel {
 
         createTime_ = 0L;
 
+        if (guildPeopleDtosBuilder_ == null) {
+          guildPeopleDtos_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          guildPeopleDtosBuilder_.clear();
+        }
         return this;
       }
 
@@ -10452,12 +12273,22 @@ public final class GuildModel {
       @Override
       public GuildDto buildPartial() {
         GuildDto result = new GuildDto(this);
+        int from_bitField0_ = bitField0_;
         result.id_ = id_;
         result.name_ = name_;
         result.chairmanId_ = chairmanId_;
         result.peopleNum_ = peopleNum_;
         result.level_ = level_;
         result.createTime_ = createTime_;
+        if (guildPeopleDtosBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) != 0)) {
+            guildPeopleDtos_ = java.util.Collections.unmodifiableList(guildPeopleDtos_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.guildPeopleDtos_ = guildPeopleDtos_;
+        } else {
+          result.guildPeopleDtos_ = guildPeopleDtosBuilder_.build();
+        }
         onBuilt();
         return result;
       }
@@ -10525,6 +12356,32 @@ public final class GuildModel {
         if (other.getCreateTime() != 0L) {
           setCreateTime(other.getCreateTime());
         }
+        if (guildPeopleDtosBuilder_ == null) {
+          if (!other.guildPeopleDtos_.isEmpty()) {
+            if (guildPeopleDtos_.isEmpty()) {
+              guildPeopleDtos_ = other.guildPeopleDtos_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureGuildPeopleDtosIsMutable();
+              guildPeopleDtos_.addAll(other.guildPeopleDtos_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.guildPeopleDtos_.isEmpty()) {
+            if (guildPeopleDtosBuilder_.isEmpty()) {
+              guildPeopleDtosBuilder_.dispose();
+              guildPeopleDtosBuilder_ = null;
+              guildPeopleDtos_ = other.guildPeopleDtos_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              guildPeopleDtosBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getGuildPeopleDtosFieldBuilder() : null;
+            } else {
+              guildPeopleDtosBuilder_.addAllMessages(other.guildPeopleDtos_);
+            }
+          }
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -10553,6 +12410,7 @@ public final class GuildModel {
         }
         return this;
       }
+      private int bitField0_;
 
       private int id_ ;
       /**
@@ -10783,6 +12641,246 @@ public final class GuildModel {
         createTime_ = 0L;
         onChanged();
         return this;
+      }
+
+      private java.util.List<GuildPeopleDto> guildPeopleDtos_ =
+        java.util.Collections.emptyList();
+      private void ensureGuildPeopleDtosIsMutable() {
+        if (!((bitField0_ & 0x00000001) != 0)) {
+          guildPeopleDtos_ = new java.util.ArrayList<GuildPeopleDto>(guildPeopleDtos_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          GuildPeopleDto, GuildPeopleDto.Builder, GuildPeopleDtoOrBuilder> guildPeopleDtosBuilder_;
+
+      /**
+       * <code>repeated .GuildPeopleDto guildPeopleDtos = 7;</code>
+       */
+      public java.util.List<GuildPeopleDto> getGuildPeopleDtosList() {
+        if (guildPeopleDtosBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(guildPeopleDtos_);
+        } else {
+          return guildPeopleDtosBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .GuildPeopleDto guildPeopleDtos = 7;</code>
+       */
+      public int getGuildPeopleDtosCount() {
+        if (guildPeopleDtosBuilder_ == null) {
+          return guildPeopleDtos_.size();
+        } else {
+          return guildPeopleDtosBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .GuildPeopleDto guildPeopleDtos = 7;</code>
+       */
+      public GuildPeopleDto getGuildPeopleDtos(int index) {
+        if (guildPeopleDtosBuilder_ == null) {
+          return guildPeopleDtos_.get(index);
+        } else {
+          return guildPeopleDtosBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .GuildPeopleDto guildPeopleDtos = 7;</code>
+       */
+      public Builder setGuildPeopleDtos(
+          int index, GuildPeopleDto value) {
+        if (guildPeopleDtosBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureGuildPeopleDtosIsMutable();
+          guildPeopleDtos_.set(index, value);
+          onChanged();
+        } else {
+          guildPeopleDtosBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GuildPeopleDto guildPeopleDtos = 7;</code>
+       */
+      public Builder setGuildPeopleDtos(
+          int index, GuildPeopleDto.Builder builderForValue) {
+        if (guildPeopleDtosBuilder_ == null) {
+          ensureGuildPeopleDtosIsMutable();
+          guildPeopleDtos_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          guildPeopleDtosBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GuildPeopleDto guildPeopleDtos = 7;</code>
+       */
+      public Builder addGuildPeopleDtos(GuildPeopleDto value) {
+        if (guildPeopleDtosBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureGuildPeopleDtosIsMutable();
+          guildPeopleDtos_.add(value);
+          onChanged();
+        } else {
+          guildPeopleDtosBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GuildPeopleDto guildPeopleDtos = 7;</code>
+       */
+      public Builder addGuildPeopleDtos(
+          int index, GuildPeopleDto value) {
+        if (guildPeopleDtosBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureGuildPeopleDtosIsMutable();
+          guildPeopleDtos_.add(index, value);
+          onChanged();
+        } else {
+          guildPeopleDtosBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GuildPeopleDto guildPeopleDtos = 7;</code>
+       */
+      public Builder addGuildPeopleDtos(
+          GuildPeopleDto.Builder builderForValue) {
+        if (guildPeopleDtosBuilder_ == null) {
+          ensureGuildPeopleDtosIsMutable();
+          guildPeopleDtos_.add(builderForValue.build());
+          onChanged();
+        } else {
+          guildPeopleDtosBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GuildPeopleDto guildPeopleDtos = 7;</code>
+       */
+      public Builder addGuildPeopleDtos(
+          int index, GuildPeopleDto.Builder builderForValue) {
+        if (guildPeopleDtosBuilder_ == null) {
+          ensureGuildPeopleDtosIsMutable();
+          guildPeopleDtos_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          guildPeopleDtosBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GuildPeopleDto guildPeopleDtos = 7;</code>
+       */
+      public Builder addAllGuildPeopleDtos(
+          Iterable<? extends GuildPeopleDto> values) {
+        if (guildPeopleDtosBuilder_ == null) {
+          ensureGuildPeopleDtosIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, guildPeopleDtos_);
+          onChanged();
+        } else {
+          guildPeopleDtosBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GuildPeopleDto guildPeopleDtos = 7;</code>
+       */
+      public Builder clearGuildPeopleDtos() {
+        if (guildPeopleDtosBuilder_ == null) {
+          guildPeopleDtos_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          guildPeopleDtosBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GuildPeopleDto guildPeopleDtos = 7;</code>
+       */
+      public Builder removeGuildPeopleDtos(int index) {
+        if (guildPeopleDtosBuilder_ == null) {
+          ensureGuildPeopleDtosIsMutable();
+          guildPeopleDtos_.remove(index);
+          onChanged();
+        } else {
+          guildPeopleDtosBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GuildPeopleDto guildPeopleDtos = 7;</code>
+       */
+      public GuildPeopleDto.Builder getGuildPeopleDtosBuilder(
+          int index) {
+        return getGuildPeopleDtosFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .GuildPeopleDto guildPeopleDtos = 7;</code>
+       */
+      public GuildPeopleDtoOrBuilder getGuildPeopleDtosOrBuilder(
+          int index) {
+        if (guildPeopleDtosBuilder_ == null) {
+          return guildPeopleDtos_.get(index);  } else {
+          return guildPeopleDtosBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .GuildPeopleDto guildPeopleDtos = 7;</code>
+       */
+      public java.util.List<? extends GuildPeopleDtoOrBuilder>
+           getGuildPeopleDtosOrBuilderList() {
+        if (guildPeopleDtosBuilder_ != null) {
+          return guildPeopleDtosBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(guildPeopleDtos_);
+        }
+      }
+      /**
+       * <code>repeated .GuildPeopleDto guildPeopleDtos = 7;</code>
+       */
+      public GuildPeopleDto.Builder addGuildPeopleDtosBuilder() {
+        return getGuildPeopleDtosFieldBuilder().addBuilder(
+            GuildPeopleDto.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .GuildPeopleDto guildPeopleDtos = 7;</code>
+       */
+      public GuildPeopleDto.Builder addGuildPeopleDtosBuilder(
+          int index) {
+        return getGuildPeopleDtosFieldBuilder().addBuilder(
+            index, GuildPeopleDto.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .GuildPeopleDto guildPeopleDtos = 7;</code>
+       */
+      public java.util.List<GuildPeopleDto.Builder>
+           getGuildPeopleDtosBuilderList() {
+        return getGuildPeopleDtosFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          GuildPeopleDto, GuildPeopleDto.Builder, GuildPeopleDtoOrBuilder>
+          getGuildPeopleDtosFieldBuilder() {
+        if (guildPeopleDtosBuilder_ == null) {
+          guildPeopleDtosBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              GuildPeopleDto, GuildPeopleDto.Builder, GuildPeopleDtoOrBuilder>(
+                  guildPeopleDtos_,
+                  ((bitField0_ & 0x00000001) != 0),
+                  getParentForChildren(),
+                  isClean());
+          guildPeopleDtos_ = null;
+        }
+        return guildPeopleDtosBuilder_;
       }
       @Override
       public final Builder setUnknownFields(
@@ -20263,6 +22361,11 @@ public final class GuildModel {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_GuildModelMessage_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_ApplyResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_ApplyResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_GetGuildApplyListRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -20287,6 +22390,11 @@ public final class GuildModel {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_GuildApplyDto_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_GuildPeopleDto_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_GuildPeopleDto_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_GuildDto_descriptor;
   private static final 
@@ -20401,7 +22509,7 @@ public final class GuildModel {
       descriptor;
   static {
     String[] descriptorData = {
-      "\n\020GuildModel.proto\"\334\017\n\021GuildModelMessage" +
+      "\n\020GuildModel.proto\"\230\020\n\021GuildModelMessage" +
       "\022.\n\tdata_type\030\001 \001(\0162\033.GuildModelMessage." +
       "DateType\0221\n\022createGuildRequest\030\002 \001(\0132\023.C" +
       "reateGuildRequestH\000\022-\n\020joinGuildRequest\030" +
@@ -20435,54 +22543,61 @@ public final class GuildModel {
       "st\030\027 \001(\0132\024.GetGuildBeanRequestH\000\022?\n\031getG" +
       "uildApplyListResponse\030\030 \001(\0132\032.GetGuildAp" +
       "plyListResponseH\000\0225\n\024getGuildBeanRespons" +
-      "e\030\031 \001(\0132\025.GetGuildBeanResponseH\000\"\362\004\n\010Dat" +
-      "eType\022\026\n\022CreateGuildRequest\020\000\022\024\n\020JoinGui" +
-      "ldRequest\020\001\022\023\n\017SetGuildRequest\020\002\022\023\n\017OutG" +
-      "uildRequest\020\003\022\032\n\026ContributeMoneyRequest\020" +
-      "\004\022\034\n\030ContributeArticleRequest\020\005\022\025\n\021GetAr" +
-      "ticleRequest\020\006\022\023\n\017GetMoneyRequest\020\007\022\027\n\023C" +
-      "reateGuildResponse\020\010\022\025\n\021JoinGuildRespons" +
-      "e\020\t\022\024\n\020SetGuildResponse\020\n\022\024\n\020OutGuildRes" +
-      "ponse\020\013\022\033\n\027ContributeMoneyResponse\020\014\022\035\n\031" +
-      "ContributeArticleResponse\020\r\022\026\n\022GetArticl" +
-      "eResponse\020\016\022\024\n\020GetMoneyResponse\020\017\022\032\n\026Agr" +
-      "eeGuildApplyRequest\020\020\022\033\n\027RefuseGuildAppl" +
-      "yRequest\020\021\022\033\n\027AgreeGuildApplyResponse\020\022\022" +
-      "\034\n\030RefuseGuildApplyResponse\020\023\022\034\n\030GetGuil" +
-      "dApplyListRequest\020\024\022\027\n\023GetGuildBeanReque" +
-      "st\020\025\022\035\n\031GetGuildApplyListResponse\020\026\022\030\n\024G" +
-      "etGuildBeanResponse\020\027B\n\n\010dateBody\"0\n\030Get" +
-      "GuildApplyListRequest\022\024\n\014guildApplyId\030\001 " +
-      "\001(\005\"*\n\023GetGuildBeanRequest\022\023\n\013guildBeanI" +
-      "d\030\001 \001(\005\"C\n\031GetGuildApplyListResponse\022&\n\016" +
-      "guildApplyDtos\030\001 \003(\0132\016.GuildApplyDto\"3\n\024" +
-      "GetGuildBeanResponse\022\033\n\010guildDto\030\001 \001(\0132\t" +
-      ".GuildDto\"\206\001\n\rGuildApplyDto\022\n\n\002id\030\001 \001(\005\022" +
-      "\016\n\006roleId\030\002 \001(\005\022\020\n\010roleName\030\003 \001(\t\022\017\n\007gui" +
-      "ldId\030\004 \001(\005\022\021\n\tguildName\030\005 \001(\t\022\022\n\ncreateT" +
-      "ime\030\006 \001(\022\022\017\n\007endTime\030\007 \001(\022\"n\n\010GuildDto\022\n" +
-      "\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\022\n\nchairmanId\030\003" +
-      " \001(\005\022\021\n\tpeopleNum\030\004 \001(\005\022\r\n\005level\030\005 \001(\005\022\022" +
-      "\n\ncreateTime\030\006 \001(\022\".\n\026AgreeGuildApplyReq" +
-      "uest\022\024\n\014guildApplyId\030\001 \001(\005\"/\n\027RefuseGuil" +
-      "dApplyRequest\022\024\n\014guildApplyId\030\001 \001(\005\"\031\n\027A" +
-      "greeGuildApplyResponse\"\032\n\030RefuseGuildApp" +
-      "lyResponse\"\"\n\022CreateGuildRequest\022\014\n\004name" +
-      "\030\001 \001(\t\"#\n\020JoinGuildRequest\022\017\n\007guildId\030\001 " +
-      "\001(\005\"8\n\017SetGuildRequest\022\016\n\006roleId\030\001 \001(\005\022\025" +
-      "\n\rguildPosition\030\002 \001(\005\"\021\n\017OutGuildRequest" +
-      "\"\'\n\026ContributeMoneyRequest\022\r\n\005money\030\001 \001(" +
-      "\005\"r\n\030ContributeArticleRequest\022\030\n\020article" +
-      "MessageId\030\001 \001(\005\022\023\n\013articleType\030\002 \001(\005\022\016\n\006" +
-      "number\030\003 \001(\005\022\027\n\017equipmentBeanId\030\004 \001(\005\"8\n" +
-      "\021GetArticleRequest\022\023\n\013warehouseId\030\001 \001(\005\022" +
-      "\016\n\006number\030\002 \001(\005\" \n\017GetMoneyRequest\022\r\n\005mo" +
-      "ney\030\001 \001(\005\"\025\n\023CreateGuildResponse\"\023\n\021Join" +
-      "GuildResponse\"\022\n\020SetGuildResponse\"\022\n\020Out" +
-      "GuildResponse\"\031\n\027ContributeMoneyResponse" +
-      "\"\033\n\031ContributeArticleResponse\"\024\n\022GetArti" +
-      "cleResponse\"\022\n\020GetMoneyResponseB\014B\nGuild" +
-      "Modelb\006proto3"
+      "e\030\031 \001(\0132\025.GetGuildBeanResponseH\000\022\'\n\rappl" +
+      "yResponse\030\032 \001(\0132\016.ApplyResponseH\000\"\205\005\n\010Da" +
+      "teType\022\026\n\022CreateGuildRequest\020\000\022\024\n\020JoinGu" +
+      "ildRequest\020\001\022\023\n\017SetGuildRequest\020\002\022\023\n\017Out" +
+      "GuildRequest\020\003\022\032\n\026ContributeMoneyRequest" +
+      "\020\004\022\034\n\030ContributeArticleRequest\020\005\022\025\n\021GetA" +
+      "rticleRequest\020\006\022\023\n\017GetMoneyRequest\020\007\022\027\n\023" +
+      "CreateGuildResponse\020\010\022\025\n\021JoinGuildRespon" +
+      "se\020\t\022\024\n\020SetGuildResponse\020\n\022\024\n\020OutGuildRe" +
+      "sponse\020\013\022\033\n\027ContributeMoneyResponse\020\014\022\035\n" +
+      "\031ContributeArticleResponse\020\r\022\026\n\022GetArtic" +
+      "leResponse\020\016\022\024\n\020GetMoneyResponse\020\017\022\032\n\026Ag" +
+      "reeGuildApplyRequest\020\020\022\033\n\027RefuseGuildApp" +
+      "lyRequest\020\021\022\033\n\027AgreeGuildApplyResponse\020\022" +
+      "\022\034\n\030RefuseGuildApplyResponse\020\023\022\034\n\030GetGui" +
+      "ldApplyListRequest\020\024\022\027\n\023GetGuildBeanRequ" +
+      "est\020\025\022\035\n\031GetGuildApplyListResponse\020\026\022\030\n\024" +
+      "GetGuildBeanResponse\020\027\022\021\n\rApplyResponse\020" +
+      "\032B\n\n\010dateBody\"$\n\rApplyResponse\022\023\n\013succes" +
+      "sFlag\030\001 \001(\010\"0\n\030GetGuildApplyListRequest\022" +
+      "\024\n\014guildApplyId\030\001 \001(\005\"*\n\023GetGuildBeanReq" +
+      "uest\022\023\n\013guildBeanId\030\001 \001(\005\"C\n\031GetGuildApp" +
+      "lyListResponse\022&\n\016guildApplyDtos\030\001 \003(\0132\016" +
+      ".GuildApplyDto\"3\n\024GetGuildBeanResponse\022\033" +
+      "\n\010guildDto\030\001 \001(\0132\t.GuildDto\"\206\001\n\rGuildApp" +
+      "lyDto\022\n\n\002id\030\001 \001(\005\022\016\n\006roleId\030\002 \001(\005\022\020\n\010rol" +
+      "eName\030\003 \001(\t\022\017\n\007guildId\030\004 \001(\005\022\021\n\tguildNam" +
+      "e\030\005 \001(\t\022\022\n\ncreateTime\030\006 \001(\022\022\017\n\007endTime\030\007" +
+      " \001(\022\"\217\001\n\016GuildPeopleDto\022\n\n\002id\030\001 \001(\005\022\016\n\006r" +
+      "oleId\030\002 \001(\005\022\020\n\010onStatus\030\003 \001(\005\022\024\n\014profess" +
+      "ionId\030\004 \001(\005\022\025\n\rguildPosition\030\005 \001(\005\022\024\n\014co" +
+      "ntribution\030\006 \001(\005\022\014\n\004name\030\007 \001(\t\"\230\001\n\010Guild" +
+      "Dto\022\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\022\n\nchairma" +
+      "nId\030\003 \001(\005\022\021\n\tpeopleNum\030\004 \001(\005\022\r\n\005level\030\005 " +
+      "\001(\005\022\022\n\ncreateTime\030\006 \001(\022\022(\n\017guildPeopleDt" +
+      "os\030\007 \003(\0132\017.GuildPeopleDto\".\n\026AgreeGuildA" +
+      "pplyRequest\022\024\n\014guildApplyId\030\001 \001(\005\"/\n\027Ref" +
+      "useGuildApplyRequest\022\024\n\014guildApplyId\030\001 \001" +
+      "(\005\"\031\n\027AgreeGuildApplyResponse\"\032\n\030RefuseG" +
+      "uildApplyResponse\"\"\n\022CreateGuildRequest\022" +
+      "\014\n\004name\030\001 \001(\t\"#\n\020JoinGuildRequest\022\017\n\007gui" +
+      "ldId\030\001 \001(\005\"8\n\017SetGuildRequest\022\016\n\006roleId\030" +
+      "\001 \001(\005\022\025\n\rguildPosition\030\002 \001(\005\"\021\n\017OutGuild" +
+      "Request\"\'\n\026ContributeMoneyRequest\022\r\n\005mon" +
+      "ey\030\001 \001(\005\"r\n\030ContributeArticleRequest\022\030\n\020" +
+      "articleMessageId\030\001 \001(\005\022\023\n\013articleType\030\002 " +
+      "\001(\005\022\016\n\006number\030\003 \001(\005\022\027\n\017equipmentBeanId\030\004" +
+      " \001(\005\"8\n\021GetArticleRequest\022\023\n\013warehouseId" +
+      "\030\001 \001(\005\022\016\n\006number\030\002 \001(\005\" \n\017GetMoneyReques" +
+      "t\022\r\n\005money\030\001 \001(\005\"\025\n\023CreateGuildResponse\"" +
+      "\023\n\021JoinGuildResponse\"\022\n\020SetGuildResponse" +
+      "\"\022\n\020OutGuildResponse\"\031\n\027ContributeMoneyR" +
+      "esponse\"\033\n\031ContributeArticleResponse\"\024\n\022" +
+      "GetArticleResponse\"\022\n\020GetMoneyResponseB\014" +
+      "B\nGuildModelb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -20493,159 +22608,171 @@ public final class GuildModel {
     internal_static_GuildModelMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_GuildModelMessage_descriptor,
-        new String[] { "DataType", "CreateGuildRequest", "JoinGuildRequest", "SetGuildRequest", "OutGuildRequest", "ContributeMoneyRequest", "ContributeArticleRequest", "GetArticleRequest", "GetMoneyRequest", "CreateGuildResponse", "JoinGuildResponse", "SetGuildResponse", "OutGuildResponse", "ContributeMoneyResponse", "ContributeArticleResponse", "GetArticleResponse", "GetMoneyResponse", "AgreeGuildApplyRequest", "RefuseGuildApplyRequest", "AgreeGuildApplyResponse", "RefuseGuildApplyResponse", "GetGuildApplyListRequest", "GetGuildBeanRequest", "GetGuildApplyListResponse", "GetGuildBeanResponse", "DateBody", });
-    internal_static_GetGuildApplyListRequest_descriptor =
+        new String[] { "DataType", "CreateGuildRequest", "JoinGuildRequest", "SetGuildRequest", "OutGuildRequest", "ContributeMoneyRequest", "ContributeArticleRequest", "GetArticleRequest", "GetMoneyRequest", "CreateGuildResponse", "JoinGuildResponse", "SetGuildResponse", "OutGuildResponse", "ContributeMoneyResponse", "ContributeArticleResponse", "GetArticleResponse", "GetMoneyResponse", "AgreeGuildApplyRequest", "RefuseGuildApplyRequest", "AgreeGuildApplyResponse", "RefuseGuildApplyResponse", "GetGuildApplyListRequest", "GetGuildBeanRequest", "GetGuildApplyListResponse", "GetGuildBeanResponse", "ApplyResponse", "DateBody", });
+    internal_static_ApplyResponse_descriptor =
       getDescriptor().getMessageTypes().get(1);
+    internal_static_ApplyResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_ApplyResponse_descriptor,
+        new String[] { "SuccessFlag", });
+    internal_static_GetGuildApplyListRequest_descriptor =
+      getDescriptor().getMessageTypes().get(2);
     internal_static_GetGuildApplyListRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_GetGuildApplyListRequest_descriptor,
         new String[] { "GuildApplyId", });
     internal_static_GetGuildBeanRequest_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(3);
     internal_static_GetGuildBeanRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_GetGuildBeanRequest_descriptor,
         new String[] { "GuildBeanId", });
     internal_static_GetGuildApplyListResponse_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(4);
     internal_static_GetGuildApplyListResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_GetGuildApplyListResponse_descriptor,
         new String[] { "GuildApplyDtos", });
     internal_static_GetGuildBeanResponse_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_GetGuildBeanResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_GetGuildBeanResponse_descriptor,
         new String[] { "GuildDto", });
     internal_static_GuildApplyDto_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_GuildApplyDto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_GuildApplyDto_descriptor,
         new String[] { "Id", "RoleId", "RoleName", "GuildId", "GuildName", "CreateTime", "EndTime", });
+    internal_static_GuildPeopleDto_descriptor =
+      getDescriptor().getMessageTypes().get(7);
+    internal_static_GuildPeopleDto_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_GuildPeopleDto_descriptor,
+        new String[] { "Id", "RoleId", "OnStatus", "ProfessionId", "GuildPosition", "Contribution", "Name", });
     internal_static_GuildDto_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_GuildDto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_GuildDto_descriptor,
-        new String[] { "Id", "Name", "ChairmanId", "PeopleNum", "Level", "CreateTime", });
+        new String[] { "Id", "Name", "ChairmanId", "PeopleNum", "Level", "CreateTime", "GuildPeopleDtos", });
     internal_static_AgreeGuildApplyRequest_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_AgreeGuildApplyRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_AgreeGuildApplyRequest_descriptor,
         new String[] { "GuildApplyId", });
     internal_static_RefuseGuildApplyRequest_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_RefuseGuildApplyRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_RefuseGuildApplyRequest_descriptor,
         new String[] { "GuildApplyId", });
     internal_static_AgreeGuildApplyResponse_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_AgreeGuildApplyResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_AgreeGuildApplyResponse_descriptor,
         new String[] { });
     internal_static_RefuseGuildApplyResponse_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_RefuseGuildApplyResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_RefuseGuildApplyResponse_descriptor,
         new String[] { });
     internal_static_CreateGuildRequest_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_CreateGuildRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_CreateGuildRequest_descriptor,
         new String[] { "Name", });
     internal_static_JoinGuildRequest_descriptor =
-      getDescriptor().getMessageTypes().get(12);
+      getDescriptor().getMessageTypes().get(14);
     internal_static_JoinGuildRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_JoinGuildRequest_descriptor,
         new String[] { "GuildId", });
     internal_static_SetGuildRequest_descriptor =
-      getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(15);
     internal_static_SetGuildRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SetGuildRequest_descriptor,
         new String[] { "RoleId", "GuildPosition", });
     internal_static_OutGuildRequest_descriptor =
-      getDescriptor().getMessageTypes().get(14);
+      getDescriptor().getMessageTypes().get(16);
     internal_static_OutGuildRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_OutGuildRequest_descriptor,
         new String[] { });
     internal_static_ContributeMoneyRequest_descriptor =
-      getDescriptor().getMessageTypes().get(15);
+      getDescriptor().getMessageTypes().get(17);
     internal_static_ContributeMoneyRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ContributeMoneyRequest_descriptor,
         new String[] { "Money", });
     internal_static_ContributeArticleRequest_descriptor =
-      getDescriptor().getMessageTypes().get(16);
+      getDescriptor().getMessageTypes().get(18);
     internal_static_ContributeArticleRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ContributeArticleRequest_descriptor,
         new String[] { "ArticleMessageId", "ArticleType", "Number", "EquipmentBeanId", });
     internal_static_GetArticleRequest_descriptor =
-      getDescriptor().getMessageTypes().get(17);
+      getDescriptor().getMessageTypes().get(19);
     internal_static_GetArticleRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_GetArticleRequest_descriptor,
         new String[] { "WarehouseId", "Number", });
     internal_static_GetMoneyRequest_descriptor =
-      getDescriptor().getMessageTypes().get(18);
+      getDescriptor().getMessageTypes().get(20);
     internal_static_GetMoneyRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_GetMoneyRequest_descriptor,
         new String[] { "Money", });
     internal_static_CreateGuildResponse_descriptor =
-      getDescriptor().getMessageTypes().get(19);
+      getDescriptor().getMessageTypes().get(21);
     internal_static_CreateGuildResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_CreateGuildResponse_descriptor,
         new String[] { });
     internal_static_JoinGuildResponse_descriptor =
-      getDescriptor().getMessageTypes().get(20);
+      getDescriptor().getMessageTypes().get(22);
     internal_static_JoinGuildResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_JoinGuildResponse_descriptor,
         new String[] { });
     internal_static_SetGuildResponse_descriptor =
-      getDescriptor().getMessageTypes().get(21);
+      getDescriptor().getMessageTypes().get(23);
     internal_static_SetGuildResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SetGuildResponse_descriptor,
         new String[] { });
     internal_static_OutGuildResponse_descriptor =
-      getDescriptor().getMessageTypes().get(22);
+      getDescriptor().getMessageTypes().get(24);
     internal_static_OutGuildResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_OutGuildResponse_descriptor,
         new String[] { });
     internal_static_ContributeMoneyResponse_descriptor =
-      getDescriptor().getMessageTypes().get(23);
+      getDescriptor().getMessageTypes().get(25);
     internal_static_ContributeMoneyResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ContributeMoneyResponse_descriptor,
         new String[] { });
     internal_static_ContributeArticleResponse_descriptor =
-      getDescriptor().getMessageTypes().get(24);
+      getDescriptor().getMessageTypes().get(26);
     internal_static_ContributeArticleResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ContributeArticleResponse_descriptor,
         new String[] { });
     internal_static_GetArticleResponse_descriptor =
-      getDescriptor().getMessageTypes().get(25);
+      getDescriptor().getMessageTypes().get(27);
     internal_static_GetArticleResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_GetArticleResponse_descriptor,
         new String[] { });
     internal_static_GetMoneyResponse_descriptor =
-      getDescriptor().getMessageTypes().get(26);
+      getDescriptor().getMessageTypes().get(28);
     internal_static_GetMoneyResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_GetMoneyResponse_descriptor,

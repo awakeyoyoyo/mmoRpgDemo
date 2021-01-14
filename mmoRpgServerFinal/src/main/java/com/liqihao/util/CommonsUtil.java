@@ -106,6 +106,20 @@ public class CommonsUtil implements ApplicationContextAware {
         return guildApplyBean;
     }
 
+    public static GuildModel.GuildPeopleDto guildRoleBeanToGuildPeopleDto(GuildRoleBean guildRoleBean) {
+        GuildModel.GuildPeopleDto.Builder guildPeopleDtoBuilder=GuildModel.GuildPeopleDto.newBuilder();
+        guildPeopleDtoBuilder.setRoleId(guildRoleBean.getRoleId()).setGuildPosition(guildRoleBean.getGuildPositionId())
+                .setContribution(guildRoleBean.getContribution());
+        MmoSimpleRole role=OnlineRoleMessageCache.getInstance().get(guildRoleBean.getRoleId());
+        if(role==null){
+            MmoRolePOJO mmoRolePOJO=RoleMessageCache.getInstance().get(guildRoleBean.getRoleId());
+            guildPeopleDtoBuilder.setProfessionId(mmoRolePOJO.getProfessionId()).setOnStatus(RoleOnStatusCode.EXIT.getCode()).setName(mmoRolePOJO.getName());
+        }else{
+            guildPeopleDtoBuilder.setProfessionId(role.getProfessionId()).setOnStatus(role.getOnStatus()).setName(role.getName());
+        }
+        return guildPeopleDtoBuilder.build();
+    }
+
     @Override
     public void setApplicationContext(ApplicationContext context) throws BeansException {
         applicationContext = context;

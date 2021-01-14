@@ -1,7 +1,11 @@
 package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.liqihao.commons.MmoCacheCilent;
 import com.liqihao.commons.NettyResponse;
+import com.liqihao.commons.enums.RoleOnStatusCode;
+import com.liqihao.pojo.baseMessage.GuildPositionMessage;
+import com.liqihao.pojo.baseMessage.ProfessionMessage;
 import com.liqihao.protobufObject.GuildModel;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.service.GuildService;
@@ -9,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+
 @Service
 public class GuildServiceImpl implements GuildService {
     @Override
@@ -92,6 +98,8 @@ public class GuildServiceImpl implements GuildService {
 
     @Override
     public void getGuildBean(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
+        ConcurrentHashMap<Integer, ProfessionMessage> p= MmoCacheCilent.getInstance().getProfessionMessageConcurrentHashMap();
+        ConcurrentHashMap<Integer, GuildPositionMessage> gp= MmoCacheCilent.getInstance().getGuildPositionMessageConcurrentHashMap();
         byte[] data = nettyResponse.getData();
         GuildModel.GuildModelMessage myMessage;
         myMessage = GuildModel.GuildModelMessage.parseFrom(data);
@@ -104,6 +112,13 @@ public class GuildServiceImpl implements GuildService {
         System.out.println("[-][-]公会等级：" + guildDto.getLevel() + " 公会人数：" + guildDto.getPeopleNum());
         System.out.println("[-][-]公会会长id：" + guildDto.getChairmanId());
         System.out.println("[-][-]创建时间：" + sdf.format(guildDto.getCreateTime()));
+        System.out.println("[-][-][-]成员列表:");
+        for (GuildModel.GuildPeopleDto guildPeopleDto : guildDto.getGuildPeopleDtosList()) {
+            System.out.println("[-][-][-]");
+            System.out.println("[-][-][-]玩家id："+guildPeopleDto.getRoleId()+" 玩家姓名："+guildPeopleDto.getName()+" 玩家职业："+p.get(guildPeopleDto.getProfessionId()).getName()+" 状态："+ RoleOnStatusCode.getValue(guildPeopleDto.getOnStatus()));
+            System.out.println("[-][-][-]职位："+gp.get(guildPeopleDto.getGuildPosition()).getName()+" 贡献值："+guildPeopleDto.getContribution());
+            System.out.println("[-][-][-]");
+        }
         System.out.println("[-][-]");
         System.out.println("[-]--------------------------------------------------------");
     }
@@ -125,6 +140,21 @@ public class GuildServiceImpl implements GuildService {
         myMessage = GuildModel.GuildModelMessage.parseFrom(data);
         System.out.println("[-]--------------------------------------------------------");
         System.out.println("[-]已拒绝该申请！");
+        System.out.println("[-]--------------------------------------------------------");
+    }
+
+    @Override
+    public void guildApplyResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
+        byte[] data = nettyResponse.getData();
+        GuildModel.GuildModelMessage myMessage;
+        myMessage = GuildModel.GuildModelMessage.parseFrom(data);
+        boolean flag=myMessage.getApplyResponse().getSuccessFlag();
+        System.out.println("[-]--------------------------------------------------------");
+        if (flag){
+            System.out.println("[-]已通过公会申请！");
+        }else {
+            System.out.println("[-]公会申请被拒绝！");
+        }
         System.out.println("[-]--------------------------------------------------------");
     }
 }

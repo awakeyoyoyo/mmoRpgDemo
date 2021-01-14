@@ -2,12 +2,17 @@ package com.liqihao.pojo.bean.guildBean;
 
 import com.liqihao.Cache.OnlineRoleMessageCache;
 import com.liqihao.Cache.RoleMessageCache;
+import com.liqihao.commons.ConstantValue;
+import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.RpgServerException;
+import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.GuildRolePositionCode;
 import com.liqihao.pojo.MmoRolePOJO;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
-import com.liqihao.pojo.bean.roleBean.Role;
+import com.liqihao.protobufObject.GuildModel;
 import com.liqihao.provider.GuildServiceProvider;
+import io.netty.channel.Channel;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -169,6 +174,12 @@ public class GuildBean {
                 GuildApplyBean bean = (GuildApplyBean) iterator.next();
                 if (guildApplyId.equals(bean.getId())) {
                     iterator.remove();
+                    MmoSimpleRole role= OnlineRoleMessageCache.getInstance().get(bean.getRoleId());
+                    if (role==null){
+                        // 角色不在线 不发
+                    }else{
+                        sendJoinResponse(role,false);
+                    }
                     //数据库删除
                     List<Integer> deleteList=new ArrayList<Integer>();
                     deleteList.add(bean.getId());
@@ -212,6 +223,7 @@ public class GuildBean {
                        GuildServiceProvider.getInstance().updateRolePOJO(mmoRolePOJO);
                     }else{
                         role.setGuildBean(this);
+                        sendJoinResponse(role,true);
                     }
                     List<Integer> deleteList=new ArrayList<Integer>();
                     deleteList.add(bean.getId());
@@ -291,5 +303,25 @@ public class GuildBean {
             }
         }
         return null;
+    }
+
+    /**
+     * 发送申请拒绝或者通过
+     * @param role
+     * @param flag
+     */
+    public void  sendJoinResponse(MmoSimpleRole role,boolean flag){
+        Channel channel=role.getChannel();
+        //返回成功的数据包
+        NettyResponse nettyResponse = new NettyResponse();
+        nettyResponse.setCmd(ConstantValue.GUILD_APPLY_RESPONSE);
+        nettyResponse.setStateCode(StateCode.SUCCESS);
+        //protobuf 生成registerResponse
+        GuildModel.GuildModelMessage.Builder messageData = GuildModel.GuildModelMessage.newBuilder();
+        messageData.setDataType(GuildModel.GuildModelMessage.DateType.ApplyResponse);
+        GuildModel.ApplyResponse.Builder applyResponseBuilder = GuildModel.ApplyResponse.newBuilder().setSuccessFlag(flag);
+        messageData.setApplyResponse(applyResponseBuilder.build());
+        nettyResponse.setData(messageData.build().toByteArray());
+        channel.writeAndFlush(nettyResponse);
     }
 }

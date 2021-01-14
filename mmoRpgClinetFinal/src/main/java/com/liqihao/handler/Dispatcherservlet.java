@@ -217,6 +217,9 @@ public class Dispatcherservlet {
             case ConstantValue.GET_GUILD_MESSAGE_RESPONSE:
                 guildService.getGuildBean(nettyResponse);
                 break;
+            case ConstantValue.GUILD_APPLY_RESPONSE:
+                guildService.guildApplyResponse(nettyResponse);
+                break;
             default:
                 System.out.println("handler:收到");
                 System.out.println(new java.lang.String(nettyResponse.getData()));

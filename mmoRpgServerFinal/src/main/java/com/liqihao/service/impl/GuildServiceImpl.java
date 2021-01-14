@@ -191,9 +191,16 @@ public class GuildServiceImpl implements GuildService {
             throw new RpgServerException(StateCode.FAIL,"不存在该公会");
         }
         //生成protobuf数据
+        List<GuildModel.GuildPeopleDto> guildPeopleDtos=new ArrayList<>();
+        for (GuildRoleBean guildRoleBean : guildBean.getGuildRoleBeans()) {
+            GuildModel.GuildPeopleDto guildPeopleDto=CommonsUtil.guildRoleBeanToGuildPeopleDto(guildRoleBean);
+            guildPeopleDtos.add(guildPeopleDto);
+        }
         GuildModel.GuildDto guildDto=GuildModel.GuildDto.newBuilder()
                 .setId(guildBean.getId()).setCreateTime(guildBean.getCreateTime()).setName(guildBean.getName())
-                .setLevel(guildBean.getLevel()).setChairmanId(guildBean.getChairmanId()).setPeopleNum(guildBean.getPeopleNum()).build();
+                .setLevel(guildBean.getLevel()).setChairmanId(guildBean.getChairmanId())
+                .addAllGuildPeopleDtos(guildPeopleDtos)
+                .setPeopleNum(guildBean.getPeopleNum()).build();
         //返回成功的数据包
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.GET_GUILD_MESSAGE_RESPONSE);

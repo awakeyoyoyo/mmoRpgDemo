@@ -504,6 +504,7 @@ public interface ConstantValue {
     int AGREE_GUILD_APPLY_RESPONSE=10509;
     int REFUSE_GUILD_APPLY_RESPONSE=10510;
     int GET_GUILD_MESSAGE_RESPONSE=15011;
+    int GUILD_APPLY_RESPONSE=15012;
     /**
      * 参数错误响应
      */

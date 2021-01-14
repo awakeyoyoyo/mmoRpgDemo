@@ -89,4 +89,9 @@ public interface GuildService {
      */
     void refuseGuildApply(NettyResponse nettyResponse) throws InvalidProtocolBufferException;
 
+    /**
+     * 申请处理结果响应
+     * @param nettyResponse
+     */
+    void guildApplyResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException;
 }
