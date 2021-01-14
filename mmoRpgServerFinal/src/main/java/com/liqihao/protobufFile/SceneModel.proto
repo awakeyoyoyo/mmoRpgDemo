@@ -76,6 +76,8 @@ message RoleDTO{
   double attackAdd=12;
   int32 teamId=13;
   int32 professionId=14;
+  int32 guildId=17;
+  string guildName=18;
 }
 message MmoSimpleScene{
    int32 id=1;

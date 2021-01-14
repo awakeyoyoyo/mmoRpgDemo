@@ -557,6 +557,8 @@ public class CommonsUtil implements ApplicationContextAware {
     public static SceneBean sceneMessageToSceneBean(SceneMessage m) {
         SceneBean sceneBean=new SceneBean();
         sceneBean.setId(m.getId());
+        sceneBean.setName(m.getPlaceName());
+        sceneBean.setCanScenes(split(m.getCanScene()));
         sceneBean.setRoles(new ArrayList<>());
         sceneBean.setHelperBeans(new ArrayList<>());
         List<Integer> npcs=new ArrayList<>();

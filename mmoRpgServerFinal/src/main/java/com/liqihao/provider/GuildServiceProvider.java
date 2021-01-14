@@ -9,9 +9,11 @@ import com.liqihao.commons.enums.GuildRolePositionCode;
 import com.liqihao.dao.MmoGuildApplyPOJOMapper;
 import com.liqihao.dao.MmoGuildPOJOMapper;
 import com.liqihao.dao.MmoGuildRolePOJOMapper;
+import com.liqihao.dao.MmoRolePOJOMapper;
 import com.liqihao.pojo.MmoGuildApplyPOJO;
 import com.liqihao.pojo.MmoGuildPOJO;
 import com.liqihao.pojo.MmoGuildRolePOJO;
+import com.liqihao.pojo.MmoRolePOJO;
 import com.liqihao.pojo.baseMessage.GuildAuthorityMessage;
 import com.liqihao.pojo.baseMessage.GuildPositionMessage;
 import com.liqihao.pojo.bean.guildBean.GuildApplyBean;
@@ -37,8 +39,12 @@ import java.util.concurrent.ConcurrentHashMap;
 public class GuildServiceProvider  implements ApplicationContextAware {
     private static final ConcurrentHashMap<Integer, GuildBean> guildBeanConcurrentHashMap=new ConcurrentHashMap<>();
     private MmoGuildPOJOMapper mmoGuildPOJOMapper;
+    @Autowired
     private MmoGuildRolePOJOMapper mmoGuildRolePOJOMapper;
+    @Autowired
     private MmoGuildApplyPOJOMapper mmoGuildApplyPOJOMapper;
+    @Autowired
+    private MmoRolePOJOMapper mmoRolePOJOMapper;
     private volatile static GuildServiceProvider instance;
     @Autowired
     private CommonsUtil commonsUtil;
@@ -46,11 +52,7 @@ public class GuildServiceProvider  implements ApplicationContextAware {
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         instance=this;
         MmoGuildPOJOMapper mmoGuildPOJOMapper=(MmoGuildPOJOMapper)applicationContext.getBean("mmoGuildPOJOMapper");
-        MmoGuildRolePOJOMapper mmoGuildRolePOJOMapper=(MmoGuildRolePOJOMapper)applicationContext.getBean("mmoGuildRolePOJOMapper");
-        MmoGuildApplyPOJOMapper mmoGuildApplyPOJOMapper=(MmoGuildApplyPOJOMapper)applicationContext.getBean("mmoGuildApplyPOJOMapper");
         this.mmoGuildPOJOMapper=mmoGuildPOJOMapper;
-        this.mmoGuildRolePOJOMapper=mmoGuildRolePOJOMapper;
-        this.mmoGuildApplyPOJOMapper=mmoGuildApplyPOJOMapper;
         init();
     }
 
@@ -183,5 +185,30 @@ public class GuildServiceProvider  implements ApplicationContextAware {
 
     public GuildBean getGuildBeanById(Integer guildId) {
         return  guildBeanConcurrentHashMap.get(guildId);
+    }
+
+    public void updateRolePOJO(MmoRolePOJO mmoRolePOJO) {
+        mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO);
+    }
+
+    public void updateGuildPOJO(GuildBean guildBean) {
+        MmoGuildPOJO guildPOJO=new MmoGuildPOJO();
+        guildPOJO.setId(guildBean.getId());
+        guildPOJO.setName(guildBean.getName());
+        guildPOJO.setCreateTime(guildBean.getCreateTime());
+        guildPOJO.setLevel(guildBean.getLevel());
+        guildPOJO.setPeopleNum(guildBean.getPeopleNum());
+        guildPOJO.setChairmanId(guildBean.getChairmanId());
+        mmoGuildPOJOMapper.updateByPrimaryKey(guildPOJO);
+    }
+
+    public void updateGuildRole(GuildRoleBean roleBean) {
+        MmoGuildRolePOJO mmoGuildRolePOJO=new MmoGuildRolePOJO();
+        mmoGuildRolePOJO.setId(roleBean.getId());
+        mmoGuildRolePOJO.setRoleId(roleBean.getRoleId());
+        mmoGuildRolePOJO.setContribution(roleBean.getContribution());
+        mmoGuildRolePOJO.setGuildId(roleBean.getGuildId());
+        mmoGuildRolePOJO.setGuildPositionId(roleBean.getGuildPositionId());
+        mmoGuildRolePOJOMapper.updateByPrimaryKey(mmoGuildRolePOJO);
     }
 }

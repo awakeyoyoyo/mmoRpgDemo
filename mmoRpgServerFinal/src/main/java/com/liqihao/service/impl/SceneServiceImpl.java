@@ -89,6 +89,8 @@ public class SceneServiceImpl implements SceneService {
             if (mmoRole.getType().equals(RoleTypeCode.PLAYER.getCode())) {
                 MmoSimpleRole r = (MmoSimpleRole) mmoRole;
                 msr.setProfessionId(r.getProfessionId());
+                msr.setGuildName(r.getGuildBean()==null?"":r.getGuildBean().getName());
+                msr.setGuildId(r.getGuildBean()==null?-1:r.getGuildBean().getId());
             }
             SceneModel.RoleDTO msrObject = msr.build();
             roleDTOS.add(msrObject);
@@ -166,6 +168,8 @@ public class SceneServiceImpl implements SceneService {
             if (m.getType().equals(RoleTypeCode.PLAYER.getCode())) {
                 MmoSimpleRole mmoSimpleRole1 = (MmoSimpleRole) m;
                 msr.setProfessionId(mmoSimpleRole1.getProfessionId());
+                msr.setGuildName(mmoSimpleRole1.getGuildBean()==null?"":mmoSimpleRole1.getGuildBean().getName());
+                msr.setGuildId(mmoSimpleRole1.getGuildBean()==null?-1:mmoSimpleRole1.getGuildBean().getId());
             }
             roleDTOS.add(msr.build());
         }

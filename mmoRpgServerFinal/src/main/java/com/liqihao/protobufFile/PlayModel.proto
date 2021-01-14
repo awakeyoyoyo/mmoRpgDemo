@@ -84,6 +84,8 @@ message RoleDTO{
   int32 sceneId=14;
   int32 professionId=15;
   int32 money=16;
+  int32 guildId=17;
+  string guildName=18;
 }
 message RoleIdDamage{
   int32 fromRoleId=1;

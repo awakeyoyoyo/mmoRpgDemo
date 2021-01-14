@@ -216,6 +216,8 @@ public class PlayServiceImpl implements PlayService {
                 .setAttackAdd(simpleRole.getDamageAdd())
                 .setMoney(simpleRole.getMoney())
                 .setProfessionId(simpleRole.getProfessionId())
+                .setGuildName(simpleRole.getGuildBean()==null?"":simpleRole.getGuildBean().getName())
+                .setGuildId(simpleRole.getGuildBean()==null?-1:simpleRole.getGuildBean().getId())
                 .build();
         loginResponseBuilder.setRoleDto(roleDTO);
         //场景信息

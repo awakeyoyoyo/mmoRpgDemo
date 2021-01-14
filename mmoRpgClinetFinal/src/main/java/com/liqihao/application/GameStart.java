@@ -316,6 +316,7 @@ public class GameStart {
     private void joinGuildRequest(Scanner scanner) {
         System.out.println("请输入你要加入的公会id：");
         Integer guildId=scanner.nextInt();
+        scanner.nextLine();
         NettyRequest nettyRequest=new NettyRequest();
         nettyRequest.setCmd(ConstantValue.JOIN_GUILD_REQUEST);
         GuildModel.GuildModelMessage myMessage;

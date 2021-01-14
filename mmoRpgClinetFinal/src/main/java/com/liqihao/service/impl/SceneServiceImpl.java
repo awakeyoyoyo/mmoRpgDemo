@@ -71,7 +71,8 @@ public class SceneServiceImpl implements SceneService {
             System.out.println("[-][-]类型: " + RoleTypeCode.getValue(roleDTO.getType()) + " 状态: " + RoleStatusCode.getValue(roleDTO.getStatus()));
             if (roleDTO.getType()==RoleTypeCode.PLAYER.getCode()){
                 System.out.println("[-][-]职业："+p.get(roleDTO.getProfessionId()).getName());
-
+                System.out.println("[-][-]公会id："+roleDTO.getGuildId());
+                System.out.println("[-][-]公会名称："+roleDTO.getGuildName());
             }
             System.out.println("[-][-]血量： " + roleDTO.getNowBlood() + "/" + roleDTO.getBlood());
             System.out.println("[-][-]蓝量： " + roleDTO.getNowMp() + "/" + roleDTO.getMp());
@@ -115,6 +116,8 @@ public class SceneServiceImpl implements SceneService {
             System.out.println("[-][-]角色id：" + roleDTO.getId() + " 角色名: " + roleDTO.getName());
             if (roleDTO.getType()==RoleTypeCode.PLAYER.getCode()){
                 System.out.println("[-][-]职业："+p.get(roleDTO.getProfessionId()).getName());
+                System.out.println("[-][-]公会id："+roleDTO.getGuildId());
+                System.out.println("[-][-]公会名称："+roleDTO.getGuildName());
             }
             System.out.println("[-][-]类型: " + RoleTypeCode.getValue(roleDTO.getType()) + " 状态: " + RoleStatusCode.getValue(roleDTO.getStatus()));
             System.out.println("[-][-]血量： " + roleDTO.getNowBlood() + "/" + roleDTO.getBlood());

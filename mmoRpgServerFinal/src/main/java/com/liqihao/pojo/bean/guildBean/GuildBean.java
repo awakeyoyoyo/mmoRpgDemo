@@ -1,7 +1,12 @@
 package com.liqihao.pojo.bean.guildBean;
 
+import com.liqihao.Cache.OnlineRoleMessageCache;
+import com.liqihao.Cache.RoleMessageCache;
 import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.enums.GuildRolePositionCode;
+import com.liqihao.pojo.MmoRolePOJO;
+import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
+import com.liqihao.pojo.bean.roleBean.Role;
 import com.liqihao.provider.GuildServiceProvider;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -132,7 +137,7 @@ public class GuildBean {
         while (iterator.hasNext()){
             GuildApplyBean bean= (GuildApplyBean) iterator.next();
             if (bean.getEndTime()<System.currentTimeMillis()){
-                guildApplyBeans.remove(bean);
+                iterator.remove();
                 outTimeApplyIds.add(bean.getId());
             }
         }
@@ -163,8 +168,11 @@ public class GuildBean {
             while (iterator.hasNext()) {
                 GuildApplyBean bean = (GuildApplyBean) iterator.next();
                 if (guildApplyId.equals(bean.getId())) {
-                    guildApplyBeans.remove(bean);
-                    GuildServiceProvider.getInstance().deleteApply(new ArrayList<>(bean.getId()));
+                    iterator.remove();
+                    //数据库删除
+                    List<Integer> deleteList=new ArrayList<Integer>();
+                    deleteList.add(bean.getId());
+                    GuildServiceProvider.getInstance().deleteApply(deleteList);
                 }
             }
         }
@@ -194,8 +202,22 @@ public class GuildBean {
                         getGuildRoleBeans().add(guildRoleBean);
                     }
                     //删除申请记录
-                    guildApplyBeans.remove(bean);
-                    GuildServiceProvider.getInstance().deleteApply(new ArrayList<>(bean.getId()));
+                    iterator.remove();
+                    //对应角色
+                    MmoSimpleRole role= OnlineRoleMessageCache.getInstance().get(bean.getRoleId());
+                    if (role==null){
+                        // 角色不在线 直接插入数据库
+                       MmoRolePOJO mmoRolePOJO =RoleMessageCache.getInstance().get(bean.getRoleId());
+                       mmoRolePOJO.setGuildId(bean.getGuildId());
+                       GuildServiceProvider.getInstance().updateRolePOJO(mmoRolePOJO);
+                    }else{
+                        role.setGuildBean(this);
+                    }
+                    List<Integer> deleteList=new ArrayList<Integer>();
+                    deleteList.add(bean.getId());
+                    //数据库删除 更新
+                    GuildServiceProvider.getInstance().deleteApply(deleteList);
+                    GuildServiceProvider.getInstance().updateGuildPOJO(this);
                     break;
                 }
             }
@@ -213,8 +235,18 @@ public class GuildBean {
                 if (roleId.equals(roleBean.getRoleId())) {
                     peopleNum = peopleNum - 1;
                     guildRoleBeans.remove(roleBean);
+                    MmoSimpleRole role=OnlineRoleMessageCache.getInstance().get(roleId);
+                    if (role==null){
+                        // 角色不在线 直接插入数据库
+                        MmoRolePOJO mmoRolePOJO =RoleMessageCache.getInstance().get(roleId);
+                        mmoRolePOJO.setGuildId(-1);
+                        GuildServiceProvider.getInstance().updateRolePOJO(mmoRolePOJO);
+                    }else{
+                        role.setGuildBean(null);
+                    }
                     //数据库删除该人的记录
                     GuildServiceProvider.getInstance().deletePeople(roleBean.getId());
+                    GuildServiceProvider.getInstance().updateGuildPOJO(this);
                     break;
                 }
             }
@@ -238,6 +270,7 @@ public class GuildBean {
             GuildRoleBean roleBean= (GuildRoleBean) iterator.next();
             if (toRoleId.equals(roleBean.getRoleId())){
                 roleBean.setGuildPositionId(position);
+                GuildServiceProvider.getInstance().updateGuildRole(roleBean);
                 break;
             }
         }

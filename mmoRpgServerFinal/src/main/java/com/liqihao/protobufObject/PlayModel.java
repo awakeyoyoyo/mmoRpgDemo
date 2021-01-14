@@ -9025,6 +9025,24 @@ public final class PlayModel {
      * @return The money.
      */
     int getMoney();
+
+    /**
+     * <code>int32 guildId = 17;</code>
+     * @return The guildId.
+     */
+    int getGuildId();
+
+    /**
+     * <code>string guildName = 18;</code>
+     * @return The guildName.
+     */
+    String getGuildName();
+    /**
+     * <code>string guildName = 18;</code>
+     * @return The bytes for guildName.
+     */
+    com.google.protobuf.ByteString
+        getGuildNameBytes();
   }
   /**
    * Protobuf type {@code RoleDTO}
@@ -9041,6 +9059,7 @@ public final class PlayModel {
     private RoleDTO() {
       name_ = "";
       skillIdList_ = emptyIntList();
+      guildName_ = "";
     }
 
     @Override
@@ -9169,6 +9188,17 @@ public final class PlayModel {
             case 128: {
 
               money_ = input.readInt32();
+              break;
+            }
+            case 136: {
+
+              guildId_ = input.readInt32();
+              break;
+            }
+            case 146: {
+              String s = input.readStringRequireUtf8();
+
+              guildName_ = s;
               break;
             }
             default: {
@@ -9426,6 +9456,55 @@ public final class PlayModel {
       return money_;
     }
 
+    public static final int GUILDID_FIELD_NUMBER = 17;
+    private int guildId_;
+    /**
+     * <code>int32 guildId = 17;</code>
+     * @return The guildId.
+     */
+    @Override
+    public int getGuildId() {
+      return guildId_;
+    }
+
+    public static final int GUILDNAME_FIELD_NUMBER = 18;
+    private volatile Object guildName_;
+    /**
+     * <code>string guildName = 18;</code>
+     * @return The guildName.
+     */
+    @Override
+    public String getGuildName() {
+      Object ref = guildName_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        guildName_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string guildName = 18;</code>
+     * @return The bytes for guildName.
+     */
+    @Override
+    public com.google.protobuf.ByteString
+        getGuildNameBytes() {
+      Object ref = guildName_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (String) ref);
+        guildName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -9492,6 +9571,12 @@ public final class PlayModel {
       }
       if (money_ != 0) {
         output.writeInt32(16, money_);
+      }
+      if (guildId_ != 0) {
+        output.writeInt32(17, guildId_);
+      }
+      if (!getGuildNameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 18, guildName_);
       }
       unknownFields.writeTo(output);
     }
@@ -9575,6 +9660,13 @@ public final class PlayModel {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(16, money_);
       }
+      if (guildId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(17, guildId_);
+      }
+      if (!getGuildNameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(18, guildName_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -9623,6 +9715,10 @@ public final class PlayModel {
           != other.getProfessionId()) return false;
       if (getMoney()
           != other.getMoney()) return false;
+      if (getGuildId()
+          != other.getGuildId()) return false;
+      if (!getGuildName()
+          .equals(other.getGuildName())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -9669,6 +9765,10 @@ public final class PlayModel {
       hash = (53 * hash) + getProfessionId();
       hash = (37 * hash) + MONEY_FIELD_NUMBER;
       hash = (53 * hash) + getMoney();
+      hash = (37 * hash) + GUILDID_FIELD_NUMBER;
+      hash = (53 * hash) + getGuildId();
+      hash = (37 * hash) + GUILDNAME_FIELD_NUMBER;
+      hash = (53 * hash) + getGuildName().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -9834,6 +9934,10 @@ public final class PlayModel {
 
         money_ = 0;
 
+        guildId_ = 0;
+
+        guildName_ = "";
+
         return this;
       }
 
@@ -9881,6 +9985,8 @@ public final class PlayModel {
         result.sceneId_ = sceneId_;
         result.professionId_ = professionId_;
         result.money_ = money_;
+        result.guildId_ = guildId_;
+        result.guildName_ = guildName_;
         onBuilt();
         return result;
       }
@@ -9984,6 +10090,13 @@ public final class PlayModel {
         }
         if (other.getMoney() != 0) {
           setMoney(other.getMoney());
+        }
+        if (other.getGuildId() != 0) {
+          setGuildId(other.getGuildId());
+        }
+        if (!other.getGuildName().isEmpty()) {
+          guildName_ = other.guildName_;
+          onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -10600,6 +10713,113 @@ public final class PlayModel {
       public Builder clearMoney() {
         
         money_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int guildId_ ;
+      /**
+       * <code>int32 guildId = 17;</code>
+       * @return The guildId.
+       */
+      @Override
+      public int getGuildId() {
+        return guildId_;
+      }
+      /**
+       * <code>int32 guildId = 17;</code>
+       * @param value The guildId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setGuildId(int value) {
+        
+        guildId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 guildId = 17;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearGuildId() {
+        
+        guildId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private Object guildName_ = "";
+      /**
+       * <code>string guildName = 18;</code>
+       * @return The guildName.
+       */
+      public String getGuildName() {
+        Object ref = guildName_;
+        if (!(ref instanceof String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          String s = bs.toStringUtf8();
+          guildName_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      /**
+       * <code>string guildName = 18;</code>
+       * @return The bytes for guildName.
+       */
+      public com.google.protobuf.ByteString
+          getGuildNameBytes() {
+        Object ref = guildName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (String) ref);
+          guildName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string guildName = 18;</code>
+       * @param value The guildName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setGuildName(
+          String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        guildName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string guildName = 18;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearGuildName() {
+        
+        guildName_ = getDefaultInstance().getGuildName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string guildName = 18;</code>
+       * @param value The bytes for guildName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setGuildNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        guildName_ = value;
         onChanged();
         return this;
       }
@@ -12152,22 +12372,23 @@ public final class PlayModel {
       " \001(\005\022\016\n\006roleId\030\002 \001(\005\022\020\n\010roleType\030\003 \001(\005\"8" +
       "\n\020UseSkillResponse\022$\n\rroleIdDamages\030\001 \003(" +
       "\0132\r.RoleIdDamage\"<\n\025DamagesNoticeRespons" +
-      "e\022#\n\014roleIdDamage\030\001 \001(\0132\r.RoleIdDamage\"\215" +
+      "e\022#\n\014roleIdDamage\030\001 \001(\0132\r.RoleIdDamage\"\261" +
       "\002\n\007RoleDTO\022\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\016\n\006" +
       "status\030\003 \001(\005\022\014\n\004type\030\004 \001(\005\022\020\n\010onStatus\030\005" +
       " \001(\005\022\r\n\005blood\030\006 \001(\005\022\020\n\010nowBlood\030\007 \001(\005\022\n\n" +
       "\002mp\030\010 \001(\005\022\r\n\005nowMp\030\t \001(\005\022\023\n\013skillIdList\030" +
       "\n \003(\005\022\016\n\006attack\030\013 \001(\005\022\021\n\tattackAdd\030\014 \001(\001" +
       "\022\016\n\006teamId\030\r \001(\005\022\017\n\007sceneId\030\016 \001(\005\022\024\n\014pro" +
-      "fessionId\030\017 \001(\005\022\r\n\005money\030\020 \001(\005\"\217\002\n\014RoleI" +
-      "dDamage\022\022\n\nfromRoleId\030\001 \001(\005\022\020\n\010toRoleId\030" +
-      "\002 \001(\005\022\020\n\010bufferId\030\003 \001(\005\022\017\n\007skillId\030\004 \001(\005" +
-      "\022\023\n\013attackStyle\030\005 \001(\005\022\022\n\ndamageType\030\006 \001(" +
-      "\005\022\016\n\006damage\030\007 \001(\005\022\020\n\010nowblood\030\010 \001(\005\022\n\n\002m" +
-      "p\030\t \001(\005\022\r\n\005State\030\n \001(\005\022\024\n\014fromRoleType\030\013" +
-      " \001(\005\022\022\n\ntoRoleType\030\014 \001(\005\022\021\n\tarticleId\030\r " +
-      "\001(\005\022\023\n\013articleType\030\016 \001(\005B\013B\tPlayModelb\006p" +
-      "roto3"
+      "fessionId\030\017 \001(\005\022\r\n\005money\030\020 \001(\005\022\017\n\007guildI" +
+      "d\030\021 \001(\005\022\021\n\tguildName\030\022 \001(\t\"\217\002\n\014RoleIdDam" +
+      "age\022\022\n\nfromRoleId\030\001 \001(\005\022\020\n\010toRoleId\030\002 \001(" +
+      "\005\022\020\n\010bufferId\030\003 \001(\005\022\017\n\007skillId\030\004 \001(\005\022\023\n\013" +
+      "attackStyle\030\005 \001(\005\022\022\n\ndamageType\030\006 \001(\005\022\016\n" +
+      "\006damage\030\007 \001(\005\022\020\n\010nowblood\030\010 \001(\005\022\n\n\002mp\030\t " +
+      "\001(\005\022\r\n\005State\030\n \001(\005\022\024\n\014fromRoleType\030\013 \001(\005" +
+      "\022\022\n\ntoRoleType\030\014 \001(\005\022\021\n\tarticleId\030\r \001(\005\022" +
+      "\023\n\013articleType\030\016 \001(\005B\013B\tPlayModelb\006proto" +
+      "3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -12238,7 +12459,7 @@ public final class PlayModel {
     internal_static_RoleDTO_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_RoleDTO_descriptor,
-        new String[] { "Id", "Name", "Status", "Type", "OnStatus", "Blood", "NowBlood", "Mp", "NowMp", "SkillIdList", "Attack", "AttackAdd", "TeamId", "SceneId", "ProfessionId", "Money", });
+        new String[] { "Id", "Name", "Status", "Type", "OnStatus", "Blood", "NowBlood", "Mp", "NowMp", "SkillIdList", "Attack", "AttackAdd", "TeamId", "SceneId", "ProfessionId", "Money", "GuildId", "GuildName", });
     internal_static_RoleIdDamage_descriptor =
       getDescriptor().getMessageTypes().get(11);
     internal_static_RoleIdDamage_fieldAccessorTable = new
