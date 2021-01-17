@@ -19,4 +19,5 @@ public interface MmoEquipmentBagPOJOMapper {
 
     List<MmoEquipmentBagPOJO> selectByRoleId(Integer roleId);
 
+    int selectNextIndex();
 }

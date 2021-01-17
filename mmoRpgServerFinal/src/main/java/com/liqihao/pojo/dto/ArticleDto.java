@@ -37,6 +37,32 @@ public class ArticleDto {
      */
     private Integer equipmentId;
 
+    /**
+     * 仓库id
+     */
+    private Integer wareHouseId;
+
+    /**
+     * 仓库 数据库id
+     */
+    private Integer wareHouseDBId;
+
+    public Integer getWareHouseId() {
+        return wareHouseId;
+    }
+
+    public void setWareHouseId(Integer wareHouseId) {
+        this.wareHouseId = wareHouseId;
+    }
+
+    public Integer getWareHouseDBId() {
+        return wareHouseDBId;
+    }
+
+    public void setWareHouseDBId(Integer wareHouseDBId) {
+        this.wareHouseDBId = wareHouseDBId;
+    }
+
     public Integer getNowDurability() {
         return nowDurability;
     }

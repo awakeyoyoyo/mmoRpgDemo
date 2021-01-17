@@ -4,17 +4,23 @@ import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.StateCode;
 import com.liqihao.dao.MmoEmailPOJOMapper;
 import com.liqihao.dao.MmoUserPOJOMapper;
+import com.liqihao.pojo.MmoEmailPOJO;
 import com.liqihao.pojo.MmoUserPOJO;
 import com.liqihao.pojo.bean.MmoEmailBean;
+import com.liqihao.pojo.bean.articleBean.MedicineBean;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.util.CommonsUtil;
+import com.liqihao.util.DbUtil;
+import com.liqihao.util.ScheduledThreadPoolUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
+import javax.rmi.CORBA.Util;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -29,11 +35,14 @@ import java.util.stream.Collectors;
 public class EmailServiceProvider implements ApplicationContextAware {
     private final Logger log = LoggerFactory.getLogger(EmailServiceProvider.class);
     MmoEmailPOJOMapper mmoEmailPOJOMapper;
-    static MmoUserPOJOMapper userPOJOMapper;
+    private static MmoUserPOJOMapper userPOJOMapper;
+
+
+
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         MmoEmailPOJOMapper mmoEmailPOJOMapper=(MmoEmailPOJOMapper)applicationContext.getBean("mmoEmailPOJOMapper");
-        MmoUserPOJOMapper userPOJOMapper=(MmoUserPOJOMapper)applicationContext.getBean("mmoUserPOJOMapper");
+        userPOJOMapper=(MmoUserPOJOMapper)applicationContext.getBean("mmoUserPOJOMapper");
         this.mmoEmailPOJOMapper=mmoEmailPOJOMapper;
         Integer index=mmoEmailPOJOMapper.selectNextIndex();
         emailBeanIdAuto=new AtomicInteger(index);
@@ -85,7 +94,7 @@ public class EmailServiceProvider implements ApplicationContextAware {
                 throw new RpgServerException(StateCode.FAIL,"该用户不存在");
             }
             emailBean.setIntoDataBase(true);
-            CommonsUtil.mmoEmailPOJOIntoDataBase(emailBean);
+            ScheduledThreadPoolUtil.addTask(() -> DbUtil.mmoEmailPOJOIntoDataBase(emailBean));
         }
     }
     /**
@@ -127,7 +136,9 @@ public class EmailServiceProvider implements ApplicationContextAware {
             while(iterator.hasNext()){
                 Integer id=iterator.next();
                 if (id.equals(emailId)){
-                    map.get(emailId).setToDelete(true);
+                    MmoEmailBean emailBean=map.get(emailId);
+                    emailBean.setToDelete(true);
+                    ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateEmailBeanDb(emailBean));
                     break;
                 }
             }
@@ -141,12 +152,12 @@ public class EmailServiceProvider implements ApplicationContextAware {
             while(iterator.hasNext()){
                 Integer id=iterator.next();
                 if (id.equals(emailId)){
-                    map.get(emailId).setFromDelete(true);
+                    MmoEmailBean emailBean=map.get(emailId);
+                    emailBean.setFromDelete(true);
+                    ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateEmailBeanDb(emailBean));
                     break;
                 }
             }
         }
     }
-
-
 }

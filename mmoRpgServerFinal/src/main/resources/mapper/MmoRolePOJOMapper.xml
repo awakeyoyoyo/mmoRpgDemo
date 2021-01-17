@@ -168,4 +168,11 @@
     <include refid="Base_Column_List" />
     from mmo_role
   </select>
+
+  <select id="selectNextIndex"  resultType="java.lang.Integer">
+    select
+      AUTO_INCREMENT
+    from INFORMATION_SCHEMA. TABLES
+    where TABLE_NAME = 'mmo_role'
+  </select>
 </mapper>

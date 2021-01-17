@@ -14,4 +14,6 @@ public interface MmoWareHousePOJOMapper {
     int updateByPrimaryKeySelective(MmoWareHousePOJO record);
 
     int updateByPrimaryKey(MmoWareHousePOJO record);
+
+    int selectNextIndex();
 }

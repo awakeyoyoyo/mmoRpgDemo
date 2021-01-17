@@ -18,4 +18,6 @@ public interface MmoGuildPOJOMapper {
     int updateByPrimaryKey(MmoGuildPOJO record);
 
     List<MmoGuildPOJO> selectAll();
+
+    Integer selectNextIndex();
 }

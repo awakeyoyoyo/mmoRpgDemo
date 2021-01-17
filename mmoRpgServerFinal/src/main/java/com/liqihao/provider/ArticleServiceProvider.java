@@ -10,6 +10,8 @@ import com.liqihao.pojo.bean.CopySceneBean;
 import com.liqihao.pojo.bean.articleBean.EquipmentBean;
 import com.liqihao.pojo.bean.articleBean.MedicineBean;
 import com.liqihao.util.CommonsUtil;
+import com.liqihao.util.DbUtil;
+import com.liqihao.util.ScheduledThreadPoolUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -68,6 +70,7 @@ public class ArticleServiceProvider implements ApplicationContextAware {
         for (Integer id:medicineIds) {
             MedicineBean medicineBean= productMedicine(id);
             medicineBean.setFloorIndex(copySceneBean.getFloorIndex());
+            medicineBean.setQuantity(1);
             medicineBeans.add(medicineBean);
         }
         return medicineBeans;
@@ -99,6 +102,7 @@ public class ArticleServiceProvider implements ApplicationContextAware {
         equipmentBean.setEquipmentId(equipmentBeanIdAuto.incrementAndGet());
         equipmentBean.setNowDurability(equipmentMessage.getDurability());
         equipmentBean.setQuantity(1);
+        ScheduledThreadPoolUtil.addTask(() -> DbUtil.insertEquipment(equipmentBean));
         return equipmentBean;
     }
 

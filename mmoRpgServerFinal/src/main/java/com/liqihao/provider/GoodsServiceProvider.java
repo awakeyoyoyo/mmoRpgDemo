@@ -86,7 +86,7 @@ public class GoodsServiceProvider {
                 }
                 throw new RpgServerException(StateCode.FAIL,"背包已经满了");
             }
-            mmoSimpleRole.getBackpackManager().put(article);
+            mmoSimpleRole.getBackpackManager().put(article,mmoSimpleRole.getId());
         }
         return  article;
     }

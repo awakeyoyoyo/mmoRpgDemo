@@ -96,4 +96,11 @@
     from mmo_guild_apply
     where guild_id = #{id,jdbcType=INTEGER}
   </select>
+
+  <select id="selectNextIndex"  resultType="java.lang.Integer">
+    select
+      AUTO_INCREMENT
+    from INFORMATION_SCHEMA. TABLES
+    where TABLE_NAME = 'mmo_guild_apply'
+  </select>
 </mapper>

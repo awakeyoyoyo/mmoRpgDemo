@@ -59,6 +59,18 @@ public class CommonsUtil implements ApplicationContextAware {
     private static MmoEmailPOJOMapper mmoEmailPOJOMapper;
     private static MmoGuildApplyPOJOMapper mmoGuildApplyPOJOMapper;
     private static MmoGuildRolePOJOMapper mmoGuildRolePOJOMapper;
+    @Override
+    public void setApplicationContext(ApplicationContext context) throws BeansException {
+        applicationContext = context;
+        mmoBagPOJOMapper=(MmoBagPOJOMapper)context.getBean("mmoBagPOJOMapper");
+        mmoEquipmentPOJOMapper=(MmoEquipmentPOJOMapper)context.getBean("mmoEquipmentPOJOMapper");
+        equipmentBagPOJOMapper=(MmoEquipmentBagPOJOMapper)context.getBean("mmoEquipmentBagPOJOMapper");
+        mmoRolePOJOMapper=(MmoRolePOJOMapper)context.getBean("mmoRolePOJOMapper");
+        mmoEmailPOJOMapper=(MmoEmailPOJOMapper)context.getBean("mmoEmailPOJOMapper");
+        mmoGuildApplyPOJOMapper=(MmoGuildApplyPOJOMapper) context.getBean("mmoGuildApplyPOJOMapper");;
+        mmoGuildRolePOJOMapper=(MmoGuildRolePOJOMapper) context.getBean("mmoGuildRolePOJOMapper");;
+    }
+
     public static GuildBean MmoGuildPOJOToGuildBean(MmoGuildPOJO mmoGuildPOJO) {
         GuildBean guildBean=new GuildBean();
         guildBean.setId(mmoGuildPOJO.getId());
@@ -120,17 +132,6 @@ public class CommonsUtil implements ApplicationContextAware {
         return guildPeopleDtoBuilder.build();
     }
 
-    @Override
-    public void setApplicationContext(ApplicationContext context) throws BeansException {
-        applicationContext = context;
-        mmoBagPOJOMapper=(MmoBagPOJOMapper)context.getBean("mmoBagPOJOMapper");
-        mmoEquipmentPOJOMapper=(MmoEquipmentPOJOMapper)context.getBean("mmoEquipmentPOJOMapper");
-        equipmentBagPOJOMapper=(MmoEquipmentBagPOJOMapper)context.getBean("mmoEquipmentBagPOJOMapper");
-        mmoRolePOJOMapper=(MmoRolePOJOMapper)context.getBean("mmoRolePOJOMapper");
-        mmoEmailPOJOMapper=(MmoEmailPOJOMapper)context.getBean("mmoEmailPOJOMapper");
-        mmoGuildApplyPOJOMapper=(MmoGuildApplyPOJOMapper) context.getBean("mmoGuildApplyPOJOMapper");;
-        mmoGuildRolePOJOMapper=(MmoGuildRolePOJOMapper) context.getBean("mmoGuildRolePOJOMapper");;
-    }
 
     public static CopySceneModel.BossBeanDto bossBeanToBossBeanDto(BossBean boss) {
         CopySceneModel.BossBeanDto.Builder bossDtoBuilder=CopySceneModel.BossBeanDto.newBuilder();
@@ -161,7 +162,7 @@ public class CommonsUtil implements ApplicationContextAware {
                 .build();
     }
 
-    public static CopySceneModel.RoleDto mmoSimpleRolesToCopyScneRoleDto(MmoSimpleRole role) {
+    public static CopySceneModel.RoleDto mmoSimpleRolesToCopySceneRoleDto(MmoSimpleRole role) {
         CopySceneModel.RoleDto.Builder roleDtoBuilder=CopySceneModel.RoleDto.newBuilder();
         List<CopySceneModel.BufferDto> bufferDtoList=new ArrayList<>();
         if (role.getBufferBeans().size()>0){
@@ -228,7 +229,8 @@ public class CommonsUtil implements ApplicationContextAware {
         guildBean.setLevel(mmoGuildPOJO.getLevel());
         guildBean.setPeopleNum(mmoGuildPOJO.getPeopleNum());
         guildBean.setChairmanId(mmoGuildPOJO.getChairmanId());
-        guildBean.setWareHouseManager(new WareHouseManager());
+        Integer wareHouseSize=MmoBaseMessageCache.getInstance().getGuildBaseMessage().getMaxWareHouseNumber();
+        guildBean.setWareHouseManager(new WareHouseManager(wareHouseSize));
         guildBean.setCreateTime(mmoGuildPOJO.getCreateTime());
         guildBean.setName(mmoGuildPOJO.getName());
         return guildBean;
@@ -242,46 +244,6 @@ public class CommonsUtil implements ApplicationContextAware {
                 .setId(guildApplyBean.getId()).setRoleId(guildApplyBean.getRoleId()).setRoleName(mmoRolePOJO.getName())
                 .setEndTime(guildApplyBean.getEndTime()).setCreateTime(guildApplyBean.getCreateTime());
         return guildApplyDtoBuilder.build();
-    }
-
-
-
-    /**
-     * 邮件信息入库
-     */
-    public static  void mmoEmailPOJOIntoDataBase(MmoEmailBean emailBean){
-        MmoEmailPOJO mmoEmailPOJO=new MmoEmailPOJO();
-        mmoEmailPOJO.setId(emailBean.getId());
-        mmoEmailPOJO.setArticleMessageId(emailBean.getArticleMessageId());
-        mmoEmailPOJO.setArticleNum(emailBean.getArticleNum());
-        mmoEmailPOJO.setArticleType(emailBean.getArticleType());
-        mmoEmailPOJO.setFromRoleId(emailBean.getFromRoleId());
-        mmoEmailPOJO.setTitle(emailBean.getTitle());
-        mmoEmailPOJO.setToRoleId(emailBean.getToRoleId());
-        mmoEmailPOJO.setFromDelete(emailBean.getFromDelete());
-        mmoEmailPOJO.setToDelete(emailBean.getToDelete());
-        mmoEmailPOJO.setCreateTime(emailBean.getCreateTime());
-        mmoEmailPOJO.setChecked(emailBean.getChecked());
-        mmoEmailPOJO.setContext(emailBean.getContext());
-        mmoEmailPOJO.setIsGet(emailBean.getGet());
-        //删除双方都是删除状态的
-        if (mmoEmailPOJO.getFromDelete()==true&&mmoEmailPOJO.getToDelete()==true){
-            //id小于初始化的id 则代表是旧数据 删除
-            if (mmoEmailPOJO.getId()<=EmailServiceProvider.getId()) {
-                mmoEmailPOJOMapper.deleteByPrimaryKey(mmoEmailPOJO.getId());
-            }
-        }else{
-            if (mmoEmailPOJO.getId()<=EmailServiceProvider.getId()) {
-                mmoEmailPOJOMapper.updateByPrimaryKeySelective(mmoEmailPOJO);
-            }else {
-                MmoEmailPOJO mmoEmail=mmoEmailPOJOMapper.selectByPrimaryKey(mmoEmailPOJO.getId());
-                if (mmoEmail==null) {
-                    mmoEmailPOJOMapper.insert(mmoEmailPOJO);
-                }else{
-                    mmoEmailPOJOMapper.updateByPrimaryKeySelective(mmoEmailPOJO);
-                }
-            }
-        }
     }
 
     public static CopySceneBean copySceneMessageToCopySceneBean(CopySceneMessage copySceneMessage) {
@@ -313,6 +275,7 @@ public class CommonsUtil implements ApplicationContextAware {
         bossBean.setName(bossMessage.getName());
         return bossBean;
     }
+
     /**
      * 根据channle获取线程池线程下表
      */
@@ -321,6 +284,7 @@ public class CommonsUtil implements ApplicationContextAware {
         Integer index = channel.hashCode() & (threadSize - 1);
         return index;
     }
+
     /**
      * 判断是否登陆
      * @param channel
@@ -335,112 +299,6 @@ public class CommonsUtil implements ApplicationContextAware {
         return mmoSimpleRole;
     }
 
-    /**
-     * 人物信息入库
-     */
-    public static  void roleInfoIntoDataBase(MmoSimpleRole mmoSimpleRole){
-        MmoRolePOJO mmoRolePOJO=new MmoRolePOJO();
-        mmoRolePOJO.setId(mmoSimpleRole.getId());
-        mmoRolePOJO.setStatus(mmoSimpleRole.getStatus());
-        mmoRolePOJO.setOnStatus(mmoSimpleRole.getOnStatus());
-        mmoRolePOJO.setMmoSceneId(mmoSimpleRole.getMmoSceneId());
-        mmoRolePOJO.setName(mmoSimpleRole.getName());
-        mmoRolePOJO.setProfessionId(mmoSimpleRole.getProfessionId());
-        mmoRolePOJO.setMoney(mmoSimpleRole.getMoney());
-        if(mmoSimpleRole.getGuildBean()!=null) {
-            mmoRolePOJO.setGuildId(mmoSimpleRole.getGuildBean().getId());
-        }else {
-            mmoRolePOJO.setGuildId(-1);
-        }
-//        mmoRolePOJO.setSkillIds(CommonsUtil.listToString(mmoSimpleRole.getSkillIdList()))
-        mmoRolePOJO.setType(mmoSimpleRole.getType());
-        mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO);
-    }
-    /**
-     * 背包入库
-     * @param backPackManager
-     * @param roleId
-     */
-    public static  void bagIntoDataBase(BackPackManager backPackManager,Integer roleId){
-        List<ArticleDto> articles=backPackManager.getBackpacksMessage();
-        //需要修改或者新增的记录
-        for (ArticleDto a:articles) {
-            MmoBagPOJO mmoBagPOJO=new MmoBagPOJO();
-            mmoBagPOJO.setArticleType(a.getArticleType());
-            mmoBagPOJO.setNumber(a.getQuantity());
-            mmoBagPOJO.setRoleId(roleId);
-            if (a.getArticleType().equals(ArticleTypeCode.EQUIPMENT.getCode())) {
-                mmoBagPOJO.setwId(a.getEquipmentId());
-            }else{
-                mmoBagPOJO.setwId(a.getId());
-            }
-            if (a.getBagId()!=null){
-                mmoBagPOJO.setBagId(a.getBagId());
-                mmoBagPOJOMapper.updateByPrimaryKey(mmoBagPOJO);
-            }else{
-                //新的
-                mmoBagPOJOMapper.insert(mmoBagPOJO);
-            }
-            /**
-             * 新产生的装备以及 更新旧 的装备
-             */
-            if (a.getArticleType().equals(ArticleTypeCode.EQUIPMENT.getCode())) {
-               MmoEquipmentPOJO e=mmoEquipmentPOJOMapper.selectByPrimaryKey(mmoBagPOJO.getwId());
-               if (e==null){
-                   e=new MmoEquipmentPOJO();
-                   e.setId(a.getEquipmentId());
-                   e.setNowDurability(a.getNowDurability());
-                   e.setMessageId(a.getId());
-                   mmoEquipmentPOJOMapper.insert(e);
-               }else{
-                   e.setNowDurability(a.getNowDurability());
-                   mmoEquipmentPOJOMapper.updateByPrimaryKey(e);
-               }
-            }
-        }
-        //需要删除的记录
-        List<Integer> bagIds=backPackManager.getNeedDeleteBagId();
-        for (Integer id:bagIds){
-            mmoBagPOJOMapper.deleteByPrimaryKey(id);
-        }
-    }
-
-    /**
-     * 装备入库
-     * @param mmoSimpleRole
-     */
-    public static void equipmentIntoDataBase(MmoSimpleRole mmoSimpleRole){
-        List<EquipmentDto> dtos=mmoSimpleRole.getEquipments();
-        for (EquipmentDto e:dtos) {
-            MmoEquipmentBagPOJO equipmentBagPOJO = new MmoEquipmentBagPOJO();
-            //装备栏
-            equipmentBagPOJO.setEquipmentId(e.getEquipmentId());
-            equipmentBagPOJO.setRoleId(mmoSimpleRole.getId());
-            if (e.getEquipmentBagId()!=null) {
-                //主键
-                equipmentBagPOJO.setEquipmentBagId(e.getEquipmentBagId());
-                equipmentBagPOJOMapper.updateByPrimaryKey(equipmentBagPOJO);
-            }else{
-                equipmentBagPOJOMapper.insert(equipmentBagPOJO);
-            }
-            //装备入库
-            MmoEquipmentPOJO equipmentPOJO=new MmoEquipmentPOJO();
-            equipmentPOJO.setId(e.getEquipmentId());
-            equipmentPOJO.setMessageId(e.getId());
-            equipmentPOJO.setNowDurability(e.getNowDurability());
-            MmoEquipmentPOJO pojo=mmoEquipmentPOJOMapper.selectByPrimaryKey(equipmentPOJO.getId());
-            if (pojo==null){
-                mmoEquipmentPOJOMapper.insert(equipmentPOJO);
-            }else{
-                mmoEquipmentPOJOMapper.updateByPrimaryKey(equipmentPOJO);
-            }
-        }
-        //需要删除的记录
-        List<Integer> equBagIds=mmoSimpleRole.getNeedDeleteEquipmentIds();
-        for (Integer id:equBagIds){
-            equipmentBagPOJOMapper.deleteByPrimaryKey(id);
-        }
-    }
 
     /**
      * 根据channel获取role
@@ -546,26 +404,6 @@ public class CommonsUtil implements ApplicationContextAware {
             }
         }
         return stringBuffer.toString();
-    }
-
-    public static void main(String[] args) {
-//        List<Integer> list=new ArrayList<>();
-//        list.add(1);
-//        list.add(222);
-//        System.out.println(listToString(list));
-//        List<Integer> list2=new ArrayList<>();
-//        System.out.println(listToString(list2)+"-----");
-//        List<Integer> list3=new ArrayList<>();
-//        list3.add(1);
-//        System.out.println(listToString(list3));
-        String str="祝贺吧。-穿越时空，能知过去未来，收集所有蒙面超人的力量。-他就是蒙面超人时王!";
-        String str2="";
-        String str3="我系时王zio";
-        System.out.println(splitToStringList(str).get(0));
-        System.out.println(splitToStringList(str).get(1));
-        System.out.println(splitToStringList(str).get(2));
-        System.out.println(splitToStringList(str2));
-        System.out.println(splitToStringList(str3));
     }
 
     public static SceneBean sceneMessageToSceneBean(SceneMessage m) {

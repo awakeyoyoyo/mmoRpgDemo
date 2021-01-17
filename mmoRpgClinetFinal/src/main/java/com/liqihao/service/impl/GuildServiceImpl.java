@@ -90,7 +90,7 @@ public class GuildServiceImpl implements GuildService {
             System.out.println("[-][-]");
             System.out.println("[-][-]申请id：" + g.getId() + " 申请人id: " + g.getRoleId() + " 申请入姓名:" + g.getRoleName());
             System.out.println("[-][-]公会id：" + g.getGuildId() + " 公会名称：" + g.getGuildName());
-            System.out.println("[-][-]创建时间：" + sdf.format(g.getCreateTime()) + " 失效时间：" + sdf.format(g.getEndTime()));
+            System.out.println("[-][-]创建时间：" + sdf.format(g.getCreateTime()) + " 失效时间：" +  sdf.format(g.getEndTime()));
             System.out.println("[-][-]");
         }
         System.out.println("[-]--------------------------------------------------------");

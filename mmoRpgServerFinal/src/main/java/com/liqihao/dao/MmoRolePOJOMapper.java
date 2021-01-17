@@ -22,4 +22,6 @@ public interface MmoRolePOJOMapper {
     MmoRolePOJO selectByPrimaryKeyAndOnStatus(Integer id);
 
     List<MmoRolePOJO> selectAll();
+
+    Integer selectNextIndex();
 }

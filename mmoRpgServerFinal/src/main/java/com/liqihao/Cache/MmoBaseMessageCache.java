@@ -18,11 +18,17 @@ public class MmoBaseMessageCache {
     private static String baseRoleMessage_file = "classpath:message/baseRoleMessage.xlsx";
     private static String baseDetailMessage_file = "classpath:message/baseDetailMessage.xlsx";
     private static String baseGuildMessage_file = "classpath:message/guildBaseMessage.xlsx";
-    //用户角色的基本信息
+    /**
+     * 用户角色的基本信息
+     */
     private RoleBaseMessage baseRoleMessage;
-    //基础配置信息
+    /**
+     * 基础配置信息
+     */
     private DetailBaseMessage baseDetailMessage;
-    //公会基本信息
+    /**
+     * 公会基本信息
+     */
     private GuildBaseMessage guildBaseMessage;
 
     private volatile  static MmoBaseMessageCache instance;

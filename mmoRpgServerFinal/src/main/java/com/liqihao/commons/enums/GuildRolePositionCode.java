@@ -7,8 +7,8 @@ package com.liqihao.commons.enums;
 
 public enum GuildRolePositionCode {
     //
-    HUI_ZHANG(1,"会长"),FU_HUI_ZHANG(1,"副会长")
-    ,JIN_YING(2,"精英"), COMMON_PEOPLE(4,"普通会员");
+    HUI_ZHANG(1,"会长"),FU_HUI_ZHANG(2,"副会长")
+    ,JIN_YING(3,"精英"), COMMON_PEOPLE(4,"普通会员");
     private  int code;
     private  String value;
     GuildRolePositionCode(int code,String name)

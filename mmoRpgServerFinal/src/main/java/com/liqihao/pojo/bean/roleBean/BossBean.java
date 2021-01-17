@@ -175,6 +175,7 @@ public class BossBean extends Role {
     }
 
     public void bossAttack() {
+        //todo
         ScheduledFuture<?> t = ScheduledThreadPoolUtil.getBossTaskMap().get(getId());
         if (t != null) {
             //代表着该boss已启动攻击线程

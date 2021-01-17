@@ -18,6 +18,8 @@ import com.liqihao.protobufObject.EmailModel;
 import com.liqihao.provider.EmailServiceProvider;
 import com.liqihao.service.EmailService;
 import com.liqihao.util.CommonsUtil;
+import com.liqihao.util.DbUtil;
+import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
 import org.springframework.stereotype.Service;
 
@@ -82,11 +84,13 @@ public class EmailServiceImpl implements EmailService {
                 if (!mmoSimpleRole.getBackpackManager().canPutArticle(medicineBean)) {
                     throw new RpgServerException(StateCode.FAIL,"背包已经满了");
                 }
-                mmoSimpleRole.getBackpackManager().put(medicineBean);
+                mmoSimpleRole.getBackpackManager().put(medicineBean,mmoSimpleRole.getId());
             }
             //邮件设置为没有物品
             mmoEmailBean.setHasArticle(true);
             mmoEmailBean.setGet(true);
+            //数据库更新
+            ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateEmailBeanDb(mmoEmailBean));
         }
         EmailModel.EmailModelMessage messageData=EmailModel.EmailModelMessage.newBuilder()
                 .setDataType(EmailModel.EmailModelMessage.DateType.GetEmailArticleResponse)
@@ -161,7 +165,7 @@ public class EmailServiceImpl implements EmailService {
         if (articleId!=-1) {
             //则需要扣除背包中的物品
            BackPackManager backPackManager=mmoSimpleRole.getBackpackManager();
-           Article article=backPackManager.useOrAbandonArticle(articleId,articleNum);
+           Article article=backPackManager.useOrAbandonArticle(articleId,articleNum,mmoSimpleRole.getId());
            if (article==null){
                throw new RpgServerException(StateCode.FAIL,"背包中该物品数量不足");
            }

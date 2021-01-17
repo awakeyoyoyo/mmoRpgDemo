@@ -58,7 +58,7 @@ public class LogicThreadPool<Job extends Runnable>implements ThreadPool<Job> {
         }
     }
     class Worker implements Runnable {
-        private final Logger log = LoggerFactory.getLogger(ServerHandler.class);
+        private final Logger log = LoggerFactory.getLogger(Worker.class);
         private volatile boolean running = true;
         private LinkedList<Job> tasks = new LinkedList<>();
 

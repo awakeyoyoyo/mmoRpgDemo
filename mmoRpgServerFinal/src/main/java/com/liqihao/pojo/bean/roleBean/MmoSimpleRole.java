@@ -15,6 +15,7 @@ import com.liqihao.pojo.bean.articleBean.EquipmentBean;
 import com.liqihao.pojo.bean.bufferBean.BaseBufferBean;
 import com.liqihao.pojo.bean.guildBean.GuildBean;
 import com.liqihao.pojo.bean.teamBean.TeamApplyOrInviteBean;
+import com.liqihao.pojo.dto.ArticleDto;
 import com.liqihao.pojo.dto.EquipmentDto;
 import com.liqihao.protobufObject.ChatModel;
 import com.liqihao.protobufObject.PlayModel;
@@ -22,6 +23,7 @@ import com.liqihao.provider.CallerServiceProvider;
 import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.provider.MyObserver;
 import com.liqihao.util.CommonsUtil;
+import com.liqihao.util.DbUtil;
 import com.liqihao.util.LogicThreadPool;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
@@ -316,7 +318,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
         if (article==null){
             return false;
         }
-        backpackManager.useOrAbandonArticle(articleId, 1);
+        backpackManager.useOrAbandonArticle(articleId, 1,getId());
         return article.use(getBackpackManager(),this);
     }
 
@@ -338,7 +340,9 @@ public class MmoSimpleRole extends Role implements MyObserver {
                 equipmentBeanHashMap.remove(position);
                 //装备栏数据库减少该装备
                 if (equipmentBean.getEquipmentBagId() != null) {
-                    needDeleteEquipmentIds.add(equipmentBean.getEquipmentBagId());
+//                    needDeleteEquipmentIds.add(equipmentBean.getEquipmentBagId());
+                    Integer bagId=equipmentBean.getEquipmentBagId();
+                    ScheduledThreadPoolUtil.addTask(() -> DbUtil.deleteEquipmentBagById(bagId));
                 }
                 //装备栏id为null
                 equipmentBean.setEquipmentBagId(null);
@@ -346,9 +350,10 @@ public class MmoSimpleRole extends Role implements MyObserver {
                 if (!backpackManager.canPutArticle(equipmentBean)){
                     throw new RpgServerException(StateCode.FAIL,"背包已经满了");
                 }
-                backpackManager.put(equipmentBean);
+                backpackManager.put(equipmentBean,getId());
                 setAttack(getAttack() - equipmentMessage.getAttackAdd());
                 setDamageAdd(getDamageAdd() - equipmentMessage.getDamageAdd());
+                //数据库
                 return true;
             }
         }
@@ -472,7 +477,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
         map.put(skillBean.getId(), time + addTime);
         //吟唱时间
         if (skillBean.getChantTime()>0) {
-            ScheduledThreadPoolUtil.skillAttackTask skillAttackTask=new ScheduledThreadPoolUtil.skillAttackTask(skillBean,target,this,mmoHelperBean);
+            ScheduledThreadPoolUtil.SkillAttackTask skillAttackTask=new ScheduledThreadPoolUtil.SkillAttackTask(skillBean,target,this,mmoHelperBean);
             ScheduledThreadPoolUtil.getScheduledExecutorService().schedule(skillAttackTask,skillBean.getChantTime(),TimeUnit.SECONDS);
         }else{
             skill(skillBean,target);

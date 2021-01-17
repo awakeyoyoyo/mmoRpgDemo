@@ -5,6 +5,8 @@ import com.liqihao.pojo.bean.articleBean.Article;
 import com.liqihao.pojo.bean.articleBean.EquipmentBean;
 import com.liqihao.pojo.bean.articleBean.MedicineBean;
 import com.liqihao.pojo.dto.ArticleDto;
+import com.liqihao.util.DbUtil;
+import com.liqihao.util.ScheduledThreadPoolUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +20,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class BackPackManager {
     private CopyOnWriteArrayList<Article> backpacks;
     private Integer size;
-    private volatile Integer nowSize = 0;
-    private volatile Integer articleId = 0;
+    private Integer nowSize = 0;
+    private Integer articleId = 0;
     private List<Integer> needDeleteBagId = new ArrayList<>();
 
     public List<Integer> getNeedDeleteBagId() {
@@ -63,28 +65,33 @@ public class BackPackManager {
         return article.checkCanPut(this);
     }
 
-    //整理背包
-    public synchronized void clearBackPack(){
+    /**
+     * 整理背包
+     */
+    public synchronized void clearBackPack(Integer roleId){
         CopyOnWriteArrayList<Article> newBackPack=new CopyOnWriteArrayList<>();
         CopyOnWriteArrayList<Article> oldBackPack=getBackpacks();
         setBackpacks(newBackPack);
         articleId=0;
         for (Article a:oldBackPack) {
-            a.clearPut(this);
+            a.clearPut(this,roleId);
         }
     }
     //背包放入东西
-    public boolean put(Article article) {
+    public synchronized boolean put(Article article,Integer roleId) {
         //判断物品类型
-        return article.put(this);
+        return article.put(this,roleId);
     }
 
     //背包放入东西 按照数据库格式来存放
     public synchronized void putOnDatabase(Article article) {
+        ArticleDto articleDto=new ArticleDto();
         if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())) {
             MedicineBean medicineBean = article.getArticle();
             medicineBean.setArticleId(getNewArticleId());
             getBackpacks().add(medicineBean);
+            articleDto.setQuantity(medicineBean.getQuantity());
+            articleDto.setId(medicineBean.getMedicineMessageId());
             nowSize++;
         } else if ((article.getArticleTypeCode().equals(ArticleTypeCode.EQUIPMENT.getCode()))) {
             //判断背包大小
@@ -93,7 +100,10 @@ public class BackPackManager {
             equipmentBean.setArticleId(getNewArticleId());
             nowSize++;
             getBackpacks().add(equipmentBean);
+            articleDto.setQuantity(equipmentBean.getQuantity());
+            articleDto.setId(equipmentBean.getEquipmentId());
         }
+        articleDto.setArticleType(article.getArticleTypeCode());
     }
 
     //判断背包是否存在某样东西
@@ -102,10 +112,10 @@ public class BackPackManager {
     }
 
     //减少某样物品数量/丢弃装备
-    public synchronized Article useOrAbandonArticle(Integer articleId, Integer number) {
+    public synchronized Article useOrAbandonArticle(Integer articleId, Integer number,Integer roleId) {
         for (Article a : getBackpacks()) {
             if (a.getArticleIdCode().equals(articleId)) {
-                return a.useOrAbandon(number,this);
+                return a.useOrAbandon(number,this,roleId);
             }
         }
         return null;

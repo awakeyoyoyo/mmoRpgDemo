@@ -25,6 +25,7 @@ import com.liqihao.provider.ArticleServiceProvider;
 import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.provider.TeamServiceProvider;
 import com.liqihao.util.CommonsUtil;
+import com.liqihao.util.DbUtil;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
 
@@ -336,17 +337,18 @@ public class CopySceneBean{
         }
         //发奖励了
         List<MedicineBean> medicineBeans= ArticleServiceProvider.productMedicineToCopyScene(this,CommonsUtil.split(copySceneMessage.getMedicineIds()));
-        List<EquipmentBean> equipmentBeans= ArticleServiceProvider.productEquipmentToCopyScene(this,CommonsUtil.split(copySceneMessage.getEquipmentIds()));
+     //todo
+       // List<EquipmentBean> equipmentBeans= ArticleServiceProvider.productEquipmentToCopyScene(this,CommonsUtil.split(copySceneMessage.getEquipmentIds()));
         if (medicineBeans.size()>0) {
             for (MedicineBean m:medicineBeans) {
                 articlesMap.put(m.getFloorIndex(),m);
             }
         }
-        if (equipmentBeans.size()>0){
-            for (EquipmentBean e:equipmentBeans) {
-                articlesMap.put(e.getFloorIndex(),e);
-            }
-        }
+//        if (equipmentBeans.size()>0){
+//            for (EquipmentBean e:equipmentBeans) {
+//                articlesMap.put(e.getFloorIndex(),e);
+//            }
+//        }
         // 广播队伍副本挑战成功
         NettyResponse nettyResponse=new NettyResponse();
         nettyResponse.setCmd(ConstantValue.CHANGE_SUCCESS_RESPONSE);
@@ -361,6 +363,7 @@ public class CopySceneBean{
              * 队伍中玩家全部加金币 上锁，防止购买物品与副本挑战成功获取金币冲突
              */
             role.setMoney(role.getMoney() + copySceneMessage.getMoney());
+            ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateRole(role));
             if (c!=null) {
                 c.writeAndFlush(nettyResponse);
             }

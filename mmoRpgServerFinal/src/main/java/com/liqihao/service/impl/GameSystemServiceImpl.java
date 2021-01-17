@@ -12,6 +12,8 @@ import com.liqihao.pojo.bean.teamBean.TeamBean;
 import com.liqihao.protobufObject.GameSystemModel;
 import com.liqihao.provider.TeamServiceProvider;
 import com.liqihao.util.CommonsUtil;
+import com.liqihao.util.DbUtil;
+import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,12 +32,8 @@ public class GameSystemServiceImpl implements com.liqihao.service.GameSystemServ
         MmoSimpleRole role=CommonsUtil.getRoleByChannel(channel);
         //删除缓存中的信息
         if (role!=null) {
-            //保存背包信息入数据库
             Integer roleId=role.getId();
             MmoSimpleRole mmoSimpleRole=OnlineRoleMessageCache.getInstance().get(roleId);
-            CommonsUtil.equipmentIntoDataBase(mmoSimpleRole);
-            CommonsUtil.bagIntoDataBase(mmoSimpleRole.getBackpackManager(),roleId);
-            CommonsUtil.roleInfoIntoDataBase(role);
             // 直接获取即可 父类
             MmoSimpleRole mmoRole= OnlineRoleMessageCache.getInstance().get(roleId);
             MmoRolePOJO mmoRolePOJO=new MmoRolePOJO();
@@ -43,11 +41,15 @@ public class GameSystemServiceImpl implements com.liqihao.service.GameSystemServ
             mmoRolePOJO.setMmoSceneId(mmoRole.getMmoSceneId());
             mmoRolePOJO.setOnStatus(RoleOnStatusCode.EXIT.getCode());
             mmoRolePOJO.setName(mmoRole.getName());
-//            mmoRolePOJO.setSkillIds(CommonsUtil.listToString(mmoRole.getSkillIdList()));
             mmoRolePOJO.setType(mmoRole.getType());
             mmoRolePOJO.setStatus(mmoRole.getStatus());
             //修改数据库
-            mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO);
+            ScheduledThreadPoolUtil.addTask(() -> {
+                DbUtil.equipmentIntoDataBase(mmoSimpleRole);
+                DbUtil.bagIntoDataBase(mmoSimpleRole.getBackpackManager(),roleId);
+                DbUtil.roleInfoIntoDataBase(role);
+                mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO);
+            });
             if (role.getMmoSceneId()!=null) {
                 SceneBeanMessageCache.getInstance().get(role.getMmoSceneId()).getRoles().remove(role.getId());
             }

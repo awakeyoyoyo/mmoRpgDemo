@@ -23,6 +23,8 @@ import com.liqihao.provider.GuildServiceProvider;
 import com.liqihao.provider.TeamServiceProvider;
 import com.liqihao.service.PlayService;
 import com.liqihao.util.CommonsUtil;
+import com.liqihao.util.DbUtil;
+import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +52,6 @@ public class PlayServiceImpl implements PlayService {
     private MmoEquipmentBagPOJOMapper equipmentBagPOJOMapper;
     @Autowired
     private MmoEmailPOJOMapper emailPOJOMapper;
-
     @Override
     @HandlerCmdTag(cmd = ConstantValue.REGISTER_REQUEST, module = ConstantValue.PLAY_MODULE)
     public void registerRequest(PlayModel.PlayModelMessage myMessage, Channel channel) {
@@ -288,20 +289,22 @@ public class PlayServiceImpl implements PlayService {
         if(role.getMmoSceneId()!=null){
             SceneBeanMessageCache.getInstance().get(role.getMmoSceneId()).getRoles().remove(role.getId());
         }
-        //保存背包信息入数据库
-        CommonsUtil.bagIntoDataBase(role.getBackpackManager(), role.getId());
-        CommonsUtil.equipmentIntoDataBase(role);
-        CommonsUtil.roleInfoIntoDataBase(role);
-        for (MmoEmailBean m : role.getFromMmoEmailBeanConcurrentHashMap().values()) {
-            CommonsUtil.mmoEmailPOJOIntoDataBase(m);
-        }
-        for (MmoEmailBean m : role.getToMmoEmailBeanConcurrentHashMap().values()) {
-            CommonsUtil.mmoEmailPOJOIntoDataBase(m);
-        }
+        //保存背包信息、装备信息、人物信息、邮件信息入数据库
+//        ScheduledThreadPoolUtil.addTask(() -> {
+//            DbUtil.bagIntoDataBase(role.getBackpackManager(), role.getId());
+//            DbUtil.equipmentIntoDataBase(role);
+//            DbUtil.roleInfoIntoDataBase(role);
+//            for (MmoEmailBean m : role.getFromMmoEmailBeanConcurrentHashMap().values()) {
+//                DbUtil.mmoEmailPOJOIntoDataBase(m);
+//            }
+//            for (MmoEmailBean m : role.getToMmoEmailBeanConcurrentHashMap().values()) {
+//                DbUtil.mmoEmailPOJOIntoDataBase(m);
+//            }
+//        });
         //将数据库中设置为离线
         MmoRolePOJO mmoRolePOJO = mmoRolePOJOMapper.selectByPrimaryKey(role.getId());
         mmoRolePOJO.setOnStatus(RoleOnStatusCode.EXIT.getCode());
-        mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO);
+        ScheduledThreadPoolUtil.addTask(() -> mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO));
         //缓存角色集合删除
         OnlineRoleMessageCache.getInstance().remove(role.getId());
         if (role.getMmoSceneId() != null) {
@@ -368,6 +371,9 @@ public class PlayServiceImpl implements PlayService {
         //判断是单体技能 还是群体技能   可以攻击所有玩家 除了队友 npc
         //从缓存中查找出 怪物
         SkillBean skillBean = mmoSimpleRole.getSkillBeanBySkillId(skillId);
+        if (skillBean==null){
+            throw new RpgServerException(StateCode.FAIL,"人物没有该技能。。");
+        }
         if (skillBean.getSkillAttackType().equals(SkillAttackTypeCode.CALL.getCode())) {
             mmoSimpleRole.useSkill(null, skillId);
             return;

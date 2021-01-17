@@ -13,9 +13,11 @@ import com.liqihao.provider.CallerServiceProvider;
 import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.provider.TeamServiceProvider;
 import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -51,12 +53,20 @@ public class ScheduledThreadPoolUtil {
      * 存储了正在调度线程池中执行的宠物 攻击线程
      */
     private static ConcurrentHashMap<Integer, ScheduledFuture<?>> helperTaskMap = new ConcurrentHashMap<>();
+    /**
+     * 工作者列表
+     */
+    private static DbTask dbTask;
+
     public static void init() {
         replyMpRole = new ConcurrentHashMap<>();
         bufferRole = new ConcurrentHashMap<>();
         npcTaskMap = new ConcurrentHashMap<>();
         copySceneTaskMap = new ConcurrentHashMap<>();
-        scheduledExecutorService = new ScheduledThreadPoolExecutor(4);
+        scheduledExecutorService = new ScheduledThreadPoolExecutor(10);
+        dbTask = new DbTask();
+        //每60s 修改过的数据落地
+        scheduledExecutorService.scheduleAtFixedRate(dbTask, 0, 10, TimeUnit.SECONDS);
     }
 
     public static ConcurrentHashMap<Integer, ScheduledFuture<?>> getBossTaskMap() {
@@ -115,6 +125,9 @@ public class ScheduledThreadPoolUtil {
         ScheduledThreadPoolUtil.replyMpRole = replyMpRole;
     }
 
+    /**
+     * 自动恢复蓝量线程任务
+     */
     public static class ReplyMpTask implements Runnable {
         private Logger logger = Logger.getLogger(ReplyMpTask.class);
         private Role role;
@@ -218,6 +231,9 @@ public class ScheduledThreadPoolUtil {
         }
     }
 
+    /**
+     * buffer线程任务
+     */
     public static class BufferTask implements Runnable {
         private Logger logger = Logger.getLogger(BufferTask.class);
         private BaseBufferBean bufferBean;
@@ -251,6 +267,9 @@ public class ScheduledThreadPoolUtil {
         }
     }
 
+    /**
+     * npc攻击线程任务
+     */
     public static class NpcAttackTask implements Runnable {
         private Integer npcId;
         private Logger logger = Logger.getLogger(NpcAttackTask.class);
@@ -269,7 +288,7 @@ public class ScheduledThreadPoolUtil {
             //判断是否有嘲讽buffer,则直接攻击嘲讽对象
             Role target = null;
             target = npc.getTarget();
-            if (npc.getStatus().equals(RoleStatusCode.DIE.getCode())){
+            if (npc.getStatus().equals(RoleStatusCode.DIE.getCode())) {
                 //死亡
                 bossTaskMap.remove(npc.getId());
                 bossTaskMap.get(npc.getId()).cancel(false);
@@ -301,18 +320,20 @@ public class ScheduledThreadPoolUtil {
                 skillBean.setChantTime(skillMessage.getChantTime());
                 skillBean.setAddPerson(skillMessage.getAddPerson());
                 skillBean.setSkillType(skillMessage.getSkillType());
-                target.beAttack(skillBean,npc);
+                target.beAttack(skillBean, npc);
             }
         }
     }
 
+    /**
+     * 副本超时任务
+     */
     public static class CopySceneOutTimeTask implements Runnable {
         private TeamBean teamBean;
         private CopySceneBean copySceneBean;
         private Logger logger = Logger.getLogger(CopySceneOutTimeTask.class);
 
         public CopySceneOutTimeTask() {
-
         }
 
         public CopySceneOutTimeTask(TeamBean teamBean, CopySceneBean copySceneBean) {
@@ -326,6 +347,9 @@ public class ScheduledThreadPoolUtil {
         }
     }
 
+    /**
+     * boss攻击任务
+     */
     public static class BossAttackTask implements Runnable {
         private BossBean bossBean;
         private CopySceneBean copySceneBean;
@@ -350,7 +374,7 @@ public class ScheduledThreadPoolUtil {
             Role role = null;
             role = bossBean.getTarget();
 
-            if (bossBean.getStatus().equals(RoleStatusCode.DIE.getCode())){
+            if (bossBean.getStatus().equals(RoleStatusCode.DIE.getCode())) {
                 bossTaskMap.remove(bossBean.getBossBeanId());
                 bossTaskMap.get(bossBean.getBossBeanId()).cancel(false);
             }
@@ -363,10 +387,10 @@ public class ScheduledThreadPoolUtil {
             }
             SkillBean skillBean = null;
             //使用不同的技能
-            if (attackCount%5==0){
+            if (attackCount % 5 == 0) {
                 skillBean = skillBeans.get(1);
-                attackCount=0;
-            }else{
+                attackCount = 0;
+            } else {
                 skillBean = skillBeans.get(0);
             }
             attackCount++;
@@ -385,6 +409,9 @@ public class ScheduledThreadPoolUtil {
         }
     }
 
+    /**
+     * 召唤物攻击任务
+     */
     public static class HelperAttackTask implements Runnable {
         private MmoHelperBean helperBean;
         private List<SkillBean> skillBeans;
@@ -399,27 +426,27 @@ public class ScheduledThreadPoolUtil {
             this.helperBean = helperBean;
             attackCount = 1;
             this.skillBeans = skillBeans;
-            this.target=target;
+            this.target = target;
         }
 
         @Override
         public void run() {
             logger.info("helper攻击线程");
             //判断停止攻击
-            if(target.getMmoSceneId()!=null){
-                if(!target.getMmoSceneId().equals(helperBean.getMmoSceneId())){
+            if (target.getMmoSceneId() != null) {
+                if (!target.getMmoSceneId().equals(helperBean.getMmoSceneId())) {
                     helperTaskMap.remove(helperBean.getId());
                     helperTaskMap.get(helperBean.getId()).cancel(false);
                     return;
                 }
-            }else{
-                if(!target.getCopySceneBeanId().equals(helperBean.getCopySceneBeanId())){
+            } else {
+                if (!target.getCopySceneBeanId().equals(helperBean.getCopySceneBeanId())) {
                     helperTaskMap.remove(helperBean.getId());
                     helperTaskMap.get(helperBean.getId()).cancel(false);
                     return;
                 }
             }
-            if (target.getStatus().equals(RoleStatusCode.DIE.getCode())||helperBean.getStatus().equals(RoleStatusCode.DIE.getCode())) {
+            if (target.getStatus().equals(RoleStatusCode.DIE.getCode()) || helperBean.getStatus().equals(RoleStatusCode.DIE.getCode())) {
                 // 没目标攻击  停止攻击线程
                 helperTaskMap.remove(helperBean.getId());
                 helperTaskMap.get(helperBean.getId()).cancel(false);
@@ -427,20 +454,20 @@ public class ScheduledThreadPoolUtil {
             }
             SkillBean skillBean = null;
             //使用不同的技能
-            if (attackCount%5==0){
+            if (attackCount % 5 == 0) {
                 skillBean = skillBeans.get(1);
-                attackCount=0;
-            }else{
+                attackCount = 0;
+            } else {
                 skillBean = skillBeans.get(0);
             }
             attackCount++;
             List<Role> targetRoles = new ArrayList<>();
             //群攻技能
             if (skillBean.getSkillAttackType().equals(SkillAttackTypeCode.ALL_PEOPLE.getCode())) {
-                if (helperBean.getMmoSceneId()!=null) {
+                if (helperBean.getMmoSceneId() != null) {
                     //在场景中
                     targetRoles.addAll(findTargetInScene(helperBean));
-                }else{
+                } else {
                     //副本中
                     targetRoles.addAll(findTargetCopyScene(helperBean));
                 }
@@ -453,13 +480,13 @@ public class ScheduledThreadPoolUtil {
 
         private List<Role> findTargetCopyScene(MmoHelperBean helperBean) {
             ArrayList<Role> target = new ArrayList<>();
-            Integer copySceneId=helperBean.getCopySceneBeanId();
-            CopySceneBean copySceneBean=CopySceneProvider.getCopySceneBeanById(copySceneId);
+            Integer copySceneId = helperBean.getCopySceneBeanId();
+            CopySceneBean copySceneBean = CopySceneProvider.getCopySceneBeanById(copySceneId);
             target.add(copySceneBean.getNowBoss());
             return target;
         }
 
-        private List<Role> findTargetInScene(MmoHelperBean helper){
+        private List<Role> findTargetInScene(MmoHelperBean helper) {
             ArrayList<Role> target = new ArrayList<>();
             SceneBean sceneBean = SceneBeanMessageCache.getInstance().get(helper.getMmoSceneId());
             //npc
@@ -471,7 +498,7 @@ public class ScheduledThreadPoolUtil {
             }
             //people
             for (Integer id : sceneBean.getRoles()) {
-                if(id.equals(helperBean.getMasterId())){
+                if (id.equals(helperBean.getMasterId())) {
                     continue;
                 }
                 MmoSimpleRole role = OnlineRoleMessageCache.getInstance().get(id);
@@ -486,7 +513,7 @@ public class ScheduledThreadPoolUtil {
                 }
             }
             //hepler
-            for (MmoHelperBean h:sceneBean.getHelperBeans()) {
+            for (MmoHelperBean h : sceneBean.getHelperBeans()) {
                 if (helper.getTeamId() == null) {
                     target.add(h);
                 } else {
@@ -502,32 +529,36 @@ public class ScheduledThreadPoolUtil {
         }
     }
 
-    public static class skillAttackTask implements Runnable {
+    /**
+     * 技能吟唱时间任务
+     */
+    public static class SkillAttackTask implements Runnable {
         SkillBean skillBean;
         List<Role> target;
         MmoHelperBean mmoHelperBean;
         MmoSimpleRole user;
         private Logger logger = Logger.getLogger(NpcAttackTask.class);
 
-        public skillAttackTask() {
+        public SkillAttackTask() {
         }
 
-        public skillAttackTask(SkillBean skillBean, List<Role> target,MmoSimpleRole user,MmoHelperBean mmoHelperBean) {
+        public SkillAttackTask(SkillBean skillBean, List<Role> target, MmoSimpleRole user, MmoHelperBean mmoHelperBean) {
             this.skillBean = skillBean;
             this.user = user;
-            this.target=target;
-            this.mmoHelperBean=mmoHelperBean;
+            this.target = target;
+            this.mmoHelperBean = mmoHelperBean;
         }
 
         @Override
         public void run() {
-          skill(skillBean,target,user,mmoHelperBean);
+            skill(skillBean, target, user, mmoHelperBean);
         }
+
         /**
          * 技能释放
          */
 
-        public void skill(SkillBean skillBean, List<Role> target,MmoSimpleRole user,MmoHelperBean mmoHelperBean){
+        public void skill(SkillBean skillBean, List<Role> target, MmoSimpleRole user, MmoHelperBean mmoHelperBean) {
             if (!skillBean.getSkillAttackType().equals(SkillAttackTypeCode.CALL.getCode())) {
                 //  被攻击怪物or人物orBoss
                 if (target.size() > 0) {
@@ -575,6 +606,55 @@ public class ScheduledThreadPoolUtil {
                 } else if (mmoHelperBean.getCopySceneBeanId() != null) {
                     CopySceneProvider.getCopySceneBeanById(mmoHelperBean.getCopySceneBeanId()).getRoles().add(mmoHelperBean);
                 }
+            }
+        }
+    }
+
+    /**
+     * 定时更新数据任务
+     */
+    public static class DbTask implements Runnable {
+
+        private final org.slf4j.Logger log = LoggerFactory.getLogger(DbTask.class);
+        /**
+         * db任务队列
+         */
+        private LinkedList<Runnable> tasks = new LinkedList<>();
+
+        @Override
+        public void run() {
+            log.info("定时数据落地任务：");
+            Runnable job = null;
+            //每隔时间清空任务队列里面得任务
+            while(!tasks.isEmpty()) {
+                synchronized (tasks) {
+//                    if (tasks.isEmpty()) {
+//                        //没任务 就直接溜溜球
+//                        return;
+//                    }
+                    // 取出一个Job
+                    job = tasks.removeFirst();
+                }
+                if (job != null) {
+                    try {
+                        job.run();
+                    } catch (Exception ex) {
+                        log.error("System.out...... -> " + ex);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * addTask到队列中
+     * @param job
+     */
+    public static void addTask(Runnable job) {
+        if (job != null) {
+            // 添加一个工作到任务队列即可
+            synchronized (dbTask.tasks) {
+                dbTask.tasks.addLast(job);
             }
         }
     }

@@ -11,6 +11,7 @@ import com.liqihao.pojo.MmoRolePOJO;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.protobufObject.GuildModel;
 import com.liqihao.provider.GuildServiceProvider;
+import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import java.util.List;
 
 /**
  * 公会实例bean
+ *
  * @author lqhao
  */
 public class GuildBean {
@@ -54,11 +56,11 @@ public class GuildBean {
     /**
      * 人员id集合
      */
-    private List<GuildRoleBean> guildRoleBeans=new ArrayList<>();
+    private List<GuildRoleBean> guildRoleBeans = new ArrayList<>();
     /**
      * 申请入公会请求
      */
-    private ArrayList<GuildApplyBean> guildApplyBeans=new ArrayList<>();
+    private ArrayList<GuildApplyBean> guildApplyBeans = new ArrayList<>();
 
     public ArrayList<GuildApplyBean> getGuildApplyBeans() {
         return guildApplyBeans;
@@ -135,22 +137,24 @@ public class GuildBean {
     /**
      * 检查申请是否过时
      */
-    private void checkOutTime(){
-        Iterator iterator=guildApplyBeans.iterator();
-        List<Integer> outTimeApplyIds=new ArrayList<>();
+    private void checkOutTime() {
+        Iterator iterator = guildApplyBeans.iterator();
+        List<Integer> outTimeApplyIds = new ArrayList<>();
         //每次插入都删除申请过时或者
-        while (iterator.hasNext()){
-            GuildApplyBean bean= (GuildApplyBean) iterator.next();
-            if (bean.getEndTime()<System.currentTimeMillis()){
+        while (iterator.hasNext()) {
+            GuildApplyBean bean = (GuildApplyBean) iterator.next();
+            if (bean.getEndTime() < System.currentTimeMillis()) {
                 iterator.remove();
                 outTimeApplyIds.add(bean.getId());
             }
         }
-        GuildServiceProvider.getInstance().deleteApply(outTimeApplyIds);
+        //数据入库
+        ScheduledThreadPoolUtil.addTask(() -> GuildServiceProvider.getInstance().deleteApply(outTimeApplyIds));
     }
 
     /**
      * 公会申请
+     *
      * @param guildApplyBean
      */
     public void addGuildApplyBean(GuildApplyBean guildApplyBean) {
@@ -169,21 +173,20 @@ public class GuildBean {
             checkOutTime();
             Iterator iterator = guildApplyBeans.iterator();
             //每次插入都删除申请过时或者
-            //todo
             while (iterator.hasNext()) {
                 GuildApplyBean bean = (GuildApplyBean) iterator.next();
                 if (guildApplyId.equals(bean.getId())) {
                     iterator.remove();
-                    MmoSimpleRole role= OnlineRoleMessageCache.getInstance().get(bean.getRoleId());
-                    if (role==null){
+                    MmoSimpleRole role = OnlineRoleMessageCache.getInstance().get(bean.getRoleId());
+                    if (role == null) {
                         // 角色不在线 不发
-                    }else{
-                        sendJoinResponse(role,false);
+                    } else {
+                        sendJoinResponse(role, false);
                     }
-                    //数据库删除
-                    List<Integer> deleteList=new ArrayList<Integer>();
+                    //数据入库
+                    List<Integer> deleteList = new ArrayList<Integer>();
                     deleteList.add(bean.getId());
-                    GuildServiceProvider.getInstance().deleteApply(deleteList);
+                    ScheduledThreadPoolUtil.addTask(() -> GuildServiceProvider.getInstance().deleteApply(deleteList));
                 }
             }
         }
@@ -215,21 +218,25 @@ public class GuildBean {
                     //删除申请记录
                     iterator.remove();
                     //对应角色
-                    MmoSimpleRole role= OnlineRoleMessageCache.getInstance().get(bean.getRoleId());
-                    if (role==null){
+                    MmoSimpleRole role = OnlineRoleMessageCache.getInstance().get(bean.getRoleId());
+                    if (role == null) {
                         // 角色不在线 直接插入数据库
-                       MmoRolePOJO mmoRolePOJO =RoleMessageCache.getInstance().get(bean.getRoleId());
-                       mmoRolePOJO.setGuildId(bean.getGuildId());
-                       GuildServiceProvider.getInstance().updateRolePOJO(mmoRolePOJO);
-                    }else{
+                        MmoRolePOJO mmoRolePOJO = RoleMessageCache.getInstance().get(bean.getRoleId());
+                        mmoRolePOJO.setGuildId(bean.getGuildId());
+                        //数据库删除 更新
+                        ScheduledThreadPoolUtil.addTask(() -> GuildServiceProvider.getInstance().updateRolePOJO(mmoRolePOJO));
+                    } else {
                         role.setGuildBean(this);
-                        sendJoinResponse(role,true);
+                        sendJoinResponse(role, true);
                     }
-                    List<Integer> deleteList=new ArrayList<Integer>();
-                    deleteList.add(bean.getId());
                     //数据库删除 更新
-                    GuildServiceProvider.getInstance().deleteApply(deleteList);
-                    GuildServiceProvider.getInstance().updateGuildPOJO(this);
+                    List<Integer> deleteList = new ArrayList<Integer>();
+                    deleteList.add(bean.getId());
+                    GuildBean guildBean = this;
+                    ScheduledThreadPoolUtil.addTask(() -> {
+                        GuildServiceProvider.getInstance().deleteApply(deleteList);
+                        GuildServiceProvider.getInstance().updateGuildPOJO(guildBean);
+                    });
                     break;
                 }
             }
@@ -247,18 +254,22 @@ public class GuildBean {
                 if (roleId.equals(roleBean.getRoleId())) {
                     peopleNum = peopleNum - 1;
                     guildRoleBeans.remove(roleBean);
-                    MmoSimpleRole role=OnlineRoleMessageCache.getInstance().get(roleId);
-                    if (role==null){
+                    MmoSimpleRole role = OnlineRoleMessageCache.getInstance().get(roleId);
+                    if (role == null) {
                         // 角色不在线 直接插入数据库
-                        MmoRolePOJO mmoRolePOJO =RoleMessageCache.getInstance().get(roleId);
+                        MmoRolePOJO mmoRolePOJO = RoleMessageCache.getInstance().get(roleId);
                         mmoRolePOJO.setGuildId(-1);
-                        GuildServiceProvider.getInstance().updateRolePOJO(mmoRolePOJO);
-                    }else{
+                        //数据库
+                        ScheduledThreadPoolUtil.addTask(() -> GuildServiceProvider.getInstance().updateRolePOJO(mmoRolePOJO));
+                    } else {
                         role.setGuildBean(null);
                     }
+                    GuildBean guildBean=this;
                     //数据库删除该人的记录
-                    GuildServiceProvider.getInstance().deletePeople(roleBean.getId());
-                    GuildServiceProvider.getInstance().updateGuildPOJO(this);
+                    ScheduledThreadPoolUtil.addTask(() -> {
+                        GuildServiceProvider.getInstance().deletePeople(roleBean.getId());
+                        GuildServiceProvider.getInstance().updateGuildPOJO(guildBean);
+                    });
                     break;
                 }
             }
@@ -269,20 +280,20 @@ public class GuildBean {
      * 获取公会的信息
      */
     public void guildMessage() throws RpgServerException {
-       //todo
+        //todo
     }
 
     /**
      * 设置公会成员职位
      */
-    public void setRolePosition(Integer toRoleId,Integer position) throws RpgServerException {
-        Iterator iterator=guildRoleBeans.iterator();
+    public void setRolePosition(Integer toRoleId, Integer position) throws RpgServerException {
+        Iterator iterator = guildRoleBeans.iterator();
         //每次插入都删除申请过时或者
-        while (iterator.hasNext()){
-            GuildRoleBean roleBean= (GuildRoleBean) iterator.next();
-            if (toRoleId.equals(roleBean.getRoleId())){
+        while (iterator.hasNext()) {
+            GuildRoleBean roleBean = (GuildRoleBean) iterator.next();
+            if (toRoleId.equals(roleBean.getRoleId())) {
                 roleBean.setGuildPositionId(position);
-                GuildServiceProvider.getInstance().updateGuildRole(roleBean);
+                ScheduledThreadPoolUtil.addTask(() -> GuildServiceProvider.getInstance().updateGuildRole(roleBean));
                 break;
             }
         }
@@ -290,15 +301,16 @@ public class GuildBean {
 
     /**
      * 返回玩家在公会的信息
+     *
      * @param roleId
      * @return
      */
-    public GuildRoleBean getRoleGuildMsg(Integer roleId){
-        Iterator iterator=guildRoleBeans.iterator();
+    public GuildRoleBean getRoleGuildMsg(Integer roleId) {
+        Iterator iterator = guildRoleBeans.iterator();
         //每次插入都删除申请过时或者
-        while (iterator.hasNext()){
-            GuildRoleBean roleBean= (GuildRoleBean) iterator.next();
-            if (roleId.equals(roleBean.getRoleId())){
+        while (iterator.hasNext()) {
+            GuildRoleBean roleBean = (GuildRoleBean) iterator.next();
+            if (roleId.equals(roleBean.getRoleId())) {
                 return roleBean;
             }
         }
@@ -307,11 +319,12 @@ public class GuildBean {
 
     /**
      * 发送申请拒绝或者通过
+     *
      * @param role
      * @param flag
      */
-    public void  sendJoinResponse(MmoSimpleRole role,boolean flag){
-        Channel channel=role.getChannel();
+    public void sendJoinResponse(MmoSimpleRole role, boolean flag) {
+        Channel channel = role.getChannel();
         //返回成功的数据包
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.GUILD_APPLY_RESPONSE);

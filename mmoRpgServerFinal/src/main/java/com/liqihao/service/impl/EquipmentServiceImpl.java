@@ -14,7 +14,10 @@ import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.pojo.dto.EquipmentDto;
 import com.liqihao.protobufObject.EquipmentModel;
 import com.liqihao.service.EquipmentService;
+import com.liqihao.util.DbUtil;
+import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -31,7 +34,6 @@ public class EquipmentServiceImpl implements EquipmentService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.ADD_EQUIPMENT_REQUEST, module = ConstantValue.EQUIPMENT_MODULE)
     public void addEquipmentRequest(EquipmentModel.EquipmentModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws RpgServerException {
-
         Integer articleId = myMessage.getAddEquipmentRequest().getArticleId();
         Channel channel = mmoSimpleRole.getChannel();
 
@@ -41,6 +43,7 @@ public class EquipmentServiceImpl implements EquipmentService {
             throw new RpgServerException(StateCode.FAIL,"该物品不是装备or找不到该装备");
         }
         mmoSimpleRole.useArticle(articleId);
+        //修改
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.ADD_EQUIPMENT_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
@@ -116,6 +119,7 @@ public class EquipmentServiceImpl implements EquipmentService {
         EquipmentBean equipmentBean = (EquipmentBean) article;
         //修复武器
         equipmentBean.fixDurability();
+        ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateEquipment(equipmentBean));
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.FIX_EQUIPMENT_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);

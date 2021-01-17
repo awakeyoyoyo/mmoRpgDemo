@@ -75,7 +75,7 @@ public class CopySceneServiceImpl implements CopySceneService {
         mmoSimpleRole.wentCopyScene(copySceneBean);
 
         // 广播有人进入了副本
-        CopySceneModel.RoleDto roleDto=CommonsUtil.mmoSimpleRolesToCopyScneRoleDto(mmoSimpleRole);
+        CopySceneModel.RoleDto roleDto=CommonsUtil.mmoSimpleRolesToCopySceneRoleDto(mmoSimpleRole);
         CopySceneModel.CopySceneModelMessage messageData=CopySceneModel.CopySceneModelMessage.newBuilder()
                 .setDataType(CopySceneModel.CopySceneModelMessage.DateType.EnterCopySceneResponse)
                 .setEnterCopySceneResponse(CopySceneModel.EnterCopySceneResponse.newBuilder().setRoleDto(roleDto).build()).build();
@@ -106,7 +106,7 @@ public class CopySceneServiceImpl implements CopySceneService {
         CopySceneBean copySceneBean=CopySceneProvider.getCopySceneBeanById(copySceneBeanId);
         copySceneBean.peopleExit(mmoSimpleRole.getId());
         // 发送信息
-        CopySceneModel.RoleDto roleDto=CommonsUtil.mmoSimpleRolesToCopyScneRoleDto(mmoSimpleRole);
+        CopySceneModel.RoleDto roleDto=CommonsUtil.mmoSimpleRolesToCopySceneRoleDto(mmoSimpleRole);
         CopySceneModel.CopySceneModelMessage messageData=CopySceneModel.CopySceneModelMessage.newBuilder()
                 .setDataType(CopySceneModel.CopySceneModelMessage.DateType.ExitCopySceneResponse)
                 .setExitCopySceneResponse(CopySceneModel.ExitCopySceneResponse.newBuilder().setRoleDto(roleDto).build()).build();
@@ -167,7 +167,7 @@ public class CopySceneServiceImpl implements CopySceneService {
         //roleDto
         for (Role role:copySceneBean.getRoles()){
             if (role.getType().equals(RoleTypeCode.PLAYER.getCode())) {
-                CopySceneModel.RoleDto roleDto = CommonsUtil.mmoSimpleRolesToCopyScneRoleDto((MmoSimpleRole) role);
+                CopySceneModel.RoleDto roleDto = CommonsUtil.mmoSimpleRolesToCopySceneRoleDto((MmoSimpleRole) role);
                 roleDtos.add(roleDto);
             }
         }
@@ -209,7 +209,7 @@ public class CopySceneServiceImpl implements CopySceneService {
         //roleDto
         for (Role role:copySceneBean.getRoles()){
             if (role.getType().equals(RoleTypeCode.PLAYER.getCode())) {
-                CopySceneModel.RoleDto roleDto = CommonsUtil.mmoSimpleRolesToCopyScneRoleDto((MmoSimpleRole) role);
+                CopySceneModel.RoleDto roleDto = CommonsUtil.mmoSimpleRolesToCopySceneRoleDto((MmoSimpleRole) role);
                 roleDtos.add(roleDto);
             }
         }

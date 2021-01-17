@@ -9,9 +9,11 @@ import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.*;
 import com.liqihao.pojo.baseMessage.MedicineMessage;
 import com.liqihao.pojo.bean.BackPackManager;
+import com.liqihao.pojo.bean.guildBean.WareHouseManager;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.pojo.dto.ArticleDto;
 import com.liqihao.protobufObject.PlayModel;
+import com.liqihao.util.DbUtil;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
 import org.springframework.beans.BeanUtils;
@@ -46,6 +48,32 @@ public class MedicineBean  implements Article{
      *地面物品的下标
      */
     private Integer floorIndex;
+    /**
+     * 仓库id
+     */
+    private Integer wareHouseId;
+
+    /**
+     * 仓库 数据库id
+     */
+    private Integer wareHouseDBId;
+
+    public Integer getWareHouseId() {
+        return wareHouseId;
+    }
+
+    public void setWareHouseId(Integer wareHouseId) {
+        this.wareHouseId = wareHouseId;
+    }
+
+    public Integer getWareHouseDBId() {
+        return wareHouseDBId;
+    }
+
+    public void setWareHouseDBId(Integer wareHouseDBId) {
+        this.wareHouseDBId = wareHouseDBId;
+    }
+
     public Integer getFloorIndex() {
         return floorIndex;
     }
@@ -100,29 +128,40 @@ public class MedicineBean  implements Article{
         return getArticleId();
     }
 
+    @Override
+    public Integer getWareHouseIdCode() {
+        return getWareHouseId();
+    }
+
     /**
      * 丢弃或者使用药品
      * @param number
      * @return
      */
     @Override
-    public Article useOrAbandon(Integer number, BackPackManager backPackManager) {
+    public Article useOrAbandon(Integer number, BackPackManager backPackManager,Integer roleId) {
         if (number <= getQuantity()) {
             //可以丢弃
             setQuantity(getQuantity() - number);
             //判断是否数量为0 为0则删除
             if (getQuantity() == 0) {
                 //需要删除数据库的记录
-                backPackManager.getNeedDeleteBagId().add(getBagId());
+//                backPackManager.getNeedDeleteBagId().add(getBagId());
+                Integer bagId=getBagId();
                 setBagId(null);
                 backPackManager.getBackpacks().remove(this);
                 backPackManager.setNowSize(backPackManager.getNowSize()-1);
+                ScheduledThreadPoolUtil.addTask(() -> DbUtil.deleteBagById(bagId));
+            }else {
+                MedicineBean medicineBean=this;
+                ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateBagMedicine(medicineBean,roleId));
             }
             return this;
         } else {
             return null;
         }
     }
+
     /**
      * 物品转化为物品dto
      * @return
@@ -135,16 +174,29 @@ public class MedicineBean  implements Article{
         articleDto.setArticleType(getArticleTypeCode());
         articleDto.setQuantity(getQuantity());
         articleDto.setBagId(getBagId());
+        articleDto.setWareHouseId(getWareHouseId());
+        articleDto.setWareHouseDBId(getWareHouseDBId());
         return articleDto;
     }
 
+    /**
+     * 返回子类
+     * @param <T>
+     * @return
+     */
     @Override
     public <T extends Article> T getArticle() {
         return (T)this;
     }
 
+    /**
+     * 放入背包
+     * @param backPackManager
+     * @param roleId
+     * @return
+     */
     @Override
-    public boolean put(BackPackManager backPackManager) {
+    public boolean put(BackPackManager backPackManager,Integer roleId) {
         //查找背包中是否有
         List<Article> medicines = backPackManager.getBackpacks().stream()
                 .filter(a -> a.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())).collect(Collectors.toList());
@@ -164,10 +216,12 @@ public class MedicineBean  implements Article{
                 if (sum <= ConstantValue.BAG_MAX_VALUE) {
                     //不超过加上
                     temp.setQuantity(sum);
+                    ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateBagMedicine(temp,roleId));
                     return true;
                 } else {
                     number = number - (ConstantValue.BAG_MAX_VALUE - temp.getQuantity());
                     temp.setQuantity(ConstantValue.BAG_MAX_VALUE);
+                    ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateBagMedicine(temp,roleId));
                 }
             }
         }
@@ -184,24 +238,54 @@ public class MedicineBean  implements Article{
                     number = 0;
                 }
                 newMedicine.setArticleId(backPackManager.getNewArticleId());
+                newMedicine.setBagId(DbUtil.getBagPojoNextIndex());
                 backPackManager.getBackpacks().add(newMedicine);
                 backPackManager.setNowSize(backPackManager.getNowSize()+1);
+                //新增的物品入库
+                ArticleDto articleDto=new ArticleDto();
+                articleDto.setQuantity(getQuantity());
+                articleDto.setId(getMedicineMessageId());
+                articleDto.setArticleType(getArticleTypeCode());
+                articleDto.setBagId(getBagId());
+                ScheduledThreadPoolUtil.addTask(() -> DbUtil.insertBag(articleDto,roleId));
+
             }
             return true;
         }
         return false;
     }
 
+    /**
+     * 整理背包放入
+     * @param backPackManager
+     * @param roleId
+     */
     @Override
-    public void clearPut(BackPackManager backPackManager) {
-        if (getBagId()!=null){
-            backPackManager.getNeedDeleteBagId().add(getBagId());
-        }
+    public void clearPut(BackPackManager backPackManager,Integer roleId) {
+//        if (getBagId()!=null){
+//            backPackManager.getNeedDeleteBagId().add(getBagId());
+//        }
+        Integer oldBagId=getBagId();
         setArticleId(backPackManager.getNewArticleId());
-        setBagId(null);
-        backPackManager.put(this);
+        setBagId(DbUtil.getBagPojoNextIndex());
+        backPackManager.put(this,roleId);
+        //数据库
+        ArticleDto articleDto=new ArticleDto();
+        articleDto.setQuantity(getQuantity());
+        articleDto.setId(getMedicineMessageId());
+        articleDto.setArticleType(getArticleTypeCode());
+        articleDto.setBagId(getBagId());
+        ScheduledThreadPoolUtil.addTask(() -> {
+            DbUtil.deleteBagById(oldBagId);
+            DbUtil.insertBag(articleDto,roleId);
+        });
     }
 
+    /**
+     * 检测是否可放入
+     * @param backPackManager
+     * @return
+     */
     @Override
     public boolean checkCanPut(BackPackManager backPackManager) {
         MedicineBean medicineBean = this;
@@ -249,9 +333,14 @@ public class MedicineBean  implements Article{
         }
     }
 
+    /**
+     * 使用
+     * @param backpackManager
+     * @param mmoSimpleRole
+     * @return
+     */
     @Override
     public boolean use(BackPackManager backpackManager, MmoSimpleRole mmoSimpleRole) {
-        backpackManager.useOrAbandonArticle(articleId, 1);
         //判断是瞬间恢复还是持续性恢复
         MedicineMessage medicineMessage= MediceneMessageCache.getInstance().get(getMedicineMessageId());
         if (medicineMessage.getMedicineType().equals(MedicineTypeCode.MOMENT.getCode())){
@@ -328,6 +417,164 @@ public class MedicineBean  implements Article{
                 //已经有持续性恢复药品在使用 无法再使用
                 return false;
             }
+        }
+    }
+
+    /**
+     * 整理放入仓库
+     * @param wareHouseManager
+     * @param guildId
+     */
+    @Override
+    public void clearPutWareHouse(WareHouseManager wareHouseManager, Integer guildId) {
+        Integer wareHouseDBId=getWareHouseDBId();
+        //设置仓库id
+        wareHouseManager.putWareHouse(this,guildId);
+        //数据库
+        ScheduledThreadPoolUtil.addTask(() -> {
+            DbUtil.deleteWareHouseById(wareHouseDBId);
+        });
+
+
+    }
+
+    /**
+     * 检测是否可以放入仓库
+     * @param wareHouseManager
+     * @return
+     */
+    @Override
+    public boolean checkCanPutWareHouse(WareHouseManager wareHouseManager) {
+        MedicineBean medicineBean = this;
+        List<Article> medicines = wareHouseManager.getBackpacks().stream()
+                .filter(a -> a.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())).collect(Collectors.toList());
+        //总数量
+        Integer number = medicineBean.getQuantity();
+        for (Article a : medicines) {
+            MedicineBean temp = (MedicineBean) a;
+            //物品类型
+            if (medicineBean.getMedicineMessageId().equals(temp.getMedicineMessageId()) && number > 0) {
+                //判断是否已经满了
+                if (temp.getQuantity().equals(wareHouseManager.getSize())) {
+                    continue;
+                }
+                Integer nowNum = temp.getQuantity();
+                Integer sum = nowNum + number;
+                //判断加上后是否已经超过99
+                if (sum <= wareHouseManager.getSize()) {
+                    //不超过加上
+                    return true;
+                } else {
+                    number = number - (wareHouseManager.getSize() - temp.getQuantity());
+                }
+            }
+        }
+        //表明背包中没有该物品或者该物品的数量都是99或者是剩余的 新建
+        int gridNum = 0;
+        if (number <= 0) {
+            return true;
+        }
+        //生成新的格子
+        while (number > 0) {
+            if (number > ConstantValue.BAG_MAX_VALUE) {
+                number -= ConstantValue.BAG_MAX_VALUE;
+            } else {
+                number = 0;
+            }
+            gridNum++;
+        }
+        if (wareHouseManager.getNowSize() + gridNum <= wareHouseManager.getSize()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 放入仓库
+     * @param wareHouseManager
+     * @param guildId
+     * @return
+     */
+    @Override
+    public boolean putWareHouse(WareHouseManager wareHouseManager, Integer guildId) {
+        //查找背包中是否有
+        List<Article> medicines = wareHouseManager.getBackpacks().stream()
+                .filter(a -> a.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())).collect(Collectors.toList());
+        //总数量
+        Integer number = getQuantity();
+        for (Article a : medicines) {
+            MedicineBean temp = (MedicineBean) a;
+            //物品类型
+            if (getMedicineMessageId().equals(temp.getMedicineMessageId()) && number > 0) {
+                //判断是否已经满了
+                if (temp.getQuantity().equals(ConstantValue.BAG_MAX_VALUE)) {
+                    continue;
+                }
+                Integer nowNum = temp.getQuantity();
+                Integer sum = nowNum + number;
+                //判断加上后是否已经超过99
+                if (sum <= ConstantValue.BAG_MAX_VALUE) {
+                    //不超过加上
+                    temp.setQuantity(sum);
+                    ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateWareHouseMedicine(temp,guildId));
+                    return true;
+                } else {
+                    number = number - (ConstantValue.BAG_MAX_VALUE - temp.getQuantity());
+                    temp.setQuantity(ConstantValue.BAG_MAX_VALUE);
+                    ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateWareHouseMedicine(temp,guildId));
+                }
+            }
+        }
+        //表明背包中没有该物品或者该物品的数量都是99或者是剩余的 新建
+        if (number != 0) {
+            while (number > 0) {
+                MedicineBean newMedicine = new MedicineBean();
+                BeanUtils.copyProperties(this, newMedicine);
+                if (number > ConstantValue.BAG_MAX_VALUE) {
+                    newMedicine.setQuantity(ConstantValue.BAG_MAX_VALUE);
+                    number -= ConstantValue.BAG_MAX_VALUE;
+                } else {
+                    newMedicine.setQuantity(number);
+                    number = 0;
+                }
+                //设置仓库id  数据库id
+                newMedicine.setWareHouseId(wareHouseManager.addAndReturnWareHouseId());
+                newMedicine.setWareHouseDBId(DbUtil.getWareHouseIndex());
+                wareHouseManager.getBackpacks().add(newMedicine);
+                //新增的物品入库
+                ArticleDto articleDto=new ArticleDto();
+                articleDto.setQuantity(getQuantity());
+                articleDto.setId(getMedicineMessageId());
+                articleDto.setArticleType(getArticleTypeCode());
+                articleDto.setWareHouseDBId(getWareHouseDBId());
+                ScheduledThreadPoolUtil.addTask(() -> DbUtil.insertMedicineWareHouse(articleDto,guildId));
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Article useOrAbandonWareHouse(Integer number, WareHouseManager wareHouseManager, Integer roleId) {
+        if (number <= getQuantity()) {
+            //可以丢弃
+            setQuantity(getQuantity() - number);
+            //判断是否数量为0 为0则删除
+            if (getQuantity() == 0) {
+                //需要删除数据库的记录
+                Integer wareHouseDBId=getWareHouseDBId();
+                setWareHouseDBId(null);
+                wareHouseManager.getBackpacks().remove(this);
+                wareHouseManager.reduceAndReturnWareHouseId();
+                ScheduledThreadPoolUtil.addTask(() -> DbUtil.deleteWareHouseById(wareHouseDBId));
+            }else {
+                MedicineBean medicineBean=this;
+                ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateWareHouseMedicine(medicineBean,roleId));
+            }
+            return this;
+        } else {
+            return null;
         }
     }
 }

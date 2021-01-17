@@ -1,6 +1,7 @@
 package com.liqihao.pojo.bean.articleBean;
 
 import com.liqihao.pojo.bean.BackPackManager;
+import com.liqihao.pojo.bean.guildBean.WareHouseManager;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.pojo.dto.ArticleDto;
 
@@ -15,13 +16,17 @@ public interface Article {
      */
     Integer getArticleTypeCode();
     /**
-     * 获取物品的id
+     * 获取物品背包的id
      */
     Integer getArticleIdCode();
     /**
+     * 获取物品仓库的id
+     */
+    Integer getWareHouseIdCode();
+    /**
      * 物品减少或者删除
      */
-    Article useOrAbandon(Integer number, BackPackManager backPackManager);
+    Article useOrAbandon(Integer number, BackPackManager backPackManager,Integer roleId);
 
     /**
      * 物品转化为物品dto
@@ -35,13 +40,13 @@ public interface Article {
     /**
      * 放入背包中
      */
-    boolean put(BackPackManager backPackManager);
+    boolean put(BackPackManager backPackManager,Integer roleId);
 
     /**
      * 物品整理
      * @param backPackManager
      */
-    void clearPut(BackPackManager backPackManager);
+    void clearPut(BackPackManager backPackManager,Integer roleId);
     /**
      * 检查是否可以放入
      */
@@ -50,4 +55,12 @@ public interface Article {
      * 检查是否可以放入
      */
     boolean use(BackPackManager backpackManager, MmoSimpleRole mmoSimpleRole);
+
+    void clearPutWareHouse(WareHouseManager wareHouseManager, Integer guildId);
+
+    boolean checkCanPutWareHouse(WareHouseManager wareHouseManager);
+
+    boolean putWareHouse(WareHouseManager wareHouseManager, Integer guildId);
+
+    Article useOrAbandonWareHouse(Integer number, WareHouseManager wareHouseManager, Integer roleId);
 }

@@ -21,6 +21,9 @@ import com.liqihao.pojo.bean.guildBean.GuildBean;
 import com.liqihao.pojo.bean.guildBean.GuildRoleBean;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.util.CommonsUtil;
+import com.liqihao.util.ScheduledThreadPoolUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -30,6 +33,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 公会服务提供类
@@ -37,7 +41,9 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Component
 public class GuildServiceProvider  implements ApplicationContextAware {
+    private final Logger log = LoggerFactory.getLogger(EmailServiceProvider.class);
     private static final ConcurrentHashMap<Integer, GuildBean> guildBeanConcurrentHashMap=new ConcurrentHashMap<>();
+    @Autowired
     private MmoGuildPOJOMapper mmoGuildPOJOMapper;
     @Autowired
     private MmoGuildRolePOJOMapper mmoGuildRolePOJOMapper;
@@ -48,11 +54,33 @@ public class GuildServiceProvider  implements ApplicationContextAware {
     private volatile static GuildServiceProvider instance;
     @Autowired
     private CommonsUtil commonsUtil;
+    /**
+     * 公会自增id
+     */
+    private static AtomicInteger guildIdAuto;
+    /**
+     * 公会人物中间表自增id
+     */
+    private static AtomicInteger guildRoleIdAuto;
+    /**
+     * 公会申请表自增id
+     */
+    private static AtomicInteger guildApplyIdAuto;
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         instance=this;
         MmoGuildPOJOMapper mmoGuildPOJOMapper=(MmoGuildPOJOMapper)applicationContext.getBean("mmoGuildPOJOMapper");
-        this.mmoGuildPOJOMapper=mmoGuildPOJOMapper;
+        Integer guildIndex = mmoGuildPOJOMapper.selectNextIndex();
+        guildIdAuto = new AtomicInteger(guildIndex);
+        log.info("GuildServiceProvider：mmoGuildPOJOMapper下一个主键index:" + guildIndex );
+        MmoGuildRolePOJOMapper mmoGuildRolePOJOMapper=(MmoGuildRolePOJOMapper)applicationContext.getBean("mmoGuildRolePOJOMapper");
+        Integer guildRoleIndex = mmoGuildRolePOJOMapper.selectNextIndex();
+        guildRoleIdAuto = new AtomicInteger(guildRoleIndex);
+        log.info("GuildServiceProvider：mmoRolePOJOMapper下一个主键index:" + guildRoleIndex );
+        MmoGuildApplyPOJOMapper mmoGuildApplyPOJOMapper=(MmoGuildApplyPOJOMapper)applicationContext.getBean("mmoGuildApplyPOJOMapper");
+        Integer guildApplyIndex = mmoGuildApplyPOJOMapper.selectNextIndex();
+        guildApplyIdAuto = new AtomicInteger(guildApplyIndex);
+        log.info("GuildServiceProvider：mmoGuildApplyPOJOMapper下一个主键index:" + guildApplyIndex );
         init();
     }
 
@@ -88,7 +116,7 @@ public class GuildServiceProvider  implements ApplicationContextAware {
         mmoGuildPOJO.setChairmanId(role.getId());
         mmoGuildPOJO.setPeopleNum(1);
         mmoGuildPOJO.setLevel(1);
-        mmoGuildPOJOMapper.insert(mmoGuildPOJO);
+        mmoGuildPOJO.setId(guildIdAuto.incrementAndGet());
         GuildBean guildBean= CommonsUtil.mmoGuildPOJOToGuildBean(mmoGuildPOJO);
         //插入成员bean
         List<GuildRoleBean> roleBeans=new ArrayList<>();
@@ -97,8 +125,7 @@ public class GuildServiceProvider  implements ApplicationContextAware {
         guildRoleBean.setGuildId(guildBean.getId());
         guildRoleBean.setContribution(0);
         guildRoleBean.setGuildPositionId(GuildRolePositionCode.HUI_ZHANG.getCode());
-        Integer id=insertGuildRolePOJO(guildRoleBean);
-        guildRoleBean.setId(id);
+        guildRoleBean.setId(guildRoleIdAuto.incrementAndGet());
         guildBean.getGuildRoleBeans().add(guildRoleBean);
         roleBeans.add(guildRoleBean);
         guildBean.setGuildRoleBeans(roleBeans);
@@ -106,6 +133,11 @@ public class GuildServiceProvider  implements ApplicationContextAware {
         guildBeanConcurrentHashMap.put(guildBean.getId(),guildBean);
         //用户持有公会引用
         role.setGuildBean(guildBean);
+        //数据入库
+        ScheduledThreadPoolUtil.addTask(() -> {
+            mmoGuildPOJOMapper.insert(mmoGuildPOJO);
+            insertGuildRolePOJO(guildRoleBean);
+        });
         return guildBean;
     }
     /**
@@ -122,17 +154,11 @@ public class GuildServiceProvider  implements ApplicationContextAware {
         Integer lastDay=MmoBaseMessageCache.getInstance().getGuildBaseMessage().getApplyLastTime();
         guildApplyBean.setEndTime(guildApplyBean.getCreateTime()+lastDay*24*60*60*1000);
         guildApplyBean.setRoleId(role.getId());
-        //入库
-        MmoGuildApplyPOJO guildApplyPOJO=new MmoGuildApplyPOJO();
-        guildApplyPOJO.setGuildId(guildApplyBean.getGuildId());
-        guildApplyPOJO.setCreateTime(guildApplyBean.getCreateTime());
-        guildApplyPOJO.setEndTime(guildApplyBean.getEndTime());
-        guildApplyPOJO.setRoleId(guildApplyBean.getRoleId());
-        mmoGuildApplyPOJOMapper.insert(guildApplyPOJO);
-        //入库后返回id
-        guildApplyBean.setId(guildApplyPOJO.getId());
+        guildApplyBean.setId(guildApplyIdAuto.incrementAndGet());
         //放入公会bean中
         guildBean.addGuildApplyBean(guildApplyBean);
+        //数据入库
+        ScheduledThreadPoolUtil.addTask(() -> insertGuildApplyPOJO(guildApplyBean));
     }
 
 
@@ -155,6 +181,20 @@ public class GuildServiceProvider  implements ApplicationContextAware {
 
     /**
      * 插入数据库某人与公会的中间表记录
+     * @param guildApplyBean
+     * @return
+     */
+    public void insertGuildApplyPOJO(GuildApplyBean guildApplyBean) {
+        MmoGuildApplyPOJO guildApplyPOJO=new MmoGuildApplyPOJO();
+        guildApplyPOJO.setGuildId(guildApplyBean.getGuildId());
+        guildApplyPOJO.setCreateTime(guildApplyBean.getCreateTime());
+        guildApplyPOJO.setEndTime(guildApplyBean.getEndTime());
+        guildApplyPOJO.setRoleId(guildApplyBean.getRoleId());
+        guildApplyPOJO.setId(guildApplyBean.getId());
+        mmoGuildApplyPOJOMapper.insert(guildApplyPOJO);
+    }
+    /**
+     * 插入数据库角色申请表记录
      * @param guildRoleBean
      * @return
      */
@@ -164,10 +204,10 @@ public class GuildServiceProvider  implements ApplicationContextAware {
         guildRolePOJO.setGuildPositionId(guildRoleBean.getGuildPositionId());
         guildRolePOJO.setContribution(guildRoleBean.getContribution());
         guildRolePOJO.setRoleId(guildRoleBean.getRoleId());
+        guildRoleBean.setId(guildRoleBean.getId());
         mmoGuildRolePOJOMapper.insert(guildRolePOJO);
         return guildRolePOJO.getId();
     }
-
     /**
      * 检测是否有权限
      */

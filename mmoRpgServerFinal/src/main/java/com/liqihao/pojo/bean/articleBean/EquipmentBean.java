@@ -4,8 +4,11 @@ import com.liqihao.Cache.EquipmentMessageCache;
 import com.liqihao.Cache.MmoBaseMessageCache;
 import com.liqihao.pojo.baseMessage.EquipmentMessage;
 import com.liqihao.pojo.bean.BackPackManager;
+import com.liqihao.pojo.bean.guildBean.WareHouseManager;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.pojo.dto.ArticleDto;
+import com.liqihao.util.DbUtil;
+import com.liqihao.util.ScheduledThreadPoolUtil;
 
 /**
  * Equipment Bean
@@ -18,28 +21,57 @@ public class EquipmentBean implements Article{
     private Integer equipmentMessageId;
     private Integer nowDurability;
     private Integer quantity;
+
     /**
      * 缓存中背包id
      */
     private Integer articleId;
+
     /**
      * 背包数据库 数据库行记录id
      */
     private Integer bagId;
+
     /**
      * 装备数据库id
      */
     private Integer equipmentId;
+
     /**
      * 装备栏 数据库id
      */
     private Integer equipmentBagId;
 
     /**
-     *
      *地面物品的下标
      */
     private Integer floorIndex;
+
+    /**
+     * 仓库id
+     */
+    private Integer wareHouseId;
+
+    /**
+     * 仓库 数据库id
+     */
+    private Integer wareHouseDBId;
+
+    public Integer getWareHouseId() {
+        return wareHouseId;
+    }
+
+    public void setWareHouseId(Integer wareHouseId) {
+        this.wareHouseId = wareHouseId;
+    }
+
+    public Integer getWareHouseDBId() {
+        return wareHouseDBId;
+    }
+
+    public void setWareHouseDBId(Integer wareHouseDBId) {
+        this.wareHouseDBId = wareHouseDBId;
+    }
 
     public Integer getEquipmentMessageId() {
         return equipmentMessageId;
@@ -81,6 +113,30 @@ public class EquipmentBean implements Article{
         this.bagId = bagId;
     }
 
+    public Integer getArticleId() {
+        return articleId;
+    }
+
+    public void setArticleId(Integer articleId) {
+        this.articleId = articleId;
+    }
+
+    public Integer getNowDurability() {
+        return nowDurability;
+    }
+
+    public void setNowDurability(Integer nowDurability) {
+        this.nowDurability = nowDurability;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
     /**
      * 减耐久度
      * @return
@@ -104,29 +160,6 @@ public class EquipmentBean implements Article{
         return nowDurability;
     }
 
-    public Integer getArticleId() {
-        return articleId;
-    }
-
-    public void setArticleId(Integer articleId) {
-        this.articleId = articleId;
-    }
-    public Integer getNowDurability() {
-        return nowDurability;
-    }
-
-    public void setNowDurability(Integer nowDurability) {
-        this.nowDurability = nowDurability;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
     /**
      * 获取类型
      * @return
@@ -146,21 +179,32 @@ public class EquipmentBean implements Article{
         return getArticleId();
     }
 
+    @Override
+    public Integer getWareHouseIdCode() {
+        return getWareHouseId();
+    }
+
     /**
      * 丢弃或者使用装备
      * @param number
      * @return
      */
     @Override
-    public Article useOrAbandon(Integer number, BackPackManager backPackManager) {
+    public Article useOrAbandon(Integer number, BackPackManager backPackManager,Integer roleId) {
         //需要删除数据库的记录
-        backPackManager.getNeedDeleteBagId().add(getBagId());
+        Integer bagId=getBagId();
         setBagId(null);
         backPackManager.getBackpacks().remove(this);
         backPackManager.setNowSize(backPackManager.getNowSize()-1);
+        //数据库
+        ScheduledThreadPoolUtil.addTask(() -> DbUtil.deleteBagById(bagId));
         return this;
     }
 
+    /**
+     * 物品信息
+     * @return
+     */
     @Override
     public ArticleDto getArticleMessage() {
         ArticleDto articleDto = new ArticleDto();
@@ -171,16 +215,29 @@ public class EquipmentBean implements Article{
         articleDto.setBagId(getBagId());
         articleDto.setNowDurability(getNowDurability());
         articleDto.setEquipmentId(getEquipmentId());
+        articleDto.setWareHouseId(getWareHouseId());
+        articleDto.setWareHouseDBId(getWareHouseDBId());
         return articleDto;
     }
 
+    /**
+     * 返回子类
+     * @param <T>
+     * @return
+     */
     @Override
     public <T extends Article> T getArticle() {
         return (T)this;
     }
 
+    /**
+     * 放入背包
+     * @param backPackManager
+     * @param roleId
+     * @return
+     */
     @Override
-    public boolean put(BackPackManager backPackManager) {
+    public boolean put(BackPackManager backPackManager,Integer roleId) {
         //判断背包大小
         if ((backPackManager.getSize() - backPackManager.getNowSize()) <= 0) {
             //背包一个格子的空间都没有 无法存放
@@ -190,21 +247,50 @@ public class EquipmentBean implements Article{
             setArticleId(backPackManager.getNewArticleId());
             backPackManager.setNowSize(backPackManager.getNowSize()+1);
             backPackManager.getBackpacks().add(this);
+            setBagId(DbUtil.getBagPojoNextIndex());
+            //数据库
+            ArticleDto articleDto=new ArticleDto();
+            articleDto.setQuantity(getQuantity());
+            articleDto.setEquipmentId(getEquipmentId());
+            articleDto.setArticleType(getArticleTypeCode());
+            articleDto.setBagId(getBagId());
+            ScheduledThreadPoolUtil.addTask(() -> DbUtil.insertBag(articleDto,roleId));
             return true;
         }
     }
 
+    /**
+     * 整理背包从新放入
+     * @param backPackManager
+     * @param roleId
+     */
     @Override
-    public void clearPut(BackPackManager backPackManager) {
-        if (getBagId()!=null){
-            backPackManager.getNeedDeleteBagId().add(getBagId());
-        }
+    public void clearPut(BackPackManager backPackManager,Integer roleId) {
+//        if (getBagId()!=null){
+//            backPackManager.getNeedDeleteBagId().add(getBagId());
+//        }
+        Integer oldBagId=getBagId();
         //设置背包物品id
         setArticleId(backPackManager.getNewArticleId());
-        setBagId(null);
-        backPackManager.put(this);
+        setBagId(DbUtil.getBagPojoNextIndex());
+        backPackManager.put(this,roleId);
+        //数据库
+        ArticleDto articleDto=new ArticleDto();
+        articleDto.setQuantity(getQuantity());
+        articleDto.setEquipmentId(getEquipmentId());
+        articleDto.setArticleType(getArticleTypeCode());
+        articleDto.setBagId(getBagId());
+        ScheduledThreadPoolUtil.addTask(() -> {
+            DbUtil.deleteBagById(oldBagId);
+            DbUtil.insertBag(articleDto,roleId);
+        });
     }
 
+    /**
+     * 检查是否可放入背包
+     * @param backPackManager
+     * @return
+     */
     @Override
     public boolean checkCanPut(BackPackManager backPackManager) {
         if (backPackManager.getNowSize() > backPackManager.getSize()) {
@@ -212,10 +298,10 @@ public class EquipmentBean implements Article{
         }
         return true;
     }
+
     /**
      *  穿装备 or替换装备
      */
-
     @Override
     public boolean use(BackPackManager backpackManager, MmoSimpleRole mmoSimpleRole) {
         EquipmentMessage equipmentMessage= EquipmentMessageCache.getInstance().get(getEquipmentMessageId());
@@ -228,17 +314,102 @@ public class EquipmentBean implements Article{
                 //修改人物属性
                 mmoSimpleRole.setAttack(mmoSimpleRole.getAttack() - equipmentMessage.getAttackAdd());
                 mmoSimpleRole.setDamageAdd(mmoSimpleRole.getDamageAdd() - equipmentMessage.getDamageAdd());
-                mmoSimpleRole.getNeedDeleteEquipmentIds().add(oldBean.getEquipmentBagId());
-                backpackManager.put(oldBean);
+//                mmoSimpleRole.getNeedDeleteEquipmentIds().add(oldBean.getEquipmentBagId());
+                Integer oldEquipmentBagId=oldBean.getEquipmentBagId();
+                oldBean.setEquipmentBagId(null);
+                //入库
+                ScheduledThreadPoolUtil.addTask(() -> DbUtil.deleteEquipmentBagById(oldEquipmentBagId));
+                backpackManager.put(oldBean,mmoSimpleRole.getId());
             }
             //背包减少装备
-            backpackManager.useOrAbandonArticle(getArticleId(), 1);
+            backpackManager.useOrAbandonArticle(getArticleId(), 1,mmoSimpleRole.getId());
             //装备栏增加装备
             mmoSimpleRole.getEquipmentBeanHashMap().put(equipmentMessage.getPosition(), this);
+            equipmentBagId=DbUtil.getEquipmentBagNextIndex();
+            //插入数据库
+            EquipmentBean equipmentBean=this;
+            Integer roleId=mmoSimpleRole.getId();
+            ScheduledThreadPoolUtil.addTask(() -> DbUtil.addEquipmentBagPOJO(equipmentBean,roleId));
             //人物属性
             mmoSimpleRole.setAttack(mmoSimpleRole.getAttack() + equipmentMessage.getAttackAdd());
             mmoSimpleRole.setDamageAdd(mmoSimpleRole.getDamageAdd() + equipmentMessage.getDamageAdd());
             return true;
         }
+    }
+
+    /**
+     * 整理放入仓库中
+     * @param wareHouseManager
+     * @param guildId
+     */
+    @Override
+    public void clearPutWareHouse(WareHouseManager wareHouseManager, Integer guildId) {
+        Integer wareHouseDBId=getWareHouseDBId();
+        wareHouseManager.putWareHouse(this,guildId);
+        //数据库
+        ScheduledThreadPoolUtil.addTask(() -> {
+            DbUtil.deleteWareHouseById(wareHouseDBId);
+        });
+    }
+
+    /**
+     * 检测是否可放入仓库中
+     * @param wareHouseManager
+     * @return
+     */
+    @Override
+    public boolean checkCanPutWareHouse(WareHouseManager wareHouseManager) {
+        if (wareHouseManager.getNowSize() > wareHouseManager.getSize()) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 放入仓库
+     * @param wareHouseManager
+     * @param guildId
+     * @return
+     */
+    @Override
+    public boolean putWareHouse(WareHouseManager wareHouseManager, Integer guildId) {
+        //判断背包大小
+        if ((wareHouseManager.getSize() - wareHouseManager.getNowSize()) <= 0) {
+            //背包一个格子的空间都没有 无法存放
+            return false;
+        } else {
+            //设置仓库id
+            setWareHouseId(wareHouseManager.addAndReturnWareHouseId());
+            setWareHouseDBId(DbUtil.getWareHouseIndex());
+            //删除背包id
+            Integer bagId=getBagId();
+            setBagId(null);
+            setArticleId(null);
+            wareHouseManager.getBackpacks().add(this);
+            //数据库
+            ArticleDto articleDto=new ArticleDto();
+            articleDto.setQuantity(getQuantity());
+            articleDto.setEquipmentId(getEquipmentId());
+            articleDto.setArticleType(getArticleTypeCode());
+            articleDto.setWareHouseDBId(getWareHouseDBId());
+            //入库
+            ScheduledThreadPoolUtil.addTask(() -> {
+                DbUtil.insertEquipmentWareHouse(articleDto,guildId);
+                DbUtil.deleteBagById(bagId);
+            });
+            return true;
+        }
+    }
+
+    @Override
+    public Article useOrAbandonWareHouse(Integer number, WareHouseManager wareHouseManager, Integer roleId) {
+        //需要删除数据库的记录
+        Integer wareHouseDBId=getWareHouseDBId();
+        setWareHouseDBId(null);
+        wareHouseManager.getBackpacks().remove(this);
+        wareHouseManager.reduceAndReturnNowSize();
+        //数据库
+        ScheduledThreadPoolUtil.addTask(() -> DbUtil.deleteWareHouseById(wareHouseDBId));
+        return this;
     }
 }
