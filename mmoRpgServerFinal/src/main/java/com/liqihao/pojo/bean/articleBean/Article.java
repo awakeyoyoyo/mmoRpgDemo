@@ -62,5 +62,5 @@ public interface Article {
 
     boolean putWareHouse(WareHouseManager wareHouseManager, Integer guildId);
 
-    Article useOrAbandonWareHouse(Integer number, WareHouseManager wareHouseManager, Integer roleId);
+    Article useOrAbandonWareHouse(Integer number, WareHouseManager wareHouseManager,Integer guildId);
 }

@@ -3,9 +3,13 @@ package com.liqihao.service.impl;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.liqihao.commons.MmoCacheCilent;
 import com.liqihao.commons.NettyResponse;
+import com.liqihao.commons.enums.ArticleTypeCode;
 import com.liqihao.commons.enums.RoleOnStatusCode;
+import com.liqihao.pojo.baseMessage.EquipmentMessage;
 import com.liqihao.pojo.baseMessage.GuildPositionMessage;
+import com.liqihao.pojo.baseMessage.MedicineMessage;
 import com.liqihao.pojo.baseMessage.ProfessionMessage;
+import com.liqihao.protobufObject.BackPackModel;
 import com.liqihao.protobufObject.GuildModel;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.service.GuildService;
@@ -111,6 +115,7 @@ public class GuildServiceImpl implements GuildService {
         System.out.println("[-][-]公会id：" + guildDto.getId() + " 公会名称：" + guildDto.getName());
         System.out.println("[-][-]公会等级：" + guildDto.getLevel() + " 公会人数：" + guildDto.getPeopleNum());
         System.out.println("[-][-]公会会长id：" + guildDto.getChairmanId());
+        System.out.println("[-][-]公会仓库金币数目：" + guildDto.getMoney());
         System.out.println("[-][-]创建时间：" + sdf.format(guildDto.getCreateTime()));
         System.out.println("[-][-][-]成员列表:");
         for (GuildModel.GuildPeopleDto guildPeopleDto : guildDto.getGuildPeopleDtosList()) {
@@ -154,6 +159,60 @@ public class GuildServiceImpl implements GuildService {
             System.out.println("[-]已通过公会申请！");
         }else {
             System.out.println("[-]公会申请被拒绝！");
+        }
+        System.out.println("[-]--------------------------------------------------------");
+    }
+
+    @Override
+    public void getGuildMoney(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
+        byte[] data = nettyResponse.getData();
+        GuildModel.GuildModelMessage myMessage;
+        myMessage = GuildModel.GuildModelMessage.parseFrom(data);
+        System.out.println("[-]--------------------------------------------------------");
+        System.out.println("[-]已拿出该金币！");
+        System.out.println("[-]--------------------------------------------------------");
+    }
+
+    @Override
+    public void getGuildArticle(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
+        byte[] data = nettyResponse.getData();
+        GuildModel.GuildModelMessage myMessage;
+        myMessage = GuildModel.GuildModelMessage.parseFrom(data);
+        System.out.println("[-]--------------------------------------------------------");
+        System.out.println("[-]已拿出该物品！");
+        System.out.println("[-]--------------------------------------------------------");
+    }
+
+    @Override
+    public void getGuildWareHouse(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
+        byte[] data = nettyResponse.getData();
+        GuildModel.GuildModelMessage myMessage;
+        myMessage = GuildModel.GuildModelMessage.parseFrom(data);
+        List<GuildModel.ArticleDto> bags=myMessage.getGetGuildWareHouseResponse().getArticleDtosList();
+        ConcurrentHashMap<Integer, MedicineMessage> medicineMessageConcurrentHashMap=MmoCacheCilent.getInstance().getMedicineMessageConcurrentHashMap();
+        ConcurrentHashMap<Integer, EquipmentMessage> equipmentMessageConcurrentHashMap=MmoCacheCilent.getInstance().getEquipmentMessageConcurrentHashMap();
+        System.out.println("[-]--------------------------------------------------------");
+        for (GuildModel.ArticleDto a:bags) {
+            if (a.getArticleType()== ArticleTypeCode.EQUIPMENT.getCode()){
+                //装备
+                EquipmentMessage equipmentMessage=equipmentMessageConcurrentHashMap.get(a.getId());
+                System.out.println("[-]");
+                System.out.println("[-][-]名字: "+equipmentMessage.getName()+" 耐久度： "+a.getNowDurability()+ "描述: "+equipmentMessage.getDescription());
+                System.out.println("[-][-]仓库中的id: "+a.getWareHouseId()+" 装备基本信息id: "+a.getId()+" 装备实例id: "+a.getEquipmentId()+" 物品数量: "+a.getQuantity());
+                System.out.println("[-]");
+            }else if (a.getArticleType()== ArticleTypeCode.MEDICINE.getCode()){
+                //药品
+                MedicineMessage medicineMessage=medicineMessageConcurrentHashMap.get(a.getId());
+                System.out.println("[-]");
+                System.out.println("[-][-]名字: "+medicineMessage.getName()+ "描述: "+medicineMessage.getDescription());
+                System.out.println("[-][-]仓库中的id: "+a.getWareHouseId()+" 药品基本信息id: "+a.getId()+" 物品数量: "+a.getQuantity());
+                System.out.println("[-]");
+            }else {
+                System.out.println("[-]");
+                System.out.println("[-]什么鬼东西？？？");
+                System.out.println("[-]");
+            }
+
         }
         System.out.println("[-]--------------------------------------------------------");
     }

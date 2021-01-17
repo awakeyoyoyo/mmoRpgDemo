@@ -56,7 +56,7 @@ public interface GuildService {
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
      */
-    void contributeMoney(GuildModel.GuildModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException;
+    void contributeMoney(GuildModel.GuildModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
 
     /**
      * 捐赠物品
@@ -65,7 +65,7 @@ public interface GuildService {
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
      */
-    void contributeArticle(GuildModel.GuildModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException;
+    void contributeArticle(GuildModel.GuildModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
 
     /**
      * 取物品
@@ -74,7 +74,7 @@ public interface GuildService {
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
      */
-    void getArticle(GuildModel.GuildModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException;
+    void getArticle(GuildModel.GuildModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
 
 
     /**
@@ -84,7 +84,7 @@ public interface GuildService {
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
      */
-    void getMoney(GuildModel.GuildModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException;
+    void getMoney(GuildModel.GuildModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
 
     /**
      * 获取申请入公会列别
@@ -122,5 +122,14 @@ public interface GuildService {
      * @throws RpgServerException
      */
     void refuseGuildApply(GuildModel.GuildModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
+    /**
+     * 获取公会仓库信息
+     * @param myMessage
+     * @param mmoSimpleRole
+     * @throws InvalidProtocolBufferException
+     * @throws RpgServerException
+     */
+    void getGuildWareHouseMessage(GuildModel.GuildModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
+
 
 }

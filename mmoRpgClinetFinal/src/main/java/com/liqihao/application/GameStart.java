@@ -8,12 +8,10 @@ import com.liqihao.commons.NettyRequest;
 import com.liqihao.commons.enums.ArticleTypeCode;
 import com.liqihao.commons.enums.SkillAttackTypeCode;
 import com.liqihao.commons.enums.SkillDamageTypeCode;
-import com.liqihao.commons.enums.SkillTypeCode;
 import com.liqihao.pojo.MmoRole;
 import com.liqihao.pojo.baseMessage.*;
 import com.liqihao.protobufObject.*;
 import com.liqihao.utils.CommonsUtil;
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import io.netty.channel.Channel;
 
 
@@ -239,9 +237,129 @@ public class GameStart {
                     case ConstantValue.GET_GUILD_MESSAGE_REQUEST:
                         getGuildMessageRequest(scanner);
                         break;
+                    case ConstantValue.GET_GUILD_WAREHOUSE_REQUEST:
+                        getGuildWareHouseRequest(scanner);
+                        break;
+                    case ConstantValue.CONTRIBUTE_MONEY_REQUEST:
+                        contributeMoneyRequest(scanner);
+                        break;
+                    case ConstantValue.CONTRIBUTE_ARTICLE_REQUEST:
+                        contributeArticleRequest(scanner);
+                        break;
+                    case ConstantValue.GET_GUILD_MONEY_REQUEST:
+                        getGuildMoneyRequest(scanner);
+                        break;
+                    case ConstantValue.GET_GUILD_ARTICLE_REQUEST:
+                        getGuildArticleRequest(scanner);
+                        break;
                     default:
                         System.out.println("GameStart-handler:收到错误cmd");
                 }
+    }
+
+    private void getGuildWareHouseRequest(Scanner scanner) {
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.GET_GUILD_WAREHOUSE_REQUEST);
+        GuildModel.GuildModelMessage myMessage;
+        myMessage=GuildModel.GuildModelMessage.newBuilder()
+                .setDataType(GuildModel.GuildModelMessage.DateType.GetGuildWareHouseRequest)
+                .setGetGuildWareHouseRequest(GuildModel.GetGuildWareHouseRequest.newBuilder().build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+
+    }
+
+    private void contributeMoneyRequest(Scanner scanner) {
+        System.out.println("请输入你要捐献的金额：");
+        Integer money=scanner.nextInt();
+        scanner.nextLine();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.CONTRIBUTE_MONEY_REQUEST);
+        GuildModel.GuildModelMessage myMessage;
+        myMessage=GuildModel.GuildModelMessage.newBuilder()
+                .setDataType(GuildModel.GuildModelMessage.DateType.ContributeMoneyRequest)
+                .setContributeMoneyRequest(GuildModel.ContributeMoneyRequest.newBuilder().setMoney(money).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void contributeArticleRequest(Scanner scanner) {
+        System.out.println("请输入你要捐献的物品的背包id：");
+        Integer articleId=scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("请输入你要捐献的物品的类型：药品-0 武器-1");
+        Integer articleType=scanner.nextInt();
+        if (articleType<0||articleType>1){
+            System.out.println("输入错误数字");
+        }
+        Integer number=1;
+        if (articleType.equals(1)){
+            number=1;
+        }else{
+            System.out.println("输入放入数量");
+            number=scanner.nextInt();
+            scanner.nextLine();
+        }
+        scanner.nextLine();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.CONTRIBUTE_ARTICLE_REQUEST);
+        GuildModel.GuildModelMessage myMessage;
+        myMessage=GuildModel.GuildModelMessage.newBuilder()
+                .setDataType(GuildModel.GuildModelMessage.DateType.ContributeArticleRequest)
+                .setContributeArticleRequest(GuildModel.ContributeArticleRequest.newBuilder()
+                        .setArticleId(articleId).setNumber(number)
+                        .build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void getGuildMoneyRequest(Scanner scanner) {
+        System.out.println("请输入你要取出的金额：");
+        Integer money=scanner.nextInt();
+        scanner.nextLine();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.GET_GUILD_MONEY_REQUEST);
+        GuildModel.GuildModelMessage myMessage;
+        myMessage=GuildModel.GuildModelMessage.newBuilder()
+                .setDataType(GuildModel.GuildModelMessage.DateType.GetMoneyRequest)
+                .setGetMoneyRequest(GuildModel.GetMoneyRequest.newBuilder().setMoney(money).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void getGuildArticleRequest(Scanner scanner) {
+        System.out.println("请输入你要取出的物品的仓库id：");
+        Integer wareHouseId=scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("请输入你要取出的物品的类型：药品-0 武器-1");
+        Integer articleType=scanner.nextInt();
+        if (articleType<0||articleType>1){
+            System.out.println("输入错误数字");
+        }
+        Integer number;
+        if (articleType.equals(1)){
+            number=1;
+        }else{
+            System.out.println("输入取出数量");
+            number=scanner.nextInt();
+            scanner.nextLine();
+        }
+        scanner.nextLine();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.GET_GUILD_ARTICLE_REQUEST);
+        GuildModel.GuildModelMessage myMessage;
+        myMessage=GuildModel.GuildModelMessage.newBuilder()
+                .setDataType(GuildModel.GuildModelMessage.DateType.GetArticleRequest)
+                .setGetArticleRequest(GuildModel.GetArticleRequest.newBuilder()
+                        .setWarehouseId(wareHouseId).setNumber(number)
+                        .build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
     }
 
     private void getGuildMessageRequest(Scanner scanner) {

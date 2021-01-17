@@ -13,6 +13,8 @@ public class MmoGuildPOJO {
 
     private Long createTime;
 
+    private Integer money;
+
     public Integer getId() {
         return id;
     }
@@ -59,5 +61,13 @@ public class MmoGuildPOJO {
 
     public void setCreateTime(Long createTime) {
         this.createTime = createTime;
+    }
+
+    public Integer getMoney() {
+        return money;
+    }
+
+    public void setMoney(Integer money) {
+        this.money = money;
     }
 }

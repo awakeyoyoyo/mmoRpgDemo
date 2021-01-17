@@ -410,6 +410,36 @@ public final class GuildModel {
      */
     ApplyResponseOrBuilder getApplyResponseOrBuilder();
 
+    /**
+     * <code>.GetGuildWareHouseRequest getGuildWareHouseRequest = 27;</code>
+     * @return Whether the getGuildWareHouseRequest field is set.
+     */
+    boolean hasGetGuildWareHouseRequest();
+    /**
+     * <code>.GetGuildWareHouseRequest getGuildWareHouseRequest = 27;</code>
+     * @return The getGuildWareHouseRequest.
+     */
+    GetGuildWareHouseRequest getGetGuildWareHouseRequest();
+    /**
+     * <code>.GetGuildWareHouseRequest getGuildWareHouseRequest = 27;</code>
+     */
+    GetGuildWareHouseRequestOrBuilder getGetGuildWareHouseRequestOrBuilder();
+
+    /**
+     * <code>.GetGuildWareHouseResponse getGuildWareHouseResponse = 28;</code>
+     * @return Whether the getGuildWareHouseResponse field is set.
+     */
+    boolean hasGetGuildWareHouseResponse();
+    /**
+     * <code>.GetGuildWareHouseResponse getGuildWareHouseResponse = 28;</code>
+     * @return The getGuildWareHouseResponse.
+     */
+    GetGuildWareHouseResponse getGetGuildWareHouseResponse();
+    /**
+     * <code>.GetGuildWareHouseResponse getGuildWareHouseResponse = 28;</code>
+     */
+    GetGuildWareHouseResponseOrBuilder getGetGuildWareHouseResponseOrBuilder();
+
     public GuildModelMessage.DateBodyCase getDateBodyCase();
   }
   /**
@@ -818,6 +848,34 @@ public final class GuildModel {
               dateBodyCase_ = 26;
               break;
             }
+            case 218: {
+              GetGuildWareHouseRequest.Builder subBuilder = null;
+              if (dateBodyCase_ == 27) {
+                subBuilder = ((GetGuildWareHouseRequest) dateBody_).toBuilder();
+              }
+              dateBody_ =
+                  input.readMessage(GetGuildWareHouseRequest.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((GetGuildWareHouseRequest) dateBody_);
+                dateBody_ = subBuilder.buildPartial();
+              }
+              dateBodyCase_ = 27;
+              break;
+            }
+            case 226: {
+              GetGuildWareHouseResponse.Builder subBuilder = null;
+              if (dateBodyCase_ == 28) {
+                subBuilder = ((GetGuildWareHouseResponse) dateBody_).toBuilder();
+              }
+              dateBody_ =
+                  input.readMessage(GetGuildWareHouseResponse.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((GetGuildWareHouseResponse) dateBody_);
+                dateBody_ = subBuilder.buildPartial();
+              }
+              dateBodyCase_ = 28;
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -956,9 +1014,17 @@ public final class GuildModel {
        */
       GetGuildBeanResponse(23),
       /**
-       * <code>ApplyResponse = 26;</code>
+       * <code>ApplyResponse = 24;</code>
        */
-      ApplyResponse(26),
+      ApplyResponse(24),
+      /**
+       * <code>GetGuildWareHouseRequest = 25;</code>
+       */
+      GetGuildWareHouseRequest(25),
+      /**
+       * <code>GetGuildWareHouseResponse = 26;</code>
+       */
+      GetGuildWareHouseResponse(26),
       UNRECOGNIZED(-1),
       ;
 
@@ -1059,9 +1125,17 @@ public final class GuildModel {
        */
       public static final int GetGuildBeanResponse_VALUE = 23;
       /**
-       * <code>ApplyResponse = 26;</code>
+       * <code>ApplyResponse = 24;</code>
        */
-      public static final int ApplyResponse_VALUE = 26;
+      public static final int ApplyResponse_VALUE = 24;
+      /**
+       * <code>GetGuildWareHouseRequest = 25;</code>
+       */
+      public static final int GetGuildWareHouseRequest_VALUE = 25;
+      /**
+       * <code>GetGuildWareHouseResponse = 26;</code>
+       */
+      public static final int GetGuildWareHouseResponse_VALUE = 26;
 
 
       public final int getNumber() {
@@ -1112,7 +1186,9 @@ public final class GuildModel {
           case 21: return GetGuildBeanRequest;
           case 22: return GetGuildApplyListResponse;
           case 23: return GetGuildBeanResponse;
-          case 26: return ApplyResponse;
+          case 24: return ApplyResponse;
+          case 25: return GetGuildWareHouseRequest;
+          case 26: return GetGuildWareHouseResponse;
           default: return null;
         }
       }
@@ -1199,6 +1275,8 @@ public final class GuildModel {
       GETGUILDAPPLYLISTRESPONSE(24),
       GETGUILDBEANRESPONSE(25),
       APPLYRESPONSE(26),
+      GETGUILDWAREHOUSEREQUEST(27),
+      GETGUILDWAREHOUSERESPONSE(28),
       DATEBODY_NOT_SET(0);
       private final int value;
       private DateBodyCase(int value) {
@@ -1241,6 +1319,8 @@ public final class GuildModel {
           case 24: return GETGUILDAPPLYLISTRESPONSE;
           case 25: return GETGUILDBEANRESPONSE;
           case 26: return APPLYRESPONSE;
+          case 27: return GETGUILDWAREHOUSEREQUEST;
+          case 28: return GETGUILDWAREHOUSERESPONSE;
           case 0: return DATEBODY_NOT_SET;
           default: return null;
         }
@@ -2058,6 +2138,68 @@ public final class GuildModel {
       return ApplyResponse.getDefaultInstance();
     }
 
+    public static final int GETGUILDWAREHOUSEREQUEST_FIELD_NUMBER = 27;
+    /**
+     * <code>.GetGuildWareHouseRequest getGuildWareHouseRequest = 27;</code>
+     * @return Whether the getGuildWareHouseRequest field is set.
+     */
+    @Override
+    public boolean hasGetGuildWareHouseRequest() {
+      return dateBodyCase_ == 27;
+    }
+    /**
+     * <code>.GetGuildWareHouseRequest getGuildWareHouseRequest = 27;</code>
+     * @return The getGuildWareHouseRequest.
+     */
+    @Override
+    public GetGuildWareHouseRequest getGetGuildWareHouseRequest() {
+      if (dateBodyCase_ == 27) {
+         return (GetGuildWareHouseRequest) dateBody_;
+      }
+      return GetGuildWareHouseRequest.getDefaultInstance();
+    }
+    /**
+     * <code>.GetGuildWareHouseRequest getGuildWareHouseRequest = 27;</code>
+     */
+    @Override
+    public GetGuildWareHouseRequestOrBuilder getGetGuildWareHouseRequestOrBuilder() {
+      if (dateBodyCase_ == 27) {
+         return (GetGuildWareHouseRequest) dateBody_;
+      }
+      return GetGuildWareHouseRequest.getDefaultInstance();
+    }
+
+    public static final int GETGUILDWAREHOUSERESPONSE_FIELD_NUMBER = 28;
+    /**
+     * <code>.GetGuildWareHouseResponse getGuildWareHouseResponse = 28;</code>
+     * @return Whether the getGuildWareHouseResponse field is set.
+     */
+    @Override
+    public boolean hasGetGuildWareHouseResponse() {
+      return dateBodyCase_ == 28;
+    }
+    /**
+     * <code>.GetGuildWareHouseResponse getGuildWareHouseResponse = 28;</code>
+     * @return The getGuildWareHouseResponse.
+     */
+    @Override
+    public GetGuildWareHouseResponse getGetGuildWareHouseResponse() {
+      if (dateBodyCase_ == 28) {
+         return (GetGuildWareHouseResponse) dateBody_;
+      }
+      return GetGuildWareHouseResponse.getDefaultInstance();
+    }
+    /**
+     * <code>.GetGuildWareHouseResponse getGuildWareHouseResponse = 28;</code>
+     */
+    @Override
+    public GetGuildWareHouseResponseOrBuilder getGetGuildWareHouseResponseOrBuilder() {
+      if (dateBodyCase_ == 28) {
+         return (GetGuildWareHouseResponse) dateBody_;
+      }
+      return GetGuildWareHouseResponse.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -2149,6 +2291,12 @@ public final class GuildModel {
       }
       if (dateBodyCase_ == 26) {
         output.writeMessage(26, (ApplyResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 27) {
+        output.writeMessage(27, (GetGuildWareHouseRequest) dateBody_);
+      }
+      if (dateBodyCase_ == 28) {
+        output.writeMessage(28, (GetGuildWareHouseResponse) dateBody_);
       }
       unknownFields.writeTo(output);
     }
@@ -2262,6 +2410,14 @@ public final class GuildModel {
       if (dateBodyCase_ == 26) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(26, (ApplyResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 27) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(27, (GetGuildWareHouseRequest) dateBody_);
+      }
+      if (dateBodyCase_ == 28) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(28, (GetGuildWareHouseResponse) dateBody_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -2381,6 +2537,14 @@ public final class GuildModel {
           if (!getApplyResponse()
               .equals(other.getApplyResponse())) return false;
           break;
+        case 27:
+          if (!getGetGuildWareHouseRequest()
+              .equals(other.getGetGuildWareHouseRequest())) return false;
+          break;
+        case 28:
+          if (!getGetGuildWareHouseResponse()
+              .equals(other.getGetGuildWareHouseResponse())) return false;
+          break;
         case 0:
         default:
       }
@@ -2497,6 +2661,14 @@ public final class GuildModel {
         case 26:
           hash = (37 * hash) + APPLYRESPONSE_FIELD_NUMBER;
           hash = (53 * hash) + getApplyResponse().hashCode();
+          break;
+        case 27:
+          hash = (37 * hash) + GETGUILDWAREHOUSEREQUEST_FIELD_NUMBER;
+          hash = (53 * hash) + getGetGuildWareHouseRequest().hashCode();
+          break;
+        case 28:
+          hash = (37 * hash) + GETGUILDWAREHOUSERESPONSE_FIELD_NUMBER;
+          hash = (53 * hash) + getGetGuildWareHouseResponse().hashCode();
           break;
         case 0:
         default:
@@ -2844,6 +3016,20 @@ public final class GuildModel {
             result.dateBody_ = applyResponseBuilder_.build();
           }
         }
+        if (dateBodyCase_ == 27) {
+          if (getGuildWareHouseRequestBuilder_ == null) {
+            result.dateBody_ = dateBody_;
+          } else {
+            result.dateBody_ = getGuildWareHouseRequestBuilder_.build();
+          }
+        }
+        if (dateBodyCase_ == 28) {
+          if (getGuildWareHouseResponseBuilder_ == null) {
+            result.dateBody_ = dateBody_;
+          } else {
+            result.dateBody_ = getGuildWareHouseResponseBuilder_.build();
+          }
+        }
         result.dateBodyCase_ = dateBodyCase_;
         onBuilt();
         return result;
@@ -2995,6 +3181,14 @@ public final class GuildModel {
           }
           case APPLYRESPONSE: {
             mergeApplyResponse(other.getApplyResponse());
+            break;
+          }
+          case GETGUILDWAREHOUSEREQUEST: {
+            mergeGetGuildWareHouseRequest(other.getGetGuildWareHouseRequest());
+            break;
+          }
+          case GETGUILDWAREHOUSERESPONSE: {
+            mergeGetGuildWareHouseResponse(other.getGetGuildWareHouseResponse());
             break;
           }
           case DATEBODY_NOT_SET: {
@@ -6642,6 +6836,288 @@ public final class GuildModel {
         dateBodyCase_ = 26;
         onChanged();;
         return applyResponseBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          GetGuildWareHouseRequest, GetGuildWareHouseRequest.Builder, GetGuildWareHouseRequestOrBuilder> getGuildWareHouseRequestBuilder_;
+      /**
+       * <code>.GetGuildWareHouseRequest getGuildWareHouseRequest = 27;</code>
+       * @return Whether the getGuildWareHouseRequest field is set.
+       */
+      @Override
+      public boolean hasGetGuildWareHouseRequest() {
+        return dateBodyCase_ == 27;
+      }
+      /**
+       * <code>.GetGuildWareHouseRequest getGuildWareHouseRequest = 27;</code>
+       * @return The getGuildWareHouseRequest.
+       */
+      @Override
+      public GetGuildWareHouseRequest getGetGuildWareHouseRequest() {
+        if (getGuildWareHouseRequestBuilder_ == null) {
+          if (dateBodyCase_ == 27) {
+            return (GetGuildWareHouseRequest) dateBody_;
+          }
+          return GetGuildWareHouseRequest.getDefaultInstance();
+        } else {
+          if (dateBodyCase_ == 27) {
+            return getGuildWareHouseRequestBuilder_.getMessage();
+          }
+          return GetGuildWareHouseRequest.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.GetGuildWareHouseRequest getGuildWareHouseRequest = 27;</code>
+       */
+      public Builder setGetGuildWareHouseRequest(GetGuildWareHouseRequest value) {
+        if (getGuildWareHouseRequestBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dateBody_ = value;
+          onChanged();
+        } else {
+          getGuildWareHouseRequestBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 27;
+        return this;
+      }
+      /**
+       * <code>.GetGuildWareHouseRequest getGuildWareHouseRequest = 27;</code>
+       */
+      public Builder setGetGuildWareHouseRequest(
+          GetGuildWareHouseRequest.Builder builderForValue) {
+        if (getGuildWareHouseRequestBuilder_ == null) {
+          dateBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          getGuildWareHouseRequestBuilder_.setMessage(builderForValue.build());
+        }
+        dateBodyCase_ = 27;
+        return this;
+      }
+      /**
+       * <code>.GetGuildWareHouseRequest getGuildWareHouseRequest = 27;</code>
+       */
+      public Builder mergeGetGuildWareHouseRequest(GetGuildWareHouseRequest value) {
+        if (getGuildWareHouseRequestBuilder_ == null) {
+          if (dateBodyCase_ == 27 &&
+              dateBody_ != GetGuildWareHouseRequest.getDefaultInstance()) {
+            dateBody_ = GetGuildWareHouseRequest.newBuilder((GetGuildWareHouseRequest) dateBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dateBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dateBodyCase_ == 27) {
+            getGuildWareHouseRequestBuilder_.mergeFrom(value);
+          }
+          getGuildWareHouseRequestBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 27;
+        return this;
+      }
+      /**
+       * <code>.GetGuildWareHouseRequest getGuildWareHouseRequest = 27;</code>
+       */
+      public Builder clearGetGuildWareHouseRequest() {
+        if (getGuildWareHouseRequestBuilder_ == null) {
+          if (dateBodyCase_ == 27) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dateBodyCase_ == 27) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+          }
+          getGuildWareHouseRequestBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.GetGuildWareHouseRequest getGuildWareHouseRequest = 27;</code>
+       */
+      public GetGuildWareHouseRequest.Builder getGetGuildWareHouseRequestBuilder() {
+        return getGetGuildWareHouseRequestFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.GetGuildWareHouseRequest getGuildWareHouseRequest = 27;</code>
+       */
+      @Override
+      public GetGuildWareHouseRequestOrBuilder getGetGuildWareHouseRequestOrBuilder() {
+        if ((dateBodyCase_ == 27) && (getGuildWareHouseRequestBuilder_ != null)) {
+          return getGuildWareHouseRequestBuilder_.getMessageOrBuilder();
+        } else {
+          if (dateBodyCase_ == 27) {
+            return (GetGuildWareHouseRequest) dateBody_;
+          }
+          return GetGuildWareHouseRequest.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.GetGuildWareHouseRequest getGuildWareHouseRequest = 27;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          GetGuildWareHouseRequest, GetGuildWareHouseRequest.Builder, GetGuildWareHouseRequestOrBuilder>
+          getGetGuildWareHouseRequestFieldBuilder() {
+        if (getGuildWareHouseRequestBuilder_ == null) {
+          if (!(dateBodyCase_ == 27)) {
+            dateBody_ = GetGuildWareHouseRequest.getDefaultInstance();
+          }
+          getGuildWareHouseRequestBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              GetGuildWareHouseRequest, GetGuildWareHouseRequest.Builder, GetGuildWareHouseRequestOrBuilder>(
+                  (GetGuildWareHouseRequest) dateBody_,
+                  getParentForChildren(),
+                  isClean());
+          dateBody_ = null;
+        }
+        dateBodyCase_ = 27;
+        onChanged();;
+        return getGuildWareHouseRequestBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          GetGuildWareHouseResponse, GetGuildWareHouseResponse.Builder, GetGuildWareHouseResponseOrBuilder> getGuildWareHouseResponseBuilder_;
+      /**
+       * <code>.GetGuildWareHouseResponse getGuildWareHouseResponse = 28;</code>
+       * @return Whether the getGuildWareHouseResponse field is set.
+       */
+      @Override
+      public boolean hasGetGuildWareHouseResponse() {
+        return dateBodyCase_ == 28;
+      }
+      /**
+       * <code>.GetGuildWareHouseResponse getGuildWareHouseResponse = 28;</code>
+       * @return The getGuildWareHouseResponse.
+       */
+      @Override
+      public GetGuildWareHouseResponse getGetGuildWareHouseResponse() {
+        if (getGuildWareHouseResponseBuilder_ == null) {
+          if (dateBodyCase_ == 28) {
+            return (GetGuildWareHouseResponse) dateBody_;
+          }
+          return GetGuildWareHouseResponse.getDefaultInstance();
+        } else {
+          if (dateBodyCase_ == 28) {
+            return getGuildWareHouseResponseBuilder_.getMessage();
+          }
+          return GetGuildWareHouseResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.GetGuildWareHouseResponse getGuildWareHouseResponse = 28;</code>
+       */
+      public Builder setGetGuildWareHouseResponse(GetGuildWareHouseResponse value) {
+        if (getGuildWareHouseResponseBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dateBody_ = value;
+          onChanged();
+        } else {
+          getGuildWareHouseResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 28;
+        return this;
+      }
+      /**
+       * <code>.GetGuildWareHouseResponse getGuildWareHouseResponse = 28;</code>
+       */
+      public Builder setGetGuildWareHouseResponse(
+          GetGuildWareHouseResponse.Builder builderForValue) {
+        if (getGuildWareHouseResponseBuilder_ == null) {
+          dateBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          getGuildWareHouseResponseBuilder_.setMessage(builderForValue.build());
+        }
+        dateBodyCase_ = 28;
+        return this;
+      }
+      /**
+       * <code>.GetGuildWareHouseResponse getGuildWareHouseResponse = 28;</code>
+       */
+      public Builder mergeGetGuildWareHouseResponse(GetGuildWareHouseResponse value) {
+        if (getGuildWareHouseResponseBuilder_ == null) {
+          if (dateBodyCase_ == 28 &&
+              dateBody_ != GetGuildWareHouseResponse.getDefaultInstance()) {
+            dateBody_ = GetGuildWareHouseResponse.newBuilder((GetGuildWareHouseResponse) dateBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dateBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dateBodyCase_ == 28) {
+            getGuildWareHouseResponseBuilder_.mergeFrom(value);
+          }
+          getGuildWareHouseResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 28;
+        return this;
+      }
+      /**
+       * <code>.GetGuildWareHouseResponse getGuildWareHouseResponse = 28;</code>
+       */
+      public Builder clearGetGuildWareHouseResponse() {
+        if (getGuildWareHouseResponseBuilder_ == null) {
+          if (dateBodyCase_ == 28) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dateBodyCase_ == 28) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+          }
+          getGuildWareHouseResponseBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.GetGuildWareHouseResponse getGuildWareHouseResponse = 28;</code>
+       */
+      public GetGuildWareHouseResponse.Builder getGetGuildWareHouseResponseBuilder() {
+        return getGetGuildWareHouseResponseFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.GetGuildWareHouseResponse getGuildWareHouseResponse = 28;</code>
+       */
+      @Override
+      public GetGuildWareHouseResponseOrBuilder getGetGuildWareHouseResponseOrBuilder() {
+        if ((dateBodyCase_ == 28) && (getGuildWareHouseResponseBuilder_ != null)) {
+          return getGuildWareHouseResponseBuilder_.getMessageOrBuilder();
+        } else {
+          if (dateBodyCase_ == 28) {
+            return (GetGuildWareHouseResponse) dateBody_;
+          }
+          return GetGuildWareHouseResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.GetGuildWareHouseResponse getGuildWareHouseResponse = 28;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          GetGuildWareHouseResponse, GetGuildWareHouseResponse.Builder, GetGuildWareHouseResponseOrBuilder>
+          getGetGuildWareHouseResponseFieldBuilder() {
+        if (getGuildWareHouseResponseBuilder_ == null) {
+          if (!(dateBodyCase_ == 28)) {
+            dateBody_ = GetGuildWareHouseResponse.getDefaultInstance();
+          }
+          getGuildWareHouseResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              GetGuildWareHouseResponse, GetGuildWareHouseResponse.Builder, GetGuildWareHouseResponseOrBuilder>(
+                  (GetGuildWareHouseResponse) dateBody_,
+                  getParentForChildren(),
+                  isClean());
+          dateBody_ = null;
+        }
+        dateBodyCase_ = 28;
+        onChanged();;
+        return getGuildWareHouseResponseBuilder_;
       }
       @Override
       public final Builder setUnknownFields(
@@ -11710,6 +12186,12 @@ public final class GuildModel {
      */
     GuildPeopleDtoOrBuilder getGuildPeopleDtosOrBuilder(
         int index);
+
+    /**
+     * <code>int32 money = 8;</code>
+     * @return The money.
+     */
+    int getMoney();
   }
   /**
    * Protobuf type {@code GuildDto}
@@ -11797,6 +12279,11 @@ public final class GuildModel {
               }
               guildPeopleDtos_.add(
                   input.readMessage(GuildPeopleDto.parser(), extensionRegistry));
+              break;
+            }
+            case 64: {
+
+              money_ = input.readInt32();
               break;
             }
             default: {
@@ -11967,6 +12454,17 @@ public final class GuildModel {
       return guildPeopleDtos_.get(index);
     }
 
+    public static final int MONEY_FIELD_NUMBER = 8;
+    private int money_;
+    /**
+     * <code>int32 money = 8;</code>
+     * @return The money.
+     */
+    @Override
+    public int getMoney() {
+      return money_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -12001,6 +12499,9 @@ public final class GuildModel {
       }
       for (int i = 0; i < guildPeopleDtos_.size(); i++) {
         output.writeMessage(7, guildPeopleDtos_.get(i));
+      }
+      if (money_ != 0) {
+        output.writeInt32(8, money_);
       }
       unknownFields.writeTo(output);
     }
@@ -12038,6 +12539,10 @@ public final class GuildModel {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(7, guildPeopleDtos_.get(i));
       }
+      if (money_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(8, money_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -12067,6 +12572,8 @@ public final class GuildModel {
           != other.getCreateTime()) return false;
       if (!getGuildPeopleDtosList()
           .equals(other.getGuildPeopleDtosList())) return false;
+      if (getMoney()
+          != other.getMoney()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -12095,6 +12602,8 @@ public final class GuildModel {
         hash = (37 * hash) + GUILDPEOPLEDTOS_FIELD_NUMBER;
         hash = (53 * hash) + getGuildPeopleDtosList().hashCode();
       }
+      hash = (37 * hash) + MONEY_FIELD_NUMBER;
+      hash = (53 * hash) + getMoney();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -12247,6 +12756,8 @@ public final class GuildModel {
         } else {
           guildPeopleDtosBuilder_.clear();
         }
+        money_ = 0;
+
         return this;
       }
 
@@ -12289,6 +12800,7 @@ public final class GuildModel {
         } else {
           result.guildPeopleDtos_ = guildPeopleDtosBuilder_.build();
         }
+        result.money_ = money_;
         onBuilt();
         return result;
       }
@@ -12381,6 +12893,9 @@ public final class GuildModel {
               guildPeopleDtosBuilder_.addAllMessages(other.guildPeopleDtos_);
             }
           }
+        }
+        if (other.getMoney() != 0) {
+          setMoney(other.getMoney());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -12882,6 +13397,37 @@ public final class GuildModel {
         }
         return guildPeopleDtosBuilder_;
       }
+
+      private int money_ ;
+      /**
+       * <code>int32 money = 8;</code>
+       * @return The money.
+       */
+      @Override
+      public int getMoney() {
+        return money_;
+      }
+      /**
+       * <code>int32 money = 8;</code>
+       * @param value The money to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMoney(int value) {
+        
+        money_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 money = 8;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMoney() {
+        
+        money_ = 0;
+        onChanged();
+        return this;
+      }
       @Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -12930,6 +13476,2175 @@ public final class GuildModel {
 
     @Override
     public GuildDto getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface GetGuildWareHouseRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:GetGuildWareHouseRequest)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code GetGuildWareHouseRequest}
+   */
+  public static final class GetGuildWareHouseRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:GetGuildWareHouseRequest)
+      GetGuildWareHouseRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use GetGuildWareHouseRequest.newBuilder() to construct.
+    private GetGuildWareHouseRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private GetGuildWareHouseRequest() {
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetGuildWareHouseRequest();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private GetGuildWareHouseRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return GuildModel.internal_static_GetGuildWareHouseRequest_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return GuildModel.internal_static_GetGuildWareHouseRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              GetGuildWareHouseRequest.class, Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof GetGuildWareHouseRequest)) {
+        return super.equals(obj);
+      }
+      GetGuildWareHouseRequest other = (GetGuildWareHouseRequest) obj;
+
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static GetGuildWareHouseRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static GetGuildWareHouseRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static GetGuildWareHouseRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static GetGuildWareHouseRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static GetGuildWareHouseRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static GetGuildWareHouseRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static GetGuildWareHouseRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static GetGuildWareHouseRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static GetGuildWareHouseRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static GetGuildWareHouseRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static GetGuildWareHouseRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static GetGuildWareHouseRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(GetGuildWareHouseRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code GetGuildWareHouseRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:GetGuildWareHouseRequest)
+        GetGuildWareHouseRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return GuildModel.internal_static_GetGuildWareHouseRequest_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return GuildModel.internal_static_GetGuildWareHouseRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                GetGuildWareHouseRequest.class, Builder.class);
+      }
+
+      // Construct using GuildModel.GetGuildWareHouseRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return GuildModel.internal_static_GetGuildWareHouseRequest_descriptor;
+      }
+
+      @Override
+      public GetGuildWareHouseRequest getDefaultInstanceForType() {
+        return GetGuildWareHouseRequest.getDefaultInstance();
+      }
+
+      @Override
+      public GetGuildWareHouseRequest build() {
+        GetGuildWareHouseRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public GetGuildWareHouseRequest buildPartial() {
+        GetGuildWareHouseRequest result = new GetGuildWareHouseRequest(this);
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof GetGuildWareHouseRequest) {
+          return mergeFrom((GetGuildWareHouseRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(GetGuildWareHouseRequest other) {
+        if (other == GetGuildWareHouseRequest.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        GetGuildWareHouseRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (GetGuildWareHouseRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:GetGuildWareHouseRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:GetGuildWareHouseRequest)
+    private static final GetGuildWareHouseRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new GetGuildWareHouseRequest();
+    }
+
+    public static GetGuildWareHouseRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<GetGuildWareHouseRequest>
+        PARSER = new com.google.protobuf.AbstractParser<GetGuildWareHouseRequest>() {
+      @Override
+      public GetGuildWareHouseRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GetGuildWareHouseRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<GetGuildWareHouseRequest> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<GetGuildWareHouseRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public GetGuildWareHouseRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface GetGuildWareHouseResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:GetGuildWareHouseResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>repeated .ArticleDto articleDtos = 1;</code>
+     */
+    java.util.List<ArticleDto>
+        getArticleDtosList();
+    /**
+     * <code>repeated .ArticleDto articleDtos = 1;</code>
+     */
+    ArticleDto getArticleDtos(int index);
+    /**
+     * <code>repeated .ArticleDto articleDtos = 1;</code>
+     */
+    int getArticleDtosCount();
+    /**
+     * <code>repeated .ArticleDto articleDtos = 1;</code>
+     */
+    java.util.List<? extends ArticleDtoOrBuilder>
+        getArticleDtosOrBuilderList();
+    /**
+     * <code>repeated .ArticleDto articleDtos = 1;</code>
+     */
+    ArticleDtoOrBuilder getArticleDtosOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code GetGuildWareHouseResponse}
+   */
+  public static final class GetGuildWareHouseResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:GetGuildWareHouseResponse)
+      GetGuildWareHouseResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use GetGuildWareHouseResponse.newBuilder() to construct.
+    private GetGuildWareHouseResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private GetGuildWareHouseResponse() {
+      articleDtos_ = java.util.Collections.emptyList();
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetGuildWareHouseResponse();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private GetGuildWareHouseResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+                articleDtos_ = new java.util.ArrayList<ArticleDto>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              articleDtos_.add(
+                  input.readMessage(ArticleDto.parser(), extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+          articleDtos_ = java.util.Collections.unmodifiableList(articleDtos_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return GuildModel.internal_static_GetGuildWareHouseResponse_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return GuildModel.internal_static_GetGuildWareHouseResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              GetGuildWareHouseResponse.class, Builder.class);
+    }
+
+    public static final int ARTICLEDTOS_FIELD_NUMBER = 1;
+    private java.util.List<ArticleDto> articleDtos_;
+    /**
+     * <code>repeated .ArticleDto articleDtos = 1;</code>
+     */
+    @Override
+    public java.util.List<ArticleDto> getArticleDtosList() {
+      return articleDtos_;
+    }
+    /**
+     * <code>repeated .ArticleDto articleDtos = 1;</code>
+     */
+    @Override
+    public java.util.List<? extends ArticleDtoOrBuilder>
+        getArticleDtosOrBuilderList() {
+      return articleDtos_;
+    }
+    /**
+     * <code>repeated .ArticleDto articleDtos = 1;</code>
+     */
+    @Override
+    public int getArticleDtosCount() {
+      return articleDtos_.size();
+    }
+    /**
+     * <code>repeated .ArticleDto articleDtos = 1;</code>
+     */
+    @Override
+    public ArticleDto getArticleDtos(int index) {
+      return articleDtos_.get(index);
+    }
+    /**
+     * <code>repeated .ArticleDto articleDtos = 1;</code>
+     */
+    @Override
+    public ArticleDtoOrBuilder getArticleDtosOrBuilder(
+        int index) {
+      return articleDtos_.get(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      for (int i = 0; i < articleDtos_.size(); i++) {
+        output.writeMessage(1, articleDtos_.get(i));
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < articleDtos_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, articleDtos_.get(i));
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof GetGuildWareHouseResponse)) {
+        return super.equals(obj);
+      }
+      GetGuildWareHouseResponse other = (GetGuildWareHouseResponse) obj;
+
+      if (!getArticleDtosList()
+          .equals(other.getArticleDtosList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (getArticleDtosCount() > 0) {
+        hash = (37 * hash) + ARTICLEDTOS_FIELD_NUMBER;
+        hash = (53 * hash) + getArticleDtosList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static GetGuildWareHouseResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static GetGuildWareHouseResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static GetGuildWareHouseResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static GetGuildWareHouseResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static GetGuildWareHouseResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static GetGuildWareHouseResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static GetGuildWareHouseResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static GetGuildWareHouseResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static GetGuildWareHouseResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static GetGuildWareHouseResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static GetGuildWareHouseResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static GetGuildWareHouseResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(GetGuildWareHouseResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code GetGuildWareHouseResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:GetGuildWareHouseResponse)
+        GetGuildWareHouseResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return GuildModel.internal_static_GetGuildWareHouseResponse_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return GuildModel.internal_static_GetGuildWareHouseResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                GetGuildWareHouseResponse.class, Builder.class);
+      }
+
+      // Construct using GuildModel.GetGuildWareHouseResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getArticleDtosFieldBuilder();
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        if (articleDtosBuilder_ == null) {
+          articleDtos_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          articleDtosBuilder_.clear();
+        }
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return GuildModel.internal_static_GetGuildWareHouseResponse_descriptor;
+      }
+
+      @Override
+      public GetGuildWareHouseResponse getDefaultInstanceForType() {
+        return GetGuildWareHouseResponse.getDefaultInstance();
+      }
+
+      @Override
+      public GetGuildWareHouseResponse build() {
+        GetGuildWareHouseResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public GetGuildWareHouseResponse buildPartial() {
+        GetGuildWareHouseResponse result = new GetGuildWareHouseResponse(this);
+        int from_bitField0_ = bitField0_;
+        if (articleDtosBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) != 0)) {
+            articleDtos_ = java.util.Collections.unmodifiableList(articleDtos_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.articleDtos_ = articleDtos_;
+        } else {
+          result.articleDtos_ = articleDtosBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof GetGuildWareHouseResponse) {
+          return mergeFrom((GetGuildWareHouseResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(GetGuildWareHouseResponse other) {
+        if (other == GetGuildWareHouseResponse.getDefaultInstance()) return this;
+        if (articleDtosBuilder_ == null) {
+          if (!other.articleDtos_.isEmpty()) {
+            if (articleDtos_.isEmpty()) {
+              articleDtos_ = other.articleDtos_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureArticleDtosIsMutable();
+              articleDtos_.addAll(other.articleDtos_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.articleDtos_.isEmpty()) {
+            if (articleDtosBuilder_.isEmpty()) {
+              articleDtosBuilder_.dispose();
+              articleDtosBuilder_ = null;
+              articleDtos_ = other.articleDtos_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              articleDtosBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getArticleDtosFieldBuilder() : null;
+            } else {
+              articleDtosBuilder_.addAllMessages(other.articleDtos_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        GetGuildWareHouseResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (GetGuildWareHouseResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.util.List<ArticleDto> articleDtos_ =
+        java.util.Collections.emptyList();
+      private void ensureArticleDtosIsMutable() {
+        if (!((bitField0_ & 0x00000001) != 0)) {
+          articleDtos_ = new java.util.ArrayList<ArticleDto>(articleDtos_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          ArticleDto, ArticleDto.Builder, ArticleDtoOrBuilder> articleDtosBuilder_;
+
+      /**
+       * <code>repeated .ArticleDto articleDtos = 1;</code>
+       */
+      public java.util.List<ArticleDto> getArticleDtosList() {
+        if (articleDtosBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(articleDtos_);
+        } else {
+          return articleDtosBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .ArticleDto articleDtos = 1;</code>
+       */
+      public int getArticleDtosCount() {
+        if (articleDtosBuilder_ == null) {
+          return articleDtos_.size();
+        } else {
+          return articleDtosBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .ArticleDto articleDtos = 1;</code>
+       */
+      public ArticleDto getArticleDtos(int index) {
+        if (articleDtosBuilder_ == null) {
+          return articleDtos_.get(index);
+        } else {
+          return articleDtosBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .ArticleDto articleDtos = 1;</code>
+       */
+      public Builder setArticleDtos(
+          int index, ArticleDto value) {
+        if (articleDtosBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureArticleDtosIsMutable();
+          articleDtos_.set(index, value);
+          onChanged();
+        } else {
+          articleDtosBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ArticleDto articleDtos = 1;</code>
+       */
+      public Builder setArticleDtos(
+          int index, ArticleDto.Builder builderForValue) {
+        if (articleDtosBuilder_ == null) {
+          ensureArticleDtosIsMutable();
+          articleDtos_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          articleDtosBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ArticleDto articleDtos = 1;</code>
+       */
+      public Builder addArticleDtos(ArticleDto value) {
+        if (articleDtosBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureArticleDtosIsMutable();
+          articleDtos_.add(value);
+          onChanged();
+        } else {
+          articleDtosBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ArticleDto articleDtos = 1;</code>
+       */
+      public Builder addArticleDtos(
+          int index, ArticleDto value) {
+        if (articleDtosBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureArticleDtosIsMutable();
+          articleDtos_.add(index, value);
+          onChanged();
+        } else {
+          articleDtosBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ArticleDto articleDtos = 1;</code>
+       */
+      public Builder addArticleDtos(
+          ArticleDto.Builder builderForValue) {
+        if (articleDtosBuilder_ == null) {
+          ensureArticleDtosIsMutable();
+          articleDtos_.add(builderForValue.build());
+          onChanged();
+        } else {
+          articleDtosBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ArticleDto articleDtos = 1;</code>
+       */
+      public Builder addArticleDtos(
+          int index, ArticleDto.Builder builderForValue) {
+        if (articleDtosBuilder_ == null) {
+          ensureArticleDtosIsMutable();
+          articleDtos_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          articleDtosBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ArticleDto articleDtos = 1;</code>
+       */
+      public Builder addAllArticleDtos(
+          Iterable<? extends ArticleDto> values) {
+        if (articleDtosBuilder_ == null) {
+          ensureArticleDtosIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, articleDtos_);
+          onChanged();
+        } else {
+          articleDtosBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ArticleDto articleDtos = 1;</code>
+       */
+      public Builder clearArticleDtos() {
+        if (articleDtosBuilder_ == null) {
+          articleDtos_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          articleDtosBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ArticleDto articleDtos = 1;</code>
+       */
+      public Builder removeArticleDtos(int index) {
+        if (articleDtosBuilder_ == null) {
+          ensureArticleDtosIsMutable();
+          articleDtos_.remove(index);
+          onChanged();
+        } else {
+          articleDtosBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ArticleDto articleDtos = 1;</code>
+       */
+      public ArticleDto.Builder getArticleDtosBuilder(
+          int index) {
+        return getArticleDtosFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .ArticleDto articleDtos = 1;</code>
+       */
+      public ArticleDtoOrBuilder getArticleDtosOrBuilder(
+          int index) {
+        if (articleDtosBuilder_ == null) {
+          return articleDtos_.get(index);  } else {
+          return articleDtosBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .ArticleDto articleDtos = 1;</code>
+       */
+      public java.util.List<? extends ArticleDtoOrBuilder>
+           getArticleDtosOrBuilderList() {
+        if (articleDtosBuilder_ != null) {
+          return articleDtosBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(articleDtos_);
+        }
+      }
+      /**
+       * <code>repeated .ArticleDto articleDtos = 1;</code>
+       */
+      public ArticleDto.Builder addArticleDtosBuilder() {
+        return getArticleDtosFieldBuilder().addBuilder(
+            ArticleDto.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .ArticleDto articleDtos = 1;</code>
+       */
+      public ArticleDto.Builder addArticleDtosBuilder(
+          int index) {
+        return getArticleDtosFieldBuilder().addBuilder(
+            index, ArticleDto.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .ArticleDto articleDtos = 1;</code>
+       */
+      public java.util.List<ArticleDto.Builder>
+           getArticleDtosBuilderList() {
+        return getArticleDtosFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          ArticleDto, ArticleDto.Builder, ArticleDtoOrBuilder>
+          getArticleDtosFieldBuilder() {
+        if (articleDtosBuilder_ == null) {
+          articleDtosBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              ArticleDto, ArticleDto.Builder, ArticleDtoOrBuilder>(
+                  articleDtos_,
+                  ((bitField0_ & 0x00000001) != 0),
+                  getParentForChildren(),
+                  isClean());
+          articleDtos_ = null;
+        }
+        return articleDtosBuilder_;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:GetGuildWareHouseResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:GetGuildWareHouseResponse)
+    private static final GetGuildWareHouseResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new GetGuildWareHouseResponse();
+    }
+
+    public static GetGuildWareHouseResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<GetGuildWareHouseResponse>
+        PARSER = new com.google.protobuf.AbstractParser<GetGuildWareHouseResponse>() {
+      @Override
+      public GetGuildWareHouseResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GetGuildWareHouseResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<GetGuildWareHouseResponse> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<GetGuildWareHouseResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public GetGuildWareHouseResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface ArticleDtoOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:ArticleDto)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     *背包中物品id
+     * </pre>
+     *
+     * <code>int32 wareHouseId = 1;</code>
+     * @return The wareHouseId.
+     */
+    int getWareHouseId();
+
+    /**
+     * <pre>
+     *物品id
+     * </pre>
+     *
+     * <code>int32 id = 2;</code>
+     * @return The id.
+     */
+    int getId();
+
+    /**
+     * <pre>
+     *装备实例id
+     * </pre>
+     *
+     * <code>int32 equipmentId = 3;</code>
+     * @return The equipmentId.
+     */
+    int getEquipmentId();
+
+    /**
+     * <pre>
+     *数量
+     * </pre>
+     *
+     * <code>int32 quantity = 4;</code>
+     * @return The quantity.
+     */
+    int getQuantity();
+
+    /**
+     * <pre>
+     *物品类型
+     * </pre>
+     *
+     * <code>int32 articleType = 5;</code>
+     * @return The articleType.
+     */
+    int getArticleType();
+
+    /**
+     * <pre>
+     *耐久度
+     * </pre>
+     *
+     * <code>int32 nowDurability = 6;</code>
+     * @return The nowDurability.
+     */
+    int getNowDurability();
+  }
+  /**
+   * Protobuf type {@code ArticleDto}
+   */
+  public static final class ArticleDto extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:ArticleDto)
+      ArticleDtoOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use ArticleDto.newBuilder() to construct.
+    private ArticleDto(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ArticleDto() {
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ArticleDto();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ArticleDto(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+
+              wareHouseId_ = input.readInt32();
+              break;
+            }
+            case 16: {
+
+              id_ = input.readInt32();
+              break;
+            }
+            case 24: {
+
+              equipmentId_ = input.readInt32();
+              break;
+            }
+            case 32: {
+
+              quantity_ = input.readInt32();
+              break;
+            }
+            case 40: {
+
+              articleType_ = input.readInt32();
+              break;
+            }
+            case 48: {
+
+              nowDurability_ = input.readInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return GuildModel.internal_static_ArticleDto_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return GuildModel.internal_static_ArticleDto_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ArticleDto.class, Builder.class);
+    }
+
+    public static final int WAREHOUSEID_FIELD_NUMBER = 1;
+    private int wareHouseId_;
+    /**
+     * <pre>
+     *背包中物品id
+     * </pre>
+     *
+     * <code>int32 wareHouseId = 1;</code>
+     * @return The wareHouseId.
+     */
+    @Override
+    public int getWareHouseId() {
+      return wareHouseId_;
+    }
+
+    public static final int ID_FIELD_NUMBER = 2;
+    private int id_;
+    /**
+     * <pre>
+     *物品id
+     * </pre>
+     *
+     * <code>int32 id = 2;</code>
+     * @return The id.
+     */
+    @Override
+    public int getId() {
+      return id_;
+    }
+
+    public static final int EQUIPMENTID_FIELD_NUMBER = 3;
+    private int equipmentId_;
+    /**
+     * <pre>
+     *装备实例id
+     * </pre>
+     *
+     * <code>int32 equipmentId = 3;</code>
+     * @return The equipmentId.
+     */
+    @Override
+    public int getEquipmentId() {
+      return equipmentId_;
+    }
+
+    public static final int QUANTITY_FIELD_NUMBER = 4;
+    private int quantity_;
+    /**
+     * <pre>
+     *数量
+     * </pre>
+     *
+     * <code>int32 quantity = 4;</code>
+     * @return The quantity.
+     */
+    @Override
+    public int getQuantity() {
+      return quantity_;
+    }
+
+    public static final int ARTICLETYPE_FIELD_NUMBER = 5;
+    private int articleType_;
+    /**
+     * <pre>
+     *物品类型
+     * </pre>
+     *
+     * <code>int32 articleType = 5;</code>
+     * @return The articleType.
+     */
+    @Override
+    public int getArticleType() {
+      return articleType_;
+    }
+
+    public static final int NOWDURABILITY_FIELD_NUMBER = 6;
+    private int nowDurability_;
+    /**
+     * <pre>
+     *耐久度
+     * </pre>
+     *
+     * <code>int32 nowDurability = 6;</code>
+     * @return The nowDurability.
+     */
+    @Override
+    public int getNowDurability() {
+      return nowDurability_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (wareHouseId_ != 0) {
+        output.writeInt32(1, wareHouseId_);
+      }
+      if (id_ != 0) {
+        output.writeInt32(2, id_);
+      }
+      if (equipmentId_ != 0) {
+        output.writeInt32(3, equipmentId_);
+      }
+      if (quantity_ != 0) {
+        output.writeInt32(4, quantity_);
+      }
+      if (articleType_ != 0) {
+        output.writeInt32(5, articleType_);
+      }
+      if (nowDurability_ != 0) {
+        output.writeInt32(6, nowDurability_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (wareHouseId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, wareHouseId_);
+      }
+      if (id_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, id_);
+      }
+      if (equipmentId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, equipmentId_);
+      }
+      if (quantity_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, quantity_);
+      }
+      if (articleType_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, articleType_);
+      }
+      if (nowDurability_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(6, nowDurability_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ArticleDto)) {
+        return super.equals(obj);
+      }
+      ArticleDto other = (ArticleDto) obj;
+
+      if (getWareHouseId()
+          != other.getWareHouseId()) return false;
+      if (getId()
+          != other.getId()) return false;
+      if (getEquipmentId()
+          != other.getEquipmentId()) return false;
+      if (getQuantity()
+          != other.getQuantity()) return false;
+      if (getArticleType()
+          != other.getArticleType()) return false;
+      if (getNowDurability()
+          != other.getNowDurability()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + WAREHOUSEID_FIELD_NUMBER;
+      hash = (53 * hash) + getWareHouseId();
+      hash = (37 * hash) + ID_FIELD_NUMBER;
+      hash = (53 * hash) + getId();
+      hash = (37 * hash) + EQUIPMENTID_FIELD_NUMBER;
+      hash = (53 * hash) + getEquipmentId();
+      hash = (37 * hash) + QUANTITY_FIELD_NUMBER;
+      hash = (53 * hash) + getQuantity();
+      hash = (37 * hash) + ARTICLETYPE_FIELD_NUMBER;
+      hash = (53 * hash) + getArticleType();
+      hash = (37 * hash) + NOWDURABILITY_FIELD_NUMBER;
+      hash = (53 * hash) + getNowDurability();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ArticleDto parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ArticleDto parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ArticleDto parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ArticleDto parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ArticleDto parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ArticleDto parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ArticleDto parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static ArticleDto parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ArticleDto parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static ArticleDto parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ArticleDto parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static ArticleDto parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ArticleDto prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code ArticleDto}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:ArticleDto)
+        ArticleDtoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return GuildModel.internal_static_ArticleDto_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return GuildModel.internal_static_ArticleDto_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ArticleDto.class, Builder.class);
+      }
+
+      // Construct using GuildModel.ArticleDto.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        wareHouseId_ = 0;
+
+        id_ = 0;
+
+        equipmentId_ = 0;
+
+        quantity_ = 0;
+
+        articleType_ = 0;
+
+        nowDurability_ = 0;
+
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return GuildModel.internal_static_ArticleDto_descriptor;
+      }
+
+      @Override
+      public ArticleDto getDefaultInstanceForType() {
+        return ArticleDto.getDefaultInstance();
+      }
+
+      @Override
+      public ArticleDto build() {
+        ArticleDto result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public ArticleDto buildPartial() {
+        ArticleDto result = new ArticleDto(this);
+        result.wareHouseId_ = wareHouseId_;
+        result.id_ = id_;
+        result.equipmentId_ = equipmentId_;
+        result.quantity_ = quantity_;
+        result.articleType_ = articleType_;
+        result.nowDurability_ = nowDurability_;
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ArticleDto) {
+          return mergeFrom((ArticleDto)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ArticleDto other) {
+        if (other == ArticleDto.getDefaultInstance()) return this;
+        if (other.getWareHouseId() != 0) {
+          setWareHouseId(other.getWareHouseId());
+        }
+        if (other.getId() != 0) {
+          setId(other.getId());
+        }
+        if (other.getEquipmentId() != 0) {
+          setEquipmentId(other.getEquipmentId());
+        }
+        if (other.getQuantity() != 0) {
+          setQuantity(other.getQuantity());
+        }
+        if (other.getArticleType() != 0) {
+          setArticleType(other.getArticleType());
+        }
+        if (other.getNowDurability() != 0) {
+          setNowDurability(other.getNowDurability());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        ArticleDto parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (ArticleDto) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private int wareHouseId_ ;
+      /**
+       * <pre>
+       *背包中物品id
+       * </pre>
+       *
+       * <code>int32 wareHouseId = 1;</code>
+       * @return The wareHouseId.
+       */
+      @Override
+      public int getWareHouseId() {
+        return wareHouseId_;
+      }
+      /**
+       * <pre>
+       *背包中物品id
+       * </pre>
+       *
+       * <code>int32 wareHouseId = 1;</code>
+       * @param value The wareHouseId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setWareHouseId(int value) {
+        
+        wareHouseId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       *背包中物品id
+       * </pre>
+       *
+       * <code>int32 wareHouseId = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearWareHouseId() {
+        
+        wareHouseId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int id_ ;
+      /**
+       * <pre>
+       *物品id
+       * </pre>
+       *
+       * <code>int32 id = 2;</code>
+       * @return The id.
+       */
+      @Override
+      public int getId() {
+        return id_;
+      }
+      /**
+       * <pre>
+       *物品id
+       * </pre>
+       *
+       * <code>int32 id = 2;</code>
+       * @param value The id to set.
+       * @return This builder for chaining.
+       */
+      public Builder setId(int value) {
+        
+        id_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       *物品id
+       * </pre>
+       *
+       * <code>int32 id = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearId() {
+        
+        id_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int equipmentId_ ;
+      /**
+       * <pre>
+       *装备实例id
+       * </pre>
+       *
+       * <code>int32 equipmentId = 3;</code>
+       * @return The equipmentId.
+       */
+      @Override
+      public int getEquipmentId() {
+        return equipmentId_;
+      }
+      /**
+       * <pre>
+       *装备实例id
+       * </pre>
+       *
+       * <code>int32 equipmentId = 3;</code>
+       * @param value The equipmentId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setEquipmentId(int value) {
+        
+        equipmentId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       *装备实例id
+       * </pre>
+       *
+       * <code>int32 equipmentId = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearEquipmentId() {
+        
+        equipmentId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int quantity_ ;
+      /**
+       * <pre>
+       *数量
+       * </pre>
+       *
+       * <code>int32 quantity = 4;</code>
+       * @return The quantity.
+       */
+      @Override
+      public int getQuantity() {
+        return quantity_;
+      }
+      /**
+       * <pre>
+       *数量
+       * </pre>
+       *
+       * <code>int32 quantity = 4;</code>
+       * @param value The quantity to set.
+       * @return This builder for chaining.
+       */
+      public Builder setQuantity(int value) {
+        
+        quantity_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       *数量
+       * </pre>
+       *
+       * <code>int32 quantity = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearQuantity() {
+        
+        quantity_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int articleType_ ;
+      /**
+       * <pre>
+       *物品类型
+       * </pre>
+       *
+       * <code>int32 articleType = 5;</code>
+       * @return The articleType.
+       */
+      @Override
+      public int getArticleType() {
+        return articleType_;
+      }
+      /**
+       * <pre>
+       *物品类型
+       * </pre>
+       *
+       * <code>int32 articleType = 5;</code>
+       * @param value The articleType to set.
+       * @return This builder for chaining.
+       */
+      public Builder setArticleType(int value) {
+        
+        articleType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       *物品类型
+       * </pre>
+       *
+       * <code>int32 articleType = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearArticleType() {
+        
+        articleType_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int nowDurability_ ;
+      /**
+       * <pre>
+       *耐久度
+       * </pre>
+       *
+       * <code>int32 nowDurability = 6;</code>
+       * @return The nowDurability.
+       */
+      @Override
+      public int getNowDurability() {
+        return nowDurability_;
+      }
+      /**
+       * <pre>
+       *耐久度
+       * </pre>
+       *
+       * <code>int32 nowDurability = 6;</code>
+       * @param value The nowDurability to set.
+       * @return This builder for chaining.
+       */
+      public Builder setNowDurability(int value) {
+        
+        nowDurability_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       *耐久度
+       * </pre>
+       *
+       * <code>int32 nowDurability = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearNowDurability() {
+        
+        nowDurability_ = 0;
+        onChanged();
+        return this;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:ArticleDto)
+    }
+
+    // @@protoc_insertion_point(class_scope:ArticleDto)
+    private static final ArticleDto DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ArticleDto();
+    }
+
+    public static ArticleDto getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ArticleDto>
+        PARSER = new com.google.protobuf.AbstractParser<ArticleDto>() {
+      @Override
+      public ArticleDto parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ArticleDto(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ArticleDto> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<ArticleDto> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public ArticleDto getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -17272,16 +19987,10 @@ public final class GuildModel {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>int32 articleMessageId = 1;</code>
-     * @return The articleMessageId.
+     * <code>int32 articleId = 1;</code>
+     * @return The articleId.
      */
-    int getArticleMessageId();
-
-    /**
-     * <code>int32 articleType = 2;</code>
-     * @return The articleType.
-     */
-    int getArticleType();
+    int getArticleId();
 
     /**
      * <code>int32 number = 3;</code>
@@ -17342,12 +20051,7 @@ public final class GuildModel {
               break;
             case 8: {
 
-              articleMessageId_ = input.readInt32();
-              break;
-            }
-            case 16: {
-
-              articleType_ = input.readInt32();
+              articleId_ = input.readInt32();
               break;
             }
             case 24: {
@@ -17392,26 +20096,15 @@ public final class GuildModel {
               ContributeArticleRequest.class, Builder.class);
     }
 
-    public static final int ARTICLEMESSAGEID_FIELD_NUMBER = 1;
-    private int articleMessageId_;
+    public static final int ARTICLEID_FIELD_NUMBER = 1;
+    private int articleId_;
     /**
-     * <code>int32 articleMessageId = 1;</code>
-     * @return The articleMessageId.
+     * <code>int32 articleId = 1;</code>
+     * @return The articleId.
      */
     @Override
-    public int getArticleMessageId() {
-      return articleMessageId_;
-    }
-
-    public static final int ARTICLETYPE_FIELD_NUMBER = 2;
-    private int articleType_;
-    /**
-     * <code>int32 articleType = 2;</code>
-     * @return The articleType.
-     */
-    @Override
-    public int getArticleType() {
-      return articleType_;
+    public int getArticleId() {
+      return articleId_;
     }
 
     public static final int NUMBER_FIELD_NUMBER = 3;
@@ -17450,11 +20143,8 @@ public final class GuildModel {
     @Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (articleMessageId_ != 0) {
-        output.writeInt32(1, articleMessageId_);
-      }
-      if (articleType_ != 0) {
-        output.writeInt32(2, articleType_);
+      if (articleId_ != 0) {
+        output.writeInt32(1, articleId_);
       }
       if (number_ != 0) {
         output.writeInt32(3, number_);
@@ -17471,13 +20161,9 @@ public final class GuildModel {
       if (size != -1) return size;
 
       size = 0;
-      if (articleMessageId_ != 0) {
+      if (articleId_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, articleMessageId_);
-      }
-      if (articleType_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, articleType_);
+          .computeInt32Size(1, articleId_);
       }
       if (number_ != 0) {
         size += com.google.protobuf.CodedOutputStream
@@ -17502,10 +20188,8 @@ public final class GuildModel {
       }
       ContributeArticleRequest other = (ContributeArticleRequest) obj;
 
-      if (getArticleMessageId()
-          != other.getArticleMessageId()) return false;
-      if (getArticleType()
-          != other.getArticleType()) return false;
+      if (getArticleId()
+          != other.getArticleId()) return false;
       if (getNumber()
           != other.getNumber()) return false;
       if (getEquipmentBeanId()
@@ -17521,10 +20205,8 @@ public final class GuildModel {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + ARTICLEMESSAGEID_FIELD_NUMBER;
-      hash = (53 * hash) + getArticleMessageId();
-      hash = (37 * hash) + ARTICLETYPE_FIELD_NUMBER;
-      hash = (53 * hash) + getArticleType();
+      hash = (37 * hash) + ARTICLEID_FIELD_NUMBER;
+      hash = (53 * hash) + getArticleId();
       hash = (37 * hash) + NUMBER_FIELD_NUMBER;
       hash = (53 * hash) + getNumber();
       hash = (37 * hash) + EQUIPMENTBEANID_FIELD_NUMBER;
@@ -17662,9 +20344,7 @@ public final class GuildModel {
       @Override
       public Builder clear() {
         super.clear();
-        articleMessageId_ = 0;
-
-        articleType_ = 0;
+        articleId_ = 0;
 
         number_ = 0;
 
@@ -17696,8 +20376,7 @@ public final class GuildModel {
       @Override
       public ContributeArticleRequest buildPartial() {
         ContributeArticleRequest result = new ContributeArticleRequest(this);
-        result.articleMessageId_ = articleMessageId_;
-        result.articleType_ = articleType_;
+        result.articleId_ = articleId_;
         result.number_ = number_;
         result.equipmentBeanId_ = equipmentBeanId_;
         onBuilt();
@@ -17748,11 +20427,8 @@ public final class GuildModel {
 
       public Builder mergeFrom(ContributeArticleRequest other) {
         if (other == ContributeArticleRequest.getDefaultInstance()) return this;
-        if (other.getArticleMessageId() != 0) {
-          setArticleMessageId(other.getArticleMessageId());
-        }
-        if (other.getArticleType() != 0) {
-          setArticleType(other.getArticleType());
+        if (other.getArticleId() != 0) {
+          setArticleId(other.getArticleId());
         }
         if (other.getNumber() != 0) {
           setNumber(other.getNumber());
@@ -17789,64 +20465,33 @@ public final class GuildModel {
         return this;
       }
 
-      private int articleMessageId_ ;
+      private int articleId_ ;
       /**
-       * <code>int32 articleMessageId = 1;</code>
-       * @return The articleMessageId.
+       * <code>int32 articleId = 1;</code>
+       * @return The articleId.
        */
       @Override
-      public int getArticleMessageId() {
-        return articleMessageId_;
+      public int getArticleId() {
+        return articleId_;
       }
       /**
-       * <code>int32 articleMessageId = 1;</code>
-       * @param value The articleMessageId to set.
+       * <code>int32 articleId = 1;</code>
+       * @param value The articleId to set.
        * @return This builder for chaining.
        */
-      public Builder setArticleMessageId(int value) {
+      public Builder setArticleId(int value) {
         
-        articleMessageId_ = value;
+        articleId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>int32 articleMessageId = 1;</code>
+       * <code>int32 articleId = 1;</code>
        * @return This builder for chaining.
        */
-      public Builder clearArticleMessageId() {
+      public Builder clearArticleId() {
         
-        articleMessageId_ = 0;
-        onChanged();
-        return this;
-      }
-
-      private int articleType_ ;
-      /**
-       * <code>int32 articleType = 2;</code>
-       * @return The articleType.
-       */
-      @Override
-      public int getArticleType() {
-        return articleType_;
-      }
-      /**
-       * <code>int32 articleType = 2;</code>
-       * @param value The articleType to set.
-       * @return This builder for chaining.
-       */
-      public Builder setArticleType(int value) {
-        
-        articleType_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>int32 articleType = 2;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearArticleType() {
-        
-        articleType_ = 0;
+        articleId_ = 0;
         onChanged();
         return this;
       }
@@ -22401,6 +25046,21 @@ public final class GuildModel {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_GuildDto_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_GetGuildWareHouseRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_GetGuildWareHouseRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_GetGuildWareHouseResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_GetGuildWareHouseResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_ArticleDto_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_ArticleDto_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_AgreeGuildApplyRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -22509,7 +25169,7 @@ public final class GuildModel {
       descriptor;
   static {
     String[] descriptorData = {
-      "\n\020GuildModel.proto\"\230\020\n\021GuildModelMessage" +
+      "\n\020GuildModel.proto\"\325\021\n\021GuildModelMessage" +
       "\022.\n\tdata_type\030\001 \001(\0162\033.GuildModelMessage." +
       "DateType\0221\n\022createGuildRequest\030\002 \001(\0132\023.C" +
       "reateGuildRequestH\000\022-\n\020joinGuildRequest\030" +
@@ -22544,60 +25204,70 @@ public final class GuildModel {
       "uildApplyListResponse\030\030 \001(\0132\032.GetGuildAp" +
       "plyListResponseH\000\0225\n\024getGuildBeanRespons" +
       "e\030\031 \001(\0132\025.GetGuildBeanResponseH\000\022\'\n\rappl" +
-      "yResponse\030\032 \001(\0132\016.ApplyResponseH\000\"\205\005\n\010Da" +
-      "teType\022\026\n\022CreateGuildRequest\020\000\022\024\n\020JoinGu" +
-      "ildRequest\020\001\022\023\n\017SetGuildRequest\020\002\022\023\n\017Out" +
-      "GuildRequest\020\003\022\032\n\026ContributeMoneyRequest" +
-      "\020\004\022\034\n\030ContributeArticleRequest\020\005\022\025\n\021GetA" +
-      "rticleRequest\020\006\022\023\n\017GetMoneyRequest\020\007\022\027\n\023" +
-      "CreateGuildResponse\020\010\022\025\n\021JoinGuildRespon" +
-      "se\020\t\022\024\n\020SetGuildResponse\020\n\022\024\n\020OutGuildRe" +
-      "sponse\020\013\022\033\n\027ContributeMoneyResponse\020\014\022\035\n" +
-      "\031ContributeArticleResponse\020\r\022\026\n\022GetArtic" +
-      "leResponse\020\016\022\024\n\020GetMoneyResponse\020\017\022\032\n\026Ag" +
-      "reeGuildApplyRequest\020\020\022\033\n\027RefuseGuildApp" +
-      "lyRequest\020\021\022\033\n\027AgreeGuildApplyResponse\020\022" +
-      "\022\034\n\030RefuseGuildApplyResponse\020\023\022\034\n\030GetGui" +
-      "ldApplyListRequest\020\024\022\027\n\023GetGuildBeanRequ" +
-      "est\020\025\022\035\n\031GetGuildApplyListResponse\020\026\022\030\n\024" +
-      "GetGuildBeanResponse\020\027\022\021\n\rApplyResponse\020" +
-      "\032B\n\n\010dateBody\"$\n\rApplyResponse\022\023\n\013succes" +
-      "sFlag\030\001 \001(\010\"0\n\030GetGuildApplyListRequest\022" +
-      "\024\n\014guildApplyId\030\001 \001(\005\"*\n\023GetGuildBeanReq" +
-      "uest\022\023\n\013guildBeanId\030\001 \001(\005\"C\n\031GetGuildApp" +
-      "lyListResponse\022&\n\016guildApplyDtos\030\001 \003(\0132\016" +
-      ".GuildApplyDto\"3\n\024GetGuildBeanResponse\022\033" +
-      "\n\010guildDto\030\001 \001(\0132\t.GuildDto\"\206\001\n\rGuildApp" +
-      "lyDto\022\n\n\002id\030\001 \001(\005\022\016\n\006roleId\030\002 \001(\005\022\020\n\010rol" +
-      "eName\030\003 \001(\t\022\017\n\007guildId\030\004 \001(\005\022\021\n\tguildNam" +
-      "e\030\005 \001(\t\022\022\n\ncreateTime\030\006 \001(\022\022\017\n\007endTime\030\007" +
-      " \001(\022\"\217\001\n\016GuildPeopleDto\022\n\n\002id\030\001 \001(\005\022\016\n\006r" +
-      "oleId\030\002 \001(\005\022\020\n\010onStatus\030\003 \001(\005\022\024\n\014profess" +
-      "ionId\030\004 \001(\005\022\025\n\rguildPosition\030\005 \001(\005\022\024\n\014co" +
-      "ntribution\030\006 \001(\005\022\014\n\004name\030\007 \001(\t\"\230\001\n\010Guild" +
-      "Dto\022\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\022\n\nchairma" +
-      "nId\030\003 \001(\005\022\021\n\tpeopleNum\030\004 \001(\005\022\r\n\005level\030\005 " +
-      "\001(\005\022\022\n\ncreateTime\030\006 \001(\022\022(\n\017guildPeopleDt" +
-      "os\030\007 \003(\0132\017.GuildPeopleDto\".\n\026AgreeGuildA" +
-      "pplyRequest\022\024\n\014guildApplyId\030\001 \001(\005\"/\n\027Ref" +
-      "useGuildApplyRequest\022\024\n\014guildApplyId\030\001 \001" +
-      "(\005\"\031\n\027AgreeGuildApplyResponse\"\032\n\030RefuseG" +
-      "uildApplyResponse\"\"\n\022CreateGuildRequest\022" +
-      "\014\n\004name\030\001 \001(\t\"#\n\020JoinGuildRequest\022\017\n\007gui" +
-      "ldId\030\001 \001(\005\"8\n\017SetGuildRequest\022\016\n\006roleId\030" +
-      "\001 \001(\005\022\025\n\rguildPosition\030\002 \001(\005\"\021\n\017OutGuild" +
-      "Request\"\'\n\026ContributeMoneyRequest\022\r\n\005mon" +
-      "ey\030\001 \001(\005\"r\n\030ContributeArticleRequest\022\030\n\020" +
-      "articleMessageId\030\001 \001(\005\022\023\n\013articleType\030\002 " +
-      "\001(\005\022\016\n\006number\030\003 \001(\005\022\027\n\017equipmentBeanId\030\004" +
-      " \001(\005\"8\n\021GetArticleRequest\022\023\n\013warehouseId" +
-      "\030\001 \001(\005\022\016\n\006number\030\002 \001(\005\" \n\017GetMoneyReques" +
-      "t\022\r\n\005money\030\001 \001(\005\"\025\n\023CreateGuildResponse\"" +
-      "\023\n\021JoinGuildResponse\"\022\n\020SetGuildResponse" +
-      "\"\022\n\020OutGuildResponse\"\031\n\027ContributeMoneyR" +
-      "esponse\"\033\n\031ContributeArticleResponse\"\024\n\022" +
-      "GetArticleResponse\"\022\n\020GetMoneyResponseB\014" +
-      "B\nGuildModelb\006proto3"
+      "yResponse\030\032 \001(\0132\016.ApplyResponseH\000\022=\n\030get" +
+      "GuildWareHouseRequest\030\033 \001(\0132\031.GetGuildWa" +
+      "reHouseRequestH\000\022?\n\031getGuildWareHouseRes" +
+      "ponse\030\034 \001(\0132\032.GetGuildWareHouseResponseH" +
+      "\000\"\302\005\n\010DateType\022\026\n\022CreateGuildRequest\020\000\022\024" +
+      "\n\020JoinGuildRequest\020\001\022\023\n\017SetGuildRequest\020" +
+      "\002\022\023\n\017OutGuildRequest\020\003\022\032\n\026ContributeMone" +
+      "yRequest\020\004\022\034\n\030ContributeArticleRequest\020\005" +
+      "\022\025\n\021GetArticleRequest\020\006\022\023\n\017GetMoneyReque" +
+      "st\020\007\022\027\n\023CreateGuildResponse\020\010\022\025\n\021JoinGui" +
+      "ldResponse\020\t\022\024\n\020SetGuildResponse\020\n\022\024\n\020Ou" +
+      "tGuildResponse\020\013\022\033\n\027ContributeMoneyRespo" +
+      "nse\020\014\022\035\n\031ContributeArticleResponse\020\r\022\026\n\022" +
+      "GetArticleResponse\020\016\022\024\n\020GetMoneyResponse" +
+      "\020\017\022\032\n\026AgreeGuildApplyRequest\020\020\022\033\n\027Refuse" +
+      "GuildApplyRequest\020\021\022\033\n\027AgreeGuildApplyRe" +
+      "sponse\020\022\022\034\n\030RefuseGuildApplyResponse\020\023\022\034" +
+      "\n\030GetGuildApplyListRequest\020\024\022\027\n\023GetGuild" +
+      "BeanRequest\020\025\022\035\n\031GetGuildApplyListRespon" +
+      "se\020\026\022\030\n\024GetGuildBeanResponse\020\027\022\021\n\rApplyR" +
+      "esponse\020\030\022\034\n\030GetGuildWareHouseRequest\020\031\022" +
+      "\035\n\031GetGuildWareHouseResponse\020\032B\n\n\010dateBo" +
+      "dy\"$\n\rApplyResponse\022\023\n\013successFlag\030\001 \001(\010" +
+      "\"0\n\030GetGuildApplyListRequest\022\024\n\014guildApp" +
+      "lyId\030\001 \001(\005\"*\n\023GetGuildBeanRequest\022\023\n\013gui" +
+      "ldBeanId\030\001 \001(\005\"C\n\031GetGuildApplyListRespo" +
+      "nse\022&\n\016guildApplyDtos\030\001 \003(\0132\016.GuildApply" +
+      "Dto\"3\n\024GetGuildBeanResponse\022\033\n\010guildDto\030" +
+      "\001 \001(\0132\t.GuildDto\"\206\001\n\rGuildApplyDto\022\n\n\002id" +
+      "\030\001 \001(\005\022\016\n\006roleId\030\002 \001(\005\022\020\n\010roleName\030\003 \001(\t" +
+      "\022\017\n\007guildId\030\004 \001(\005\022\021\n\tguildName\030\005 \001(\t\022\022\n\n" +
+      "createTime\030\006 \001(\022\022\017\n\007endTime\030\007 \001(\022\"\217\001\n\016Gu" +
+      "ildPeopleDto\022\n\n\002id\030\001 \001(\005\022\016\n\006roleId\030\002 \001(\005" +
+      "\022\020\n\010onStatus\030\003 \001(\005\022\024\n\014professionId\030\004 \001(\005" +
+      "\022\025\n\rguildPosition\030\005 \001(\005\022\024\n\014contribution\030" +
+      "\006 \001(\005\022\014\n\004name\030\007 \001(\t\"\247\001\n\010GuildDto\022\n\n\002id\030\001" +
+      " \001(\005\022\014\n\004name\030\002 \001(\t\022\022\n\nchairmanId\030\003 \001(\005\022\021" +
+      "\n\tpeopleNum\030\004 \001(\005\022\r\n\005level\030\005 \001(\005\022\022\n\ncrea" +
+      "teTime\030\006 \001(\022\022(\n\017guildPeopleDtos\030\007 \003(\0132\017." +
+      "GuildPeopleDto\022\r\n\005money\030\010 \001(\005\"\032\n\030GetGuil" +
+      "dWareHouseRequest\"=\n\031GetGuildWareHouseRe" +
+      "sponse\022 \n\013articleDtos\030\001 \003(\0132\013.ArticleDto" +
+      "\"\200\001\n\nArticleDto\022\023\n\013wareHouseId\030\001 \001(\005\022\n\n\002" +
+      "id\030\002 \001(\005\022\023\n\013equipmentId\030\003 \001(\005\022\020\n\010quantit" +
+      "y\030\004 \001(\005\022\023\n\013articleType\030\005 \001(\005\022\025\n\rnowDurab" +
+      "ility\030\006 \001(\005\".\n\026AgreeGuildApplyRequest\022\024\n" +
+      "\014guildApplyId\030\001 \001(\005\"/\n\027RefuseGuildApplyR" +
+      "equest\022\024\n\014guildApplyId\030\001 \001(\005\"\031\n\027AgreeGui" +
+      "ldApplyResponse\"\032\n\030RefuseGuildApplyRespo" +
+      "nse\"\"\n\022CreateGuildRequest\022\014\n\004name\030\001 \001(\t\"" +
+      "#\n\020JoinGuildRequest\022\017\n\007guildId\030\001 \001(\005\"8\n\017" +
+      "SetGuildRequest\022\016\n\006roleId\030\001 \001(\005\022\025\n\rguild" +
+      "Position\030\002 \001(\005\"\021\n\017OutGuildRequest\"\'\n\026Con" +
+      "tributeMoneyRequest\022\r\n\005money\030\001 \001(\005\"V\n\030Co" +
+      "ntributeArticleRequest\022\021\n\tarticleId\030\001 \001(" +
+      "\005\022\016\n\006number\030\003 \001(\005\022\027\n\017equipmentBeanId\030\004 \001" +
+      "(\005\"8\n\021GetArticleRequest\022\023\n\013warehouseId\030\001" +
+      " \001(\005\022\016\n\006number\030\002 \001(\005\" \n\017GetMoneyRequest\022" +
+      "\r\n\005money\030\001 \001(\005\"\025\n\023CreateGuildResponse\"\023\n" +
+      "\021JoinGuildResponse\"\022\n\020SetGuildResponse\"\022" +
+      "\n\020OutGuildResponse\"\031\n\027ContributeMoneyRes" +
+      "ponse\"\033\n\031ContributeArticleResponse\"\024\n\022Ge" +
+      "tArticleResponse\"\022\n\020GetMoneyResponseB\014B\n" +
+      "GuildModelb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -22608,7 +25278,7 @@ public final class GuildModel {
     internal_static_GuildModelMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_GuildModelMessage_descriptor,
-        new String[] { "DataType", "CreateGuildRequest", "JoinGuildRequest", "SetGuildRequest", "OutGuildRequest", "ContributeMoneyRequest", "ContributeArticleRequest", "GetArticleRequest", "GetMoneyRequest", "CreateGuildResponse", "JoinGuildResponse", "SetGuildResponse", "OutGuildResponse", "ContributeMoneyResponse", "ContributeArticleResponse", "GetArticleResponse", "GetMoneyResponse", "AgreeGuildApplyRequest", "RefuseGuildApplyRequest", "AgreeGuildApplyResponse", "RefuseGuildApplyResponse", "GetGuildApplyListRequest", "GetGuildBeanRequest", "GetGuildApplyListResponse", "GetGuildBeanResponse", "ApplyResponse", "DateBody", });
+        new String[] { "DataType", "CreateGuildRequest", "JoinGuildRequest", "SetGuildRequest", "OutGuildRequest", "ContributeMoneyRequest", "ContributeArticleRequest", "GetArticleRequest", "GetMoneyRequest", "CreateGuildResponse", "JoinGuildResponse", "SetGuildResponse", "OutGuildResponse", "ContributeMoneyResponse", "ContributeArticleResponse", "GetArticleResponse", "GetMoneyResponse", "AgreeGuildApplyRequest", "RefuseGuildApplyRequest", "AgreeGuildApplyResponse", "RefuseGuildApplyResponse", "GetGuildApplyListRequest", "GetGuildBeanRequest", "GetGuildApplyListResponse", "GetGuildBeanResponse", "ApplyResponse", "GetGuildWareHouseRequest", "GetGuildWareHouseResponse", "DateBody", });
     internal_static_ApplyResponse_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_ApplyResponse_fieldAccessorTable = new
@@ -22656,123 +25326,141 @@ public final class GuildModel {
     internal_static_GuildDto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_GuildDto_descriptor,
-        new String[] { "Id", "Name", "ChairmanId", "PeopleNum", "Level", "CreateTime", "GuildPeopleDtos", });
-    internal_static_AgreeGuildApplyRequest_descriptor =
+        new String[] { "Id", "Name", "ChairmanId", "PeopleNum", "Level", "CreateTime", "GuildPeopleDtos", "Money", });
+    internal_static_GetGuildWareHouseRequest_descriptor =
       getDescriptor().getMessageTypes().get(9);
+    internal_static_GetGuildWareHouseRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_GetGuildWareHouseRequest_descriptor,
+        new String[] { });
+    internal_static_GetGuildWareHouseResponse_descriptor =
+      getDescriptor().getMessageTypes().get(10);
+    internal_static_GetGuildWareHouseResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_GetGuildWareHouseResponse_descriptor,
+        new String[] { "ArticleDtos", });
+    internal_static_ArticleDto_descriptor =
+      getDescriptor().getMessageTypes().get(11);
+    internal_static_ArticleDto_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_ArticleDto_descriptor,
+        new String[] { "WareHouseId", "Id", "EquipmentId", "Quantity", "ArticleType", "NowDurability", });
+    internal_static_AgreeGuildApplyRequest_descriptor =
+      getDescriptor().getMessageTypes().get(12);
     internal_static_AgreeGuildApplyRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_AgreeGuildApplyRequest_descriptor,
         new String[] { "GuildApplyId", });
     internal_static_RefuseGuildApplyRequest_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_RefuseGuildApplyRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_RefuseGuildApplyRequest_descriptor,
         new String[] { "GuildApplyId", });
     internal_static_AgreeGuildApplyResponse_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(14);
     internal_static_AgreeGuildApplyResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_AgreeGuildApplyResponse_descriptor,
         new String[] { });
     internal_static_RefuseGuildApplyResponse_descriptor =
-      getDescriptor().getMessageTypes().get(12);
+      getDescriptor().getMessageTypes().get(15);
     internal_static_RefuseGuildApplyResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_RefuseGuildApplyResponse_descriptor,
         new String[] { });
     internal_static_CreateGuildRequest_descriptor =
-      getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(16);
     internal_static_CreateGuildRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_CreateGuildRequest_descriptor,
         new String[] { "Name", });
     internal_static_JoinGuildRequest_descriptor =
-      getDescriptor().getMessageTypes().get(14);
+      getDescriptor().getMessageTypes().get(17);
     internal_static_JoinGuildRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_JoinGuildRequest_descriptor,
         new String[] { "GuildId", });
     internal_static_SetGuildRequest_descriptor =
-      getDescriptor().getMessageTypes().get(15);
+      getDescriptor().getMessageTypes().get(18);
     internal_static_SetGuildRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SetGuildRequest_descriptor,
         new String[] { "RoleId", "GuildPosition", });
     internal_static_OutGuildRequest_descriptor =
-      getDescriptor().getMessageTypes().get(16);
+      getDescriptor().getMessageTypes().get(19);
     internal_static_OutGuildRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_OutGuildRequest_descriptor,
         new String[] { });
     internal_static_ContributeMoneyRequest_descriptor =
-      getDescriptor().getMessageTypes().get(17);
+      getDescriptor().getMessageTypes().get(20);
     internal_static_ContributeMoneyRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ContributeMoneyRequest_descriptor,
         new String[] { "Money", });
     internal_static_ContributeArticleRequest_descriptor =
-      getDescriptor().getMessageTypes().get(18);
+      getDescriptor().getMessageTypes().get(21);
     internal_static_ContributeArticleRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ContributeArticleRequest_descriptor,
-        new String[] { "ArticleMessageId", "ArticleType", "Number", "EquipmentBeanId", });
+        new String[] { "ArticleId", "Number", "EquipmentBeanId", });
     internal_static_GetArticleRequest_descriptor =
-      getDescriptor().getMessageTypes().get(19);
+      getDescriptor().getMessageTypes().get(22);
     internal_static_GetArticleRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_GetArticleRequest_descriptor,
         new String[] { "WarehouseId", "Number", });
     internal_static_GetMoneyRequest_descriptor =
-      getDescriptor().getMessageTypes().get(20);
+      getDescriptor().getMessageTypes().get(23);
     internal_static_GetMoneyRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_GetMoneyRequest_descriptor,
         new String[] { "Money", });
     internal_static_CreateGuildResponse_descriptor =
-      getDescriptor().getMessageTypes().get(21);
+      getDescriptor().getMessageTypes().get(24);
     internal_static_CreateGuildResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_CreateGuildResponse_descriptor,
         new String[] { });
     internal_static_JoinGuildResponse_descriptor =
-      getDescriptor().getMessageTypes().get(22);
+      getDescriptor().getMessageTypes().get(25);
     internal_static_JoinGuildResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_JoinGuildResponse_descriptor,
         new String[] { });
     internal_static_SetGuildResponse_descriptor =
-      getDescriptor().getMessageTypes().get(23);
+      getDescriptor().getMessageTypes().get(26);
     internal_static_SetGuildResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SetGuildResponse_descriptor,
         new String[] { });
     internal_static_OutGuildResponse_descriptor =
-      getDescriptor().getMessageTypes().get(24);
+      getDescriptor().getMessageTypes().get(27);
     internal_static_OutGuildResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_OutGuildResponse_descriptor,
         new String[] { });
     internal_static_ContributeMoneyResponse_descriptor =
-      getDescriptor().getMessageTypes().get(25);
+      getDescriptor().getMessageTypes().get(28);
     internal_static_ContributeMoneyResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ContributeMoneyResponse_descriptor,
         new String[] { });
     internal_static_ContributeArticleResponse_descriptor =
-      getDescriptor().getMessageTypes().get(26);
+      getDescriptor().getMessageTypes().get(29);
     internal_static_ContributeArticleResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ContributeArticleResponse_descriptor,
         new String[] { });
     internal_static_GetArticleResponse_descriptor =
-      getDescriptor().getMessageTypes().get(27);
+      getDescriptor().getMessageTypes().get(30);
     internal_static_GetArticleResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_GetArticleResponse_descriptor,
         new String[] { });
     internal_static_GetMoneyResponse_descriptor =
-      getDescriptor().getMessageTypes().get(28);
+      getDescriptor().getMessageTypes().get(31);
     internal_static_GetMoneyResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_GetMoneyResponse_descriptor,

@@ -556,7 +556,7 @@ public class MedicineBean  implements Article{
     }
 
     @Override
-    public Article useOrAbandonWareHouse(Integer number, WareHouseManager wareHouseManager, Integer roleId) {
+    public Article useOrAbandonWareHouse(Integer number, WareHouseManager wareHouseManager,Integer guildId) {
         if (number <= getQuantity()) {
             //可以丢弃
             setQuantity(getQuantity() - number);
@@ -570,7 +570,7 @@ public class MedicineBean  implements Article{
                 ScheduledThreadPoolUtil.addTask(() -> DbUtil.deleteWareHouseById(wareHouseDBId));
             }else {
                 MedicineBean medicineBean=this;
-                ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateWareHouseMedicine(medicineBean,roleId));
+                ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateWareHouseMedicine(medicineBean,guildId));
             }
             return this;
         } else {

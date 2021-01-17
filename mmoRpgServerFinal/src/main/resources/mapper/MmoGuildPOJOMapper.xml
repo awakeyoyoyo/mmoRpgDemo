@@ -8,9 +8,10 @@
     <result column="people_num" jdbcType="INTEGER" property="peopleNum" />
     <result column="level" jdbcType="INTEGER" property="level" />
     <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="money" jdbcType="INTEGER" property="money" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, chairman_id, people_num, level, create_time
+    id, name, chairman_id, people_num, level, create_time, money
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -22,13 +23,13 @@
     delete from mmo_guild
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.liqihao.pojo.MmoGuildPOJO" useGeneratedKeys="true" keyProperty="id">
-    insert into mmo_guild (id, name, chairman_id,
-      people_num, level, create_time
-      )
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{chairmanId,jdbcType=INTEGER},
-      #{peopleNum,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT}
-      )
+  <insert id="insert" parameterType="com.liqihao.pojo.MmoGuildPOJO">
+    insert into mmo_guild (id, name, chairman_id, 
+      people_num, level, create_time, 
+      money)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{chairmanId,jdbcType=INTEGER}, 
+      #{peopleNum,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT}, 
+      #{money,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.liqihao.pojo.MmoGuildPOJO">
     insert into mmo_guild
@@ -51,6 +52,9 @@
       <if test="createTime != null">
         create_time,
       </if>
+      <if test="money != null">
+        money,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -70,6 +74,9 @@
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -91,6 +98,9 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=BIGINT},
       </if>
+      <if test="money != null">
+        money = #{money,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -100,9 +110,11 @@
       chairman_id = #{chairmanId,jdbcType=INTEGER},
       people_num = #{peopleNum,jdbcType=INTEGER},
       level = #{level,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=BIGINT}
+      create_time = #{createTime,jdbcType=BIGINT},
+      money = #{money,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
   <select id="selectAll"  resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />

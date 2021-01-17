@@ -243,6 +243,7 @@ public class EquipmentBean implements Article{
             //背包一个格子的空间都没有 无法存放
             return false;
         } else {
+
             //设置背包物品id
             setArticleId(backPackManager.getNewArticleId());
             backPackManager.setNowSize(backPackManager.getNowSize()+1);
@@ -402,7 +403,7 @@ public class EquipmentBean implements Article{
     }
 
     @Override
-    public Article useOrAbandonWareHouse(Integer number, WareHouseManager wareHouseManager, Integer roleId) {
+    public Article useOrAbandonWareHouse(Integer number, WareHouseManager wareHouseManager,Integer guildId) {
         //需要删除数据库的记录
         Integer wareHouseDBId=getWareHouseDBId();
         setWareHouseDBId(null);

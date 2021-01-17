@@ -28,7 +28,9 @@ message GuildModelMessage{
     GetGuildBeanRequest=21;
     GetGuildApplyListResponse=22;
     GetGuildBeanResponse=23;
-    ApplyResponse=26;
+    ApplyResponse=24;
+    GetGuildWareHouseRequest=25;
+    GetGuildWareHouseResponse=26;
   }
   //用date_type来标识传的是哪一个枚举类型
   DateType data_type=1;
@@ -59,6 +61,8 @@ message GuildModelMessage{
     GetGuildApplyListResponse getGuildApplyListResponse=24;
     GetGuildBeanResponse getGuildBeanResponse=25;
     ApplyResponse applyResponse=26;
+    GetGuildWareHouseRequest getGuildWareHouseRequest=27;
+    GetGuildWareHouseResponse getGuildWareHouseResponse=28;
   }
 }
 //申请结果
@@ -104,6 +108,26 @@ message GuildDto{
   int32 level=5;
   sint64 createTime=6;
   repeated GuildPeopleDto guildPeopleDtos=7;
+  int32 money=8;
+}
+message GetGuildWareHouseRequest{
+}
+message GetGuildWareHouseResponse{
+  repeated ArticleDto articleDtos=1;
+}
+message ArticleDto{
+  //背包中物品id
+  int32 wareHouseId=1;
+  //物品id
+  int32 id=2;
+  //装备实例id
+  int32 equipmentId=3;
+  //数量
+  int32 quantity=4;
+  //物品类型
+  int32 articleType=5;
+  //耐久度
+  int32 nowDurability=6;
 }
 message AgreeGuildApplyRequest{
   int32 guildApplyId=1;
@@ -131,8 +155,7 @@ message ContributeMoneyRequest{
   int32 money=1;
 }
 message ContributeArticleRequest{
-  int32 articleMessageId=1;
-  int32 articleType=2;
+  int32 articleId=1;
   int32 number=3;
   int32 equipmentBeanId=4;
 }

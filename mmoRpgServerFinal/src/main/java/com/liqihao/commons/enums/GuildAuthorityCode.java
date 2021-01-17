@@ -7,7 +7,7 @@ package com.liqihao.commons.enums;
 public enum GuildAuthorityCode {
     //
     GET_ARTICLE(1,"收取道具"),GET_MONEY(1,"收取金币"),PUT_ARTICLE(2,"放入道具"),
-    PUT_MONEY(4,"放入金币"),SET_POSITION(5,"设置职位");
+    PUT_MONEY(4,"放入金币"),SET_POSITION(5,"设置职位"),CHECK_APPLY(6,"审核申请");
     private  int code;
     private  String value;
     GuildAuthorityCode(int code,String name)

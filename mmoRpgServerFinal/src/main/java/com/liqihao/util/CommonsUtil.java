@@ -229,6 +229,7 @@ public class CommonsUtil implements ApplicationContextAware {
         guildBean.setLevel(mmoGuildPOJO.getLevel());
         guildBean.setPeopleNum(mmoGuildPOJO.getPeopleNum());
         guildBean.setChairmanId(mmoGuildPOJO.getChairmanId());
+        guildBean.setMoney(mmoGuildPOJO.getMoney());
         Integer wareHouseSize=MmoBaseMessageCache.getInstance().getGuildBaseMessage().getMaxWareHouseNumber();
         guildBean.setWareHouseManager(new WareHouseManager(wareHouseSize));
         guildBean.setCreateTime(mmoGuildPOJO.getCreateTime());

@@ -220,6 +220,21 @@ public class Dispatcherservlet {
             case ConstantValue.GUILD_APPLY_RESPONSE:
                 guildService.guildApplyResponse(nettyResponse);
                 break;
+            case ConstantValue.CONTRIBUTE_MONEY_RESPONSE:
+                guildService.contributeMoney(nettyResponse);
+                break;
+            case ConstantValue.CONTRIBUTE_ARTICLE_RESPONSE:
+                guildService.contributeArticle(nettyResponse);
+                break;
+            case ConstantValue.GET_GUILD_MONEY_RESPONSE:
+                guildService.getGuildMoney(nettyResponse);
+                break;
+            case ConstantValue.GET_GUILD_ARTICLE_RESPONSE:
+                guildService.getGuildArticle(nettyResponse);
+                break;
+            case ConstantValue.GET_GUILD_WAREHOUSE_RESPONSE:
+                guildService.getGuildWareHouse(nettyResponse);
+                break;
             default:
                 System.out.println("handler:收到");
                 System.out.println(new java.lang.String(nettyResponse.getData()));

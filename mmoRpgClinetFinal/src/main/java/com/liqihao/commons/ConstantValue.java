@@ -491,6 +491,7 @@ public interface ConstantValue {
     int AGREE_GUILD_APPLY_REQUEST=10009;
     int REFUSE_GUILD_APPLY_REQUEST=10010;
     int GET_GUILD_MESSAGE_REQUEST=10011;
+    int GET_GUILD_WAREHOUSE_REQUEST=10013;
 
     int CREATE_GUILD_RESPONSE=10500;
     int JOIN_GUILD_RESPONSE=10501;
@@ -505,6 +506,7 @@ public interface ConstantValue {
     int REFUSE_GUILD_APPLY_RESPONSE=10510;
     int GET_GUILD_MESSAGE_RESPONSE=15011;
     int GUILD_APPLY_RESPONSE=15012;
+    int GET_GUILD_WAREHOUSE_RESPONSE=15013;
     /**
      * 参数错误响应
      */
@@ -514,7 +516,11 @@ public interface ConstantValue {
     /**
      * 指令
      */
-
+    String CONTRIBUTE_MONEY_REQUEST_CMD="contributeMoney";
+    String CONTRIBUTE_ARTICLE_REQUEST_CMD="contributeArticle";
+    String GET_GUILD_MONEY_REQUEST_CMD="getGuildMoney";
+    String GET_GUILD_ARTICLE_REQUEST_CMD="getGuildArticle";
+    String GET_GUILD_WAREHOUSE_REQUEST_CMD="getGuildWareHouse";
     String CREATE_GUILD_REQUEST_CMD="createGuild";
     String JOIN_GUILD_REQUEST_CMD="joinGuild";
     String SET_GUILD_POSITION_REQUEST_CMD="setGuildPosition";

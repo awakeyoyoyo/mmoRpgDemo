@@ -94,4 +94,22 @@ public interface GuildService {
      * @param nettyResponse
      */
     void guildApplyResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException;
+
+    /**
+     * 获取金币
+     * @param nettyResponse
+     */
+    void getGuildMoney(NettyResponse nettyResponse) throws InvalidProtocolBufferException;
+
+    /**
+     * 拿物品
+     * @param nettyResponse
+     */
+    void getGuildArticle(NettyResponse nettyResponse) throws InvalidProtocolBufferException;
+
+    /**
+     * 仓库信息
+     * @param nettyResponse
+     */
+    void getGuildWareHouse(NettyResponse nettyResponse) throws InvalidProtocolBufferException;
 }

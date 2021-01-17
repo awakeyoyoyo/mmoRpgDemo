@@ -120,10 +120,10 @@ public class WareHouseManager {
     /**
      * 减少某样物品数量
      */
-    public synchronized Article useOrAbandonArticle(Integer articleId, Integer number,Integer roleId) {
+    public synchronized Article useOrAbandonArticle(Integer wareHouseId, Integer number,Integer guildId) {
         for (Article a : getBackpacks()) {
-            if (a.getArticleIdCode().equals(articleId)) {
-                return a.useOrAbandonWareHouse(number,this,roleId);
+            if (a.getWareHouseIdCode().equals(wareHouseId)) {
+                return a.useOrAbandonWareHouse(number,this,guildId);
             }
         }
         return null;

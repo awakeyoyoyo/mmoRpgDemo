@@ -17,6 +17,8 @@ import io.netty.channel.Channel;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 
 /**
@@ -61,6 +63,28 @@ public class GuildBean {
      * 申请入公会请求
      */
     private ArrayList<GuildApplyBean> guildApplyBeans = new ArrayList<>();
+    /**
+     * 金钱
+     */
+    private Integer money;
+
+    /**
+     * 金币的读写锁
+     */
+    ReadWriteLock moneyRwLock = new ReentrantReadWriteLock();
+
+    public Integer getMoney() {
+        moneyRwLock.readLock().lock();
+        try {
+            return money;
+        }finally {
+            moneyRwLock.readLock().unlock();
+        }
+    }
+
+    public void setMoney(Integer money) {
+        this.money = money;
+    }
 
     public ArrayList<GuildApplyBean> getGuildApplyBeans() {
         return guildApplyBeans;
@@ -168,7 +192,7 @@ public class GuildBean {
     /**
      * 拒绝申请
      */
-    public void refuseApply(Integer guildApplyId) throws RpgServerException {
+    public boolean refuseApply(Integer guildApplyId) throws RpgServerException {
         synchronized (guildApplyBeans) {
             checkOutTime();
             Iterator iterator = guildApplyBeans.iterator();
@@ -187,15 +211,17 @@ public class GuildBean {
                     List<Integer> deleteList = new ArrayList<Integer>();
                     deleteList.add(bean.getId());
                     ScheduledThreadPoolUtil.addTask(() -> GuildServiceProvider.getInstance().deleteApply(deleteList));
+                    return true;
                 }
             }
         }
+        return false;
     }
 
     /**
      * 通过申请
      */
-    public void agreeApply(Integer guildApplyId) throws RpgServerException {
+    public boolean agreeApply(Integer guildApplyId) throws RpgServerException {
         synchronized (guildApplyBeans) {
             checkOutTime();
             Iterator iterator = guildApplyBeans.iterator();
@@ -237,9 +263,10 @@ public class GuildBean {
                         GuildServiceProvider.getInstance().deleteApply(deleteList);
                         GuildServiceProvider.getInstance().updateGuildPOJO(guildBean);
                     });
-                    break;
+                    return true;
                 }
             }
+            return false;
         }
     }
 
@@ -276,12 +303,7 @@ public class GuildBean {
         }
     }
 
-    /**
-     * 获取公会的信息
-     */
-    public void guildMessage() throws RpgServerException {
-        //todo
-    }
+
 
     /**
      * 设置公会成员职位
@@ -336,5 +358,30 @@ public class GuildBean {
         messageData.setApplyResponse(applyResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         channel.writeAndFlush(nettyResponse);
+    }
+
+    public void contributeMoney(Integer money) {
+        moneyRwLock.writeLock().lock();
+        try{
+            Integer temp=money+getMoney();
+            setMoney(temp);
+        }finally {
+            moneyRwLock.writeLock().unlock();
+        }
+    }
+
+    public void takeMoney(Integer money, MmoSimpleRole mmoSimpleRole) throws RpgServerException {
+        moneyRwLock.writeLock().lock();
+        try{
+            Integer guildMoney=getMoney();
+            if (money>guildMoney){
+                throw new RpgServerException(StateCode.FAIL,"仓库金币不足");
+            }
+            Integer temp=guildMoney-money;
+            setMoney(temp);
+            mmoSimpleRole.setMoney(getMoney()+money);
+        }finally {
+            moneyRwLock.writeLock().unlock();
+        }
     }
 }
