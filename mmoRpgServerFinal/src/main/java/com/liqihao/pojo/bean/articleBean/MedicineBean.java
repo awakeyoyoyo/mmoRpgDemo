@@ -9,6 +9,7 @@ import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.*;
 import com.liqihao.pojo.baseMessage.MedicineMessage;
 import com.liqihao.pojo.bean.BackPackManager;
+import com.liqihao.pojo.bean.dealBean.DealArticleBean;
 import com.liqihao.pojo.bean.guildBean.WareHouseManager;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.pojo.dto.ArticleDto;
@@ -57,7 +58,18 @@ public class MedicineBean  implements Article{
      * 仓库 数据库id
      */
     private Integer wareHouseDBId;
+    /**
+     * 交易栏id
+     */
+    private Integer dealArticleId;
 
+    public Integer getDealArticleId() {
+        return dealArticleId;
+    }
+
+    public void setDealArticleId(Integer dealArticleId) {
+        this.dealArticleId = dealArticleId;
+    }
     public Integer getWareHouseId() {
         return wareHouseId;
     }
@@ -131,6 +143,11 @@ public class MedicineBean  implements Article{
     @Override
     public Integer getWareHouseIdCode() {
         return getWareHouseId();
+    }
+
+    @Override
+    public Integer getDealArticleIdCode() {
+        return getDealArticleIdCode();
     }
 
     /**
@@ -576,5 +593,15 @@ public class MedicineBean  implements Article{
         } else {
             return null;
         }
+    }
+
+    @Override
+    public boolean putDealBean(DealArticleBean dealArticleBean) {
+        return false;
+    }
+
+    @Override
+    public Article abandonDealBean(DealArticleBean dealArticleBean) {
+        return null;
     }
 }

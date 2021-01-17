@@ -1,6 +1,7 @@
 package com.liqihao.pojo.bean.articleBean;
 
 import com.liqihao.pojo.bean.BackPackManager;
+import com.liqihao.pojo.bean.dealBean.DealArticleBean;
 import com.liqihao.pojo.bean.guildBean.WareHouseManager;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.pojo.dto.ArticleDto;
@@ -23,6 +24,10 @@ public interface Article {
      * 获取物品仓库的id
      */
     Integer getWareHouseIdCode();
+    /**
+     * 获取交易栏的id
+     */
+    Integer getDealArticleIdCode();
     /**
      * 物品减少或者删除
      */
@@ -52,7 +57,7 @@ public interface Article {
      */
     boolean checkCanPut(BackPackManager backPackManager);
     /**
-     * 检查是否可以放入
+     * 使用
      */
     boolean use(BackPackManager backpackManager, MmoSimpleRole mmoSimpleRole);
 
@@ -63,4 +68,8 @@ public interface Article {
     boolean putWareHouse(WareHouseManager wareHouseManager, Integer guildId);
 
     Article useOrAbandonWareHouse(Integer number, WareHouseManager wareHouseManager,Integer guildId);
+
+    boolean putDealBean(DealArticleBean dealArticleBean);
+
+    Article abandonDealBean(DealArticleBean dealArticleBean);
 }

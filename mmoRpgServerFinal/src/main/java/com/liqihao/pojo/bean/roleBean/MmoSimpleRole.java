@@ -109,6 +109,30 @@ public class MmoSimpleRole extends Role implements MyObserver {
      * 公会
      */
     private GuildBean guildBean;
+    /**
+     *  是否在交易中
+     */
+    private Boolean onDeal;
+    /**
+     * 交易beanId
+     */
+    private Integer dealBeanId;
+
+    public Integer getDealBeanId() {
+        return dealBeanId;
+    }
+
+    public void setDealBeanId(Integer dealBeanId) {
+        this.dealBeanId = dealBeanId;
+    }
+
+    public Boolean getOnDeal() {
+        return onDeal;
+    }
+
+    public void setOnDeal(Boolean onDeal) {
+        this.onDeal = onDeal;
+    }
 
     public GuildBean getGuildBean() {
         return guildBean;
