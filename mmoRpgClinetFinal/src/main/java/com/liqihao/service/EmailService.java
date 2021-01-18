@@ -17,4 +17,6 @@ public interface EmailService {
     void deleteAcceptEmailResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException;
 
     void deleteSendEmailResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException;
+
+    void getEmailMoneyResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException;
 }

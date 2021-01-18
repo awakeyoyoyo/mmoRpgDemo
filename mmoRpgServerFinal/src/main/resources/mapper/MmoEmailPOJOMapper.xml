@@ -15,10 +15,13 @@
     <result column="from_delete" jdbcType="BIT" property="fromDelete" />
     <result column="to_delete" jdbcType="BIT" property="toDelete" />
     <result column="is_get" jdbcType="BIT" property="isGet" />
+    <result column="equipment_id" jdbcType="INTEGER" property="equipmentId" />
+    <result column="money" jdbcType="INTEGER" property="money" />
+    <result column="is_get_money" jdbcType="BIT" property="isGetMoney" />
   </resultMap>
   <sql id="Base_Column_List">
     id, title, context, from_role_id, to_role_id, article_type, article_message_id, article_num, 
-    create_time, checked, from_delete, to_delete, is_get
+    create_time, checked, from_delete, to_delete, is_get, equipment_id, money, is_get_money
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -35,12 +38,14 @@
       from_role_id, to_role_id, article_type, 
       article_message_id, article_num, create_time, 
       checked, from_delete, to_delete, 
-      is_get)
+      is_get, equipment_id, money, 
+      is_get_money)
     values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{context,jdbcType=VARCHAR}, 
       #{fromRoleId,jdbcType=INTEGER}, #{toRoleId,jdbcType=INTEGER}, #{articleType,jdbcType=INTEGER}, 
       #{articleMessageId,jdbcType=INTEGER}, #{articleNum,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT}, 
       #{checked,jdbcType=BIT}, #{fromDelete,jdbcType=BIT}, #{toDelete,jdbcType=BIT}, 
-      #{isGet,jdbcType=BIT})
+      #{isGet,jdbcType=BIT}, #{equipmentId,jdbcType=INTEGER}, #{money,jdbcType=INTEGER}, 
+      #{isGetMoney,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.liqihao.pojo.MmoEmailPOJO">
     insert into mmo_email
@@ -84,6 +89,15 @@
       <if test="isGet != null">
         is_get,
       </if>
+      <if test="equipmentId != null">
+        equipment_id,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
+      <if test="isGetMoney != null">
+        is_get_money,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -124,6 +138,15 @@
       </if>
       <if test="isGet != null">
         #{isGet,jdbcType=BIT},
+      </if>
+      <if test="equipmentId != null">
+        #{equipmentId,jdbcType=INTEGER},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=INTEGER},
+      </if>
+      <if test="isGetMoney != null">
+        #{isGetMoney,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -166,6 +189,15 @@
       <if test="isGet != null">
         is_get = #{isGet,jdbcType=BIT},
       </if>
+      <if test="equipmentId != null">
+        equipment_id = #{equipmentId,jdbcType=INTEGER},
+      </if>
+      <if test="money != null">
+        money = #{money,jdbcType=INTEGER},
+      </if>
+      <if test="isGetMoney != null">
+        is_get_money = #{isGetMoney,jdbcType=BIT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -182,10 +214,12 @@
       checked = #{checked,jdbcType=BIT},
       from_delete = #{fromDelete,jdbcType=BIT},
       to_delete = #{toDelete,jdbcType=BIT},
-      is_get = #{isGet,jdbcType=BIT}
+      is_get = #{isGet,jdbcType=BIT},
+      equipment_id = #{equipmentId,jdbcType=INTEGER},
+      money = #{money,jdbcType=INTEGER},
+      is_get_money = #{isGetMoney,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
-
   <select id="selectByToRoleId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />

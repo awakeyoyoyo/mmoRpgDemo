@@ -22,6 +22,12 @@ public interface EmailService {
      */
     void getEmailArticleRequest(EmailModel.EmailModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws Exception;
     /**
+     * 收取邮件上的金币
+     * @param myMessage
+     * @param mmoSimpleRole
+     */
+    void getEmailMoneyRequest(EmailModel.EmailModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws Exception;
+    /**
      * 已接受邮件列表
      * @param myMessage
      * @param mmoSimpleRole

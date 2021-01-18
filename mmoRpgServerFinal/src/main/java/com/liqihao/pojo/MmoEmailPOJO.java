@@ -27,6 +27,12 @@ public class MmoEmailPOJO {
 
     private Boolean isGet;
 
+    private Integer equipmentId;
+
+    private Integer money;
+
+    private Boolean isGetMoney;
+
     public Integer getId() {
         return id;
     }
@@ -129,5 +135,29 @@ public class MmoEmailPOJO {
 
     public void setIsGet(Boolean isGet) {
         this.isGet = isGet;
+    }
+
+    public Integer getEquipmentId() {
+        return equipmentId;
+    }
+
+    public void setEquipmentId(Integer equipmentId) {
+        this.equipmentId = equipmentId;
+    }
+
+    public Integer getMoney() {
+        return money;
+    }
+
+    public void setMoney(Integer money) {
+        this.money = money;
+    }
+
+    public Boolean getIsGetMoney() {
+        return isGetMoney;
+    }
+
+    public void setIsGetMoney(Boolean isGetMoney) {
+        this.isGetMoney = isGetMoney;
     }
 }

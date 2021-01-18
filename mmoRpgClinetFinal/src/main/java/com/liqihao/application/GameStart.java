@@ -279,9 +279,27 @@ public class GameStart {
                     case ConstantValue.ABANDON_DEAL_ARTICLE_REQUEST:
                         abandonDealArticle(scanner);
                         break;
+                    case ConstantValue.GET_EMAIL_MONEY_REQUEST:
+                        getEmailMoney(scanner);
+                        break;
                     default:
                         System.out.println("GameStart-handler:收到错误cmd");
                 }
+    }
+
+    private void getEmailMoney(Scanner scanner) {
+        System.out.println("请输入你要收取金币的emailId：");
+        Integer emailId=scanner.nextInt();
+        scanner.nextLine();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.GET_EMAIL_MONEY_REQUEST);
+        EmailModel.EmailModelMessage myMessage;
+        myMessage= EmailModel.EmailModelMessage.newBuilder()
+                .setDataType(EmailModel.EmailModelMessage.DateType.GetEmailMoneyRequest)
+                .setGetEmailMoneyRequest(EmailModel.GetEmailMoneyRequest.newBuilder().setEmailId(emailId).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
     }
 
     private void abandonDealArticle(Scanner scanner) {

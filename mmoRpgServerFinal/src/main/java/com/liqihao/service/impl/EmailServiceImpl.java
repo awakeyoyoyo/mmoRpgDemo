@@ -1,5 +1,6 @@
 package com.liqihao.service.impl;
 
+import com.liqihao.Cache.EquipmentMessageCache;
 import com.liqihao.Cache.MediceneMessageCache;
 import com.liqihao.Cache.OnlineRoleMessageCache;
 import com.liqihao.annotation.HandlerCmdTag;
@@ -9,9 +10,11 @@ import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.ArticleTypeCode;
+import com.liqihao.pojo.baseMessage.EquipmentMessage;
 import com.liqihao.pojo.baseMessage.MedicineMessage;
 import com.liqihao.pojo.bean.*;
 import com.liqihao.pojo.bean.articleBean.Article;
+import com.liqihao.pojo.bean.articleBean.EquipmentBean;
 import com.liqihao.pojo.bean.articleBean.MedicineBean;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.protobufObject.EmailModel;
@@ -91,6 +94,22 @@ public class EmailServiceImpl implements EmailService {
             mmoEmailBean.setGet(true);
             //数据库更新
             ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateEmailBeanDb(mmoEmailBean));
+        }else{
+            EquipmentMessage equipmentMessage= EquipmentMessageCache.getInstance().get(mmoEmailBean.getArticleMessageId());
+            EquipmentBean equipmentBean=CommonsUtil.equipmentMessageToEquipmentBean(equipmentMessage);
+            equipmentBean.setEquipmentId(mmoEmailBean.getEquipmentId());
+            //上锁
+            synchronized (mmoSimpleRole.getBackpackManager()) {
+                if (!mmoSimpleRole.getBackpackManager().canPutArticle(equipmentBean)) {
+                    throw new RpgServerException(StateCode.FAIL,"背包已经满了");
+                }
+                mmoSimpleRole.getBackpackManager().put(equipmentBean,mmoSimpleRole.getId());
+            }
+            //邮件设置为没有物品
+            mmoEmailBean.setHasArticle(true);
+            mmoEmailBean.setGet(true);
+            //数据库更新
+            ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateEmailBeanDb(mmoEmailBean));
         }
         EmailModel.EmailModelMessage messageData=EmailModel.EmailModelMessage.newBuilder()
                 .setDataType(EmailModel.EmailModelMessage.DateType.GetEmailArticleResponse)
@@ -100,6 +119,32 @@ public class EmailServiceImpl implements EmailService {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(messageData.toByteArray());
         channel.writeAndFlush(nettyResponse);
+    }
+
+    @Override
+    @HandlerCmdTag(cmd = ConstantValue.GET_EMAIL_MONEY_REQUEST,module = ConstantValue.EMAIL_MODULE)
+    public void getEmailMoneyRequest(EmailModel.EmailModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws Exception {
+        Integer emailId=myMessage.getGetEmailMoneyRequest().getEmailId();
+        Channel channel = mmoSimpleRole.getChannel();
+        //获取邮件详情
+        MmoEmailBean mmoEmailBean=EmailServiceProvider.getEmailMessage(mmoSimpleRole,emailId);
+        if (mmoEmailBean==null){
+            throw new RpgServerException(StateCode.FAIL,"没有该id的邮件");
+        }
+        //判断邮件是否有物品
+        if (mmoEmailBean.getMoney()<=0){
+            throw new RpgServerException(StateCode.FAIL,"该邮件没有可获取金币");
+        }
+        //判断邮件是否有物品
+        if (mmoEmailBean.getGetMoney()){
+            throw new RpgServerException(StateCode.FAIL,"已经获取过该物品");
+        }
+        if (!mmoEmailBean.getToRoleId().equals(mmoSimpleRole.getId())){
+            throw new RpgServerException(StateCode.FAIL,"这信不是给你的");
+        }
+        mmoEmailBean.setGetMoney(true);
+        mmoSimpleRole.setMoney(mmoSimpleRole.getMoney()+mmoEmailBean.getMoney());
+        ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateEmailBeanDb(mmoEmailBean));
     }
 
     @Override
@@ -162,6 +207,7 @@ public class EmailServiceImpl implements EmailService {
         mmoEmailBean.setArticleNum(articleNum);
         mmoEmailBean.setArticleType(-1);
         mmoEmailBean.setArticleMessageId(-1);
+        mmoEmailBean.setMoney(0);
         if (articleId!=-1) {
             //则需要扣除背包中的物品
            BackPackManager backPackManager=mmoSimpleRole.getBackpackManager();
@@ -173,6 +219,11 @@ public class EmailServiceImpl implements EmailService {
            if (mmoEmailBean.getArticleType().equals(ArticleTypeCode.MEDICINE.getCode())) {
                MedicineBean medicineBean= (MedicineBean) article;
                mmoEmailBean.setArticleMessageId(medicineBean.getMedicineMessageId());
+           }else{
+               //武器
+               EquipmentBean equipmentBean= (EquipmentBean) article;
+               mmoEmailBean.setArticleMessageId(equipmentBean.getEquipmentMessageId());
+               mmoEmailBean.setEquipmentId(equipmentBean.getEquipmentId());
            }
         }
         mmoEmailBean.setToRoleId(toRoleId);

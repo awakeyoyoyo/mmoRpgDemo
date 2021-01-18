@@ -38,6 +38,10 @@ public class DbUtil {
     private static  AtomicInteger mmoEmailPojoIndex;
     private static AtomicInteger mmoWareHouseIndex;
 
+    public static void deleteEquipmentById(Integer equipmentId) {
+        mmoEquipmentPOJOMapper.deleteByPrimaryKey(equipmentId);
+    }
+
 
     @Autowired
     public  void initMmoWareHousePOJOMapper(MmoWareHousePOJOMapper mmoWareHousePOJOMapper) {
@@ -133,6 +137,9 @@ public class DbUtil {
         mmoEmailPOJO.setChecked(emailBean.getChecked());
         mmoEmailPOJO.setContext(emailBean.getContext());
         mmoEmailPOJO.setIsGet(emailBean.getGet());
+        mmoEmailPOJO.setMoney(emailBean.getMoney());
+        mmoEmailPOJO.setEquipmentId(emailBean.getEquipmentId()==null?-1:emailBean.getEquipmentId());
+        mmoEmailPOJO.setIsGetMoney(emailBean.getGetMoney());
         //删除双方都是删除状态的
         if (mmoEmailPOJO.getFromDelete()==true&&mmoEmailPOJO.getToDelete()==true){
             //id小于初始化的id 则代表是旧数据 删除
@@ -327,6 +334,9 @@ public class DbUtil {
         mmoEmailPOJO.setChecked(emailBean.getChecked());
         mmoEmailPOJO.setContext(emailBean.getContext());
         mmoEmailPOJO.setIsGet(emailBean.getGet());
+        mmoEmailPOJO.setEquipmentId(emailBean.getEquipmentId());
+        mmoEmailPOJO.setMoney(emailBean.getMoney());
+        mmoEmailPOJO.setIsGetMoney(emailBean.getGetMoney());
         //删除双方都是删除状态的
         if (mmoEmailPOJO.getFromDelete()==true&&mmoEmailPOJO.getToDelete()==true){
             //id小于初始化的id 则代表是旧数据 删除

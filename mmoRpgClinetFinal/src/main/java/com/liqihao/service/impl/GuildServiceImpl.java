@@ -67,7 +67,7 @@ public class GuildServiceImpl implements GuildService {
         GuildModel.GuildModelMessage myMessage;
         myMessage = GuildModel.GuildModelMessage.parseFrom(data);
         System.out.println("[-]--------------------------------------------------------");
-        System.out.println("[-]你已离开该公会！");
+        System.out.println("[-]捐赠成功！");
         System.out.println("[-]--------------------------------------------------------");
     }
 

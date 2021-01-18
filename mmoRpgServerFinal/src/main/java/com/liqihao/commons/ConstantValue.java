@@ -422,6 +422,7 @@ public interface ConstantValue {
      * 获取邮件物品请求
      */
     int GET_EMAIL_ARTICLE_REQUEST=9001;
+
     /**
      * 已接收邮件列表请求
      */
@@ -442,7 +443,10 @@ public interface ConstantValue {
      * 删除已发送邮件请求
      */
     int DELETE_SEND_EMAIL_REQUEST=9006;
-
+    /**
+     * 获取邮件金币请求
+     */
+    int GET_EMAIL_MONEY_REQUEST=9007;
 
 
 
@@ -474,7 +478,10 @@ public interface ConstantValue {
      * 删除已发送邮件响应
      */
     int DELETE_SEND_EMAIL_RESPONSE=9506;
-
+    /**
+     * 获取邮件金币请求
+     */
+    int GET_EMAIL_MONEY_RESPONSE=9507;
 
     /**
      * 公会模块

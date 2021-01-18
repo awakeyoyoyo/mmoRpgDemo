@@ -441,8 +441,14 @@ public interface ConstantValue {
      * 删除已发送邮件请求
      */
     int DELETE_SEND_EMAIL_REQUEST=9006;
-
-
+    /**
+     * 获取邮件金币请求
+     */
+    int GET_EMAIL_MONEY_RESPONSE=9507;
+    /**
+     * 获取邮件金币请求
+     */
+    int GET_EMAIL_MONEY_REQUEST=9007;
 
 
     /**
@@ -575,7 +581,7 @@ public interface ConstantValue {
     /**
      * 拾取地面物品
      */
-
+    String GET_EMAIL_MONEY_REQUEST_CMD="getEmailMoney";
     String GET_ARTICLE_FROM_FLOOR_REQUEST_CMD="getArticleFromFloor";
     String GET_EMAIL_MESSAGE_REQUEST_CMD="getEmailMessage";
     String GET_EMAIL_ARTICLE_REQUEST_CMD="getEmailArticle";

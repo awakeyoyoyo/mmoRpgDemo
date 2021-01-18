@@ -2,6 +2,7 @@ package com.liqihao.provider;
 
 import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.StateCode;
+import com.liqihao.commons.enums.ArticleTypeCode;
 import com.liqihao.dao.MmoEmailPOJOMapper;
 import com.liqihao.dao.MmoUserPOJOMapper;
 import com.liqihao.pojo.MmoEmailPOJO;
@@ -82,10 +83,11 @@ public class EmailServiceProvider implements ApplicationContextAware {
         emailBean.setFromDelete(false);
         emailBean.setToDelete(false);
         emailBean.setIntoDataBase(false);
+        emailBean.setGetMoney(false);
         fromRole.getFromMmoEmailBeanConcurrentHashMap().put(emailBean.getId(),emailBean);
         if (toRole!=null){
             toRole.getToMmoEmailBeanConcurrentHashMap().put(emailBean.getId(),emailBean);
-            return;
+            ScheduledThreadPoolUtil.addTask(() -> DbUtil.mmoEmailPOJOIntoDataBase(emailBean));
         }else{
             // 插入数据库
             //查看是否有该玩家
@@ -138,6 +140,11 @@ public class EmailServiceProvider implements ApplicationContextAware {
                 if (id.equals(emailId)){
                     MmoEmailBean emailBean=map.get(emailId);
                     emailBean.setToDelete(true);
+                    if (emailBean.getArticleType().equals(ArticleTypeCode.EQUIPMENT.getCode())&&!emailBean.getGet()){
+                        //消除武器
+                        Integer equipmentId=emailBean.getEquipmentId();
+                        ScheduledThreadPoolUtil.addTask(() ->DbUtil.deleteEquipmentById(equipmentId));
+                    }
                     ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateEmailBeanDb(emailBean));
                     break;
                 }

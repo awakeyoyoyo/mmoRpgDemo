@@ -33,10 +33,41 @@ public class MmoEmailBean {
 
     private Boolean intoDataBase;
 
+    private Integer equipmentId;
     /**
      * 是否已经被收取物品
      */
     private Boolean isGet=false;
+    /**
+     * 是否已经被收取物品
+     */
+    private Boolean isGetMoney=false;
+
+    private Integer money;
+
+    public Boolean getGetMoney() {
+        return isGetMoney;
+    }
+
+    public void setGetMoney(Boolean getMoney) {
+        isGetMoney = getMoney;
+    }
+
+    public Integer getMoney() {
+        return money;
+    }
+
+    public void setMoney(Integer money) {
+        this.money = money;
+    }
+
+    public Integer getEquipmentId() {
+        return equipmentId;
+    }
+
+    public void setEquipmentId(Integer equipmentId) {
+        this.equipmentId = equipmentId;
+    }
 
     public Boolean getGet() {
         return isGet;

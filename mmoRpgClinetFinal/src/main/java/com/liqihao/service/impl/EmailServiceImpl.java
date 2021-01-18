@@ -25,11 +25,20 @@ public class EmailServiceImpl implements EmailService {
         System.out.println("[-]邮件id："+ emailDto.getId()+" 邮件标题："+emailDto.getTitle());
         System.out.println("[-]邮件内容："+ emailDto.getContext());
         if (emailDto.getHasArticle()) {
-            System.out.println("[-]是否已经签收："+emailDto.getIsGet());
-            System.out.println("[-]附带的道具id：" + emailDto.getArticleMessageId());
-            System.out.println("[-]附带的道具类型：" + ArticleTypeCode.getValue(emailDto.getArticleType()));
-            System.out.println("[-]附带的道具数量：" + emailDto.getArticleNum());
+            if (emailDto.getArticleType()==ArticleTypeCode.MEDICINE.getCode()) {
+                System.out.println("[-]是否已经签收：" + emailDto.getIsGet());
+                System.out.println("[-]附带的药品id：" + emailDto.getArticleMessageId());
+                System.out.println("[-]附带的道具类型：" + ArticleTypeCode.getValue(emailDto.getArticleType()));
+                System.out.println("[-]附带的道具数量：" + emailDto.getArticleNum());
+            }else{
+                System.out.println("[-]是否已经签收：" + emailDto.getIsGet());
+                System.out.println("[-]附带的武器信息id：" + emailDto.getArticleMessageId());
+                System.out.println("[-]附带的武器实例id：" + emailDto.getEquipmentId());
+                System.out.println("[-]附带的道具类型：" + ArticleTypeCode.getValue(emailDto.getArticleType()));
+                System.out.println("[-]附带的道具数量：" + emailDto.getArticleNum());
+            }
         }
+        System.out.println("[-]邮件携带金币："+ emailDto.getMoney() +"是否以签收金币："+emailDto.getIsGetMoney());
         System.out.println("[-]发送者id："+ emailDto.getFromRoleId());
         System.out.println("[-]发送时间："+ sdf.format(emailDto.getCreateTime()));
         System.out.println("[-]--------------------------------------------------------");
@@ -108,6 +117,16 @@ public class EmailServiceImpl implements EmailService {
         myMessage=EmailModel.EmailModelMessage.parseFrom(data);
         System.out.println("[-]--------------------------------------------------------");
         System.out.println("[-]删除成功！");
+        System.out.println("[-]--------------------------------------------------------");
+    }
+
+    @Override
+    public void getEmailMoneyResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
+        byte[] data=nettyResponse.getData();
+        EmailModel.EmailModelMessage myMessage;
+        myMessage=EmailModel.EmailModelMessage.parseFrom(data);
+        System.out.println("[-]--------------------------------------------------------");
+        System.out.println("[-]获取成功！");
         System.out.println("[-]--------------------------------------------------------");
     }
 }

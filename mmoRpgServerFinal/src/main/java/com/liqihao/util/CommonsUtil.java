@@ -225,7 +225,9 @@ public class CommonsUtil implements ApplicationContextAware {
                 .setArticleMessageId(mmoEmailBean.getArticleMessageId()).setArticleNum(mmoEmailBean.getArticleNum()).setArticleType(mmoEmailBean.getArticleType())
                 .setChecked(mmoEmailBean.getChecked()).setContext(mmoEmailBean.getContext()).setCreateTime(mmoEmailBean.getCreateTime())
                 .setId(mmoEmailBean.getId()).setFromRoleId(mmoEmailBean.getFromRoleId()).setToRoleId(mmoEmailBean.getToRoleId())
-                .setTitle(mmoEmailBean.getTitle()).setIsGet(mmoEmailBean.getGet()).setHasArticle(mmoEmailBean.getHasArticle()).build();
+                .setTitle(mmoEmailBean.getTitle()).setIsGet(mmoEmailBean.getGet()).setHasArticle(mmoEmailBean.getHasArticle())
+                .setMoney(mmoEmailBean.getMoney()).setEquipmentId(mmoEmailBean.getEquipmentId()==null?-1:mmoEmailBean.getEquipmentId())
+                .setIsGetMoney(mmoEmailBean.getGetMoney()).build();
         return emailDto;
     }
 

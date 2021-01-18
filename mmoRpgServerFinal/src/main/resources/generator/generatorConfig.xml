@@ -39,7 +39,7 @@
 <!--        <table tableName="mmo_bag" domainObjectName="MmoBagPOJO" enableCountByExample="false"-->
 <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false"></table>-->
-        <table tableName="mmo_guild" domainObjectName="MmoGuildPOJO" enableCountByExample="false"
+        <table tableName="mmo_email" domainObjectName="MmoEmailPOJO" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>
 <!--        <table tableName="mmo_guild_role" domainObjectName="MmoGuildRolePOJO" enableCountByExample="false"-->

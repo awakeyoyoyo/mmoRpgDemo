@@ -245,6 +245,36 @@ public final class EmailModel {
      */
     DeleteSendEmailResponseOrBuilder getDeleteSendEmailResponseOrBuilder();
 
+    /**
+     * <code>.GetEmailMoneyRequest getEmailMoneyRequest = 16;</code>
+     * @return Whether the getEmailMoneyRequest field is set.
+     */
+    boolean hasGetEmailMoneyRequest();
+    /**
+     * <code>.GetEmailMoneyRequest getEmailMoneyRequest = 16;</code>
+     * @return The getEmailMoneyRequest.
+     */
+    GetEmailMoneyRequest getGetEmailMoneyRequest();
+    /**
+     * <code>.GetEmailMoneyRequest getEmailMoneyRequest = 16;</code>
+     */
+    GetEmailMoneyRequestOrBuilder getGetEmailMoneyRequestOrBuilder();
+
+    /**
+     * <code>.GetEmailMoneyResponse getEmailMoneyResponse = 17;</code>
+     * @return Whether the getEmailMoneyResponse field is set.
+     */
+    boolean hasGetEmailMoneyResponse();
+    /**
+     * <code>.GetEmailMoneyResponse getEmailMoneyResponse = 17;</code>
+     * @return The getEmailMoneyResponse.
+     */
+    GetEmailMoneyResponse getGetEmailMoneyResponse();
+    /**
+     * <code>.GetEmailMoneyResponse getEmailMoneyResponse = 17;</code>
+     */
+    GetEmailMoneyResponseOrBuilder getGetEmailMoneyResponseOrBuilder();
+
     public EmailModelMessage.DateBodyCase getDateBodyCase();
   }
   /**
@@ -499,6 +529,34 @@ public final class EmailModel {
               dateBodyCase_ = 15;
               break;
             }
+            case 130: {
+              GetEmailMoneyRequest.Builder subBuilder = null;
+              if (dateBodyCase_ == 16) {
+                subBuilder = ((GetEmailMoneyRequest) dateBody_).toBuilder();
+              }
+              dateBody_ =
+                  input.readMessage(GetEmailMoneyRequest.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((GetEmailMoneyRequest) dateBody_);
+                dateBody_ = subBuilder.buildPartial();
+              }
+              dateBodyCase_ = 16;
+              break;
+            }
+            case 138: {
+              GetEmailMoneyResponse.Builder subBuilder = null;
+              if (dateBodyCase_ == 17) {
+                subBuilder = ((GetEmailMoneyResponse) dateBody_).toBuilder();
+              }
+              dateBody_ =
+                  input.readMessage(GetEmailMoneyResponse.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((GetEmailMoneyResponse) dateBody_);
+                dateBody_ = subBuilder.buildPartial();
+              }
+              dateBodyCase_ = 17;
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -600,6 +658,14 @@ public final class EmailModel {
        * <code>DeleteSendEmailResponse = 13;</code>
        */
       DeleteSendEmailResponse(13),
+      /**
+       * <code>GetEmailMoneyRequest = 14;</code>
+       */
+      GetEmailMoneyRequest(14),
+      /**
+       * <code>GetEmailMoneyResponse = 15;</code>
+       */
+      GetEmailMoneyResponse(15),
       UNRECOGNIZED(-1),
       ;
 
@@ -663,6 +729,14 @@ public final class EmailModel {
        * <code>DeleteSendEmailResponse = 13;</code>
        */
       public static final int DeleteSendEmailResponse_VALUE = 13;
+      /**
+       * <code>GetEmailMoneyRequest = 14;</code>
+       */
+      public static final int GetEmailMoneyRequest_VALUE = 14;
+      /**
+       * <code>GetEmailMoneyResponse = 15;</code>
+       */
+      public static final int GetEmailMoneyResponse_VALUE = 15;
 
 
       public final int getNumber() {
@@ -703,6 +777,8 @@ public final class EmailModel {
           case 11: return DeleteAcceptEmailResponse;
           case 12: return SendEmailResponse;
           case 13: return DeleteSendEmailResponse;
+          case 14: return GetEmailMoneyRequest;
+          case 15: return GetEmailMoneyResponse;
           default: return null;
         }
       }
@@ -778,6 +854,8 @@ public final class EmailModel {
       DELETEACCEPTEMAILRESPONSE(13),
       SENDEMAILRESPONSE(14),
       DELETESENDEMAILRESPONSE(15),
+      GETEMAILMONEYREQUEST(16),
+      GETEMAILMONEYRESPONSE(17),
       DATEBODY_NOT_SET(0);
       private final int value;
       private DateBodyCase(int value) {
@@ -809,6 +887,8 @@ public final class EmailModel {
           case 13: return DELETEACCEPTEMAILRESPONSE;
           case 14: return SENDEMAILRESPONSE;
           case 15: return DELETESENDEMAILRESPONSE;
+          case 16: return GETEMAILMONEYREQUEST;
+          case 17: return GETEMAILMONEYRESPONSE;
           case 0: return DATEBODY_NOT_SET;
           default: return null;
         }
@@ -1285,6 +1365,68 @@ public final class EmailModel {
       return DeleteSendEmailResponse.getDefaultInstance();
     }
 
+    public static final int GETEMAILMONEYREQUEST_FIELD_NUMBER = 16;
+    /**
+     * <code>.GetEmailMoneyRequest getEmailMoneyRequest = 16;</code>
+     * @return Whether the getEmailMoneyRequest field is set.
+     */
+    @Override
+    public boolean hasGetEmailMoneyRequest() {
+      return dateBodyCase_ == 16;
+    }
+    /**
+     * <code>.GetEmailMoneyRequest getEmailMoneyRequest = 16;</code>
+     * @return The getEmailMoneyRequest.
+     */
+    @Override
+    public GetEmailMoneyRequest getGetEmailMoneyRequest() {
+      if (dateBodyCase_ == 16) {
+         return (GetEmailMoneyRequest) dateBody_;
+      }
+      return GetEmailMoneyRequest.getDefaultInstance();
+    }
+    /**
+     * <code>.GetEmailMoneyRequest getEmailMoneyRequest = 16;</code>
+     */
+    @Override
+    public GetEmailMoneyRequestOrBuilder getGetEmailMoneyRequestOrBuilder() {
+      if (dateBodyCase_ == 16) {
+         return (GetEmailMoneyRequest) dateBody_;
+      }
+      return GetEmailMoneyRequest.getDefaultInstance();
+    }
+
+    public static final int GETEMAILMONEYRESPONSE_FIELD_NUMBER = 17;
+    /**
+     * <code>.GetEmailMoneyResponse getEmailMoneyResponse = 17;</code>
+     * @return Whether the getEmailMoneyResponse field is set.
+     */
+    @Override
+    public boolean hasGetEmailMoneyResponse() {
+      return dateBodyCase_ == 17;
+    }
+    /**
+     * <code>.GetEmailMoneyResponse getEmailMoneyResponse = 17;</code>
+     * @return The getEmailMoneyResponse.
+     */
+    @Override
+    public GetEmailMoneyResponse getGetEmailMoneyResponse() {
+      if (dateBodyCase_ == 17) {
+         return (GetEmailMoneyResponse) dateBody_;
+      }
+      return GetEmailMoneyResponse.getDefaultInstance();
+    }
+    /**
+     * <code>.GetEmailMoneyResponse getEmailMoneyResponse = 17;</code>
+     */
+    @Override
+    public GetEmailMoneyResponseOrBuilder getGetEmailMoneyResponseOrBuilder() {
+      if (dateBodyCase_ == 17) {
+         return (GetEmailMoneyResponse) dateBody_;
+      }
+      return GetEmailMoneyResponse.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -1343,6 +1485,12 @@ public final class EmailModel {
       }
       if (dateBodyCase_ == 15) {
         output.writeMessage(15, (DeleteSendEmailResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 16) {
+        output.writeMessage(16, (GetEmailMoneyRequest) dateBody_);
+      }
+      if (dateBodyCase_ == 17) {
+        output.writeMessage(17, (GetEmailMoneyResponse) dateBody_);
       }
       unknownFields.writeTo(output);
     }
@@ -1412,6 +1560,14 @@ public final class EmailModel {
       if (dateBodyCase_ == 15) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(15, (DeleteSendEmailResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 16) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(16, (GetEmailMoneyRequest) dateBody_);
+      }
+      if (dateBodyCase_ == 17) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(17, (GetEmailMoneyResponse) dateBody_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1487,6 +1643,14 @@ public final class EmailModel {
           if (!getDeleteSendEmailResponse()
               .equals(other.getDeleteSendEmailResponse())) return false;
           break;
+        case 16:
+          if (!getGetEmailMoneyRequest()
+              .equals(other.getGetEmailMoneyRequest())) return false;
+          break;
+        case 17:
+          if (!getGetEmailMoneyResponse()
+              .equals(other.getGetEmailMoneyResponse())) return false;
+          break;
         case 0:
         default:
       }
@@ -1559,6 +1723,14 @@ public final class EmailModel {
         case 15:
           hash = (37 * hash) + DELETESENDEMAILRESPONSE_FIELD_NUMBER;
           hash = (53 * hash) + getDeleteSendEmailResponse().hashCode();
+          break;
+        case 16:
+          hash = (37 * hash) + GETEMAILMONEYREQUEST_FIELD_NUMBER;
+          hash = (53 * hash) + getGetEmailMoneyRequest().hashCode();
+          break;
+        case 17:
+          hash = (37 * hash) + GETEMAILMONEYRESPONSE_FIELD_NUMBER;
+          hash = (53 * hash) + getGetEmailMoneyResponse().hashCode();
           break;
         case 0:
         default:
@@ -1829,6 +2001,20 @@ public final class EmailModel {
             result.dateBody_ = deleteSendEmailResponseBuilder_.build();
           }
         }
+        if (dateBodyCase_ == 16) {
+          if (getEmailMoneyRequestBuilder_ == null) {
+            result.dateBody_ = dateBody_;
+          } else {
+            result.dateBody_ = getEmailMoneyRequestBuilder_.build();
+          }
+        }
+        if (dateBodyCase_ == 17) {
+          if (getEmailMoneyResponseBuilder_ == null) {
+            result.dateBody_ = dateBody_;
+          } else {
+            result.dateBody_ = getEmailMoneyResponseBuilder_.build();
+          }
+        }
         result.dateBodyCase_ = dateBodyCase_;
         onBuilt();
         return result;
@@ -1936,6 +2122,14 @@ public final class EmailModel {
           }
           case DELETESENDEMAILRESPONSE: {
             mergeDeleteSendEmailResponse(other.getDeleteSendEmailResponse());
+            break;
+          }
+          case GETEMAILMONEYREQUEST: {
+            mergeGetEmailMoneyRequest(other.getGetEmailMoneyRequest());
+            break;
+          }
+          case GETEMAILMONEYRESPONSE: {
+            mergeGetEmailMoneyResponse(other.getGetEmailMoneyResponse());
             break;
           }
           case DATEBODY_NOT_SET: {
@@ -4033,6 +4227,288 @@ public final class EmailModel {
         onChanged();;
         return deleteSendEmailResponseBuilder_;
       }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          GetEmailMoneyRequest, GetEmailMoneyRequest.Builder, GetEmailMoneyRequestOrBuilder> getEmailMoneyRequestBuilder_;
+      /**
+       * <code>.GetEmailMoneyRequest getEmailMoneyRequest = 16;</code>
+       * @return Whether the getEmailMoneyRequest field is set.
+       */
+      @Override
+      public boolean hasGetEmailMoneyRequest() {
+        return dateBodyCase_ == 16;
+      }
+      /**
+       * <code>.GetEmailMoneyRequest getEmailMoneyRequest = 16;</code>
+       * @return The getEmailMoneyRequest.
+       */
+      @Override
+      public GetEmailMoneyRequest getGetEmailMoneyRequest() {
+        if (getEmailMoneyRequestBuilder_ == null) {
+          if (dateBodyCase_ == 16) {
+            return (GetEmailMoneyRequest) dateBody_;
+          }
+          return GetEmailMoneyRequest.getDefaultInstance();
+        } else {
+          if (dateBodyCase_ == 16) {
+            return getEmailMoneyRequestBuilder_.getMessage();
+          }
+          return GetEmailMoneyRequest.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.GetEmailMoneyRequest getEmailMoneyRequest = 16;</code>
+       */
+      public Builder setGetEmailMoneyRequest(GetEmailMoneyRequest value) {
+        if (getEmailMoneyRequestBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dateBody_ = value;
+          onChanged();
+        } else {
+          getEmailMoneyRequestBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 16;
+        return this;
+      }
+      /**
+       * <code>.GetEmailMoneyRequest getEmailMoneyRequest = 16;</code>
+       */
+      public Builder setGetEmailMoneyRequest(
+          GetEmailMoneyRequest.Builder builderForValue) {
+        if (getEmailMoneyRequestBuilder_ == null) {
+          dateBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          getEmailMoneyRequestBuilder_.setMessage(builderForValue.build());
+        }
+        dateBodyCase_ = 16;
+        return this;
+      }
+      /**
+       * <code>.GetEmailMoneyRequest getEmailMoneyRequest = 16;</code>
+       */
+      public Builder mergeGetEmailMoneyRequest(GetEmailMoneyRequest value) {
+        if (getEmailMoneyRequestBuilder_ == null) {
+          if (dateBodyCase_ == 16 &&
+              dateBody_ != GetEmailMoneyRequest.getDefaultInstance()) {
+            dateBody_ = GetEmailMoneyRequest.newBuilder((GetEmailMoneyRequest) dateBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dateBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dateBodyCase_ == 16) {
+            getEmailMoneyRequestBuilder_.mergeFrom(value);
+          }
+          getEmailMoneyRequestBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 16;
+        return this;
+      }
+      /**
+       * <code>.GetEmailMoneyRequest getEmailMoneyRequest = 16;</code>
+       */
+      public Builder clearGetEmailMoneyRequest() {
+        if (getEmailMoneyRequestBuilder_ == null) {
+          if (dateBodyCase_ == 16) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dateBodyCase_ == 16) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+          }
+          getEmailMoneyRequestBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.GetEmailMoneyRequest getEmailMoneyRequest = 16;</code>
+       */
+      public GetEmailMoneyRequest.Builder getGetEmailMoneyRequestBuilder() {
+        return getGetEmailMoneyRequestFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.GetEmailMoneyRequest getEmailMoneyRequest = 16;</code>
+       */
+      @Override
+      public GetEmailMoneyRequestOrBuilder getGetEmailMoneyRequestOrBuilder() {
+        if ((dateBodyCase_ == 16) && (getEmailMoneyRequestBuilder_ != null)) {
+          return getEmailMoneyRequestBuilder_.getMessageOrBuilder();
+        } else {
+          if (dateBodyCase_ == 16) {
+            return (GetEmailMoneyRequest) dateBody_;
+          }
+          return GetEmailMoneyRequest.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.GetEmailMoneyRequest getEmailMoneyRequest = 16;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          GetEmailMoneyRequest, GetEmailMoneyRequest.Builder, GetEmailMoneyRequestOrBuilder>
+          getGetEmailMoneyRequestFieldBuilder() {
+        if (getEmailMoneyRequestBuilder_ == null) {
+          if (!(dateBodyCase_ == 16)) {
+            dateBody_ = GetEmailMoneyRequest.getDefaultInstance();
+          }
+          getEmailMoneyRequestBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              GetEmailMoneyRequest, GetEmailMoneyRequest.Builder, GetEmailMoneyRequestOrBuilder>(
+                  (GetEmailMoneyRequest) dateBody_,
+                  getParentForChildren(),
+                  isClean());
+          dateBody_ = null;
+        }
+        dateBodyCase_ = 16;
+        onChanged();;
+        return getEmailMoneyRequestBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          GetEmailMoneyResponse, GetEmailMoneyResponse.Builder, GetEmailMoneyResponseOrBuilder> getEmailMoneyResponseBuilder_;
+      /**
+       * <code>.GetEmailMoneyResponse getEmailMoneyResponse = 17;</code>
+       * @return Whether the getEmailMoneyResponse field is set.
+       */
+      @Override
+      public boolean hasGetEmailMoneyResponse() {
+        return dateBodyCase_ == 17;
+      }
+      /**
+       * <code>.GetEmailMoneyResponse getEmailMoneyResponse = 17;</code>
+       * @return The getEmailMoneyResponse.
+       */
+      @Override
+      public GetEmailMoneyResponse getGetEmailMoneyResponse() {
+        if (getEmailMoneyResponseBuilder_ == null) {
+          if (dateBodyCase_ == 17) {
+            return (GetEmailMoneyResponse) dateBody_;
+          }
+          return GetEmailMoneyResponse.getDefaultInstance();
+        } else {
+          if (dateBodyCase_ == 17) {
+            return getEmailMoneyResponseBuilder_.getMessage();
+          }
+          return GetEmailMoneyResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.GetEmailMoneyResponse getEmailMoneyResponse = 17;</code>
+       */
+      public Builder setGetEmailMoneyResponse(GetEmailMoneyResponse value) {
+        if (getEmailMoneyResponseBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dateBody_ = value;
+          onChanged();
+        } else {
+          getEmailMoneyResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 17;
+        return this;
+      }
+      /**
+       * <code>.GetEmailMoneyResponse getEmailMoneyResponse = 17;</code>
+       */
+      public Builder setGetEmailMoneyResponse(
+          GetEmailMoneyResponse.Builder builderForValue) {
+        if (getEmailMoneyResponseBuilder_ == null) {
+          dateBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          getEmailMoneyResponseBuilder_.setMessage(builderForValue.build());
+        }
+        dateBodyCase_ = 17;
+        return this;
+      }
+      /**
+       * <code>.GetEmailMoneyResponse getEmailMoneyResponse = 17;</code>
+       */
+      public Builder mergeGetEmailMoneyResponse(GetEmailMoneyResponse value) {
+        if (getEmailMoneyResponseBuilder_ == null) {
+          if (dateBodyCase_ == 17 &&
+              dateBody_ != GetEmailMoneyResponse.getDefaultInstance()) {
+            dateBody_ = GetEmailMoneyResponse.newBuilder((GetEmailMoneyResponse) dateBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dateBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dateBodyCase_ == 17) {
+            getEmailMoneyResponseBuilder_.mergeFrom(value);
+          }
+          getEmailMoneyResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 17;
+        return this;
+      }
+      /**
+       * <code>.GetEmailMoneyResponse getEmailMoneyResponse = 17;</code>
+       */
+      public Builder clearGetEmailMoneyResponse() {
+        if (getEmailMoneyResponseBuilder_ == null) {
+          if (dateBodyCase_ == 17) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dateBodyCase_ == 17) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+          }
+          getEmailMoneyResponseBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.GetEmailMoneyResponse getEmailMoneyResponse = 17;</code>
+       */
+      public GetEmailMoneyResponse.Builder getGetEmailMoneyResponseBuilder() {
+        return getGetEmailMoneyResponseFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.GetEmailMoneyResponse getEmailMoneyResponse = 17;</code>
+       */
+      @Override
+      public GetEmailMoneyResponseOrBuilder getGetEmailMoneyResponseOrBuilder() {
+        if ((dateBodyCase_ == 17) && (getEmailMoneyResponseBuilder_ != null)) {
+          return getEmailMoneyResponseBuilder_.getMessageOrBuilder();
+        } else {
+          if (dateBodyCase_ == 17) {
+            return (GetEmailMoneyResponse) dateBody_;
+          }
+          return GetEmailMoneyResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.GetEmailMoneyResponse getEmailMoneyResponse = 17;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          GetEmailMoneyResponse, GetEmailMoneyResponse.Builder, GetEmailMoneyResponseOrBuilder>
+          getGetEmailMoneyResponseFieldBuilder() {
+        if (getEmailMoneyResponseBuilder_ == null) {
+          if (!(dateBodyCase_ == 17)) {
+            dateBody_ = GetEmailMoneyResponse.getDefaultInstance();
+          }
+          getEmailMoneyResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              GetEmailMoneyResponse, GetEmailMoneyResponse.Builder, GetEmailMoneyResponseOrBuilder>(
+                  (GetEmailMoneyResponse) dateBody_,
+                  getParentForChildren(),
+                  isClean());
+          dateBody_ = null;
+        }
+        dateBodyCase_ = 17;
+        onChanged();;
+        return getEmailMoneyResponseBuilder_;
+      }
       @Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -5057,6 +5533,912 @@ public final class EmailModel {
 
     @Override
     public GetEmailArticleRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface GetEmailMoneyRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:GetEmailMoneyRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>int32 emailId = 1;</code>
+     * @return The emailId.
+     */
+    int getEmailId();
+  }
+  /**
+   * Protobuf type {@code GetEmailMoneyRequest}
+   */
+  public static final class GetEmailMoneyRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:GetEmailMoneyRequest)
+      GetEmailMoneyRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use GetEmailMoneyRequest.newBuilder() to construct.
+    private GetEmailMoneyRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private GetEmailMoneyRequest() {
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetEmailMoneyRequest();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private GetEmailMoneyRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+
+              emailId_ = input.readInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return EmailModel.internal_static_GetEmailMoneyRequest_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return EmailModel.internal_static_GetEmailMoneyRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              GetEmailMoneyRequest.class, Builder.class);
+    }
+
+    public static final int EMAILID_FIELD_NUMBER = 1;
+    private int emailId_;
+    /**
+     * <code>int32 emailId = 1;</code>
+     * @return The emailId.
+     */
+    @Override
+    public int getEmailId() {
+      return emailId_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (emailId_ != 0) {
+        output.writeInt32(1, emailId_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (emailId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, emailId_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof GetEmailMoneyRequest)) {
+        return super.equals(obj);
+      }
+      GetEmailMoneyRequest other = (GetEmailMoneyRequest) obj;
+
+      if (getEmailId()
+          != other.getEmailId()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + EMAILID_FIELD_NUMBER;
+      hash = (53 * hash) + getEmailId();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static GetEmailMoneyRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static GetEmailMoneyRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static GetEmailMoneyRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static GetEmailMoneyRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static GetEmailMoneyRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static GetEmailMoneyRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static GetEmailMoneyRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static GetEmailMoneyRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static GetEmailMoneyRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static GetEmailMoneyRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static GetEmailMoneyRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static GetEmailMoneyRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(GetEmailMoneyRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code GetEmailMoneyRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:GetEmailMoneyRequest)
+        GetEmailMoneyRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return EmailModel.internal_static_GetEmailMoneyRequest_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return EmailModel.internal_static_GetEmailMoneyRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                GetEmailMoneyRequest.class, Builder.class);
+      }
+
+      // Construct using EmailModel.GetEmailMoneyRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        emailId_ = 0;
+
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return EmailModel.internal_static_GetEmailMoneyRequest_descriptor;
+      }
+
+      @Override
+      public GetEmailMoneyRequest getDefaultInstanceForType() {
+        return GetEmailMoneyRequest.getDefaultInstance();
+      }
+
+      @Override
+      public GetEmailMoneyRequest build() {
+        GetEmailMoneyRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public GetEmailMoneyRequest buildPartial() {
+        GetEmailMoneyRequest result = new GetEmailMoneyRequest(this);
+        result.emailId_ = emailId_;
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof GetEmailMoneyRequest) {
+          return mergeFrom((GetEmailMoneyRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(GetEmailMoneyRequest other) {
+        if (other == GetEmailMoneyRequest.getDefaultInstance()) return this;
+        if (other.getEmailId() != 0) {
+          setEmailId(other.getEmailId());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        GetEmailMoneyRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (GetEmailMoneyRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private int emailId_ ;
+      /**
+       * <code>int32 emailId = 1;</code>
+       * @return The emailId.
+       */
+      @Override
+      public int getEmailId() {
+        return emailId_;
+      }
+      /**
+       * <code>int32 emailId = 1;</code>
+       * @param value The emailId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setEmailId(int value) {
+        
+        emailId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 emailId = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearEmailId() {
+        
+        emailId_ = 0;
+        onChanged();
+        return this;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:GetEmailMoneyRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:GetEmailMoneyRequest)
+    private static final GetEmailMoneyRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new GetEmailMoneyRequest();
+    }
+
+    public static GetEmailMoneyRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<GetEmailMoneyRequest>
+        PARSER = new com.google.protobuf.AbstractParser<GetEmailMoneyRequest>() {
+      @Override
+      public GetEmailMoneyRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GetEmailMoneyRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<GetEmailMoneyRequest> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<GetEmailMoneyRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public GetEmailMoneyRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface GetEmailMoneyResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:GetEmailMoneyResponse)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code GetEmailMoneyResponse}
+   */
+  public static final class GetEmailMoneyResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:GetEmailMoneyResponse)
+      GetEmailMoneyResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use GetEmailMoneyResponse.newBuilder() to construct.
+    private GetEmailMoneyResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private GetEmailMoneyResponse() {
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetEmailMoneyResponse();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private GetEmailMoneyResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return EmailModel.internal_static_GetEmailMoneyResponse_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return EmailModel.internal_static_GetEmailMoneyResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              GetEmailMoneyResponse.class, Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof GetEmailMoneyResponse)) {
+        return super.equals(obj);
+      }
+      GetEmailMoneyResponse other = (GetEmailMoneyResponse) obj;
+
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static GetEmailMoneyResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static GetEmailMoneyResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static GetEmailMoneyResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static GetEmailMoneyResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static GetEmailMoneyResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static GetEmailMoneyResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static GetEmailMoneyResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static GetEmailMoneyResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static GetEmailMoneyResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static GetEmailMoneyResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static GetEmailMoneyResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static GetEmailMoneyResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(GetEmailMoneyResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code GetEmailMoneyResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:GetEmailMoneyResponse)
+        GetEmailMoneyResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return EmailModel.internal_static_GetEmailMoneyResponse_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return EmailModel.internal_static_GetEmailMoneyResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                GetEmailMoneyResponse.class, Builder.class);
+      }
+
+      // Construct using EmailModel.GetEmailMoneyResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return EmailModel.internal_static_GetEmailMoneyResponse_descriptor;
+      }
+
+      @Override
+      public GetEmailMoneyResponse getDefaultInstanceForType() {
+        return GetEmailMoneyResponse.getDefaultInstance();
+      }
+
+      @Override
+      public GetEmailMoneyResponse build() {
+        GetEmailMoneyResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public GetEmailMoneyResponse buildPartial() {
+        GetEmailMoneyResponse result = new GetEmailMoneyResponse(this);
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof GetEmailMoneyResponse) {
+          return mergeFrom((GetEmailMoneyResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(GetEmailMoneyResponse other) {
+        if (other == GetEmailMoneyResponse.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        GetEmailMoneyResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (GetEmailMoneyResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:GetEmailMoneyResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:GetEmailMoneyResponse)
+    private static final GetEmailMoneyResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new GetEmailMoneyResponse();
+    }
+
+    public static GetEmailMoneyResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<GetEmailMoneyResponse>
+        PARSER = new com.google.protobuf.AbstractParser<GetEmailMoneyResponse>() {
+      @Override
+      public GetEmailMoneyResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GetEmailMoneyResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<GetEmailMoneyResponse> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<GetEmailMoneyResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public GetEmailMoneyResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -10401,6 +11783,7 @@ public final class EmailModel {
     }
 
     private static final com.google.protobuf.Parser<IsSendEmailListResponse>
+
         PARSER = new com.google.protobuf.AbstractParser<IsSendEmailListResponse>() {
       @Override
       public IsSendEmailListResponse parsePartialFrom(
@@ -11768,6 +13151,24 @@ public final class EmailModel {
      * @return The isGet.
      */
     boolean getIsGet();
+
+    /**
+     * <code>int32 equipmentId = 13;</code>
+     * @return The equipmentId.
+     */
+    int getEquipmentId();
+
+    /**
+     * <code>int32 money = 14;</code>
+     * @return The money.
+     */
+    int getMoney();
+
+    /**
+     * <code>bool isGetMoney = 15;</code>
+     * @return The isGetMoney.
+     */
+    boolean getIsGetMoney();
   }
   /**
    * Protobuf type {@code EmailDto}
@@ -11876,6 +13277,21 @@ public final class EmailModel {
             case 96: {
 
               isGet_ = input.readBool();
+              break;
+            }
+            case 104: {
+
+              equipmentId_ = input.readInt32();
+              break;
+            }
+            case 112: {
+
+              money_ = input.readInt32();
+              break;
+            }
+            case 120: {
+
+              isGetMoney_ = input.readBool();
               break;
             }
             default: {
@@ -12096,6 +13512,39 @@ public final class EmailModel {
       return isGet_;
     }
 
+    public static final int EQUIPMENTID_FIELD_NUMBER = 13;
+    private int equipmentId_;
+    /**
+     * <code>int32 equipmentId = 13;</code>
+     * @return The equipmentId.
+     */
+    @Override
+    public int getEquipmentId() {
+      return equipmentId_;
+    }
+
+    public static final int MONEY_FIELD_NUMBER = 14;
+    private int money_;
+    /**
+     * <code>int32 money = 14;</code>
+     * @return The money.
+     */
+    @Override
+    public int getMoney() {
+      return money_;
+    }
+
+    public static final int ISGETMONEY_FIELD_NUMBER = 15;
+    private boolean isGetMoney_;
+    /**
+     * <code>bool isGetMoney = 15;</code>
+     * @return The isGetMoney.
+     */
+    @Override
+    public boolean getIsGetMoney() {
+      return isGetMoney_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -12145,6 +13594,15 @@ public final class EmailModel {
       }
       if (isGet_ != false) {
         output.writeBool(12, isGet_);
+      }
+      if (equipmentId_ != 0) {
+        output.writeInt32(13, equipmentId_);
+      }
+      if (money_ != 0) {
+        output.writeInt32(14, money_);
+      }
+      if (isGetMoney_ != false) {
+        output.writeBool(15, isGetMoney_);
       }
       unknownFields.writeTo(output);
     }
@@ -12201,6 +13659,18 @@ public final class EmailModel {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(12, isGet_);
       }
+      if (equipmentId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(13, equipmentId_);
+      }
+      if (money_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(14, money_);
+      }
+      if (isGetMoney_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(15, isGetMoney_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -12240,6 +13710,12 @@ public final class EmailModel {
           != other.getChecked()) return false;
       if (getIsGet()
           != other.getIsGet()) return false;
+      if (getEquipmentId()
+          != other.getEquipmentId()) return false;
+      if (getMoney()
+          != other.getMoney()) return false;
+      if (getIsGetMoney()
+          != other.getIsGetMoney()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -12279,6 +13755,13 @@ public final class EmailModel {
       hash = (37 * hash) + ISGET_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getIsGet());
+      hash = (37 * hash) + EQUIPMENTID_FIELD_NUMBER;
+      hash = (53 * hash) + getEquipmentId();
+      hash = (37 * hash) + MONEY_FIELD_NUMBER;
+      hash = (53 * hash) + getMoney();
+      hash = (37 * hash) + ISGETMONEY_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getIsGetMoney());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -12436,6 +13919,12 @@ public final class EmailModel {
 
         isGet_ = false;
 
+        equipmentId_ = 0;
+
+        money_ = 0;
+
+        isGetMoney_ = false;
+
         return this;
       }
 
@@ -12474,6 +13963,9 @@ public final class EmailModel {
         result.createTime_ = createTime_;
         result.checked_ = checked_;
         result.isGet_ = isGet_;
+        result.equipmentId_ = equipmentId_;
+        result.money_ = money_;
+        result.isGetMoney_ = isGetMoney_;
         onBuilt();
         return result;
       }
@@ -12559,6 +14051,15 @@ public final class EmailModel {
         }
         if (other.getIsGet() != false) {
           setIsGet(other.getIsGet());
+        }
+        if (other.getEquipmentId() != 0) {
+          setEquipmentId(other.getEquipmentId());
+        }
+        if (other.getMoney() != 0) {
+          setMoney(other.getMoney());
+        }
+        if (other.getIsGetMoney() != false) {
+          setIsGetMoney(other.getIsGetMoney());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -13047,6 +14548,99 @@ public final class EmailModel {
       public Builder clearIsGet() {
         
         isGet_ = false;
+        onChanged();
+        return this;
+      }
+
+      private int equipmentId_ ;
+      /**
+       * <code>int32 equipmentId = 13;</code>
+       * @return The equipmentId.
+       */
+      @Override
+      public int getEquipmentId() {
+        return equipmentId_;
+      }
+      /**
+       * <code>int32 equipmentId = 13;</code>
+       * @param value The equipmentId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setEquipmentId(int value) {
+        
+        equipmentId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 equipmentId = 13;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearEquipmentId() {
+        
+        equipmentId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int money_ ;
+      /**
+       * <code>int32 money = 14;</code>
+       * @return The money.
+       */
+      @Override
+      public int getMoney() {
+        return money_;
+      }
+      /**
+       * <code>int32 money = 14;</code>
+       * @param value The money to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMoney(int value) {
+        
+        money_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 money = 14;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMoney() {
+        
+        money_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private boolean isGetMoney_ ;
+      /**
+       * <code>bool isGetMoney = 15;</code>
+       * @return The isGetMoney.
+       */
+      @Override
+      public boolean getIsGetMoney() {
+        return isGetMoney_;
+      }
+      /**
+       * <code>bool isGetMoney = 15;</code>
+       * @param value The isGetMoney to set.
+       * @return This builder for chaining.
+       */
+      public Builder setIsGetMoney(boolean value) {
+        
+        isGetMoney_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool isGetMoney = 15;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearIsGetMoney() {
+        
+        isGetMoney_ = false;
         onChanged();
         return this;
       }
@@ -14260,6 +15854,16 @@ public final class EmailModel {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_GetEmailArticleRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_GetEmailMoneyRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_GetEmailMoneyRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_GetEmailMoneyResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_GetEmailMoneyResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_AcceptEmailListRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -14338,7 +15942,7 @@ public final class EmailModel {
       descriptor;
   static {
     String[] descriptorData = {
-      "\n\020EmailModel.proto\"\233\n\n\021EmailModelMessage" +
+      "\n\020EmailModel.proto\"\300\013\n\021EmailModelMessage" +
       "\022.\n\tdata_type\030\001 \001(\0162\033.EmailModelMessage." +
       "DateType\0229\n\026getEmailMessageRequest\030\002 \001(\013" +
       "2\027.GetEmailMessageRequestH\000\0229\n\026getEmailA" +
@@ -14360,44 +15964,51 @@ public final class EmailModel {
       "sponse\030\r \001(\0132\032.DeleteAcceptEmailResponse" +
       "H\000\022/\n\021sendEmailResponse\030\016 \001(\0132\022.SendEmai" +
       "lResponseH\000\022;\n\027deleteSendEmailResponse\030\017" +
-      " \001(\0132\030.DeleteSendEmailResponseH\000\"\221\003\n\010Dat" +
-      "eType\022\032\n\026GetEmailMessageRequest\020\000\022\032\n\026Get" +
-      "EmailArticleRequest\020\001\022\032\n\026AcceptEmailList" +
-      "Request\020\002\022\032\n\026IsSendEmailListRequest\020\003\022\034\n" +
-      "\030DeleteAcceptEmailRequest\020\004\022\024\n\020SendEmail" +
-      "Request\020\005\022\032\n\026DeleteSendEmailRequest\020\006\022\033\n" +
-      "\027GetEmailMessageResponse\020\007\022\033\n\027GetEmailAr" +
-      "ticleResponse\020\010\022\033\n\027AcceptEmailListRespon" +
-      "se\020\t\022\033\n\027IsSendEmailListResponse\020\n\022\035\n\031Del" +
-      "eteAcceptEmailResponse\020\013\022\025\n\021SendEmailRes" +
-      "ponse\020\014\022\033\n\027DeleteSendEmailResponse\020\rB\n\n\010" +
-      "dateBody\")\n\026GetEmailMessageRequest\022\017\n\007em" +
-      "ailId\030\001 \001(\005\")\n\026GetEmailArticleRequest\022\017\n" +
-      "\007emailId\030\001 \001(\005\"\030\n\026AcceptEmailListRequest" +
-      "\"\030\n\026IsSendEmailListRequest\"+\n\030DeleteAcce" +
-      "ptEmailRequest\022\017\n\007emailId\030\001 \001(\005\"k\n\020SendE" +
-      "mailRequest\022\r\n\005title\030\002 \001(\t\022\017\n\007context\030\003 " +
-      "\001(\t\022\020\n\010toRoleId\030\005 \001(\005\022\021\n\tarticleId\030\006 \001(\005" +
-      "\022\022\n\narticleNum\030\007 \001(\005\")\n\026DeleteSendEmailR" +
-      "equest\022\017\n\007emailId\030\001 \001(\005\"6\n\027GetEmailMessa" +
-      "geResponse\022\033\n\010emailDto\030\001 \001(\0132\t.EmailDto\"" +
-      "\031\n\027GetEmailArticleResponse\"C\n\027AcceptEmai" +
-      "lListResponse\022(\n\017emailSimpleDtos\030\001 \003(\0132\017" +
-      ".EmailSimpleDto\"C\n\027IsSendEmailListRespon" +
-      "se\022(\n\017emailSimpleDtos\030\001 \003(\0132\017.EmailSimpl" +
-      "eDto\"\033\n\031DeleteAcceptEmailResponse\"\023\n\021Sen" +
-      "dEmailResponse\"\031\n\027DeleteSendEmailRespons" +
-      "e\"\347\001\n\010EmailDto\022\n\n\002id\030\001 \001(\005\022\r\n\005title\030\002 \001(" +
-      "\t\022\017\n\007context\030\003 \001(\t\022\022\n\nfromRoleId\030\004 \001(\005\022\020" +
-      "\n\010toRoleId\030\005 \001(\005\022\023\n\013articleType\030\006 \001(\005\022\030\n" +
-      "\020articleMessageId\030\007 \001(\005\022\022\n\narticleNum\030\010 " +
-      "\001(\005\022\022\n\nhasArticle\030\t \001(\010\022\022\n\ncreateTime\030\n " +
-      "\001(\022\022\017\n\007checked\030\013 \001(\010\022\r\n\005isGet\030\014 \001(\010\"\233\001\n\016" +
-      "EmailSimpleDto\022\n\n\002id\030\001 \001(\005\022\r\n\005title\030\002 \001(" +
-      "\t\022\017\n\007context\030\003 \001(\t\022\022\n\nfromRoleId\030\004 \001(\005\022\020" +
-      "\n\010toRoleId\030\005 \001(\005\022\022\n\nhasArticle\030\006 \001(\010\022\022\n\n" +
-      "createTime\030\007 \001(\022\022\017\n\007checked\030\010 \001(\010B\014B\nEma" +
-      "ilModelb\006proto3"
+      " \001(\0132\030.DeleteSendEmailResponseH\000\0225\n\024getE" +
+      "mailMoneyRequest\030\020 \001(\0132\025.GetEmailMoneyRe" +
+      "questH\000\0227\n\025getEmailMoneyResponse\030\021 \001(\0132\026" +
+      ".GetEmailMoneyResponseH\000\"\306\003\n\010DateType\022\032\n" +
+      "\026GetEmailMessageRequest\020\000\022\032\n\026GetEmailArt" +
+      "icleRequest\020\001\022\032\n\026AcceptEmailListRequest\020" +
+      "\002\022\032\n\026IsSendEmailListRequest\020\003\022\034\n\030DeleteA" +
+      "cceptEmailRequest\020\004\022\024\n\020SendEmailRequest\020" +
+      "\005\022\032\n\026DeleteSendEmailRequest\020\006\022\033\n\027GetEmai" +
+      "lMessageResponse\020\007\022\033\n\027GetEmailArticleRes" +
+      "ponse\020\010\022\033\n\027AcceptEmailListResponse\020\t\022\033\n\027" +
+      "IsSendEmailListResponse\020\n\022\035\n\031DeleteAccep" +
+      "tEmailResponse\020\013\022\025\n\021SendEmailResponse\020\014\022" +
+      "\033\n\027DeleteSendEmailResponse\020\r\022\030\n\024GetEmail" +
+      "MoneyRequest\020\016\022\031\n\025GetEmailMoneyResponse\020" +
+      "\017B\n\n\010dateBody\")\n\026GetEmailMessageRequest\022" +
+      "\017\n\007emailId\030\001 \001(\005\")\n\026GetEmailArticleReque" +
+      "st\022\017\n\007emailId\030\001 \001(\005\"\'\n\024GetEmailMoneyRequ" +
+      "est\022\017\n\007emailId\030\001 \001(\005\"\027\n\025GetEmailMoneyRes" +
+      "ponse\"\030\n\026AcceptEmailListRequest\"\030\n\026IsSen" +
+      "dEmailListRequest\"+\n\030DeleteAcceptEmailRe" +
+      "quest\022\017\n\007emailId\030\001 \001(\005\"k\n\020SendEmailReque" +
+      "st\022\r\n\005title\030\002 \001(\t\022\017\n\007context\030\003 \001(\t\022\020\n\010to" +
+      "RoleId\030\005 \001(\005\022\021\n\tarticleId\030\006 \001(\005\022\022\n\nartic" +
+      "leNum\030\007 \001(\005\")\n\026DeleteSendEmailRequest\022\017\n" +
+      "\007emailId\030\001 \001(\005\"6\n\027GetEmailMessageRespons" +
+      "e\022\033\n\010emailDto\030\001 \001(\0132\t.EmailDto\"\031\n\027GetEma" +
+      "ilArticleResponse\"C\n\027AcceptEmailListResp" +
+      "onse\022(\n\017emailSimpleDtos\030\001 \003(\0132\017.EmailSim" +
+      "pleDto\"C\n\027IsSendEmailListResponse\022(\n\017ema" +
+      "ilSimpleDtos\030\001 \003(\0132\017.EmailSimpleDto\"\033\n\031D" +
+      "eleteAcceptEmailResponse\"\023\n\021SendEmailRes" +
+      "ponse\"\031\n\027DeleteSendEmailResponse\"\237\002\n\010Ema" +
+      "ilDto\022\n\n\002id\030\001 \001(\005\022\r\n\005title\030\002 \001(\t\022\017\n\007cont" +
+      "ext\030\003 \001(\t\022\022\n\nfromRoleId\030\004 \001(\005\022\020\n\010toRoleI" +
+      "d\030\005 \001(\005\022\023\n\013articleType\030\006 \001(\005\022\030\n\020articleM" +
+      "essageId\030\007 \001(\005\022\022\n\narticleNum\030\010 \001(\005\022\022\n\nha" +
+      "sArticle\030\t \001(\010\022\022\n\ncreateTime\030\n \001(\022\022\017\n\007ch" +
+      "ecked\030\013 \001(\010\022\r\n\005isGet\030\014 \001(\010\022\023\n\013equipmentI" +
+      "d\030\r \001(\005\022\r\n\005money\030\016 \001(\005\022\022\n\nisGetMoney\030\017 \001" +
+      "(\010\"\233\001\n\016EmailSimpleDto\022\n\n\002id\030\001 \001(\005\022\r\n\005tit" +
+      "le\030\002 \001(\t\022\017\n\007context\030\003 \001(\t\022\022\n\nfromRoleId\030" +
+      "\004 \001(\005\022\020\n\010toRoleId\030\005 \001(\005\022\022\n\nhasArticle\030\006 " +
+      "\001(\010\022\022\n\ncreateTime\030\007 \001(\022\022\017\n\007checked\030\010 \001(\010" +
+      "B\014B\nEmailModelb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -14408,7 +16019,7 @@ public final class EmailModel {
     internal_static_EmailModelMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_EmailModelMessage_descriptor,
-        new String[] { "DataType", "GetEmailMessageRequest", "GetEmailArticleRequest", "AcceptEmailListRequest", "IsSendEmailListRequest", "DeleteAcceptEmailRequest", "SendEmailRequest", "DeleteSendEmailRequest", "GetEmailMessageResponse", "GetEmailArticleResponse", "AcceptEmailListResponse", "IsSendEmailListResponse", "DeleteAcceptEmailResponse", "SendEmailResponse", "DeleteSendEmailResponse", "DateBody", });
+        new String[] { "DataType", "GetEmailMessageRequest", "GetEmailArticleRequest", "AcceptEmailListRequest", "IsSendEmailListRequest", "DeleteAcceptEmailRequest", "SendEmailRequest", "DeleteSendEmailRequest", "GetEmailMessageResponse", "GetEmailArticleResponse", "AcceptEmailListResponse", "IsSendEmailListResponse", "DeleteAcceptEmailResponse", "SendEmailResponse", "DeleteSendEmailResponse", "GetEmailMoneyRequest", "GetEmailMoneyResponse", "DateBody", });
     internal_static_GetEmailMessageRequest_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_GetEmailMessageRequest_fieldAccessorTable = new
@@ -14421,86 +16032,98 @@ public final class EmailModel {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_GetEmailArticleRequest_descriptor,
         new String[] { "EmailId", });
-    internal_static_AcceptEmailListRequest_descriptor =
+    internal_static_GetEmailMoneyRequest_descriptor =
       getDescriptor().getMessageTypes().get(3);
+    internal_static_GetEmailMoneyRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_GetEmailMoneyRequest_descriptor,
+        new String[] { "EmailId", });
+    internal_static_GetEmailMoneyResponse_descriptor =
+      getDescriptor().getMessageTypes().get(4);
+    internal_static_GetEmailMoneyResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_GetEmailMoneyResponse_descriptor,
+        new String[] { });
+    internal_static_AcceptEmailListRequest_descriptor =
+      getDescriptor().getMessageTypes().get(5);
     internal_static_AcceptEmailListRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_AcceptEmailListRequest_descriptor,
         new String[] { });
     internal_static_IsSendEmailListRequest_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_IsSendEmailListRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_IsSendEmailListRequest_descriptor,
         new String[] { });
     internal_static_DeleteAcceptEmailRequest_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_DeleteAcceptEmailRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_DeleteAcceptEmailRequest_descriptor,
         new String[] { "EmailId", });
     internal_static_SendEmailRequest_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_SendEmailRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SendEmailRequest_descriptor,
         new String[] { "Title", "Context", "ToRoleId", "ArticleId", "ArticleNum", });
     internal_static_DeleteSendEmailRequest_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_DeleteSendEmailRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_DeleteSendEmailRequest_descriptor,
         new String[] { "EmailId", });
     internal_static_GetEmailMessageResponse_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_GetEmailMessageResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_GetEmailMessageResponse_descriptor,
         new String[] { "EmailDto", });
     internal_static_GetEmailArticleResponse_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_GetEmailArticleResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_GetEmailArticleResponse_descriptor,
         new String[] { });
     internal_static_AcceptEmailListResponse_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_AcceptEmailListResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_AcceptEmailListResponse_descriptor,
         new String[] { "EmailSimpleDtos", });
     internal_static_IsSendEmailListResponse_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_IsSendEmailListResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_IsSendEmailListResponse_descriptor,
         new String[] { "EmailSimpleDtos", });
     internal_static_DeleteAcceptEmailResponse_descriptor =
-      getDescriptor().getMessageTypes().get(12);
+      getDescriptor().getMessageTypes().get(14);
     internal_static_DeleteAcceptEmailResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_DeleteAcceptEmailResponse_descriptor,
         new String[] { });
     internal_static_SendEmailResponse_descriptor =
-      getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(15);
     internal_static_SendEmailResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SendEmailResponse_descriptor,
         new String[] { });
     internal_static_DeleteSendEmailResponse_descriptor =
-      getDescriptor().getMessageTypes().get(14);
+      getDescriptor().getMessageTypes().get(16);
     internal_static_DeleteSendEmailResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_DeleteSendEmailResponse_descriptor,
         new String[] { });
     internal_static_EmailDto_descriptor =
-      getDescriptor().getMessageTypes().get(15);
+      getDescriptor().getMessageTypes().get(17);
     internal_static_EmailDto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_EmailDto_descriptor,
-        new String[] { "Id", "Title", "Context", "FromRoleId", "ToRoleId", "ArticleType", "ArticleMessageId", "ArticleNum", "HasArticle", "CreateTime", "Checked", "IsGet", });
+        new String[] { "Id", "Title", "Context", "FromRoleId", "ToRoleId", "ArticleType", "ArticleMessageId", "ArticleNum", "HasArticle", "CreateTime", "Checked", "IsGet", "EquipmentId", "Money", "IsGetMoney", });
     internal_static_EmailSimpleDto_descriptor =
-      getDescriptor().getMessageTypes().get(16);
+      getDescriptor().getMessageTypes().get(18);
     internal_static_EmailSimpleDto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_EmailSimpleDto_descriptor,

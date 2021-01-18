@@ -18,18 +18,20 @@ message EmailModelMessage{
     DeleteAcceptEmailResponse=11;
     SendEmailResponse=12;
     DeleteSendEmailResponse=13;
+    GetEmailMoneyRequest=14;
+    GetEmailMoneyResponse=15;
   }
   //用date_type来标识传的是哪一个枚举类型
   DateType data_type=1;
   //表示每次枚举类型最多只能出现其中一个，节省空间
   oneof dateBody{
     GetEmailMessageRequest getEmailMessageRequest=2;
-      GetEmailArticleRequest getEmailArticleRequest=3;
-      AcceptEmailListRequest acceptEmailListRequest=4;
-      IsSendEmailListRequest isSendEmailListRequest=5;
-      DeleteAcceptEmailRequest deleteAcceptEmailRequest=6;
-      SendEmailRequest sendEmailRequest=7;
-      DeleteSendEmailRequest deleteSendEmailRequest=8;
+    GetEmailArticleRequest getEmailArticleRequest=3;
+    AcceptEmailListRequest acceptEmailListRequest=4;
+    IsSendEmailListRequest isSendEmailListRequest=5;
+    DeleteAcceptEmailRequest deleteAcceptEmailRequest=6;
+    SendEmailRequest sendEmailRequest=7;
+    DeleteSendEmailRequest deleteSendEmailRequest=8;
     GetEmailMessageResponse getEmailMessageResponse=9;
     GetEmailArticleResponse getEmailArticleResponse=10;
     AcceptEmailListResponse acceptEmailListResponse=11;
@@ -37,6 +39,8 @@ message EmailModelMessage{
     DeleteAcceptEmailResponse deleteAcceptEmailResponse=13;
     SendEmailResponse sendEmailResponse=14;
     DeleteSendEmailResponse deleteSendEmailResponse=15;
+    GetEmailMoneyRequest getEmailMoneyRequest=16;
+    GetEmailMoneyResponse getEmailMoneyResponse=17;
   }
 }
 message GetEmailMessageRequest{
@@ -44,6 +48,11 @@ message GetEmailMessageRequest{
 }
 message GetEmailArticleRequest{
   int32 emailId=1;
+}
+message GetEmailMoneyRequest{
+  int32 emailId=1;
+}
+message GetEmailMoneyResponse{
 }
 message AcceptEmailListRequest{
 }
@@ -62,8 +71,6 @@ message SendEmailRequest{
 message DeleteSendEmailRequest{
   int32 emailId=1;
 }
-
-
 message GetEmailMessageResponse{
   EmailDto emailDto=1;
 }
@@ -95,6 +102,9 @@ message EmailDto{
   sint64 createTime=10;
   bool checked=11;
   bool isGet=12;
+  int32 equipmentId=13;
+  int32 money=14;
+  bool isGetMoney=15;
 }
 
 message EmailSimpleDto{

@@ -173,6 +173,9 @@ public class Dispatcherservlet {
             case ConstantValue.ACCEPT_EMAIL_LIST_RESPONSE:
                 emailService.acceptEmailListResponse(nettyResponse);
                 break;
+            case ConstantValue.GET_EMAIL_MONEY_RESPONSE:
+                emailService.getEmailMoneyResponse(nettyResponse);
+                break;
             case ConstantValue.IS_SEND_EMAIL_LIST_RESPONSE:
                 emailService.isSendEmailListResponse(nettyResponse);
                 break;
