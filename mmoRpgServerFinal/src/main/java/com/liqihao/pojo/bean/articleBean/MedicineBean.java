@@ -9,6 +9,7 @@ import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.*;
 import com.liqihao.pojo.baseMessage.MedicineMessage;
 import com.liqihao.pojo.bean.BackPackManager;
+import com.liqihao.pojo.bean.dealBankBean.DealBankArticleBean;
 import com.liqihao.pojo.bean.dealBean.DealArticleBean;
 import com.liqihao.pojo.bean.guildBean.WareHouseManager;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
@@ -567,6 +568,9 @@ public class MedicineBean  implements Article{
     }
 
     @Override
+    /**
+     * 减少或者丢弃仓库中物品
+     */
     public Article useOrAbandonWareHouse(Integer number, WareHouseManager wareHouseManager,Integer guildId) {
         if (number <= getQuantity()) {
             //可以丢弃
@@ -591,6 +595,9 @@ public class MedicineBean  implements Article{
     }
 
     @Override
+    /**
+     * 放东西交易栏
+     */
     public boolean putDealBean(DealArticleBean dealArticleBean) {
         //查找交易栏中是否有
         List<Article> medicines = dealArticleBean.getArticles().stream()
@@ -641,6 +648,9 @@ public class MedicineBean  implements Article{
     }
 
     @Override
+    /**
+     * 减少交易栏物品
+     */
     public Article abandonDealBean(Integer number,DealArticleBean dealArticleBean) {
         if (number <= getQuantity()) {
             //可以丢弃
@@ -656,5 +666,18 @@ public class MedicineBean  implements Article{
         } else {
             return null;
         }
+    }
+
+    @Override
+    /**
+     * 转化为拍卖行物品
+     */
+    public DealBankArticleBean convertDealBankArticleBean() {
+        DealBankArticleBean dealBankArticleBean=new DealBankArticleBean();
+        dealBankArticleBean.setArticleMessageId(getMedicineMessageId());
+        dealBankArticleBean.setArticleType(getArticleTypeCode());
+        dealBankArticleBean.setEquipmentId(-1);
+        dealBankArticleBean.setNum(getQuantity());
+        return dealBankArticleBean;
     }
 }

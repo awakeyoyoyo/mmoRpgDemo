@@ -1,5 +1,9 @@
 package com.liqihao.provider;
 
+import com.liqihao.commons.RpgServerException;
+import com.liqihao.commons.StateCode;
+import com.liqihao.commons.enums.ArticleTypeCode;
+import com.liqihao.commons.enums.DealBankArticleTypeCode;
 import com.liqihao.dao.MmoDealBankArticlePOJOMapper;
 import com.liqihao.dao.MmoDealBankAuctionPOJOMapper;
 import com.liqihao.dao.MmoEmailPOJOMapper;
@@ -7,6 +11,8 @@ import com.liqihao.dao.MmoUserPOJOMapper;
 import com.liqihao.pojo.MmoDealBankArticlePOJO;
 import com.liqihao.pojo.MmoDealBankAuctionPOJO;
 import com.liqihao.pojo.bean.articleBean.Article;
+import com.liqihao.pojo.bean.articleBean.EquipmentBean;
+import com.liqihao.pojo.bean.articleBean.MedicineBean;
 import com.liqihao.pojo.bean.dealBankBean.DealBankArticleBean;
 import com.liqihao.pojo.bean.dealBankBean.DealBankAuctionBean;
 import com.liqihao.pojo.bean.dealBean.DealBean;
@@ -25,6 +31,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.stream.Collectors;
 
 /**
  * 交易行服务提供者
@@ -52,18 +59,15 @@ public class DealBankServiceProvider implements ApplicationContextAware {
      * 交易行上物品DB Id
      */
     private static AtomicInteger dealBankArticleBeanDBIdAuto;
-    /**
-     * 拍卖纪录DB Id TODO 是否放入
-     */
-    private static AtomicInteger dealBankAuctionBeanDBIdAuto=new AtomicInteger(0);;
+
     private static MmoDealBankArticlePOJOMapper mmoDealBankArticlePOJOMapper;
-    private static MmoDealBankAuctionPOJOMapper mmoDealBankAuctionPOJOMapper;
+//    private static MmoDealBankAuctionPOJOMapper mmoDealBankAuctionPOJOMapper;
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         mmoDealBankArticlePOJOMapper=(MmoDealBankArticlePOJOMapper)applicationContext.getBean("mmoDealBankArticlePOJOMapper");
-        mmoDealBankAuctionPOJOMapper=(MmoDealBankAuctionPOJOMapper)applicationContext.getBean("mmoDealBankAuctionPOJOMapper");
+//        mmoDealBankAuctionPOJOMapper=(MmoDealBankAuctionPOJOMapper)applicationContext.getBean("mmoDealBankAuctionPOJOMapper");
         dealBankArticleBeanDBIdAuto= new AtomicInteger(mmoDealBankArticlePOJOMapper.selectNextIndex()-1);
-        dealBankAuctionBeanDBIdAuto=new AtomicInteger(mmoDealBankAuctionPOJOMapper.selectNextIndex()-1);
+//        dealBankAuctionBeanDBIdAuto=new AtomicInteger(mmoDealBankAuctionPOJOMapper.selectNextIndex()-1);
         //获取数据库中的交易数据放入内存中
         init();
     }
@@ -86,41 +90,62 @@ public class DealBankServiceProvider implements ApplicationContextAware {
     }
 
     /**
-     * 上架一口价物品
+     * 上架物品
      */
-    public void addSellArticleToDealBank(Article article, MmoSimpleRole role){
-
+    public void addSellArticleToDealBank(Article article, MmoSimpleRole role,int price,int type){
+        DealBankArticleBean dealBankArticleBean=article.convertDealBankArticleBean();
+        dealBankArticleBean.setCreateTime(System.currentTimeMillis());
+        dealBankArticleBean.setDealBankArticleDbId(dealBankArticleBeanDBIdAuto.incrementAndGet());
+        dealBankArticleBean.setFromRoleId(role.getId());
+        dealBankArticleBean.setType(type);
+        dealBankArticleBean.setPrice(price);
+        dealBankArticleBean.setEndTime(dealBankArticleBean.getCreateTime()+60*2*1000);//2分钟
+        dealBankArticleBean.setDealBeanArticleBeanId(dealBankArticleBeanIdAuto.incrementAndGet());
+        dealBankArticleBeans.put(dealBankArticleBean.getDealBeanArticleBeanId(),dealBankArticleBean);
     }
     /**
-     * 下架一口价物品
+     * 下架物品
      */
-    public void reduceSellArticleToDealBank(Article article, MmoSimpleRole role){
-
+    public void reduceSellArticleToDealBank(Integer dealBeanArticleBeanId, MmoSimpleRole role) throws RpgServerException {
+        DealBankArticleBean dealBankArticleBean=dealBankArticleBeans.get(dealBeanArticleBeanId);
+        if (dealBankArticleBean==null){
+            throw new RpgServerException(StateCode.FAIL,"该物品已经交易完成或不存在");
+        }
+        Article article;
+        if (dealBankArticleBean.getArticleType().equals(ArticleTypeCode.MEDICINE.getCode())){
+            MedicineBean medicineBean=new MedicineBean();
+            medicineBean.setMedicineMessageId(dealBankArticleBean.getArticleMessageId());
+            medicineBean.setQuantity(dealBankArticleBean.getNum());
+            article=medicineBean;
+        }else{
+            EquipmentBean equipmentBean=new EquipmentBean();
+            equipmentBean.setEquipmentId(equipmentBean.getEquipmentId());
+            equipmentBean.setEquipmentMessageId(equipmentBean.getEquipmentMessageId());
+            //todo 武器耐久度
+            equipmentBean.setQuantity(1);
+            article=equipmentBean;
+        }
+        //放回去背包中
+        role.getBackpackManager().put(article,role.getId());
+        //判断是否是拍卖品
+        if (dealBankArticleBean.getType().equals(DealBankArticleTypeCode.AUCTION.getCode())){
+            //todo 把拍卖纪录中的金币通过邮件退换
+        }
     }
     /**
-     * 购买一口价物品
+     * 购买物品
      */
-    public void buySellArticleToDealBank(Integer dealBankArticleBeanId, MmoSimpleRole role){
-
-    }
-
-    /**
-     * 上架拍卖物品
-     */
-    public void addAuctionArticleToDealBank(Article article, MmoSimpleRole role){
-
-    }
-    /**
-     * 下架拍卖物品
-     */
-    public void reduceAuctionArticleToDealBank(Article article, MmoSimpleRole role){
-
-    }
-    /**
-     * 购买拍卖物品
-     */
-    public void buyAuctionArticleToDealBank(Integer dealBankArticleBeanId, MmoSimpleRole role){
-
+    public void buySellArticleToDealBank(Integer dealBankArticleBeanId, MmoSimpleRole role,Integer money) throws RpgServerException {
+        DealBankArticleBean dealBankArticleBean=dealBankArticleBeans.get(dealBankArticleBeanId);
+        if (dealBankArticleBean==null){
+            throw new RpgServerException(StateCode.FAIL,"该物品已经交易完成或不存在");
+        }
+        //判断是否是拍卖品
+        if (dealBankArticleBean.getType().equals(DealBankArticleTypeCode.AUCTION.getCode())){
+            //todo 生成拍卖记录 扣除金币
+        }else{
+            //TODO 扣除金币放入背包
+        }
     }
 
     /**
@@ -130,6 +155,18 @@ public class DealBankServiceProvider implements ApplicationContextAware {
         dealBankArticleBeansRwLock.readLock().lock();
         try {
             return new ArrayList<>(dealBankArticleBeans.values());
+        }finally {
+            dealBankArticleBeansRwLock.readLock().unlock();
+        }
+    }
+
+    /**
+     * 获取自身上架交易物品列表
+     */
+    public List<DealBankArticleBean> getSellArticleToDealBankByMySelf(Integer roleId){
+        dealBankArticleBeansRwLock.readLock().lock();
+        try {
+            return dealBankArticleBeans.values().stream().filter(e->e.getFromRoleId().equals(roleId)).collect(Collectors.toList());
         }finally {
             dealBankArticleBeansRwLock.readLock().unlock();
         }

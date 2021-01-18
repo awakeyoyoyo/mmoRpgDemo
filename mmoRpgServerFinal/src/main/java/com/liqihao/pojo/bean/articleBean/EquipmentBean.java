@@ -4,6 +4,7 @@ import com.liqihao.Cache.EquipmentMessageCache;
 import com.liqihao.Cache.MmoBaseMessageCache;
 import com.liqihao.pojo.baseMessage.EquipmentMessage;
 import com.liqihao.pojo.bean.BackPackManager;
+import com.liqihao.pojo.bean.dealBankBean.DealBankArticleBean;
 import com.liqihao.pojo.bean.dealBean.DealArticleBean;
 import com.liqihao.pojo.bean.guildBean.WareHouseManager;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
@@ -449,10 +450,26 @@ public class EquipmentBean implements Article{
     }
 
     @Override
+    /**
+     * 丢弃交易栏物品
+     */
     public Article abandonDealBean(Integer number,DealArticleBean dealArticleBean) {
         setDealArticleId(null);
         dealArticleBean.getArticles().remove(this);
         dealArticleBean.reduceAndReturnNowSize();
         return this;
+    }
+
+    @Override
+    /**
+     * 转化为拍卖行物品
+     */
+    public DealBankArticleBean convertDealBankArticleBean() {
+        DealBankArticleBean dealBankArticleBean=new DealBankArticleBean();
+        dealBankArticleBean.setArticleMessageId(getEquipmentMessageId());
+        dealBankArticleBean.setArticleType(getArticleTypeCode());
+        dealBankArticleBean.setEquipmentId(getEquipmentId());
+        dealBankArticleBean.setNum(getQuantity());
+        return dealBankArticleBean;
     }
 }

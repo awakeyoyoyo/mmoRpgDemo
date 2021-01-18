@@ -1,6 +1,7 @@
 package com.liqihao.pojo.bean.articleBean;
 
 import com.liqihao.pojo.bean.BackPackManager;
+import com.liqihao.pojo.bean.dealBankBean.DealBankArticleBean;
 import com.liqihao.pojo.bean.dealBean.DealArticleBean;
 import com.liqihao.pojo.bean.guildBean.WareHouseManager;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
@@ -72,4 +73,6 @@ public interface Article {
     boolean putDealBean(DealArticleBean dealArticleBean);
 
     Article abandonDealBean(Integer number,DealArticleBean dealArticleBean);
+
+    DealBankArticleBean convertDealBankArticleBean();
 }

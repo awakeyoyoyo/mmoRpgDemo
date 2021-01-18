@@ -31,7 +31,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ArticleServiceProvider implements ApplicationContextAware {
     private final Logger log = LoggerFactory.getLogger(EmailServiceProvider.class);
     MmoEquipmentPOJOMapper equipmentPOJOMapper;
-
+    //todo 增添集合存储所有武器实例
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         MmoEquipmentPOJOMapper equipmentPOJOMapper = (MmoEquipmentPOJOMapper) applicationContext.getBean("mmoEquipmentPOJOMapper");
