@@ -1,6 +1,7 @@
 package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.liqihao.Cache.MediceneMessageCache;
 import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.ConstantValue;
@@ -10,6 +11,7 @@ import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.ArticleTypeCode;
 import com.liqihao.commons.enums.GuildAuthorityCode;
 import com.liqihao.commons.enums.GuildRolePositionCode;
+import com.liqihao.pojo.baseMessage.MedicineMessage;
 import com.liqihao.pojo.bean.articleBean.Article;
 import com.liqihao.pojo.bean.articleBean.EquipmentBean;
 import com.liqihao.pojo.bean.articleBean.MedicineBean;
@@ -142,7 +144,7 @@ public class GuildServiceImpl implements GuildService {
     }
 
     @Override
-    @HandlerCmdTag(cmd = ConstantValue.CONTRIBUTE_ARTICLE_REQUEST, module = ConstantValue.GUILD_MODULE)
+    @HandlerCmdTag(cmd = ConstantValue.CONTRIBUTE_MONEY_REQUEST, module = ConstantValue.GUILD_MODULE)
     public void contributeMoney(GuildModel.GuildModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException {
         Channel channel = mmoSimpleRole.getChannel();
         Integer money=myMessage.getContributeMoneyRequest().getMoney();
@@ -186,6 +188,15 @@ public class GuildServiceImpl implements GuildService {
             throw new RpgServerException(StateCode.FAIL,"该角色没加入公会");
         }
         Article article=mmoSimpleRole.getBackpackManager().useOrAbandonArticle(articleId,number,mmoSimpleRole.getId());
+        if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())){
+            MedicineMessage medicineMessage = MediceneMessageCache.getInstance().get(article.getArticleMessage().getId());
+            if (medicineMessage == null) {
+                throw new RpgServerException(StateCode.FAIL,"存入错误物品id");
+            }
+            MedicineBean medicineBean = CommonsUtil.medicineMessageToMedicineBean(medicineMessage);
+            medicineBean.setQuantity(number);
+            article = medicineBean;
+        }
         if (article==null){
             throw new RpgServerException(StateCode.FAIL,"捐赠失败，无该物品或者数量不足");
         }
@@ -207,7 +218,7 @@ public class GuildServiceImpl implements GuildService {
     }
 
     @Override
-    @HandlerCmdTag(cmd = ConstantValue.GET_EMAIL_ARTICLE_REQUEST, module = ConstantValue.GUILD_MODULE)
+    @HandlerCmdTag(cmd = ConstantValue.GET_GUILD_ARTICLE_REQUEST, module = ConstantValue.GUILD_MODULE)
     public void getArticle(GuildModel.GuildModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException {
         Channel channel = mmoSimpleRole.getChannel();
         //背包id
@@ -224,6 +235,15 @@ public class GuildServiceImpl implements GuildService {
             throw new RpgServerException(StateCode.FAIL,"没有该权限");
         }
         Article article=guildBean.getWareHouseManager().useOrAbandonArticle(warehouseId,number,guildBean.getId());
+        if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())){
+            MedicineMessage medicineMessage = MediceneMessageCache.getInstance().get(article.getArticleMessage().getId());
+            if (medicineMessage == null) {
+                throw new RpgServerException(StateCode.FAIL,"存入错误物品id");
+            }
+            MedicineBean medicineBean = CommonsUtil.medicineMessageToMedicineBean(medicineMessage);
+            medicineBean.setQuantity(number);
+            article = medicineBean;
+        }
         if (article==null){
             throw new RpgServerException(StateCode.FAIL,"获取失败，无该物品或者数量不足");
         }

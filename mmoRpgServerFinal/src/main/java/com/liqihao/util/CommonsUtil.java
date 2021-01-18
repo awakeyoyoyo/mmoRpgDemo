@@ -24,10 +24,7 @@ import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.pojo.bean.roleBean.Role;
 import com.liqihao.pojo.dto.ArticleDto;
 import com.liqihao.pojo.dto.EquipmentDto;
-import com.liqihao.protobufObject.CopySceneModel;
-import com.liqihao.protobufObject.EmailModel;
-import com.liqihao.protobufObject.GuildModel;
-import com.liqihao.protobufObject.SceneModel;
+import com.liqihao.protobufObject.*;
 import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.provider.EmailServiceProvider;
 import com.liqihao.provider.GuildServiceProvider;
@@ -59,6 +56,9 @@ public class CommonsUtil implements ApplicationContextAware {
     private static MmoEmailPOJOMapper mmoEmailPOJOMapper;
     private static MmoGuildApplyPOJOMapper mmoGuildApplyPOJOMapper;
     private static MmoGuildRolePOJOMapper mmoGuildRolePOJOMapper;
+    private static MmoWareHousePOJOMapper mmoWareHousePOJOMapper;
+
+
     @Override
     public void setApplicationContext(ApplicationContext context) throws BeansException {
         applicationContext = context;
@@ -67,8 +67,9 @@ public class CommonsUtil implements ApplicationContextAware {
         equipmentBagPOJOMapper=(MmoEquipmentBagPOJOMapper)context.getBean("mmoEquipmentBagPOJOMapper");
         mmoRolePOJOMapper=(MmoRolePOJOMapper)context.getBean("mmoRolePOJOMapper");
         mmoEmailPOJOMapper=(MmoEmailPOJOMapper)context.getBean("mmoEmailPOJOMapper");
-        mmoGuildApplyPOJOMapper=(MmoGuildApplyPOJOMapper) context.getBean("mmoGuildApplyPOJOMapper");;
-        mmoGuildRolePOJOMapper=(MmoGuildRolePOJOMapper) context.getBean("mmoGuildRolePOJOMapper");;
+        mmoGuildApplyPOJOMapper=(MmoGuildApplyPOJOMapper) context.getBean("mmoGuildApplyPOJOMapper");
+        mmoGuildRolePOJOMapper=(MmoGuildRolePOJOMapper) context.getBean("mmoGuildRolePOJOMapper");
+        mmoWareHousePOJOMapper= (MmoWareHousePOJOMapper )context.getBean("mmoWareHousePOJOMapper");
     }
 
     public static GuildBean MmoGuildPOJOToGuildBean(MmoGuildPOJO mmoGuildPOJO) {
@@ -79,6 +80,7 @@ public class CommonsUtil implements ApplicationContextAware {
         guildBean.setPeopleNum(mmoGuildPOJO.getPeopleNum());
         guildBean.setCreateTime(mmoGuildPOJO.getCreateTime());
         guildBean.setChairmanId(mmoGuildPOJO.getChairmanId());
+        guildBean.setMoney(mmoGuildPOJO.getMoney());
         List<MmoGuildApplyPOJO> guildApplyPOJOS=mmoGuildApplyPOJOMapper.selectByGuildId(guildBean.getId());
         List<GuildApplyBean> guildApplyBeans=new ArrayList<>();
         for (MmoGuildApplyPOJO guildApplyPOJO:guildApplyPOJOS) {
@@ -93,8 +95,28 @@ public class CommonsUtil implements ApplicationContextAware {
             guildRoleBeans.add(guildRoleBean);
         }
         guildBean.getGuildRoleBeans().addAll(guildRoleBeans);
-        // todo 公会仓库
-        guildBean.setWareHouseManager(new WareHouseManager());
+        Integer wareHouseSize=MmoBaseMessageCache.getInstance().getGuildBaseMessage().getMaxWareHouseNumber();
+        guildBean.setWareHouseManager(new WareHouseManager(wareHouseSize));
+        List<MmoWareHousePOJO> mmoWareHousePOJOS=mmoWareHousePOJOMapper.selectByGuildId(guildBean.getId());
+        for (MmoWareHousePOJO mmoWareHousePOJO : mmoWareHousePOJOS) {
+            if (mmoWareHousePOJO.getArticleType().equals(ArticleTypeCode.EQUIPMENT.getCode())) {
+                MmoEquipmentPOJO mmoEquipmentPOJO = mmoEquipmentPOJOMapper.selectByPrimaryKey(mmoWareHousePOJO.getArticleMessageId());
+                EquipmentMessage message = EquipmentMessageCache.getInstance().get(mmoEquipmentPOJO.getMessageId());
+                EquipmentBean equipmentBean = CommonsUtil.equipmentMessageToEquipmentBean(message);
+                equipmentBean.setQuantity(mmoWareHousePOJO.getNumber());
+                equipmentBean.setEquipmentId(mmoEquipmentPOJO.getId());
+                equipmentBean.setWareHouseDBId(mmoWareHousePOJO.getId());
+                equipmentBean.setNowDurability(mmoEquipmentPOJO.getNowDurability());
+                guildBean.getWareHouseManager().putFromDatabase(equipmentBean);
+            } else if (mmoWareHousePOJO.getArticleType().equals(ArticleTypeCode.MEDICINE.getCode())) {
+                MedicineMessage message = MediceneMessageCache.getInstance().get(mmoWareHousePOJO.getArticleMessageId());
+                MedicineBean medicineBean = CommonsUtil.medicineMessageToMedicineBean(message);
+                medicineBean.setQuantity(mmoWareHousePOJO.getNumber());
+                medicineBean.setWareHouseDBId(mmoWareHousePOJO.getId());
+                guildBean.getWareHouseManager().putFromDatabase(medicineBean);
+            } else {
+            }
+        }
         return guildBean;
     }
 
@@ -507,5 +529,23 @@ public class CommonsUtil implements ApplicationContextAware {
                 }
             }
         }
+    }
+
+    /**
+     * 转化为交易信息
+     * @param firstArticles
+     * @return
+     */
+    public static List<DealModel.ArticleDto> articlesToDealModelArticleDto(List<ArticleDto> firstArticles) {
+        List<DealModel.ArticleDto> articleDtos=new ArrayList<>();
+        if (firstArticles.size()>0) {
+            for (ArticleDto firstArticle : firstArticles) {
+                DealModel.ArticleDto articleDto=DealModel.ArticleDto.newBuilder()
+                        .setDealArticleId(firstArticle.getDealArticleId()).setArticleType(firstArticle.getArticleType()).setArticleMessageId(firstArticle.getId())
+                        .setEquipmentId(firstArticle.getEquipmentId()).setQuantity(firstArticle.getQuantity()).setNowDurability(firstArticle.getNowDurability()).build();
+                articleDtos.add(articleDto);
+            }
+        }
+        return articleDtos;
     }
 }

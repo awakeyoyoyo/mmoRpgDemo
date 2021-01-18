@@ -46,6 +46,18 @@ public class ArticleDto {
      * 仓库 数据库id
      */
     private Integer wareHouseDBId;
+    /**
+     * 交易栏id
+     */
+    private Integer dealArticleId;
+
+    public Integer getDealArticleId() {
+        return dealArticleId;
+    }
+
+    public void setDealArticleId(Integer dealArticleId) {
+        this.dealArticleId = dealArticleId;
+    }
 
     public Integer getWareHouseId() {
         return wareHouseId;

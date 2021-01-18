@@ -63,22 +63,42 @@ public class GuildServiceImpl implements GuildService {
 
     @Override
     public void contributeMoney(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
-
+        byte[] data = nettyResponse.getData();
+        GuildModel.GuildModelMessage myMessage;
+        myMessage = GuildModel.GuildModelMessage.parseFrom(data);
+        System.out.println("[-]--------------------------------------------------------");
+        System.out.println("[-]你已离开该公会！");
+        System.out.println("[-]--------------------------------------------------------");
     }
 
     @Override
     public void contributeArticle(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
-
+        byte[] data = nettyResponse.getData();
+        GuildModel.GuildModelMessage myMessage;
+        myMessage = GuildModel.GuildModelMessage.parseFrom(data);
+        System.out.println("[-]--------------------------------------------------------");
+        System.out.println("[-]捐赠成功！");
+        System.out.println("[-]--------------------------------------------------------");
     }
 
     @Override
     public void getArticle(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
-
+        byte[] data = nettyResponse.getData();
+        GuildModel.GuildModelMessage myMessage;
+        myMessage = GuildModel.GuildModelMessage.parseFrom(data);
+        System.out.println("[-]--------------------------------------------------------");
+        System.out.println("[-]已拿到物品！");
+        System.out.println("[-]--------------------------------------------------------");
     }
 
     @Override
     public void getMoney(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
-
+        byte[] data = nettyResponse.getData();
+        GuildModel.GuildModelMessage myMessage;
+        myMessage = GuildModel.GuildModelMessage.parseFrom(data);
+        System.out.println("[-]--------------------------------------------------------");
+        System.out.println("[-]已拿到金币！");
+        System.out.println("[-]--------------------------------------------------------");
     }
 
     @Override

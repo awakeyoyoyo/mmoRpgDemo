@@ -235,11 +235,10 @@ public class MedicineBean  implements Article{
                     temp.setQuantity(sum);
                     ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateBagMedicine(temp,roleId));
                     return true;
-                } else {
-                    number = number - (ConstantValue.BAG_MAX_VALUE - temp.getQuantity());
-                    temp.setQuantity(ConstantValue.BAG_MAX_VALUE);
-                    ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateBagMedicine(temp,roleId));
                 }
+                number = number - (ConstantValue.BAG_MAX_VALUE - temp.getQuantity());
+                temp.setQuantity(ConstantValue.BAG_MAX_VALUE);
+                ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateBagMedicine(temp,roleId));
             }
         }
         //表明背包中没有该物品或者该物品的数量都是99或者是剩余的 新建
@@ -263,9 +262,8 @@ public class MedicineBean  implements Article{
                 articleDto.setQuantity(getQuantity());
                 articleDto.setId(getMedicineMessageId());
                 articleDto.setArticleType(getArticleTypeCode());
-                articleDto.setBagId(getBagId());
+                articleDto.setBagId(newMedicine.getBagId());
                 ScheduledThreadPoolUtil.addTask(() -> DbUtil.insertBag(articleDto,roleId));
-
             }
             return true;
         }
@@ -284,17 +282,11 @@ public class MedicineBean  implements Article{
 //        }
         Integer oldBagId=getBagId();
         setArticleId(backPackManager.getNewArticleId());
-        setBagId(DbUtil.getBagPojoNextIndex());
+        setBagId(null);
         backPackManager.put(this,roleId);
         //数据库
-        ArticleDto articleDto=new ArticleDto();
-        articleDto.setQuantity(getQuantity());
-        articleDto.setId(getMedicineMessageId());
-        articleDto.setArticleType(getArticleTypeCode());
-        articleDto.setBagId(getBagId());
         ScheduledThreadPoolUtil.addTask(() -> {
             DbUtil.deleteBagById(oldBagId);
-            DbUtil.insertBag(articleDto,roleId);
         });
     }
 
@@ -559,12 +551,13 @@ public class MedicineBean  implements Article{
                 newMedicine.setWareHouseId(wareHouseManager.addAndReturnWareHouseId());
                 newMedicine.setWareHouseDBId(DbUtil.getWareHouseIndex());
                 wareHouseManager.getBackpacks().add(newMedicine);
+                wareHouseManager.addAndReturnNowSize();
                 //新增的物品入库
                 ArticleDto articleDto=new ArticleDto();
                 articleDto.setQuantity(getQuantity());
                 articleDto.setId(getMedicineMessageId());
                 articleDto.setArticleType(getArticleTypeCode());
-                articleDto.setWareHouseDBId(getWareHouseDBId());
+                articleDto.setWareHouseDBId(newMedicine.getWareHouseDBId());
                 ScheduledThreadPoolUtil.addTask(() -> DbUtil.insertMedicineWareHouse(articleDto,guildId));
             }
             return true;
@@ -583,6 +576,7 @@ public class MedicineBean  implements Article{
                 Integer wareHouseDBId=getWareHouseDBId();
                 setWareHouseDBId(null);
                 wareHouseManager.getBackpacks().remove(this);
+                wareHouseManager.reduceAndReturnNowSize();
                 wareHouseManager.reduceAndReturnWareHouseId();
                 ScheduledThreadPoolUtil.addTask(() -> DbUtil.deleteWareHouseById(wareHouseDBId));
             }else {
@@ -597,11 +591,69 @@ public class MedicineBean  implements Article{
 
     @Override
     public boolean putDealBean(DealArticleBean dealArticleBean) {
+        //查找交易栏中是否有
+        List<Article> medicines = dealArticleBean.getArticles().stream()
+                .filter(a -> a.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())).collect(Collectors.toList());
+        //总数量
+        Integer number = getQuantity();
+        for (Article a : medicines) {
+            MedicineBean temp = (MedicineBean) a;
+            //物品类型
+            if (getMedicineMessageId().equals(temp.getMedicineMessageId()) && number > 0) {
+                //判断是否已经满了
+                if (temp.getQuantity().equals(ConstantValue.BAG_MAX_VALUE)) {
+                    continue;
+                }
+                Integer nowNum = temp.getQuantity();
+                Integer sum = nowNum + number;
+                //判断加上后是否已经超过99
+                if (sum <= ConstantValue.BAG_MAX_VALUE) {
+                    //不超过加上
+                    temp.setQuantity(sum);
+                    return true;
+                } else {
+                    number = number - (ConstantValue.BAG_MAX_VALUE - temp.getQuantity());
+                    temp.setQuantity(ConstantValue.BAG_MAX_VALUE);
+                }
+            }
+        }
+        //表明背包中没有该物品或者该物品的数量都是99或者是剩余的 新建
+        if (number != 0) {
+            while (number > 0) {
+                MedicineBean newMedicine = new MedicineBean();
+                BeanUtils.copyProperties(this, newMedicine);
+                if (number > ConstantValue.BAG_MAX_VALUE) {
+                    newMedicine.setQuantity(ConstantValue.BAG_MAX_VALUE);
+                    number -= ConstantValue.BAG_MAX_VALUE;
+                } else {
+                    newMedicine.setQuantity(number);
+                    number = 0;
+                }
+                //设置交易栏id 
+                newMedicine.setDealArticleId(dealArticleBean.addAndReturnDealArticleId());
+                dealArticleBean.getArticles().add(newMedicine);
+                dealArticleBean.addAndReturnNowSize();
+            }
+            return true;
+        }
         return false;
     }
 
     @Override
-    public Article abandonDealBean(DealArticleBean dealArticleBean) {
-        return null;
+    public Article abandonDealBean(Integer number,DealArticleBean dealArticleBean) {
+        if (number <= getQuantity()) {
+            //可以丢弃
+            setQuantity(getQuantity() - number);
+            //判断是否数量为0 为0则删除
+            if (getQuantity() == 0) {
+                //需要删除数据库的记录
+                setDealArticleId(null);
+                dealArticleBean.getArticles().remove(this);
+                dealArticleBean.reduceAndReturnNowSize();
+            }
+            return this;
+        } else {
+            return null;
+        }
     }
 }

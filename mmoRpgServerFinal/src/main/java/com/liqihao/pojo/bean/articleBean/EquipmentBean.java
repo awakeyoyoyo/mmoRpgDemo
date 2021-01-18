@@ -235,6 +235,7 @@ public class EquipmentBean implements Article{
         articleDto.setEquipmentId(getEquipmentId());
         articleDto.setWareHouseId(getWareHouseId());
         articleDto.setWareHouseDBId(getWareHouseDBId());
+        articleDto.setDealArticleId(getDealArticleId());
         return articleDto;
     }
 
@@ -261,7 +262,6 @@ public class EquipmentBean implements Article{
             //背包一个格子的空间都没有 无法存放
             return false;
         } else {
-
             //设置背包物品id
             setArticleId(backPackManager.getNewArticleId());
             backPackManager.setNowSize(backPackManager.getNowSize()+1);
@@ -291,7 +291,6 @@ public class EquipmentBean implements Article{
         Integer oldBagId=getBagId();
         //设置背包物品id
         setArticleId(backPackManager.getNewArticleId());
-        setBagId(DbUtil.getBagPojoNextIndex());
         backPackManager.put(this,roleId);
         //数据库
         ArticleDto articleDto=new ArticleDto();
@@ -301,7 +300,6 @@ public class EquipmentBean implements Article{
         articleDto.setBagId(getBagId());
         ScheduledThreadPoolUtil.addTask(() -> {
             DbUtil.deleteBagById(oldBagId);
-            DbUtil.insertBag(articleDto,roleId);
         });
     }
 
@@ -405,6 +403,7 @@ public class EquipmentBean implements Article{
             setBagId(null);
             setArticleId(null);
             wareHouseManager.getBackpacks().add(this);
+            wareHouseManager.addAndReturnNowSize();
             //数据库
             ArticleDto articleDto=new ArticleDto();
             articleDto.setQuantity(getQuantity());
@@ -434,11 +433,26 @@ public class EquipmentBean implements Article{
 
     @Override
     public boolean putDealBean(DealArticleBean dealArticleBean) {
-        return false;
+        //判断交易栏大小
+        if ((dealArticleBean.getSize() - dealArticleBean.getNowSize()) <= 0) {
+            //背包一个格子的空间都没有 无法存放
+            return false;
+        } else {
+            //删除背包id
+            setBagId(null);
+            setArticleId(null);
+            dealArticleBean.getArticles().add(this);
+            setDealArticleId(dealArticleBean.addAndReturnDealArticleId());
+            dealArticleBean.addAndReturnNowSize();
+            return true;
+        }
     }
 
     @Override
-    public Article abandonDealBean(DealArticleBean dealArticleBean) {
-        return null;
+    public Article abandonDealBean(Integer number,DealArticleBean dealArticleBean) {
+        setDealArticleId(null);
+        dealArticleBean.getArticles().remove(this);
+        dealArticleBean.reduceAndReturnNowSize();
+        return this;
     }
 }

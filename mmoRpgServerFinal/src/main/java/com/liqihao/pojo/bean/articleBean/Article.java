@@ -71,5 +71,5 @@ public interface Article {
 
     boolean putDealBean(DealArticleBean dealArticleBean);
 
-    Article abandonDealBean(DealArticleBean dealArticleBean);
+    Article abandonDealBean(Integer number,DealArticleBean dealArticleBean);
 }

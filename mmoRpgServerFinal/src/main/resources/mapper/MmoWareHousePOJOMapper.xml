@@ -96,4 +96,10 @@
     from INFORMATION_SCHEMA. TABLES
     where TABLE_NAME = 'mmo_warehouse'
   </select>
+  <select id="selectByGuildId"  parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from mmo_warehouse
+    where guild_id = #{id,jdbcType=INTEGER}
+  </select>
 </mapper>

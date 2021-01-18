@@ -1,6 +1,9 @@
 package com.liqihao.pojo.bean.dealBean;
 
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
+import com.liqihao.pojo.dto.ArticleDto;
+
+import java.util.List;
 
 /**
  * 交易模块
@@ -61,4 +64,5 @@ public class DealBean {
     public void setSecondDealArticleBean(DealArticleBean secondDealArticleBean) {
         this.secondDealArticleBean = secondDealArticleBean;
     }
+
 }

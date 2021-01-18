@@ -2,6 +2,8 @@ package com.liqihao.dao;
 
 import com.liqihao.pojo.MmoWareHousePOJO;
 
+import java.util.List;
+
 public interface MmoWareHousePOJOMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -16,4 +18,6 @@ public interface MmoWareHousePOJOMapper {
     int updateByPrimaryKey(MmoWareHousePOJO record);
 
     int selectNextIndex();
+
+    List<MmoWareHousePOJO> selectByGuildId(Integer id);
 }

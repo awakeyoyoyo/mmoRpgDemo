@@ -73,11 +73,16 @@ public class GuildBean {
      */
     ReadWriteLock moneyRwLock = new ReentrantReadWriteLock();
 
+    /**
+     * 公会成员读写锁
+     */
+    ReadWriteLock peopleRwLock = new ReentrantReadWriteLock();
+
     public Integer getMoney() {
         moneyRwLock.readLock().lock();
         try {
             return money;
-        }finally {
+        } finally {
             moneyRwLock.readLock().unlock();
         }
     }
@@ -238,8 +243,12 @@ public class GuildBean {
                     guildRoleBean.setGuildPositionId(GuildRolePositionCode.COMMON_PEOPLE.getCode());
                     Integer id = GuildServiceProvider.getInstance().insertGuildRolePOJO(guildRoleBean);
                     guildRoleBean.setId(id);
-                    synchronized (guildRoleBeans) {
+                    //成员列表
+                    peopleRwLock.writeLock().lock();
+                    try {
                         getGuildRoleBeans().add(guildRoleBean);
+                    } finally {
+                        peopleRwLock.writeLock().unlock();
                     }
                     //删除申请记录
                     iterator.remove();
@@ -291,7 +300,7 @@ public class GuildBean {
                     } else {
                         role.setGuildBean(null);
                     }
-                    GuildBean guildBean=this;
+                    GuildBean guildBean = this;
                     //数据库删除该人的记录
                     ScheduledThreadPoolUtil.addTask(() -> {
                         GuildServiceProvider.getInstance().deletePeople(roleBean.getId());
@@ -304,7 +313,6 @@ public class GuildBean {
     }
 
 
-
     /**
      * 设置公会成员职位
      */
@@ -314,9 +322,11 @@ public class GuildBean {
         while (iterator.hasNext()) {
             GuildRoleBean roleBean = (GuildRoleBean) iterator.next();
             if (toRoleId.equals(roleBean.getRoleId())) {
-                roleBean.setGuildPositionId(position);
-                ScheduledThreadPoolUtil.addTask(() -> GuildServiceProvider.getInstance().updateGuildRole(roleBean));
-                break;
+                synchronized (roleBean) {
+                    roleBean.setGuildPositionId(position);
+                    ScheduledThreadPoolUtil.addTask(() -> GuildServiceProvider.getInstance().updateGuildRole(roleBean));
+                    break;
+                }
             }
         }
     }
@@ -328,15 +338,20 @@ public class GuildBean {
      * @return
      */
     public GuildRoleBean getRoleGuildMsg(Integer roleId) {
-        Iterator iterator = guildRoleBeans.iterator();
-        //每次插入都删除申请过时或者
-        while (iterator.hasNext()) {
-            GuildRoleBean roleBean = (GuildRoleBean) iterator.next();
-            if (roleId.equals(roleBean.getRoleId())) {
-                return roleBean;
+        peopleRwLock.readLock().lock();
+        try {
+            Iterator iterator = guildRoleBeans.iterator();
+            //每次插入都删除申请过时或者
+            while (iterator.hasNext()) {
+                GuildRoleBean roleBean = (GuildRoleBean) iterator.next();
+                if (roleId.equals(roleBean.getRoleId())) {
+                    return roleBean;
+                }
             }
+            return null;
+        } finally {
+            peopleRwLock.readLock().unlock();
         }
-        return null;
     }
 
     /**
@@ -360,27 +375,39 @@ public class GuildBean {
         channel.writeAndFlush(nettyResponse);
     }
 
+    /**
+     * 捐金币
+     *
+     * @param money
+     */
     public void contributeMoney(Integer money) {
         moneyRwLock.writeLock().lock();
-        try{
-            Integer temp=money+getMoney();
+        try {
+            Integer temp = money + getMoney();
             setMoney(temp);
-        }finally {
+        } finally {
             moneyRwLock.writeLock().unlock();
         }
     }
 
+    /**
+     * 拿出金币
+     *
+     * @param money
+     * @param mmoSimpleRole
+     * @throws RpgServerException
+     */
     public void takeMoney(Integer money, MmoSimpleRole mmoSimpleRole) throws RpgServerException {
         moneyRwLock.writeLock().lock();
-        try{
-            Integer guildMoney=getMoney();
-            if (money>guildMoney){
-                throw new RpgServerException(StateCode.FAIL,"仓库金币不足");
+        try {
+            Integer guildMoney = getMoney();
+            if (money > guildMoney) {
+                throw new RpgServerException(StateCode.FAIL, "仓库金币不足");
             }
-            Integer temp=guildMoney-money;
+            Integer temp = guildMoney - money;
             setMoney(temp);
-            mmoSimpleRole.setMoney(getMoney()+money);
-        }finally {
+            mmoSimpleRole.setMoney(getMoney() + money);
+        } finally {
             moneyRwLock.writeLock().unlock();
         }
     }

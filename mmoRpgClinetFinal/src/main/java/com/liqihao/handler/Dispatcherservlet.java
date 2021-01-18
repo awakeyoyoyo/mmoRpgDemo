@@ -4,7 +4,6 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.service.*;
-import com.sun.org.apache.xpath.internal.operations.String;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,6 +29,8 @@ public class Dispatcherservlet {
     private EmailService emailService;
     @Autowired
     private GuildService guildService;
+    @Autowired
+    private DealService dealService;
     /**
      * 根据model和cmd转发到不同的service
      *
@@ -234,6 +235,36 @@ public class Dispatcherservlet {
                 break;
             case ConstantValue.GET_GUILD_WAREHOUSE_RESPONSE:
                 guildService.getGuildWareHouse(nettyResponse);
+                break;
+            case ConstantValue.ASK_DEAL_RESPONSE:
+                dealService.askDealResponse(nettyResponse);
+                break;
+            case ConstantValue.AGREE_DEAL_RESPONSE:
+                dealService.agreeDealResponse(nettyResponse);
+                break;
+            case ConstantValue.REFUSE_DEAL_RESPONSE:
+                dealService.refuseDealResponse(nettyResponse);
+                break;
+            case ConstantValue.CONFIRM_DEAL_RESPONSE:
+                dealService.confirmDealResponse(nettyResponse);
+                break;
+            case ConstantValue.CANCEL_DEAL_RESPONSE:
+                dealService.cancelDealResponse(nettyResponse);
+                break;
+            case ConstantValue.GET_DEAL_MESSAGE_RESPONSE:
+                dealService.getDealMessageResponse(nettyResponse);
+                break;
+            case ConstantValue.SET_DEAL_MONEY_RESPONSE:
+                dealService.setDealMoneyResponse(nettyResponse);
+                break;
+            case ConstantValue.ADD_DEAL_ARTICLE_RESPONSE:
+                dealService.addDealArticleResponse(nettyResponse);
+                break;
+            case ConstantValue.ABANDON_DEAL_ARTICLE_RESPONSE:
+                dealService.abandonDealArticleResponse(nettyResponse);
+                break;
+            case ConstantValue.DEAL_SUCCESS_RESPONSE:
+                dealService.dealSuccessResponse(nettyResponse);
                 break;
             default:
                 System.out.println("handler:收到");

@@ -77,21 +77,23 @@ public class BackPackManager {
             a.clearPut(this,roleId);
         }
     }
-    //背包放入东西
+    /**
+     * 背包放入东西
+     */
     public synchronized boolean put(Article article,Integer roleId) {
         //判断物品类型
         return article.put(this,roleId);
     }
 
-    //背包放入东西 按照数据库格式来存放
+    /**
+     * 背包放入东西 按照数据库格式来存放
+     */
     public synchronized void putOnDatabase(Article article) {
-        ArticleDto articleDto=new ArticleDto();
+
         if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())) {
             MedicineBean medicineBean = article.getArticle();
             medicineBean.setArticleId(getNewArticleId());
             getBackpacks().add(medicineBean);
-            articleDto.setQuantity(medicineBean.getQuantity());
-            articleDto.setId(medicineBean.getMedicineMessageId());
             nowSize++;
         } else if ((article.getArticleTypeCode().equals(ArticleTypeCode.EQUIPMENT.getCode()))) {
             //判断背包大小
@@ -100,18 +102,20 @@ public class BackPackManager {
             equipmentBean.setArticleId(getNewArticleId());
             nowSize++;
             getBackpacks().add(equipmentBean);
-            articleDto.setQuantity(equipmentBean.getQuantity());
-            articleDto.setId(equipmentBean.getEquipmentId());
         }
-        articleDto.setArticleType(article.getArticleTypeCode());
+
     }
 
-    //判断背包是否存在某样东西
+    /**
+     * 判断背包是否存在某样东西
+     */
     public synchronized boolean contains(Article a) {
         return getBackpacks().contains(a);
     }
 
-    //减少某样物品数量/丢弃装备
+    /**
+     * 减少某样物品数量/丢弃装备
+     */
     public synchronized Article useOrAbandonArticle(Integer articleId, Integer number,Integer roleId) {
         for (Article a : getBackpacks()) {
             if (a.getArticleIdCode().equals(articleId)) {
@@ -126,12 +130,16 @@ public class BackPackManager {
         return nowSize;
     }
 
-    //获取背包依存放空间
+    /**
+     * 获取背包依存放空间
+     */
     public void setNowSize(Integer nowSize) {
         this.nowSize = nowSize;
     }
 
-    //获取背包的大小
+    /**
+     * 获取背包的大小
+     */
     public Integer getSize() {
         return size;
     }
@@ -140,7 +148,9 @@ public class BackPackManager {
         this.size = size;
     }
 
-    //根据articleId获取物品信息
+    /**
+     * 根据articleId获取物品信息
+     */
     public synchronized Article getArticleByArticleId(Integer articleId) {
         for (Article article : getBackpacks()) {
             if (articleId.equals(article.getArticleIdCode())) {
@@ -150,7 +160,9 @@ public class BackPackManager {
         return null;
     }
 
-    //获取背包内物品信息
+    /**
+     * 获取背包内物品信息
+     */
     public synchronized ArrayList<ArticleDto> getBackpacksMessage() {
         ArrayList<ArticleDto> articleDtos = new ArrayList<>();
         for (Article article : getBackpacks()) {

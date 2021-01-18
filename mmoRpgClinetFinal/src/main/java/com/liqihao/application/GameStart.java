@@ -252,9 +252,162 @@ public class GameStart {
                     case ConstantValue.GET_GUILD_ARTICLE_REQUEST:
                         getGuildArticleRequest(scanner);
                         break;
+                    case ConstantValue.ASK_DEAL_REQUEST:
+                        askDeal(scanner);
+                        break;
+                    case ConstantValue.AGREE_DEAL_REQUEST:
+                        agreeDeal(scanner);
+                        break;
+                    case ConstantValue.REFUSE_DEAL_REQUEST:
+                        refuseDeal(scanner);
+                        break;
+                    case ConstantValue.CONFIRM_DEAL_REQUEST:
+                        confirmDeal(scanner);
+                        break;
+                    case ConstantValue.CANCEL_DEAL_REQUEST:
+                        cancelDeal(scanner);
+                        break;
+                    case ConstantValue.GET_DEAL_MESSAGE_REQUEST:
+                        getDealMessage(scanner);
+                        break;
+                    case ConstantValue.SET_DEAL_MONEY_REQUEST:
+                        setDealMoney(scanner);
+                        break;
+                    case ConstantValue.ADD_DEAL_ARTICLE_REQUEST:
+                        addDealArticle(scanner);
+                        break;
+                    case ConstantValue.ABANDON_DEAL_ARTICLE_REQUEST:
+                        abandonDealArticle(scanner);
+                        break;
                     default:
                         System.out.println("GameStart-handler:收到错误cmd");
                 }
+    }
+
+    private void abandonDealArticle(Scanner scanner) {
+        System.out.println("请输入你要拿回交易栏的物品的交易栏id");
+        Integer dealArticleId=scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("请输入你拿回的数量");
+        Integer num=scanner.nextInt();
+        scanner.nextLine();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.ABANDON_DEAL_ARTICLE_REQUEST);
+        DealModel.DealModelMessage myMessage;
+        myMessage=DealModel.DealModelMessage.newBuilder()
+                .setDataType(DealModel.DealModelMessage.DateType.AbandonArticleRequest)
+                .setAbandonArticleRequest(DealModel.AbandonArticleRequest.newBuilder().setDealArticleId(dealArticleId).setNum(num).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void addDealArticle(Scanner scanner) {
+        System.out.println("请输入你要放入交易栏的物品的背包id");
+        Integer articleId=scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("请输入你要数量");
+        Integer num=scanner.nextInt();
+        scanner.nextLine();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.ADD_DEAL_ARTICLE_REQUEST);
+        DealModel.DealModelMessage myMessage;
+        myMessage=DealModel.DealModelMessage.newBuilder()
+                .setDataType(DealModel.DealModelMessage.DateType.AddArticleRequest)
+                .setAddArticleRequest(DealModel.AddArticleRequest.newBuilder().setArticleId(articleId).setNum(num).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void setDealMoney(Scanner scanner) {
+        System.out.println("请输入你要修改的交易金额");
+        Integer money=scanner.nextInt();
+        scanner.nextLine();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.SET_DEAL_MONEY_REQUEST);
+        DealModel.DealModelMessage myMessage;
+        myMessage=DealModel.DealModelMessage.newBuilder()
+                .setDataType(DealModel.DealModelMessage.DateType.SetDealMoneyRequest)
+                .setSetDealMoneyRequest(DealModel.SetDealMoneyRequest.newBuilder().setMoney(money).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void getDealMessage(Scanner scanner) {
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.GET_DEAL_MESSAGE_REQUEST);
+        DealModel.DealModelMessage myMessage;
+        myMessage=DealModel.DealModelMessage.newBuilder()
+                .setDataType(DealModel.DealModelMessage.DateType.GetDealMessageRequest)
+                .setGetDealMessageRequest(DealModel.GetDealMessageRequest.newBuilder().build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void cancelDeal(Scanner scanner) {
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.CANCEL_DEAL_REQUEST);
+        DealModel.DealModelMessage myMessage;
+        myMessage=DealModel.DealModelMessage.newBuilder()
+                .setDataType(DealModel.DealModelMessage.DateType.CancelDealRequest)
+                .setCancelDealRequest(DealModel.CancelDealRequest.newBuilder().build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void confirmDeal(Scanner scanner) {
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.CONFIRM_DEAL_REQUEST);
+        DealModel.DealModelMessage myMessage;
+        myMessage=DealModel.DealModelMessage.newBuilder()
+                .setDataType(DealModel.DealModelMessage.DateType.ConfirmDealRequest)
+                .setConfirmDealRequest(DealModel.ConfirmDealRequest.newBuilder().build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void refuseDeal(Scanner scanner) {
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.REFUSE_DEAL_REQUEST);
+        DealModel.DealModelMessage myMessage;
+        myMessage=DealModel.DealModelMessage.newBuilder()
+                .setDataType(DealModel.DealModelMessage.DateType.RefuseDealRequest)
+                .setRefuseDealRequest(DealModel.RefuseDealRequest.newBuilder().build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void agreeDeal(Scanner scanner) {
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.AGREE_DEAL_REQUEST);
+        DealModel.DealModelMessage myMessage;
+        myMessage=DealModel.DealModelMessage.newBuilder()
+                .setDataType(DealModel.DealModelMessage.DateType.AgreeDealRequest)
+                .setAgreeDealRequest(DealModel.AgreeDealRequest.newBuilder().build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void askDeal(Scanner scanner) {
+        System.out.println("请输入你要与之交易的玩家id");
+        Integer roleId=scanner.nextInt();
+        scanner.nextLine();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.ASK_DEAL_REQUEST);
+        DealModel.DealModelMessage myMessage;
+        myMessage=DealModel.DealModelMessage.newBuilder()
+                .setDataType(DealModel.DealModelMessage.DateType.AskDealRequest)
+                .setAskDealRequest(DealModel.AskDealRequest.newBuilder().setRoleId(roleId).build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
     }
 
     private void getGuildWareHouseRequest(Scanner scanner) {

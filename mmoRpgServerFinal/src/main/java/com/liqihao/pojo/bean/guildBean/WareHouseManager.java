@@ -7,7 +7,6 @@ import com.liqihao.pojo.bean.articleBean.MedicineBean;
 import com.liqihao.pojo.dto.ArticleDto;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -17,7 +16,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class WareHouseManager {
     private CopyOnWriteArrayList<Article> backpacks=new CopyOnWriteArrayList<>();
-    private Integer size;
+    private Integer size=50;
     private AtomicInteger nowSize = new AtomicInteger(0);
     private AtomicInteger wareHouseId = new AtomicInteger(0);
 
@@ -96,13 +95,11 @@ public class WareHouseManager {
      *   仓库放入东西 按照数据库格式来存放
      */
     public synchronized void putFromDatabase(Article article) {
-        ArticleDto articleDto=new ArticleDto();
+
         if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())) {
             MedicineBean medicineBean = article.getArticle();
             medicineBean.setWareHouseId(addAndReturnWareHouseId());
             getBackpacks().add(medicineBean);
-            articleDto.setQuantity(medicineBean.getQuantity());
-            articleDto.setId(medicineBean.getMedicineMessageId());
             addAndReturnNowSize();
         } else if ((article.getArticleTypeCode().equals(ArticleTypeCode.EQUIPMENT.getCode()))) {
             //判断背包大小
@@ -111,10 +108,9 @@ public class WareHouseManager {
             equipmentBean.setWareHouseId(addAndReturnWareHouseId());
             addAndReturnNowSize();
             getBackpacks().add(equipmentBean);
-            articleDto.setQuantity(equipmentBean.getQuantity());
-            articleDto.setId(equipmentBean.getEquipmentId());
+            addAndReturnNowSize();
         }
-        articleDto.setArticleType(article.getArticleTypeCode());
+
     }
 
     /**

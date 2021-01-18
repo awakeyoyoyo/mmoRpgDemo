@@ -1,0 +1,132 @@
+syntax ="proto3";
+option java_outer_classname="DealModel";
+message DealModelMessage{
+  //定义枚举类型
+  enum DateType{
+    AskDealRequest=0;//在proto3 要求enum的编号从0开始
+    AgreeDealRequest=1;
+    RefuseDealRequest=2;
+    ConfirmDealRequest=3;
+    CancelDealRequest=4;
+    GetDealMessageRequest=5;
+    SetDealMoneyRequest=6;
+    AddArticleRequest=7;
+    AbandonArticleRequest=8;
+    AskDealResponse=9;
+    AgreeDealResponse=10;
+    RefuseDealResponse=11;
+    ConfirmDealResponse=12;
+    CancelDealResponse=13;
+    GetDealMessageResponse=14;
+    SetDealMoneyResponse=15;
+    AddArticleResponse=16;
+    AbandonArticleResponse=17;
+    DealSuccessResponse=18;
+  }
+  //用date_type来标识传的是哪一个枚举类型
+  DateType data_type=1;
+  //表示每次枚举类型最多只能出现其中一个，节省空间
+  oneof dateBody{
+    AskDealRequest askDealRequest=2;
+    AgreeDealRequest agreeDealRequest=3;
+    RefuseDealRequest refuseDealRequest=4;
+    ConfirmDealRequest confirmDealRequest=5;
+    CancelDealRequest cancelDealRequest=6;
+    GetDealMessageRequest getDealMessageRequest=7;
+    SetDealMoneyRequest setDealMoneyRequest=8;
+    AddArticleRequest addArticleRequest=9;
+    AbandonArticleRequest abandonArticleRequest=10;
+    AskDealResponse askDealResponse=11;
+    AgreeDealResponse agreeDealResponse=12;
+    RefuseDealResponse refuseDealResponse=13;
+    ConfirmDealResponse confirmDealResponse=14;
+    CancelDealResponse cancelDealResponse=15;
+    GetDealMessageResponse getDealMessageResponse=16;
+    SetDealMoneyResponse setDealMoneyResponse=17;
+    AddArticleResponse addArticleResponse=18;
+    AbandonArticleResponse abandonArticleResponse=19;
+    DealSuccessResponse dealSuccessResponse=20;
+  }
+
+}
+message AskDealRequest{
+  int32 roleId=1;
+}
+message AgreeDealRequest{
+}
+message RefuseDealRequest{
+}
+message ConfirmDealRequest{
+}
+message CancelDealRequest{
+}
+message GetDealMessageRequest{
+}
+message SetDealMoneyRequest{
+  int32 money=1;
+}
+message AddArticleRequest{
+  int32 articleId=1;
+  int32 num=2;
+}
+message AbandonArticleRequest{
+  int32 dealArticleId=1;
+  int32 num=2;
+}
+message AskDealResponse{
+  int32 roleId=1;
+  string roleName=2;
+}
+message AgreeDealResponse{
+}
+message RefuseDealResponse{
+}
+message ConfirmDealResponse{
+  int32 roleId=1;
+  string roleName=2;
+}
+message CancelDealResponse{
+  int32 roleId=1;
+  string roleName=2;
+}
+message GetDealMessageResponse{
+  int32 firstRoleId=1;
+  int32 secondRoleId=2;
+  string firstRoleName=3;
+  string secondRoleName=4;
+  repeated ArticleDto firstArticleDto=5;
+  repeated ArticleDto secondArticleDto=6;
+  int32 firstMoney=7;
+  int32 secondMoney=8;
+}
+message SetDealMoneyResponse{
+  int32 roleId=1;
+  string roleName=2;
+  int32 money=3;
+}
+message AddArticleResponse{
+  int32 roleId=1;
+  string roleName=2;
+  ArticleDto articleDto=3;
+}
+message AbandonArticleResponse{
+  int32 roleId=1;
+  string roleName=2;
+  ArticleDto articleDto=3;
+}
+message DealSuccessResponse{
+}
+message ArticleDto{
+  //背包中物品id
+  int32 dealArticleId=1;
+  //物品id
+  int32 articleMessageId=2;
+  //装备实例id
+  int32 equipmentId=3;
+  //数量
+  int32 quantity=4;
+  //物品类型
+  int32 articleType=5;
+  //耐久度
+  int32  nowDurability=6;
+}

@@ -475,7 +475,7 @@ public interface ConstantValue {
     int DELETE_SEND_EMAIL_RESPONSE=9506;
 
     /**
-     * 邮箱模块
+     * 公会模块
      */
     String GUILD_MODULE = "guildServiceImpl";
 
@@ -507,6 +507,32 @@ public interface ConstantValue {
     int GET_GUILD_MESSAGE_RESPONSE=15011;
     int GUILD_APPLY_RESPONSE=15012;
     int GET_GUILD_WAREHOUSE_RESPONSE=15013;
+
+    /**
+     * 交易模块
+     */
+    String DEAL_MODULE = "dealServiceImpl";
+    int ASK_DEAL_REQUEST=11000;
+    int AGREE_DEAL_REQUEST=11001;
+    int REFUSE_DEAL_REQUEST=11002;
+    int CONFIRM_DEAL_REQUEST=11003;
+    int CANCEL_DEAL_REQUEST=11004;
+    int GET_DEAL_MESSAGE_REQUEST=11005;
+    int SET_DEAL_MONEY_REQUEST=11006;
+    int ADD_DEAL_ARTICLE_REQUEST=11007;
+    int ABANDON_DEAL_ARTICLE_REQUEST=11008;
+
+    int ASK_DEAL_RESPONSE=11500;
+    int AGREE_DEAL_RESPONSE=11501;
+    int REFUSE_DEAL_RESPONSE=11502;
+    int CONFIRM_DEAL_RESPONSE=11503;
+    int CANCEL_DEAL_RESPONSE=11504;
+    int GET_DEAL_MESSAGE_RESPONSE=11505;
+    int SET_DEAL_MONEY_RESPONSE=11506;
+    int ADD_DEAL_ARTICLE_RESPONSE=11507;
+    int ABANDON_DEAL_ARTICLE_RESPONSE=11508;
+    int DEAL_SUCCESS_RESPONSE=11509;
+
     /**
      * 参数错误响应
      */
@@ -516,6 +542,15 @@ public interface ConstantValue {
     /**
      * 指令
      */
+    String ASK_DEAL_REQUEST_CMD="askDeal";
+    String AGREE_DEAL_REQUEST_CMD="agreeDeal";
+    String REFUSE_DEAL_REQUEST_CMD="refuseDeal";
+    String CONFIRM_DEAL_REQUEST_CMD="confirmDeal";
+    String CANCEL_DEAL_REQUEST_CMD="cancelDeal";
+    String GET_DEAL_MESSAGE_REQUEST_CMD="getDealMessage";
+    String SET_DEAL_MONEY_REQUEST_CMD="setDealMoney";
+    String ADD_DEAL_ARTICLE_REQUEST_CMD="addDealArticle";
+    String ABANDON_DEAL_ARTICLE_REQUEST_CMD="abandonDealArticle";
     String CONTRIBUTE_MONEY_REQUEST_CMD="contributeMoney";
     String CONTRIBUTE_ARTICLE_REQUEST_CMD="contributeArticle";
     String GET_GUILD_MONEY_REQUEST_CMD="getGuildMoney";

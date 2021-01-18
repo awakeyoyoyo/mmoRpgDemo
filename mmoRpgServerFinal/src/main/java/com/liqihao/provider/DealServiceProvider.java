@@ -1,12 +1,22 @@
 package com.liqihao.provider;
 
+import com.liqihao.Cache.ChannelMessageCache;
+import com.liqihao.Cache.MediceneMessageCache;
+import com.liqihao.commons.ConstantValue;
+import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.StateCode;
+import com.liqihao.commons.enums.ArticleTypeCode;
 import com.liqihao.commons.enums.DealStatusCode;
+import com.liqihao.pojo.baseMessage.MedicineMessage;
 import com.liqihao.pojo.bean.articleBean.Article;
+import com.liqihao.pojo.bean.articleBean.MedicineBean;
 import com.liqihao.pojo.bean.dealBean.DealArticleBean;
 import com.liqihao.pojo.bean.dealBean.DealBean;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
+import com.liqihao.protobufObject.DealModel;
+import com.liqihao.util.CommonsUtil;
+import io.netty.channel.Channel;
 
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
@@ -20,6 +30,13 @@ public class DealServiceProvider {
     private static ConcurrentHashMap<Integer, DealBean> dealBeans =new ConcurrentHashMap<>();
     private static AtomicInteger dealBeanIdAuto=new AtomicInteger(0);
 
+    /**
+     * 发起交易
+     * @param role1
+     * @param role2
+     * @return
+     * @throws RpgServerException
+     */
     public static DealBean createDeal(MmoSimpleRole role1,MmoSimpleRole role2) throws RpgServerException {
         if (role1.getOnDeal()){
             throw new RpgServerException(StateCode.FAIL,"你处于交易状态，无法再发起交易请求");
@@ -54,7 +71,6 @@ public class DealServiceProvider {
         role1.setDealBeanId(dealBean.getId());
         role2.setDealBeanId(dealBean.getId());
         dealBeans.put(dealBean.getId(), dealBean);
-        //发信息 todo
         return dealBean;
     }
 
@@ -69,12 +85,38 @@ public class DealServiceProvider {
             throw new RpgServerException(StateCode.FAIL,"该玩家并没有被邀请交易");
         }
         DealBean dealBean= dealBeans.get(role.getDealBeanId());
+        if (!role.getId().equals(dealBean.getSecondRole().getId())){
+            throw new RpgServerException(StateCode.FAIL,"请耐心等待对方接收交易邀请");
+        }
         if (!dealBean.getStatus().equals(DealStatusCode.WAIT.getCode())){
             throw new RpgServerException(StateCode.FAIL,"该交易已经开始了，请勿重复开始");
         }
-
         dealBean.setStatus(DealStatusCode.ON_DEAL.getCode());
-        //发信息 todo
+        return dealBean;
+    }
+
+    /**
+     * 拒绝交易
+     * @param role
+     * @return
+     * @throws RpgServerException
+     */
+    public static DealBean refuseDeal(MmoSimpleRole role) throws RpgServerException {
+        if (role.getDealBeanId()==null){
+            throw new RpgServerException(StateCode.FAIL,"该玩家并没有被邀请交易");
+        }
+        DealBean dealBean= dealBeans.get(role.getDealBeanId());
+        if (!role.getId().equals(dealBean.getSecondRole().getId())){
+            throw new RpgServerException(StateCode.FAIL,"请耐心等待对方处理交易邀请");
+        }
+        if (!dealBean.getStatus().equals(DealStatusCode.WAIT.getCode())){
+            throw new RpgServerException(StateCode.FAIL,"该交易已经开始了，请勿重复拒绝");
+        }
+        dealBeans.remove(dealBean.getId());
+        dealBean.getFirstRole().setOnDeal(false);
+        dealBean.getFirstRole().setDealBeanId(null);
+        dealBean.getSecondRole().setOnDeal(false);
+        dealBean.getSecondRole().setDealBeanId(null);
         return dealBean;
     }
 
@@ -100,14 +142,16 @@ public class DealServiceProvider {
             }
             dealArticleBean01.setConfirm(true);
             //发信息 某某确认了
+            sendConfirmMessage(dealBean,role);
         }else{
             if (dealArticleBean02.getConfirm()){
                 throw new RpgServerException(StateCode.FAIL,"已经确认过该交易");
             }
             dealArticleBean02.setConfirm(true);
             //发信息 某某确认了
+            sendConfirmMessage(dealBean,role);
         }
-        //判断是否双方已经完成交易
+        //判断是否双方已经确认，确认则交易物品
         if (dealArticleBean01.getConfirm()&&dealArticleBean02.getConfirm()){
             //交易完成 双方交换
             MmoSimpleRole role1=dealBean.getFirstRole();
@@ -132,35 +176,65 @@ public class DealServiceProvider {
             role1.setDealBeanId(null);
             role2.setOnDeal(false);
             role2.setDealBeanId(null);
-            //发送消息交易完成 todo
+            //发送消息交易完成
+            sendDealSuccessMessage(dealBean);
+        }
+    }
+    private static void sendDealSuccessMessage(DealBean dealBean){
+        //返回数据包
+        NettyResponse nettyResponse = new NettyResponse();
+        nettyResponse.setCmd(ConstantValue.DEAL_SUCCESS_RESPONSE);
+        nettyResponse.setStateCode(StateCode.SUCCESS);
+        //protobuf 生成registerResponse
+        DealModel.DealModelMessage.Builder messageData = DealModel.DealModelMessage.newBuilder();
+        messageData.setDataType(DealModel.DealModelMessage.DateType.DealSuccessResponse);
+        DealModel.DealSuccessResponse.Builder dealSuccessResponseBuilder = DealModel.DealSuccessResponse.newBuilder();
+        messageData.setDealSuccessResponse(dealSuccessResponseBuilder.build());
+        nettyResponse.setData(messageData.build().toByteArray());
+        Channel channel= ChannelMessageCache.getInstance().get(dealBean.getFirstRole().getId());
+        if (channel!=null) {
+            channel.writeAndFlush(nettyResponse);
+        }
+        Channel channel02=dealBean.getFirstRole().getChannel();
+        if (channel02!=null) {
+            channel02.writeAndFlush(nettyResponse);
         }
     }
 
+    private static void sendConfirmMessage(DealBean dealBean,MmoSimpleRole role){
+        //返回数据包
+        NettyResponse nettyResponse = new NettyResponse();
+        nettyResponse.setCmd(ConstantValue.CONFIRM_DEAL_RESPONSE);
+        nettyResponse.setStateCode(StateCode.SUCCESS);
+        //protobuf 生成registerResponse
+        DealModel.DealModelMessage.Builder messageData = DealModel.DealModelMessage.newBuilder();
+        messageData.setDataType(DealModel.DealModelMessage.DateType.ConfirmDealResponse);
+        DealModel.ConfirmDealResponse.Builder confirmDealResponseBuilder = DealModel.ConfirmDealResponse.newBuilder()
+                .setRoleId(role.getId()).setRoleName(role.getName());
+        messageData.setConfirmDealResponse(confirmDealResponseBuilder.build());
+        nettyResponse.setData(messageData.build().toByteArray());
+        Channel channel= ChannelMessageCache.getInstance().get(dealBean.getFirstRole().getId());
+        if (channel!=null) {
+            channel.writeAndFlush(nettyResponse);
+        }
+        Channel channel02=dealBean.getFirstRole().getChannel();
+        if (channel02!=null) {
+            channel02.writeAndFlush(nettyResponse);
+        }
+    }
     /**
      * 取消交易
      * @param role
      * @return
      * @throws RpgServerException
      */
-    public static void cancelDeal(MmoSimpleRole role) throws RpgServerException {
+    public static DealBean cancelDeal(MmoSimpleRole role) throws RpgServerException {
         if (role.getDealBeanId()==null){
             throw new RpgServerException(StateCode.FAIL,"该玩家并没有被邀请交易");
         }
         DealBean dealBean= dealBeans.get(role.getDealBeanId());
-        if (!dealBean.getStatus().equals(DealStatusCode.ON_DEAL.getCode())){
-            throw new RpgServerException(StateCode.FAIL,"该交易还没开始，无法取消");
-        }
         DealArticleBean dealArticleBean01=dealBean.getFirstDealArticleBean();
         DealArticleBean dealArticleBean02=dealBean.getSecondDealArticleBean();
-        if (dealArticleBean01.getRole().getId().equals(role.getId())){
-            if (dealArticleBean01.getConfirm()){
-                throw new RpgServerException(StateCode.FAIL,"已经确认过该交易，无法再取消");
-            }
-        }else{
-            if (dealArticleBean02.getConfirm()){
-                throw new RpgServerException(StateCode.FAIL,"已经确认过该交易，无法再取消");
-            }
-        }
         //交易取消 物品还原
         MmoSimpleRole role1=dealBean.getFirstRole();
         MmoSimpleRole role2=dealBean.getSecondRole();
@@ -184,48 +258,49 @@ public class DealServiceProvider {
         role1.setDealBeanId(null);
         role2.setOnDeal(false);
         role2.setDealBeanId(null);
-        //发送消息交易取消 todo
+        return dealBean;
     }
 
     /**
-     * 添加金钱
+     * 修改金钱
      * @param role
      * @return
      * @throws RpgServerException
      */
-    public static void addMoneyDeal(MmoSimpleRole role,Integer money) throws RpgServerException {
+    public static DealBean setMoneyDeal(MmoSimpleRole role, Integer money) throws RpgServerException {
         if (role.getDealBeanId()==null){
             throw new RpgServerException(StateCode.FAIL,"该玩家并没有被邀请交易");
         }
         DealBean dealBean= dealBeans.get(role.getDealBeanId());
         if (!dealBean.getStatus().equals(DealStatusCode.ON_DEAL.getCode())){
-            throw new RpgServerException(StateCode.FAIL,"该交易还没开始，无法放入金币");
+            throw new RpgServerException(StateCode.FAIL,"该交易还没开始，无法再修改金币");
         }
         DealArticleBean dealArticleBean01=dealBean.getFirstDealArticleBean();
         DealArticleBean dealArticleBean02=dealBean.getSecondDealArticleBean();
         if (dealArticleBean01.getRole().getId().equals(role.getId())){
-            addMoney(dealArticleBean01,role,money);
+            setMoney(dealArticleBean01,role,money);
         }else{
-            addMoney(dealArticleBean02,role,money);
+            setMoney(dealArticleBean02,role,money);
         }
-        //发消息给双方加钱了 todo
+        return dealBean;
     }
 
     /**
-     *  加钱
+     *  修改金币
      * @param dealArticleBean01
      * @param role
      * @param money
      * @throws RpgServerException
      */
-    private static void addMoney(DealArticleBean dealArticleBean01, MmoSimpleRole role, Integer money) throws RpgServerException {
+    private static void setMoney(DealArticleBean dealArticleBean01, MmoSimpleRole role, Integer money) throws RpgServerException {
         if (dealArticleBean01.getConfirm()){
             throw new RpgServerException(StateCode.FAIL,"已经确认过该交易，无法再添加");
         }
         if (role.getMoney()<money){
             throw new RpgServerException(StateCode.FAIL,"当前没有如此之多的金币");
         }
-        role.setMoney(role.getMoney()-money);
+        Integer endMoney=dealArticleBean01.getMoney()- money;
+        role.setMoney(role.getMoney()+endMoney);
         dealArticleBean01.setMoney(dealArticleBean01.getMoney()+money);
     }
 
@@ -233,7 +308,7 @@ public class DealServiceProvider {
      * 添加物品
      * @throws RpgServerException
      */
-    public static void addArticleDeal(Integer articleId,Integer num,MmoSimpleRole role) throws RpgServerException {
+    public static Article addArticleDeal(Integer articleId, Integer num, MmoSimpleRole role) throws RpgServerException {
         if (role.getDealBeanId()==null){
             throw new RpgServerException(StateCode.FAIL,"该玩家并没有被邀请交易");
         }
@@ -252,6 +327,7 @@ public class DealServiceProvider {
                 throw new RpgServerException(StateCode.FAIL,"背包中物品数量不足");
             }
             dealArticleBean01.put(article);
+            return article;
         }else{
             if (dealArticleBean02.getConfirm()){
                 throw new RpgServerException(StateCode.FAIL,"已经确认过该交易，无法再放入");
@@ -261,14 +337,15 @@ public class DealServiceProvider {
                 throw new RpgServerException(StateCode.FAIL,"背包中物品数量不足");
             }
             dealArticleBean02.put(article);
+            return article;
         }
-        //发送消息给双方 交易中增加了什么 todo
     }
+
     /**
      * 移除物品
      * @throws RpgServerException
      */
-    public static void reduceArticleDeal(Integer dealArticleId,Integer num,MmoSimpleRole role) throws RpgServerException {
+    public static Article reduceArticleDeal(Integer dealArticleId,Integer num,MmoSimpleRole role) throws RpgServerException {
         if (role.getDealBeanId()==null){
             throw new RpgServerException(StateCode.FAIL,"该玩家并没有被邀请交易");
         }
@@ -278,22 +355,58 @@ public class DealServiceProvider {
         }
         DealArticleBean dealArticleBean01=dealBean.getFirstDealArticleBean();
         DealArticleBean dealArticleBean02=dealBean.getSecondDealArticleBean();
-        //发送消息给双方 交易中增加了什么 todo
+        if (dealArticleBean01.getRole().getId().equals(role.getId())){
+            if (dealArticleBean01.getConfirm()){
+                throw new RpgServerException(StateCode.FAIL,"已经确认过该交易，无法再移除");
+            }
+            //从交易栏中找出物品
+            Article article=dealArticleBean01.abandon(dealArticleId,num);
+            if (article==null){
+                throw new RpgServerException(StateCode.FAIL,"交易栏中物品数量不足");
+            }
+            if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())){
+                MedicineMessage medicineMessage = MediceneMessageCache.getInstance().get(article.getArticleMessage().getId());
+                if (medicineMessage == null) {
+                    throw new RpgServerException(StateCode.FAIL,"存入错误物品id");
+                }
+                MedicineBean medicineBean = CommonsUtil.medicineMessageToMedicineBean(medicineMessage);
+                medicineBean.setQuantity(num);
+                article = medicineBean;
+            }
+            //放入背包
+            boolean flag=role.getBackpackManager().put(article,role.getId());
+            if (!flag){
+                throw new RpgServerException(StateCode.FAIL,"背包已经满了");
+            }
+            return article;
+        }else{
+            if (dealArticleBean02.getConfirm()){
+                throw new RpgServerException(StateCode.FAIL,"已经确认过该交易，无法再移除");
+            }
+            //从交易栏中找出物品
+            Article article=dealArticleBean02.abandon(dealArticleId,num);
+            if (article==null){
+                throw new RpgServerException(StateCode.FAIL,"交易栏中物品数量不足");
+            }
+            if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())){
+                MedicineMessage medicineMessage = MediceneMessageCache.getInstance().get(article.getArticleMessage().getId());
+                if (medicineMessage == null) {
+                    throw new RpgServerException(StateCode.FAIL,"存入错误物品id");
+                }
+                MedicineBean medicineBean = CommonsUtil.medicineMessageToMedicineBean(medicineMessage);
+                medicineBean.setQuantity(num);
+                article = medicineBean;
+            }
+            //放入背包
+            boolean flag=role.getBackpackManager().put(article,role.getId());
+            if (!flag){
+                throw new RpgServerException(StateCode.FAIL,"背包已经满了");
+            }
+            return article;
+        }
     }
-    /**
-     * 减少金币
-     * @throws RpgServerException
-     */
-    public static void reduceArticleDeal(Integer money,MmoSimpleRole role) throws RpgServerException {
-        if (role.getDealBeanId()==null){
-            throw new RpgServerException(StateCode.FAIL,"该玩家并没有被邀请交易");
-        }
-        DealBean dealBean= dealBeans.get(role.getDealBeanId());
-        if (!dealBean.getStatus().equals(DealStatusCode.ON_DEAL.getCode())){
-            throw new RpgServerException(StateCode.FAIL,"该交易还没开始，无法移除金币");
-        }
-        DealArticleBean dealArticleBean01=dealBean.getFirstDealArticleBean();
-        DealArticleBean dealArticleBean02=dealBean.getSecondDealArticleBean();
-        //发送消息给双方 交易中增加了什么 todo
+
+    public static DealBean getDealBean(Integer dealBeanId){
+        return dealBeans.get(dealBeanId);
     }
 }
