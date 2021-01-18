@@ -142,14 +142,14 @@ public class DealServiceProvider {
             }
             dealArticleBean01.setConfirm(true);
             //发信息 某某确认了
-            sendConfirmMessage(dealBean,role);
+            sendConfirmMessage(dealBean,dealArticleBean01.getRole());
         }else{
             if (dealArticleBean02.getConfirm()){
                 throw new RpgServerException(StateCode.FAIL,"已经确认过该交易");
             }
             dealArticleBean02.setConfirm(true);
             //发信息 某某确认了
-            sendConfirmMessage(dealBean,role);
+            sendConfirmMessage(dealBean,dealArticleBean02.getRole());
         }
         //判断是否双方已经确认，确认则交易物品
         if (dealArticleBean01.getConfirm()&&dealArticleBean02.getConfirm()){
@@ -195,7 +195,7 @@ public class DealServiceProvider {
         if (channel!=null) {
             channel.writeAndFlush(nettyResponse);
         }
-        Channel channel02=dealBean.getFirstRole().getChannel();
+        Channel channel02=dealBean.getSecondRole().getChannel();
         if (channel02!=null) {
             channel02.writeAndFlush(nettyResponse);
         }
@@ -217,7 +217,7 @@ public class DealServiceProvider {
         if (channel!=null) {
             channel.writeAndFlush(nettyResponse);
         }
-        Channel channel02=dealBean.getFirstRole().getChannel();
+        Channel channel02=dealBean.getSecondRole().getChannel();
         if (channel02!=null) {
             channel02.writeAndFlush(nettyResponse);
         }
@@ -326,6 +326,15 @@ public class DealServiceProvider {
             if (article==null){
                 throw new RpgServerException(StateCode.FAIL,"背包中物品数量不足");
             }
+            if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())){
+                MedicineMessage medicineMessage = MediceneMessageCache.getInstance().get(article.getArticleMessage().getId());
+                if (medicineMessage == null) {
+                    throw new RpgServerException(StateCode.FAIL,"存入错误物品id");
+                }
+                MedicineBean medicineBean = CommonsUtil.medicineMessageToMedicineBean(medicineMessage);
+                medicineBean.setQuantity(num);
+                article = medicineBean;
+            }
             dealArticleBean01.put(article);
             return article;
         }else{
@@ -335,6 +344,15 @@ public class DealServiceProvider {
             Article article=role.getBackpackManager().useOrAbandonArticle(articleId,num,role.getId());
             if (article==null){
                 throw new RpgServerException(StateCode.FAIL,"背包中物品数量不足");
+            }
+            if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())){
+                MedicineMessage medicineMessage = MediceneMessageCache.getInstance().get(article.getArticleMessage().getId());
+                if (medicineMessage == null) {
+                    throw new RpgServerException(StateCode.FAIL,"存入错误物品id");
+                }
+                MedicineBean medicineBean = CommonsUtil.medicineMessageToMedicineBean(medicineMessage);
+                medicineBean.setQuantity(num);
+                article = medicineBean;
             }
             dealArticleBean02.put(article);
             return article;
@@ -377,6 +395,15 @@ public class DealServiceProvider {
             boolean flag=role.getBackpackManager().put(article,role.getId());
             if (!flag){
                 throw new RpgServerException(StateCode.FAIL,"背包已经满了");
+            }
+            if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())){
+                MedicineMessage medicineMessage = MediceneMessageCache.getInstance().get(article.getArticleMessage().getId());
+                if (medicineMessage == null) {
+                    throw new RpgServerException(StateCode.FAIL,"存入错误物品id");
+                }
+                MedicineBean medicineBean = CommonsUtil.medicineMessageToMedicineBean(medicineMessage);
+                medicineBean.setQuantity(num);
+                article = medicineBean;
             }
             return article;
         }else{

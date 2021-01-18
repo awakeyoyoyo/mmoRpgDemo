@@ -112,7 +112,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
     /**
      *  是否在交易中
      */
-    private Boolean onDeal;
+    private boolean onDeal;
     /**
      * 交易beanId
      */
@@ -126,11 +126,11 @@ public class MmoSimpleRole extends Role implements MyObserver {
         this.dealBeanId = dealBeanId;
     }
 
-    public Boolean getOnDeal() {
+    public boolean getOnDeal() {
         return onDeal;
     }
 
-    public void setOnDeal(Boolean onDeal) {
+    public void setOnDeal(boolean onDeal) {
         this.onDeal = onDeal;
     }
 

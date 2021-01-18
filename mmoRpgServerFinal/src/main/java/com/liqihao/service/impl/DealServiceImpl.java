@@ -159,9 +159,9 @@ public class DealServiceImpl implements DealService {
         //protobuf 生成registerResponse
         DealModel.DealModelMessage.Builder messageData = DealModel.DealModelMessage.newBuilder();
         messageData.setDataType(DealModel.DealModelMessage.DateType.GetDealMessageResponse);
-        DealModel.GetDealMessageResponse.Builder getDealMessageResponseBuilder = DealModel.GetDealMessageResponse.newBuilder()
+        DealModel.GetDealMessageResponse.Builder getDealMessageResponseBuilder = DealModel.GetDealMessageResponse.newBuilder().setFirstMoney(dealBean.getFirstDealArticleBean().getMoney())
                 .setFirstRoleId(dealBean.getFirstRole().getId()).setFirstRoleName(dealBean.getFirstRole().getName()).addAllFirstArticleDto(articleBuilders01)
-                .setSecondRoleId(dealBean.getSecondRole().getId()).setSecondRoleName(dealBean.getSecondRole().getName()).addAllSecondArticleDto(articleBuilders02);
+                .setSecondRoleId(dealBean.getSecondRole().getId()).setSecondRoleName(dealBean.getSecondRole().getName()).addAllSecondArticleDto(articleBuilders02).setSecondMoney(dealBean.getSecondDealArticleBean().getMoney());
         messageData.setGetDealMessageResponse(getDealMessageResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         channel.writeAndFlush(nettyResponse);
@@ -200,7 +200,7 @@ public class DealServiceImpl implements DealService {
         Article article=DealServiceProvider.addArticleDeal(articleId,num,mmoSimpleRole);
         ArticleDto articleDto=article.getArticleMessage();
         DealModel.ArticleDto articleDto1= DealModel.ArticleDto.newBuilder().setArticleType(articleDto.getArticleType()).setArticleMessageId(articleDto.getId())
-                .setDealArticleId(articleDto.getDealArticleId()).setEquipmentId(articleDto.getEquipmentId()).setQuantity(articleDto.getQuantity()).setNowDurability(articleDto.getNowDurability()).build();
+                .setEquipmentId(articleDto.getEquipmentId()==null?-1:articleDto.getEquipmentId()).setQuantity(articleDto.getQuantity()).setNowDurability(articleDto.getNowDurability()==null?-1:articleDto.getNowDurability()).build();
         //发送消息给双方 交易中增加了什么
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.ADD_DEAL_ARTICLE_RESPONSE);

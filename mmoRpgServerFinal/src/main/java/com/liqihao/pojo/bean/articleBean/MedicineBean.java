@@ -193,6 +193,7 @@ public class MedicineBean  implements Article{
         articleDto.setBagId(getBagId());
         articleDto.setWareHouseId(getWareHouseId());
         articleDto.setWareHouseDBId(getWareHouseDBId());
+        articleDto.setDealArticleId(getDealArticleId());
         return articleDto;
     }
 

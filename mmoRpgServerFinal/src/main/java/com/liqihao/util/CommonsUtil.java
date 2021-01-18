@@ -542,7 +542,7 @@ public class CommonsUtil implements ApplicationContextAware {
             for (ArticleDto firstArticle : firstArticles) {
                 DealModel.ArticleDto articleDto=DealModel.ArticleDto.newBuilder()
                         .setDealArticleId(firstArticle.getDealArticleId()).setArticleType(firstArticle.getArticleType()).setArticleMessageId(firstArticle.getId())
-                        .setEquipmentId(firstArticle.getEquipmentId()).setQuantity(firstArticle.getQuantity()).setNowDurability(firstArticle.getNowDurability()).build();
+                        .setEquipmentId(firstArticle.getEquipmentId()==null?-1:firstArticle.getEquipmentId()).setQuantity(firstArticle.getQuantity()).setNowDurability(firstArticle.getNowDurability()==null?-1:firstArticle.getNowDurability()).build();
                 articleDtos.add(articleDto);
             }
         }
