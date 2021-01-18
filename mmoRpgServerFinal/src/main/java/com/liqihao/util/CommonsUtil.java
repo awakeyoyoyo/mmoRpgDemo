@@ -14,6 +14,8 @@ import com.liqihao.pojo.bean.*;
 import com.liqihao.pojo.bean.articleBean.EquipmentBean;
 import com.liqihao.pojo.bean.articleBean.MedicineBean;
 import com.liqihao.pojo.bean.bufferBean.BaseBufferBean;
+import com.liqihao.pojo.bean.dealBankBean.DealBankArticleBean;
+import com.liqihao.pojo.bean.dealBankBean.DealBankAuctionBean;
 import com.liqihao.pojo.bean.guildBean.GuildApplyBean;
 import com.liqihao.pojo.bean.guildBean.GuildBean;
 import com.liqihao.pojo.bean.guildBean.GuildRoleBean;
@@ -23,10 +25,8 @@ import com.liqihao.pojo.bean.roleBean.MmoSimpleNPC;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.pojo.bean.roleBean.Role;
 import com.liqihao.pojo.dto.ArticleDto;
-import com.liqihao.pojo.dto.EquipmentDto;
 import com.liqihao.protobufObject.*;
 import com.liqihao.provider.CopySceneProvider;
-import com.liqihao.provider.EmailServiceProvider;
 import com.liqihao.provider.GuildServiceProvider;
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
@@ -57,6 +57,39 @@ public class CommonsUtil implements ApplicationContextAware {
     private static MmoGuildApplyPOJOMapper mmoGuildApplyPOJOMapper;
     private static MmoGuildRolePOJOMapper mmoGuildRolePOJOMapper;
     private static MmoWareHousePOJOMapper mmoWareHousePOJOMapper;
+    private static MmoDealBankAuctionPOJOMapper mmoDealBankAuctionPOJOMapper;
+
+    public static DealBankArticleBean dealBankArticlePOJOToDealBankArticleBean(MmoDealBankArticlePOJO dealBankArticlePOJO) {
+        DealBankArticleBean dealBankArticleBean=new DealBankArticleBean();
+        dealBankArticleBean.setDealBankArticleDbId(dealBankArticlePOJO.getId());
+        dealBankArticleBean.setArticleType(dealBankArticlePOJO.getArticleType());
+        dealBankArticleBean.setArticleMessageId(dealBankArticlePOJO.getArticleMessageId());
+        dealBankArticleBean.setNum(dealBankArticlePOJO.getNum());
+        dealBankArticleBean.setType(dealBankArticlePOJO.getType());
+        dealBankArticleBean.setFromRoleId(dealBankArticleBean.getFromRoleId());
+        dealBankArticleBean.setToRoleId(dealBankArticleBean.getToRoleId());
+        dealBankArticleBean.setCreateTime(dealBankArticleBean.getCreateTime());
+        dealBankArticleBean.setEndTime(dealBankArticleBean.getEndTime());
+        dealBankArticleBean.setPrice(dealBankArticleBean.getPrice());
+        dealBankArticleBean.setHighPrice(dealBankArticleBean.getHighPrice());
+        dealBankArticleBean.setEquipmentId(dealBankArticleBean.getEquipmentId());
+        List<MmoDealBankAuctionPOJO> dealBankAuctionPOJOS=mmoDealBankAuctionPOJOMapper.selectAll();
+        for (MmoDealBankAuctionPOJO dealBankAuctionPOJO : dealBankAuctionPOJOS) {
+            DealBankAuctionBean d= CommonsUtil.dealDealBankAuctionPOJOToDealBankAuctionBean(dealBankAuctionPOJO);
+            dealBankArticleBean.getDealBankAuctionBeans().add(d);
+        }
+        return dealBankArticleBean;
+    }
+
+    public static DealBankAuctionBean dealDealBankAuctionPOJOToDealBankAuctionBean(MmoDealBankAuctionPOJO dealBankAuctionPOJO) {
+        DealBankAuctionBean dealBankAuctionBean=new DealBankAuctionBean();
+        dealBankAuctionBean.setDealBeanAuctionBeanDbId(dealBankAuctionPOJO.getId());
+        dealBankAuctionBean.setMoney(dealBankAuctionPOJO.getMoney());
+        dealBankAuctionBean.setDealBeanArticleBeanDbId(dealBankAuctionBean.getDealBeanArticleBeanDbId());
+        dealBankAuctionBean.setFromRoleId(dealBankAuctionPOJO.getFromRoleId());
+        dealBankAuctionBean.setCreateTime(dealBankAuctionPOJO.getCreateTime());
+        return dealBankAuctionBean;
+    }
 
 
     @Override
@@ -70,6 +103,7 @@ public class CommonsUtil implements ApplicationContextAware {
         mmoGuildApplyPOJOMapper=(MmoGuildApplyPOJOMapper) context.getBean("mmoGuildApplyPOJOMapper");
         mmoGuildRolePOJOMapper=(MmoGuildRolePOJOMapper) context.getBean("mmoGuildRolePOJOMapper");
         mmoWareHousePOJOMapper= (MmoWareHousePOJOMapper )context.getBean("mmoWareHousePOJOMapper");
+        mmoDealBankAuctionPOJOMapper=(MmoDealBankAuctionPOJOMapper)context.getBean("mmoDealBankAuctionPOJOMapper");
     }
 
     public static GuildBean MmoGuildPOJOToGuildBean(MmoGuildPOJO mmoGuildPOJO) {

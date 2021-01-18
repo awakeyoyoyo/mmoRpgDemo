@@ -35,16 +35,11 @@ import java.util.stream.Collectors;
 @Component
 public class EmailServiceProvider implements ApplicationContextAware {
     private final Logger log = LoggerFactory.getLogger(EmailServiceProvider.class);
-    MmoEmailPOJOMapper mmoEmailPOJOMapper;
     private static MmoUserPOJOMapper userPOJOMapper;
-
-
-
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         MmoEmailPOJOMapper mmoEmailPOJOMapper=(MmoEmailPOJOMapper)applicationContext.getBean("mmoEmailPOJOMapper");
         userPOJOMapper=(MmoUserPOJOMapper)applicationContext.getBean("mmoUserPOJOMapper");
-        this.mmoEmailPOJOMapper=mmoEmailPOJOMapper;
         Integer index=mmoEmailPOJOMapper.selectNextIndex();
         emailBeanIdAuto=new AtomicInteger(index);
         id=index-1;

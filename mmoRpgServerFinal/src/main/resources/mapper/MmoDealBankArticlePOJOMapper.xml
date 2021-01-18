@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liqihao.dao.MmoDealBankArticlePOJOMapper">
+  <resultMap id="BaseResultMap" type="com.liqihao.pojo.MmoDealBankArticlePOJO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="article_type" jdbcType="INTEGER" property="articleType" />
+    <result column="article_message_id" jdbcType="INTEGER" property="articleMessageId" />
+    <result column="num" jdbcType="INTEGER" property="num" />
+    <result column="price" jdbcType="INTEGER" property="price" />
+    <result column="high_price" jdbcType="INTEGER" property="highPrice" />
+    <result column="from_role_id" jdbcType="INTEGER" property="fromRoleId" />
+    <result column="to_role_id" jdbcType="INTEGER" property="toRoleId" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="end_time" jdbcType="BIGINT" property="endTime" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="equipment_id" jdbcType="INTEGER" property="equipmentId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, article_type, article_message_id, num, price, high_price, from_role_id, to_role_id, 
+    create_time, end_time, type, equipment_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from mmo_dealbank_article
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from mmo_dealbank_article
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.liqihao.pojo.MmoDealBankArticlePOJO">
+    insert into mmo_dealbank_article (id, article_type, article_message_id, 
+      num, price, high_price, 
+      from_role_id, to_role_id, create_time, 
+      end_time, type, equipment_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{articleType,jdbcType=INTEGER}, #{articleMessageId,jdbcType=INTEGER}, 
+      #{num,jdbcType=INTEGER}, #{price,jdbcType=INTEGER}, #{highPrice,jdbcType=INTEGER}, 
+      #{fromRoleId,jdbcType=INTEGER}, #{toRoleId,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT}, 
+      #{endTime,jdbcType=BIGINT}, #{type,jdbcType=INTEGER}, #{equipmentId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.liqihao.pojo.MmoDealBankArticlePOJO">
+    insert into mmo_dealbank_article
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="articleType != null">
+        article_type,
+      </if>
+      <if test="articleMessageId != null">
+        article_message_id,
+      </if>
+      <if test="num != null">
+        num,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="highPrice != null">
+        high_price,
+      </if>
+      <if test="fromRoleId != null">
+        from_role_id,
+      </if>
+      <if test="toRoleId != null">
+        to_role_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="equipmentId != null">
+        equipment_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="articleType != null">
+        #{articleType,jdbcType=INTEGER},
+      </if>
+      <if test="articleMessageId != null">
+        #{articleMessageId,jdbcType=INTEGER},
+      </if>
+      <if test="num != null">
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=INTEGER},
+      </if>
+      <if test="highPrice != null">
+        #{highPrice,jdbcType=INTEGER},
+      </if>
+      <if test="fromRoleId != null">
+        #{fromRoleId,jdbcType=INTEGER},
+      </if>
+      <if test="toRoleId != null">
+        #{toRoleId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=BIGINT},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentId != null">
+        #{equipmentId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.liqihao.pojo.MmoDealBankArticlePOJO">
+    update mmo_dealbank_article
+    <set>
+      <if test="articleType != null">
+        article_type = #{articleType,jdbcType=INTEGER},
+      </if>
+      <if test="articleMessageId != null">
+        article_message_id = #{articleMessageId,jdbcType=INTEGER},
+      </if>
+      <if test="num != null">
+        num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=INTEGER},
+      </if>
+      <if test="highPrice != null">
+        high_price = #{highPrice,jdbcType=INTEGER},
+      </if>
+      <if test="fromRoleId != null">
+        from_role_id = #{fromRoleId,jdbcType=INTEGER},
+      </if>
+      <if test="toRoleId != null">
+        to_role_id = #{toRoleId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=BIGINT},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentId != null">
+        equipment_id = #{equipmentId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.liqihao.pojo.MmoDealBankArticlePOJO">
+    update mmo_dealbank_article
+    set article_type = #{articleType,jdbcType=INTEGER},
+      article_message_id = #{articleMessageId,jdbcType=INTEGER},
+      num = #{num,jdbcType=INTEGER},
+      price = #{price,jdbcType=INTEGER},
+      high_price = #{highPrice,jdbcType=INTEGER},
+      from_role_id = #{fromRoleId,jdbcType=INTEGER},
+      to_role_id = #{toRoleId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=BIGINT},
+      end_time = #{endTime,jdbcType=BIGINT},
+      type = #{type,jdbcType=INTEGER},
+      equipment_id = #{equipmentId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectNextIndex"  resultType="java.lang.Integer">
+    select
+      AUTO_INCREMENT
+    from INFORMATION_SCHEMA. TABLES
+    where TABLE_NAME = 'mmo_dealbank_article'
+  </select>
+
+  <select id="selectAll"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from mmo_dealbank_article
+  </select>
+</mapper>
