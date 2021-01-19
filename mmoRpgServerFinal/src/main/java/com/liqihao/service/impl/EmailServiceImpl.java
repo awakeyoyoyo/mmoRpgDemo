@@ -143,7 +143,10 @@ public class EmailServiceImpl implements EmailService {
         }
         mmoEmailBean.setGetMoney(true);
         mmoSimpleRole.setMoney(mmoSimpleRole.getMoney()+mmoEmailBean.getMoney());
-        ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateEmailBeanDb(mmoEmailBean));
+        ScheduledThreadPoolUtil.addTask(() -> {
+            DbUtil.updateEmailBeanDb(mmoEmailBean);
+            DbUtil.updateRole(mmoSimpleRole);
+        });
     }
 
     @Override

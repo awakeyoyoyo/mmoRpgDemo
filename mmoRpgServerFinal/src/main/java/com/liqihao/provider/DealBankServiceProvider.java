@@ -25,10 +25,13 @@ import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.Lifecycle;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -44,7 +47,8 @@ import java.util.stream.Collectors;
  *
  * @author lqhao
  */
-public class DealBankServiceProvider implements ApplicationContextAware {
+@Component
+public class DealBankServiceProvider {
     private final Logger log = LoggerFactory.getLogger(DealBankServiceProvider.class);
     /**
      * 交易行上物品
@@ -77,23 +81,56 @@ public class DealBankServiceProvider implements ApplicationContextAware {
     private static MmoDealBankAuctionPOJOMapper mmoDealBankAuctionPOJOMapper;
     private static MmoDealBankArticlePOJOMapper mmoDealBankArticlePOJOMapper;
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        mmoDealBankArticlePOJOMapper = (MmoDealBankArticlePOJOMapper) applicationContext.getBean("mmoDealBankArticlePOJOMapper");
-        mmoDealBankAuctionPOJOMapper = (MmoDealBankAuctionPOJOMapper) applicationContext.getBean("mmoDealBankAuctionPOJOMapper");
+    public static final String AUCTION_SUCCESS_TITLE="拍卖成功";
+    public static final String AUCTION_FAIL_TITLE="拍卖失败";
+    public static final String FROM_BUY_SUCCESS_TITLE="购买成功";
+    public static final String FROM_BUY_FAIL_TITLE="购买失败";
+    public static final String TO_BUY_SUCCESS_TITLE="商品已卖出";
+    public static final String TO_BUY_FAIL_OUT_TIME_TITLE="商品超时无人拍卖";
+    public static final String SELLER_S_FAIL_TITLE="商品下架";
+
+    public static final String TO_AUCTION_SUCCESS="拍卖成功,请签收你的物品";
+    public static final String FROM_AUCTION_SUCCESS="商品拍卖成功,请签收你的金币";
+    public static final String TO_UNSET ="商品已下架,请签收你的物品";
+    public static final String FROM_UNSET="商品已下架,请签收你的金币";
+    public static final String TO_BUY_SUCCESS="购买成功,请签收你的物品";
+    public static final String FROM_BUY_SUCCESS="商品已被购买,请签收你的金币";
+    public static final String AUCTION_FAIL_PRICE="拍卖失败,有更高价格，请签收你的金币";
+
+
+    @Autowired
+    private CommonsUtil commonsUtil;
+    @Autowired
+    private ScheduledThreadPoolUtil scheduledThreadPoolUtil;
+    @PostConstruct
+    private void init() {
         dealBankArticleBeanDBIdAuto = new AtomicInteger(mmoDealBankArticlePOJOMapper.selectNextIndex() - 1);
         dealBankAuctionBeanDBIdAuto = new AtomicInteger(mmoDealBankAuctionPOJOMapper.selectNextIndex() - 1);
-        //获取数据库中的交易数据放入内存中
-        init();
-    }
-
-    private void init() {
         List<MmoDealBankArticlePOJO> dealBankArticlePOJOS = mmoDealBankArticlePOJOMapper.selectAll();
         for (MmoDealBankArticlePOJO dealBankArticlePOJO : dealBankArticlePOJOS) {
             DealBankArticleBean d = CommonsUtil.dealBankArticlePOJOToDealBankArticleBean(dealBankArticlePOJO);
-            d.setDealBeanArticleBeanId(dealBankArticleBeanDBIdAuto.incrementAndGet());
+            d.setDealBeanArticleBeanId(dealBankArticleBeanIdAuto.incrementAndGet());
+            if (d.getType().equals(DealBankArticleTypeCode.AUCTION.getCode())) {
+                //开启延时任务
+                long time=d.getEndTime()-d.getCreateTime();
+                if (time<0){
+                    time=0;
+                }
+                ScheduledFuture<?> t = ScheduledThreadPoolUtil.getScheduledExecutorService().schedule(
+                        new ScheduledThreadPoolUtil.DealBankOutTimeTask(d)
+                        , time, TimeUnit.MILLISECONDS);
+                ScheduledThreadPoolUtil.getDealBankTaskMap().put(d.getDealBeanArticleBeanId(), t);
+            }
             dealBankArticleBeans.put(d.getDealBeanArticleBeanId(), d);
         }
+    }
+    @Autowired
+    public  void setMmoDealBankAuctionPOJOMapper(MmoDealBankAuctionPOJOMapper mmoDealBankAuctionPOJOMapper) {
+        DealBankServiceProvider.mmoDealBankAuctionPOJOMapper = mmoDealBankAuctionPOJOMapper;
+    }
+    @Autowired
+    public  void setMmoDealBankArticlePOJOMapper(MmoDealBankArticlePOJOMapper mmoDealBankArticlePOJOMapper) {
+        DealBankServiceProvider.mmoDealBankArticlePOJOMapper = mmoDealBankArticlePOJOMapper;
     }
 
     public static ConcurrentHashMap<Integer, DealBankArticleBean> getDealBankArticleBeans() {
@@ -115,6 +152,7 @@ public class DealBankServiceProvider implements ApplicationContextAware {
         dealBankArticleBean.setType(type);
         dealBankArticleBean.setNum(num);
         dealBankArticleBean.setPrice(price);
+        dealBankArticleBean.setHighPrice(0);
         //1天
         dealBankArticleBean.setEndTime(dealBankArticleBean.getCreateTime() + 60 * 60 * 24 * 1000);
         dealBankArticleBean.setDealBeanArticleBeanId(dealBankArticleBeanIdAuto.incrementAndGet());
@@ -138,31 +176,37 @@ public class DealBankServiceProvider implements ApplicationContextAware {
      */
     public static void reduceSellArticleToDealBank(Integer dealBeanArticleBeanId,MmoSimpleRole role) throws RpgServerException {
         DealBankArticleBean dealBankArticleBean = dealBankArticleBeans.get(dealBeanArticleBeanId);
+        dealBankArticleBeans.remove(dealBankArticleBean.getDealBeanArticleBeanId());
         if (dealBankArticleBean == null) {
             throw new RpgServerException(StateCode.FAIL, "该物品已经交易完成或不存在");
         }
         if (!role.getId().equals(dealBankArticleBean.getFromRoleId())){
             throw new RpgServerException(StateCode.FAIL, "非本商品的卖家无法下架");
         }
+        if (!role.getId().equals(dealBankArticleBean.getFromRoleId())){
+            throw new RpgServerException(StateCode.FAIL, "不能自己下架他人物品");
+        }
         //发送给买家
-        sendSuccessToSeller(dealBankArticleBean);
+        sendReduceToSeller(dealBankArticleBean,SELLER_S_FAIL_TITLE,FROM_UNSET);
         //判断是否是拍卖品
         if (dealBankArticleBean.getType().equals(DealBankArticleTypeCode.AUCTION.getCode())) {
             //消除任务
             ScheduledFuture<?> t = ScheduledThreadPoolUtil.getCopySceneTaskMap().get(dealBankArticleBean.getDealBeanArticleBeanId());
             ScheduledThreadPoolUtil.getCopySceneTaskMap().remove(dealBankArticleBean.getDealBeanArticleBeanId());
-            t.cancel(false);
+            if (t!=null) {
+                t.cancel(false);
+            }
             for (DealBankAuctionBean dealBankAuctionBean : dealBankArticleBean.getDealBankAuctionBeans()) {
                 //把金币发给买家
-                sendFailToBuyer(dealBankAuctionBean);
+                sendFailToBuyer(dealBankAuctionBean,SELLER_S_FAIL_TITLE,FROM_UNSET);
                 Integer dealBankAuctionDbId = dealBankAuctionBean.getDealBeanAuctionBeanDbId();
                 //Db删除
                 ScheduledThreadPoolUtil.addTask(() -> DealBankServiceProvider.deleteDealBankAuctionById(dealBankAuctionDbId));
             }
-            //db删除
-            Integer dealBankArticleDbId = dealBankArticleBean.getDealBankArticleDbId();
-            ScheduledThreadPoolUtil.addTask(() -> DealBankServiceProvider.deleteDealBankArticleById(dealBankArticleDbId));
         }
+        //db删除
+        Integer dealBankArticleDbId = dealBankArticleBean.getDealBankArticleDbId();
+        ScheduledThreadPoolUtil.addTask(() -> DealBankServiceProvider.deleteDealBankArticleById(dealBankArticleDbId));
 
     }
 
@@ -176,6 +220,9 @@ public class DealBankServiceProvider implements ApplicationContextAware {
         }
         if (money==0&&dealBankArticleBean.getType().equals(DealBankArticleTypeCode.AUCTION.getCode())){
             throw new RpgServerException(StateCode.FAIL, "该商品为拍卖模式，请调用拍卖接口");
+        }
+        if (role.getId().equals(dealBankArticleBean.getFromRoleId())){
+            throw new RpgServerException(StateCode.FAIL, "不能自己购买自己物品");
         }
         synchronized (dealBankArticleBean) {
             //检测金币是否够
@@ -222,8 +269,8 @@ public class DealBankServiceProvider implements ApplicationContextAware {
                     role.moneyLock.writeLock().unlock();
                 }
                 //发送交易成功给双方
-                sendSuccessToBuyer(dealBankArticleBean);
-                sendSuccessToSeller(dealBankArticleBean);
+                sendSuccessToBuyer(dealBankArticleBean,FROM_BUY_SUCCESS_TITLE,TO_BUY_SUCCESS);
+                sendSuccessToSeller(dealBankArticleBean,TO_BUY_SUCCESS_TITLE,FROM_BUY_SUCCESS);
                 //删除拍卖行中物品
                 Integer dealBankArticleDBId=dealBankArticleBean.getDealBankArticleDbId();
                 ScheduledThreadPoolUtil.addTask(() -> {
@@ -251,6 +298,7 @@ public class DealBankServiceProvider implements ApplicationContextAware {
         mmoDealBankArticlePOJO.setFromRoleId(dealBankArticleBean.getFromRoleId());
         mmoDealBankArticlePOJO.setCreateTime(dealBankArticleBean.getCreateTime());
         mmoDealBankArticlePOJO.setEndTime(dealBankArticleBean.getEndTime());
+        mmoDealBankArticlePOJO.setNum(dealBankArticleBean.getNum());
         mmoDealBankArticlePOJO.setType(dealBankArticleBean.getType());
         mmoDealBankArticlePOJO.setHighPrice(dealBankArticleBean.getHighPrice());
         mmoDealBankArticlePOJO.setPrice(dealBankArticleBean.getPrice());
@@ -305,15 +353,19 @@ public class DealBankServiceProvider implements ApplicationContextAware {
         mmoDealBankArticlePOJOMapper.deleteByPrimaryKey(dealBankArticleDbId);
     }
 
-    public static void sendSuccessToSeller(DealBankArticleBean dealBankArticleBean) throws RpgServerException {
+    public static void sendSuccessToSeller(DealBankArticleBean dealBankArticleBean,String title,String context) throws RpgServerException {
         //把商品发给买家
         MmoEmailBean mmoEmailBean02 = new MmoEmailBean();
-        mmoEmailBean02.setContext("恭喜你，你的物品已被拍卖");
-        mmoEmailBean02.setTitle("物品出售成功消息");
-        mmoEmailBean02.setArticleNum(dealBankArticleBean.getNum());
-        mmoEmailBean02.setArticleType(dealBankArticleBean.getArticleType());
-        mmoEmailBean02.setArticleMessageId(dealBankArticleBean.getArticleMessageId());
-        mmoEmailBean02.setMoney(0);
+        mmoEmailBean02.setContext(context);
+        mmoEmailBean02.setTitle(title);
+        mmoEmailBean02.setArticleNum(-1);
+        mmoEmailBean02.setArticleType(-1);
+        mmoEmailBean02.setArticleMessageId(-1);
+        if (dealBankArticleBean.getType().equals(DealBankArticleTypeCode.AUCTION.getCode())) {
+            mmoEmailBean02.setMoney(dealBankArticleBean.getHighPrice());
+        }else{
+            mmoEmailBean02.setMoney(dealBankArticleBean.getPrice());
+        }
         mmoEmailBean02.setEquipmentId(dealBankArticleBean.getEquipmentId() == null ? -1 : dealBankArticleBean.getEquipmentId());
         mmoEmailBean02.setToRoleId(dealBankArticleBean.getFromRoleId());
         //GM
@@ -322,11 +374,11 @@ public class DealBankServiceProvider implements ApplicationContextAware {
         EmailServiceProvider.sendArticleEmail(null, fromRole, mmoEmailBean02);
     }
 
-    public static void sendFailToBuyer(DealBankAuctionBean dealBankAuctionBean) throws RpgServerException {
+    public static void sendFailToBuyer(DealBankAuctionBean dealBankAuctionBean,String title,String context) throws RpgServerException {
         //把金币发给买家
         MmoEmailBean emailBean = new MmoEmailBean();
-        emailBean.setContext("你出价太低了");
-        emailBean.setTitle("拍卖失败");
+        emailBean.setContext(context);
+        emailBean.setTitle(title);
         emailBean.setArticleNum(-1);
         emailBean.setArticleType(-1);
         emailBean.setArticleMessageId(-1);
@@ -339,10 +391,10 @@ public class DealBankServiceProvider implements ApplicationContextAware {
         EmailServiceProvider.sendArticleEmail(null, player, emailBean);
     }
 
-    public static void sendFailToSeller(DealBankArticleBean dealBankArticleBean) throws RpgServerException {
+    public static void sendFailToSeller(DealBankArticleBean dealBankArticleBean,String title,String context) throws RpgServerException {
         MmoEmailBean mmoEmailBean = new MmoEmailBean();
-        mmoEmailBean.setContext("拍卖结束还没有买家购买你的物品");
-        mmoEmailBean.setTitle("拍卖失败");
+        mmoEmailBean.setContext(context);
+        mmoEmailBean.setTitle(title);
         mmoEmailBean.setArticleNum(dealBankArticleBean.getNum());
         mmoEmailBean.setArticleType(dealBankArticleBean.getArticleType());
         mmoEmailBean.setArticleMessageId(dealBankArticleBean.getArticleMessageId());
@@ -355,12 +407,27 @@ public class DealBankServiceProvider implements ApplicationContextAware {
 
         EmailServiceProvider.sendArticleEmail(null, fromRole, mmoEmailBean);
     }
+    public static void sendReduceToSeller(DealBankArticleBean dealBankArticleBean,String title,String context) throws RpgServerException {
+        MmoEmailBean mmoEmailBean = new MmoEmailBean();
+        mmoEmailBean.setContext(context);
+        mmoEmailBean.setTitle(title);
+        mmoEmailBean.setArticleNum(dealBankArticleBean.getNum());
+        mmoEmailBean.setArticleType(dealBankArticleBean.getArticleType());
+        mmoEmailBean.setArticleMessageId(dealBankArticleBean.getArticleMessageId());
+        mmoEmailBean.setMoney(0);
+        mmoEmailBean.setEquipmentId(dealBankArticleBean.getEquipmentId());
+        mmoEmailBean.setToRoleId(dealBankArticleBean.getFromRoleId());
+        //GM
+        mmoEmailBean.setFromRoleId(88888);
+        MmoSimpleRole fromRole = OnlineRoleMessageCache.getInstance().get(dealBankArticleBean.getFromRoleId());
 
-    public static void sendSuccessToBuyer(DealBankArticleBean dealBankArticleBean) throws RpgServerException {
+        EmailServiceProvider.sendArticleEmail(null, fromRole, mmoEmailBean);
+    }
+    public static void sendSuccessToBuyer(DealBankArticleBean dealBankArticleBean,String title,String context) throws RpgServerException {
         //发邮件，把物品给回买家
         MmoEmailBean mmoEmailBean = new MmoEmailBean();
-        mmoEmailBean.setContext("恭喜你拍卖成功");
-        mmoEmailBean.setTitle("拍卖成功");
+        mmoEmailBean.setContext(context);
+        mmoEmailBean.setTitle(title);
         mmoEmailBean.setArticleNum(dealBankArticleBean.getNum());
         mmoEmailBean.setArticleType(dealBankArticleBean.getArticleType());
         mmoEmailBean.setArticleMessageId(dealBankArticleBean.getArticleMessageId());
@@ -380,7 +447,7 @@ public class DealBankServiceProvider implements ApplicationContextAware {
         dealBankAuctionBean.setMoney(money);
         dealBankAuctionBean.setDealBeanAuctionBeanId(dealBankAuctionBeanIdAuto.incrementAndGet());
         dealBankAuctionBean.setDealBeanArticleBeanDbId(dealBankArticleBean.getDealBankArticleDbId());
-        dealBankAuctionBean.setDealBeanAuctionBeanDbId(dealBankArticleBeanDBIdAuto.incrementAndGet());
+        dealBankAuctionBean.setDealBeanAuctionBeanDbId(dealBankAuctionBeanDBIdAuto.incrementAndGet());
         return dealBankAuctionBean;
     }
 

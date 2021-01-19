@@ -274,9 +274,6 @@ public class Dispatcherservlet {
             case ConstantValue.ADD_SELL_ARTICLE_RESPONSE:
                 dealBankService.addSellArticleRequest(nettyResponse);
                 break;
-            case ConstantValue.ADD_AUCTION_ARTICLE_RESPONSE:
-                dealBankService.addAuctionArticleRequest(nettyResponse);
-                break;
             case ConstantValue.REDUCE_SELL_ARTICLE_RESPONSE:
                 dealBankService.reduceSellArticleRequest(nettyResponse);
                 break;

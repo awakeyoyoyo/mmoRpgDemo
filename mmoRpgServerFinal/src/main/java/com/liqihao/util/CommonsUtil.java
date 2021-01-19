@@ -31,6 +31,7 @@ import com.liqihao.provider.GuildServiceProvider;
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
@@ -47,7 +48,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @author lqhao
  */
 @Component
-public class CommonsUtil implements ApplicationContextAware {
+public class CommonsUtil {
     private static ApplicationContext applicationContext;
     private static MmoBagPOJOMapper mmoBagPOJOMapper;
     private static MmoEquipmentPOJOMapper mmoEquipmentPOJOMapper;
@@ -58,6 +59,52 @@ public class CommonsUtil implements ApplicationContextAware {
     private static MmoGuildRolePOJOMapper mmoGuildRolePOJOMapper;
     private static MmoWareHousePOJOMapper mmoWareHousePOJOMapper;
     private static MmoDealBankAuctionPOJOMapper mmoDealBankAuctionPOJOMapper;
+    @Autowired
+    public  void setMmoBagPOJOMapper(MmoBagPOJOMapper mmoBagPOJOMapper) {
+        CommonsUtil.mmoBagPOJOMapper = mmoBagPOJOMapper;
+    }
+    @Autowired
+
+    public  void setMmoEquipmentPOJOMapper(MmoEquipmentPOJOMapper mmoEquipmentPOJOMapper) {
+        CommonsUtil.mmoEquipmentPOJOMapper = mmoEquipmentPOJOMapper;
+    }
+    @Autowired
+
+    public  void setEquipmentBagPOJOMapper(MmoEquipmentBagPOJOMapper equipmentBagPOJOMapper) {
+        CommonsUtil.equipmentBagPOJOMapper = equipmentBagPOJOMapper;
+    }
+    @Autowired
+
+    public  void setMmoRolePOJOMapper(MmoRolePOJOMapper mmoRolePOJOMapper) {
+        CommonsUtil.mmoRolePOJOMapper = mmoRolePOJOMapper;
+    }
+    @Autowired
+
+    public  void setMmoEmailPOJOMapper(MmoEmailPOJOMapper mmoEmailPOJOMapper) {
+        CommonsUtil.mmoEmailPOJOMapper = mmoEmailPOJOMapper;
+    }
+    @Autowired
+
+    public  void setMmoGuildApplyPOJOMapper(MmoGuildApplyPOJOMapper mmoGuildApplyPOJOMapper) {
+        CommonsUtil.mmoGuildApplyPOJOMapper = mmoGuildApplyPOJOMapper;
+    }
+    @Autowired
+
+    public  void setMmoGuildRolePOJOMapper(MmoGuildRolePOJOMapper mmoGuildRolePOJOMapper) {
+        CommonsUtil.mmoGuildRolePOJOMapper = mmoGuildRolePOJOMapper;
+    }
+    @Autowired
+
+    public  void setMmoWareHousePOJOMapper(MmoWareHousePOJOMapper mmoWareHousePOJOMapper) {
+        CommonsUtil.mmoWareHousePOJOMapper = mmoWareHousePOJOMapper;
+    }
+    @Autowired
+
+    public  void setMmoDealBankAuctionPOJOMapper(MmoDealBankAuctionPOJOMapper mmoDealBankAuctionPOJOMapper) {
+        CommonsUtil.mmoDealBankAuctionPOJOMapper = mmoDealBankAuctionPOJOMapper;
+    }
+
+
 
     public static DealBankArticleBean dealBankArticlePOJOToDealBankArticleBean(MmoDealBankArticlePOJO dealBankArticlePOJO) {
         DealBankArticleBean dealBankArticleBean=new DealBankArticleBean();
@@ -102,10 +149,10 @@ public class CommonsUtil implements ApplicationContextAware {
                 .addAllDealBankAuctionDtos(dealBankAuctionDtos).setDealBankArticleBeanId(dealBankArticleBean.getDealBeanArticleBeanId())
                 .setArticleType(dealBankArticleBean.getArticleType()).setArticleMessageId(dealBankArticleBean.getArticleMessageId())
                 .setNum(dealBankArticleBean.getNum()).setPrice(dealBankArticleBean.getPrice())
-                .setHighPrice(dealBankArticleBean.getHighPrice()).setFromRoleId(dealBankArticleBean.getFromRoleId())
-                .setToRoleId(dealBankArticleBean.getToRoleId()).setType(dealBankArticleBean.getType())
+                .setHighPrice(dealBankArticleBean.getHighPrice()==null?0:dealBankArticleBean.getHighPrice()).setFromRoleId(dealBankArticleBean.getFromRoleId())
+                .setToRoleId(dealBankArticleBean.getToRoleId()==null?-1:dealBankArticleBean.getToRoleId()).setType(dealBankArticleBean.getType())
                 .setEndTime(dealBankArticleBean.getEndTime()).setCreateTime(dealBankArticleBean.getCreateTime())
-                .setEquipmentId(dealBankArticleBean.getEquipmentId()).build();
+                .setEquipmentId(dealBankArticleBean.getEquipmentId()==null?-1:dealBankArticleBean.getEquipmentId()).build();
         return dealBankArticleDto;
     }
 
@@ -119,19 +166,6 @@ public class CommonsUtil implements ApplicationContextAware {
     }
 
 
-    @Override
-    public void setApplicationContext(ApplicationContext context) throws BeansException {
-        applicationContext = context;
-        mmoBagPOJOMapper=(MmoBagPOJOMapper)context.getBean("mmoBagPOJOMapper");
-        mmoEquipmentPOJOMapper=(MmoEquipmentPOJOMapper)context.getBean("mmoEquipmentPOJOMapper");
-        equipmentBagPOJOMapper=(MmoEquipmentBagPOJOMapper)context.getBean("mmoEquipmentBagPOJOMapper");
-        mmoRolePOJOMapper=(MmoRolePOJOMapper)context.getBean("mmoRolePOJOMapper");
-        mmoEmailPOJOMapper=(MmoEmailPOJOMapper)context.getBean("mmoEmailPOJOMapper");
-        mmoGuildApplyPOJOMapper=(MmoGuildApplyPOJOMapper) context.getBean("mmoGuildApplyPOJOMapper");
-        mmoGuildRolePOJOMapper=(MmoGuildRolePOJOMapper) context.getBean("mmoGuildRolePOJOMapper");
-        mmoWareHousePOJOMapper= (MmoWareHousePOJOMapper )context.getBean("mmoWareHousePOJOMapper");
-        mmoDealBankAuctionPOJOMapper=(MmoDealBankAuctionPOJOMapper)context.getBean("mmoDealBankAuctionPOJOMapper");
-    }
 
     public static GuildBean MmoGuildPOJOToGuildBean(MmoGuildPOJO mmoGuildPOJO) {
         GuildBean guildBean=new GuildBean();
@@ -287,7 +321,7 @@ public class CommonsUtil implements ApplicationContextAware {
                 .setChecked(mmoEmailBean.getChecked()).setContext(mmoEmailBean.getContext()).setCreateTime(mmoEmailBean.getCreateTime())
                 .setId(mmoEmailBean.getId()).setFromRoleId(mmoEmailBean.getFromRoleId()).setToRoleId(mmoEmailBean.getToRoleId())
                 .setTitle(mmoEmailBean.getTitle()).setIsGet(mmoEmailBean.getGet()).setHasArticle(mmoEmailBean.getHasArticle())
-                .setMoney(mmoEmailBean.getMoney()).setEquipmentId(mmoEmailBean.getEquipmentId()==null?-1:mmoEmailBean.getEquipmentId())
+                .setMoney(mmoEmailBean.getMoney()==null?0:mmoEmailBean.getMoney()).setEquipmentId(mmoEmailBean.getEquipmentId()==null?-1:mmoEmailBean.getEquipmentId())
                 .setIsGetMoney(mmoEmailBean.getGetMoney()).build();
         return emailDto;
     }

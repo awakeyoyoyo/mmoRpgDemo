@@ -16,7 +16,9 @@ import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.provider.TeamServiceProvider;
 import org.apache.log4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -29,6 +31,7 @@ import java.util.concurrent.*;
  * @description
  * @date 2020-12-13 18:59
  */
+@Component
 public class ScheduledThreadPoolUtil {
     private static ScheduledThreadPoolExecutor scheduledExecutorService;
     /**
@@ -63,7 +66,7 @@ public class ScheduledThreadPoolUtil {
      * 工作者列表
      */
     private static DbTask dbTask;
-
+    @PostConstruct
     public static void init() {
         replyMpRole = new ConcurrentHashMap<>();
         bufferRole = new ConcurrentHashMap<>();

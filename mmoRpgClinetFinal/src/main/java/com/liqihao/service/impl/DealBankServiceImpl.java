@@ -83,10 +83,11 @@ public class DealBankServiceImpl implements DealBankService {
             if (dealBankArticleDto.getType()== DealBankArticleTypeCode.AUCTION.getCode()){
                 System.out.println("[-][-]");
                 System.out.println("[-][-]拍卖类型商品");
-                System.out.println("[-][-]商品id:"+dealBankArticleDto.getDealBankArticleBeanId()+"商品类型"+ ArticleTypeCode.getValue(dealBankArticleDto.getArticleType()));
+                System.out.println("[-][-]商家id："+dealBankArticleDto.getFromRoleId());
+                System.out.println("[-][-]商品id:"+dealBankArticleDto.getDealBankArticleBeanId()+" 商品类型: "+ ArticleTypeCode.getValue(dealBankArticleDto.getArticleType()));
                 if (dealBankArticleDto.getArticleType()==ArticleTypeCode.EQUIPMENT.getCode()){
                     EquipmentMessage e=equipmentMessageConcurrentHashMap.get(dealBankArticleDto.getArticleMessageId());
-                    System.out.println("[-][-]商品名称："+e.getName()+"商品数量："+dealBankArticleDto.getNum());
+                    System.out.println("[-][-]商品名称："+e.getName()+" 商品数量："+dealBankArticleDto.getNum());
                 }else{
                     MedicineMessage m=medicineMessageConcurrentHashMap.get(dealBankArticleDto.getArticleMessageId());
                     System.out.println("[-][-]商品名称："+m.getName()+"商品数量："+dealBankArticleDto.getNum());
@@ -95,20 +96,20 @@ public class DealBankServiceImpl implements DealBankService {
                 System.out.println("[-][-]开始时间："+sdf.format(dealBankArticleDto.getCreateTime())+" 结束时间:"+sdf.format(dealBankArticleDto.getEndTime()));
                 for (DealBankModel.DealBankAuctionDto d:dealBankArticleDto.getDealBankAuctionDtosList()) {
                     System.out.println("[-][-][-]");
-                    System.out.println("[-][-][-]拍卖纪录id："+d.getDealBeanAuctionBeanId()+" 拍卖金额："+d.getMoney()+" 拍卖时间"+d.getCreateTime()+" 拍卖玩家id："+d.getFromRoleId());
+                    System.out.println("[-][-][-]拍卖纪录id："+d.getDealBeanAuctionBeanId()+" 拍卖金额："+d.getMoney()+" 拍卖时间: "+d.getCreateTime()+" 拍卖玩家id："+d.getFromRoleId());
                     System.out.println("[-][-][-]");
                 }
                 System.out.println("[-][-]");
             }else{
                 System.out.println("[-][-]");
                 System.out.println("[-][-]一口价商品");
-                System.out.println("[-][-]商品id:"+dealBankArticleDto.getDealBankArticleBeanId()+"商品类型"+ ArticleTypeCode.getValue(dealBankArticleDto.getArticleType()));
+                System.out.println("[-][-]商品id:"+dealBankArticleDto.getDealBankArticleBeanId()+" 商品类型: "+ ArticleTypeCode.getValue(dealBankArticleDto.getArticleType()));
                 if (dealBankArticleDto.getArticleType()==ArticleTypeCode.EQUIPMENT.getCode()){
                     EquipmentMessage e=equipmentMessageConcurrentHashMap.get(dealBankArticleDto.getArticleMessageId());
-                    System.out.println("[-][-]商品名称："+e.getName()+"商品数量："+dealBankArticleDto.getNum());
+                    System.out.println("[-][-]商品名称："+e.getName()+" 商品数量："+dealBankArticleDto.getNum());
                 }else{
                     MedicineMessage m=medicineMessageConcurrentHashMap.get(dealBankArticleDto.getArticleMessageId());
-                    System.out.println("[-][-]商品名称："+m.getName()+"商品数量："+dealBankArticleDto.getNum());
+                    System.out.println("[-][-]商品名称："+m.getName()+" 商品数量："+dealBankArticleDto.getNum());
                 }
                 System.out.println("[-][-]价格是："+dealBankArticleDto.getPrice());
                 System.out.println("[-][-]");

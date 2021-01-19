@@ -15,7 +15,7 @@ import java.io.IOException;
 public class ServerInit{
     public void init() throws IOException, IllegalAccessException, InstantiationException {
         //初始化调度线程
-        ScheduledThreadPoolUtil.init();
+//        ScheduledThreadPoolUtil.init();
         //初始化逻辑线程池
         LogicThreadPool.init(20);
     }

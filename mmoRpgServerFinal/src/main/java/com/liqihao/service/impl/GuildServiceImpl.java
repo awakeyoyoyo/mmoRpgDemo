@@ -235,6 +235,9 @@ public class GuildServiceImpl implements GuildService {
             throw new RpgServerException(StateCode.FAIL,"没有该权限");
         }
         Article article=guildBean.getWareHouseManager().useOrAbandonArticle(warehouseId,number,guildBean.getId());
+        if (article==null){
+            throw new RpgServerException(StateCode.FAIL,"没有该物品");
+        }
         if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())){
             MedicineMessage medicineMessage = MediceneMessageCache.getInstance().get(article.getArticleMessage().getId());
             if (medicineMessage == null) {
