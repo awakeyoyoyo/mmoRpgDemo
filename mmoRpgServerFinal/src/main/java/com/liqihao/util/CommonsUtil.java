@@ -91,6 +91,33 @@ public class CommonsUtil implements ApplicationContextAware {
         return dealBankAuctionBean;
     }
 
+    public static DealBankModel.DealBankArticleDto dealBankArticleBeanToDealBankArticleDto(DealBankArticleBean dealBankArticleBean) {
+        List<DealBankAuctionBean> dealBankAuctionBeans=dealBankArticleBean.getDealBankAuctionBeans();
+        List<DealBankModel.DealBankAuctionDto> dealBankAuctionDtos=new ArrayList<>();
+        for (DealBankAuctionBean dealBankAuctionBean : dealBankAuctionBeans) {
+            DealBankModel.DealBankAuctionDto dealBankAuctionDto=dealBankAuctionBeanToDealBankAuctionDto(dealBankAuctionBean);
+            dealBankAuctionDtos.add(dealBankAuctionDto);
+        }
+        DealBankModel.DealBankArticleDto dealBankArticleDto=DealBankModel.DealBankArticleDto.newBuilder()
+                .addAllDealBankAuctionDtos(dealBankAuctionDtos).setDealBankArticleBeanId(dealBankArticleBean.getDealBeanArticleBeanId())
+                .setArticleType(dealBankArticleBean.getArticleType()).setArticleMessageId(dealBankArticleBean.getArticleMessageId())
+                .setNum(dealBankArticleBean.getNum()).setPrice(dealBankArticleBean.getPrice())
+                .setHighPrice(dealBankArticleBean.getHighPrice()).setFromRoleId(dealBankArticleBean.getFromRoleId())
+                .setToRoleId(dealBankArticleBean.getToRoleId()).setType(dealBankArticleBean.getType())
+                .setEndTime(dealBankArticleBean.getEndTime()).setCreateTime(dealBankArticleBean.getCreateTime())
+                .setEquipmentId(dealBankArticleBean.getEquipmentId()).build();
+        return dealBankArticleDto;
+    }
+
+    private static DealBankModel.DealBankAuctionDto dealBankAuctionBeanToDealBankAuctionDto(DealBankAuctionBean dealBankAuctionBean) {
+        DealBankModel.DealBankAuctionDto dealBankAuctionDto=DealBankModel.DealBankAuctionDto.newBuilder()
+                .setCreateTime(dealBankAuctionBean.getCreateTime())
+                .setFromRoleId(dealBankAuctionBean.getFromRoleId())
+                .setMoney(dealBankAuctionBean.getMoney())
+                .setDealBeanAuctionBeanId(dealBankAuctionBean.getDealBeanAuctionBeanId()).build();
+        return dealBankAuctionDto;
+    }
+
 
     @Override
     public void setApplicationContext(ApplicationContext context) throws BeansException {

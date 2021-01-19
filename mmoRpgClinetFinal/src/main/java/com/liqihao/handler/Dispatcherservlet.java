@@ -31,6 +31,8 @@ public class Dispatcherservlet {
     private GuildService guildService;
     @Autowired
     private DealService dealService;
+    @Autowired
+    private DealBankService dealBankService;
     /**
      * 根据model和cmd转发到不同的service
      *
@@ -268,6 +270,27 @@ public class Dispatcherservlet {
                 break;
             case ConstantValue.DEAL_SUCCESS_RESPONSE:
                 dealService.dealSuccessResponse(nettyResponse);
+                break;
+            case ConstantValue.ADD_SELL_ARTICLE_RESPONSE:
+                dealBankService.addSellArticleRequest(nettyResponse);
+                break;
+            case ConstantValue.ADD_AUCTION_ARTICLE_RESPONSE:
+                dealBankService.addAuctionArticleRequest(nettyResponse);
+                break;
+            case ConstantValue.REDUCE_SELL_ARTICLE_RESPONSE:
+                dealBankService.reduceSellArticleRequest(nettyResponse);
+                break;
+            case ConstantValue.REDUCE_AUCTION_ARTICLE_RESPONSE:
+                dealBankService.reduceAuctionArticleRequest(nettyResponse);
+                break;
+            case ConstantValue.BUY_ARTICLE_RESPONSE:
+                dealBankService.buyArticleRequest(nettyResponse);
+                break;
+            case ConstantValue.AUCTION_ARTICLE_RESPONSE:
+                dealBankService.auctionArticleRequest(nettyResponse);
+                break;
+            case ConstantValue.GET_ARTICLE_RESPONSE:
+                dealBankService.getArticleRequest(nettyResponse);
                 break;
             default:
                 System.out.println("handler:收到");

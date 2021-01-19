@@ -21,6 +21,7 @@ import com.liqihao.pojo.bean.dealBean.DealBean;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.util.CommonsUtil;
 import com.liqihao.util.ScheduledThreadPoolUtil;
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -106,12 +107,13 @@ public class DealBankServiceProvider implements ApplicationContextAware {
     /**
      * 上架物品
      */
-    public static void addSellArticleToDealBank(Article article, MmoSimpleRole role, int price, int type) {
+    public static void addSellArticleToDealBank(Article article, MmoSimpleRole role, int price, int type,int num) {
         DealBankArticleBean dealBankArticleBean = article.convertDealBankArticleBean();
         dealBankArticleBean.setCreateTime(System.currentTimeMillis());
         dealBankArticleBean.setDealBankArticleDbId(dealBankArticleBeanDBIdAuto.incrementAndGet());
         dealBankArticleBean.setFromRoleId(role.getId());
         dealBankArticleBean.setType(type);
+        dealBankArticleBean.setNum(num);
         dealBankArticleBean.setPrice(price);
         //1天
         dealBankArticleBean.setEndTime(dealBankArticleBean.getCreateTime() + 60 * 60 * 24 * 1000);
@@ -134,10 +136,13 @@ public class DealBankServiceProvider implements ApplicationContextAware {
     /**
      * 下架物品
      */
-    public static void reduceSellArticleToDealBank(Integer dealBeanArticleBeanId, MmoSimpleRole role) throws RpgServerException {
+    public static void reduceSellArticleToDealBank(Integer dealBeanArticleBeanId,MmoSimpleRole role) throws RpgServerException {
         DealBankArticleBean dealBankArticleBean = dealBankArticleBeans.get(dealBeanArticleBeanId);
         if (dealBankArticleBean == null) {
             throw new RpgServerException(StateCode.FAIL, "该物品已经交易完成或不存在");
+        }
+        if (!role.getId().equals(dealBankArticleBean.getFromRoleId())){
+            throw new RpgServerException(StateCode.FAIL, "非本商品的卖家无法下架");
         }
         //发送给买家
         sendSuccessToSeller(dealBankArticleBean);
@@ -166,10 +171,31 @@ public class DealBankServiceProvider implements ApplicationContextAware {
      */
     public static void buySellArticleToDealBank(Integer dealBankArticleBeanId, MmoSimpleRole role, Integer money) throws RpgServerException {
         DealBankArticleBean dealBankArticleBean = dealBankArticleBeans.get(dealBankArticleBeanId);
+        if (dealBankArticleBean == null) {
+            throw new RpgServerException(StateCode.FAIL, "该物品已经交易完成或不存在");
+        }
+        if (money==0&&dealBankArticleBean.getType().equals(DealBankArticleTypeCode.AUCTION.getCode())){
+            throw new RpgServerException(StateCode.FAIL, "该商品为拍卖模式，请调用拍卖接口");
+        }
         synchronized (dealBankArticleBean) {
-            //删除
-            if (dealBankArticleBean == null) {
-                throw new RpgServerException(StateCode.FAIL, "该物品已经交易完成或不存在");
+            //检测金币是否够
+            role.moneyLock.readLock().lock();
+            try {
+            if (dealBankArticleBean.getType().equals(DealBankArticleTypeCode.AUCTION.getCode())) {
+                if (role.getMoney() < money) {
+                    throw new RpgServerException(StateCode.FAIL, "人物金币不足");
+                }
+                if (money<dealBankArticleBean.getHighPrice()){
+                    throw new RpgServerException(StateCode.FAIL, "当前报价不是最高价");
+                }
+            }else{
+                //判断金币足够
+                if (role.getMoney() < dealBankArticleBean.getPrice()) {
+                    throw new RpgServerException(StateCode.FAIL, "人物金币不足");
+                }
+            }
+            }finally {
+                role.moneyLock.readLock().unlock();
             }
             //判断是否是拍卖品
             if (dealBankArticleBean.getType().equals(DealBankArticleTypeCode.AUCTION.getCode())) {
@@ -189,7 +215,12 @@ public class DealBankServiceProvider implements ApplicationContextAware {
                 dealBankArticleBeans.remove(dealBankArticleBeanId);
                 dealBankArticleBean.setToRoleId(role.getId());
                 //扣除金币
-                role.setMoney(role.getMoney() - dealBankArticleBean.getPrice());
+                role.moneyLock.writeLock().lock();
+                try {
+                    role.setMoney(role.getMoney() - dealBankArticleBean.getPrice());
+                }finally {
+                    role.moneyLock.writeLock().unlock();
+                }
                 //发送交易成功给双方
                 sendSuccessToBuyer(dealBankArticleBean);
                 sendSuccessToSeller(dealBankArticleBean);
@@ -321,6 +352,7 @@ public class DealBankServiceProvider implements ApplicationContextAware {
         //GM
         mmoEmailBean.setFromRoleId(88888);
         MmoSimpleRole fromRole = OnlineRoleMessageCache.getInstance().get(dealBankArticleBean.getFromRoleId());
+
         EmailServiceProvider.sendArticleEmail(null, fromRole, mmoEmailBean);
     }
 

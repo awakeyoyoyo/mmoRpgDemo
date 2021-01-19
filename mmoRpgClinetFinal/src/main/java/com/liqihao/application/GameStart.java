@@ -279,12 +279,144 @@ public class GameStart {
                     case ConstantValue.ABANDON_DEAL_ARTICLE_REQUEST:
                         abandonDealArticle(scanner);
                         break;
+                    case ConstantValue.ADD_SELL_ARTICLE_REQUEST:
+                        addSellArticle(scanner);
+                        break;
+                    case ConstantValue.REDUCE_SELL_ARTICLE_REQUEST:
+                        reduceSellArticle(scanner);
+                        break;
+                    case ConstantValue.REDUCE_AUCTION_ARTICLE_REQUEST:
+                        reduceAuctionArticle(scanner);
+                        break;
+                    case ConstantValue.BUY_ARTICLE_REQUEST:
+                        buyArticle(scanner);
+                        break;
+                    case ConstantValue.AUCTION_ARTICLE_REQUEST:
+                        auctionArticle(scanner);
+                        break;
+                    case ConstantValue.GET_ARTICLE_REQUEST:
+                        getArticle(scanner);
+                        break;
                     case ConstantValue.GET_EMAIL_MONEY_REQUEST:
                         getEmailMoney(scanner);
                         break;
                     default:
                         System.out.println("GameStart-handler:收到错误cmd");
                 }
+    }
+
+    private void getArticle(Scanner scanner) {
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.GET_ARTICLE_REQUEST);
+        DealBankModel.DealBankModelMessage myMessage;
+        myMessage= DealBankModel.DealBankModelMessage.newBuilder()
+                .setDataType(DealBankModel.DealBankModelMessage.DateType.GetArticleRequest)
+                .setGetArticleRequest(DealBankModel.GetArticleRequest.newBuilder().build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void auctionArticle(Scanner scanner) {
+        System.out.println("请输入你要拍卖的商品id：");
+        Integer dealBankArticleId=scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("请输入你要用多少钱拍卖：");
+        Integer money=scanner.nextInt();
+        scanner.nextLine();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.AUCTION_ARTICLE_REQUEST);
+        DealBankModel.DealBankModelMessage myMessage;
+        myMessage= DealBankModel.DealBankModelMessage.newBuilder()
+                .setDataType(DealBankModel.DealBankModelMessage.DateType.AuctionArticleRequest)
+                .setAuctionArticleRequest(DealBankModel.AuctionArticleRequest.newBuilder()
+                        .setMoney(money).setDealBankArticleId(dealBankArticleId)
+                        .build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void buyArticle(Scanner scanner) {
+        System.out.println("请输入你要购买的商品id：");
+        Integer dealBankArticleId=scanner.nextInt();
+        scanner.nextLine();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.BUY_ARTICLE_REQUEST);
+        DealBankModel.DealBankModelMessage myMessage;
+        myMessage= DealBankModel.DealBankModelMessage.newBuilder()
+                .setDataType(DealBankModel.DealBankModelMessage.DateType.BuyArticleRequest)
+                .setBuyArticleRequest(DealBankModel.BuyArticleRequest.newBuilder()
+                        .setDealBankArticleId(dealBankArticleId)
+                        .build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void reduceAuctionArticle(Scanner scanner) {
+        System.out.println("请输入你要下架的拍卖商品id：");
+        Integer dealBankArticleId = scanner.nextInt();
+        scanner.nextLine();
+        NettyRequest nettyRequest = new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.REDUCE_AUCTION_ARTICLE_REQUEST);
+        DealBankModel.DealBankModelMessage myMessage;
+        myMessage = DealBankModel.DealBankModelMessage.newBuilder()
+                .setDataType(DealBankModel.DealBankModelMessage.DateType.ReduceAuctionArticleRequest)
+                .setReduceAuctionArticleRequest(DealBankModel.ReduceAuctionArticleRequest.newBuilder()
+                        .setDealBankArticleId(dealBankArticleId)
+                        .build()).build();
+        byte[] data = myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void reduceSellArticle(Scanner scanner) {
+        System.out.println("请输入你要下架的一口价商品id：");
+        Integer dealBankArticleId = scanner.nextInt();
+        scanner.nextLine();
+        NettyRequest nettyRequest = new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.REDUCE_SELL_ARTICLE_REQUEST);
+        DealBankModel.DealBankModelMessage myMessage;
+        myMessage = DealBankModel.DealBankModelMessage.newBuilder()
+                .setDataType(DealBankModel.DealBankModelMessage.DateType.ReduceSellArticleRequest)
+                .setReduceSellArticleRequest(DealBankModel.ReduceSellArticleRequest.newBuilder()
+                        .setDealBankArticleId(dealBankArticleId)
+                        .build()).build();
+        byte[] data = myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+    
+
+    private void addSellArticle(Scanner scanner) {
+        System.out.println("请输入出售物品的背包id：");
+        Integer articleId = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("请输入物品的数量：");
+        Integer  num = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("请输入定价：");
+        Integer price = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("请输入出售物品的方式：0：一口价 1：拍卖");
+        Integer type = scanner.nextInt();
+        if (type!=0&&type!=1){
+            System.out.println("输入错误数字");
+            return;
+        }
+        scanner.nextLine();
+        NettyRequest nettyRequest = new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.ADD_SELL_ARTICLE_REQUEST);
+        DealBankModel.DealBankModelMessage myMessage;
+        myMessage = DealBankModel.DealBankModelMessage.newBuilder()
+                .setDataType(DealBankModel.DealBankModelMessage.DateType.AddSellArticleRequest)
+                .setAddSellArticleRequest(DealBankModel.AddSellArticleRequest.newBuilder()
+                        .setArticleId(articleId).setNum(num).setPrice(price).setType(type)
+                        .build()).build();
+        byte[] data = myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
     }
 
     private void getEmailMoney(Scanner scanner) {

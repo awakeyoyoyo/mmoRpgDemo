@@ -538,7 +538,23 @@ public interface ConstantValue {
     int ADD_DEAL_ARTICLE_RESPONSE=11507;
     int ABANDON_DEAL_ARTICLE_RESPONSE=11508;
     int DEAL_SUCCESS_RESPONSE=11509;
+    /**
+     * 交易行模块
+     */
+    String DEAL_BANK_MODULE = "dealBankServiceImpl";
+    int ADD_SELL_ARTICLE_REQUEST=12000;
+    int REDUCE_SELL_ARTICLE_REQUEST=12002;
+    int REDUCE_AUCTION_ARTICLE_REQUEST=12003;
+    int BUY_ARTICLE_REQUEST=12004;
+    int AUCTION_ARTICLE_REQUEST=12005;
+    int GET_ARTICLE_REQUEST=12006;
 
+    int ADD_SELL_ARTICLE_RESPONSE=12500;
+    int REDUCE_SELL_ARTICLE_RESPONSE=12502;
+    int REDUCE_AUCTION_ARTICLE_RESPONSE=12503;
+    int BUY_ARTICLE_RESPONSE=12504;
+    int AUCTION_ARTICLE_RESPONSE=12505;
+    int GET_ARTICLE_RESPONSE=12506;
     /**
      * 参数错误响应
      */
@@ -548,6 +564,13 @@ public interface ConstantValue {
     /**
      * 指令
      */
+    String ADD_SELL_ARTICLE_REQUEST_CMD="addSellArticle";
+    String REDUCE_SELL_ARTICLE_REQUEST_CMD="reduceSellArticle";
+    String REDUCE_AUCTION_ARTICLE_REQUEST_CMD="reduceAuctionArticle";
+    String BUY_ARTICLE_REQUEST_CMD="buyArticle";
+    String AUCTION_ARTICLE_REQUEST_CMD="auctionArticle";
+    String GET_ARTICLE_REQUEST_CMD="getArticle";
+
     String ASK_DEAL_REQUEST_CMD="askDeal";
     String AGREE_DEAL_REQUEST_CMD="agreeDeal";
     String REFUSE_DEAL_REQUEST_CMD="refuseDeal";

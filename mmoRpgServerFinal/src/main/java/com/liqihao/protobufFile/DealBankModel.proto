@@ -47,10 +47,8 @@ message AddSellArticleRequest{
   int32 type=4;
 }
 message AddAuctionArticleRequest{
-  int32 articleId=1;
-  int32 num=2;
+  int32 dealBankArticleId=1;
   int32 price=3;
-  int32 type=4;
 }
 message ReduceSellArticleRequest{
   int32 dealBankArticleId=1;

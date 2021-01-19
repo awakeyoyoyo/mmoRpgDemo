@@ -31,6 +31,8 @@ import org.apache.log4j.Logger;
 
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.stream.Collectors;
 
 
@@ -117,6 +119,10 @@ public class MmoSimpleRole extends Role implements MyObserver {
      * 交易beanId
      */
     private Integer dealBeanId;
+    /**
+     * 金币读写锁
+     */
+    public final ReadWriteLock moneyLock=new ReentrantReadWriteLock();
 
     public Integer getDealBeanId() {
         return dealBeanId;
