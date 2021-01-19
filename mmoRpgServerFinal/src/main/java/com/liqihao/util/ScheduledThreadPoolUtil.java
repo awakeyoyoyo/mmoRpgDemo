@@ -1,11 +1,13 @@
 package com.liqihao.util;
 
 import com.liqihao.Cache.*;
+import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.enums.*;
 import com.liqihao.pojo.baseMessage.BufferMessage;
 import com.liqihao.pojo.baseMessage.SkillMessage;
 import com.liqihao.pojo.bean.*;
 import com.liqihao.pojo.bean.bufferBean.BaseBufferBean;
+import com.liqihao.pojo.bean.dealBankBean.DealBankArticleBean;
 import com.liqihao.pojo.bean.roleBean.*;
 import com.liqihao.pojo.bean.teamBean.TeamBean;
 import com.liqihao.protobufObject.PlayModel;
@@ -46,13 +48,17 @@ public class ScheduledThreadPoolUtil {
      */
     private static ConcurrentHashMap<Integer, ScheduledFuture<?>> copySceneTaskMap = new ConcurrentHashMap<>();
     /**
-     * 存储了正在调度线程池中执行的boss 攻击线程
+     * 存储了正在调度线程池中执行的boss 攻击任务
      */
     private static ConcurrentHashMap<Integer, ScheduledFuture<?>> bossTaskMap = new ConcurrentHashMap<>();
     /**
-     * 存储了正在调度线程池中执行的宠物 攻击线程
+     * 存储了正在调度线程池中执行的宠物 攻击任务
      */
     private static ConcurrentHashMap<Integer, ScheduledFuture<?>> helperTaskMap = new ConcurrentHashMap<>();
+    /**
+     * 存储了正在调度线程池中拍卖物品任务
+     */
+    private static ConcurrentHashMap<Integer, ScheduledFuture<?>> dealBankTaskMap = new ConcurrentHashMap<>();
     /**
      * 工作者列表
      */
@@ -67,6 +73,14 @@ public class ScheduledThreadPoolUtil {
         dbTask = new DbTask();
         //每60s 修改过的数据落地
         scheduledExecutorService.scheduleAtFixedRate(dbTask, 0, 10, TimeUnit.SECONDS);
+    }
+
+    public static ConcurrentHashMap<Integer, ScheduledFuture<?>> getDealBankTaskMap() {
+        return dealBankTaskMap;
+    }
+
+    public static void setDealBankTaskMap(ConcurrentHashMap<Integer, ScheduledFuture<?>> dealBankTaskMap) {
+        ScheduledThreadPoolUtil.dealBankTaskMap = dealBankTaskMap;
     }
 
     public static ConcurrentHashMap<Integer, ScheduledFuture<?>> getBossTaskMap() {
@@ -124,6 +138,7 @@ public class ScheduledThreadPoolUtil {
     public static void setReplyMpRole(ConcurrentHashMap<String, ScheduledFuture<?>> replyMpRole) {
         ScheduledThreadPoolUtil.replyMpRole = replyMpRole;
     }
+
 
     /**
      * 自动恢复蓝量线程任务
@@ -655,6 +670,34 @@ public class ScheduledThreadPoolUtil {
             // 添加一个工作到任务队列即可
             synchronized (dbTask.tasks) {
                 dbTask.tasks.addLast(job);
+            }
+        }
+    }
+
+    /**
+     * 拍卖超时任务
+     */
+    public static class DealBankOutTimeTask implements Runnable {
+        private DealBankArticleBean dealBankArticleBean;
+        private Logger logger = Logger.getLogger(DealBankOutTimeTask.class);
+
+        public DealBankOutTimeTask() {
+        }
+
+        public DealBankOutTimeTask(DealBankArticleBean dealBankArticleBean) {
+            this.dealBankArticleBean=dealBankArticleBean;
+        }
+
+        @Override
+        public void run() {
+            try {
+                dealBankArticleBean.dealBankTimeOut();
+                //消除任务
+                ScheduledFuture<?> t=ScheduledThreadPoolUtil.getCopySceneTaskMap().get(dealBankArticleBean.getDealBeanArticleBeanId());
+                ScheduledThreadPoolUtil.getCopySceneTaskMap().remove(dealBankArticleBean.getDealBeanArticleBeanId());
+                t.cancel(false);
+            } catch (RpgServerException e) {
+                e.printStackTrace();
             }
         }
     }

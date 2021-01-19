@@ -354,13 +354,13 @@ public class MmoSimpleRole extends Role implements MyObserver {
 
         //判断该位置是否有装备
         EquipmentBean equipmentBean = getEquipmentBeanHashMap().get(position);
-        EquipmentMessage equipmentMessage= EquipmentMessageCache.getInstance().get(equipmentBean.getEquipmentMessageId());
         //锁住背包
         synchronized (backpackManager) {
             if (equipmentBean == null) {
                 //无装备
                 return false;
             } else {
+                EquipmentMessage equipmentMessage= EquipmentMessageCache.getInstance().get(equipmentBean.getEquipmentMessageId());
                 equipmentBeanHashMap.remove(position);
                 //装备栏数据库减少该装备
                 if (equipmentBean.getEquipmentBagId() != null) {

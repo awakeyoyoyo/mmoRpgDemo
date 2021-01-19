@@ -2,6 +2,8 @@ package com.liqihao.dao;
 
 import com.liqihao.pojo.MmoEquipmentPOJO;
 
+import java.util.List;
+
 public interface MmoEquipmentPOJOMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -16,4 +18,6 @@ public interface MmoEquipmentPOJOMapper {
     int updateByPrimaryKey(MmoEquipmentPOJO record);
 
     Integer selectNextIndex();
+
+    List<MmoEquipmentPOJO> selectAll();
 }

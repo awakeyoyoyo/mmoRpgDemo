@@ -32,6 +32,7 @@ public class DbUtil {
     private static MmoGuildApplyPOJOMapper mmoGuildApplyPOJOMapper;
     private static MmoGuildRolePOJOMapper mmoGuildRolePOJOMapper;
     private static MmoWareHousePOJOMapper mmoWareHousePOJOMapper;
+
     private static  AtomicInteger mmoBagPojoIndex;
     private static  AtomicInteger mmoEquipmentIndex;
     private static  AtomicInteger equipmentBagIndex;
@@ -42,6 +43,7 @@ public class DbUtil {
         mmoEquipmentPOJOMapper.deleteByPrimaryKey(equipmentId);
     }
 
+    
 
     @Autowired
     public  void initMmoWareHousePOJOMapper(MmoWareHousePOJOMapper mmoWareHousePOJOMapper) {

@@ -18,6 +18,7 @@ import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.pojo.bean.roleBean.Role;
 import com.liqihao.pojo.bean.teamBean.TeamBean;
 import com.liqihao.protobufObject.PlayModel;
+import com.liqihao.provider.ArticleServiceProvider;
 import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.provider.GuildServiceProvider;
 import com.liqihao.provider.TeamServiceProvider;
@@ -136,13 +137,8 @@ public class PlayServiceImpl implements PlayService {
         List<MmoBagPOJO> mmoBagPOJOS = mmoBagPOJOMapper.selectByRoleId(role.getId());
         for (MmoBagPOJO mmoBagPOJO : mmoBagPOJOS) {
             if (mmoBagPOJO.getArticleType().equals(ArticleTypeCode.EQUIPMENT.getCode())) {
-                MmoEquipmentPOJO mmoEquipmentPOJO = equipmentPOJOMapper.selectByPrimaryKey(mmoBagPOJO.getwId());
-                EquipmentMessage message = EquipmentMessageCache.getInstance().get(mmoEquipmentPOJO.getMessageId());
-                EquipmentBean equipmentBean = CommonsUtil.equipmentMessageToEquipmentBean(message);
-                equipmentBean.setQuantity(mmoBagPOJO.getNumber());
-                equipmentBean.setEquipmentId(mmoEquipmentPOJO.getId());
+                EquipmentBean equipmentBean =ArticleServiceProvider.getEquipmentBeanConcurrentHashMap().get(mmoBagPOJO.getwId());
                 equipmentBean.setBagId(mmoBagPOJO.getBagId());
-                equipmentBean.setNowDurability(mmoEquipmentPOJO.getNowDurability());
                 backPackManager.putOnDatabase(equipmentBean);
             } else if (mmoBagPOJO.getArticleType().equals(ArticleTypeCode.MEDICINE.getCode())) {
                 MedicineMessage message = MediceneMessageCache.getInstance().get(mmoBagPOJO.getwId());
@@ -170,12 +166,10 @@ public class PlayServiceImpl implements PlayService {
         List<MmoEquipmentBagPOJO> equipmentBagPOJOS = equipmentBagPOJOMapper.selectByRoleId(role.getId());
         HashMap<Integer, EquipmentBean> equipmentBeanConcurrentHashMap = simpleRole.getEquipmentBeanHashMap();
         for (MmoEquipmentBagPOJO m : equipmentBagPOJOS) {
-            MmoEquipmentPOJO mmoEquipmentPOJO = equipmentPOJOMapper.selectByPrimaryKey(m.getEquipmentId());
-            EquipmentMessage message = EquipmentMessageCache.getInstance().get(mmoEquipmentPOJO.getMessageId());
-            EquipmentBean equipmentBean = CommonsUtil.equipmentMessageToEquipmentBean(message);
-            equipmentBean.setNowDurability(mmoEquipmentPOJO.getNowDurability());
-            equipmentBean.setEquipmentId(m.getEquipmentId());
+            //从内存中取
+            EquipmentBean equipmentBean =ArticleServiceProvider.getEquipmentBeanConcurrentHashMap().get(m.getEquipmentId());
             equipmentBean.setEquipmentBagId(m.getEquipmentBagId());
+            EquipmentMessage message = EquipmentMessageCache.getInstance().get(equipmentBean.getEquipmentMessageId());
             equipmentBeanConcurrentHashMap.put(message.getPosition(), equipmentBean);
             //修改人物属性
             simpleRole.setAttack(simpleRole.getAttack() + message.getAttackAdd());

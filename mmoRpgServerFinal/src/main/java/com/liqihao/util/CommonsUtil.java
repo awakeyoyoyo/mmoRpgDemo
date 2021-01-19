@@ -66,13 +66,13 @@ public class CommonsUtil implements ApplicationContextAware {
         dealBankArticleBean.setArticleMessageId(dealBankArticlePOJO.getArticleMessageId());
         dealBankArticleBean.setNum(dealBankArticlePOJO.getNum());
         dealBankArticleBean.setType(dealBankArticlePOJO.getType());
-        dealBankArticleBean.setFromRoleId(dealBankArticleBean.getFromRoleId());
-        dealBankArticleBean.setToRoleId(dealBankArticleBean.getToRoleId());
-        dealBankArticleBean.setCreateTime(dealBankArticleBean.getCreateTime());
-        dealBankArticleBean.setEndTime(dealBankArticleBean.getEndTime());
-        dealBankArticleBean.setPrice(dealBankArticleBean.getPrice());
-        dealBankArticleBean.setHighPrice(dealBankArticleBean.getHighPrice());
-        dealBankArticleBean.setEquipmentId(dealBankArticleBean.getEquipmentId());
+        dealBankArticleBean.setFromRoleId(dealBankArticlePOJO.getFromRoleId());
+        dealBankArticleBean.setToRoleId(dealBankArticlePOJO.getToRoleId());
+        dealBankArticleBean.setCreateTime(dealBankArticlePOJO.getCreateTime());
+        dealBankArticleBean.setEndTime(dealBankArticlePOJO.getEndTime());
+        dealBankArticleBean.setPrice(dealBankArticlePOJO.getPrice());
+        dealBankArticleBean.setHighPrice(dealBankArticlePOJO.getHighPrice());
+        dealBankArticleBean.setEquipmentId(dealBankArticlePOJO.getEquipmentId());
         List<MmoDealBankAuctionPOJO> dealBankAuctionPOJOS=mmoDealBankAuctionPOJOMapper.selectAll();
         for (MmoDealBankAuctionPOJO dealBankAuctionPOJO : dealBankAuctionPOJOS) {
             DealBankAuctionBean d= CommonsUtil.dealDealBankAuctionPOJOToDealBankAuctionBean(dealBankAuctionPOJO);
@@ -394,7 +394,6 @@ public class CommonsUtil implements ApplicationContextAware {
         bean.setArticleId(null);
         bean.setNowDurability(equipmentMessage.getDurability());
         bean.setQuantity(1);
-        bean.setEquipmentMessageId(equipmentMessage.getId());
         bean.setEquipmentMessageId(equipmentMessage.getId());
         return bean;
     }

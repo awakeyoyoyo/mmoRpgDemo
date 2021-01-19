@@ -4,6 +4,7 @@ package com.liqihao.provider;
 import com.liqihao.Cache.EquipmentMessageCache;
 import com.liqihao.Cache.MediceneMessageCache;
 import com.liqihao.dao.MmoEquipmentPOJOMapper;
+import com.liqihao.pojo.MmoEquipmentPOJO;
 import com.liqihao.pojo.baseMessage.EquipmentMessage;
 import com.liqihao.pojo.baseMessage.MedicineMessage;
 import com.liqihao.pojo.bean.CopySceneBean;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -31,7 +33,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ArticleServiceProvider implements ApplicationContextAware {
     private final Logger log = LoggerFactory.getLogger(EmailServiceProvider.class);
     MmoEquipmentPOJOMapper equipmentPOJOMapper;
-    //todo 增添集合存储所有武器实例
+    /**
+     * 增添集合存储所有武器实例
+     */
+    private static ConcurrentHashMap<Integer,EquipmentBean> equipmentBeanConcurrentHashMap=new ConcurrentHashMap<>();
+
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         MmoEquipmentPOJOMapper equipmentPOJOMapper = (MmoEquipmentPOJOMapper) applicationContext.getBean("mmoEquipmentPOJOMapper");
@@ -39,6 +45,13 @@ public class ArticleServiceProvider implements ApplicationContextAware {
         Integer index = equipmentPOJOMapper.selectNextIndex();
         equipmentBeanIdAuto = new AtomicInteger(index);
         id = index - 1;
+        List<MmoEquipmentPOJO> equipmentPoJos=equipmentPOJOMapper.selectAll();
+        for (MmoEquipmentPOJO equipmentPoJo : equipmentPoJos) {
+            EquipmentMessage equipmentMessage=EquipmentMessageCache.getInstance().get(equipmentPoJo.getMessageId());
+            EquipmentBean equipmentBean=CommonsUtil.equipmentMessageToEquipmentBean(equipmentMessage);
+            equipmentBean.setEquipmentId(equipmentPoJo.getId());
+            equipmentBeanConcurrentHashMap.put(equipmentBean.getEquipmentId(),equipmentBean);
+        }
         log.info("EmailServiceProvider：数据库下一个主键index:" + index + " 之前有id：" + id);
     }
 
@@ -49,6 +62,14 @@ public class ArticleServiceProvider implements ApplicationContextAware {
     private static Integer id;
     private ArticleServiceProvider() {
 
+    }
+
+    public static ConcurrentHashMap<Integer, EquipmentBean> getEquipmentBeanConcurrentHashMap() {
+        return equipmentBeanConcurrentHashMap;
+    }
+
+    public static void setEquipmentBeanConcurrentHashMap(ConcurrentHashMap<Integer, EquipmentBean> equipmentBeanConcurrentHashMap) {
+        ArticleServiceProvider.equipmentBeanConcurrentHashMap = equipmentBeanConcurrentHashMap;
     }
 
     public static Integer getId() {

@@ -3,6 +3,7 @@ package com.liqihao.service.impl;
 import com.liqihao.commons.RpgServerException;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.protobufObject.CopySceneModel;
+import com.liqihao.provider.DealBankServiceProvider;
 import com.liqihao.service.DealBankService;
 
 /**
@@ -13,6 +14,8 @@ public class DealBankServiceImpl implements DealBankService {
     @Override
     public void addSellArticleRequest(CopySceneModel.CopySceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws RpgServerException {
 
+
+//        DealBankServiceProvider.addSellArticleToDealBank();
     }
 
     @Override

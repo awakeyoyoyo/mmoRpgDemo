@@ -74,4 +74,9 @@
     from INFORMATION_SCHEMA. TABLES
     where TABLE_NAME = 'mmo_equipment'
   </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from mmo_equipment
+  </select>
 </mapper>

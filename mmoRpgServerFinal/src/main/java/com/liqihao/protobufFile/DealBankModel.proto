@@ -1,0 +1,105 @@
+syntax ="proto3";
+option java_outer_classname="DealBankModel";
+message DealBankModelMessage{
+  //定义枚举类型
+  enum DateType{
+    //在proto3 要求enum的编号从0开始
+    AddSellArticleRequest=0;
+    AddAuctionArticleRequest=1;
+    ReduceSellArticleRequest=2;
+    ReduceAuctionArticleRequest=3;
+    BuyArticleRequest=4;
+    AuctionArticleRequest=5;
+    GetArticleRequest=6;
+    AddSellArticleResponse=7;
+    AddAuctionArticleResponse=8;
+    ReduceSellArticleResponse=9;
+    ReduceAuctionArticleResponse=10;
+    BuyArticleResponse=11;
+    AuctionArticleResponse=12;
+    GetArticleResponse=13;
+  }
+  //用date_type来标识传的是哪一个枚举类型
+  DateType data_type=1;
+  //表示每次枚举类型最多只能出现其中一个，节省空间
+  oneof dateBody{
+    AddSellArticleRequest addSellArticleRequest=2;
+    AddAuctionArticleRequest addAuctionArticleRequest=3;
+    ReduceSellArticleRequest reduceSellArticleRequest=4;
+    ReduceAuctionArticleRequest reduceAuctionArticleRequest=5;
+    BuyArticleRequest buyArticleRequest=6;
+    AuctionArticleRequest auctionArticleRequest=7;
+    GetArticleRequest getArticleRequest=8;
+    AddSellArticleResponse addSellArticleResponse=9;
+    AddAuctionArticleResponse addAuctionArticleResponse=10;
+    ReduceSellArticleResponse reduceSellArticleResponse=11;
+    ReduceAuctionArticleResponse reduceAuctionArticleResponse=12;
+    BuyArticleResponse buyArticleResponse=13;
+    AuctionArticleResponse auctionArticleResponse=14;
+    GetArticleResponse getArticleResponse=15;
+  }
+
+}
+message AddSellArticleRequest{
+  int32 articleId=1;
+  int32 num=2;
+  int32 price=3;
+  int32 type=4;
+}
+message AddAuctionArticleRequest{
+  int32 articleId=1;
+  int32 num=2;
+  int32 price=3;
+  int32 type=4;
+}
+message ReduceSellArticleRequest{
+  int32 dealBankArticleId=1;
+}
+message ReduceAuctionArticleRequest{
+  int32 dealBankArticleId=1;
+}
+message BuyArticleRequest{
+  int32 dealBankArticleId=1;
+}
+message AuctionArticleRequest{
+  int32 dealBankArticleId=1;
+  int32 money=2;
+}
+message GetArticleRequest{
+}
+message AddSellArticleResponse{
+}
+message AddAuctionArticleResponse{
+}
+message ReduceSellArticleResponse{
+}
+message ReduceAuctionArticleResponse{
+}
+message BuyArticleResponse{
+}
+message AuctionArticleResponse{
+}
+message GetArticleResponse{
+    repeated DealBankArticleDto dealBankArticleDtos=1;
+}
+message DealBankArticleDto{
+  int32 dealBankArticleBeanId=1;
+  int32 articleType=2;
+  int32 articleMessageId=3;
+  int32 num=4;
+  int32 price=5;
+  int32 highPrice=6;
+  int32 fromRoleId=7;
+  int32 toRoleId=8;
+  int32 type=9;
+  int32 equipmentId=10;
+  repeated DealBankAuctionDto dealBankAuctionDtos=11;
+  sint64 createTime=12;
+  sint64 endTime=13;
+}
+message DealBankAuctionDto{
+  int32 dealBeanAuctionBeanId=1;
+  int32 money=2;
+  int32 fromRoleId=3;
+  sint64 createTime=4;
+}

@@ -53,4 +53,12 @@ public interface DealBankService {
      * @throws RpgServerException
      */
     void auctionArticleRequest(CopySceneModel.CopySceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws RpgServerException;
+    /**
+     * 获取所有商品物品
+     * @param myMessage
+     * @param mmoSimpleRole
+     * @throws RpgServerException
+     */
+    void getArticleRequest(CopySceneModel.CopySceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws RpgServerException;
+
 }

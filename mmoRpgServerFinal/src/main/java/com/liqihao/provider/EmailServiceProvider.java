@@ -79,7 +79,9 @@ public class EmailServiceProvider implements ApplicationContextAware {
         emailBean.setToDelete(false);
         emailBean.setIntoDataBase(false);
         emailBean.setGetMoney(false);
-        fromRole.getFromMmoEmailBeanConcurrentHashMap().put(emailBean.getId(),emailBean);
+        if (fromRole!=null) {
+            fromRole.getFromMmoEmailBeanConcurrentHashMap().put(emailBean.getId(), emailBean);
+        }
         if (toRole!=null){
             toRole.getToMmoEmailBeanConcurrentHashMap().put(emailBean.getId(),emailBean);
             ScheduledThreadPoolUtil.addTask(() -> DbUtil.mmoEmailPOJOIntoDataBase(emailBean));

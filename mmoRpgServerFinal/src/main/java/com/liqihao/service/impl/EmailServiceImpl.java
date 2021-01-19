@@ -18,6 +18,7 @@ import com.liqihao.pojo.bean.articleBean.EquipmentBean;
 import com.liqihao.pojo.bean.articleBean.MedicineBean;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.protobufObject.EmailModel;
+import com.liqihao.provider.ArticleServiceProvider;
 import com.liqihao.provider.EmailServiceProvider;
 import com.liqihao.service.EmailService;
 import com.liqihao.util.CommonsUtil;
@@ -95,9 +96,7 @@ public class EmailServiceImpl implements EmailService {
             //数据库更新
             ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateEmailBeanDb(mmoEmailBean));
         }else{
-            EquipmentMessage equipmentMessage= EquipmentMessageCache.getInstance().get(mmoEmailBean.getArticleMessageId());
-            EquipmentBean equipmentBean=CommonsUtil.equipmentMessageToEquipmentBean(equipmentMessage);
-            equipmentBean.setEquipmentId(mmoEmailBean.getEquipmentId());
+            EquipmentBean equipmentBean= ArticleServiceProvider.getEquipmentBeanConcurrentHashMap().get(mmoEmailBean.getEquipmentId());
             //上锁
             synchronized (mmoSimpleRole.getBackpackManager()) {
                 if (!mmoSimpleRole.getBackpackManager().canPutArticle(equipmentBean)) {
