@@ -117,6 +117,13 @@ public class BossBean extends Role {
                 // 挑战成功or出现下一个boss
                 CopySceneBean copySceneBean=CopySceneProvider.getCopySceneBeanById(copySceneBeanId);
                 copySceneBean.bossComeOrFinish();
+                //移除boss攻击线程
+                Integer bossAttackId=getId()+copySceneBean.hashCode();
+                ScheduledFuture<?> t = ScheduledThreadPoolUtil.getBossTaskMap().get(bossAttackId);
+                if (t!=null){
+                    ScheduledThreadPoolUtil.getBossTaskMap().remove(bossAttackId);
+                    t.cancel(false);
+                }
             }
             bossBean.setNowHp(hp);
         }finally {
@@ -176,21 +183,21 @@ public class BossBean extends Role {
     }
 
     public void bossAttack() {
-        //todo
-        ScheduledFuture<?> t = ScheduledThreadPoolUtil.getBossTaskMap().get(getId());
+        CopySceneBean copySceneBean = CopySceneProvider.getCopySceneBeanById(getCopySceneBeanId());
+        Integer bossAttackId=getId()+copySceneBean.hashCode();
+        ScheduledFuture<?> t = ScheduledThreadPoolUtil.getBossTaskMap().get(bossAttackId);
         if (t != null) {
             //代表着该boss已启动攻击线程
         } else {
             synchronized (this) {
-                t = ScheduledThreadPoolUtil.getBossTaskMap().get(getId());
+                t = ScheduledThreadPoolUtil.getBossTaskMap().get(bossAttackId);
                 if (t==null) {
-                    CopySceneBean copySceneBean = CopySceneProvider.getCopySceneBeanById(getCopySceneBeanId());
                     List<SkillBean> skillBeans;
                     BossMessage bossMessage= BossMessageCache.getInstance().get(getBossMessageId());
                     skillBeans= CommonsUtil.skillIdsToSkillBeans(CommonsUtil.split(bossMessage.getSkillIds()));
                     ScheduledThreadPoolUtil.BossAttackTask bossAttackTask = new ScheduledThreadPoolUtil.BossAttackTask(this, copySceneBean, skillBeans);
                     t = ScheduledThreadPoolUtil.getScheduledExecutorService().scheduleAtFixedRate(bossAttackTask, 0, 3, TimeUnit.SECONDS);
-                    ScheduledThreadPoolUtil.getBossTaskMap().put(getId(), t);
+                    ScheduledThreadPoolUtil.getBossTaskMap().put(bossAttackId, t);
                 }
             }
         }
@@ -202,32 +209,6 @@ public class BossBean extends Role {
         //根据buffer类型扣血扣蓝
         bufferBean.effectToRole(this);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     public Role getTarget() {
         if (getStatus().equals(RoleStatusCode.DIE.getCode())){

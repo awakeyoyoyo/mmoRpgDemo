@@ -334,18 +334,17 @@ public class CopySceneBean{
         }
         //发奖励了
         List<MedicineBean> medicineBeans= ArticleServiceProvider.productMedicineToCopyScene(this,CommonsUtil.split(copySceneMessage.getMedicineIds()));
-        //todo
-        List<EquipmentBean> equipmentBeans= ArticleServiceProvider.productEquipmentToCopyScene(this,CommonsUtil.split(copySceneMessage.getEquipmentIds()));
+//        List<EquipmentBean> equipmentBeans= ArticleServiceProvider.productEquipmentToCopyScene(this,CommonsUtil.split(copySceneMessage.getEquipmentIds()));
         if (medicineBeans.size()>0) {
             for (MedicineBean m:medicineBeans) {
                 articlesMap.put(m.getFloorIndex(),m);
             }
         }
-        if (equipmentBeans.size()>0){
-            for (EquipmentBean e:equipmentBeans) {
-                articlesMap.put(e.getFloorIndex(),e);
-            }
-        }
+//        if (equipmentBeans.size()>0){
+//            for (EquipmentBean e:equipmentBeans) {
+//                articlesMap.put(e.getFloorIndex(),e);
+//            }
+//        }
         // 广播队伍副本挑战成功
         NettyResponse nettyResponse=new NettyResponse();
         nettyResponse.setCmd(ConstantValue.CHANGE_SUCCESS_RESPONSE);
@@ -359,7 +358,12 @@ public class CopySceneBean{
             /**
              * 队伍中玩家全部加金币 上锁，防止购买物品与副本挑战成功获取金币冲突
              */
-            role.setMoney(role.getMoney() + copySceneMessage.getMoney());
+            role.moneyLock.writeLock().lock();
+            try {
+                role.setMoney(role.getMoney() + copySceneMessage.getMoney());
+            }finally {
+                role.moneyLock.writeLock().unlock();
+            }
             ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateRole(role));
             if (c!=null) {
                 c.writeAndFlush(nettyResponse);
