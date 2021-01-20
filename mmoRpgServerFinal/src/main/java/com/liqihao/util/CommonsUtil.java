@@ -30,10 +30,8 @@ import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.provider.GuildServiceProvider;
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -204,7 +202,7 @@ public class CommonsUtil {
                 equipmentBean.setNowDurability(mmoEquipmentPOJO.getNowDurability());
                 guildBean.getWareHouseManager().putFromDatabase(equipmentBean);
             } else if (mmoWareHousePOJO.getArticleType().equals(ArticleTypeCode.MEDICINE.getCode())) {
-                MedicineMessage message = MediceneMessageCache.getInstance().get(mmoWareHousePOJO.getArticleMessageId());
+                MedicineMessage message = MedicineMessageCache.getInstance().get(mmoWareHousePOJO.getArticleMessageId());
                 MedicineBean medicineBean = CommonsUtil.medicineMessageToMedicineBean(message);
                 medicineBean.setQuantity(mmoWareHousePOJO.getNumber());
                 medicineBean.setWareHouseDBId(mmoWareHousePOJO.getId());

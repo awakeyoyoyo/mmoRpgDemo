@@ -1,7 +1,7 @@
 package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.liqihao.Cache.MediceneMessageCache;
+import com.liqihao.Cache.MedicineMessageCache;
 import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.ConstantValue;
@@ -13,16 +13,13 @@ import com.liqihao.commons.enums.GuildAuthorityCode;
 import com.liqihao.commons.enums.GuildRolePositionCode;
 import com.liqihao.pojo.baseMessage.MedicineMessage;
 import com.liqihao.pojo.bean.articleBean.Article;
-import com.liqihao.pojo.bean.articleBean.EquipmentBean;
 import com.liqihao.pojo.bean.articleBean.MedicineBean;
 import com.liqihao.pojo.bean.guildBean.GuildApplyBean;
 import com.liqihao.pojo.bean.guildBean.GuildBean;
 import com.liqihao.pojo.bean.guildBean.GuildRoleBean;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.pojo.dto.ArticleDto;
-import com.liqihao.protobufObject.BackPackModel;
 import com.liqihao.protobufObject.GuildModel;
-import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.provider.GuildServiceProvider;
 import com.liqihao.service.GuildService;
 import com.liqihao.util.CommonsUtil;
@@ -189,7 +186,7 @@ public class GuildServiceImpl implements GuildService {
         }
         Article article=mmoSimpleRole.getBackpackManager().useOrAbandonArticle(articleId,number,mmoSimpleRole.getId());
         if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())){
-            MedicineMessage medicineMessage = MediceneMessageCache.getInstance().get(article.getArticleMessage().getId());
+            MedicineMessage medicineMessage = MedicineMessageCache.getInstance().get(article.getArticleMessage().getId());
             if (medicineMessage == null) {
                 throw new RpgServerException(StateCode.FAIL,"存入错误物品id");
             }
@@ -239,7 +236,7 @@ public class GuildServiceImpl implements GuildService {
             throw new RpgServerException(StateCode.FAIL,"没有该物品");
         }
         if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())){
-            MedicineMessage medicineMessage = MediceneMessageCache.getInstance().get(article.getArticleMessage().getId());
+            MedicineMessage medicineMessage = MedicineMessageCache.getInstance().get(article.getArticleMessage().getId());
             if (medicineMessage == null) {
                 throw new RpgServerException(StateCode.FAIL,"存入错误物品id");
             }

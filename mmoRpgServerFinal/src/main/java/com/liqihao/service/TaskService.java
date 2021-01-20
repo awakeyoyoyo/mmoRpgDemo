@@ -1,2 +1,8 @@
-package com.liqihao.service;public interface TaskService {
+package com.liqihao.service;
+
+/**
+ * 任务系统
+ * @author lqhao
+ */
+public interface TaskService {
 }

@@ -18,13 +18,9 @@ import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.pojo.bean.roleBean.Role;
 import com.liqihao.pojo.bean.teamBean.TeamBean;
 import com.liqihao.protobufObject.PlayModel;
-import com.liqihao.provider.ArticleServiceProvider;
-import com.liqihao.provider.CopySceneProvider;
-import com.liqihao.provider.GuildServiceProvider;
-import com.liqihao.provider.TeamServiceProvider;
+import com.liqihao.provider.*;
 import com.liqihao.service.PlayService;
 import com.liqihao.util.CommonsUtil;
-import com.liqihao.util.DbUtil;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
@@ -141,7 +137,7 @@ public class PlayServiceImpl implements PlayService {
                 equipmentBean.setBagId(mmoBagPOJO.getBagId());
                 backPackManager.putOnDatabase(equipmentBean);
             } else if (mmoBagPOJO.getArticleType().equals(ArticleTypeCode.MEDICINE.getCode())) {
-                MedicineMessage message = MediceneMessageCache.getInstance().get(mmoBagPOJO.getwId());
+                MedicineMessage message = MedicineMessageCache.getInstance().get(mmoBagPOJO.getwId());
                 MedicineBean medicineBean = CommonsUtil.medicineMessageToMedicineBean(message);
                 medicineBean.setQuantity(mmoBagPOJO.getNumber());
                 medicineBean.setBagId(mmoBagPOJO.getBagId());
@@ -175,6 +171,8 @@ public class PlayServiceImpl implements PlayService {
             simpleRole.setAttack(simpleRole.getAttack() + message.getAttackAdd());
             simpleRole.setDamageAdd(simpleRole.getDamageAdd() + message.getDamageAdd());
         }
+        //初始化任务信息
+        TaskServiceProvider.initTask(simpleRole);
         //初始化公会信息
         if (role.getGuildId()!=-1){
             GuildBean guildBean=GuildServiceProvider.getInstance().getGuildBeanById(role.getGuildId());

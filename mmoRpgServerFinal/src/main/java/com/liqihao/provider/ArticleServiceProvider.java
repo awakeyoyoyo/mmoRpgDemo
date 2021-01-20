@@ -2,7 +2,7 @@ package com.liqihao.provider;
 
 
 import com.liqihao.Cache.EquipmentMessageCache;
-import com.liqihao.Cache.MediceneMessageCache;
+import com.liqihao.Cache.MedicineMessageCache;
 import com.liqihao.dao.MmoEquipmentPOJOMapper;
 import com.liqihao.pojo.MmoEquipmentPOJO;
 import com.liqihao.pojo.baseMessage.EquipmentMessage;
@@ -133,7 +133,7 @@ public class ArticleServiceProvider implements ApplicationContextAware {
      * @return
      */
     public static MedicineBean productMedicine(Integer medicineId){
-        MedicineMessage medicineMessage=MediceneMessageCache.getInstance().get(medicineId);
+        MedicineMessage medicineMessage= MedicineMessageCache.getInstance().get(medicineId);
         MedicineBean medicineBean= CommonsUtil.medicineMessageToMedicineBean(medicineMessage);
         medicineBean.setMedicineMessageId(medicineMessage.getId());
         return medicineBean;

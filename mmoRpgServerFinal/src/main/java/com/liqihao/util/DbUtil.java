@@ -11,6 +11,7 @@ import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.pojo.dto.ArticleDto;
 import com.liqihao.pojo.dto.EquipmentDto;
 import com.liqihao.provider.EmailServiceProvider;
+import com.liqihao.provider.TaskServiceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -33,6 +34,7 @@ public class DbUtil {
     private static MmoGuildRolePOJOMapper mmoGuildRolePOJOMapper;
     private static MmoWareHousePOJOMapper mmoWareHousePOJOMapper;
 
+
     private static  AtomicInteger mmoBagPojoIndex;
     private static  AtomicInteger mmoEquipmentIndex;
     private static  AtomicInteger equipmentBagIndex;
@@ -43,7 +45,8 @@ public class DbUtil {
         mmoEquipmentPOJOMapper.deleteByPrimaryKey(equipmentId);
     }
 
-    
+
+
 
     @Autowired
     public  void initMmoWareHousePOJOMapper(MmoWareHousePOJOMapper mmoWareHousePOJOMapper) {

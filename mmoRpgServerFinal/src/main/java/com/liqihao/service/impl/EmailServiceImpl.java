@@ -1,7 +1,6 @@
 package com.liqihao.service.impl;
 
-import com.liqihao.Cache.EquipmentMessageCache;
-import com.liqihao.Cache.MediceneMessageCache;
+import com.liqihao.Cache.MedicineMessageCache;
 import com.liqihao.Cache.OnlineRoleMessageCache;
 import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
@@ -10,7 +9,6 @@ import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.ArticleTypeCode;
-import com.liqihao.pojo.baseMessage.EquipmentMessage;
 import com.liqihao.pojo.baseMessage.MedicineMessage;
 import com.liqihao.pojo.bean.*;
 import com.liqihao.pojo.bean.articleBean.Article;
@@ -80,7 +78,7 @@ public class EmailServiceImpl implements EmailService {
         }
         //根据邮件实体类信息初始化物品
         if (mmoEmailBean.getArticleType().equals(ArticleTypeCode.MEDICINE.getCode())){
-            MedicineMessage medicineMessage= MediceneMessageCache.getInstance().get(mmoEmailBean.getArticleMessageId());
+            MedicineMessage medicineMessage= MedicineMessageCache.getInstance().get(mmoEmailBean.getArticleMessageId());
             MedicineBean medicineBean=CommonsUtil.medicineMessageToMedicineBean(medicineMessage);
             medicineBean.setQuantity(mmoEmailBean.getArticleNum());
             //上锁

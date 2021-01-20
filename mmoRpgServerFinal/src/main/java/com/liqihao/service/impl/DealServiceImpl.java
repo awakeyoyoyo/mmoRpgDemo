@@ -1,6 +1,5 @@
 package com.liqihao.service.impl;
 
-import com.liqihao.Cache.MediceneMessageCache;
 import com.liqihao.Cache.OnlineRoleMessageCache;
 import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
@@ -8,11 +7,8 @@ import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.StateCode;
-import com.liqihao.commons.enums.ArticleTypeCode;
 import com.liqihao.commons.enums.DealStatusCode;
-import com.liqihao.pojo.baseMessage.MedicineMessage;
 import com.liqihao.pojo.bean.articleBean.Article;
-import com.liqihao.pojo.bean.articleBean.MedicineBean;
 import com.liqihao.pojo.bean.dealBean.DealBean;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.pojo.dto.ArticleDto;

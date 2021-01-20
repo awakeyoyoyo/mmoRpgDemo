@@ -10,6 +10,7 @@ import com.liqihao.commons.enums.*;
 import com.liqihao.pojo.*;
 import com.liqihao.pojo.baseMessage.*;
 import com.liqihao.pojo.bean.*;
+import com.liqihao.pojo.bean.TaskBean.TaskManager;
 import com.liqihao.pojo.bean.articleBean.Article;
 import com.liqihao.pojo.bean.articleBean.EquipmentBean;
 import com.liqihao.pojo.bean.bufferBean.BaseBufferBean;
@@ -123,6 +124,19 @@ public class MmoSimpleRole extends Role implements MyObserver {
      * 金币读写锁
      */
     public final ReadWriteLock moneyLock=new ReentrantReadWriteLock();
+
+    /**
+     * 任务管理
+     */
+    private TaskManager taskManager;
+
+    public TaskManager getTaskManager() {
+        return taskManager;
+    }
+
+    public void setTaskManager(TaskManager taskManager) {
+        this.taskManager = taskManager;
+    }
 
     public Integer getDealBeanId() {
         return dealBeanId;

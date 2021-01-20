@@ -1,7 +1,7 @@
 package com.liqihao.provider;
 
 import com.liqihao.Cache.ChannelMessageCache;
-import com.liqihao.Cache.MediceneMessageCache;
+import com.liqihao.Cache.MedicineMessageCache;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.RpgServerException;
@@ -327,7 +327,7 @@ public class DealServiceProvider {
                 throw new RpgServerException(StateCode.FAIL,"背包中物品数量不足");
             }
             if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())){
-                MedicineMessage medicineMessage = MediceneMessageCache.getInstance().get(article.getArticleMessage().getId());
+                MedicineMessage medicineMessage = MedicineMessageCache.getInstance().get(article.getArticleMessage().getId());
                 if (medicineMessage == null) {
                     throw new RpgServerException(StateCode.FAIL,"存入错误物品id");
                 }
@@ -346,7 +346,7 @@ public class DealServiceProvider {
                 throw new RpgServerException(StateCode.FAIL,"背包中物品数量不足");
             }
             if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())){
-                MedicineMessage medicineMessage = MediceneMessageCache.getInstance().get(article.getArticleMessage().getId());
+                MedicineMessage medicineMessage = MedicineMessageCache.getInstance().get(article.getArticleMessage().getId());
                 if (medicineMessage == null) {
                     throw new RpgServerException(StateCode.FAIL,"存入错误物品id");
                 }
@@ -383,7 +383,7 @@ public class DealServiceProvider {
                 throw new RpgServerException(StateCode.FAIL,"交易栏中物品数量不足");
             }
             if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())){
-                MedicineMessage medicineMessage = MediceneMessageCache.getInstance().get(article.getArticleMessage().getId());
+                MedicineMessage medicineMessage = MedicineMessageCache.getInstance().get(article.getArticleMessage().getId());
                 if (medicineMessage == null) {
                     throw new RpgServerException(StateCode.FAIL,"存入错误物品id");
                 }
@@ -397,7 +397,7 @@ public class DealServiceProvider {
                 throw new RpgServerException(StateCode.FAIL,"背包已经满了");
             }
             if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())){
-                MedicineMessage medicineMessage = MediceneMessageCache.getInstance().get(article.getArticleMessage().getId());
+                MedicineMessage medicineMessage = MedicineMessageCache.getInstance().get(article.getArticleMessage().getId());
                 if (medicineMessage == null) {
                     throw new RpgServerException(StateCode.FAIL,"存入错误物品id");
                 }
@@ -416,7 +416,7 @@ public class DealServiceProvider {
                 throw new RpgServerException(StateCode.FAIL,"交易栏中物品数量不足");
             }
             if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())){
-                MedicineMessage medicineMessage = MediceneMessageCache.getInstance().get(article.getArticleMessage().getId());
+                MedicineMessage medicineMessage = MedicineMessageCache.getInstance().get(article.getArticleMessage().getId());
                 if (medicineMessage == null) {
                     throw new RpgServerException(StateCode.FAIL,"存入错误物品id");
                 }

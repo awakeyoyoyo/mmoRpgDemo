@@ -1,7 +1,7 @@
 package com.liqihao.pojo.bean.articleBean;
 
 import com.liqihao.Cache.ChannelMessageCache;
-import com.liqihao.Cache.MediceneMessageCache;
+import com.liqihao.Cache.MedicineMessageCache;
 import com.liqihao.Cache.SceneBeanMessageCache;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
@@ -128,7 +128,7 @@ public class MedicineBean  implements Article{
      */
     @Override
     public Integer getArticleTypeCode() {
-        MedicineMessage medicineMessage= MediceneMessageCache.getInstance().get(getMedicineMessageId());
+        MedicineMessage medicineMessage= MedicineMessageCache.getInstance().get(getMedicineMessageId());
         return medicineMessage.getArticleType();
     }
 
@@ -353,7 +353,7 @@ public class MedicineBean  implements Article{
     @Override
     public boolean use(BackPackManager backpackManager, MmoSimpleRole mmoSimpleRole) {
         //判断是瞬间恢复还是持续性恢复
-        MedicineMessage medicineMessage= MediceneMessageCache.getInstance().get(getMedicineMessageId());
+        MedicineMessage medicineMessage= MedicineMessageCache.getInstance().get(getMedicineMessageId());
         if (medicineMessage.getMedicineType().equals(MedicineTypeCode.MOMENT.getCode())){
             Integer addNumber=medicineMessage.getDamageValue();
             if (medicineMessage.getDamageType().equals(DamageTypeCode.MP.getCode())) {

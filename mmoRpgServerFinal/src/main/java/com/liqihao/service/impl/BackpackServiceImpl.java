@@ -3,7 +3,7 @@ package com.liqihao.service.impl;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.liqihao.Cache.EquipmentMessageCache;
 import com.liqihao.Cache.GoodsMessageCache;
-import com.liqihao.Cache.MediceneMessageCache;
+import com.liqihao.Cache.MedicineMessageCache;
 import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.ConstantValue;
@@ -132,7 +132,7 @@ public class BackpackServiceImpl implements BackpackService {
         //根据 articleType判断 然后生成物品对象存
         Article article;
         if (articleType.equals(ArticleTypeCode.MEDICINE.getCode())) {
-            MedicineMessage medicineMessage = MediceneMessageCache.getInstance().get(id);
+            MedicineMessage medicineMessage = MedicineMessageCache.getInstance().get(id);
             if (medicineMessage == null) {
                 throw new RpgServerException(StateCode.FAIL,"存入错误物品id");
             }
@@ -197,7 +197,7 @@ public class BackpackServiceImpl implements BackpackService {
                 } else {
                     //道具
                     MedicineBean medicineBean = (MedicineBean) a;
-                    MedicineMessage medicineMessage=MediceneMessageCache.getInstance().get(medicineBean.getMedicineMessageId());
+                    MedicineMessage medicineMessage= MedicineMessageCache.getInstance().get(medicineBean.getMedicineMessageId());
                     dtoBuilder.setId(medicineBean.getMedicineMessageId())
                             .setArticleType(medicineMessage.getArticleType())
                             .setFloorIndex(medicineBean.getFloorIndex())
