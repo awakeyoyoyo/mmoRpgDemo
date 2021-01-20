@@ -2,12 +2,16 @@ package com.liqihao.provider;
 
 import com.liqihao.Cache.BossMessageCache;
 import com.liqihao.Cache.CopySceneMessageCache;
+import com.liqihao.commons.enums.ArticleTypeCode;
 import com.liqihao.pojo.baseMessage.BossMessage;
 import com.liqihao.pojo.baseMessage.CopySceneMessage;
+import com.liqihao.pojo.bean.articleBean.Article;
+import com.liqihao.pojo.bean.articleBean.EquipmentBean;
 import com.liqihao.pojo.bean.roleBean.BossBean;
 import com.liqihao.pojo.bean.CopySceneBean;
 import com.liqihao.pojo.bean.teamBean.TeamBean;
 import com.liqihao.util.CommonsUtil;
+import com.liqihao.util.DbUtil;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 
 import java.util.Iterator;
@@ -49,16 +53,26 @@ public class CopySceneProvider {
                 new ScheduledThreadPoolUtil.CopySceneOutTimeTask(teamBean,copySceneBean)
                 , copySceneMessage.getLastTime(), TimeUnit.SECONDS);
         ScheduledThreadPoolUtil.getCopySceneTaskMap().put(copySceneBean.getCopySceneBeanId(),t);
-
         copySceneBeans.put(copySceneBean.getCopySceneBeanId(),copySceneBean);
         return copySceneBean;
     }
 
+    /**
+     * 副本销毁
+     * @param copySceneBeanId
+     */
     public static void deleteNewCopySceneById(Integer copySceneBeanId){
         Iterator<CopySceneBean> it = copySceneBeans.values().iterator();
         while(it.hasNext()){
             CopySceneBean copySceneBean = it.next();
             if(copySceneBean.getCopySceneBeanId().equals(copySceneBeanId)){
+                //删除装备
+                for (Article value :copySceneBean.getArticlesMap().values()) {
+                    if (value.getArticleTypeCode().equals(ArticleTypeCode.EQUIPMENT.getCode())){
+                        EquipmentBean equipmentBean= (EquipmentBean) value;
+                        ScheduledThreadPoolUtil.addTask(() -> DbUtil.deleteEquipmentById(equipmentBean.getEquipmentId()));
+                    }
+                }
                 //删除延时任务
                 ConcurrentHashMap<Integer, ScheduledFuture<?>> copySceneTaskMap=ScheduledThreadPoolUtil.getCopySceneTaskMap();
                 if (copySceneTaskMap.containsKey(copySceneBean.getCopySceneBeanId())){

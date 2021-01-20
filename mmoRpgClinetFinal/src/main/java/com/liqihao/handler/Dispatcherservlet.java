@@ -288,6 +288,9 @@ public class Dispatcherservlet {
             case ConstantValue.AUCTION_ARTICLE_RESPONSE:
                 dealBankService.auctionArticleRequest(nettyResponse);
                 break;
+            case ConstantValue.GET_ARTICLE_RESPONSE:
+                dealBankService.getArticleRequest(nettyResponse);
+                break;
             case ConstantValue.GET_PEOPLE_TASK_RESPONSE:
                 taskService.getPeopleTaskRequest(nettyResponse);
                 break;

@@ -108,6 +108,7 @@ public class ArticleServiceProvider implements ApplicationContextAware {
         for (Integer id:equipmentIds) {
             EquipmentBean equipmentBean=productEquipment(id);
             equipmentBean.setFloorIndex(copySceneBean.getFloorIndex());
+            equipmentBeans.add(equipmentBean);
         }
         return equipmentBeans;
     }

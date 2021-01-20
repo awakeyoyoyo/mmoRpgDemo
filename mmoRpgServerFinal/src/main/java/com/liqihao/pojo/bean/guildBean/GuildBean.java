@@ -385,6 +385,7 @@ public class GuildBean {
         try {
             Integer temp = money + getMoney();
             setMoney(temp);
+            GuildServiceProvider.getInstance().updateGuildPOJO(this);
         } finally {
             moneyRwLock.writeLock().unlock();
         }

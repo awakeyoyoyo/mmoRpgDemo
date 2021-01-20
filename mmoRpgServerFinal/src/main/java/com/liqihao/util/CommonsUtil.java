@@ -28,6 +28,7 @@ import com.liqihao.pojo.bean.roleBean.Role;
 import com.liqihao.pojo.dto.ArticleDto;
 import com.liqihao.protobufObject.*;
 import com.liqihao.provider.CopySceneProvider;
+import com.liqihao.provider.DealBankServiceProvider;
 import com.liqihao.provider.GuildServiceProvider;
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
@@ -124,6 +125,7 @@ public class CommonsUtil {
         List<MmoDealBankAuctionPOJO> dealBankAuctionPOJOS=mmoDealBankAuctionPOJOMapper.selectAll();
         for (MmoDealBankAuctionPOJO dealBankAuctionPOJO : dealBankAuctionPOJOS) {
             DealBankAuctionBean d= CommonsUtil.dealDealBankAuctionPOJOToDealBankAuctionBean(dealBankAuctionPOJO);
+            d.setDealBeanAuctionBeanId(DealBankServiceProvider.dealBankAuctionBeanIdAuto.incrementAndGet());
             dealBankArticleBean.getDealBankAuctionBeans().add(d);
         }
         return dealBankArticleBean;

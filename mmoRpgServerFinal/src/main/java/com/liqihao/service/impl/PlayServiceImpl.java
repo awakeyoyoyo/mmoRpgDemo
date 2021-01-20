@@ -120,6 +120,26 @@ public class PlayServiceImpl implements PlayService {
         MmoUserPOJO mmoUserPOJO = mmoUserPOJOMapper.selectByPrimaryKey(mmoUserId);
         //从数据库中读取角色,且修改其为在线模式，放入角色在线集合
         MmoRolePOJO role = mmoRolePOJOMapper.selectByPrimaryKey(Integer.parseInt(mmoUserPOJO.getUserRoleId()));
+        MmoSimpleRole lastRole=OnlineRoleMessageCache.getInstance().get(role.getId());
+        if (lastRole!=null){
+            //另一个客户端在线
+            //让其掉线
+            Channel c=ChannelMessageCache.getInstance().get(lastRole.getId());
+            c.close();
+            OnlineRoleMessageCache.getInstance().remove(lastRole.getId());
+            //退出副本
+            if (lastRole.getCopySceneBeanId()!=null){
+                CopySceneProvider.getCopySceneBeanById(lastRole.getCopySceneBeanId()).peopleExit(role.getId());
+            }
+            //退出队伍
+            if(lastRole.getTeamId()!=null){
+                TeamServiceProvider.getTeamBeanByTeamId(lastRole.getTeamId()).exitPeople(role.getId());
+            }
+            //退出场景
+            if(role.getMmoSceneId()!=null){
+                SceneBeanMessageCache.getInstance().get(lastRole.getMmoSceneId()).getRoles().remove(role.getId());
+            }
+        }
         role.setOnStatus(RoleOnStatusCode.ONLINE.getCode());
         //初始化基础信息获取
         MmoSimpleRole simpleRole = new MmoSimpleRole();

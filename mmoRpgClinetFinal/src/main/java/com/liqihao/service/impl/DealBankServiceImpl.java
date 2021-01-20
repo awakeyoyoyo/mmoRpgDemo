@@ -103,6 +103,7 @@ public class DealBankServiceImpl implements DealBankService {
             }else{
                 System.out.println("[-][-]");
                 System.out.println("[-][-]一口价商品");
+                System.out.println("[-][-]商家id："+dealBankArticleDto.getFromRoleId());
                 System.out.println("[-][-]商品id:"+dealBankArticleDto.getDealBankArticleBeanId()+" 商品类型: "+ ArticleTypeCode.getValue(dealBankArticleDto.getArticleType()));
                 if (dealBankArticleDto.getArticleType()==ArticleTypeCode.EQUIPMENT.getCode()){
                     EquipmentMessage e=equipmentMessageConcurrentHashMap.get(dealBankArticleDto.getArticleMessageId());

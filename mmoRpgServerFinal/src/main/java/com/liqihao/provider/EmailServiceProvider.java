@@ -4,8 +4,10 @@ import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.ArticleTypeCode;
 import com.liqihao.dao.MmoEmailPOJOMapper;
+import com.liqihao.dao.MmoRolePOJOMapper;
 import com.liqihao.dao.MmoUserPOJOMapper;
 import com.liqihao.pojo.MmoEmailPOJO;
+import com.liqihao.pojo.MmoRolePOJO;
 import com.liqihao.pojo.MmoUserPOJO;
 import com.liqihao.pojo.bean.MmoEmailBean;
 import com.liqihao.pojo.bean.articleBean.MedicineBean;
@@ -35,11 +37,11 @@ import java.util.stream.Collectors;
 @Component
 public class EmailServiceProvider implements ApplicationContextAware {
     private final Logger log = LoggerFactory.getLogger(EmailServiceProvider.class);
-    private static MmoUserPOJOMapper userPOJOMapper;
+    private static MmoRolePOJOMapper rolePOJOMapper;
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         MmoEmailPOJOMapper mmoEmailPOJOMapper=(MmoEmailPOJOMapper)applicationContext.getBean("mmoEmailPOJOMapper");
-        userPOJOMapper=(MmoUserPOJOMapper)applicationContext.getBean("mmoUserPOJOMapper");
+        rolePOJOMapper=(MmoRolePOJOMapper)applicationContext.getBean("mmoRolePOJOMapper");
         Integer index=mmoEmailPOJOMapper.selectNextIndex();
         emailBeanIdAuto=new AtomicInteger(index);
         id=index-1;
@@ -88,8 +90,8 @@ public class EmailServiceProvider implements ApplicationContextAware {
         }else{
             // 插入数据库
             //查看是否有该玩家
-            MmoUserPOJO userPOJO=userPOJOMapper.selectByPrimaryKey(emailBean.getToRoleId());
-            if (userPOJO==null){
+            MmoRolePOJO rolePOJO=rolePOJOMapper.selectByPrimaryKey(emailBean.getToRoleId());
+            if (rolePOJO==null){
                 throw new RpgServerException(StateCode.FAIL,"该用户不存在");
             }
             emailBean.setIntoDataBase(true);

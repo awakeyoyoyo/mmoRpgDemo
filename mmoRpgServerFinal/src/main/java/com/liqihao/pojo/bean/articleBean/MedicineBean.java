@@ -150,7 +150,7 @@ public class MedicineBean  implements Article{
 
     @Override
     public Integer getDealArticleIdCode() {
-        return getDealArticleIdCode();
+        return getDealArticleId();
     }
 
     /**

@@ -11,6 +11,7 @@ import com.liqihao.pojo.baseMessage.MedicineMessage;
 import com.liqihao.pojo.baseMessage.TaskMessage;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.provider.TaskServiceProvider;
+import com.liqihao.util.ScheduledThreadPoolUtil;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -38,33 +39,11 @@ public class UseTaskBean extends BaseTaskBean {
             if (taskMessage.getTargetId()==null) {
                 //代表着使用了该类型物品即可 没指定具体
                 setProgress(getProgress() + dto.getProgress());
-                if (getProgress() >= taskMessage.getTargetProgress()) {
-                    if (taskMessage.getType().equals(TaskTypeCode.TASK.getCode())) {
-                        try {
-                            TaskServiceProvider.abandonTask(taskMessage.getId(), role);
-                        } catch (RpgServerException e) {
-                        }
-                    }else{
-                        setStatus(TaskStateCode.FINISH.getCode());
-                    }
-                    sendFinishTask(role);
-                }
             }else if (taskMessage.getTargetId().equals(dto.getTargetId())){
                 //使用了指定的物品 增加进度
                 setProgress(getProgress() + dto.getProgress());
-                if (getProgress() >= taskMessage.getTargetProgress()) {
-                    if (taskMessage.getType().equals(TaskTypeCode.TASK.getCode())) {
-                        try {
-                            TaskServiceProvider.abandonTask(taskMessage.getId(), role);
-                        } catch (RpgServerException e) {
-                        }
-                    }else{
-                        setStatus(TaskStateCode.FINISH.getCode());
-
-                    }
-                    sendFinishTask(role);
-                }
             }
+            checkFinish(taskMessage,role);
         }
     }
 

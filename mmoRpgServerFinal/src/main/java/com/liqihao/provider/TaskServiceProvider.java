@@ -170,7 +170,7 @@ public class TaskServiceProvider {
         return taskBean;
     }
 
-    private static void deleteTaskDb(Integer taskBeanId) {
+    public static void deleteTaskDb(Integer taskBeanId) {
         mmoTaskPOJOMapper.deleteByPrimaryKey(taskBeanId);
     }
 }

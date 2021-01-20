@@ -103,7 +103,6 @@ public class DealServiceImpl implements DealService {
     @HandlerCmdTag(cmd = ConstantValue.CONFIRM_DEAL_REQUEST,module = ConstantValue.DEAL_MODULE)
     public void confirmDealRequest(DealModel.DealModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws RpgServerException {
         DealServiceProvider.confirmDeal(mmoSimpleRole);
-
     }
 
     @Override
@@ -228,7 +227,7 @@ public class DealServiceImpl implements DealService {
 
         ArticleDto articleDto=article.getArticleMessage();
         DealModel.ArticleDto articleDto1= DealModel.ArticleDto.newBuilder().setArticleType(articleDto.getArticleType()).setArticleMessageId(articleDto.getId())
-                .setDealArticleId(articleDto.getDealArticleId()).setEquipmentId(articleDto.getEquipmentId()).setQuantity(articleDto.getQuantity()).setNowDurability(articleDto.getNowDurability()).build();
+                .setEquipmentId(articleDto.getEquipmentId()).setQuantity(articleDto.getQuantity()).setNowDurability(articleDto.getNowDurability()).build();
         //发送消息给双方 交易中丢弃了什么
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.ABANDON_DEAL_ARTICLE_RESPONSE);

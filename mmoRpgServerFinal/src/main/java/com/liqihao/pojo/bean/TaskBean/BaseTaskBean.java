@@ -4,8 +4,13 @@ import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.StateCode;
+import com.liqihao.commons.enums.TaskStateCode;
+import com.liqihao.commons.enums.TaskTypeCode;
+import com.liqihao.pojo.baseMessage.TaskMessage;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.protobufObject.TaskModel;
+import com.liqihao.provider.TaskServiceProvider;
+import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
 
 /**
@@ -33,8 +38,11 @@ public abstract class BaseTaskBean {
      * 接收事件
      */
     private long createTime;
+
     /**
      * 检测是否完成
+     * @param dto
+     * @param role
      */
     public abstract void update(ActionDto dto,MmoSimpleRole role);
 
@@ -89,5 +97,19 @@ public abstract class BaseTaskBean {
         messageBuilder.setFinishTaskResponse(TaskModel.FinishTaskResponse.newBuilder().setTaskMessageId(getTaskMessageId()).build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
         channel.writeAndFlush(nettyResponse);
+    }
+
+    public void checkFinish(TaskMessage taskMessage,MmoSimpleRole role){
+        if (getProgress() >= taskMessage.getTargetProgress()) {
+            if (taskMessage.getType().equals(TaskTypeCode.TASK.getCode())) {
+                role.getTaskManager().getTaskBeans().remove(taskMessage.getId());
+                Integer taskBeanId=getTaskDbId();
+                ScheduledThreadPoolUtil.addTask(() -> TaskServiceProvider.deleteTaskDb(taskBeanId));
+            }else{
+                setStatus(TaskStateCode.FINISH.getCode());
+
+            }
+            sendFinishTask(role);
+        }
     }
 }

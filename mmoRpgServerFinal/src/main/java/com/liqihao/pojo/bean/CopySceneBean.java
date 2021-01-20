@@ -255,7 +255,6 @@ public class CopySceneBean{
         }
     }
 
-
     /**
      * 副本结束
      */
@@ -311,12 +310,6 @@ public class CopySceneBean{
         }
         //copySceneProvider删除该副本
         CopySceneProvider.deleteNewCopySceneById(getCopySceneBeanId());
-        //定时任务取消
-        ScheduledFuture<?> t=ScheduledThreadPoolUtil.getCopySceneTaskMap().get(getCopySceneBeanId());
-        if (t!=null){
-            t.cancel(false);
-            ScheduledThreadPoolUtil.getCopySceneTaskMap().remove(getCopySceneBeanId());
-        }
         //广播给队伍中的人 副本解散了
         sendCopySceneDelete(teamBean,cause);
     }
@@ -342,17 +335,17 @@ public class CopySceneBean{
         //发奖励了
         List<MedicineBean> medicineBeans= ArticleServiceProvider.productMedicineToCopyScene(this,CommonsUtil.split(copySceneMessage.getMedicineIds()));
         //todo
-       // List<EquipmentBean> equipmentBeans= ArticleServiceProvider.productEquipmentToCopyScene(this,CommonsUtil.split(copySceneMessage.getEquipmentIds()));
+        List<EquipmentBean> equipmentBeans= ArticleServiceProvider.productEquipmentToCopyScene(this,CommonsUtil.split(copySceneMessage.getEquipmentIds()));
         if (medicineBeans.size()>0) {
             for (MedicineBean m:medicineBeans) {
                 articlesMap.put(m.getFloorIndex(),m);
             }
         }
-//        if (equipmentBeans.size()>0){
-//            for (EquipmentBean e:equipmentBeans) {
-//                articlesMap.put(e.getFloorIndex(),e);
-//            }
-//        }
+        if (equipmentBeans.size()>0){
+            for (EquipmentBean e:equipmentBeans) {
+                articlesMap.put(e.getFloorIndex(),e);
+            }
+        }
         // 广播队伍副本挑战成功
         NettyResponse nettyResponse=new NettyResponse();
         nettyResponse.setCmd(ConstantValue.CHANGE_SUCCESS_RESPONSE);
@@ -373,6 +366,7 @@ public class CopySceneBean{
             }
         }
     }
+
     /**
      * 挑战失败-人物全部死亡
      */
@@ -400,6 +394,7 @@ public class CopySceneBean{
             }
         }
     }
+
     /**
      * 挑战失败-时间过时
      */
@@ -463,6 +458,7 @@ public class CopySceneBean{
             changeResult(teamBean);
         }
     }
+
     /**
      * 根据index获取副本物品
      */

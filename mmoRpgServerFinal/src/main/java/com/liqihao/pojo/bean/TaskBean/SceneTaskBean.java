@@ -8,6 +8,7 @@ import com.liqihao.commons.enums.TaskTypeCode;
 import com.liqihao.pojo.baseMessage.TaskMessage;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.provider.TaskServiceProvider;
+import com.liqihao.util.ScheduledThreadPoolUtil;
 
 /**
  * 进入某场景任务
@@ -27,18 +28,7 @@ public class SceneTaskBean extends BaseTaskBean{
         if (taskMessage.getTargetId().equals(dto.getTargetId())){
                 //进入了指定的:场景
             setProgress(getProgress() + dto.getProgress());
-            if (getProgress() >= taskMessage.getTargetProgress()) {
-                if (taskMessage.getType().equals(TaskTypeCode.TASK.getCode())) {
-                    try {
-                        TaskServiceProvider.abandonTask(taskMessage.getId(), role);
-                    } catch (RpgServerException e) {
-                    }
-                }else{
-                    setStatus(TaskStateCode.FINISH.getCode());
-
-                }
-                sendFinishTask(role);
-            }
         }
+        checkFinish(taskMessage,role);
     }
 }

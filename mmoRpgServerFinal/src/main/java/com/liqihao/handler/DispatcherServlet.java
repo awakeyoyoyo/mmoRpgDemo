@@ -37,7 +37,6 @@ public class DispatcherServlet implements ApplicationContextAware {
 
     /**
      * 根据model转发到不同的handler
-     *
      * @param nettyRequest
      * @return
      */

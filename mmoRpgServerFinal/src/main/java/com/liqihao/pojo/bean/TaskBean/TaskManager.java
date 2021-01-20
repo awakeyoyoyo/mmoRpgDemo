@@ -3,7 +3,9 @@ package com.liqihao.pojo.bean.TaskBean;
 import com.liqihao.commons.RpgServerException;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -43,8 +45,12 @@ public class TaskManager {
      * @param role
      */
     public void handler(ActionDto actionDto, MmoSimpleRole role){
-        for (BaseTaskBean value : taskBeans.values()) {
-            value.update(actionDto,role);
+        List<Integer> keys=getTaskIds();
+        for (Integer key : keys) {
+            BaseTaskBean taskBean=taskBeans.get(key);
+            if (taskBean!=null) {
+                taskBean.update(actionDto, role);
+            }
         }
     }
     /**

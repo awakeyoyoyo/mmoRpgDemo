@@ -8,6 +8,7 @@ import com.liqihao.pojo.dto.ArticleDto;
 import org.omg.CORBA.PRIVATE_MEMBER;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -77,7 +78,9 @@ public class DealArticleBean {
         return article.putDealBean(this);
     }
     public synchronized Article abandon(Integer dealArticleId,Integer num) {
-        for (Article a : articles) {
+        Iterator iterator=articles.iterator();
+        while (iterator.hasNext()) {
+            Article a= (Article) iterator.next();
             if (a.getDealArticleIdCode().equals(dealArticleId)) {
                 return a.abandonDealBean(num,this);
             }

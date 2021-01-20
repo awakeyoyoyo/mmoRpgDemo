@@ -195,7 +195,7 @@ public class EquipmentBean implements Article{
 
     @Override
     public Integer getDealArticleIdCode() {
-        return getDealArticleIdCode();
+        return getDealArticleId();
     }
 
     @Override

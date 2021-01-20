@@ -73,7 +73,7 @@ public class DealBankServiceProvider {
     /**
      * 拍卖纪录id
      */
-    private static AtomicInteger dealBankAuctionBeanIdAuto = new AtomicInteger(0);
+    public static AtomicInteger dealBankAuctionBeanIdAuto = new AtomicInteger(0);
     /**
      * 拍卖纪录DB Id
      */
@@ -110,7 +110,7 @@ public class DealBankServiceProvider {
         for (MmoDealBankArticlePOJO dealBankArticlePOJO : dealBankArticlePOJOS) {
             DealBankArticleBean d = CommonsUtil.dealBankArticlePOJOToDealBankArticleBean(dealBankArticlePOJO);
             d.setDealBeanArticleBeanId(dealBankArticleBeanIdAuto.incrementAndGet());
-            if (d.getType().equals(DealBankArticleTypeCode.AUCTION.getCode())) {
+            if (d.getType()==DealBankArticleTypeCode.AUCTION.getCode()) {
                 //开启延时任务
                 long time=d.getEndTime()-d.getCreateTime();
                 if (time<0){
@@ -176,18 +176,19 @@ public class DealBankServiceProvider {
      */
     public static void reduceSellArticleToDealBank(Integer dealBeanArticleBeanId,MmoSimpleRole role) throws RpgServerException {
         DealBankArticleBean dealBankArticleBean = dealBankArticleBeans.get(dealBeanArticleBeanId);
-        dealBankArticleBeans.remove(dealBankArticleBean.getDealBeanArticleBeanId());
-        if (dealBankArticleBean == null) {
+        if (dealBankArticleBean==null){
             throw new RpgServerException(StateCode.FAIL, "该物品已经交易完成或不存在");
+
         }
+        dealBankArticleBeans.remove(dealBankArticleBean.getDealBeanArticleBeanId());
         if (!role.getId().equals(dealBankArticleBean.getFromRoleId())){
             throw new RpgServerException(StateCode.FAIL, "非本商品的卖家无法下架");
         }
         if (!role.getId().equals(dealBankArticleBean.getFromRoleId())){
             throw new RpgServerException(StateCode.FAIL, "不能自己下架他人物品");
         }
-        //发送给买家
-        sendReduceToSeller(dealBankArticleBean,SELLER_S_FAIL_TITLE,FROM_UNSET);
+        //发送给卖家
+        sendReduceToSeller(dealBankArticleBean,SELLER_S_FAIL_TITLE,TO_UNSET);
         //判断是否是拍卖品
         if (dealBankArticleBean.getType().equals(DealBankArticleTypeCode.AUCTION.getCode())) {
             //消除任务
