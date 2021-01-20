@@ -10,13 +10,13 @@ import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.provider.TaskServiceProvider;
 
 /**
- * 进入某场景任务
+ * 聊天任务
  * @author lqhao
  */
-public class SceneTaskBean extends BaseTaskBean{
+public class TalkTaskBean extends BaseTaskBean{
     @Override
     public void update(ActionDto dto, MmoSimpleRole role) {
-        if (!dto.getTargetType().equals(TaskTargetTypeCode.SCENE.getCode())){
+        if (!dto.getTargetType().equals(TaskTargetTypeCode.TALK.getCode())){
             //不是该任务类型
             return;
         }
@@ -24,8 +24,9 @@ public class SceneTaskBean extends BaseTaskBean{
             return;
         }
         TaskMessage taskMessage= TaskMessageCache.getInstance().get(getTaskMessageId());
-        if (taskMessage.getTargetId().equals(dto.getTargetId())){
-                //进入了指定的:场景
+        //传入任务id
+         if (taskMessage.getTargetId().equals(dto.getTargetId())){
+            //使用了指定的物品 增加进度
             setProgress(getProgress() + dto.getProgress());
             if (getProgress() >= taskMessage.getTargetProgress()) {
                 if (taskMessage.getType().equals(TaskTypeCode.TASK.getCode())) {

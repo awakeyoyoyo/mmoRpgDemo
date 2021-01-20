@@ -23,6 +23,7 @@ import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.provider.CallerServiceProvider;
 import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.provider.MyObserver;
+import com.liqihao.provider.TaskServiceProvider;
 import com.liqihao.util.CommonsUtil;
 import com.liqihao.util.DbUtil;
 import com.liqihao.util.LogicThreadPool;
@@ -183,6 +184,10 @@ public class MmoSimpleRole extends Role implements MyObserver {
     }
 
     public void setMoney(Integer money) {
+//        Integer progress=money-getMoney();
+//        if (progress>0) {
+//            TaskServiceProvider.check(this, progress, -1, npcId, TaskTargetTypeCode.TALK.getCode());
+//        }
         this.money = money;
     }
 
@@ -437,6 +442,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
      * 使用技能
      */
     public  void useSkill(List<Role> target, Integer skillId) {
+        TaskServiceProvider.check(this, 1, -1, skillId, TaskTargetTypeCode.SKILL.getCode());
         SkillBean skillBean = getSkillBeanBySkillId(skillId);
         //武器耐久度-2
         EquipmentBean equipmentBean = this.getEquipmentBeanHashMap().get(PositionCode.ARMS.getCode());
@@ -774,7 +780,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
      * @param copySceneBean
      * @return
      */
-    public Boolean wentCopyScene(CopySceneBean copySceneBean) {
+    public Boolean wentCopyScene(CopySceneBean copySceneBean)  {
         //从当前场景消失
         Integer sceneId = getMmoSceneId();
         SceneBean sceneBean = SceneBeanMessageCache.getInstance().get(sceneId);

@@ -9,6 +9,7 @@ import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.*;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.RoleTypeCode;
+import com.liqihao.commons.enums.TaskTargetTypeCode;
 import com.liqihao.pojo.bean.*;
 import com.liqihao.pojo.bean.roleBean.BossBean;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleNPC;
@@ -16,6 +17,7 @@ import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.pojo.bean.roleBean.Role;
 import com.liqihao.protobufObject.SceneModel;
 import com.liqihao.provider.CopySceneProvider;
+import com.liqihao.provider.TaskServiceProvider;
 import com.liqihao.service.SceneService;
 import io.netty.channel.Channel;
 import org.slf4j.Logger;
@@ -61,7 +63,8 @@ public class SceneServiceImpl implements SceneService {
 
         //进入场景，修改数据库 player 和scene
         List<Role> nextSceneRoles = mmoSimpleRole.wentScene(nextSceneId);
-
+        //查看任务
+        TaskServiceProvider.check(mmoSimpleRole, 1, -1, nextSceneId, TaskTargetTypeCode.SCENE.getCode());
         //ptotobuf生成wentResponse
         //生成response返回
         NettyResponse nettyResponse = new NettyResponse();
@@ -195,6 +198,7 @@ public class SceneServiceImpl implements SceneService {
         if (!npc.getMmoSceneId().equals(mmoSimpleRole.getMmoSceneId())) {
             throw new RpgServerException(StateCode.FAIL,"该NPC不在当前场景");
         }
+        TaskServiceProvider.check(mmoSimpleRole, 1, -1, npcId, TaskTargetTypeCode.TALK.getCode());
         //无问题 返回npcId
         SceneModel.SceneModelMessage MessageData;
         MessageData = SceneModel.SceneModelMessage.newBuilder()

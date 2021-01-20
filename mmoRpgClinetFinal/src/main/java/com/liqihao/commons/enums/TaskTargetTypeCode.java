@@ -8,13 +8,13 @@ package com.liqihao.commons.enums;
 public enum TaskTargetTypeCode {
     //
     USE(1,"使用类型","com.liqihao.pojo.bean.TaskBean.UseTaskBean"),
-//    EQUIPMENT(2,"装备类型","com.liqihao.pojo.bean.TaskBean.EquipTaskBean"),
-    TALK(3,"对话类型","com.liqihao.pojo.bean.TaskBean.TalkTaskBean"),
-    SCENE(4,"场景类型","com.liqihao.pojo.bean.TaskBean.SceneTaskBean"),
-    SKILL(5,"技能类型","com.liqihao.pojo.bean.TaskBean.SkillTaskBean"),
-//    Money(6,"金币类型","com.liqihao.pojo.bean.TaskBean.MoneyTaskBean"),
-    COPY_SCENE(7,"副本类型","com.liqihao.pojo.bean.TaskBean.CopySceneTaskBean"),
-//    KILL(8,"杀怪类型","com.liqihao.pojo.bean.TaskBean.KillTaskBean")
+    EQUIPMENT(2,"装备类型","EquipTaskBean"),
+    TALK(3,"对话类型","TalkTaskBean"),
+    SCENE(4,"场景类型","SceneTaskBean"),
+    SKILL(5,"技能类型","SkillTaskBean"),
+    Money(6,"金币类型","MoneyTaskBean"),
+    COPY_SCENE(7,"副本类型","CopySceneTaskBean"),
+    KILL(8,"杀怪类型","KillTaskBean")
     ;
     private  int code;
     private  String value;

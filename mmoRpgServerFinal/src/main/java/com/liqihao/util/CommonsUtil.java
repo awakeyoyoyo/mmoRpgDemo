@@ -11,6 +11,7 @@ import com.liqihao.dao.*;
 import com.liqihao.pojo.*;
 import com.liqihao.pojo.baseMessage.*;
 import com.liqihao.pojo.bean.*;
+import com.liqihao.pojo.bean.TaskBean.BaseTaskBean;
 import com.liqihao.pojo.bean.articleBean.EquipmentBean;
 import com.liqihao.pojo.bean.articleBean.MedicineBean;
 import com.liqihao.pojo.bean.bufferBean.BaseBufferBean;
@@ -57,6 +58,8 @@ public class CommonsUtil {
     private static MmoGuildRolePOJOMapper mmoGuildRolePOJOMapper;
     private static MmoWareHousePOJOMapper mmoWareHousePOJOMapper;
     private static MmoDealBankAuctionPOJOMapper mmoDealBankAuctionPOJOMapper;
+
+
     @Autowired
     public  void setMmoBagPOJOMapper(MmoBagPOJOMapper mmoBagPOJOMapper) {
         CommonsUtil.mmoBagPOJOMapper = mmoBagPOJOMapper;
@@ -134,6 +137,12 @@ public class CommonsUtil {
         dealBankAuctionBean.setFromRoleId(dealBankAuctionPOJO.getFromRoleId());
         dealBankAuctionBean.setCreateTime(dealBankAuctionPOJO.getCreateTime());
         return dealBankAuctionBean;
+    }
+
+    public static TaskModel.TaskDto taskBeanToTaskDto(BaseTaskBean taskBean) {
+        TaskModel.TaskDto taskDto=TaskModel.TaskDto.newBuilder().setTaskMessageId(taskBean.getTaskMessageId())
+                .setCreateTime(taskBean.getCreateTime()).setProgress(taskBean.getProgress()).setStatus(taskBean.getStatus()).build();
+        return taskDto;
     }
 
     public static DealBankModel.DealBankArticleDto dealBankArticleBeanToDealBankArticleDto(DealBankArticleBean dealBankArticleBean) {

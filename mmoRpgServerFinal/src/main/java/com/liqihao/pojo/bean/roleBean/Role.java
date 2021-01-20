@@ -1,5 +1,6 @@
 package com.liqihao.pojo.bean.roleBean;
 
+import com.liqihao.commons.RpgServerException;
 import com.liqihao.pojo.bean.SkillBean;
 import com.liqihao.pojo.bean.bufferBean.BaseBufferBean;
 import com.liqihao.protobufObject.PlayModel;

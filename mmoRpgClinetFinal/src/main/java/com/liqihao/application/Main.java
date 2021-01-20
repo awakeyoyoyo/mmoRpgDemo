@@ -32,6 +32,7 @@ public class Main {
     private static String guildAuthorityMessage_file = "classpath:message/guildAuthorityMessage.xlsx";
     private static String guildBaseMessage_file = "classpath:message/guildBaseMessage.xlsx";
     private static String guildPositionMessage_file = "classpath:message/guildPositionMessage.xlsx";
+    private static String taskMessage_file = "classpath:message/taskMessage.xlsx";
     public static void main(String[] args) throws Exception {
         //查询类路径 加载配置文件
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring.xml");
@@ -89,6 +90,13 @@ public class Main {
         for (ProfessionMessage professionMessage:professionMessages) {
             professionMessageConcurrentHashMap.put(professionMessage.getId(),professionMessage);
         }
+
+        ConcurrentHashMap<Integer, TaskMessage> taskMessageConcurrentHashMap=new ConcurrentHashMap<>();
+        List<TaskMessage> taskMessages= ExcelReaderUtil.readExcelFromFileName(taskMessage_file,TaskMessage.class);
+        for (TaskMessage taskMessage:taskMessages) {
+            taskMessageConcurrentHashMap.put(taskMessage.getId(),taskMessage);
+        }
+        MmoCacheCilent.getInstance().setTaskMessageConcurrentHashMap(taskMessageConcurrentHashMap);
         MmoCacheCilent.getInstance().setProfessionMessageConcurrentHashMap(professionMessageConcurrentHashMap);
         MmoCacheCilent.getInstance().setGoodsMessageConcurrentHashMap(goodsMessageConcurrentHashMap);
         MmoCacheCilent.getInstance().setCopySceneMessageConcurrentHashMap(copySceneMessageConcurrentHashMap);

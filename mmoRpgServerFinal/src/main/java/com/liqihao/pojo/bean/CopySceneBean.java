@@ -5,11 +5,9 @@ import com.liqihao.Cache.CopySceneMessageCache;
 import com.liqihao.Cache.OnlineRoleMessageCache;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
+import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.StateCode;
-import com.liqihao.commons.enums.CopySceneDeleteCauseCode;
-import com.liqihao.commons.enums.ProfessionCode;
-import com.liqihao.commons.enums.RoleStatusCode;
-import com.liqihao.commons.enums.RoleTypeCode;
+import com.liqihao.commons.enums.*;
 import com.liqihao.pojo.baseMessage.CopySceneMessage;
 import com.liqihao.pojo.bean.articleBean.Article;
 import com.liqihao.pojo.bean.articleBean.EquipmentBean;
@@ -23,6 +21,7 @@ import com.liqihao.protobufObject.CopySceneModel;
 import com.liqihao.protobufObject.SceneModel;
 import com.liqihao.provider.ArticleServiceProvider;
 import com.liqihao.provider.CopySceneProvider;
+import com.liqihao.provider.TaskServiceProvider;
 import com.liqihao.provider.TeamServiceProvider;
 import com.liqihao.util.CommonsUtil;
 import com.liqihao.util.DbUtil;
@@ -325,11 +324,16 @@ public class CopySceneBean{
     /**
      * 挑战成功
      */
-    public void changeResult(TeamBean teamBean){
+    public void changeResult(TeamBean teamBean) {
         CopySceneMessage copySceneMessage= CopySceneMessageCache.getInstance().get(getCopySceneMessageId());
 
         //将副本中的人物全部状态改为存活
         for (Role role:roles) {
+            //增加任务 MmoRole role int progress,int articleType,int targetId,int targetType
+            if (role.getType().equals(RoleTypeCode.PLAYER.getCode())) {
+                MmoSimpleRole mmoSimpleRole= (MmoSimpleRole) role;
+                TaskServiceProvider.check(mmoSimpleRole, 1, -1, getCopySceneMessageId(), TaskTargetTypeCode.COPY_SCENE.getCode());
+            }
             if (role.getType().equals(RoleTypeCode.PLAYER.getCode())) {
                 role.setStatus(RoleStatusCode.ALIVE.getCode());
                 role.setNowHp(role.getHp());
@@ -337,7 +341,7 @@ public class CopySceneBean{
         }
         //发奖励了
         List<MedicineBean> medicineBeans= ArticleServiceProvider.productMedicineToCopyScene(this,CommonsUtil.split(copySceneMessage.getMedicineIds()));
-     //todo
+        //todo
        // List<EquipmentBean> equipmentBeans= ArticleServiceProvider.productEquipmentToCopyScene(this,CommonsUtil.split(copySceneMessage.getEquipmentIds()));
         if (medicineBeans.size()>0) {
             for (MedicineBean m:medicineBeans) {
@@ -448,7 +452,7 @@ public class CopySceneBean{
     /**
      * BOSS挑战是否完成
      */
-    public void bossComeOrFinish() {
+    public void bossComeOrFinish()  {
         if (bossBeans.size()>0){
             BossBean bossBean=bossBeans.pop();
             setNowBoss(bossBean);

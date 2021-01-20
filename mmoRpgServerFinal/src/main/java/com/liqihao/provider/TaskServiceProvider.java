@@ -4,9 +4,11 @@ import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.TaskStateCode;
 import com.liqihao.commons.enums.TaskTargetTypeCode;
+import com.liqihao.commons.enums.TaskTypeCode;
 import com.liqihao.dao.MmoTaskPOJOMapper;
 import com.liqihao.pojo.MmoTaskPOJO;
 import com.liqihao.pojo.baseMessage.TaskMessage;
+import com.liqihao.pojo.bean.TaskBean.ActionDto;
 import com.liqihao.pojo.bean.TaskBean.BaseTaskBean;
 import com.liqihao.pojo.bean.TaskBean.TaskManager;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
@@ -14,7 +16,6 @@ import com.liqihao.util.ScheduledThreadPoolUtil;
 import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -32,7 +33,7 @@ public class TaskServiceProvider {
      */
     private static AtomicInteger taskDbId;
     @Autowired
-    public static void setMmoTaskPOJOMapper(MmoTaskPOJOMapper mmoTaskPOJOMapper) {
+    public void setMmoTaskPOJOMapper(MmoTaskPOJOMapper mmoTaskPOJOMapper) {
         TaskServiceProvider.mmoTaskPOJOMapper = mmoTaskPOJOMapper;
         taskDbId=new AtomicInteger(mmoTaskPOJOMapper.selectNextIndex() - 1);
     }
@@ -45,6 +46,9 @@ public class TaskServiceProvider {
         TaskMessage taskMessage=TaskMessageCache.getInstance().get(taskMessageId);
         if (taskMessage==null){
             throw new RpgServerException(StateCode.FAIL,"不存在该任务");
+        }
+        if (role.getTaskManager().getTaskIds().contains(taskMessageId)){
+            throw new RpgServerException(StateCode.FAIL,"用户已经接收了该任务");
         }
         BaseTaskBean taskBean= reflectionTaskBean(taskMessage.getTargetType());
         taskBean.setTaskDbId(taskDbId.incrementAndGet());
@@ -64,15 +68,15 @@ public class TaskServiceProvider {
         if (taskBean==null){
             throw new RpgServerException(StateCode.FAIL,"该角色不存在该任务");
         }
+        TaskMessage taskMessage=TaskMessageCache.getInstance().get(taskMessageId);
+        if (taskMessage.getType().equals(TaskTypeCode.ACHIEVEMENT.getCode())){
+            throw new RpgServerException(StateCode.FAIL,"成就类型的任务不能删除");
+        }
         role.getTaskManager().getTaskBeans().remove(taskMessageId);
-        Integer roleId=role.getId();
         Integer taskBeanId=taskBean.getTaskDbId();
         ScheduledThreadPoolUtil.addTask(() -> deleteTaskDb(taskBeanId));
     }
 
-    private static void deleteTaskDb(Integer taskBeanId) {
-        mmoTaskPOJOMapper.deleteByPrimaryKey(taskBeanId);
-    }
 
     /**
      * 每次登陆后初始化任务表
@@ -91,6 +95,15 @@ public class TaskServiceProvider {
             taskBean.setTaskMessageId(mmoTaskPOJO.getTaskMessageId());
             manager.addTask(taskBean);
         }
+    }
+
+    public static void check(MmoSimpleRole role,int progress,int articleType,int targetId,int targetType) {
+        ActionDto actionDto=new ActionDto();
+        actionDto.setProgress(progress);
+        actionDto.setArticleType(articleType);
+        actionDto.setTargetId(targetId);
+        actionDto.setTargetType(targetType);
+        role.getTaskManager().handler(actionDto,role);
     }
 
     /**
@@ -119,7 +132,7 @@ public class TaskServiceProvider {
             e.printStackTrace();
         }
         BaseTaskBean taskBean= (BaseTaskBean) obj;
-        taskBean.update(null,null);
+//        taskBean.update(null,null);
     }
 
     public static void insertTaskDb(BaseTaskBean taskBean,Integer roleId){
@@ -155,5 +168,9 @@ public class TaskServiceProvider {
         }
         BaseTaskBean taskBean= (BaseTaskBean) obj;
         return taskBean;
+    }
+
+    private static void deleteTaskDb(Integer taskBeanId) {
+        mmoTaskPOJOMapper.deleteByPrimaryKey(taskBeanId);
     }
 }

@@ -1,13 +1,12 @@
 package com.liqihao.pojo.bean.TaskBean;
 
+import com.liqihao.commons.ConstantValue;
+import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.RpgServerException;
-import com.liqihao.commons.enums.TaskTargetTypeCode;
-import com.liqihao.pojo.bean.articleBean.Article;
+import com.liqihao.commons.StateCode;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import com.liqihao.protobufObject.TaskModel;
+import io.netty.channel.Channel;
 
 /**
  *
@@ -26,12 +25,10 @@ public abstract class BaseTaskBean {
      * 状态
      */
     private Integer status;
-
      /**
      * 数据库id
      */
     private Integer taskDbId;
-
     /**
      * 接收事件
      */
@@ -39,7 +36,7 @@ public abstract class BaseTaskBean {
     /**
      * 检测是否完成
      */
-    public abstract void update(ActionDto dto,MmoSimpleRole role) throws RpgServerException;
+    public abstract void update(ActionDto dto,MmoSimpleRole role);
 
     public long getCreateTime() {
         return createTime;
@@ -53,9 +50,6 @@ public abstract class BaseTaskBean {
         return taskMessageId;
     }
 
-    public void sendTaskFinish(BaseTaskBean taskBean,MmoSimpleRole role) {
-        //todo
-    }
     public void setTaskMessageId(Integer taskMessageId) {
         this.taskMessageId = taskMessageId;
     }
@@ -84,4 +78,16 @@ public abstract class BaseTaskBean {
         this.taskDbId = taskDbId;
     }
 
+    public void sendFinishTask(MmoSimpleRole role){
+        Channel channel=role.getChannel();
+        NettyResponse nettyResponse = new NettyResponse();
+        nettyResponse.setCmd(ConstantValue.FINISH_TASK_RESPONSE);
+        nettyResponse.setStateCode(StateCode.SUCCESS);
+        //protobuf
+        TaskModel.TaskModelMessage.Builder messageBuilder = TaskModel.TaskModelMessage.newBuilder();
+        messageBuilder.setDataType(TaskModel.TaskModelMessage.DateType.FinishTaskResponse);
+        messageBuilder.setFinishTaskResponse(TaskModel.FinishTaskResponse.newBuilder().setTaskMessageId(getTaskMessageId()).build());
+        nettyResponse.setData(messageBuilder.build().toByteArray());
+        channel.writeAndFlush(nettyResponse);
+    }
 }

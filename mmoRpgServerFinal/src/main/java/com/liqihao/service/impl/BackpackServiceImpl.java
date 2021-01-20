@@ -118,8 +118,6 @@ public class BackpackServiceImpl implements BackpackService {
         } else {
             throw new RpgServerException(StateCode.FAIL,"使用道具失败");
         }
-
-        return;
     }
 
     @Override

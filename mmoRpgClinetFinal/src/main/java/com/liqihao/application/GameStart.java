@@ -300,9 +300,81 @@ public class GameStart {
                     case ConstantValue.GET_EMAIL_MONEY_REQUEST:
                         getEmailMoney(scanner);
                         break;
+                    case ConstantValue.GET_PEOPLE_TASK_REQUEST:
+                        getPeopleTask(scanner);
+                        break;
+                    case ConstantValue.GET_CAN_ACCEPT_TASK_REQUEST:
+                        getCanAcceptTask(scanner);
+                        break;
+                    case ConstantValue.ACCEPT_TASK_REQUEST:
+                        acceptTask(scanner);
+                        break;
+                    case ConstantValue.ABANDON_TASK_REQUEST:
+                        abandonTask(scanner);
+                        break;
                     default:
                         System.out.println("GameStart-handler:收到错误cmd");
                 }
+    }
+
+    private void abandonTask(Scanner scanner) {
+        System.out.println("请输入你要放弃的任务id：");
+        Integer taskId=scanner.nextInt();
+        scanner.nextLine();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.ABANDON_TASK_REQUEST);
+        TaskModel.TaskModelMessage myMessage;
+        myMessage= TaskModel.TaskModelMessage.newBuilder()
+                .setDataType(TaskModel.TaskModelMessage.DateType.AbandonTaskRequest)
+                .setAbandonTaskRequest(TaskModel.AbandonTaskRequest.newBuilder()
+                        .setTaskMessageId(taskId)
+                        .build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void acceptTask(Scanner scanner) {
+        System.out.println("请输入你要接收的任务id：");
+        Integer taskId=scanner.nextInt();
+        scanner.nextLine();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.ACCEPT_TASK_REQUEST);
+        TaskModel.TaskModelMessage myMessage;
+        myMessage= TaskModel.TaskModelMessage.newBuilder()
+                .setDataType(TaskModel.TaskModelMessage.DateType.AcceptTaskRequest)
+                .setAcceptTaskRequest(TaskModel.AcceptTaskRequest.newBuilder()
+                        .setTaskMessageId(taskId)
+                        .build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void getCanAcceptTask(Scanner scanner) {
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.GET_CAN_ACCEPT_TASK_REQUEST);
+        TaskModel.TaskModelMessage myMessage;
+        myMessage= TaskModel.TaskModelMessage.newBuilder()
+                .setDataType(TaskModel.TaskModelMessage.DateType.GetCanAcceptTaskRequest)
+                .setGetCanAcceptTaskRequest(TaskModel.GetCanAcceptTaskRequest.newBuilder()
+                        .build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void getPeopleTask(Scanner scanner) {
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.GET_PEOPLE_TASK_REQUEST);
+        TaskModel.TaskModelMessage myMessage;
+        myMessage= TaskModel.TaskModelMessage.newBuilder()
+                .setDataType(TaskModel.TaskModelMessage.DateType.GetPeopleTaskRequest)
+                .setGetPeopleTaskRequest(TaskModel.GetPeopleTaskRequest.newBuilder()
+                        .build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
     }
 
     private void getArticle(Scanner scanner) {

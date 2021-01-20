@@ -42,7 +42,7 @@ public class TaskManager {
      * @param actionDto
      * @param role
      */
-    public void handler(ActionDto actionDto, MmoSimpleRole role) throws RpgServerException {
+    public void handler(ActionDto actionDto, MmoSimpleRole role){
         for (BaseTaskBean value : taskBeans.values()) {
             value.update(actionDto,role);
         }

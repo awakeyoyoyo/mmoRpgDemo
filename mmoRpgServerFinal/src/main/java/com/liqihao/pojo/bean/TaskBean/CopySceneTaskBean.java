@@ -10,13 +10,13 @@ import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.provider.TaskServiceProvider;
 
 /**
- * 进入某场景任务
+ * 通关某副本任务
  * @author lqhao
  */
-public class SceneTaskBean extends BaseTaskBean{
+public class CopySceneTaskBean extends BaseTaskBean{
     @Override
-    public void update(ActionDto dto, MmoSimpleRole role) {
-        if (!dto.getTargetType().equals(TaskTargetTypeCode.SCENE.getCode())){
+    public void update(ActionDto dto, MmoSimpleRole role)  {
+        if (!dto.getTargetType().equals(TaskTargetTypeCode.COPY_SCENE.getCode())){
             //不是该任务类型
             return;
         }
@@ -25,7 +25,7 @@ public class SceneTaskBean extends BaseTaskBean{
         }
         TaskMessage taskMessage= TaskMessageCache.getInstance().get(getTaskMessageId());
         if (taskMessage.getTargetId().equals(dto.getTargetId())){
-                //进入了指定的:场景
+            //进入了指定的:场景
             setProgress(getProgress() + dto.getProgress());
             if (getProgress() >= taskMessage.getTargetProgress()) {
                 if (taskMessage.getType().equals(TaskTypeCode.TASK.getCode())) {
@@ -33,7 +33,8 @@ public class SceneTaskBean extends BaseTaskBean{
                         TaskServiceProvider.abandonTask(taskMessage.getId(), role);
                     } catch (RpgServerException e) {
                     }
-                }else{
+                }
+                else{
                     setStatus(TaskStateCode.FINISH.getCode());
 
                 }

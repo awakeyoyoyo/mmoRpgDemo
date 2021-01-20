@@ -557,6 +557,23 @@ public interface ConstantValue {
     int BUY_ARTICLE_RESPONSE=12504;
     int AUCTION_ARTICLE_RESPONSE=12505;
     int GET_ARTICLE_RESPONSE=12506;
+
+    /**
+     * 任务系统
+     */
+    String TASK_MODULE = "taskServiceImpl";
+    int GET_PEOPLE_TASK_REQUEST=13000;
+    int GET_CAN_ACCEPT_TASK_REQUEST=13001;
+    int ACCEPT_TASK_REQUEST=13002;
+    int ABANDON_TASK_REQUEST=13003;
+
+    int GET_PEOPLE_TASK_RESPONSE=13500;
+    int GET_CAN_ACCEPT_TASK_RESPONSE=13501;
+    int ACCEPT_TASK_RESPONSE=13502;
+    int ABANDON_TASK_RESPONSE=13503;
+    int FINISH_TASK_RESPONSE=13504;
+
+
     /**
      * 参数错误响应
      */

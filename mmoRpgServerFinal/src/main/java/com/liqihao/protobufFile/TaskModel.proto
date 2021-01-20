@@ -1,0 +1,63 @@
+syntax ="proto3";
+option java_outer_classname="TaskModel";
+message TaskModelMessage{
+  //定义枚举类型
+  enum DateType{
+    GetPeopleTaskRequest=0;//在proto3 要求enum的编号从0开始
+    GetCanAcceptTaskRequest=1;
+    AcceptTaskRequest=2;
+    AbandonTaskRequest=3;
+    GetPeopleTaskResponse=4;
+    GetCanAcceptTaskResponse=5;
+    AcceptTaskResponse=6;
+    AbandonTaskResponse=7;
+    FinishTaskResponse=8;
+  }
+  //用date_type来标识传的是哪一个枚举类型
+  DateType data_type=1;
+  //表示每次枚举类型最多只能出现其中一个，节省空间
+  oneof dateBody{
+    GetPeopleTaskRequest getPeopleTaskRequest=2;
+    GetCanAcceptTaskRequest getCanAcceptTaskRequest=3;
+    AcceptTaskRequest acceptTaskRequest=4;
+    AbandonTaskRequest abandonTaskRequest=5;
+    GetPeopleTaskResponse getPeopleTaskResponse=6;
+    GetCanAcceptTaskResponse getCanAcceptTaskResponse=7;
+    AcceptTaskResponse acceptTaskResponse=8;
+    AbandonTaskResponse abandonTaskResponse=9;
+    FinishTaskResponse finishTaskResponse=10;
+  }
+}
+message GetPeopleTaskRequest{
+
+}
+message GetCanAcceptTaskRequest{
+
+}
+message AcceptTaskRequest{
+  int32 taskMessageId=1;
+}
+message AbandonTaskRequest{
+  int32 taskMessageId=1;
+}
+message GetPeopleTaskResponse{
+  repeated TaskDto taskDtos=1;
+}
+message GetCanAcceptTaskResponse{
+  repeated int32 taskIds=1;
+}
+message AcceptTaskResponse{
+
+}
+message AbandonTaskResponse{
+
+}
+message FinishTaskResponse{
+  int32 taskMessageId=1;
+}
+message TaskDto{
+  int32 progress=1;
+  int32 taskMessageId=2;
+  int32 status=3;
+  sint64 createTime=4;
+}

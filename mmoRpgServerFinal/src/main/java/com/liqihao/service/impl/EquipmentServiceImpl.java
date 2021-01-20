@@ -53,7 +53,6 @@ public class EquipmentServiceImpl implements EquipmentService {
         messageBuilder.setAddEquipmentResponse(EquipmentModel.AddEquipmentResponse.newBuilder().build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
         channel.writeAndFlush(nettyResponse);
-        return;
     }
 
     @Override

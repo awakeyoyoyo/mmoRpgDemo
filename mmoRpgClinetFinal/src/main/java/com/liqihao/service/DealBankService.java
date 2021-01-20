@@ -36,4 +36,6 @@ public interface DealBankService {
      * @param nettyResponse
      */
     void getArticleRequest(NettyResponse nettyResponse) throws InvalidProtocolBufferException;
+
+
 }

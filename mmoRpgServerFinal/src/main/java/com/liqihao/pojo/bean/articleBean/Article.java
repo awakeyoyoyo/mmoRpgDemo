@@ -1,5 +1,6 @@
 package com.liqihao.pojo.bean.articleBean;
 
+import com.liqihao.commons.RpgServerException;
 import com.liqihao.pojo.bean.BackPackManager;
 import com.liqihao.pojo.bean.dealBankBean.DealBankArticleBean;
 import com.liqihao.pojo.bean.dealBean.DealArticleBean;

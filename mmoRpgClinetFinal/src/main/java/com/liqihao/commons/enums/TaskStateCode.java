@@ -1,17 +1,16 @@
 package com.liqihao.commons.enums;
 
 /**
- * 任务类型
  * @author lqhao
+ * 任务状态
  */
-
-public enum  TaskTypeCode {
+public enum TaskStateCode {
     //
-    ACHIEVEMENT(0,"成就类型"),
-    TASK(1,"任务类型");
+    ON_DOING(0,"正在进行中"),
+    FINISH(1,"已完成");
     private  int code;
     private  String value;
-    TaskTypeCode(int code, String name)
+    TaskStateCode(int code, String name)
     {
         this.code=code;
         this.value = name;
@@ -32,7 +31,7 @@ public enum  TaskTypeCode {
         return value;
     }
     public static String getValue(int code) {
-        for (TaskTypeCode ele : values()) {
+        for (TaskStateCode ele : values()) {
             if(ele.getCode()==code){
                 return ele.getValue();
             }
