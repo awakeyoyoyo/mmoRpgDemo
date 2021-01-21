@@ -119,7 +119,6 @@ public class ExcelReaderUtil {
     }
 
     public static void main(String[] args) throws IOException, IllegalAccessException, InstantiationException {
-//        File file = ResourceUtils.getFile("classpath:message/npcMessage.xlsx");
         File file = ResourceUtils.getFile("classpath:message/skillMessage.xlsx");
         InputStream in = null;
         in = new BufferedInputStream(new FileInputStream(file));

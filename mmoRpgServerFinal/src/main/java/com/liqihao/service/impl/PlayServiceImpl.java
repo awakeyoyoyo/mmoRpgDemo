@@ -31,7 +31,6 @@ import java.util.*;
 
 /**
  * 用户模块
- *
  * @author lqhao
  */
 @Service
@@ -44,47 +43,27 @@ public class PlayServiceImpl implements PlayService {
     @Autowired
     private MmoBagPOJOMapper mmoBagPOJOMapper;
     @Autowired
-    private MmoEquipmentPOJOMapper equipmentPOJOMapper;
-    @Autowired
     private MmoEquipmentBagPOJOMapper equipmentBagPOJOMapper;
     @Autowired
     private MmoEmailPOJOMapper emailPOJOMapper;
     @Override
     @HandlerCmdTag(cmd = ConstantValue.REGISTER_REQUEST, module = ConstantValue.PLAY_MODULE)
-    public void registerRequest(PlayModel.PlayModelMessage myMessage, Channel channel) {
+    public void registerRequest(PlayModel.PlayModelMessage myMessage, Channel channel) throws RpgServerException {
         String username = myMessage.getRegisterRequest().getUsername();
         String password = myMessage.getRegisterRequest().getPassword();
         String roleName = myMessage.getRegisterRequest().getRolename();
+        //查库
         Integer count1 = mmoUserPOJOMapper.selectByUsername(username);
         Integer count2 = mmoRolePOJOMapper.selectByRoleName(roleName);
         if (count1 > 0 || count2 > 0) {
             //用户已存在
-            NettyResponse nettyResponse = new NettyResponse();
-            nettyResponse.setCmd(ConstantValue.REGISTER_RESPONSE);
-            nettyResponse.setStateCode(StateCode.SUCCESS);
-            //protobuf 生成registerResponse
-            PlayModel.PlayModelMessage.Builder messageData = PlayModel.PlayModelMessage.newBuilder();
-            messageData.setDataType(PlayModel.PlayModelMessage.DateType.LoginResponse);
-            PlayModel.RegisterResponse.Builder registerResponseBuilder = PlayModel.RegisterResponse.newBuilder();
-            registerResponseBuilder.setMessage("用户已存在or角色名已经存在");
-            registerResponseBuilder.setStateCode(StateCode.FAIL);
-            messageData.setRegisterResponse(registerResponseBuilder.build());
-            nettyResponse.setData(messageData.build().toByteArray());
-            channel.writeAndFlush(nettyResponse);
-            return;
+           throw new RpgServerException(StateCode.FAIL,"用户名已存在or角色名已经存在");
         }
         //注册成功 数据库插入账号信息
         MmoRolePOJO mmoRolePOJO = new MmoRolePOJO();
-        mmoRolePOJO.setName(roleName);
-        mmoRolePOJO.setMmoSceneId(1);
-        mmoRolePOJO.setStatus(RoleStatusCode.ALIVE.getCode());
-        mmoRolePOJO.setOnStatus(RoleOnStatusCode.EXIT.getCode());
-        mmoRolePOJO.setType(RoleTypeCode.PLAYER.getCode());
-        //职业
-        mmoRolePOJO.setProfessionId(1);
-        mmoRolePOJO.setGuildId(-1);
+        mmoRolePOJO.init(roleName);
         mmoRolePOJOMapper.insert(mmoRolePOJO);
-        //角色表也新增该用户
+        //角色表新增该用户
         RoleMessageCache.getInstance().put(mmoRolePOJO.getId(),mmoRolePOJO);
         MmoUserPOJO mmoUserPOJO = new MmoUserPOJO();
         mmoUserPOJO.setUserRoleId(mmoRolePOJO.getId().toString());
@@ -104,7 +83,6 @@ public class PlayServiceImpl implements PlayService {
         messageData.setRegisterResponse(registerResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         channel.writeAndFlush(nettyResponse);
-        return;
     }
 
     @Override
@@ -112,33 +90,17 @@ public class PlayServiceImpl implements PlayService {
     public void loginRequest(PlayModel.PlayModelMessage myMessage, Channel channel) throws RpgServerException {
         String username = myMessage.getLoginRequest().getUsername();
         String password = myMessage.getLoginRequest().getPassword();
-        Integer mmoUserId = mmoUserPOJOMapper.checkByUernameAndPassword(username, password);
-        if (null == mmoUserId || mmoUserId < 0) {
+        MmoUserPOJO mmoUserPOJO  = mmoUserPOJOMapper.checkByUserNameAndPassword(username, password);
+        if (null == mmoUserPOJO) {
             throw new RpgServerException(StateCode.FAIL,"密码错误or账号错误");
         }
-        //将角色设置为在线模式
-        MmoUserPOJO mmoUserPOJO = mmoUserPOJOMapper.selectByPrimaryKey(mmoUserId);
         //从数据库中读取角色,且修改其为在线模式，放入角色在线集合
         MmoRolePOJO role = mmoRolePOJOMapper.selectByPrimaryKey(Integer.parseInt(mmoUserPOJO.getUserRoleId()));
+        //检测是否在线
         MmoSimpleRole lastRole=OnlineRoleMessageCache.getInstance().get(role.getId());
         if (lastRole!=null){
             //另一个客户端在线
-            //让其掉线
-            Channel c=ChannelMessageCache.getInstance().get(lastRole.getId());
-            c.close();
-            OnlineRoleMessageCache.getInstance().remove(lastRole.getId());
-            //退出副本
-            if (lastRole.getCopySceneBeanId()!=null){
-                CopySceneProvider.getCopySceneBeanById(lastRole.getCopySceneBeanId()).peopleExit(role.getId());
-            }
-            //退出队伍
-            if(lastRole.getTeamId()!=null){
-                TeamServiceProvider.getTeamBeanByTeamId(lastRole.getTeamId()).exitPeople(role.getId());
-            }
-            //退出场景
-            if(role.getMmoSceneId()!=null){
-                SceneBeanMessageCache.getInstance().get(lastRole.getMmoSceneId()).getRoles().remove(role.getId());
-            }
+            lastRole.logout();
         }
         role.setOnStatus(RoleOnStatusCode.ONLINE.getCode());
         //初始化基础信息获取
@@ -162,20 +124,19 @@ public class PlayServiceImpl implements PlayService {
                 medicineBean.setQuantity(mmoBagPOJO.getNumber());
                 medicineBean.setBagId(mmoBagPOJO.getBagId());
                 backPackManager.putOnDatabase(medicineBean);
-            } else {
             }
         }
         simpleRole.setBackpackManager(backPackManager);
         //初始化收件邮箱信息
         List<MmoEmailPOJO> toEmailPOJOS = emailPOJOMapper.selectByToRoleId(role.getId());
         for (MmoEmailPOJO m : toEmailPOJOS) {
-            MmoEmailBean emailBean = CommonsUtil.emailPOJOToMmoEmailBean(m);
+            EmailBean emailBean = CommonsUtil.emailPOJOToMmoEmailBean(m);
             simpleRole.getToMmoEmailBeanConcurrentHashMap().put(emailBean.getId(), emailBean);
         }
         //初始化已发送邮箱信息
         List<MmoEmailPOJO> fromEmailPOJOS = emailPOJOMapper.selectByFromRoleId(role.getId());
         for (MmoEmailPOJO m : fromEmailPOJOS) {
-            MmoEmailBean emailBean = CommonsUtil.emailPOJOToMmoEmailBean(m);
+            EmailBean emailBean = CommonsUtil.emailPOJOToMmoEmailBean(m);
             simpleRole.getFromMmoEmailBeanConcurrentHashMap().put(emailBean.getId(), emailBean);
         }
         //初始化装备栏
@@ -211,29 +172,9 @@ public class PlayServiceImpl implements PlayService {
         PlayModel.PlayModelMessage.Builder messageData = PlayModel.PlayModelMessage.newBuilder();
         messageData.setDataType(PlayModel.PlayModelMessage.DateType.LoginResponse);
         PlayModel.LoginResponse.Builder loginResponseBuilder = PlayModel.LoginResponse.newBuilder();
-        PlayModel.RoleDTO.Builder mmoSimpleRoleBuilder = PlayModel.RoleDTO.newBuilder();
         //自身角色信息
-        PlayModel.RoleDTO roleDTO = mmoSimpleRoleBuilder.setId(simpleRole.getId())
-                .setName(simpleRole.getName())
-                .setOnStatus(simpleRole.getOnStatus())
-                .setStatus(simpleRole.getStatus())
-                .setType(simpleRole.getType())
-                .setBlood(simpleRole.getHp())
-                .setNowBlood(simpleRole.getHp())
-                .addAllSkillIdList(simpleRole.getSkillIdList())
-                .setMp(simpleRole.getMp())
-                .setSceneId(simpleRole.getMmoSceneId())
-                .setNowMp(simpleRole.getNowMp())
-                .setTeamId(simpleRole.getTeamId() == null ? -1 : simpleRole.getTeamId())
-                .setAttack(simpleRole.getAttack())
-                .setAttackAdd(simpleRole.getDamageAdd())
-                .setMoney(simpleRole.getMoney())
-                .setProfessionId(simpleRole.getProfessionId())
-                .setGuildName(simpleRole.getGuildBean()==null?"":simpleRole.getGuildBean().getName())
-                .setGuildId(simpleRole.getGuildBean()==null?-1:simpleRole.getGuildBean().getId())
-                .build();
+        PlayModel.RoleDTO roleDTO = CommonsUtil.mmoRoleToPlayModelRoleDto(simpleRole);
         loginResponseBuilder.setRoleDto(roleDTO);
-        //场景信息
         loginResponseBuilder.setSceneId(role.getMmoSceneId());
         SceneBeanMessageCache.getInstance().get(role.getMmoSceneId()).getRoles().add(role.getId());
         List<Role> newRoles = new ArrayList<>();
@@ -245,38 +186,8 @@ public class PlayServiceImpl implements PlayService {
         nettyResponse.setCmd(ConstantValue.LOGIN_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
         channel.writeAndFlush(nettyResponse);
-        //获取信息
-        List<Role> sceneRoles = new ArrayList<>();
-        SceneBean sceneBean = SceneBeanMessageCache.getInstance().get(simpleRole.getMmoSceneId());
-        //NPC
-        for (Integer id : sceneBean.getNpcs()) {
-            MmoSimpleNPC temp = NpcMessageCache.getInstance().get(id);
-            MmoSimpleRole roleTemp = new MmoSimpleRole();
-            roleTemp.setId(temp.getId());
-            roleTemp.setName(temp.getName());
-            roleTemp.setStatus(temp.getStatus());
-            roleTemp.setType(temp.getType());
-            roleTemp.setOnStatus(temp.getOnStatus());
-            roleTemp.setHp(temp.getHp());
-            roleTemp.setNowHp(temp.getNowHp());
-            roleTemp.setMp(temp.getMp());
-            roleTemp.setNowMp(temp.getNowMp());
-            roleTemp.setMmoSceneId(temp.getMmoSceneId());
-            roleTemp.setAttack(temp.getAttack());
-            roleTemp.setDamageAdd(temp.getDamageAdd());
-            sceneRoles.add(roleTemp);
-        }
-        //ROLES
-        for (Integer id : sceneBean.getRoles()) {
-            MmoSimpleRole temp = OnlineRoleMessageCache.getInstance().get(id);
-            sceneRoles.add(temp);
-        }
-        //helper
-        if (sceneBean.getHelperBeans().size() > 0) {
-            for (MmoHelperBean helperBean : sceneBean.getHelperBeans()) {
-                sceneRoles.add(helperBean);
-            }
-        }
+        //获取场景所有角色信息
+        List<Role> sceneRoles=CommonsUtil.getAllRolesFromScene(simpleRole);
         //发送给场景中其他角色 有角色登陆
         CommonsUtil.sendRoleResponse(sceneRoles, simpleRole.getMmoSceneId(), null);
         return;
@@ -339,7 +250,6 @@ public class PlayServiceImpl implements PlayService {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
         channel.writeAndFlush(nettyResponse);
-        return;
     }
 
     @Override
@@ -348,7 +258,6 @@ public class PlayServiceImpl implements PlayService {
         Integer skillId = myMessage.getUseSkillRequest().getSkillId();
         Integer targetId = myMessage.getUseSkillRequest().getRoleId();
         Integer roleType = myMessage.getUseSkillRequest().getRoleType();
-        Channel channel = ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
         //判断cd
         Long nextTime = mmoSimpleRole.getCdMap().get(skillId);
         if (nextTime != null) {
@@ -386,10 +295,12 @@ public class PlayServiceImpl implements PlayService {
         if (skillBean==null){
             throw new RpgServerException(StateCode.FAIL,"人物没有该技能。。");
         }
+        //召唤技能
         if (skillBean.getSkillAttackType().equals(SkillAttackTypeCode.CALL.getCode())) {
             mmoSimpleRole.useSkill(null, skillId);
             return;
         }
+        //寻找目标
         ArrayList<Role> target = new ArrayList<>();
         if (mmoSimpleRole.getMmoSceneId() != null) {
             target.addAll(findTargetInScene(mmoSimpleRole, roleType, targetId));
@@ -401,19 +312,18 @@ public class PlayServiceImpl implements PlayService {
             mmoSimpleRole.useSkill(target, skillId);
         }
     }
-
-
+ 
     /**
-     * 场景中的目标
-     *
-     * @param mmoSimpleRole
-     * @param roleType
-     * @param targetId
-     * @return
-     * @throws Exception
+     * description 在场景中找目标
+     * @param mmoSimpleRole  
+     * @param roleType  
+     * @param targetId  
+     * @return {@link List< Role> }
+     * @author lqhao
+     * @createTime 2021/1/21 12:18
      */
     private List<Role> findTargetInScene(MmoSimpleRole mmoSimpleRole, Integer roleType, Integer targetId) throws Exception {
-        ArrayList<Role> target = new ArrayList<>();
+        ArrayList<Role> targets = new ArrayList<>();
         //在场景中
         if (targetId == -1) {
             //群攻
@@ -423,7 +333,7 @@ public class PlayServiceImpl implements PlayService {
             for (Integer id : sceneBean.getNpcs()) {
                 MmoSimpleNPC npc = NpcMessageCache.getInstance().get(id);
                 if (npc.getType().equals(RoleTypeCode.ENEMY.getCode())) {
-                    target.add(npc);
+                    targets.add(npc);
                 }
             }
             //people
@@ -432,26 +342,14 @@ public class PlayServiceImpl implements PlayService {
                 if (role.getId().equals(mmoSimpleRole.getId())) {
                     continue;
                 }
-                if (mmoSimpleRole.getTeamId() == null) {
-                    target.add(role);
-                } else {
-                    if (role.getTeamId() == null) {
-                        target.add(role);
-                    } else if (!mmoSimpleRole.getTeamId().equals(role.getTeamId())) {
-                        target.add(role);
-                    }
+                if (mmoSimpleRole.getTeamId() == null||role.getTeamId() == null||!mmoSimpleRole.getTeamId().equals(role.getTeamId())){
+                    targets.add(role);
                 }
             }
             //hepler
             for (MmoHelperBean h : sceneBean.getHelperBeans()) {
-                if (mmoSimpleRole.getTeamId() == null) {
-                    target.add(h);
-                } else {
-                    if (h.getTeamId() == null) {
-                        target.add(h);
-                    } else if (!mmoSimpleRole.getTeamId().equals(h.getTeamId())) {
-                        target.add(h);
-                    }
+                if (mmoSimpleRole.getTeamId() == null||h.getTeamId() == null||!mmoSimpleRole.getTeamId().equals(h.getTeamId())) {
+                    targets.add(h);
                 }
             }
         } else {
@@ -464,6 +362,7 @@ public class PlayServiceImpl implements PlayService {
             } else {
                 role = null;
             }
+
             if (role == null) {
                 throw new RpgServerException(StateCode.FAIL,"当前场景没有该id的角色或者选择了攻击npc");
             }
@@ -476,16 +375,17 @@ public class PlayServiceImpl implements PlayService {
                     throw new RpgServerException(StateCode.FAIL,"该角色是队友啊，兄弟");
                 }
             }
-            target.add(role);
+            targets.add(role);
         }
-        return target;
+        return targets;
     }
 
     /**
-     * 副本中目标
-     *
+     * description 副本中目标
      * @param mmoSimpleRole
-     * @return
+     * @return {@link List< Role> }
+     * @author lqhao
+     * @createTime 2021/1/21 12:18
      */
     private List<Role> findTargetInCopyScene(MmoSimpleRole mmoSimpleRole) {
         ArrayList<Role> target = new ArrayList<>();
@@ -497,4 +397,5 @@ public class PlayServiceImpl implements PlayService {
         }
         return target;
     }
+
 }

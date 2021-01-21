@@ -21,10 +21,7 @@ import com.liqihao.pojo.bean.guildBean.GuildApplyBean;
 import com.liqihao.pojo.bean.guildBean.GuildBean;
 import com.liqihao.pojo.bean.guildBean.GuildRoleBean;
 import com.liqihao.pojo.bean.guildBean.WareHouseManager;
-import com.liqihao.pojo.bean.roleBean.BossBean;
-import com.liqihao.pojo.bean.roleBean.MmoSimpleNPC;
-import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
-import com.liqihao.pojo.bean.roleBean.Role;
+import com.liqihao.pojo.bean.roleBean.*;
 import com.liqihao.pojo.dto.ArticleDto;
 import com.liqihao.protobufObject.*;
 import com.liqihao.provider.CopySceneProvider;
@@ -35,7 +32,6 @@ import io.netty.util.AttributeKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -59,6 +55,73 @@ public class CommonsUtil {
     private static MmoGuildRolePOJOMapper mmoGuildRolePOJOMapper;
     private static MmoWareHousePOJOMapper mmoWareHousePOJOMapper;
     private static MmoDealBankAuctionPOJOMapper mmoDealBankAuctionPOJOMapper;
+
+    public static PlayModel.RoleDTO mmoRoleToPlayModelRoleDto(MmoSimpleRole simpleRole) {
+        PlayModel.RoleDTO.Builder mmoSimpleRoleBuilder = PlayModel.RoleDTO.newBuilder();
+        mmoSimpleRoleBuilder.setId(simpleRole.getId())
+                .setName(simpleRole.getName())
+                .setOnStatus(simpleRole.getOnStatus())
+                .setStatus(simpleRole.getStatus())
+                .setType(simpleRole.getType())
+                .setBlood(simpleRole.getHp())
+                .setNowBlood(simpleRole.getHp())
+                .addAllSkillIdList(simpleRole.getSkillIdList())
+                .setMp(simpleRole.getMp())
+                .setSceneId(simpleRole.getMmoSceneId())
+                .setNowMp(simpleRole.getNowMp())
+                .setTeamId(simpleRole.getTeamId() == null ? -1 : simpleRole.getTeamId())
+                .setAttack(simpleRole.getAttack())
+                .setAttackAdd(simpleRole.getDamageAdd())
+                .setMoney(simpleRole.getMoney())
+                .setProfessionId(simpleRole.getProfessionId())
+                .setGuildName(simpleRole.getGuildBean()==null?"":simpleRole.getGuildBean().getName())
+                .setGuildId(simpleRole.getGuildBean()==null?-1:simpleRole.getGuildBean().getId())
+                .build();
+        return mmoSimpleRoleBuilder.build();
+    }
+
+    public static List<Role> getAllRolesFromScene(MmoSimpleRole simpleRole) {
+        List<Role> sceneRoles = new ArrayList<>();
+        SceneBean sceneBean = SceneBeanMessageCache.getInstance().get(simpleRole.getMmoSceneId());
+        //NPC
+        for (Integer id : sceneBean.getNpcs()) {
+            MmoSimpleNPC temp = NpcMessageCache.getInstance().get(id);
+            sceneRoles.add(temp);
+        }
+        //ROLES
+        for (Integer id : sceneBean.getRoles()) {
+            MmoSimpleRole temp = OnlineRoleMessageCache.getInstance().get(id);
+            sceneRoles.add(temp);
+        }
+        //helper
+        if (sceneBean.getHelperBeans().size() > 0) {
+            sceneRoles.addAll(sceneBean.getHelperBeans());
+        }
+        return sceneRoles;
+    }
+
+    public static void notificationSceneRole(NettyResponse nettyResponse,MmoSimpleRole mmoSimpleRole) {
+        List<Integer> players;
+        if (mmoSimpleRole.getMmoSceneId()!=null) {
+            players = SceneBeanMessageCache.getInstance().get(mmoSimpleRole.getMmoSceneId()).getRoles();
+            for (Integer playerId:players){
+                Channel c= ChannelMessageCache.getInstance().get(playerId);
+                if (c!=null){
+                    c.writeAndFlush(nettyResponse);
+                }
+            }
+        }else{
+            List<Role> roles = CopySceneProvider.getCopySceneBeanById(mmoSimpleRole.getCopySceneBeanId()).getRoles();
+            for (Role role:roles) {
+                if (role.getType().equals(RoleTypeCode.PLAYER.getCode())){
+                    Channel c= ChannelMessageCache.getInstance().get(role.getId());
+                    if (c!=null){
+                        c.writeAndFlush(nettyResponse);
+                    }
+                }
+            }
+        }
+    }
 
 
     @Autowired
@@ -107,7 +170,11 @@ public class CommonsUtil {
     }
 
 
-
+    /**
+     * BankArticlePOJO转化为DealBankArticleBean
+     * @param dealBankArticlePOJO
+     * @return
+     */
     public static DealBankArticleBean dealBankArticlePOJOToDealBankArticleBean(MmoDealBankArticlePOJO dealBankArticlePOJO) {
         DealBankArticleBean dealBankArticleBean=new DealBankArticleBean();
         dealBankArticleBean.setDealBankArticleDbId(dealBankArticlePOJO.getId());
@@ -131,6 +198,11 @@ public class CommonsUtil {
         return dealBankArticleBean;
     }
 
+    /**
+     * DealBankAuctionPOJO转化为DealBankAuctionBean
+     * @param dealBankAuctionPOJO
+     * @return
+     */
     public static DealBankAuctionBean dealDealBankAuctionPOJOToDealBankAuctionBean(MmoDealBankAuctionPOJO dealBankAuctionPOJO) {
         DealBankAuctionBean dealBankAuctionBean=new DealBankAuctionBean();
         dealBankAuctionBean.setDealBeanAuctionBeanDbId(dealBankAuctionPOJO.getId());
@@ -304,8 +376,8 @@ public class CommonsUtil {
 
     }
 
-    public static MmoEmailBean emailPOJOToMmoEmailBean(MmoEmailPOJO m) {
-        MmoEmailBean mmoEmailBean=new MmoEmailBean();
+    public static EmailBean emailPOJOToMmoEmailBean(MmoEmailPOJO m) {
+        EmailBean mmoEmailBean=new EmailBean();
         mmoEmailBean.setId(m.getId());
         mmoEmailBean.setArticleNum(m.getArticleNum());
         mmoEmailBean.setArticleMessageId(m.getArticleMessageId());
@@ -320,22 +392,22 @@ public class CommonsUtil {
         mmoEmailBean.setFromDelete(m.getFromDelete());
         mmoEmailBean.setChecked(m.getChecked());
         mmoEmailBean.setToRoleId(m.getToRoleId());
-        mmoEmailBean.setGet(m.getIsGet());
+        mmoEmailBean.setGetFlag(m.getIsGet());
         return mmoEmailBean;
     }
 
-    public static EmailModel.EmailDto mmoEmailBeanToEmailDto(MmoEmailBean mmoEmailBean) {
+    public static EmailModel.EmailDto mmoEmailBeanToEmailDto(EmailBean mmoEmailBean) {
         EmailModel.EmailDto emailDto=EmailModel.EmailDto.newBuilder()
                 .setArticleMessageId(mmoEmailBean.getArticleMessageId()).setArticleNum(mmoEmailBean.getArticleNum()).setArticleType(mmoEmailBean.getArticleType())
                 .setChecked(mmoEmailBean.getChecked()).setContext(mmoEmailBean.getContext()).setCreateTime(mmoEmailBean.getCreateTime())
                 .setId(mmoEmailBean.getId()).setFromRoleId(mmoEmailBean.getFromRoleId()).setToRoleId(mmoEmailBean.getToRoleId())
-                .setTitle(mmoEmailBean.getTitle()).setIsGet(mmoEmailBean.getGet()).setHasArticle(mmoEmailBean.getHasArticle())
+                .setTitle(mmoEmailBean.getTitle()).setIsGet(mmoEmailBean.getGetFlag()).setHasArticle(mmoEmailBean.getHasArticle())
                 .setMoney(mmoEmailBean.getMoney()==null?0:mmoEmailBean.getMoney()).setEquipmentId(mmoEmailBean.getEquipmentId()==null?-1:mmoEmailBean.getEquipmentId())
-                .setIsGetMoney(mmoEmailBean.getGetMoney()).build();
+                .setIsGetMoney(mmoEmailBean.getGetMoneyFlag()).build();
         return emailDto;
     }
 
-    public static EmailModel.EmailSimpleDto mmoEmailBeanToEmailSimpleDto(MmoEmailBean mmoEmailBean) {
+    public static EmailModel.EmailSimpleDto mmoEmailBeanToEmailSimpleDto(EmailBean mmoEmailBean) {
         EmailModel.EmailSimpleDto emailDto=EmailModel.EmailSimpleDto.newBuilder()
                 .setChecked(mmoEmailBean.getChecked()).setContext(mmoEmailBean.getContext()).setCreateTime(mmoEmailBean.getCreateTime())
                 .setId(mmoEmailBean.getId()).setFromRoleId(mmoEmailBean.getFromRoleId()).setToRoleId(mmoEmailBean.getToRoleId())

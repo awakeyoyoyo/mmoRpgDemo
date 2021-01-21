@@ -1,14 +1,10 @@
 package com.liqihao.pojo.bean.TaskBean;
 
 import com.liqihao.Cache.TaskMessageCache;
-import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.enums.TaskStateCode;
 import com.liqihao.commons.enums.TaskTargetTypeCode;
-import com.liqihao.commons.enums.TaskTypeCode;
 import com.liqihao.pojo.baseMessage.TaskMessage;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
-import com.liqihao.provider.TaskServiceProvider;
-import com.liqihao.util.ScheduledThreadPoolUtil;
 
 /**
  * 通关某副本任务
@@ -16,7 +12,7 @@ import com.liqihao.util.ScheduledThreadPoolUtil;
  */
 public class CopySceneTaskBean extends BaseTaskBean{
     @Override
-    public void update(ActionDto dto, MmoSimpleRole role)  {
+    public void update(BaseTaskAction dto, MmoSimpleRole role)  {
         if (!dto.getTargetType().equals(TaskTargetTypeCode.COPY_SCENE.getCode())){
             //不是该任务类型
             return;

@@ -23,17 +23,17 @@ public class ResponceDecoder extends ByteToMessageDecoder {
     private static Logger logger=Logger.getLogger(ResponceDecoder.class);
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
-        logger.info("Client:ResponceDecoder readableBytes:"+byteBuf.readableBytes());
+//        logger.info("Client:ResponceDecoder readableBytes:"+byteBuf.readableBytes());
         if (byteBuf.readableBytes()>=BASE_LENGTH){
             //记录开始读取的index
             byteBuf.markReaderIndex();
             //可以处理
             //读到不正确包头 断开通道连接 避免恶意telnet或者攻击
             Integer flag=byteBuf.readInt();
-            logger.info("Client:ResponceDecoder flag:"+flag);
+//            logger.info("Client:ResponceDecoder flag:"+flag);
             if (!flag.equals(ConstantValue.FLAG)) {
                 channelHandlerContext.channel().close();
-                logger.info("Server：包头错误关闭通道 flag:"+flag);
+                logger.error("Server：包头错误关闭通道 flag:"+flag);
             }
             int cmd=byteBuf.readInt();
             int stateCode=byteBuf.readInt();

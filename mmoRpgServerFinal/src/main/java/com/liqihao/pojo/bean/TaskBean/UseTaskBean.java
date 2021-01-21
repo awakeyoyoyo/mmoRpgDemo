@@ -1,20 +1,10 @@
 package com.liqihao.pojo.bean.TaskBean;
 
-import com.liqihao.Cache.MedicineMessageCache;
 import com.liqihao.Cache.TaskMessageCache;
-import com.liqihao.commons.RpgServerException;
-import com.liqihao.commons.enums.ArticleTypeCode;
 import com.liqihao.commons.enums.TaskStateCode;
 import com.liqihao.commons.enums.TaskTargetTypeCode;
-import com.liqihao.commons.enums.TaskTypeCode;
-import com.liqihao.pojo.baseMessage.MedicineMessage;
 import com.liqihao.pojo.baseMessage.TaskMessage;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
-import com.liqihao.provider.TaskServiceProvider;
-import com.liqihao.util.ScheduledThreadPoolUtil;
-import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
 
 /**
  * 使用某种物品任务实例
@@ -23,7 +13,7 @@ import javax.annotation.PostConstruct;
 public class UseTaskBean extends BaseTaskBean {
 
     @Override
-    public void update(ActionDto dto,MmoSimpleRole role) {
+    public void update(BaseTaskAction dto,MmoSimpleRole role) {
         if (!dto.getTargetType().equals(TaskTargetTypeCode.USE.getCode())){
             //不是该任务类型
             return;

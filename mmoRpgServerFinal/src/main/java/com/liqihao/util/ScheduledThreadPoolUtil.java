@@ -666,7 +666,6 @@ public class ScheduledThreadPoolUtil {
 
     /**
      * addTask到队列中
-     * @param job
      */
     public static void addTask(Runnable job) {
         if (job != null) {

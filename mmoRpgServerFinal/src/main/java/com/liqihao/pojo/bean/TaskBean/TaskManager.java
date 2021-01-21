@@ -44,12 +44,15 @@ public class TaskManager {
      * @param actionDto
      * @param role
      */
-    public void handler(ActionDto actionDto, MmoSimpleRole role){
+    public void handler(BaseTaskAction taskAction, MmoSimpleRole role){
         List<Integer> keys=getTaskIds();
         for (Integer key : keys) {
             BaseTaskBean taskBean=taskBeans.get(key);
             if (taskBean!=null) {
-                taskBean.update(actionDto, role);
+                Integer taskTargetType=taskBean.getTaskTargetTypeId();
+                if (taskTargetType.equals(taskAction.getTaskTargetType())){
+                    taskBean.update(taskAction, role);
+                }
             }
         }
     }

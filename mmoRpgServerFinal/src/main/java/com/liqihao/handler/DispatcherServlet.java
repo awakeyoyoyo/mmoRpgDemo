@@ -24,16 +24,14 @@ import java.util.Map;
 
 /**
  * 根据module分发请求
- *
  * @author lqhao
  */
 @Component
 public class DispatcherServlet implements ApplicationContextAware {
-    private ApplicationContext applicationContext;
-    private static Logger logger = Logger.getLogger(DispatcherServlet.class);
+    private static final Logger logger = Logger.getLogger(DispatcherServlet.class);
     private Map<String, ServiceObject> services;
-    private HashMap<Integer, Method> methodHashMap = new HashMap<>();
-    private final static String packet = "com.liqihao.protobufObject.";
+    private final HashMap<Integer, Method> methodHashMap = new HashMap<>();
+    private final static String PACKET = "com.liqihao.protobufObject.";
 
     /**
      * 根据model转发到不同的handler
@@ -94,25 +92,20 @@ public class DispatcherServlet implements ApplicationContextAware {
     }
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
         Map<String, Object> serviceMap = applicationContext.getBeansWithAnnotation(HandlerServiceTag.class);
         services=new HashMap<>();
         for (String key : serviceMap.keySet()) {
             Object o = serviceMap.get(key);
             Method[] methods = o.getClass().getMethods();
-            for (int i = 0; i < methods.length; i++) {
+            for (Method value : methods) {
                 String protobufModel = o.getClass().getAnnotation(HandlerServiceTag.class).protobufModel();
                 Class clazz = null;
-                Parser parser=null;
+                Parser parser = null;
                 try {
-                    clazz = Class.forName(packet + protobufModel);
+                    clazz = Class.forName(PACKET + protobufModel);
                     Method method = clazz.getMethod("parser");
                     parser = (Parser) method.invoke(null);
-                } catch (ClassNotFoundException | NoSuchMethodException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
+                } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                     e.printStackTrace();
                 }
                 ServiceObject serviceObject = new ServiceObject();
@@ -120,8 +113,8 @@ public class DispatcherServlet implements ApplicationContextAware {
                 serviceObject.setClazz(clazz);
                 serviceObject.setParser(parser);
                 services.put(key, serviceObject);
-                if (methods[i].getAnnotation(HandlerCmdTag.class) != null) {
-                    methodHashMap.put(methods[i].getAnnotation(HandlerCmdTag.class).cmd(), methods[i]);
+                if (value.getAnnotation(HandlerCmdTag.class) != null) {
+                    methodHashMap.put(value.getAnnotation(HandlerCmdTag.class).cmd(), value);
                 }
             }
         }

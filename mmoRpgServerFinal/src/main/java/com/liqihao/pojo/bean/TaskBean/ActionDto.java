@@ -3,7 +3,7 @@ package com.liqihao.pojo.bean.TaskBean;
 /**
  * @author 人物动作
  */
-public class ActionDto {
+public class BaseTaskAction {
     /**
      * 目标类型
      */

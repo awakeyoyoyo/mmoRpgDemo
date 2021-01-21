@@ -14,7 +14,7 @@ import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
  */
 public class SkillTaskBean extends BaseTaskBean {
     @Override
-    public void update(ActionDto dto, MmoSimpleRole role) {
+    public void update(BaseTaskAction dto, MmoSimpleRole role) {
         if (!dto.getTargetType().equals(TaskTargetTypeCode.SKILL.getCode())) {
             //不是该任务类型
             return;

@@ -4,14 +4,13 @@ import com.liqihao.commons.enums.ArticleTypeCode;
 import com.liqihao.dao.*;
 import com.liqihao.pojo.*;
 import com.liqihao.pojo.bean.BackPackManager;
-import com.liqihao.pojo.bean.MmoEmailBean;
+import com.liqihao.pojo.bean.EmailBean;
 import com.liqihao.pojo.bean.articleBean.EquipmentBean;
 import com.liqihao.pojo.bean.articleBean.MedicineBean;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.pojo.dto.ArticleDto;
 import com.liqihao.pojo.dto.EquipmentDto;
 import com.liqihao.provider.EmailServiceProvider;
-import com.liqihao.provider.TaskServiceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -127,7 +126,7 @@ public class DbUtil {
     /**
      * 邮件信息入库
      */
-    public static   void mmoEmailPOJOIntoDataBase(MmoEmailBean emailBean){
+    public static   void mmoEmailPOJOIntoDataBase(EmailBean emailBean){
         MmoEmailPOJO mmoEmailPOJO=new MmoEmailPOJO();
         mmoEmailPOJO.setId(emailBean.getId());
         mmoEmailPOJO.setArticleMessageId(emailBean.getArticleMessageId());
@@ -141,10 +140,10 @@ public class DbUtil {
         mmoEmailPOJO.setCreateTime(emailBean.getCreateTime());
         mmoEmailPOJO.setChecked(emailBean.getChecked());
         mmoEmailPOJO.setContext(emailBean.getContext());
-        mmoEmailPOJO.setIsGet(emailBean.getGet());
+        mmoEmailPOJO.setIsGet(emailBean.getGetFlag());
         mmoEmailPOJO.setMoney(emailBean.getMoney());
         mmoEmailPOJO.setEquipmentId(emailBean.getEquipmentId()==null?-1:emailBean.getEquipmentId());
-        mmoEmailPOJO.setIsGetMoney(emailBean.getGetMoney());
+        mmoEmailPOJO.setIsGetMoney(emailBean.getGetMoneyFlag());
         //删除双方都是删除状态的
         if (mmoEmailPOJO.getFromDelete()==true&&mmoEmailPOJO.getToDelete()==true){
             //id小于初始化的id 则代表是旧数据 删除
@@ -275,14 +274,27 @@ public class DbUtil {
         mmoSimpleRole.setNeedDeleteEquipmentIds(new ArrayList<>());
     }
 
+    /**
+     * db删除背包
+     * @param bagId
+     */
     public static void deleteBagById(Integer bagId) {
         mmoBagPOJOMapper.deleteByPrimaryKey(bagId);
     }
 
+    /**
+     * db删除装备栏
+     * @param oldEquipmentBagId
+     */
     public static void deleteEquipmentBagById(Integer oldEquipmentBagId) {
         equipmentBagPOJOMapper.deleteByPrimaryKey(oldEquipmentBagId);
     }
 
+    /**
+     * 装备栏插入数据库
+     * @param equipmentBean
+     * @param roleId
+     */
     public static void addEquipmentBagPOJO(EquipmentBean equipmentBean,Integer roleId) {
         MmoEquipmentBagPOJO equipmentBagPOJO = new MmoEquipmentBagPOJO();
         //装备栏
@@ -292,6 +304,11 @@ public class DbUtil {
         equipmentBagPOJOMapper.insert(equipmentBagPOJO);
     }
 
+    /**
+     * 更新背包药品
+     * @param medicineBean
+     * @param roleId
+     */
     public static void updateBagMedicine(MedicineBean medicineBean, Integer roleId) {
         MmoBagPOJO mmoBagPOJO=new MmoBagPOJO();
         mmoBagPOJO.setArticleType(medicineBean.getArticleTypeCode());
@@ -302,6 +319,11 @@ public class DbUtil {
         mmoBagPOJOMapper.updateByPrimaryKey(mmoBagPOJO);
     }
 
+    /**
+     * 插入背包
+     * @param a
+     * @param roleId
+     */
     public static void insertBag(ArticleDto a,Integer roleId) {
         MmoBagPOJO mmoBagPOJO=new MmoBagPOJO();
         mmoBagPOJO.setArticleType(a.getArticleType());
@@ -316,6 +338,10 @@ public class DbUtil {
         mmoBagPOJOMapper.insert(mmoBagPOJO);
     }
 
+    /**
+     * 更新装备
+     * @param e
+     */
     public static void updateEquipment(EquipmentBean e) {
         MmoEquipmentPOJO equipmentPOJO=new MmoEquipmentPOJO();
         equipmentPOJO.setId(e.getEquipmentId());
@@ -324,7 +350,11 @@ public class DbUtil {
         mmoEquipmentPOJOMapper.updateByPrimaryKey(equipmentPOJO);
     }
 
-    public static void updateEmailBeanDb(MmoEmailBean emailBean) {
+    /**
+     * 更新邮件
+     * @param emailBean
+     */
+    public static void updateEmailBeanDb(EmailBean emailBean) {
         MmoEmailPOJO mmoEmailPOJO=new MmoEmailPOJO();
         mmoEmailPOJO.setId(emailBean.getId());
         mmoEmailPOJO.setArticleMessageId(emailBean.getArticleMessageId());
@@ -338,10 +368,10 @@ public class DbUtil {
         mmoEmailPOJO.setCreateTime(emailBean.getCreateTime());
         mmoEmailPOJO.setChecked(emailBean.getChecked());
         mmoEmailPOJO.setContext(emailBean.getContext());
-        mmoEmailPOJO.setIsGet(emailBean.getGet());
+        mmoEmailPOJO.setIsGet(emailBean.getGetFlag());
         mmoEmailPOJO.setEquipmentId(emailBean.getEquipmentId());
         mmoEmailPOJO.setMoney(emailBean.getMoney());
-        mmoEmailPOJO.setIsGetMoney(emailBean.getGetMoney());
+        mmoEmailPOJO.setIsGetMoney(emailBean.getGetMoneyFlag());
         //删除双方都是删除状态的
         if (mmoEmailPOJO.getFromDelete()==true&&mmoEmailPOJO.getToDelete()==true){
             //id小于初始化的id 则代表是旧数据 删除
@@ -351,6 +381,10 @@ public class DbUtil {
         }
     }
 
+    /**
+     * 插入装备
+     * @param equipmentBean
+     */
     public static void insertEquipment(EquipmentBean equipmentBean) {
         MmoEquipmentPOJO mmoEquipmentPOJO=new MmoEquipmentPOJO();
         mmoEquipmentPOJO.setId(equipmentBean.getEquipmentId());
@@ -359,6 +393,10 @@ public class DbUtil {
         mmoEquipmentPOJOMapper.insert(mmoEquipmentPOJO);
     }
 
+    /**
+     * 更新角色
+     * @param mmoSimpleRole
+     */
     public static void updateRole(MmoSimpleRole mmoSimpleRole) {
         MmoRolePOJO mmoRolePOJO=new MmoRolePOJO();
         mmoRolePOJO.setId(mmoSimpleRole.getId());
@@ -377,10 +415,19 @@ public class DbUtil {
         mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO);
     }
 
+    /**
+     * 删除仓库
+     * @param wareHouseDBId
+     */
     public static void deleteWareHouseById(Integer wareHouseDBId) {
         mmoWareHousePOJOMapper.deleteByPrimaryKey(wareHouseDBId);
     }
 
+    /**
+     * 插入仓库
+     * @param articleDto
+     * @param guildId
+     */
     public static void insertEquipmentWareHouse(ArticleDto articleDto, Integer guildId) {
         MmoWareHousePOJO mmoWareHousePOJO=new MmoWareHousePOJO();
         mmoWareHousePOJO.setId(articleDto.getWareHouseDBId());
@@ -390,6 +437,12 @@ public class DbUtil {
         mmoWareHousePOJO.setNumber(articleDto.getQuantity());
         mmoWareHousePOJOMapper.insert(mmoWareHousePOJO);
     }
+
+    /**
+     * 插入仓库
+     * @param articleDto
+     * @param guildId
+     */
     public static void insertMedicineWareHouse(ArticleDto articleDto, Integer guildId) {
         MmoWareHousePOJO mmoWareHousePOJO=new MmoWareHousePOJO();
         mmoWareHousePOJO.setId(articleDto.getWareHouseDBId());
@@ -400,6 +453,11 @@ public class DbUtil {
         mmoWareHousePOJOMapper.insert(mmoWareHousePOJO);
     }
 
+    /**
+     * 更新仓库
+     * @param temp
+     * @param guildId
+     */
     public static void updateWareHouseMedicine(MedicineBean temp, Integer guildId) {
         MmoWareHousePOJO mmoWareHousePOJO=new MmoWareHousePOJO();
         mmoWareHousePOJO.setId(temp.getWareHouseDBId());

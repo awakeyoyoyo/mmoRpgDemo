@@ -1,5 +1,9 @@
 package com.liqihao.pojo;
 
+import com.liqihao.commons.enums.RoleOnStatusCode;
+import com.liqihao.commons.enums.RoleStatusCode;
+import com.liqihao.commons.enums.RoleTypeCode;
+
 public class MmoRolePOJO {
     private Integer id;
 
@@ -99,5 +103,22 @@ public class MmoRolePOJO {
 
     public void setGuildId(Integer guildId) {
         this.guildId = guildId;
+    }
+    /**
+     * description 初始化方法
+     * @param roleName
+     * @return
+     * @author lqhao
+     * @createTime 2021/1/21 15:18
+     */
+    public void init(String roleName) {
+        setName(roleName);
+        setMmoSceneId(1);
+        setStatus(RoleStatusCode.ALIVE.getCode());
+        setOnStatus(RoleOnStatusCode.EXIT.getCode());
+        setType(RoleTypeCode.PLAYER.getCode());
+        //职业
+        setProfessionId(1);
+        setGuildId(-1);
     }
 }

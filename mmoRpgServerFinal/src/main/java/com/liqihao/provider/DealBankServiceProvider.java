@@ -3,32 +3,21 @@ package com.liqihao.provider;
 import com.liqihao.Cache.OnlineRoleMessageCache;
 import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.StateCode;
-import com.liqihao.commons.enums.ArticleTypeCode;
 import com.liqihao.commons.enums.DealBankArticleTypeCode;
 import com.liqihao.dao.MmoDealBankArticlePOJOMapper;
 import com.liqihao.dao.MmoDealBankAuctionPOJOMapper;
-import com.liqihao.dao.MmoEmailPOJOMapper;
-import com.liqihao.dao.MmoUserPOJOMapper;
 import com.liqihao.pojo.MmoDealBankArticlePOJO;
 import com.liqihao.pojo.MmoDealBankAuctionPOJO;
-import com.liqihao.pojo.bean.MmoEmailBean;
+import com.liqihao.pojo.bean.EmailBean;
 import com.liqihao.pojo.bean.articleBean.Article;
-import com.liqihao.pojo.bean.articleBean.EquipmentBean;
-import com.liqihao.pojo.bean.articleBean.MedicineBean;
 import com.liqihao.pojo.bean.dealBankBean.DealBankArticleBean;
 import com.liqihao.pojo.bean.dealBankBean.DealBankAuctionBean;
-import com.liqihao.pojo.bean.dealBean.DealBean;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.util.CommonsUtil;
 import com.liqihao.util.ScheduledThreadPoolUtil;
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.Lifecycle;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -356,7 +345,7 @@ public class DealBankServiceProvider {
 
     public static void sendSuccessToSeller(DealBankArticleBean dealBankArticleBean,String title,String context) throws RpgServerException {
         //把商品发给买家
-        MmoEmailBean mmoEmailBean02 = new MmoEmailBean();
+        EmailBean mmoEmailBean02 = new EmailBean();
         mmoEmailBean02.setContext(context);
         mmoEmailBean02.setTitle(title);
         mmoEmailBean02.setArticleNum(-1);
@@ -377,7 +366,7 @@ public class DealBankServiceProvider {
 
     public static void sendFailToBuyer(DealBankAuctionBean dealBankAuctionBean,String title,String context) throws RpgServerException {
         //把金币发给买家
-        MmoEmailBean emailBean = new MmoEmailBean();
+        EmailBean emailBean = new EmailBean();
         emailBean.setContext(context);
         emailBean.setTitle(title);
         emailBean.setArticleNum(-1);
@@ -393,7 +382,7 @@ public class DealBankServiceProvider {
     }
 
     public static void sendFailToSeller(DealBankArticleBean dealBankArticleBean,String title,String context) throws RpgServerException {
-        MmoEmailBean mmoEmailBean = new MmoEmailBean();
+        EmailBean mmoEmailBean = new EmailBean();
         mmoEmailBean.setContext(context);
         mmoEmailBean.setTitle(title);
         mmoEmailBean.setArticleNum(dealBankArticleBean.getNum());
@@ -409,7 +398,7 @@ public class DealBankServiceProvider {
         EmailServiceProvider.sendArticleEmail(null, fromRole, mmoEmailBean);
     }
     public static void sendReduceToSeller(DealBankArticleBean dealBankArticleBean,String title,String context) throws RpgServerException {
-        MmoEmailBean mmoEmailBean = new MmoEmailBean();
+        EmailBean mmoEmailBean = new EmailBean();
         mmoEmailBean.setContext(context);
         mmoEmailBean.setTitle(title);
         mmoEmailBean.setArticleNum(dealBankArticleBean.getNum());
@@ -426,7 +415,7 @@ public class DealBankServiceProvider {
     }
     public static void sendSuccessToBuyer(DealBankArticleBean dealBankArticleBean,String title,String context) throws RpgServerException {
         //发邮件，把物品给回买家
-        MmoEmailBean mmoEmailBean = new MmoEmailBean();
+        EmailBean mmoEmailBean = new EmailBean();
         mmoEmailBean.setContext(context);
         mmoEmailBean.setTitle(title);
         mmoEmailBean.setArticleNum(dealBankArticleBean.getNum());

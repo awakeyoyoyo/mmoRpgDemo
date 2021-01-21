@@ -2,7 +2,6 @@ package com.liqihao.pojo.bean.TaskBean;
 
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
-import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.TaskStateCode;
 import com.liqihao.commons.enums.TaskTypeCode;
@@ -13,9 +12,13 @@ import com.liqihao.provider.TaskServiceProvider;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
 
+
 /**
- *
- * @author lqhao
+ * @Classname BaseTaskAction
+ * @Description 基础的任务执行动作消息
+ * @Author lqhao
+ * @Date 2021/1/21 12:19
+ * @Version 1.0
  */
 public abstract class BaseTaskBean {
     /**
@@ -38,13 +41,17 @@ public abstract class BaseTaskBean {
      * 接收事件
      */
     private long createTime;
+    /**
+     * 任务目标类型
+     */
+    private Integer taskTargetTypeId;
 
     /**
      * 检测是否完成
      * @param dto
      * @param role
      */
-    public abstract void update(ActionDto dto,MmoSimpleRole role);
+    public abstract void update(BaseTaskAction dto,MmoSimpleRole role);
 
     public long getCreateTime() {
         return createTime;
@@ -84,6 +91,14 @@ public abstract class BaseTaskBean {
 
     public void setTaskDbId(Integer taskDbId) {
         this.taskDbId = taskDbId;
+    }
+
+    public Integer getTaskTargetTypeId() {
+        return taskTargetTypeId;
+    }
+
+    public void setTaskTargetTypeId(Integer taskTargetTypeId) {
+        this.taskTargetTypeId = taskTargetTypeId;
     }
 
     public void sendFinishTask(MmoSimpleRole role){

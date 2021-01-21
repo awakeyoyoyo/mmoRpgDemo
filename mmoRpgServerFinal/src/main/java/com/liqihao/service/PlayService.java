@@ -18,7 +18,7 @@ public interface PlayService {
      * @param channel
      * @throws InvalidProtocolBufferException
      */
-    void registerRequest(PlayModel.PlayModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException;
+    void registerRequest(PlayModel.PlayModelMessage myMessage, Channel channel) throws InvalidProtocolBufferException, RpgServerException;
 
     /**
      * 登录

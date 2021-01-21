@@ -16,14 +16,10 @@ import com.liqihao.pojo.bean.articleBean.EquipmentBean;
 import com.liqihao.pojo.bean.bufferBean.BaseBufferBean;
 import com.liqihao.pojo.bean.guildBean.GuildBean;
 import com.liqihao.pojo.bean.teamBean.TeamApplyOrInviteBean;
-import com.liqihao.pojo.dto.ArticleDto;
 import com.liqihao.pojo.dto.EquipmentDto;
 import com.liqihao.protobufObject.ChatModel;
 import com.liqihao.protobufObject.PlayModel;
-import com.liqihao.provider.CallerServiceProvider;
-import com.liqihao.provider.CopySceneProvider;
-import com.liqihao.provider.MyObserver;
-import com.liqihao.provider.TaskServiceProvider;
+import com.liqihao.provider.*;
 import com.liqihao.util.CommonsUtil;
 import com.liqihao.util.DbUtil;
 import com.liqihao.util.LogicThreadPool;
@@ -100,11 +96,11 @@ public class MmoSimpleRole extends Role implements MyObserver {
     /**
      * 已发送邮件
      */
-    private ConcurrentHashMap<Integer, MmoEmailBean> fromMmoEmailBeanConcurrentHashMap=new ConcurrentHashMap<>();
+    private ConcurrentHashMap<Integer, EmailBean> fromMmoEmailBeanConcurrentHashMap=new ConcurrentHashMap<>();
     /**
      * 已接受邮件
      */
-    private ConcurrentHashMap<Integer,MmoEmailBean> toMmoEmailBeanConcurrentHashMap=new ConcurrentHashMap<>();
+    private ConcurrentHashMap<Integer, EmailBean> toMmoEmailBeanConcurrentHashMap=new ConcurrentHashMap<>();
     /**
      * 角色channel
      */
@@ -191,19 +187,19 @@ public class MmoSimpleRole extends Role implements MyObserver {
         this.money = money;
     }
 
-    public ConcurrentHashMap<Integer, MmoEmailBean> getFromMmoEmailBeanConcurrentHashMap() {
+    public ConcurrentHashMap<Integer, EmailBean> getFromMmoEmailBeanConcurrentHashMap() {
         return fromMmoEmailBeanConcurrentHashMap;
     }
 
-    public void setFromMmoEmailBeanConcurrentHashMap(ConcurrentHashMap<Integer, MmoEmailBean> fromMmoEmailBeanConcurrentHashMap) {
+    public void setFromMmoEmailBeanConcurrentHashMap(ConcurrentHashMap<Integer, EmailBean> fromMmoEmailBeanConcurrentHashMap) {
         this.fromMmoEmailBeanConcurrentHashMap = fromMmoEmailBeanConcurrentHashMap;
     }
 
-    public ConcurrentHashMap<Integer, MmoEmailBean> getToMmoEmailBeanConcurrentHashMap() {
+    public ConcurrentHashMap<Integer, EmailBean> getToMmoEmailBeanConcurrentHashMap() {
         return toMmoEmailBeanConcurrentHashMap;
     }
 
-    public void setToMmoEmailBeanConcurrentHashMap(ConcurrentHashMap<Integer, MmoEmailBean> toMmoEmailBeanConcurrentHashMap) {
+    public void setToMmoEmailBeanConcurrentHashMap(ConcurrentHashMap<Integer, EmailBean> toMmoEmailBeanConcurrentHashMap) {
         this.toMmoEmailBeanConcurrentHashMap = toMmoEmailBeanConcurrentHashMap;
     }
 
@@ -499,27 +495,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
         //广播
-        List<Integer> players;
-        if (getMmoSceneId()!=null) {
-            players = SceneBeanMessageCache.getInstance().get(this.getMmoSceneId()).getRoles();
-            for (Integer playerId:players){
-                Channel c= ChannelMessageCache.getInstance().get(playerId);
-                if (c!=null){
-                    c.writeAndFlush(nettyResponse);
-                }
-            }
-
-        }else{
-            List<Role> roles = CopySceneProvider.getCopySceneBeanById(getCopySceneBeanId()).getRoles();
-            for (Role role:roles) {
-                if (role.getType().equals(RoleTypeCode.PLAYER.getCode())){
-                    Channel c= ChannelMessageCache.getInstance().get(role.getId());
-                    if (c!=null){
-                        c.writeAndFlush(nettyResponse);
-                    }
-                }
-            }
-        }
+        CommonsUtil.notificationSceneRole(nettyResponse,this);
         //cd
         Map<Integer, Long> map = getCdMap();
         Long time = System.currentTimeMillis();
@@ -1121,5 +1097,31 @@ public class MmoSimpleRole extends Role implements MyObserver {
                 }
             }
         }
+    }
+
+    /**
+     * description 退出
+     * @return
+     * @author lqhao
+     * @createTime 2021/1/21 15:25
+     */
+    public void logout(){
+        //退出副本
+        if (getCopySceneBeanId()!=null){
+            CopySceneProvider.getCopySceneBeanById(getCopySceneBeanId()).peopleExit(getId());
+        }
+        //退出队伍
+        if(getTeamId()!=null){
+            TeamServiceProvider.getTeamBeanByTeamId(getTeamId()).exitPeople(getId());
+        }
+        //退出场景
+        if(getMmoSceneId()!=null){
+            SceneBeanMessageCache.getInstance().get(getMmoSceneId()).getRoles().remove(getId());
+        }
+        //断线
+        Channel c=ChannelMessageCache.getInstance().get(getId());
+        c.close();
+        //移出缓存
+        OnlineRoleMessageCache.getInstance().remove(getId());
     }
 }

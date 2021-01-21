@@ -4,7 +4,7 @@ package com.liqihao.pojo.bean;
  * 邮件实例bean
  * @author lqhao
  */
-public class MmoEmailBean {
+public class EmailBean {
     private Integer id;
 
     private String title;
@@ -37,20 +37,20 @@ public class MmoEmailBean {
     /**
      * 是否已经被收取物品
      */
-    private Boolean isGet=false;
+    private Boolean getArticleFlag =false;
     /**
      * 是否已经被收取物品
      */
-    private Boolean isGetMoney=false;
+    private Boolean getMoneyFlag=false;
 
     private Integer money;
 
-    public Boolean getGetMoney() {
-        return isGetMoney;
+    public Boolean getGetMoneyFlag() {
+        return getMoneyFlag;
     }
 
-    public void setGetMoney(Boolean getMoney) {
-        isGetMoney = getMoney;
+    public void setGetMoneyFlag(Boolean getMoney) {
+        getMoneyFlag = getMoney;
     }
 
     public Integer getMoney() {
@@ -69,12 +69,12 @@ public class MmoEmailBean {
         this.equipmentId = equipmentId;
     }
 
-    public Boolean getGet() {
-        return isGet;
+    public Boolean getGetFlag() {
+        return getArticleFlag;
     }
 
-    public void setGet(Boolean get) {
-        isGet = get;
+    public void setGetFlag(Boolean get) {
+        getArticleFlag = get;
     }
 
     public Integer getArticleMessageId() {

@@ -86,11 +86,10 @@
     where user_name = #{username}
   </select>
 
-  <select id="checkByUernameAndPassword" parameterType="map" resultType="java.lang.Integer">
+  <select id="checkByUserNameAndPassword" parameterType="map" resultType="BaseResultMap">
     select
-      id
+    <include refid="Base_Column_List" />
     from mmo_user
     where user_name = #{username} and user_pwd=#{password}
   </select>
-
 </mapper>

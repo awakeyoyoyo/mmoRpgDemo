@@ -40,7 +40,7 @@ public class EmailServiceImpl implements EmailService {
     public void getEmailMessageRequest(EmailModel.EmailModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws RpgServerException {
         Integer emailId=myMessage.getGetEmailMessageRequest().getEmailId();
         Channel channel = mmoSimpleRole.getChannel();
-        MmoEmailBean mmoEmailBean=EmailServiceProvider.getEmailMessage(mmoSimpleRole,emailId);
+        EmailBean mmoEmailBean=EmailServiceProvider.getEmailMessage(mmoSimpleRole,emailId);
         if (mmoEmailBean==null){
             throw new RpgServerException(StateCode.FAIL,"没有该id的邮件");
         }
@@ -61,7 +61,7 @@ public class EmailServiceImpl implements EmailService {
         Integer emailId=myMessage.getGetEmailArticleRequest().getEmailId();
         Channel channel = mmoSimpleRole.getChannel();
         //获取邮件详情
-        MmoEmailBean mmoEmailBean=EmailServiceProvider.getEmailMessage(mmoSimpleRole,emailId);
+        EmailBean mmoEmailBean=EmailServiceProvider.getEmailMessage(mmoSimpleRole,emailId);
         if (mmoEmailBean==null){
             throw new RpgServerException(StateCode.FAIL,"没有该id的邮件");
         }
@@ -70,7 +70,7 @@ public class EmailServiceImpl implements EmailService {
             throw new RpgServerException(StateCode.FAIL,"该邮件没有物品");
         }
         //判断邮件是否有物品
-        if (mmoEmailBean.getGet()){
+        if (mmoEmailBean.getGetFlag()){
             throw new RpgServerException(StateCode.FAIL,"已经获取过该物品");
         }
         if (!mmoEmailBean.getToRoleId().equals(mmoSimpleRole.getId())){
@@ -90,7 +90,7 @@ public class EmailServiceImpl implements EmailService {
             }
             //邮件设置为没有物品
             mmoEmailBean.setHasArticle(true);
-            mmoEmailBean.setGet(true);
+            mmoEmailBean.setGetFlag(true);
             //数据库更新
             ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateEmailBeanDb(mmoEmailBean));
         }else{
@@ -104,7 +104,7 @@ public class EmailServiceImpl implements EmailService {
             }
             //邮件设置为没有物品
             mmoEmailBean.setHasArticle(true);
-            mmoEmailBean.setGet(true);
+            mmoEmailBean.setGetFlag(true);
             //数据库更新
             ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateEmailBeanDb(mmoEmailBean));
         }
@@ -122,9 +122,8 @@ public class EmailServiceImpl implements EmailService {
     @HandlerCmdTag(cmd = ConstantValue.GET_EMAIL_MONEY_REQUEST,module = ConstantValue.EMAIL_MODULE)
     public void getEmailMoneyRequest(EmailModel.EmailModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws Exception {
         Integer emailId=myMessage.getGetEmailMoneyRequest().getEmailId();
-        Channel channel = mmoSimpleRole.getChannel();
         //获取邮件详情
-        MmoEmailBean mmoEmailBean=EmailServiceProvider.getEmailMessage(mmoSimpleRole,emailId);
+        EmailBean mmoEmailBean=EmailServiceProvider.getEmailMessage(mmoSimpleRole,emailId);
         if (mmoEmailBean==null){
             throw new RpgServerException(StateCode.FAIL,"没有该id的邮件");
         }
@@ -133,13 +132,13 @@ public class EmailServiceImpl implements EmailService {
             throw new RpgServerException(StateCode.FAIL,"该邮件没有可获取金币");
         }
         //判断邮件是否有物品
-        if (mmoEmailBean.getGetMoney()){
+        if (mmoEmailBean.getGetMoneyFlag()){
             throw new RpgServerException(StateCode.FAIL,"已经获取过该物品");
         }
         if (!mmoEmailBean.getToRoleId().equals(mmoSimpleRole.getId())){
             throw new RpgServerException(StateCode.FAIL,"这信不是给你的");
         }
-        mmoEmailBean.setGetMoney(true);
+        mmoEmailBean.setGetMoneyFlag(true);
         mmoSimpleRole.setMoney(mmoSimpleRole.getMoney()+mmoEmailBean.getMoney());
         ScheduledThreadPoolUtil.addTask(() -> {
             DbUtil.updateEmailBeanDb(mmoEmailBean);
@@ -151,10 +150,10 @@ public class EmailServiceImpl implements EmailService {
     @HandlerCmdTag(cmd = ConstantValue.ACCEPT_EMAIL_LIST_REQUEST,module = ConstantValue.EMAIL_MODULE)
     public void acceptEmailListRequest(EmailModel.EmailModelMessage myMessage, MmoSimpleRole mmoSimpleRole) {
         Channel channel = mmoSimpleRole.getChannel();
-        List<MmoEmailBean> mmoEmailBeans=EmailServiceProvider.getToEmails(mmoSimpleRole);
+        List<EmailBean> mmoEmailBeans=EmailServiceProvider.getToEmails(mmoSimpleRole);
         List<EmailModel.EmailSimpleDto> list=new ArrayList<>();
         if (mmoEmailBeans.size()>0){
-            for (MmoEmailBean m:mmoEmailBeans) {
+            for (EmailBean m:mmoEmailBeans) {
                 EmailModel.EmailSimpleDto emailSimpleDto=CommonsUtil.mmoEmailBeanToEmailSimpleDto(m);
                 list.add(emailSimpleDto);
             }
@@ -169,14 +168,17 @@ public class EmailServiceImpl implements EmailService {
         channel.writeAndFlush(nettyResponse);
     }
 
+
+
+
     @Override
     @HandlerCmdTag(cmd = ConstantValue.IS_SEND_EMAIL_LIST_REQUEST,module = ConstantValue.EMAIL_MODULE)
     public void isSendEmailListRequest(EmailModel.EmailModelMessage myMessage, MmoSimpleRole mmoSimpleRole) {
         Channel channel = mmoSimpleRole.getChannel();
-        List<MmoEmailBean> mmoEmailBeans=EmailServiceProvider.getFromEmails(mmoSimpleRole);
+        List<EmailBean> mmoEmailBeans=EmailServiceProvider.getFromEmails(mmoSimpleRole);
         List<EmailModel.EmailSimpleDto> list=new ArrayList<>();
         if (mmoEmailBeans.size()>0){
-            for (MmoEmailBean m:mmoEmailBeans) {
+            for (EmailBean m:mmoEmailBeans) {
                 EmailModel.EmailSimpleDto emailSimpleDto=CommonsUtil.mmoEmailBeanToEmailSimpleDto(m);
                 list.add(emailSimpleDto);
             }
@@ -201,7 +203,8 @@ public class EmailServiceImpl implements EmailService {
         Integer articleNum=myMessage.getSendEmailRequest().getArticleNum();
         Integer toRoleId=myMessage.getSendEmailRequest().getToRoleId();
         MmoSimpleRole toRole= OnlineRoleMessageCache.getInstance().get(toRoleId);
-        MmoEmailBean mmoEmailBean=new MmoEmailBean();
+        //初始化信bean
+        EmailBean mmoEmailBean=new EmailBean();
         mmoEmailBean.setContext(context);
         mmoEmailBean.setTitle(title);
         mmoEmailBean.setArticleNum(articleNum);
@@ -217,6 +220,7 @@ public class EmailServiceImpl implements EmailService {
            }
            mmoEmailBean.setArticleType(article.getArticleTypeCode());
            if (mmoEmailBean.getArticleType().equals(ArticleTypeCode.MEDICINE.getCode())) {
+               //药品
                MedicineBean medicineBean= (MedicineBean) article;
                mmoEmailBean.setArticleMessageId(medicineBean.getMedicineMessageId());
            }else{
@@ -228,6 +232,7 @@ public class EmailServiceImpl implements EmailService {
         }
         mmoEmailBean.setToRoleId(toRoleId);
         mmoEmailBean.setFromRoleId(mmoSimpleRole.getId());
+        //发邮件
         EmailServiceProvider.sendArticleEmail(mmoSimpleRole,toRole,mmoEmailBean);
         EmailModel.EmailModelMessage messageData=EmailModel.EmailModelMessage.newBuilder()
                 .setDataType(EmailModel.EmailModelMessage.DateType.SendEmailResponse)
@@ -244,6 +249,7 @@ public class EmailServiceImpl implements EmailService {
     public void deleteAcceptEmailRequest(EmailModel.EmailModelMessage myMessage, MmoSimpleRole mmoSimpleRole) {
         Integer emailId=myMessage.getDeleteAcceptEmailRequest().getEmailId();
         Channel channel = mmoSimpleRole.getChannel();
+        //删除邮件
         EmailServiceProvider.deleteAcceptEmail(mmoSimpleRole,emailId);
         EmailModel.EmailModelMessage messageData=EmailModel.EmailModelMessage.newBuilder()
                 .setDataType(EmailModel.EmailModelMessage.DateType.DeleteAcceptEmailResponse)
@@ -260,6 +266,7 @@ public class EmailServiceImpl implements EmailService {
     public void deleteSendEmailRequest(EmailModel.EmailModelMessage myMessage, MmoSimpleRole mmoSimpleRole) {
         Integer emailId=myMessage.getDeleteSendEmailRequest().getEmailId();
         Channel channel = mmoSimpleRole.getChannel();
+        //删除邮件
         EmailServiceProvider.deleteIsSendEmail(mmoSimpleRole,emailId);
         EmailModel.EmailModelMessage messageData=EmailModel.EmailModelMessage.newBuilder()
                 .setDataType(EmailModel.EmailModelMessage.DateType.DeleteSendEmailResponse)

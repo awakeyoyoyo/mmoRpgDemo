@@ -30,7 +30,6 @@ public class LogicThreadPool<Job extends Runnable>implements ThreadPool<Job> {
     public int getThreadSize() {
         return threadSize;
     }
-
     public void setThreadSize(int threadSize) {
         this.threadSize = threadSize;
     }
@@ -107,6 +106,7 @@ public class LogicThreadPool<Job extends Runnable>implements ThreadPool<Job> {
             }
         }
     }
+
     @Override
     public void shutdown() {
         for (Worker worker : workers) {
