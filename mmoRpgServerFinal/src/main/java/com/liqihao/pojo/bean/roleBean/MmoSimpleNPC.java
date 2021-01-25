@@ -136,6 +136,12 @@ public class MmoSimpleNPC extends Role {
             mmoSimpleNPC.npcAttack();
         }
     }
+
+    @Override
+    public void die() {
+
+    }
+
     //消除仇恨
     public void removeHatred(Role role){
         if (getHatredMap().containsKey(role)){
@@ -209,6 +215,16 @@ public class MmoSimpleNPC extends Role {
         }
     }
 
+
+    @Override
+    public void changeMp(int number, PlayModel.RoleIdDamage.Builder damageU) {
+
+    }
+
+    @Override
+    public void changeNowBlood(int number, PlayModel.RoleIdDamage.Builder damageU, int type) {
+
+    }
 
     @Override
     public void effectByBuffer(BaseBufferBean bufferBean) {

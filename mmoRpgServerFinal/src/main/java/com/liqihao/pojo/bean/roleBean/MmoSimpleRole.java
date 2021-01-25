@@ -27,6 +27,7 @@ import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
 import org.apache.log4j.Logger;
 
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -381,7 +382,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
                 //无装备
                 return false;
             } else {
-                EquipmentMessage equipmentMessage= EquipmentMessageCache.getInstance().get(equipmentBean.getEquipmentMessageId());
+                EquipmentMessage equipmentMessage= (EquipmentMessage) EquipmentMessageCache.getInstance().get(equipmentBean.getEquipmentMessageId());
                 equipmentBeanHashMap.remove(position);
                 //装备栏数据库减少该装备
                 if (equipmentBean.getEquipmentBagId() != null) {
@@ -619,6 +620,11 @@ public class MmoSimpleRole extends Role implements MyObserver {
         if (getMmoHelperBean() != null) {
             getMmoHelperBean().npcAttack(fromRole);
         }
+    }
+
+    @Override
+    public void die() {
+
     }
 
     /**
@@ -1120,8 +1126,15 @@ public class MmoSimpleRole extends Role implements MyObserver {
         }
         //断线
         Channel c=ChannelMessageCache.getInstance().get(getId());
+        NettyResponse nettyResponse=new NettyResponse();
+        nettyResponse.setCmd(ConstantValue.FAIL_RESPONSE);
+        String message="服务器：角色已退出登录";
+        nettyResponse.setData(message.getBytes(StandardCharsets.UTF_8));
+        nettyResponse.setStateCode(StateCode.FAIL);
+        c.writeAndFlush(nettyResponse);
         c.close();
         //移出缓存
         OnlineRoleMessageCache.getInstance().remove(getId());
+        NodeCheckMessageCache.getInstance().remove(getChannel().remoteAddress().toString());
     }
 }

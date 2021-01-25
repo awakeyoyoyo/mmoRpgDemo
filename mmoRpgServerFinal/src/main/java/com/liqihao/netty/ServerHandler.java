@@ -21,6 +21,8 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * nettyHandler
@@ -28,19 +30,19 @@ import java.nio.charset.StandardCharsets;
  */
 public class ServerHandler extends ChannelInboundHandlerAdapter {
     private DispatcherServlet dispatcherservlet;
-    private GameSystemService gameSystemService;
+
     /**
      * 计数----未有客户端可读次数
      */
     private int lossConnectCount=0;
+    private static final int MAX_LOSS_CONNECT_COUNT=3;
     private static final Logger log = LoggerFactory.getLogger(ServerHandler.class);
 
     public ServerHandler() {
     }
 
-    public ServerHandler(DispatcherServlet dispatcherservlet,GameSystemService gameSystemService) {
+    public ServerHandler(DispatcherServlet dispatcherservlet) {
         this.dispatcherservlet = dispatcherservlet;
-        this.gameSystemService=gameSystemService;
     }
 
     @Override
@@ -59,6 +61,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
             log.info("收到客户端端的心跳包");
            return;
         }
+
         //根据channel计算index
         Integer index= CommonsUtil.getIndexByChannel(ctx.channel());
         LogicThreadPool.getInstance().execute(() -> dispatcherservlet.handler(request,ctx.channel()),index);
@@ -78,7 +81,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
             IdleStateEvent event = (IdleStateEvent)evt;
             if (event.state()== IdleState.READER_IDLE){
                 lossConnectCount++;
-                if (lossConnectCount>3){
+                if (lossConnectCount>MAX_LOSS_CONNECT_COUNT){
                     log.info("关闭这个不活跃通道！");
                     ctx.channel().close();
                 }

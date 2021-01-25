@@ -97,11 +97,16 @@ public class PlayServiceImpl implements PlayService {
         //从数据库中读取角色,且修改其为在线模式，放入角色在线集合
         MmoRolePOJO role = mmoRolePOJOMapper.selectByPrimaryKey(Integer.parseInt(mmoUserPOJO.getUserRoleId()));
         //检测是否在线
+        String nodeIndex=channel.remoteAddress().toString();
+        if (NodeCheckMessageCache.getInstance().contains(nodeIndex)){
+            throw new RpgServerException(StateCode.FAIL,"当前已经登陆，请勿重复登陆");
+        }
         MmoSimpleRole lastRole=OnlineRoleMessageCache.getInstance().get(role.getId());
         if (lastRole!=null){
             //另一个客户端在线
             lastRole.logout();
         }
+        NodeCheckMessageCache.getInstance().put(nodeIndex,true);
         role.setOnStatus(RoleOnStatusCode.ONLINE.getCode());
         //初始化基础信息获取
         MmoSimpleRole simpleRole = new MmoSimpleRole();
@@ -159,6 +164,7 @@ public class PlayServiceImpl implements PlayService {
             GuildBean guildBean=GuildServiceProvider.getInstance().getGuildBeanById(role.getGuildId());
             simpleRole.setGuildBean(guildBean);
         }
+
         OnlineRoleMessageCache.getInstance().put(role.getId(), simpleRole);
         //数据库中人物状态
         mmoRolePOJOMapper.updateByPrimaryKeySelective(role);
@@ -190,7 +196,6 @@ public class PlayServiceImpl implements PlayService {
         List<Role> sceneRoles=CommonsUtil.getAllRolesFromScene(simpleRole);
         //发送给场景中其他角色 有角色登陆
         CommonsUtil.sendRoleResponse(sceneRoles, simpleRole.getMmoSceneId(), null);
-        return;
     }
 
     @Override
@@ -212,24 +217,13 @@ public class PlayServiceImpl implements PlayService {
         if(role.getMmoSceneId()!=null){
             SceneBeanMessageCache.getInstance().get(role.getMmoSceneId()).getRoles().remove(role.getId());
         }
-        //保存背包信息、装备信息、人物信息、邮件信息入数据库
-//        ScheduledThreadPoolUtil.addTask(() -> {
-//            DbUtil.bagIntoDataBase(role.getBackpackManager(), role.getId());
-//            DbUtil.equipmentIntoDataBase(role);
-//            DbUtil.roleInfoIntoDataBase(role);
-//            for (MmoEmailBean m : role.getFromMmoEmailBeanConcurrentHashMap().values()) {
-//                DbUtil.mmoEmailPOJOIntoDataBase(m);
-//            }
-//            for (MmoEmailBean m : role.getToMmoEmailBeanConcurrentHashMap().values()) {
-//                DbUtil.mmoEmailPOJOIntoDataBase(m);
-//            }
-//        });
         //将数据库中设置为离线
         MmoRolePOJO mmoRolePOJO = mmoRolePOJOMapper.selectByPrimaryKey(role.getId());
         mmoRolePOJO.setOnStatus(RoleOnStatusCode.EXIT.getCode());
         ScheduledThreadPoolUtil.addTask(() -> mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO));
         //缓存角色集合删除
         OnlineRoleMessageCache.getInstance().remove(role.getId());
+        NodeCheckMessageCache.getInstance().remove(role.getChannel().remoteAddress().toString());
         if (role.getMmoSceneId() != null) {
             SceneBeanMessageCache.getInstance().get(role.getMmoSceneId()).getRoles().remove(role.getId());
         } else {

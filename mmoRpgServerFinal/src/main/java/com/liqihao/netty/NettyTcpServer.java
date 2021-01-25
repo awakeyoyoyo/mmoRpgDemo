@@ -16,6 +16,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -28,8 +30,6 @@ public class NettyTcpServer {
     private int port=6666;
     @Autowired
     private DispatcherServlet dispatcherServlet;
-    @Autowired
-    private GameSystemService gameSystemService;
     public void run() throws Exception {
         //创建两个线程池 boosGroup、workerGroup
         //负责监听端口
@@ -47,12 +47,12 @@ public class NettyTcpServer {
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel socketChannel) throws Exception {
-                            //给pipeline管道设置处理器 childhandler是写游戏业务处理逻辑的
+                            //给pipeline管道设置处理器 childHandler是写游戏业务处理逻辑的
                             socketChannel.pipeline()
                                     .addLast("decoder", new RequestDecoder())//解码器
                                     .addLast("encoder",new ResponseEncoder())//编码器
                                     .addLast(new IdleStateHandler(10,0,0, TimeUnit.SECONDS))//心跳
-                                    .addLast(new ServerHandler(dispatcherServlet,gameSystemService))//业务处理handler
+                                    .addLast(new ServerHandler(dispatcherServlet))//业务处理handler
                             ;
                         }
                     });//给workerGroup的EventLoop对应的管道设置处理器

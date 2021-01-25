@@ -13,53 +13,103 @@ import com.liqihao.pojo.dto.ArticleDto;
  * @author lqhao
  */
 public interface Article {
+    
     /**
-     * 获取物品类型code
-     * @return
+     * description 获取物品类型code
+     * @return {@link Integer }
+     * @author lqhao
+     * @createTime 2021/1/25 11:04
      */
     Integer getArticleTypeCode();
+    
     /**
-     * 获取物品背包的id
+     * description 获取物品背包的id
+     * @return {@link Integer }
+     * @author lqhao
+     * @createTime 2021/1/25 11:04
      */
     Integer getArticleIdCode();
+
     /**
-     * 获取物品仓库的id
+     * description 获取物品仓库id
+     * @return {@link Integer }
+     * @author lqhao
+     * @createTime 2021/1/25 11:05
      */
     Integer getWareHouseIdCode();
+
     /**
-     * 获取交易栏的id
+     * description 获取交易栏的id
+     * @return {@link Integer }
+     * @author lqhao
+     * @createTime 2021/1/25 11:06
      */
     Integer getDealArticleIdCode();
+  
     /**
-     * 物品减少或者删除
+     * description 物品减少或者删除
+     * @param number
+     * @param backPackManager
+     * @param roleId
+     * @return {@link Article }
+     * @author lqhao
+     * @createTime 2021/1/25 11:07
      */
     Article useOrAbandon(Integer number, BackPackManager backPackManager,Integer roleId);
 
+   
     /**
-     * 物品转化为物品dto
-     * @return
+     * description 物品转化为物品dto
+     * @return {@link ArticleDto }
+     * @author lqhao
+     * @createTime 2021/1/25 11:07
      */
     ArticleDto getArticleMessage();
+  
     /**
-     * 获取其类型
+     * description 获取其类型
+     * @return {@link T }
+     * @author lqhao
+     * @createTime 2021/1/25 11:07
      */
     <T extends Article> T getArticle();
+  
     /**
-     * 放入背包中
+     * description 放入背包中
+     * @param backPackManager  
+     * @param roleId
+     * @return {@link boolean }
+     * @author lqhao
+     * @createTime 2021/1/25 11:07
      */
     boolean put(BackPackManager backPackManager,Integer roleId);
-
+    
     /**
-     * 物品整理
-     * @param backPackManager
+     * description 物品整理
+     * @param backPackManager  
+     * @param roleId
+     * @return void
+     * @author lqhao
+     * @createTime 2021/1/25 11:07
      */
     void clearPut(BackPackManager backPackManager,Integer roleId);
+
     /**
-     * 检查是否可以放入
+     * description 检查是否可以放入
+     * @param backPackManager
+     * @return {@link boolean }
+     * @author lqhao
+     * @createTime 2021/1/25 11:08
      */
     boolean checkCanPut(BackPackManager backPackManager);
+
     /**
-     * 使用
+     * description 物品被使用
+     * @param backpackManager
+     * @param mmoSimpleRole
+     * @return {@link boolean }
+     * @author lqhao
+     * @createTime 2021/1/25 11:04
      */
     boolean use(BackPackManager backpackManager, MmoSimpleRole mmoSimpleRole);
 

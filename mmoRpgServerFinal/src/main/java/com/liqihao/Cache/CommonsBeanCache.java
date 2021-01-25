@@ -7,6 +7,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * 游戏内容缓存基类
+ * @author lqhao
+ */
 public class CommonsBeanCache <T>{
     protected ConcurrentHashMap<Integer,T> concurrentHashMap;
     public CommonsBeanCache() {

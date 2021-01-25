@@ -22,14 +22,10 @@ public class EquipmentMessageCache extends CommonsCache<EquipmentMessage>{
         return instance;
     }
     public EquipmentMessageCache() {
-
     }
     @PostConstruct
     public  void init() throws IllegalAccessException, IOException, InstantiationException {
         instance=this;
         super.init(excel_file, EquipmentMessage.class);
-    }
-    private EquipmentMessageCache(ConcurrentHashMap<Integer,EquipmentMessage> map) {
-        super(map);
     }
 }

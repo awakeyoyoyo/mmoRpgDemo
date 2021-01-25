@@ -1,10 +1,8 @@
 package com.liqihao.provider;
 import com.liqihao.Cache.TaskMessageCache;
 import com.liqihao.commons.RpgServerException;
-import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.TaskStateCode;
 import com.liqihao.commons.enums.TaskTargetTypeCode;
-import com.liqihao.commons.enums.TaskTypeCode;
 import com.liqihao.dao.MmoTaskPOJOMapper;
 import com.liqihao.pojo.MmoTaskPOJO;
 import com.liqihao.pojo.baseMessage.TaskMessage;

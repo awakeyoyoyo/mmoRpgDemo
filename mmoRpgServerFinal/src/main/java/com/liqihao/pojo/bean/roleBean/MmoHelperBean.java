@@ -312,6 +312,17 @@ public class MmoHelperBean extends Role{
             CopySceneProvider.getCopySceneBeanById(getCopySceneBeanId()).getRoles().remove(this);
         }
     }
+
+    @Override
+    public void changeMp(int number, PlayModel.RoleIdDamage.Builder damageU) {
+
+    }
+
+    @Override
+    public void changeNowBlood(int number, PlayModel.RoleIdDamage.Builder damageU, int type) {
+
+    }
+
     @Override
     /**
      * BUFFER的影响

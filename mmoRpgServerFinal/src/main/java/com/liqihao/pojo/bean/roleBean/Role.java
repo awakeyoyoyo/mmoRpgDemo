@@ -12,7 +12,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * 所有角色的父类
  * @author lqhao
  */
-public class Role {
+public abstract class Role {
     private Integer id;
     private String name;
     private Integer hp;
@@ -67,8 +67,7 @@ public class Role {
      * @param number
      * @param damageU
      */
-    public void changeMp(int number, PlayModel.RoleIdDamage.Builder damageU) {
-    }
+    public abstract void changeMp(int number, PlayModel.RoleIdDamage.Builder damageU) ;
 
     /**
      * 改变当前血量
@@ -76,29 +75,27 @@ public class Role {
      * @param damageU
      * @param type
      */
-    public void changeNowBlood(int number, PlayModel.RoleIdDamage.Builder damageU, int type) {
-    }
+    public abstract void changeNowBlood(int number, PlayModel.RoleIdDamage.Builder damageU, int type) ;
 
     /**
      * buffer影响
      * @param bufferBean
      */
-    public void effectByBuffer(BaseBufferBean bufferBean){
-    }
+    public abstract void effectByBuffer(BaseBufferBean bufferBean);
 
     /**
      * 角色被攻击调用
      * @param skillBean
      * @param fromRole
      */
-    public void beAttack(SkillBean skillBean, Role fromRole) {
-    }
+    public abstract void beAttack(SkillBean skillBean, Role fromRole) ;
+
 
     /**
      * 死角色死亡调用
      */
-    public void die(){
-    }
+    public abstract void die();
+
     public void setId(Integer id) {
         this.id = id;
     }

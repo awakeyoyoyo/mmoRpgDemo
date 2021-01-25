@@ -14,7 +14,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * 背包管理类
- *
  * @author lqhao
  */
 public class BackPackManager {

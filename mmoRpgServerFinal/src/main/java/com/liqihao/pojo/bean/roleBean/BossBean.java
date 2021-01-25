@@ -64,6 +64,7 @@ public class BossBean extends Role {
     }
 
 
+
     public Integer getBossBeanId() {
         return BossBeanId;
     }
@@ -180,6 +181,11 @@ public class BossBean extends Role {
         if (!bossBean.getStatus().equals(RoleStatusCode.DIE.getCode())) {
             bossBean.bossAttack();
         }
+    }
+
+    @Override
+    public void die() {
+
     }
 
     public void bossAttack() {
@@ -358,4 +364,13 @@ public class BossBean extends Role {
         //buffer
     }
 
+    @Override
+    public void changeMp(int number, PlayModel.RoleIdDamage.Builder damageU) {
+
+    }
+
+    @Override
+    public void changeNowBlood(int number, PlayModel.RoleIdDamage.Builder damageU, int type) {
+
+    }
 }

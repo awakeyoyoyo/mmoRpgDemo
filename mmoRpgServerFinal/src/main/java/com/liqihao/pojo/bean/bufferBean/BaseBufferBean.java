@@ -22,7 +22,7 @@ import java.util.List;
  * buffer Bean
  * @author lqhao
  */
-public class BaseBufferBean {
+public abstract class BaseBufferBean {
     private Integer fromRoleId;
     private Integer toRoleId;
     private Long createTime;
@@ -82,15 +82,13 @@ public class BaseBufferBean {
      * 对人物的影响
      * @param toRole
      */
-    public void effectToPeople(Role toRole){
-    }
+    public abstract void  effectToPeople(Role toRole);
 
     /**
      * 对角色的印象
      * @param toRole
      */
-    public void effectToRole(Role toRole){
-    }
+    public abstract void effectToRole(Role toRole);
 
     /**
      * 广播buffer伤害信息
