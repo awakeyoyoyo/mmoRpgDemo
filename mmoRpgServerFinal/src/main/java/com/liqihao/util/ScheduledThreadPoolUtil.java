@@ -6,7 +6,7 @@ import com.liqihao.commons.enums.*;
 import com.liqihao.pojo.baseMessage.BufferMessage;
 import com.liqihao.pojo.baseMessage.SkillMessage;
 import com.liqihao.pojo.bean.*;
-import com.liqihao.pojo.bean.bufferBean.BaseBufferBean;
+import com.liqihao.pojo.bean.buffBean.BaseBuffBean;
 import com.liqihao.pojo.bean.dealBankBean.DealBankArticleBean;
 import com.liqihao.pojo.bean.roleBean.*;
 import com.liqihao.pojo.bean.teamBean.TeamBean;
@@ -20,7 +20,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.*;
@@ -254,14 +253,14 @@ public class ScheduledThreadPoolUtil {
      */
     public static class BufferTask implements Runnable {
         private Logger logger = Logger.getLogger(BufferTask.class);
-        private BaseBufferBean bufferBean;
+        private BaseBuffBean bufferBean;
         private Integer count;
         private Role toRole;
 
         public BufferTask() {
         }
 
-        public BufferTask(BaseBufferBean bufferBean, Integer count, Role toRole) {
+        public BufferTask(BaseBuffBean bufferBean, Integer count, Role toRole) {
             this.bufferBean = bufferBean;
             this.count = count;
             this.toRole = toRole;

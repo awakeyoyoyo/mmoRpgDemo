@@ -1,8 +1,7 @@
 package com.liqihao.pojo.bean.roleBean;
 
-import com.liqihao.commons.RpgServerException;
 import com.liqihao.pojo.bean.SkillBean;
-import com.liqihao.pojo.bean.bufferBean.BaseBufferBean;
+import com.liqihao.pojo.bean.buffBean.BaseBuffBean;
 import com.liqihao.protobufObject.PlayModel;
 
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -22,7 +21,7 @@ public abstract class Role {
     private Integer type;
     private Integer status;
     private Integer onStatus;
-    private CopyOnWriteArrayList<BaseBufferBean> bufferBeans;
+    private CopyOnWriteArrayList<BaseBuffBean> bufferBeans;
     private volatile Integer nowHp;
     private volatile Integer nowMp;
     private Integer copySceneBeanId;
@@ -81,7 +80,7 @@ public abstract class Role {
      * buffer影响
      * @param bufferBean
      */
-    public abstract void effectByBuffer(BaseBufferBean bufferBean);
+    public abstract void effectByBuffer(BaseBuffBean bufferBean);
 
     /**
      * 角色被攻击调用
@@ -164,11 +163,11 @@ public abstract class Role {
         this.onStatus = onStatus;
     }
 
-    public CopyOnWriteArrayList<BaseBufferBean> getBufferBeans() {
+    public CopyOnWriteArrayList<BaseBuffBean> getBufferBeans() {
         return bufferBeans;
     }
 
-    public void setBufferBeans(CopyOnWriteArrayList<BaseBufferBean> bufferBeans) {
+    public void setBufferBeans(CopyOnWriteArrayList<BaseBuffBean> bufferBeans) {
         this.bufferBeans = bufferBeans;
     }
 

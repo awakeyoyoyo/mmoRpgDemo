@@ -14,7 +14,7 @@ import com.liqihao.pojo.bean.*;
 import com.liqihao.pojo.bean.TaskBean.BaseTaskBean;
 import com.liqihao.pojo.bean.articleBean.EquipmentBean;
 import com.liqihao.pojo.bean.articleBean.MedicineBean;
-import com.liqihao.pojo.bean.bufferBean.BaseBufferBean;
+import com.liqihao.pojo.bean.buffBean.BaseBuffBean;
 import com.liqihao.pojo.bean.dealBankBean.DealBankArticleBean;
 import com.liqihao.pojo.bean.dealBankBean.DealBankAuctionBean;
 import com.liqihao.pojo.bean.guildBean.GuildApplyBean;
@@ -343,7 +343,7 @@ public class CommonsUtil {
         bossDtoBuilder.setBlood(boss.getHp());
         List<CopySceneModel.BufferDto> bufferDtoList=new ArrayList<>();
         if (boss.getBufferBeans().size()>0){
-            for (BaseBufferBean b:boss.getBufferBeans()) {
+            for (BaseBuffBean b:boss.getBufferBeans()) {
                 CopySceneModel.BufferDto bufferDto= bufferBeanToBufferDto(b);
                 bufferDtoList.add(bufferDto);
             }
@@ -352,7 +352,7 @@ public class CommonsUtil {
         return  bossDtoBuilder.build();
     }
 
-    private static CopySceneModel.BufferDto bufferBeanToBufferDto(BaseBufferBean b) {
+    private static CopySceneModel.BufferDto bufferBeanToBufferDto(BaseBuffBean b) {
         CopySceneModel.BufferDto.Builder bufferDtoBuilder=CopySceneModel.BufferDto.newBuilder();
         BufferMessage bufferMessage= BufferMessageCache.getInstance().get(b.getBufferMessageId());
         return bufferDtoBuilder.setId(bufferMessage.getId()).setName(bufferMessage.getName()).setFromRoleId(b.getFromRoleId())
@@ -364,7 +364,7 @@ public class CommonsUtil {
         CopySceneModel.RoleDto.Builder roleDtoBuilder=CopySceneModel.RoleDto.newBuilder();
         List<CopySceneModel.BufferDto> bufferDtoList=new ArrayList<>();
         if (role.getBufferBeans().size()>0){
-            for (BaseBufferBean b:role.getBufferBeans()) {
+            for (BaseBuffBean b:role.getBufferBeans()) {
                 CopySceneModel.BufferDto bufferDto= bufferBeanToBufferDto(b);
                 bufferDtoList.add(bufferDto);
             }
@@ -459,7 +459,7 @@ public class CommonsUtil {
 
     public static BossBean bossMessageToBossBean(BossMessage bossMessage) {
         BossBean bossBean=new BossBean();
-        bossBean.setBufferBeans(new CopyOnWriteArrayList<BaseBufferBean>());
+        bossBean.setBufferBeans(new CopyOnWriteArrayList<BaseBuffBean>());
         bossBean.setCdMap(new HashMap<>());
         bossBean.setHatredMap(new ConcurrentHashMap<>());
         bossBean.setHp(bossMessage.getBlood());

@@ -1,4 +1,4 @@
-package com.liqihao.pojo.bean.bufferBean;
+package com.liqihao.pojo.bean.buffBean;
 
 import com.liqihao.Cache.BufferMessageCache;
 import com.liqihao.Cache.ChannelMessageCache;
@@ -7,7 +7,6 @@ import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.AttackStyleCode;
-import com.liqihao.commons.enums.ConsumeTypeCode;
 import com.liqihao.commons.enums.DamageTypeCode;
 import com.liqihao.commons.enums.RoleTypeCode;
 import com.liqihao.pojo.baseMessage.BufferMessage;
@@ -22,7 +21,7 @@ import java.util.List;
  * buffer Bean
  * @author lqhao
  */
-public abstract class BaseBufferBean {
+public abstract class BaseBuffBean {
     private Integer fromRoleId;
     private Integer toRoleId;
     private Long createTime;

@@ -13,7 +13,7 @@ import com.liqihao.pojo.bean.*;
 import com.liqihao.pojo.bean.TaskBean.TaskManager;
 import com.liqihao.pojo.bean.articleBean.Article;
 import com.liqihao.pojo.bean.articleBean.EquipmentBean;
-import com.liqihao.pojo.bean.bufferBean.BaseBufferBean;
+import com.liqihao.pojo.bean.buffBean.BaseBuffBean;
 import com.liqihao.pojo.bean.guildBean.GuildBean;
 import com.liqihao.pojo.bean.teamBean.TeamApplyOrInviteBean;
 import com.liqihao.pojo.dto.EquipmentDto;
@@ -659,7 +659,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
      * @param bufferBean
      */
     @Override
-    public void effectByBuffer(BaseBufferBean bufferBean) {
+    public void effectByBuffer(BaseBuffBean bufferBean) {
         //根据buffer类型扣血扣蓝
         bufferBean.effectToPeople(this);
     }

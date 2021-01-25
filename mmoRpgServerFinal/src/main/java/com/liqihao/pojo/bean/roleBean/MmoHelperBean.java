@@ -11,7 +11,7 @@ import com.liqihao.commons.enums.*;
 import com.liqihao.pojo.baseMessage.BufferMessage;
 import com.liqihao.pojo.bean.SceneBean;
 import com.liqihao.pojo.bean.SkillBean;
-import com.liqihao.pojo.bean.bufferBean.BaseBufferBean;
+import com.liqihao.pojo.bean.buffBean.BaseBuffBean;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.util.ScheduledThreadPoolUtil;
@@ -327,7 +327,7 @@ public class MmoHelperBean extends Role{
     /**
      * BUFFER的影响
      */
-    public void effectByBuffer(BaseBufferBean bufferBean) {
+    public void effectByBuffer(BaseBuffBean bufferBean) {
         //根据buffer类型扣血扣蓝
         bufferBean.effectToRole(this);
     }

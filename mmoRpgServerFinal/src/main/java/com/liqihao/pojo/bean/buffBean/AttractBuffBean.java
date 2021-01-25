@@ -1,4 +1,4 @@
-package com.liqihao.pojo.bean.bufferBean;
+package com.liqihao.pojo.bean.buffBean;
 
 import com.liqihao.Cache.ChannelMessageCache;
 import com.liqihao.Cache.SceneBeanMessageCache;
@@ -6,7 +6,6 @@ import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.AttackStyleCode;
-import com.liqihao.commons.enums.ConsumeTypeCode;
 import com.liqihao.commons.enums.RoleTypeCode;
 import com.liqihao.pojo.bean.roleBean.Role;
 import com.liqihao.protobufObject.PlayModel;
@@ -19,7 +18,7 @@ import java.util.List;
  * 嘲讽类型buffer
  * @author lqhao
  */
-public class AttractBufferBean extends BaseBufferBean {
+public class AttractBuffBean extends BaseBuffBean {
 
     @Override
     public void effectToPeople(Role toRole){

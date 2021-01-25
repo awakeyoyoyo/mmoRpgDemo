@@ -11,9 +11,8 @@ import com.liqihao.commons.enums.*;
 import com.liqihao.pojo.baseMessage.BufferMessage;
 import com.liqihao.pojo.bean.SceneBean;
 import com.liqihao.pojo.bean.SkillBean;
-import com.liqihao.pojo.bean.bufferBean.BaseBufferBean;
+import com.liqihao.pojo.bean.buffBean.BaseBuffBean;
 import com.liqihao.protobufObject.PlayModel;
-import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
 
@@ -169,9 +168,9 @@ public class MmoSimpleNPC extends Role {
         synchronized (hatredMap) {
             ConcurrentHashMap<Role, Integer> hatredMap = getHatredMap();
             //判断是否有嘲讽buffer,则直接攻击嘲讽对象
-            Iterator<BaseBufferBean> buffers=getBufferBeans().iterator();
+            Iterator<BaseBuffBean> buffers=getBufferBeans().iterator();
             while(buffers.hasNext()){
-                BaseBufferBean bufferBean=buffers.next();
+                BaseBuffBean bufferBean=buffers.next();
                 BufferMessage bufferMessage=BufferMessageCache.getInstance().get(bufferBean.getBufferMessageId());
                 if (bufferMessage.getBuffType().equals(BufferTypeCode.GG_ATTACK.getCode())){
                     Role role= OnlineRoleMessageCache.getInstance().get(bufferBean.getFromRoleId());
@@ -227,7 +226,7 @@ public class MmoSimpleNPC extends Role {
     }
 
     @Override
-    public void effectByBuffer(BaseBufferBean bufferBean) {
+    public void effectByBuffer(BaseBuffBean bufferBean) {
         //根据buffer类型扣血扣蓝
         bufferBean.effectToRole(this);
     }

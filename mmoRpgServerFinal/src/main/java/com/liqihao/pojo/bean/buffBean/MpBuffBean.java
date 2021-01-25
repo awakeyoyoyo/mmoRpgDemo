@@ -1,4 +1,4 @@
-package com.liqihao.pojo.bean.bufferBean;
+package com.liqihao.pojo.bean.buffBean;
 
 import com.liqihao.Cache.BufferMessageCache;
 import com.liqihao.commons.enums.AttackStyleCode;
@@ -12,7 +12,7 @@ import com.liqihao.protobufObject.PlayModel;
  * 印象蓝量的buffer
  * @author lqhao
  */
-public class MpBufferBean extends BaseBufferBean {
+public class MpBuffBean extends BaseBuffBean {
     /**
      * -1 1判断是扣除还是增加
      */
@@ -26,10 +26,10 @@ public class MpBufferBean extends BaseBufferBean {
         this.flag = flag;
     }
 
-    public MpBufferBean() {
+    public MpBuffBean() {
     }
 
-    public MpBufferBean(Integer flag) {
+    public MpBuffBean(Integer flag) {
         this.flag = flag;
     }
 

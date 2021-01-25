@@ -1,4 +1,4 @@
-package com.liqihao.pojo.bean.bufferBean;
+package com.liqihao.pojo.bean.buffBean;
 
 import com.liqihao.Cache.BufferMessageCache;
 import com.liqihao.commons.enums.AttackStyleCode;
@@ -13,7 +13,7 @@ import com.liqihao.protobufObject.PlayModel;
  * 影响血量buffer
  * @author lqhao
  */
-public class HpBufferBean extends BaseBufferBean {
+public class HpBuffBean extends BaseBuffBean {
     private Integer flag;
 
     public Integer getFlag() {
@@ -24,10 +24,10 @@ public class HpBufferBean extends BaseBufferBean {
         this.flag = flag;
     }
 
-    public HpBufferBean() {
+    public HpBuffBean() {
     }
 
-    public HpBufferBean(Integer flag) {
+    public HpBuffBean(Integer flag) {
         this.flag = flag;
     }
 
