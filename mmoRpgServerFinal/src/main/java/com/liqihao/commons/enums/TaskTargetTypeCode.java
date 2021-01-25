@@ -7,7 +7,7 @@ package com.liqihao.commons.enums;
 
 public enum TaskTargetTypeCode {
     //
-    USE(1,"使用类型","com.liqihao.pojo.bean.TaskBean.UseTaskBean"),
+    USE(1,"使用类型","com.liqihao.pojo.bean.TaskBean.UseTask.UseTaskBean"),
 //    EQUIPMENT(2,"装备类型","com.liqihao.pojo.bean.TaskBean.EquipTaskBean"),
     TALK(3,"对话类型","com.liqihao.pojo.bean.TaskBean.TalkTaskBean"),
     SCENE(4,"场景类型","com.liqihao.pojo.bean.TaskBean.SceneTaskBean"),

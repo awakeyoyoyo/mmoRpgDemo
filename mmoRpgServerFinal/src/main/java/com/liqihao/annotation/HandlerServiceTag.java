@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 /**
  * @author 李启浩
- * service
+ * service 注解
  */
 //作用域
 @Target(ElementType.TYPE)

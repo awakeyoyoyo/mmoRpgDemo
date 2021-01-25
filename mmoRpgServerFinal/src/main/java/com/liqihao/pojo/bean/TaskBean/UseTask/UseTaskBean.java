@@ -1,9 +1,11 @@
-package com.liqihao.pojo.bean.TaskBean;
+package com.liqihao.pojo.bean.TaskBean.UseTask;
 
 import com.liqihao.Cache.TaskMessageCache;
 import com.liqihao.commons.enums.TaskStateCode;
 import com.liqihao.commons.enums.TaskTargetTypeCode;
 import com.liqihao.pojo.baseMessage.TaskMessage;
+import com.liqihao.pojo.bean.TaskBean.BaseTaskAction;
+import com.liqihao.pojo.bean.TaskBean.BaseTaskBean;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 
 /**
@@ -13,8 +15,9 @@ import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 public class UseTaskBean extends BaseTaskBean {
 
     @Override
-    public void update(BaseTaskAction dto,MmoSimpleRole role) {
-        if (!dto.getTargetType().equals(TaskTargetTypeCode.USE.getCode())){
+    public void update(BaseTaskAction taskAction, MmoSimpleRole role) {
+        UseTaskAction useTaskAction= (UseTaskAction) taskAction;
+        if (!useTaskAction.getTaskTargetType().equals(TaskTargetTypeCode.USE.getCode())){
             //不是该任务类型
             return;
         }
@@ -22,16 +25,16 @@ public class UseTaskBean extends BaseTaskBean {
             return;
         }
         TaskMessage taskMessage=TaskMessageCache.getInstance().get(getTaskMessageId());
-        if (!taskMessage.getArticleType().equals(dto.getArticleType())){
+        if (!taskMessage.getArticleType().equals(useTaskAction.getArticleType())){
             //代表着该物品类型 不是该任务条件
             return;
         }else{
             if (taskMessage.getTargetId()==null) {
                 //代表着使用了该类型物品即可 没指定具体
-                setProgress(getProgress() + dto.getProgress());
-            }else if (taskMessage.getTargetId().equals(dto.getTargetId())){
+                setProgress(getProgress() + useTaskAction.getProgress());
+            }else if (taskMessage.getTargetId().equals(useTaskAction.getTargetId())){
                 //使用了指定的物品 增加进度
-                setProgress(getProgress() + dto.getProgress());
+                setProgress(getProgress() + useTaskAction.getProgress());
             }
             checkFinish(taskMessage,role);
         }

@@ -11,6 +11,7 @@ import com.liqihao.util.CommonsUtil;
 import com.liqihao.util.LogicThreadPool;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,9 +30,9 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
     private DispatcherServlet dispatcherservlet;
     private GameSystemService gameSystemService;
     /**
-     * 计数----未读次数
+     * 计数----未有客户端可读次数
      */
-    private int readIdleTimes=0;
+    private int lossConnectCount=0;
     private static final Logger log = LoggerFactory.getLogger(ServerHandler.class);
 
     public ServerHandler() {
@@ -51,16 +52,16 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         log.info("Server:channelRead");
-        readIdleTimes=0;
+        lossConnectCount=0;
         NettyRequest request= (NettyRequest) msg;
+        if (request.getCmd()==ConstantValue.HEART_BEAT) {
+            //心跳包则不处理 直接返回
+            log.info("收到客户端端的心跳包");
+           return;
+        }
         //根据channel计算index
         Integer index= CommonsUtil.getIndexByChannel(ctx.channel());
-        LogicThreadPool.getInstance().execute(new Runnable() {
-            @Override
-            public void run() {
-                dispatcherservlet.handler(request,ctx.channel());
-            }
-        },index);
+        LogicThreadPool.getInstance().execute(() -> dispatcherservlet.handler(request,ctx.channel()),index);
     }
 
     @Override
@@ -72,27 +73,20 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
-        IdleStateEvent event = (IdleStateEvent)evt;
-        String eventType = null;
-        switch (event.state()){
-            case READER_IDLE:
-                eventType = "读空闲";
-                break;
-            case WRITER_IDLE:
-                eventType = "写空闲";
-                // 不处理
-                break;
-            case ALL_IDLE:
-                eventType ="读写空闲";
-                // 不处理
-                readIdleTimes ++;
-                break;
+        log.info("已经5秒未收到客户端的消息了！ 第几次？"+lossConnectCount);
+        if (evt instanceof IdleStateEvent){
+            IdleStateEvent event = (IdleStateEvent)evt;
+            if (event.state()== IdleState.READER_IDLE){
+                lossConnectCount++;
+                if (lossConnectCount>3){
+                    log.info("关闭这个不活跃通道！");
+                    ctx.channel().close();
+                }
+            }
+        }else {
+            super.userEventTriggered(ctx,evt);
         }
-        if(readIdleTimes > 3){
-            log.error(" [server]读空闲超过3次，关闭连接");
-            gameSystemService.netIoOutTime(ctx.channel());
-            ctx.channel().close();
-        }
+
     }
     private void sendException(ChannelHandlerContext ctx,String  cause){
         NettyResponse nettyResponse=new NettyResponse();

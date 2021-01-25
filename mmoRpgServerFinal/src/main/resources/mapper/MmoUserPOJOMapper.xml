@@ -86,7 +86,7 @@
     where user_name = #{username}
   </select>
 
-  <select id="checkByUserNameAndPassword" parameterType="map" resultType="BaseResultMap">
+  <select id="checkByUserNameAndPassword" parameterType="map" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from mmo_user

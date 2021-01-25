@@ -13,7 +13,10 @@ public interface ConstantValue {
      * 背包每个格子最大存储数量
      */
     int BAG_MAX_VALUE=99;
-
+    /**
+     * 心跳包
+     */
+    int HEART_BEAT=8888;
     /**
      * 场景模块
      */

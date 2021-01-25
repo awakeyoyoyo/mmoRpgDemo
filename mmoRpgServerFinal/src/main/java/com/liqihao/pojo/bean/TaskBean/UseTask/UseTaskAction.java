@@ -1,9 +1,15 @@
-package com.liqihao.pojo.bean.TaskBean;
+package com.liqihao.pojo.bean.TaskBean.UseTask;
+
+import com.liqihao.pojo.bean.TaskBean.BaseTaskAction;
 
 /**
- * @author 人物动作
+ * @Classname UseTaskAction
+ * @Description TODO
+ * @Author lqhao
+ * @Date 2021/1/21 20:10
+ * @Version 1.0
  */
-public class BaseTaskAction {
+public class UseTaskAction extends BaseTaskAction {
     /**
      * 目标类型
      */
@@ -21,20 +27,20 @@ public class BaseTaskAction {
      */
     private Integer progress;
 
-    public Integer getArticleType() {
-        return articleType;
-    }
-
-    public void setArticleType(Integer articleType) {
-        this.articleType = articleType;
-    }
-
     public Integer getTargetType() {
         return targetType;
     }
 
     public void setTargetType(Integer targetType) {
         this.targetType = targetType;
+    }
+
+    public Integer getArticleType() {
+        return articleType;
+    }
+
+    public void setArticleType(Integer articleType) {
+        this.articleType = articleType;
     }
 
     public Integer getTargetId() {
@@ -51,5 +57,10 @@ public class BaseTaskAction {
 
     public void setProgress(Integer progress) {
         this.progress = progress;
+    }
+
+    @Override
+    public Integer getTaskTargetType() {
+        return getTargetType();
     }
 }

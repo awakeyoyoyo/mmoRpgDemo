@@ -13,19 +13,19 @@ import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 public class TalkTaskBean extends BaseTaskBean{
     @Override
     public void update(BaseTaskAction dto, MmoSimpleRole role) {
-        if (!dto.getTargetType().equals(TaskTargetTypeCode.TALK.getCode())){
-            //不是该任务类型
-            return;
-        }
-        if(getStatus().equals(TaskStateCode.FINISH.getCode())){
-            return;
-        }
-        TaskMessage taskMessage= TaskMessageCache.getInstance().get(getTaskMessageId());
-        //传入任务id
-         if (taskMessage.getTargetId().equals(dto.getTargetId())){
-            //使用了指定的物品 增加进度
-            setProgress(getProgress() + dto.getProgress());
-        }
-        checkFinish(taskMessage,role);
+//        if (!dto.getTargetType().equals(TaskTargetTypeCode.TALK.getCode())){
+//            //不是该任务类型
+//            return;
+//        }
+//        if(getStatus().equals(TaskStateCode.FINISH.getCode())){
+//            return;
+//        }
+//        TaskMessage taskMessage= TaskMessageCache.getInstance().get(getTaskMessageId());
+//        //传入任务id
+//         if (taskMessage.getTargetId().equals(dto.getTargetId())){
+//            //使用了指定的物品 增加进度
+//            setProgress(getProgress() + dto.getProgress());
+//        }
+//        checkFinish(taskMessage,role);
     }
 }

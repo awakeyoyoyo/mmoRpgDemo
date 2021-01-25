@@ -8,7 +8,6 @@ import com.liqihao.commons.enums.TaskTypeCode;
 import com.liqihao.dao.MmoTaskPOJOMapper;
 import com.liqihao.pojo.MmoTaskPOJO;
 import com.liqihao.pojo.baseMessage.TaskMessage;
-import com.liqihao.pojo.bean.TaskBean.ActionDto;
 import com.liqihao.pojo.bean.TaskBean.BaseTaskBean;
 import com.liqihao.pojo.bean.TaskBean.TaskManager;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
@@ -41,19 +40,12 @@ public class TaskServiceProvider {
     /**
      * 接任务
      */
-    public static void acceptTask(Integer taskMessageId,MmoSimpleRole role) throws RpgServerException {
+    public static void acceptTask(TaskMessage taskMessage,MmoSimpleRole role){
         //根据 task
-        TaskMessage taskMessage=TaskMessageCache.getInstance().get(taskMessageId);
-        if (taskMessage==null){
-            throw new RpgServerException(StateCode.FAIL,"不存在该任务");
-        }
-        if (role.getTaskManager().getTaskIds().contains(taskMessageId)){
-            throw new RpgServerException(StateCode.FAIL,"用户已经接收了该任务");
-        }
         BaseTaskBean taskBean= reflectionTaskBean(taskMessage.getTargetType());
         taskBean.setTaskDbId(taskDbId.incrementAndGet());
         taskBean.setProgress(0);
-        taskBean.setTaskMessageId(taskMessageId);
+        taskBean.setTaskMessageId(taskMessage.getId());
         taskBean.setStatus(TaskStateCode.ON_DOING.getCode());
         role.getTaskManager().addTask(taskBean);
         //数据库
@@ -63,16 +55,8 @@ public class TaskServiceProvider {
     /**
      * 放弃任务
      */
-    public static void abandonTask(Integer taskMessageId,MmoSimpleRole role) throws RpgServerException {
-        BaseTaskBean taskBean=role.getTaskManager().getTaskBeans().get(taskMessageId);
-        if (taskBean==null){
-            throw new RpgServerException(StateCode.FAIL,"该角色不存在该任务");
-        }
-        TaskMessage taskMessage=TaskMessageCache.getInstance().get(taskMessageId);
-        if (taskMessage.getType().equals(TaskTypeCode.ACHIEVEMENT.getCode())){
-            throw new RpgServerException(StateCode.FAIL,"成就类型的任务不能删除");
-        }
-        role.getTaskManager().getTaskBeans().remove(taskMessageId);
+    public static void abandonTask(BaseTaskBean taskBean,MmoSimpleRole role) throws RpgServerException {
+        role.getTaskManager().getTaskBeans().remove(taskBean.getTaskMessageId());
         Integer taskBeanId=taskBean.getTaskDbId();
         ScheduledThreadPoolUtil.addTask(() -> deleteTaskDb(taskBeanId));
     }
@@ -98,12 +82,7 @@ public class TaskServiceProvider {
     }
 
     public static void check(MmoSimpleRole role,int progress,int articleType,int targetId,int targetType) {
-        ActionDto actionDto=new ActionDto();
-        actionDto.setProgress(progress);
-        actionDto.setArticleType(articleType);
-        actionDto.setTargetId(targetId);
-        actionDto.setTargetType(targetType);
-        role.getTaskManager().handler(actionDto,role);
+        //todo
     }
 
     /**

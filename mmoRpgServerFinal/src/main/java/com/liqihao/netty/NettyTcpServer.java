@@ -1,7 +1,7 @@
 package com.liqihao.netty;
 
 import com.liqihao.codc.RequestDecoder;
-import com.liqihao.codc.ResponceEncoder;
+import com.liqihao.codc.ResponseEncoder;
 import com.liqihao.handler.DispatcherServlet;
 import com.liqihao.service.GameSystemService;
 import io.netty.bootstrap.ServerBootstrap;
@@ -50,10 +50,9 @@ public class NettyTcpServer {
                             //给pipeline管道设置处理器 childhandler是写游戏业务处理逻辑的
                             socketChannel.pipeline()
                                     .addLast("decoder", new RequestDecoder())//解码器
-                                    .addLast("encoder",new ResponceEncoder())//编码器
-                                    .addLast(new IdleStateHandler(0,0,300, TimeUnit.SECONDS))//心跳
+                                    .addLast("encoder",new ResponseEncoder())//编码器
+                                    .addLast(new IdleStateHandler(10,0,0, TimeUnit.SECONDS))//心跳
                                     .addLast(new ServerHandler(dispatcherServlet,gameSystemService))//业务处理handler
-
                             ;
                         }
                     });//给workerGroup的EventLoop对应的管道设置处理器

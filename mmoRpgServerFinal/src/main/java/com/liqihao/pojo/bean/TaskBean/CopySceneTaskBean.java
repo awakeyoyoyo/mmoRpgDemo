@@ -13,18 +13,18 @@ import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 public class CopySceneTaskBean extends BaseTaskBean{
     @Override
     public void update(BaseTaskAction dto, MmoSimpleRole role)  {
-        if (!dto.getTargetType().equals(TaskTargetTypeCode.COPY_SCENE.getCode())){
-            //不是该任务类型
-            return;
-        }
-        if(getStatus().equals(TaskStateCode.FINISH.getCode())){
-            return;
-        }
-        TaskMessage taskMessage= TaskMessageCache.getInstance().get(getTaskMessageId());
-        if (taskMessage.getTargetId().equals(dto.getTargetId())){
-            //进入了指定的:场景
-            setProgress(getProgress() + dto.getProgress());
-        }
-        checkFinish(taskMessage,role);
+//        if (!dto.getTargetType().equals(TaskTargetTypeCode.COPY_SCENE.getCode())){
+//            //不是该任务类型
+//            return;
+//        }
+//        if(getStatus().equals(TaskStateCode.FINISH.getCode())){
+//            return;
+//        }
+//        TaskMessage taskMessage= TaskMessageCache.getInstance().get(getTaskMessageId());
+//        if (taskMessage.getTargetId().equals(dto.getTargetId())){
+//            //进入了指定的:场景
+//            setProgress(getProgress() + dto.getProgress());
+//        }
+//        checkFinish(taskMessage,role);
     }
 }

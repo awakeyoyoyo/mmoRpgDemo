@@ -1,12 +1,15 @@
 package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.liqihao.Cache.TaskMessageCache;
 import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.StateCode;
+import com.liqihao.commons.enums.TaskTypeCode;
+import com.liqihao.pojo.baseMessage.TaskMessage;
 import com.liqihao.pojo.bean.TaskBean.BaseTaskBean;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.protobufObject.EquipmentModel;
@@ -73,7 +76,16 @@ public class TaskServiceImpl implements TaskService {
     public void acceptTaskRequest(TaskModel.TaskModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException {
         Integer taskMessageId=myMessage.getAcceptTaskRequest().getTaskMessageId();
         Channel channel=mmoSimpleRole.getChannel();
-        TaskServiceProvider.acceptTask(taskMessageId,mmoSimpleRole);
+
+        TaskMessage taskMessage= TaskMessageCache.getInstance().get(taskMessageId);
+        if (taskMessage==null){
+            throw new RpgServerException(StateCode.FAIL,"不存在该任务");
+        }
+        if (mmoSimpleRole.getTaskManager().getTaskIds().contains(taskMessage.getId())){
+            throw new RpgServerException(StateCode.FAIL,"用户已经接收了该任务");
+        }
+
+        TaskServiceProvider.acceptTask(taskMessage,mmoSimpleRole);
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.ACCEPT_TASK_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
@@ -90,7 +102,18 @@ public class TaskServiceImpl implements TaskService {
     public void abandonTaskRequest(TaskModel.TaskModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException {
         Integer taskMessageId=myMessage.getAbandonTaskRequest().getTaskMessageId();
         Channel channel=mmoSimpleRole.getChannel();
-        TaskServiceProvider.abandonTask(taskMessageId,mmoSimpleRole);
+        BaseTaskBean taskBean=mmoSimpleRole.getTaskManager().getTaskBeans().get(taskMessageId);
+
+        if (taskBean==null){
+            throw new RpgServerException(StateCode.FAIL,"该角色不存在该任务");
+        }
+        TaskMessage taskMessage=TaskMessageCache.getInstance().get(taskMessageId);
+        if (taskMessage.getType().equals(TaskTypeCode.ACHIEVEMENT.getCode())){
+            throw new RpgServerException(StateCode.FAIL,"成就类型的任务不能删除");
+        }
+
+        TaskServiceProvider.abandonTask(taskBean,mmoSimpleRole);
+
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.ABANDON_TASK_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);

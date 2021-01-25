@@ -11,12 +11,14 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.timeout.IdleStateHandler;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 
 import java.net.InetSocketAddress;
+import java.util.concurrent.TimeUnit;
 
 @Component
 public class NettyTcpClient {
@@ -46,6 +48,7 @@ public class NettyTcpClient {
                             socketChannel.pipeline()
                                     .addLast("decoder",new ResponceDecoder()) //解码器
                                     .addLast("encoder",new RequestEncoder())  //编码器
+                                    .addLast(new IdleStateHandler(0,5,0, TimeUnit.SECONDS))
                                     .addLast(new ClientHandler(dispatcherservlet));
                         }
                     });//给workerGroup的EventLoop对应的管道设置处理器

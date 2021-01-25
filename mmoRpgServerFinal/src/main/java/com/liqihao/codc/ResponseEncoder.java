@@ -1,7 +1,6 @@
 package com.liqihao.codc;
 
 import com.liqihao.commons.ConstantValue;
-import com.liqihao.commons.NettyRequest;
 import com.liqihao.commons.NettyResponse;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -13,12 +12,12 @@ import org.apache.log4j.Logger;
  * 数据包格式
  * 包头（4byte）-----命令号（2byte）-----状态码（4byte）------长度（4byte）--------数据
  * 数据包基本长度 包头+命令+状态码+长度
+ * @author lqhao
  */
-public class ResponceEncoder extends MessageToByteEncoder<NettyResponse> {
-    private static Logger logger=Logger.getLogger(ResponceEncoder.class);
+public class ResponseEncoder extends MessageToByteEncoder<NettyResponse> {
+    private static Logger logger=Logger.getLogger(ResponseEncoder.class);
     @Override
-    protected void encode(ChannelHandlerContext channelHandlerContext, NettyResponse nettyResponse, ByteBuf byteBuf) throws Exception {
-        logger.info("Server:ResponceEncoder");
+    protected void encode(ChannelHandlerContext channelHandlerContext, NettyResponse nettyResponse, ByteBuf byteBuf){
         //写入包头
         byteBuf.writeInt(ConstantValue.FLAG);
         //cmd
@@ -29,7 +28,5 @@ public class ResponceEncoder extends MessageToByteEncoder<NettyResponse> {
         byteBuf.writeInt(nettyResponse.getDataLength());
         //data
         byteBuf.writeBytes(nettyResponse.getData());
-        logger.info("ResponceEncoder: 包头: "+ConstantValue.FLAG+"cmd: "+nettyResponse.getCmd()+"状态码："+nettyResponse.getStateCode()+"数据长度: "+nettyResponse.getDataLength() );
-        logger.error("Server:ResponceEncoder readableBytes "+byteBuf.readableBytes());
     }
 }
