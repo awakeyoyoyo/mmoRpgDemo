@@ -8,12 +8,15 @@ import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.ArticleTypeCode;
 import com.liqihao.commons.enums.DealStatusCode;
+import com.liqihao.commons.enums.TaskTargetTypeCode;
 import com.liqihao.pojo.baseMessage.MedicineMessage;
 import com.liqihao.pojo.bean.articleBean.Article;
 import com.liqihao.pojo.bean.articleBean.MedicineBean;
 import com.liqihao.pojo.bean.dealBean.DealArticleBean;
 import com.liqihao.pojo.bean.dealBean.DealBean;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
+import com.liqihao.pojo.bean.taskBean.dealFirstTask.DealTaskAction;
+import com.liqihao.pojo.bean.taskBean.teamFirstTask.TeamTaskAction;
 import com.liqihao.protobufObject.DealModel;
 import com.liqihao.util.CommonsUtil;
 import io.netty.channel.Channel;
@@ -188,6 +191,13 @@ public class DealServiceProvider {
                 role2.setDealBeanId(null);
                 //发送消息交易完成
                 sendDealSuccessMessage(dealBean);
+                //任务条件触发
+                DealTaskAction dealTaskAction01=new DealTaskAction();
+                dealTaskAction01.setTaskTargetType(TaskTargetTypeCode.FIRST_TIME_DEAL.getCode());
+                role1.getTaskManager().handler(dealTaskAction01,role1);
+                DealTaskAction dealTaskAction02=new DealTaskAction();
+                dealTaskAction02.setTaskTargetType(TaskTargetTypeCode.FIRST_TIME_DEAL.getCode());
+                role2.getTaskManager().handler(dealTaskAction02,role2);
             }
         }
     }

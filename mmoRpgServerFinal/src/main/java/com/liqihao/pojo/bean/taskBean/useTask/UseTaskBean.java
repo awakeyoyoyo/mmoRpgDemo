@@ -1,12 +1,14 @@
-package com.liqihao.pojo.bean.TaskBean.UseTask;
+package com.liqihao.pojo.bean.taskBean.useTask;
 
 import com.liqihao.Cache.TaskMessageCache;
 import com.liqihao.commons.enums.TaskStateCode;
 import com.liqihao.commons.enums.TaskTargetTypeCode;
 import com.liqihao.pojo.baseMessage.TaskMessage;
-import com.liqihao.pojo.bean.TaskBean.BaseTaskAction;
-import com.liqihao.pojo.bean.TaskBean.BaseTaskBean;
+import com.liqihao.pojo.bean.taskBean.BaseTaskAction;
+import com.liqihao.pojo.bean.taskBean.BaseTaskBean;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
+import com.liqihao.provider.TaskServiceProvider;
+import com.liqihao.util.ScheduledThreadPoolUtil;
 
 /**
  * 使用某种物品任务实例
@@ -36,6 +38,9 @@ public class UseTaskBean extends BaseTaskBean {
                 //使用了指定的物品 增加进度
                 setProgress(getProgress() + useTaskAction.getProgress());
             }
+            BaseTaskBean taskBean=this;
+            Integer roleId=role.getId();
+            ScheduledThreadPoolUtil.addTask(() -> TaskServiceProvider.updateTaskDb(taskBean,roleId));
             checkFinish(taskMessage,role);
         }
     }

@@ -117,8 +117,7 @@ public class MmoRolePOJO {
         setStatus(RoleStatusCode.ALIVE.getCode());
         setOnStatus(RoleOnStatusCode.EXIT.getCode());
         setType(RoleTypeCode.PLAYER.getCode());
-        //职业
-        setProfessionId(1);
+        setMoney(0);
         setGuildId(-1);
     }
 }

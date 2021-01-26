@@ -10,11 +10,9 @@ import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.TaskTypeCode;
 import com.liqihao.pojo.baseMessage.TaskMessage;
-import com.liqihao.pojo.bean.TaskBean.BaseTaskBean;
+import com.liqihao.pojo.bean.taskBean.BaseTaskBean;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
-import com.liqihao.protobufObject.EquipmentModel;
 import com.liqihao.protobufObject.TaskModel;
-import com.liqihao.protobufObject.TeamModel;
 import com.liqihao.provider.TaskServiceProvider;
 import com.liqihao.service.TaskService;
 import com.liqihao.util.CommonsUtil;
@@ -84,7 +82,9 @@ public class TaskServiceImpl implements TaskService {
         if (mmoSimpleRole.getTaskManager().getTaskIds().contains(taskMessage.getId())){
             throw new RpgServerException(StateCode.FAIL,"用户已经接收了该任务");
         }
-
+        if (taskMessage.getType().equals(TaskTypeCode.ACHIEVEMENT.getCode())){
+            throw new RpgServerException(StateCode.FAIL,"成就类型的任务不能手动接收");
+        }
         TaskServiceProvider.acceptTask(taskMessage,mmoSimpleRole);
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.ACCEPT_TASK_RESPONSE);

@@ -10,11 +10,15 @@ import com.liqihao.commons.enums.*;
 import com.liqihao.pojo.*;
 import com.liqihao.pojo.baseMessage.*;
 import com.liqihao.pojo.bean.*;
-import com.liqihao.pojo.bean.TaskBean.TaskManager;
+import com.liqihao.pojo.bean.taskBean.TaskManager;
 import com.liqihao.pojo.bean.articleBean.Article;
 import com.liqihao.pojo.bean.articleBean.EquipmentBean;
 import com.liqihao.pojo.bean.buffBean.BaseBuffBean;
 import com.liqihao.pojo.bean.guildBean.GuildBean;
+import com.liqihao.pojo.bean.taskBean.moneyNumTask.MoneyTaskAction;
+import com.liqihao.pojo.bean.taskBean.sceneFirstTask.SceneTaskAction;
+import com.liqihao.pojo.bean.taskBean.skillTask.SkillTaskAction;
+import com.liqihao.pojo.bean.taskBean.teamFirstTask.TeamTaskAction;
 import com.liqihao.pojo.bean.teamBean.TeamApplyOrInviteBean;
 import com.liqihao.pojo.dto.EquipmentDto;
 import com.liqihao.protobufObject.ChatModel;
@@ -181,10 +185,16 @@ public class MmoSimpleRole extends Role implements MyObserver {
     }
 
     public void setMoney(Integer money) {
-//        Integer progress=money-getMoney();
-//        if (progress>0) {
-//            TaskServiceProvider.check(this, progress, -1, npcId, TaskTargetTypeCode.TALK.getCode());
-//        }
+        //任务条件触发
+        if (getMoney()!=null) {
+            Integer addMoney = getMoney() - money;
+            if (addMoney > 0) {
+                MoneyTaskAction moneyTaskAction = new MoneyTaskAction();
+                moneyTaskAction.setMoneyAddNum(addMoney);
+                moneyTaskAction.setTaskTargetType(TaskTargetTypeCode.Money.getCode());
+                getTaskManager().handler(moneyTaskAction, this);
+            }
+        }
         this.money = money;
     }
 
@@ -439,7 +449,12 @@ public class MmoSimpleRole extends Role implements MyObserver {
      * 使用技能
      */
     public  void useSkill(List<Role> target, Integer skillId) {
-        TaskServiceProvider.check(this, 1, -1, skillId, TaskTargetTypeCode.SKILL.getCode());
+        //任务条件触发
+        SkillTaskAction skillTaskAction=new SkillTaskAction();
+        skillTaskAction.setSkillId(skillId);
+        skillTaskAction.setTaskTargetType(TaskTargetTypeCode.SKILL.getCode());
+        this.getTaskManager().handler(skillTaskAction,this);
+        //技能逻辑
         SkillBean skillBean = getSkillBeanBySkillId(skillId);
         //武器耐久度-2
         EquipmentBean equipmentBean = this.getEquipmentBeanHashMap().get(PositionCode.ARMS.getCode());
@@ -708,6 +723,11 @@ public class MmoSimpleRole extends Role implements MyObserver {
         newRoles.add(this);
         //同步给场景中的角色 有用户来了
         CommonsUtil.sendRoleResponse(newRoles,nextSceneId,null);
+        //任务条件触发
+        SceneTaskAction sceneTaskAction=new SceneTaskAction();
+        sceneTaskAction.setSceneId(nextSceneId);
+        sceneTaskAction.setTaskTargetType(TaskTargetTypeCode.FIRST_TIME_SCENE.getCode());
+        getTaskManager().handler(sceneTaskAction,this);
         return nextSceneRoles;
     }
 

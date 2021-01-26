@@ -1,6 +1,5 @@
-package com.liqihao.pojo.bean.TaskBean;
+package com.liqihao.pojo.bean.taskBean;
 
-import com.liqihao.commons.RpgServerException;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 
 import java.util.*;

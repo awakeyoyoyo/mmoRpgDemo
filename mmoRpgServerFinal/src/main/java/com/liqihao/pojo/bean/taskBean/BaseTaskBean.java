@@ -1,16 +1,23 @@
-package com.liqihao.pojo.bean.TaskBean;
+package com.liqihao.pojo.bean.taskBean;
 
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
+import com.liqihao.commons.enums.ArticleTypeCode;
 import com.liqihao.commons.enums.TaskStateCode;
 import com.liqihao.commons.enums.TaskTypeCode;
+import com.liqihao.pojo.baseMessage.MedicineMessage;
 import com.liqihao.pojo.baseMessage.TaskMessage;
+import com.liqihao.pojo.bean.articleBean.Article;
+import com.liqihao.pojo.bean.articleBean.MedicineBean;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.protobufObject.TaskModel;
+import com.liqihao.provider.ArticleServiceProvider;
 import com.liqihao.provider.TaskServiceProvider;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
+
+import javax.print.DocFlavor;
 
 
 /**
@@ -101,6 +108,13 @@ public abstract class BaseTaskBean {
         this.taskTargetTypeId = taskTargetTypeId;
     }
 
+    /**
+     * description 发送任务完成消息
+     * @param role
+     * @return {@link null }
+     * @author lqhao
+     * @createTime 2021/1/26 15:49
+     */
     public void sendFinishTask(MmoSimpleRole role){
         Channel channel=role.getChannel();
         NettyResponse nettyResponse = new NettyResponse();
@@ -113,7 +127,14 @@ public abstract class BaseTaskBean {
         nettyResponse.setData(messageBuilder.build().toByteArray());
         channel.writeAndFlush(nettyResponse);
     }
-
+    /**
+     * description 检车是否满足任务条件
+     * @param taskMessage
+     * @param role
+     * @return {@link null }
+     * @author lqhao
+     * @createTime 2021/1/26 15:49
+     */
     public void checkFinish(TaskMessage taskMessage,MmoSimpleRole role){
         if (getProgress() >= taskMessage.getTargetProgress()) {
             if (taskMessage.getType().equals(TaskTypeCode.TASK.getCode())) {
@@ -122,9 +143,42 @@ public abstract class BaseTaskBean {
                 ScheduledThreadPoolUtil.addTask(() -> TaskServiceProvider.deleteTaskDb(taskBeanId));
             }else{
                 setStatus(TaskStateCode.FINISH.getCode());
-
             }
+            reward(taskMessage,role);
             sendFinishTask(role);
         }
+    }
+
+    /**
+     * description 奖励
+     * @return {@link null }
+     * @author lqhao
+     * @createTime 2021/1/26 10:51
+     */
+    public void reward(TaskMessage taskMessage,MmoSimpleRole role){
+        Integer articleMessageId=taskMessage.getRewardArticleMessageId();
+        Integer rewardNum=taskMessage.getRewardNum();
+        Integer rewardArticleType=taskMessage.getRewardArticleType();
+        //金币类型
+        if (rewardArticleType.equals(ArticleTypeCode.MONEY.getCode())){
+            role.moneyLock.writeLock().lock();
+            try{
+                role.setMoney(role.getMoney()+rewardNum);
+            }finally {
+                role.moneyLock.writeLock().unlock();
+            }
+            return;
+        }
+        //装备、药品
+        Article article=null;
+        if (rewardArticleType.equals(ArticleTypeCode.EQUIPMENT.getCode())) {
+            article=ArticleServiceProvider.productEquipment(articleMessageId);
+        }else if (rewardArticleType.equals(ArticleTypeCode.MEDICINE.getCode())){
+            MedicineBean medicineBean=ArticleServiceProvider.productMedicine(articleMessageId);
+            medicineBean.setQuantity(rewardNum);
+            article=medicineBean;
+        }
+        //放入背包
+        role.getBackpackManager().put(article,role.getId());
     }
 }

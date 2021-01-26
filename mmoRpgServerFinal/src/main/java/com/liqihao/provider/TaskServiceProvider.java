@@ -3,11 +3,12 @@ import com.liqihao.Cache.TaskMessageCache;
 import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.enums.TaskStateCode;
 import com.liqihao.commons.enums.TaskTargetTypeCode;
+import com.liqihao.commons.enums.TaskTypeCode;
 import com.liqihao.dao.MmoTaskPOJOMapper;
 import com.liqihao.pojo.MmoTaskPOJO;
 import com.liqihao.pojo.baseMessage.TaskMessage;
-import com.liqihao.pojo.bean.TaskBean.BaseTaskBean;
-import com.liqihao.pojo.bean.TaskBean.TaskManager;
+import com.liqihao.pojo.bean.taskBean.BaseTaskBean;
+import com.liqihao.pojo.bean.taskBean.TaskManager;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 import org.apache.poi.ss.formula.functions.T;
@@ -26,9 +27,34 @@ public class TaskServiceProvider {
 
     private static MmoTaskPOJOMapper mmoTaskPOJOMapper;
     /**
-     * 拍卖纪录DB Id
+     * 任务纪录DB Id
      */
     private static AtomicInteger taskDbId;
+
+    /**
+     * description 插入所有的成就
+     * @param roleId
+     * @return {@link null }
+     * @author lqhao
+     * @createTime 2021/1/26 16:41
+     */
+    public static void insertAllAchievements(Integer roleId) {
+        for (TaskMessage taskMessage : TaskMessageCache.getInstance().values()) {
+            if (!taskMessage.getType().equals(TaskTypeCode.ACHIEVEMENT.getCode())){
+                continue;
+            }
+            BaseTaskBean taskBean= reflectionTaskBean(taskMessage.getTargetType());
+            taskBean.setTaskDbId(taskDbId.incrementAndGet());
+            taskBean.setProgress(0);
+            taskBean.setTaskMessageId(taskMessage.getId());
+            taskBean.setTaskTargetTypeId(taskMessage.getTargetType());
+            taskBean.setStatus(TaskStateCode.ON_DOING.getCode());
+            taskBean.setCreateTime(System.currentTimeMillis());
+            //数据库
+            ScheduledThreadPoolUtil.addTask(() -> insertTaskDb(taskBean,roleId));
+        }
+    }
+
     @Autowired
     public void setMmoTaskPOJOMapper(MmoTaskPOJOMapper mmoTaskPOJOMapper) {
         TaskServiceProvider.mmoTaskPOJOMapper = mmoTaskPOJOMapper;
@@ -44,12 +70,15 @@ public class TaskServiceProvider {
         taskBean.setTaskDbId(taskDbId.incrementAndGet());
         taskBean.setProgress(0);
         taskBean.setTaskMessageId(taskMessage.getId());
+        taskBean.setTaskTargetTypeId(taskMessage.getTargetType());
         taskBean.setStatus(TaskStateCode.ON_DOING.getCode());
+        taskBean.setCreateTime(System.currentTimeMillis());
         role.getTaskManager().addTask(taskBean);
         //数据库
         Integer roleId=role.getId();
         ScheduledThreadPoolUtil.addTask(() -> insertTaskDb(taskBean,roleId));
     }
+
     /**
      * 放弃任务
      */
@@ -73,15 +102,14 @@ public class TaskServiceProvider {
             taskBean.setProgress(mmoTaskPOJO.getProgress());
             taskBean.setCreateTime(mmoTaskPOJO.getCreateTime());
             taskBean.setTaskDbId(mmoTaskPOJO.getId());
+            taskBean.setTaskTargetTypeId(taskMessage.getTargetType());
             taskBean.setStatus(mmoTaskPOJO.getStatus());
             taskBean.setTaskMessageId(mmoTaskPOJO.getTaskMessageId());
             manager.addTask(taskBean);
         }
     }
 
-    public static void check(MmoSimpleRole role,int progress,int articleType,int targetId,int targetType) {
-        //todo
-    }
+
 
     /**
      * 获取用户可接受的任务
@@ -90,7 +118,7 @@ public class TaskServiceProvider {
         List<Integer> baseTaskBeanList=role.getTaskManager().getTaskIds();
         List<Integer> taskMessageList=new ArrayList<>();
         for (TaskMessage value : TaskMessageCache.getInstance().values()) {
-            if (baseTaskBeanList.contains(value.getId())){
+            if (baseTaskBeanList.contains(value.getId())||value.getType().equals(TaskTypeCode.ACHIEVEMENT.getCode())){
                 continue;
             }else{
                 taskMessageList.add(value.getId());

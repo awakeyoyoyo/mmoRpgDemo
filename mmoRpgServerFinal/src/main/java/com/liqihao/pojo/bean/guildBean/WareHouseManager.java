@@ -22,7 +22,6 @@ public class WareHouseManager {
 
     public WareHouseManager() {
     }
-
     public WareHouseManager(Integer size) {
         this.size = size;
     }
@@ -30,15 +29,12 @@ public class WareHouseManager {
     public CopyOnWriteArrayList<Article> getBackpacks() {
         return backpacks;
     }
-
     public void setBackpacks(CopyOnWriteArrayList<Article> backpacks) {
         this.backpacks = backpacks;
     }
-
     public Integer getSize() {
         return size;
     }
-
     public void setSize(Integer size) {
         this.size = size;
     }
@@ -60,10 +56,11 @@ public class WareHouseManager {
     public int reduceAndReturnWareHouseId(){
         return  nowSize.decrementAndGet();
     }
+
     /**
      * 背包格子是否足够
      */
-    public boolean canPutArticle(Article article) {
+    public synchronized boolean canPutArticle(Article article) {
         //判断物品类型
         return article.checkCanPutWareHouse(this);
     }
@@ -95,7 +92,6 @@ public class WareHouseManager {
      *   仓库放入东西 按照数据库格式来存放
      */
     public synchronized void putFromDatabase(Article article) {
-
         if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())) {
             MedicineBean medicineBean = article.getArticle();
             medicineBean.setWareHouseId(addAndReturnWareHouseId());
@@ -110,7 +106,6 @@ public class WareHouseManager {
             getBackpacks().add(equipmentBean);
             addAndReturnNowSize();
         }
-
     }
 
     /**

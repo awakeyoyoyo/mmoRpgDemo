@@ -3653,6 +3653,12 @@ public final class PlayModel {
      */
     com.google.protobuf.ByteString
         getRolenameBytes();
+
+    /**
+     * <code>int32 professionId = 4;</code>
+     * @return The professionId.
+     */
+    int getProfessionId();
   }
   /**
    * Protobuf type {@code RegisterRequest}
@@ -3718,6 +3724,11 @@ public final class PlayModel {
               String s = input.readStringRequireUtf8();
 
               rolename_ = s;
+              break;
+            }
+            case 32: {
+
+              professionId_ = input.readInt32();
               break;
             }
             default: {
@@ -3866,6 +3877,17 @@ public final class PlayModel {
       }
     }
 
+    public static final int PROFESSIONID_FIELD_NUMBER = 4;
+    private int professionId_;
+    /**
+     * <code>int32 professionId = 4;</code>
+     * @return The professionId.
+     */
+    @Override
+    public int getProfessionId() {
+      return professionId_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -3889,6 +3911,9 @@ public final class PlayModel {
       if (!getRolenameBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, rolename_);
       }
+      if (professionId_ != 0) {
+        output.writeInt32(4, professionId_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -3906,6 +3931,10 @@ public final class PlayModel {
       }
       if (!getRolenameBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, rolename_);
+      }
+      if (professionId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, professionId_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -3928,6 +3957,8 @@ public final class PlayModel {
           .equals(other.getPassword())) return false;
       if (!getRolename()
           .equals(other.getRolename())) return false;
+      if (getProfessionId()
+          != other.getProfessionId()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -3945,6 +3976,8 @@ public final class PlayModel {
       hash = (53 * hash) + getPassword().hashCode();
       hash = (37 * hash) + ROLENAME_FIELD_NUMBER;
       hash = (53 * hash) + getRolename().hashCode();
+      hash = (37 * hash) + PROFESSIONID_FIELD_NUMBER;
+      hash = (53 * hash) + getProfessionId();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -4084,6 +4117,8 @@ public final class PlayModel {
 
         rolename_ = "";
 
+        professionId_ = 0;
+
         return this;
       }
 
@@ -4113,6 +4148,7 @@ public final class PlayModel {
         result.username_ = username_;
         result.password_ = password_;
         result.rolename_ = rolename_;
+        result.professionId_ = professionId_;
         onBuilt();
         return result;
       }
@@ -4172,6 +4208,9 @@ public final class PlayModel {
         if (!other.getRolename().isEmpty()) {
           rolename_ = other.rolename_;
           onChanged();
+        }
+        if (other.getProfessionId() != 0) {
+          setProfessionId(other.getProfessionId());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -4426,6 +4465,37 @@ public final class PlayModel {
   checkByteStringIsUtf8(value);
         
         rolename_ = value;
+        onChanged();
+        return this;
+      }
+
+      private int professionId_ ;
+      /**
+       * <code>int32 professionId = 4;</code>
+       * @return The professionId.
+       */
+      @Override
+      public int getProfessionId() {
+        return professionId_;
+      }
+      /**
+       * <code>int32 professionId = 4;</code>
+       * @param value The professionId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setProfessionId(int value) {
+        
+        professionId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 professionId = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearProfessionId() {
+        
+        professionId_ = 0;
         onChanged();
         return this;
       }
@@ -12361,34 +12431,34 @@ public final class PlayModel {
       "\020\004\022\022\n\016LogoutResponse\020\005\022\023\n\017UseSkillReques" +
       "t\020\006\022\024\n\020UseSkillResponse\020\007\022\031\n\025DamagesNoti" +
       "ceResponse\020\010B\n\n\010dateBody\"2\n\014LoginRequest" +
-      "\022\020\n\010username\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\"G\n\017" +
+      "\022\020\n\010username\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\"]\n\017" +
       "RegisterRequest\022\020\n\010username\030\001 \001(\t\022\020\n\010pas" +
-      "sword\030\002 \001(\t\022\020\n\010rolename\030\003 \001(\t\";\n\rLoginRe" +
-      "sponse\022\017\n\007sceneId\030\001 \001(\005\022\031\n\007roleDto\030\002 \001(\013" +
-      "2\010.RoleDTO\"6\n\020RegisterResponse\022\021\n\tstateC" +
-      "ode\030\001 \001(\005\022\017\n\007message\030\002 \001(\t\"\017\n\rLogoutRequ" +
-      "est\"+\n\016LogoutResponse\022\014\n\004code\030\001 \001(\005\022\013\n\003m" +
-      "xg\030\002 \001(\t\"D\n\017UseSkillRequest\022\017\n\007skillId\030\001" +
-      " \001(\005\022\016\n\006roleId\030\002 \001(\005\022\020\n\010roleType\030\003 \001(\005\"8" +
-      "\n\020UseSkillResponse\022$\n\rroleIdDamages\030\001 \003(" +
-      "\0132\r.RoleIdDamage\"<\n\025DamagesNoticeRespons" +
-      "e\022#\n\014roleIdDamage\030\001 \001(\0132\r.RoleIdDamage\"\261" +
-      "\002\n\007RoleDTO\022\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\016\n\006" +
-      "status\030\003 \001(\005\022\014\n\004type\030\004 \001(\005\022\020\n\010onStatus\030\005" +
-      " \001(\005\022\r\n\005blood\030\006 \001(\005\022\020\n\010nowBlood\030\007 \001(\005\022\n\n" +
-      "\002mp\030\010 \001(\005\022\r\n\005nowMp\030\t \001(\005\022\023\n\013skillIdList\030" +
-      "\n \003(\005\022\016\n\006attack\030\013 \001(\005\022\021\n\tattackAdd\030\014 \001(\001" +
-      "\022\016\n\006teamId\030\r \001(\005\022\017\n\007sceneId\030\016 \001(\005\022\024\n\014pro" +
-      "fessionId\030\017 \001(\005\022\r\n\005money\030\020 \001(\005\022\017\n\007guildI" +
-      "d\030\021 \001(\005\022\021\n\tguildName\030\022 \001(\t\"\217\002\n\014RoleIdDam" +
-      "age\022\022\n\nfromRoleId\030\001 \001(\005\022\020\n\010toRoleId\030\002 \001(" +
-      "\005\022\020\n\010bufferId\030\003 \001(\005\022\017\n\007skillId\030\004 \001(\005\022\023\n\013" +
-      "attackStyle\030\005 \001(\005\022\022\n\ndamageType\030\006 \001(\005\022\016\n" +
-      "\006damage\030\007 \001(\005\022\020\n\010nowblood\030\010 \001(\005\022\n\n\002mp\030\t " +
-      "\001(\005\022\r\n\005State\030\n \001(\005\022\024\n\014fromRoleType\030\013 \001(\005" +
-      "\022\022\n\ntoRoleType\030\014 \001(\005\022\021\n\tarticleId\030\r \001(\005\022" +
-      "\023\n\013articleType\030\016 \001(\005B\013B\tPlayModelb\006proto" +
-      "3"
+      "sword\030\002 \001(\t\022\020\n\010rolename\030\003 \001(\t\022\024\n\014profess" +
+      "ionId\030\004 \001(\005\";\n\rLoginResponse\022\017\n\007sceneId\030" +
+      "\001 \001(\005\022\031\n\007roleDto\030\002 \001(\0132\010.RoleDTO\"6\n\020Regi" +
+      "sterResponse\022\021\n\tstateCode\030\001 \001(\005\022\017\n\007messa" +
+      "ge\030\002 \001(\t\"\017\n\rLogoutRequest\"+\n\016LogoutRespo" +
+      "nse\022\014\n\004code\030\001 \001(\005\022\013\n\003mxg\030\002 \001(\t\"D\n\017UseSki" +
+      "llRequest\022\017\n\007skillId\030\001 \001(\005\022\016\n\006roleId\030\002 \001" +
+      "(\005\022\020\n\010roleType\030\003 \001(\005\"8\n\020UseSkillResponse" +
+      "\022$\n\rroleIdDamages\030\001 \003(\0132\r.RoleIdDamage\"<" +
+      "\n\025DamagesNoticeResponse\022#\n\014roleIdDamage\030" +
+      "\001 \001(\0132\r.RoleIdDamage\"\261\002\n\007RoleDTO\022\n\n\002id\030\001" +
+      " \001(\005\022\014\n\004name\030\002 \001(\t\022\016\n\006status\030\003 \001(\005\022\014\n\004ty" +
+      "pe\030\004 \001(\005\022\020\n\010onStatus\030\005 \001(\005\022\r\n\005blood\030\006 \001(" +
+      "\005\022\020\n\010nowBlood\030\007 \001(\005\022\n\n\002mp\030\010 \001(\005\022\r\n\005nowMp" +
+      "\030\t \001(\005\022\023\n\013skillIdList\030\n \003(\005\022\016\n\006attack\030\013 " +
+      "\001(\005\022\021\n\tattackAdd\030\014 \001(\001\022\016\n\006teamId\030\r \001(\005\022\017" +
+      "\n\007sceneId\030\016 \001(\005\022\024\n\014professionId\030\017 \001(\005\022\r\n" +
+      "\005money\030\020 \001(\005\022\017\n\007guildId\030\021 \001(\005\022\021\n\tguildNa" +
+      "me\030\022 \001(\t\"\217\002\n\014RoleIdDamage\022\022\n\nfromRoleId\030" +
+      "\001 \001(\005\022\020\n\010toRoleId\030\002 \001(\005\022\020\n\010bufferId\030\003 \001(" +
+      "\005\022\017\n\007skillId\030\004 \001(\005\022\023\n\013attackStyle\030\005 \001(\005\022" +
+      "\022\n\ndamageType\030\006 \001(\005\022\016\n\006damage\030\007 \001(\005\022\020\n\010n" +
+      "owblood\030\010 \001(\005\022\n\n\002mp\030\t \001(\005\022\r\n\005State\030\n \001(\005" +
+      "\022\024\n\014fromRoleType\030\013 \001(\005\022\022\n\ntoRoleType\030\014 \001" +
+      "(\005\022\021\n\tarticleId\030\r \001(\005\022\023\n\013articleType\030\016 \001" +
+      "(\005B\013B\tPlayModelb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -12411,7 +12481,7 @@ public final class PlayModel {
     internal_static_RegisterRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_RegisterRequest_descriptor,
-        new String[] { "Username", "Password", "Rolename", });
+        new String[] { "Username", "Password", "Rolename", "ProfessionId", });
     internal_static_LoginResponse_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_LoginResponse_fieldAccessorTable = new

@@ -14,6 +14,9 @@ import com.liqihao.pojo.bean.dealBankBean.DealBankArticleBean;
 import com.liqihao.pojo.bean.dealBean.DealArticleBean;
 import com.liqihao.pojo.bean.guildBean.WareHouseManager;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
+import com.liqihao.pojo.bean.taskBean.moneyNumTask.MoneyTaskAction;
+import com.liqihao.pojo.bean.taskBean.teamFirstTask.TeamTaskAction;
+import com.liqihao.pojo.bean.taskBean.useTask.UseTaskAction;
 import com.liqihao.pojo.dto.ArticleDto;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.provider.TaskServiceProvider;
@@ -354,8 +357,13 @@ public class MedicineBean  implements Article{
      */
     @Override
     public boolean use(BackPackManager backpackManager, MmoSimpleRole mmoSimpleRole) {
-        //增加任务 MmoRole role int progress,int articleType,int targetId,int targetType
-        TaskServiceProvider.check(mmoSimpleRole,1,getArticleTypeCode(),getMedicineMessageId(),TaskTargetTypeCode.USE.getCode());
+        //任务条件触发
+        UseTaskAction useTaskAction=new UseTaskAction();
+        useTaskAction.setTargetId(getMedicineMessageId());
+        useTaskAction.setArticleType(ArticleTypeCode.MEDICINE.getCode());
+        useTaskAction.setProgress(1);
+        useTaskAction.setTaskTargetType(TaskTargetTypeCode.USE.getCode());
+        mmoSimpleRole.getTaskManager().handler(useTaskAction,mmoSimpleRole);
         //判断是瞬间恢复还是持续性恢复
         MedicineMessage medicineMessage= MedicineMessageCache.getInstance().get(getMedicineMessageId());
         if (medicineMessage.getMedicineType().equals(MedicineTypeCode.MOMENT.getCode())){

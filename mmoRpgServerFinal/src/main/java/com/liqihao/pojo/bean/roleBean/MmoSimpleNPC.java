@@ -12,6 +12,9 @@ import com.liqihao.pojo.baseMessage.BufferMessage;
 import com.liqihao.pojo.bean.SceneBean;
 import com.liqihao.pojo.bean.SkillBean;
 import com.liqihao.pojo.bean.buffBean.BaseBuffBean;
+import com.liqihao.pojo.bean.taskBean.killTask.KillTaskAction;
+import com.liqihao.pojo.bean.taskBean.skillTask.SkillTaskAction;
+import com.liqihao.pojo.bean.taskBean.talkTask.TalkTaskAction;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
@@ -88,6 +91,16 @@ public class MmoSimpleNPC extends Role {
                 reduce = reduce + hp;
                 hp = 0;
                 mmoSimpleNPC.setStatus(RoleStatusCode.DIE.getCode());
+                //任务条件触发
+                if (fromRole.getType().equals(RoleTypeCode.PLAYER.getCode())) {
+                    MmoSimpleRole role= (MmoSimpleRole) fromRole;
+                    KillTaskAction killTaskAction = new KillTaskAction();
+                    killTaskAction.setNum(1);
+                    killTaskAction.setRoleType(RoleTypeCode.ENEMY.getCode());
+                    killTaskAction.setTargetRoleId(mmoSimpleNPC.getId());
+                    killTaskAction.setTaskTargetType(TaskTargetTypeCode.KILL.getCode());
+                    role.getTaskManager().handler(killTaskAction, role);
+                }
             }
             mmoSimpleNPC.setNowHp(hp);
         }finally {

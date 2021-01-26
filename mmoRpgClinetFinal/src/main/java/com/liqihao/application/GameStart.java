@@ -1574,13 +1574,21 @@ public class GameStart {
         String password=scanner.nextLine();
         System.out.println("请输入游戏角色名称");
         String roleName=scanner.nextLine();
+        System.out.println("请输入你要选择的职业：1-战士 2-牧师 3-法师 4-召唤师");
+        Integer professionId=scanner.nextInt();
+        scanner.nextLine();
+        if (professionId<1||professionId>4){
+            System.out.println("输入错误数字");
+            return;
+        }
         NettyRequest nettyRequest=new NettyRequest();
         nettyRequest.setCmd(ConstantValue.REGISTER_REQUEST);
         PlayModel.PlayModelMessage myMessage;
         myMessage=PlayModel.PlayModelMessage.newBuilder().setDataType(PlayModel.PlayModelMessage.DateType.RegisterRequest)
                 .setRegisterRequest(
                         PlayModel.RegisterRequest.newBuilder().
-                                setPassword(password).setRolename(roleName).
+                                setPassword(password).setRolename(roleName)
+                                .setProfessionId(professionId).
                                 setUsername(username).build()).build();
         byte[] data=myMessage.toByteArray();
         nettyRequest.setData(data);

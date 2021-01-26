@@ -16,6 +16,8 @@ import com.liqihao.pojo.bean.roleBean.BossBean;
 import com.liqihao.pojo.bean.roleBean.MmoHelperBean;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.pojo.bean.roleBean.Role;
+import com.liqihao.pojo.bean.taskBean.copySceneSuccessTask.CopySceneTaskAction;
+import com.liqihao.pojo.bean.taskBean.killTask.KillTaskAction;
 import com.liqihao.pojo.bean.teamBean.TeamBean;
 import com.liqihao.protobufObject.CopySceneModel;
 import com.liqihao.protobufObject.SceneModel;
@@ -325,7 +327,10 @@ public class CopySceneBean{
             //增加任务 MmoRole role int progress,int articleType,int targetId,int targetType
             if (role.getType().equals(RoleTypeCode.PLAYER.getCode())) {
                 MmoSimpleRole mmoSimpleRole= (MmoSimpleRole) role;
-                TaskServiceProvider.check(mmoSimpleRole, 1, -1, getCopySceneMessageId(), TaskTargetTypeCode.COPY_SCENE.getCode());
+                CopySceneTaskAction copySceneTaskAction = new CopySceneTaskAction();
+                copySceneTaskAction.setCopySceneId(copySceneBeanId);
+                copySceneTaskAction.setTaskTargetType(TaskTargetTypeCode.COPY_SCENE.getCode());
+                mmoSimpleRole.getTaskManager().handler(copySceneTaskAction, mmoSimpleRole);
             }
             if (role.getType().equals(RoleTypeCode.PLAYER.getCode())) {
                 role.setStatus(RoleStatusCode.ALIVE.getCode());

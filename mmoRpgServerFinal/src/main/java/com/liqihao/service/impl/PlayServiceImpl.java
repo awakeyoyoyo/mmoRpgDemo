@@ -46,12 +46,17 @@ public class PlayServiceImpl implements PlayService {
     private MmoEquipmentBagPOJOMapper equipmentBagPOJOMapper;
     @Autowired
     private MmoEmailPOJOMapper emailPOJOMapper;
+
     @Override
     @HandlerCmdTag(cmd = ConstantValue.REGISTER_REQUEST, module = ConstantValue.PLAY_MODULE)
     public void registerRequest(PlayModel.PlayModelMessage myMessage, Channel channel) throws RpgServerException {
         String username = myMessage.getRegisterRequest().getUsername();
         String password = myMessage.getRegisterRequest().getPassword();
         String roleName = myMessage.getRegisterRequest().getRolename();
+        Integer professionId=myMessage.getRegisterRequest().getProfessionId();
+        if (professionId<1||professionId>4){
+            throw new RpgServerException(StateCode.FAIL,"错误职业id");
+        }
         //查库
         Integer count1 = mmoUserPOJOMapper.selectByUsername(username);
         Integer count2 = mmoRolePOJOMapper.selectByRoleName(roleName);
@@ -62,6 +67,7 @@ public class PlayServiceImpl implements PlayService {
         //注册成功 数据库插入账号信息
         MmoRolePOJO mmoRolePOJO = new MmoRolePOJO();
         mmoRolePOJO.init(roleName);
+        mmoRolePOJO.setProfessionId(professionId);
         mmoRolePOJOMapper.insert(mmoRolePOJO);
         //角色表新增该用户
         RoleMessageCache.getInstance().put(mmoRolePOJO.getId(),mmoRolePOJO);
@@ -70,6 +76,8 @@ public class PlayServiceImpl implements PlayService {
         mmoUserPOJO.setUserName(username);
         mmoUserPOJO.setUserPwd(password);
         mmoUserPOJOMapper.insert(mmoUserPOJO);
+        //角色新增所有的成就任务
+        TaskServiceProvider.insertAllAchievements(mmoRolePOJO.getId());
         //返回成功的数据包
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.REGISTER_RESPONSE);

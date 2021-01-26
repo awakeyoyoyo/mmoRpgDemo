@@ -11,7 +11,7 @@ import com.liqihao.dao.*;
 import com.liqihao.pojo.*;
 import com.liqihao.pojo.baseMessage.*;
 import com.liqihao.pojo.bean.*;
-import com.liqihao.pojo.bean.TaskBean.BaseTaskBean;
+import com.liqihao.pojo.bean.taskBean.BaseTaskBean;
 import com.liqihao.pojo.bean.articleBean.EquipmentBean;
 import com.liqihao.pojo.bean.articleBean.MedicineBean;
 import com.liqihao.pojo.bean.buffBean.BaseBuffBean;

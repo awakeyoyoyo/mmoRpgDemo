@@ -9,7 +9,10 @@ import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.StateCode;
+import com.liqihao.commons.enums.TaskTargetTypeCode;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
+import com.liqihao.pojo.bean.taskBean.sceneFirstTask.SceneTaskAction;
+import com.liqihao.pojo.bean.taskBean.teamFirstTask.TeamTaskAction;
 import com.liqihao.pojo.bean.teamBean.TeamApplyOrInviteBean;
 import com.liqihao.pojo.bean.teamBean.TeamBean;
 import com.liqihao.protobufObject.TeamModel;
@@ -83,6 +86,11 @@ public class TeamServiceImpl implements TeamService {
         }
         TeamBean teamBean=TeamServiceProvider.createNewTeamBean(mmoSimpleRole,teamName);
         mmoSimpleRole.setTeamId(teamBean.getTeamId());
+        //任务条件触发
+        TeamTaskAction taskAction=new TeamTaskAction();
+        taskAction.setTaskTargetType(TaskTargetTypeCode.FIRST_TIME_TEAM.getCode());
+        mmoSimpleRole.getTaskManager().handler(taskAction,mmoSimpleRole);
+
         if(mmoSimpleRole.getMmoHelperBean()!=null){
             mmoSimpleRole.getMmoHelperBean().setTeamId(teamBean.getTeamId());
         }

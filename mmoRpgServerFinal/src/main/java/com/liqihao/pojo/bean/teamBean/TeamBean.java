@@ -6,9 +6,11 @@ import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.CopySceneDeleteCauseCode;
+import com.liqihao.commons.enums.TaskTargetTypeCode;
 import com.liqihao.commons.enums.TeamApplyInviteCode;
 import com.liqihao.pojo.bean.CopySceneBean;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
+import com.liqihao.pojo.bean.taskBean.teamFirstTask.TeamTaskAction;
 import com.liqihao.protobufObject.TeamModel;
 import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.provider.TeamServiceProvider;
@@ -341,6 +343,10 @@ public class TeamBean {
         if(mmoSimpleRole.getMmoHelperBean()!=null){
             mmoSimpleRole.getMmoHelperBean().setTeamId(getTeamId());
         }
+        //任务条件触发
+        TeamTaskAction taskAction=new TeamTaskAction();
+        taskAction.setTaskTargetType(TaskTargetTypeCode.FIRST_TIME_TEAM.getCode());
+        mmoSimpleRole.getTaskManager().handler(taskAction,mmoSimpleRole);
         // 广播给各个队友
         TeamModel.RoleDto roleDto=TeamModel.RoleDto.newBuilder().setId(mmoSimpleRole.getId()).setHp(mmoSimpleRole.getHp())
                 .setMp(mmoSimpleRole.getMp()).setName(mmoSimpleRole.getName()).setNowHp(mmoSimpleRole.getNowHp())

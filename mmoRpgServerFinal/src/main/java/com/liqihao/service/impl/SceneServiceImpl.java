@@ -15,6 +15,9 @@ import com.liqihao.pojo.bean.roleBean.BossBean;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleNPC;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.pojo.bean.roleBean.Role;
+import com.liqihao.pojo.bean.taskBean.sceneFirstTask.SceneTaskAction;
+import com.liqihao.pojo.bean.taskBean.skillTask.SkillTaskAction;
+import com.liqihao.pojo.bean.taskBean.talkTask.TalkTaskAction;
 import com.liqihao.protobufObject.SceneModel;
 import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.provider.TaskServiceProvider;
@@ -41,7 +44,6 @@ public class SceneServiceImpl implements SceneService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.WENT_REQUEST, module = ConstantValue.SCENE_MODULE)
     public void wentRequest(SceneModel.SceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws RpgServerException {
-
         Integer nextSceneId = myMessage.getWentRequest().getSceneId();
         Channel channel = mmoSimpleRole.getChannel();
         //先查询playId所在场景
@@ -63,8 +65,6 @@ public class SceneServiceImpl implements SceneService {
 
         //进入场景，修改数据库 player 和scene
         List<Role> nextSceneRoles = mmoSimpleRole.wentScene(nextSceneId);
-        //查看任务
-        TaskServiceProvider.check(mmoSimpleRole, 1, -1, nextSceneId, TaskTargetTypeCode.SCENE.getCode());
         //ptotobuf生成wentResponse
         //生成response返回
         NettyResponse nettyResponse = new NettyResponse();
@@ -198,7 +198,11 @@ public class SceneServiceImpl implements SceneService {
         if (!npc.getMmoSceneId().equals(mmoSimpleRole.getMmoSceneId())) {
             throw new RpgServerException(StateCode.FAIL,"该NPC不在当前场景");
         }
-        TaskServiceProvider.check(mmoSimpleRole, 1, -1, npcId, TaskTargetTypeCode.TALK.getCode());
+        //任务条件触发
+        TalkTaskAction taskAction=new TalkTaskAction();
+        taskAction.setRoleId(npcId);
+        taskAction.setTaskTargetType(TaskTargetTypeCode.TALK.getCode());
+        mmoSimpleRole.getTaskManager().handler(taskAction,mmoSimpleRole);
         //无问题 返回npcId
         SceneModel.SceneModelMessage MessageData;
         MessageData = SceneModel.SceneModelMessage.newBuilder()
@@ -211,7 +215,6 @@ public class SceneServiceImpl implements SceneService {
         byte[] data2 = MessageData.toByteArray();
         response.setData(data2);
         channel.writeAndFlush(response);
-        return;
     }
 
 
