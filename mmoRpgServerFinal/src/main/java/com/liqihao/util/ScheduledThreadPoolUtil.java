@@ -65,6 +65,15 @@ public class ScheduledThreadPoolUtil {
      * 工作者列表
      */
     private static DbTask dbTask;
+    /**
+     * db任务队列
+     */
+    private static LinkedList<Runnable> dbTasks = new LinkedList<>();
+
+    public static LinkedList<Runnable> getDbTasks() {
+        return dbTasks;
+    }
+
     @PostConstruct
     public static void init() {
         replyMpRole = new ConcurrentHashMap<>();
@@ -73,6 +82,7 @@ public class ScheduledThreadPoolUtil {
         copySceneTaskMap = new ConcurrentHashMap<>();
         scheduledExecutorService = new ScheduledThreadPoolExecutor(10);
         dbTask = new DbTask();
+        dbTasks=new LinkedList<>();
         //每60s 修改过的数据落地
         scheduledExecutorService.scheduleAtFixedRate(dbTask, 0, 10, TimeUnit.SECONDS);
     }
@@ -633,25 +643,23 @@ public class ScheduledThreadPoolUtil {
     public static class DbTask implements Runnable {
 
         private final org.slf4j.Logger log = LoggerFactory.getLogger(DbTask.class);
-        /**
-         * db任务队列
-         */
-        private LinkedList<Runnable> tasks = new LinkedList<>();
+
 
         @Override
         public void run() {
             log.info("定时数据落地任务：");
-            Runnable job = null;
-            //每隔时间清空任务队列里面得任务
-            while(!tasks.isEmpty()) {
-                synchronized (tasks) {
-//                    if (tasks.isEmpty()) {
-//                        //没任务 就直接溜溜球
-//                        return;
-//                    }
+            LinkedList<Runnable> jobs = new LinkedList<>();
+            //每隔时间清空任务队列里面的任务
+            LinkedList<Runnable> tasks=ScheduledThreadPoolUtil.getDbTasks();
+            synchronized (tasks) {
+                while (!tasks.isEmpty()) {
                     // 取出一个Job
-                    job = tasks.removeFirst();
+                    jobs.push(tasks.removeFirst());
                 }
+            }
+            Runnable job=null;
+            while (!jobs.isEmpty()){
+                job=jobs.removeFirst();
                 if (job != null) {
                     try {
                         job.run();
@@ -663,17 +671,6 @@ public class ScheduledThreadPoolUtil {
         }
     }
 
-    /**
-     * addTask到队列中
-     */
-    public static void addTask(Runnable job) {
-        if (job != null) {
-            // 添加一个工作到任务队列即可
-            synchronized (dbTask.tasks) {
-                dbTask.tasks.addLast(job);
-            }
-        }
-    }
 
     /**
      * 拍卖超时任务
@@ -703,4 +700,17 @@ public class ScheduledThreadPoolUtil {
         }
     }
 
+
+    /**
+     * addTask到队列中
+     */
+    public static void addTask(Runnable job) {
+        LinkedList<Runnable> tasks=ScheduledThreadPoolUtil.getDbTasks();
+        if (job != null) {
+            // 添加一个工作到任务队列即可
+            synchronized (tasks) {
+                tasks.addLast(job);
+            }
+        }
+    }
 }
