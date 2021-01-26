@@ -16,6 +16,16 @@ public class NpcMessage extends BaseMessage{
     private Integer mp;
     private Integer attack;
     private double damageAdd;
+    private Integer addExp;
+
+    public Integer getAddExp() {
+        return addExp;
+    }
+
+    public void setAddExp(Integer addExp) {
+        this.addExp = addExp;
+    }
+
     @Override
     public Integer getTheId() {
         return getId();

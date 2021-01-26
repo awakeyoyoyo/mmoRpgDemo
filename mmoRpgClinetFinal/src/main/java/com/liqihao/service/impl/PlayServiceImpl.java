@@ -65,6 +65,8 @@ public class PlayServiceImpl implements PlayService {
         System.out.println("[-]血量： " + roleDTO.getNowBlood() + "/" + roleDTO.getBlood());
         System.out.println("[-]蓝量： " + roleDTO.getNowMp() + "/" + roleDTO.getMp());
         System.out.println("[-]攻击力： "+roleDTO.getAttack()+" 技能伤害加成: "+roleDTO.getAttackAdd());
+        System.out.println("[-][-]等级："+roleDTO.getLevel());
+        System.out.println("[-][-]装备总等级："+roleDTO.getEquipmentLevel());
         System.out.println("[-]所在队伍id："+roleDTO.getTeamId());
         System.out.println("[-]--------------------------------------------------------");
 
@@ -237,6 +239,23 @@ public class PlayServiceImpl implements PlayService {
             System.out.println("[-]角色："+mmoRole.getName()+"被Id为:"+roleIdDamage.getFromRoleId()+"的"+RoleTypeCode.getValue(roleIdDamage.getFromRoleType())+"潇洒地使用了： "+skillMessage.getSkillName()+"给奶了一下血量");
             System.out.println("[-]增加了"+roleIdDamage.getDamage()+"点"+DamageTypeCode.getValue(roleIdDamage.getDamageType()));
         }
+        System.out.println("[-]--------------------------------------------------------");
+    }
+
+    @Override
+    public void upLevelResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
+        byte[] data = nettyResponse.getData();
+        PlayModel.PlayModelMessage myMessage;
+        myMessage = PlayModel.PlayModelMessage.parseFrom(data);
+        PlayModel.UpLevelResponse upLevelResponse = myMessage.getUpLevelResponse();
+        Integer addLevel=upLevelResponse.getAddLevel();
+        Integer level=upLevelResponse.getLevel();
+        String roleName=upLevelResponse.getRoleName();
+        Integer roleId=upLevelResponse.getRoleId();
+        System.out.println("[-]--------------------------------------------------------");
+        System.out.println("[-]角色id: " + roleId + " 角色名称: " + roleName);
+        System.out.println("[-]提升了： " + addLevel+" 级");
+        System.out.println("[-]当前等级： " +level);
         System.out.println("[-]--------------------------------------------------------");
     }
 

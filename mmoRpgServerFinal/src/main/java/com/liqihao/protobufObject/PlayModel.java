@@ -170,6 +170,21 @@ public final class PlayModel {
      */
     DamagesNoticeResponseOrBuilder getDamagesNoticeResponseOrBuilder();
 
+    /**
+     * <code>.UpLevelResponse upLevelResponse = 11;</code>
+     * @return Whether the upLevelResponse field is set.
+     */
+    boolean hasUpLevelResponse();
+    /**
+     * <code>.UpLevelResponse upLevelResponse = 11;</code>
+     * @return The upLevelResponse.
+     */
+    UpLevelResponse getUpLevelResponse();
+    /**
+     * <code>.UpLevelResponse upLevelResponse = 11;</code>
+     */
+    UpLevelResponseOrBuilder getUpLevelResponseOrBuilder();
+
     public PlayModelMessage.DateBodyCase getDateBodyCase();
   }
   /**
@@ -354,6 +369,20 @@ public final class PlayModel {
               dateBodyCase_ = 10;
               break;
             }
+            case 90: {
+              UpLevelResponse.Builder subBuilder = null;
+              if (dateBodyCase_ == 11) {
+                subBuilder = ((UpLevelResponse) dateBody_).toBuilder();
+              }
+              dateBody_ =
+                  input.readMessage(UpLevelResponse.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((UpLevelResponse) dateBody_);
+                dateBody_ = subBuilder.buildPartial();
+              }
+              dateBodyCase_ = 11;
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -435,6 +464,10 @@ public final class PlayModel {
        * <code>DamagesNoticeResponse = 8;</code>
        */
       DamagesNoticeResponse(8),
+      /**
+       * <code>UpLevelResponse = 9;</code>
+       */
+      UpLevelResponse(9),
       UNRECOGNIZED(-1),
       ;
 
@@ -478,6 +511,10 @@ public final class PlayModel {
        * <code>DamagesNoticeResponse = 8;</code>
        */
       public static final int DamagesNoticeResponse_VALUE = 8;
+      /**
+       * <code>UpLevelResponse = 9;</code>
+       */
+      public static final int UpLevelResponse_VALUE = 9;
 
 
       public final int getNumber() {
@@ -513,6 +550,7 @@ public final class PlayModel {
           case 6: return UseSkillRequest;
           case 7: return UseSkillResponse;
           case 8: return DamagesNoticeResponse;
+          case 9: return UpLevelResponse;
           default: return null;
         }
       }
@@ -583,6 +621,7 @@ public final class PlayModel {
       USESKILLREQUEST(8),
       USESKILLRESPONSE(9),
       DAMAGESNOTICERESPONSE(10),
+      UPLEVELRESPONSE(11),
       DATEBODY_NOT_SET(0);
       private final int value;
       private DateBodyCase(int value) {
@@ -609,6 +648,7 @@ public final class PlayModel {
           case 8: return USESKILLREQUEST;
           case 9: return USESKILLRESPONSE;
           case 10: return DAMAGESNOTICERESPONSE;
+          case 11: return UPLEVELRESPONSE;
           case 0: return DATEBODY_NOT_SET;
           default: return null;
         }
@@ -930,6 +970,37 @@ public final class PlayModel {
       return DamagesNoticeResponse.getDefaultInstance();
     }
 
+    public static final int UPLEVELRESPONSE_FIELD_NUMBER = 11;
+    /**
+     * <code>.UpLevelResponse upLevelResponse = 11;</code>
+     * @return Whether the upLevelResponse field is set.
+     */
+    @Override
+    public boolean hasUpLevelResponse() {
+      return dateBodyCase_ == 11;
+    }
+    /**
+     * <code>.UpLevelResponse upLevelResponse = 11;</code>
+     * @return The upLevelResponse.
+     */
+    @Override
+    public UpLevelResponse getUpLevelResponse() {
+      if (dateBodyCase_ == 11) {
+         return (UpLevelResponse) dateBody_;
+      }
+      return UpLevelResponse.getDefaultInstance();
+    }
+    /**
+     * <code>.UpLevelResponse upLevelResponse = 11;</code>
+     */
+    @Override
+    public UpLevelResponseOrBuilder getUpLevelResponseOrBuilder() {
+      if (dateBodyCase_ == 11) {
+         return (UpLevelResponse) dateBody_;
+      }
+      return UpLevelResponse.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -973,6 +1044,9 @@ public final class PlayModel {
       }
       if (dateBodyCase_ == 10) {
         output.writeMessage(10, (DamagesNoticeResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 11) {
+        output.writeMessage(11, (UpLevelResponse) dateBody_);
       }
       unknownFields.writeTo(output);
     }
@@ -1022,6 +1096,10 @@ public final class PlayModel {
       if (dateBodyCase_ == 10) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(10, (DamagesNoticeResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 11) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(11, (UpLevelResponse) dateBody_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1077,6 +1155,10 @@ public final class PlayModel {
           if (!getDamagesNoticeResponse()
               .equals(other.getDamagesNoticeResponse())) return false;
           break;
+        case 11:
+          if (!getUpLevelResponse()
+              .equals(other.getUpLevelResponse())) return false;
+          break;
         case 0:
         default:
       }
@@ -1129,6 +1211,10 @@ public final class PlayModel {
         case 10:
           hash = (37 * hash) + DAMAGESNOTICERESPONSE_FIELD_NUMBER;
           hash = (53 * hash) + getDamagesNoticeResponse().hashCode();
+          break;
+        case 11:
+          hash = (37 * hash) + UPLEVELRESPONSE_FIELD_NUMBER;
+          hash = (53 * hash) + getUpLevelResponse().hashCode();
           break;
         case 0:
         default:
@@ -1364,6 +1450,13 @@ public final class PlayModel {
             result.dateBody_ = damagesNoticeResponseBuilder_.build();
           }
         }
+        if (dateBodyCase_ == 11) {
+          if (upLevelResponseBuilder_ == null) {
+            result.dateBody_ = dateBody_;
+          } else {
+            result.dateBody_ = upLevelResponseBuilder_.build();
+          }
+        }
         result.dateBodyCase_ = dateBodyCase_;
         onBuilt();
         return result;
@@ -1451,6 +1544,10 @@ public final class PlayModel {
           }
           case DAMAGESNOTICERESPONSE: {
             mergeDamagesNoticeResponse(other.getDamagesNoticeResponse());
+            break;
+          }
+          case UPLEVELRESPONSE: {
+            mergeUpLevelResponse(other.getUpLevelResponse());
             break;
           }
           case DATEBODY_NOT_SET: {
@@ -2842,6 +2939,147 @@ public final class PlayModel {
         dateBodyCase_ = 10;
         onChanged();;
         return damagesNoticeResponseBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          UpLevelResponse, UpLevelResponse.Builder, UpLevelResponseOrBuilder> upLevelResponseBuilder_;
+      /**
+       * <code>.UpLevelResponse upLevelResponse = 11;</code>
+       * @return Whether the upLevelResponse field is set.
+       */
+      @Override
+      public boolean hasUpLevelResponse() {
+        return dateBodyCase_ == 11;
+      }
+      /**
+       * <code>.UpLevelResponse upLevelResponse = 11;</code>
+       * @return The upLevelResponse.
+       */
+      @Override
+      public UpLevelResponse getUpLevelResponse() {
+        if (upLevelResponseBuilder_ == null) {
+          if (dateBodyCase_ == 11) {
+            return (UpLevelResponse) dateBody_;
+          }
+          return UpLevelResponse.getDefaultInstance();
+        } else {
+          if (dateBodyCase_ == 11) {
+            return upLevelResponseBuilder_.getMessage();
+          }
+          return UpLevelResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.UpLevelResponse upLevelResponse = 11;</code>
+       */
+      public Builder setUpLevelResponse(UpLevelResponse value) {
+        if (upLevelResponseBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dateBody_ = value;
+          onChanged();
+        } else {
+          upLevelResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 11;
+        return this;
+      }
+      /**
+       * <code>.UpLevelResponse upLevelResponse = 11;</code>
+       */
+      public Builder setUpLevelResponse(
+          UpLevelResponse.Builder builderForValue) {
+        if (upLevelResponseBuilder_ == null) {
+          dateBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          upLevelResponseBuilder_.setMessage(builderForValue.build());
+        }
+        dateBodyCase_ = 11;
+        return this;
+      }
+      /**
+       * <code>.UpLevelResponse upLevelResponse = 11;</code>
+       */
+      public Builder mergeUpLevelResponse(UpLevelResponse value) {
+        if (upLevelResponseBuilder_ == null) {
+          if (dateBodyCase_ == 11 &&
+              dateBody_ != UpLevelResponse.getDefaultInstance()) {
+            dateBody_ = UpLevelResponse.newBuilder((UpLevelResponse) dateBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dateBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dateBodyCase_ == 11) {
+            upLevelResponseBuilder_.mergeFrom(value);
+          }
+          upLevelResponseBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 11;
+        return this;
+      }
+      /**
+       * <code>.UpLevelResponse upLevelResponse = 11;</code>
+       */
+      public Builder clearUpLevelResponse() {
+        if (upLevelResponseBuilder_ == null) {
+          if (dateBodyCase_ == 11) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dateBodyCase_ == 11) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+          }
+          upLevelResponseBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.UpLevelResponse upLevelResponse = 11;</code>
+       */
+      public UpLevelResponse.Builder getUpLevelResponseBuilder() {
+        return getUpLevelResponseFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.UpLevelResponse upLevelResponse = 11;</code>
+       */
+      @Override
+      public UpLevelResponseOrBuilder getUpLevelResponseOrBuilder() {
+        if ((dateBodyCase_ == 11) && (upLevelResponseBuilder_ != null)) {
+          return upLevelResponseBuilder_.getMessageOrBuilder();
+        } else {
+          if (dateBodyCase_ == 11) {
+            return (UpLevelResponse) dateBody_;
+          }
+          return UpLevelResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.UpLevelResponse upLevelResponse = 11;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          UpLevelResponse, UpLevelResponse.Builder, UpLevelResponseOrBuilder>
+          getUpLevelResponseFieldBuilder() {
+        if (upLevelResponseBuilder_ == null) {
+          if (!(dateBodyCase_ == 11)) {
+            dateBody_ = UpLevelResponse.getDefaultInstance();
+          }
+          upLevelResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              UpLevelResponse, UpLevelResponse.Builder, UpLevelResponseOrBuilder>(
+                  (UpLevelResponse) dateBody_,
+                  getParentForChildren(),
+                  isClean());
+          dateBody_ = null;
+        }
+        dateBodyCase_ = 11;
+        onChanged();;
+        return upLevelResponseBuilder_;
       }
       @Override
       public final Builder setUnknownFields(
@@ -8979,6 +9217,784 @@ public final class PlayModel {
 
   }
 
+  public interface UpLevelResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:UpLevelResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>int32 roleId = 1;</code>
+     * @return The roleId.
+     */
+    int getRoleId();
+
+    /**
+     * <code>string roleName = 2;</code>
+     * @return The roleName.
+     */
+    String getRoleName();
+    /**
+     * <code>string roleName = 2;</code>
+     * @return The bytes for roleName.
+     */
+    com.google.protobuf.ByteString
+        getRoleNameBytes();
+
+    /**
+     * <code>int32 level = 3;</code>
+     * @return The level.
+     */
+    int getLevel();
+
+    /**
+     * <code>int32 addLevel = 4;</code>
+     * @return The addLevel.
+     */
+    int getAddLevel();
+  }
+  /**
+   * Protobuf type {@code UpLevelResponse}
+   */
+  public static final class UpLevelResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:UpLevelResponse)
+      UpLevelResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use UpLevelResponse.newBuilder() to construct.
+    private UpLevelResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private UpLevelResponse() {
+      roleName_ = "";
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new UpLevelResponse();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private UpLevelResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+
+              roleId_ = input.readInt32();
+              break;
+            }
+            case 18: {
+              String s = input.readStringRequireUtf8();
+
+              roleName_ = s;
+              break;
+            }
+            case 24: {
+
+              level_ = input.readInt32();
+              break;
+            }
+            case 32: {
+
+              addLevel_ = input.readInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return PlayModel.internal_static_UpLevelResponse_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return PlayModel.internal_static_UpLevelResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              UpLevelResponse.class, Builder.class);
+    }
+
+    public static final int ROLEID_FIELD_NUMBER = 1;
+    private int roleId_;
+    /**
+     * <code>int32 roleId = 1;</code>
+     * @return The roleId.
+     */
+    @Override
+    public int getRoleId() {
+      return roleId_;
+    }
+
+    public static final int ROLENAME_FIELD_NUMBER = 2;
+    private volatile Object roleName_;
+    /**
+     * <code>string roleName = 2;</code>
+     * @return The roleName.
+     */
+    @Override
+    public String getRoleName() {
+      Object ref = roleName_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        roleName_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string roleName = 2;</code>
+     * @return The bytes for roleName.
+     */
+    @Override
+    public com.google.protobuf.ByteString
+        getRoleNameBytes() {
+      Object ref = roleName_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (String) ref);
+        roleName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int LEVEL_FIELD_NUMBER = 3;
+    private int level_;
+    /**
+     * <code>int32 level = 3;</code>
+     * @return The level.
+     */
+    @Override
+    public int getLevel() {
+      return level_;
+    }
+
+    public static final int ADDLEVEL_FIELD_NUMBER = 4;
+    private int addLevel_;
+    /**
+     * <code>int32 addLevel = 4;</code>
+     * @return The addLevel.
+     */
+    @Override
+    public int getAddLevel() {
+      return addLevel_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (roleId_ != 0) {
+        output.writeInt32(1, roleId_);
+      }
+      if (!getRoleNameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, roleName_);
+      }
+      if (level_ != 0) {
+        output.writeInt32(3, level_);
+      }
+      if (addLevel_ != 0) {
+        output.writeInt32(4, addLevel_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (roleId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, roleId_);
+      }
+      if (!getRoleNameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, roleName_);
+      }
+      if (level_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, level_);
+      }
+      if (addLevel_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, addLevel_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof UpLevelResponse)) {
+        return super.equals(obj);
+      }
+      UpLevelResponse other = (UpLevelResponse) obj;
+
+      if (getRoleId()
+          != other.getRoleId()) return false;
+      if (!getRoleName()
+          .equals(other.getRoleName())) return false;
+      if (getLevel()
+          != other.getLevel()) return false;
+      if (getAddLevel()
+          != other.getAddLevel()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + ROLEID_FIELD_NUMBER;
+      hash = (53 * hash) + getRoleId();
+      hash = (37 * hash) + ROLENAME_FIELD_NUMBER;
+      hash = (53 * hash) + getRoleName().hashCode();
+      hash = (37 * hash) + LEVEL_FIELD_NUMBER;
+      hash = (53 * hash) + getLevel();
+      hash = (37 * hash) + ADDLEVEL_FIELD_NUMBER;
+      hash = (53 * hash) + getAddLevel();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static UpLevelResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static UpLevelResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static UpLevelResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static UpLevelResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static UpLevelResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static UpLevelResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static UpLevelResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static UpLevelResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static UpLevelResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static UpLevelResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static UpLevelResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static UpLevelResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(UpLevelResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code UpLevelResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:UpLevelResponse)
+        UpLevelResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return PlayModel.internal_static_UpLevelResponse_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return PlayModel.internal_static_UpLevelResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                UpLevelResponse.class, Builder.class);
+      }
+
+      // Construct using PlayModel.UpLevelResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        roleId_ = 0;
+
+        roleName_ = "";
+
+        level_ = 0;
+
+        addLevel_ = 0;
+
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return PlayModel.internal_static_UpLevelResponse_descriptor;
+      }
+
+      @Override
+      public UpLevelResponse getDefaultInstanceForType() {
+        return UpLevelResponse.getDefaultInstance();
+      }
+
+      @Override
+      public UpLevelResponse build() {
+        UpLevelResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public UpLevelResponse buildPartial() {
+        UpLevelResponse result = new UpLevelResponse(this);
+        result.roleId_ = roleId_;
+        result.roleName_ = roleName_;
+        result.level_ = level_;
+        result.addLevel_ = addLevel_;
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof UpLevelResponse) {
+          return mergeFrom((UpLevelResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(UpLevelResponse other) {
+        if (other == UpLevelResponse.getDefaultInstance()) return this;
+        if (other.getRoleId() != 0) {
+          setRoleId(other.getRoleId());
+        }
+        if (!other.getRoleName().isEmpty()) {
+          roleName_ = other.roleName_;
+          onChanged();
+        }
+        if (other.getLevel() != 0) {
+          setLevel(other.getLevel());
+        }
+        if (other.getAddLevel() != 0) {
+          setAddLevel(other.getAddLevel());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        UpLevelResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (UpLevelResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private int roleId_ ;
+      /**
+       * <code>int32 roleId = 1;</code>
+       * @return The roleId.
+       */
+      @Override
+      public int getRoleId() {
+        return roleId_;
+      }
+      /**
+       * <code>int32 roleId = 1;</code>
+       * @param value The roleId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRoleId(int value) {
+        
+        roleId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 roleId = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRoleId() {
+        
+        roleId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private Object roleName_ = "";
+      /**
+       * <code>string roleName = 2;</code>
+       * @return The roleName.
+       */
+      public String getRoleName() {
+        Object ref = roleName_;
+        if (!(ref instanceof String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          String s = bs.toStringUtf8();
+          roleName_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      /**
+       * <code>string roleName = 2;</code>
+       * @return The bytes for roleName.
+       */
+      public com.google.protobuf.ByteString
+          getRoleNameBytes() {
+        Object ref = roleName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (String) ref);
+          roleName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string roleName = 2;</code>
+       * @param value The roleName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRoleName(
+          String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        roleName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string roleName = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRoleName() {
+        
+        roleName_ = getDefaultInstance().getRoleName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string roleName = 2;</code>
+       * @param value The bytes for roleName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRoleNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        roleName_ = value;
+        onChanged();
+        return this;
+      }
+
+      private int level_ ;
+      /**
+       * <code>int32 level = 3;</code>
+       * @return The level.
+       */
+      @Override
+      public int getLevel() {
+        return level_;
+      }
+      /**
+       * <code>int32 level = 3;</code>
+       * @param value The level to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLevel(int value) {
+        
+        level_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 level = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearLevel() {
+        
+        level_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int addLevel_ ;
+      /**
+       * <code>int32 addLevel = 4;</code>
+       * @return The addLevel.
+       */
+      @Override
+      public int getAddLevel() {
+        return addLevel_;
+      }
+      /**
+       * <code>int32 addLevel = 4;</code>
+       * @param value The addLevel to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAddLevel(int value) {
+        
+        addLevel_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 addLevel = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearAddLevel() {
+        
+        addLevel_ = 0;
+        onChanged();
+        return this;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:UpLevelResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:UpLevelResponse)
+    private static final UpLevelResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new UpLevelResponse();
+    }
+
+    public static UpLevelResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<UpLevelResponse>
+        PARSER = new com.google.protobuf.AbstractParser<UpLevelResponse>() {
+      @Override
+      public UpLevelResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new UpLevelResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<UpLevelResponse> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<UpLevelResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public UpLevelResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface RoleDTOOrBuilder extends
       // @@protoc_insertion_point(interface_extends:RoleDTO)
       com.google.protobuf.MessageOrBuilder {
@@ -9113,6 +10129,18 @@ public final class PlayModel {
      */
     com.google.protobuf.ByteString
         getGuildNameBytes();
+
+    /**
+     * <code>int32 level = 19;</code>
+     * @return The level.
+     */
+    int getLevel();
+
+    /**
+     * <code>int32 equipmentLevel = 20;</code>
+     * @return The equipmentLevel.
+     */
+    int getEquipmentLevel();
   }
   /**
    * Protobuf type {@code RoleDTO}
@@ -9269,6 +10297,16 @@ public final class PlayModel {
               String s = input.readStringRequireUtf8();
 
               guildName_ = s;
+              break;
+            }
+            case 152: {
+
+              level_ = input.readInt32();
+              break;
+            }
+            case 160: {
+
+              equipmentLevel_ = input.readInt32();
               break;
             }
             default: {
@@ -9575,6 +10613,28 @@ public final class PlayModel {
       }
     }
 
+    public static final int LEVEL_FIELD_NUMBER = 19;
+    private int level_;
+    /**
+     * <code>int32 level = 19;</code>
+     * @return The level.
+     */
+    @Override
+    public int getLevel() {
+      return level_;
+    }
+
+    public static final int EQUIPMENTLEVEL_FIELD_NUMBER = 20;
+    private int equipmentLevel_;
+    /**
+     * <code>int32 equipmentLevel = 20;</code>
+     * @return The equipmentLevel.
+     */
+    @Override
+    public int getEquipmentLevel() {
+      return equipmentLevel_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -9647,6 +10707,12 @@ public final class PlayModel {
       }
       if (!getGuildNameBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 18, guildName_);
+      }
+      if (level_ != 0) {
+        output.writeInt32(19, level_);
+      }
+      if (equipmentLevel_ != 0) {
+        output.writeInt32(20, equipmentLevel_);
       }
       unknownFields.writeTo(output);
     }
@@ -9737,6 +10803,14 @@ public final class PlayModel {
       if (!getGuildNameBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(18, guildName_);
       }
+      if (level_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(19, level_);
+      }
+      if (equipmentLevel_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(20, equipmentLevel_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -9789,6 +10863,10 @@ public final class PlayModel {
           != other.getGuildId()) return false;
       if (!getGuildName()
           .equals(other.getGuildName())) return false;
+      if (getLevel()
+          != other.getLevel()) return false;
+      if (getEquipmentLevel()
+          != other.getEquipmentLevel()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -9839,6 +10917,10 @@ public final class PlayModel {
       hash = (53 * hash) + getGuildId();
       hash = (37 * hash) + GUILDNAME_FIELD_NUMBER;
       hash = (53 * hash) + getGuildName().hashCode();
+      hash = (37 * hash) + LEVEL_FIELD_NUMBER;
+      hash = (53 * hash) + getLevel();
+      hash = (37 * hash) + EQUIPMENTLEVEL_FIELD_NUMBER;
+      hash = (53 * hash) + getEquipmentLevel();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -10008,6 +11090,10 @@ public final class PlayModel {
 
         guildName_ = "";
 
+        level_ = 0;
+
+        equipmentLevel_ = 0;
+
         return this;
       }
 
@@ -10057,6 +11143,8 @@ public final class PlayModel {
         result.money_ = money_;
         result.guildId_ = guildId_;
         result.guildName_ = guildName_;
+        result.level_ = level_;
+        result.equipmentLevel_ = equipmentLevel_;
         onBuilt();
         return result;
       }
@@ -10167,6 +11255,12 @@ public final class PlayModel {
         if (!other.getGuildName().isEmpty()) {
           guildName_ = other.guildName_;
           onChanged();
+        }
+        if (other.getLevel() != 0) {
+          setLevel(other.getLevel());
+        }
+        if (other.getEquipmentLevel() != 0) {
+          setEquipmentLevel(other.getEquipmentLevel());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -10890,6 +11984,68 @@ public final class PlayModel {
   checkByteStringIsUtf8(value);
         
         guildName_ = value;
+        onChanged();
+        return this;
+      }
+
+      private int level_ ;
+      /**
+       * <code>int32 level = 19;</code>
+       * @return The level.
+       */
+      @Override
+      public int getLevel() {
+        return level_;
+      }
+      /**
+       * <code>int32 level = 19;</code>
+       * @param value The level to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLevel(int value) {
+        
+        level_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 level = 19;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearLevel() {
+        
+        level_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int equipmentLevel_ ;
+      /**
+       * <code>int32 equipmentLevel = 20;</code>
+       * @return The equipmentLevel.
+       */
+      @Override
+      public int getEquipmentLevel() {
+        return equipmentLevel_;
+      }
+      /**
+       * <code>int32 equipmentLevel = 20;</code>
+       * @param value The equipmentLevel to set.
+       * @return This builder for chaining.
+       */
+      public Builder setEquipmentLevel(int value) {
+        
+        equipmentLevel_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 equipmentLevel = 20;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearEquipmentLevel() {
+        
+        equipmentLevel_ = 0;
         onChanged();
         return this;
       }
@@ -12395,6 +13551,11 @@ public final class PlayModel {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_DamagesNoticeResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_UpLevelResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_UpLevelResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_RoleDTO_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -12413,7 +13574,7 @@ public final class PlayModel {
       descriptor;
   static {
     String[] descriptorData = {
-      "\n\017PlayModel.proto\"\254\005\n\020PlayModelMessage\022-" +
+      "\n\017PlayModel.proto\"\356\005\n\020PlayModelMessage\022-" +
       "\n\tdata_type\030\001 \001(\0162\032.PlayModelMessage.Dat" +
       "eType\022%\n\014loginRequest\030\002 \001(\0132\r.LoginReque" +
       "stH\000\022+\n\017registerRequest\030\003 \001(\0132\020.Register" +
@@ -12425,40 +13586,45 @@ public final class PlayModel {
       "\030\010 \001(\0132\020.UseSkillRequestH\000\022-\n\020useSkillRe" +
       "sponse\030\t \001(\0132\021.UseSkillResponseH\000\0227\n\025dam" +
       "agesNoticeResponse\030\n \001(\0132\026.DamagesNotice" +
-      "ResponseH\000\"\307\001\n\010DateType\022\020\n\014LoginRequest\020" +
-      "\000\022\023\n\017RegisterRequest\020\001\022\021\n\rLogoutRequest\020" +
-      "\002\022\021\n\rLoginResponse\020\003\022\024\n\020RegisterResponse" +
-      "\020\004\022\022\n\016LogoutResponse\020\005\022\023\n\017UseSkillReques" +
-      "t\020\006\022\024\n\020UseSkillResponse\020\007\022\031\n\025DamagesNoti" +
-      "ceResponse\020\010B\n\n\010dateBody\"2\n\014LoginRequest" +
-      "\022\020\n\010username\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\"]\n\017" +
-      "RegisterRequest\022\020\n\010username\030\001 \001(\t\022\020\n\010pas" +
-      "sword\030\002 \001(\t\022\020\n\010rolename\030\003 \001(\t\022\024\n\014profess" +
-      "ionId\030\004 \001(\005\";\n\rLoginResponse\022\017\n\007sceneId\030" +
-      "\001 \001(\005\022\031\n\007roleDto\030\002 \001(\0132\010.RoleDTO\"6\n\020Regi" +
-      "sterResponse\022\021\n\tstateCode\030\001 \001(\005\022\017\n\007messa" +
-      "ge\030\002 \001(\t\"\017\n\rLogoutRequest\"+\n\016LogoutRespo" +
-      "nse\022\014\n\004code\030\001 \001(\005\022\013\n\003mxg\030\002 \001(\t\"D\n\017UseSki" +
-      "llRequest\022\017\n\007skillId\030\001 \001(\005\022\016\n\006roleId\030\002 \001" +
-      "(\005\022\020\n\010roleType\030\003 \001(\005\"8\n\020UseSkillResponse" +
-      "\022$\n\rroleIdDamages\030\001 \003(\0132\r.RoleIdDamage\"<" +
-      "\n\025DamagesNoticeResponse\022#\n\014roleIdDamage\030" +
-      "\001 \001(\0132\r.RoleIdDamage\"\261\002\n\007RoleDTO\022\n\n\002id\030\001" +
-      " \001(\005\022\014\n\004name\030\002 \001(\t\022\016\n\006status\030\003 \001(\005\022\014\n\004ty" +
-      "pe\030\004 \001(\005\022\020\n\010onStatus\030\005 \001(\005\022\r\n\005blood\030\006 \001(" +
-      "\005\022\020\n\010nowBlood\030\007 \001(\005\022\n\n\002mp\030\010 \001(\005\022\r\n\005nowMp" +
-      "\030\t \001(\005\022\023\n\013skillIdList\030\n \003(\005\022\016\n\006attack\030\013 " +
-      "\001(\005\022\021\n\tattackAdd\030\014 \001(\001\022\016\n\006teamId\030\r \001(\005\022\017" +
-      "\n\007sceneId\030\016 \001(\005\022\024\n\014professionId\030\017 \001(\005\022\r\n" +
-      "\005money\030\020 \001(\005\022\017\n\007guildId\030\021 \001(\005\022\021\n\tguildNa" +
-      "me\030\022 \001(\t\"\217\002\n\014RoleIdDamage\022\022\n\nfromRoleId\030" +
-      "\001 \001(\005\022\020\n\010toRoleId\030\002 \001(\005\022\020\n\010bufferId\030\003 \001(" +
-      "\005\022\017\n\007skillId\030\004 \001(\005\022\023\n\013attackStyle\030\005 \001(\005\022" +
-      "\022\n\ndamageType\030\006 \001(\005\022\016\n\006damage\030\007 \001(\005\022\020\n\010n" +
-      "owblood\030\010 \001(\005\022\n\n\002mp\030\t \001(\005\022\r\n\005State\030\n \001(\005" +
-      "\022\024\n\014fromRoleType\030\013 \001(\005\022\022\n\ntoRoleType\030\014 \001" +
-      "(\005\022\021\n\tarticleId\030\r \001(\005\022\023\n\013articleType\030\016 \001" +
-      "(\005B\013B\tPlayModelb\006proto3"
+      "ResponseH\000\022+\n\017upLevelResponse\030\013 \001(\0132\020.Up" +
+      "LevelResponseH\000\"\334\001\n\010DateType\022\020\n\014LoginReq" +
+      "uest\020\000\022\023\n\017RegisterRequest\020\001\022\021\n\rLogoutReq" +
+      "uest\020\002\022\021\n\rLoginResponse\020\003\022\024\n\020RegisterRes" +
+      "ponse\020\004\022\022\n\016LogoutResponse\020\005\022\023\n\017UseSkillR" +
+      "equest\020\006\022\024\n\020UseSkillResponse\020\007\022\031\n\025Damage" +
+      "sNoticeResponse\020\010\022\023\n\017UpLevelResponse\020\tB\n" +
+      "\n\010dateBody\"2\n\014LoginRequest\022\020\n\010username\030\001" +
+      " \001(\t\022\020\n\010password\030\002 \001(\t\"]\n\017RegisterReques" +
+      "t\022\020\n\010username\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\022\020\n" +
+      "\010rolename\030\003 \001(\t\022\024\n\014professionId\030\004 \001(\005\";\n" +
+      "\rLoginResponse\022\017\n\007sceneId\030\001 \001(\005\022\031\n\007roleD" +
+      "to\030\002 \001(\0132\010.RoleDTO\"6\n\020RegisterResponse\022\021" +
+      "\n\tstateCode\030\001 \001(\005\022\017\n\007message\030\002 \001(\t\"\017\n\rLo" +
+      "goutRequest\"+\n\016LogoutResponse\022\014\n\004code\030\001 " +
+      "\001(\005\022\013\n\003mxg\030\002 \001(\t\"D\n\017UseSkillRequest\022\017\n\007s" +
+      "killId\030\001 \001(\005\022\016\n\006roleId\030\002 \001(\005\022\020\n\010roleType" +
+      "\030\003 \001(\005\"8\n\020UseSkillResponse\022$\n\rroleIdDama" +
+      "ges\030\001 \003(\0132\r.RoleIdDamage\"<\n\025DamagesNotic" +
+      "eResponse\022#\n\014roleIdDamage\030\001 \001(\0132\r.RoleId" +
+      "Damage\"T\n\017UpLevelResponse\022\016\n\006roleId\030\001 \001(" +
+      "\005\022\020\n\010roleName\030\002 \001(\t\022\r\n\005level\030\003 \001(\005\022\020\n\010ad" +
+      "dLevel\030\004 \001(\005\"\330\002\n\007RoleDTO\022\n\n\002id\030\001 \001(\005\022\014\n\004" +
+      "name\030\002 \001(\t\022\016\n\006status\030\003 \001(\005\022\014\n\004type\030\004 \001(\005" +
+      "\022\020\n\010onStatus\030\005 \001(\005\022\r\n\005blood\030\006 \001(\005\022\020\n\010now" +
+      "Blood\030\007 \001(\005\022\n\n\002mp\030\010 \001(\005\022\r\n\005nowMp\030\t \001(\005\022\023" +
+      "\n\013skillIdList\030\n \003(\005\022\016\n\006attack\030\013 \001(\005\022\021\n\ta" +
+      "ttackAdd\030\014 \001(\001\022\016\n\006teamId\030\r \001(\005\022\017\n\007sceneI" +
+      "d\030\016 \001(\005\022\024\n\014professionId\030\017 \001(\005\022\r\n\005money\030\020" +
+      " \001(\005\022\017\n\007guildId\030\021 \001(\005\022\021\n\tguildName\030\022 \001(\t" +
+      "\022\r\n\005level\030\023 \001(\005\022\026\n\016equipmentLevel\030\024 \001(\005\"" +
+      "\217\002\n\014RoleIdDamage\022\022\n\nfromRoleId\030\001 \001(\005\022\020\n\010" +
+      "toRoleId\030\002 \001(\005\022\020\n\010bufferId\030\003 \001(\005\022\017\n\007skil" +
+      "lId\030\004 \001(\005\022\023\n\013attackStyle\030\005 \001(\005\022\022\n\ndamage" +
+      "Type\030\006 \001(\005\022\016\n\006damage\030\007 \001(\005\022\020\n\010nowblood\030\010" +
+      " \001(\005\022\n\n\002mp\030\t \001(\005\022\r\n\005State\030\n \001(\005\022\024\n\014fromR" +
+      "oleType\030\013 \001(\005\022\022\n\ntoRoleType\030\014 \001(\005\022\021\n\tart" +
+      "icleId\030\r \001(\005\022\023\n\013articleType\030\016 \001(\005B\013B\tPla" +
+      "yModelb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -12469,7 +13635,7 @@ public final class PlayModel {
     internal_static_PlayModelMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_PlayModelMessage_descriptor,
-        new String[] { "DataType", "LoginRequest", "RegisterRequest", "LogoutRequest", "LoginResponse", "RegisterResponse", "LogoutResponse", "UseSkillRequest", "UseSkillResponse", "DamagesNoticeResponse", "DateBody", });
+        new String[] { "DataType", "LoginRequest", "RegisterRequest", "LogoutRequest", "LoginResponse", "RegisterResponse", "LogoutResponse", "UseSkillRequest", "UseSkillResponse", "DamagesNoticeResponse", "UpLevelResponse", "DateBody", });
     internal_static_LoginRequest_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_LoginRequest_fieldAccessorTable = new
@@ -12524,14 +13690,20 @@ public final class PlayModel {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_DamagesNoticeResponse_descriptor,
         new String[] { "RoleIdDamage", });
-    internal_static_RoleDTO_descriptor =
+    internal_static_UpLevelResponse_descriptor =
       getDescriptor().getMessageTypes().get(10);
+    internal_static_UpLevelResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_UpLevelResponse_descriptor,
+        new String[] { "RoleId", "RoleName", "Level", "AddLevel", });
+    internal_static_RoleDTO_descriptor =
+      getDescriptor().getMessageTypes().get(11);
     internal_static_RoleDTO_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_RoleDTO_descriptor,
-        new String[] { "Id", "Name", "Status", "Type", "OnStatus", "Blood", "NowBlood", "Mp", "NowMp", "SkillIdList", "Attack", "AttackAdd", "TeamId", "SceneId", "ProfessionId", "Money", "GuildId", "GuildName", });
+        new String[] { "Id", "Name", "Status", "Type", "OnStatus", "Blood", "NowBlood", "Mp", "NowMp", "SkillIdList", "Attack", "AttackAdd", "TeamId", "SceneId", "ProfessionId", "Money", "GuildId", "GuildName", "Level", "EquipmentLevel", });
     internal_static_RoleIdDamage_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_RoleIdDamage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_RoleIdDamage_descriptor,

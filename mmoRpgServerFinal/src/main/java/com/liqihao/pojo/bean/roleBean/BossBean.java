@@ -10,6 +10,7 @@ import com.liqihao.pojo.baseMessage.BufferMessage;
 import com.liqihao.pojo.bean.CopySceneBean;
 import com.liqihao.pojo.bean.SkillBean;
 import com.liqihao.pojo.bean.buffBean.BaseBuffBean;
+import com.liqihao.pojo.bean.taskBean.killTask.KillTaskAction;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.util.CommonsUtil;
@@ -113,17 +114,8 @@ public class BossBean extends Role {
             if (hp <= 0) {
                 reduce = reduce + hp;
                 hp = 0;
-                bossBean.setStatus(RoleStatusCode.DIE.getCode());
-                // 挑战成功or出现下一个boss
-                CopySceneBean copySceneBean=CopySceneProvider.getCopySceneBeanById(copySceneBeanId);
-                copySceneBean.bossComeOrFinish();
-                //移除boss攻击线程
-                Integer bossAttackId=getId()+copySceneBean.hashCode();
-                ScheduledFuture<?> t = ScheduledThreadPoolUtil.getBossTaskMap().get(bossAttackId);
-                if (t!=null){
-                    ScheduledThreadPoolUtil.getBossTaskMap().remove(bossAttackId);
-                    t.cancel(false);
-                }
+
+                die(fromRole);
             }
             bossBean.setNowHp(hp);
         }finally {
@@ -183,8 +175,32 @@ public class BossBean extends Role {
     }
 
     @Override
-    public void die() {
-
+    public void die(Role fromRole) {
+        setStatus(RoleStatusCode.DIE.getCode());
+        // 挑战成功or出现下一个boss
+        CopySceneBean copySceneBean=CopySceneProvider.getCopySceneBeanById(copySceneBeanId);
+        copySceneBean.bossComeOrFinish();
+        //移除boss攻击线程
+        Integer bossAttackId=getId()+copySceneBean.hashCode();
+        ScheduledFuture<?> t = ScheduledThreadPoolUtil.getBossTaskMap().get(bossAttackId);
+        if (t!=null){
+            ScheduledThreadPoolUtil.getBossTaskMap().remove(bossAttackId);
+            t.cancel(false);
+        }
+        //任务or经验
+        if (fromRole.getType().equals(RoleTypeCode.PLAYER.getCode())||fromRole.getType().equals(RoleTypeCode.HELPER.getCode())) {
+            MmoSimpleRole role=null;
+            if (fromRole.getType().equals(RoleTypeCode.HELPER.getCode())){
+                MmoHelperBean mmoHelperBean= (MmoHelperBean) fromRole;
+                Integer roleId=mmoHelperBean.getMasterId();
+                role=OnlineRoleMessageCache.getInstance().get(roleId);
+            }else {
+                role = (MmoSimpleRole) fromRole;
+            }
+            //人物增加经验
+            BossMessage bossMessage=BossMessageCache.getInstance().get(getBossMessageId());
+            role.addExp(bossMessage.getAddExp());
+        }
     }
 
     public void bossAttack() {
@@ -210,9 +226,9 @@ public class BossBean extends Role {
 
 
     @Override
-    public void effectByBuffer(BaseBuffBean bufferBean) {
+    public void effectByBuffer(BaseBuffBean bufferBean,Role fromRole) {
         //根据buffer类型扣血扣蓝
-        bufferBean.effectToRole(this);
+        bufferBean.effectToRole(this,fromRole);
     }
 
     public Role getTarget() {

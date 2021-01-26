@@ -164,6 +164,8 @@ public class PlayServiceImpl implements PlayService {
             //修改人物属性
             simpleRole.setAttack(simpleRole.getAttack() + message.getAttackAdd());
             simpleRole.setDamageAdd(simpleRole.getDamageAdd() + message.getDamageAdd());
+            //TODO
+            simpleRole.setEquipmentLevel(0);
         }
         //初始化任务信息
         TaskServiceProvider.initTask(simpleRole);

@@ -25,6 +25,8 @@ public class MmoRolePOJO {
 
     private Integer guildId;
 
+    private Integer exp;
+
     public Integer getId() {
         return id;
     }
@@ -104,6 +106,15 @@ public class MmoRolePOJO {
     public void setGuildId(Integer guildId) {
         this.guildId = guildId;
     }
+
+    public Integer getExp() {
+        return exp;
+    }
+
+    public void setExp(Integer exp) {
+        this.exp = exp;
+    }
+
     /**
      * description 初始化方法
      * @param roleName
@@ -118,6 +129,7 @@ public class MmoRolePOJO {
         setOnStatus(RoleOnStatusCode.EXIT.getCode());
         setType(RoleTypeCode.PLAYER.getCode());
         setMoney(0);
+        setExp(0);
         setGuildId(-1);
     }
 }

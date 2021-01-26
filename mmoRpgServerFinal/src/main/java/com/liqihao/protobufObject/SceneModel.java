@@ -8531,6 +8531,18 @@ public final class SceneModel {
      */
     com.google.protobuf.ByteString
         getGuildNameBytes();
+
+    /**
+     * <code>int32 level = 19;</code>
+     * @return The level.
+     */
+    int getLevel();
+
+    /**
+     * <code>int32 equipmentLevel = 20;</code>
+     * @return The equipmentLevel.
+     */
+    int getEquipmentLevel();
   }
   /**
    * Protobuf type {@code RoleDTO}
@@ -8677,6 +8689,16 @@ public final class SceneModel {
               String s = input.readStringRequireUtf8();
 
               guildName_ = s;
+              break;
+            }
+            case 152: {
+
+              level_ = input.readInt32();
+              break;
+            }
+            case 160: {
+
+              equipmentLevel_ = input.readInt32();
               break;
             }
             default: {
@@ -8961,6 +8983,28 @@ public final class SceneModel {
       }
     }
 
+    public static final int LEVEL_FIELD_NUMBER = 19;
+    private int level_;
+    /**
+     * <code>int32 level = 19;</code>
+     * @return The level.
+     */
+    @Override
+    public int getLevel() {
+      return level_;
+    }
+
+    public static final int EQUIPMENTLEVEL_FIELD_NUMBER = 20;
+    private int equipmentLevel_;
+    /**
+     * <code>int32 equipmentLevel = 20;</code>
+     * @return The equipmentLevel.
+     */
+    @Override
+    public int getEquipmentLevel() {
+      return equipmentLevel_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -9027,6 +9071,12 @@ public final class SceneModel {
       }
       if (!getGuildNameBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 18, guildName_);
+      }
+      if (level_ != 0) {
+        output.writeInt32(19, level_);
+      }
+      if (equipmentLevel_ != 0) {
+        output.writeInt32(20, equipmentLevel_);
       }
       unknownFields.writeTo(output);
     }
@@ -9109,6 +9159,14 @@ public final class SceneModel {
       if (!getGuildNameBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(18, guildName_);
       }
+      if (level_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(19, level_);
+      }
+      if (equipmentLevel_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(20, equipmentLevel_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -9157,6 +9215,10 @@ public final class SceneModel {
           != other.getGuildId()) return false;
       if (!getGuildName()
           .equals(other.getGuildName())) return false;
+      if (getLevel()
+          != other.getLevel()) return false;
+      if (getEquipmentLevel()
+          != other.getEquipmentLevel()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -9203,6 +9265,10 @@ public final class SceneModel {
       hash = (53 * hash) + getGuildId();
       hash = (37 * hash) + GUILDNAME_FIELD_NUMBER;
       hash = (53 * hash) + getGuildName().hashCode();
+      hash = (37 * hash) + LEVEL_FIELD_NUMBER;
+      hash = (53 * hash) + getLevel();
+      hash = (37 * hash) + EQUIPMENTLEVEL_FIELD_NUMBER;
+      hash = (53 * hash) + getEquipmentLevel();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -9368,6 +9434,10 @@ public final class SceneModel {
 
         guildName_ = "";
 
+        level_ = 0;
+
+        equipmentLevel_ = 0;
+
         return this;
       }
 
@@ -9415,6 +9485,8 @@ public final class SceneModel {
         result.professionId_ = professionId_;
         result.guildId_ = guildId_;
         result.guildName_ = guildName_;
+        result.level_ = level_;
+        result.equipmentLevel_ = equipmentLevel_;
         onBuilt();
         return result;
       }
@@ -9519,6 +9591,12 @@ public final class SceneModel {
         if (!other.getGuildName().isEmpty()) {
           guildName_ = other.guildName_;
           onChanged();
+        }
+        if (other.getLevel() != 0) {
+          setLevel(other.getLevel());
+        }
+        if (other.getEquipmentLevel() != 0) {
+          setEquipmentLevel(other.getEquipmentLevel());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -10180,6 +10258,68 @@ public final class SceneModel {
   checkByteStringIsUtf8(value);
         
         guildName_ = value;
+        onChanged();
+        return this;
+      }
+
+      private int level_ ;
+      /**
+       * <code>int32 level = 19;</code>
+       * @return The level.
+       */
+      @Override
+      public int getLevel() {
+        return level_;
+      }
+      /**
+       * <code>int32 level = 19;</code>
+       * @param value The level to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLevel(int value) {
+        
+        level_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 level = 19;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearLevel() {
+        
+        level_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int equipmentLevel_ ;
+      /**
+       * <code>int32 equipmentLevel = 20;</code>
+       * @return The equipmentLevel.
+       */
+      @Override
+      public int getEquipmentLevel() {
+        return equipmentLevel_;
+      }
+      /**
+       * <code>int32 equipmentLevel = 20;</code>
+       * @param value The equipmentLevel to set.
+       * @return This builder for chaining.
+       */
+      public Builder setEquipmentLevel(int value) {
+        
+        equipmentLevel_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 equipmentLevel = 20;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearEquipmentLevel() {
+        
+        equipmentLevel_ = 0;
         onChanged();
         return this;
       }
@@ -10969,16 +11109,17 @@ public final class SceneModel {
       "nesIds\030\001 \003(\005\"1\n\024FindAllRolesResponse\022\031\n\007" +
       "roleDTO\030\001 \003(\0132\010.RoleDTO\":\n\014WentResponse\022" +
       "\017\n\007sceneId\030\001 \001(\005\022\031\n\007roleDTO\030\002 \003(\0132\010.Role" +
-      "DTO\" \n\017TalkNPCResponse\022\r\n\005npcId\030\001 \001(\005\"\221\002" +
+      "DTO\" \n\017TalkNPCResponse\022\r\n\005npcId\030\001 \001(\005\"\270\002" +
       "\n\007RoleDTO\022\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\016\n\006s" +
       "tatus\030\003 \001(\005\022\014\n\004type\030\004 \001(\005\022\020\n\010onStatus\030\005 " +
       "\001(\005\022\r\n\005blood\030\006 \001(\005\022\020\n\010nowBlood\030\007 \001(\005\022\n\n\002" +
       "mp\030\010 \001(\005\022\r\n\005nowMp\030\t \001(\005\022\023\n\013skillIdList\030\n" +
       " \003(\005\022\016\n\006attack\030\013 \001(\005\022\021\n\tattackAdd\030\014 \001(\001\022" +
       "\016\n\006teamId\030\r \001(\005\022\024\n\014professionId\030\016 \001(\005\022\017\n" +
-      "\007guildId\030\021 \001(\005\022\021\n\tguildName\030\022 \001(\t\"/\n\016Mmo" +
-      "SimpleScene\022\n\n\002id\030\001 \001(\005\022\021\n\tpalceName\030\002 \001" +
-      "(\tB\014B\nSceneModelb\006proto3"
+      "\007guildId\030\021 \001(\005\022\021\n\tguildName\030\022 \001(\t\022\r\n\005lev" +
+      "el\030\023 \001(\005\022\026\n\016equipmentLevel\030\024 \001(\005\"/\n\016MmoS" +
+      "impleScene\022\n\n\002id\030\001 \001(\005\022\021\n\tpalceName\030\002 \001(" +
+      "\tB\014B\nSceneModelb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -11049,7 +11190,7 @@ public final class SceneModel {
     internal_static_RoleDTO_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_RoleDTO_descriptor,
-        new String[] { "Id", "Name", "Status", "Type", "OnStatus", "Blood", "NowBlood", "Mp", "NowMp", "SkillIdList", "Attack", "AttackAdd", "TeamId", "ProfessionId", "GuildId", "GuildName", });
+        new String[] { "Id", "Name", "Status", "Type", "OnStatus", "Blood", "NowBlood", "Mp", "NowMp", "SkillIdList", "Attack", "AttackAdd", "TeamId", "ProfessionId", "GuildId", "GuildName", "Level", "EquipmentLevel", });
     internal_static_MmoSimpleScene_descriptor =
       getDescriptor().getMessageTypes().get(11);
     internal_static_MmoSimpleScene_fieldAccessorTable = new

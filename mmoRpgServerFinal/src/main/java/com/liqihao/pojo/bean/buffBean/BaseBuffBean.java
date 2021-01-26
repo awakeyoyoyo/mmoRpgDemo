@@ -87,7 +87,7 @@ public abstract class BaseBuffBean {
      * 对角色的印象
      * @param toRole
      */
-    public abstract void effectToRole(Role toRole);
+    public abstract void effectToRole(Role toRole,Role fromRole);
 
     /**
      * 广播buffer伤害信息

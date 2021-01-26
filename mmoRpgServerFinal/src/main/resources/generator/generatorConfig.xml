@@ -42,7 +42,7 @@
 <!--        <table tableName="mmo_dealbank_auction" domainObjectName="MmoDealBankAuctionPOJO" enableCountByExample="false"-->
 <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false"></table>-->
-        <table tableName="mmo_task" domainObjectName="MmoTaskPOJO" enableCountByExample="false"
+        <table tableName="mmo_role" domainObjectName="MmoRolePOJO" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>
 <!--        <table tableName="mmo_guild_role" domainObjectName="MmoGuildRolePOJO" enableCountByExample="false"-->

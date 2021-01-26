@@ -78,6 +78,8 @@ message RoleDTO{
   int32 professionId=14;
   int32 guildId=17;
   string guildName=18;
+  int32 level=19;
+  int32 equipmentLevel=20;
 }
 message MmoSimpleScene{
    int32 id=1;

@@ -266,14 +266,15 @@ public class ScheduledThreadPoolUtil {
         private BaseBuffBean bufferBean;
         private Integer count;
         private Role toRole;
-
+        private Role fromRole;
         public BufferTask() {
         }
 
-        public BufferTask(BaseBuffBean bufferBean, Integer count, Role toRole) {
+        public BufferTask(BaseBuffBean bufferBean, Integer count, Role toRole,Role fromRole) {
             this.bufferBean = bufferBean;
             this.count = count;
             this.toRole = toRole;
+            this.fromRole=fromRole;
         }
 
         @Override
@@ -289,7 +290,7 @@ public class ScheduledThreadPoolUtil {
                 //人物身上删除buffer
 
             }
-            toRole.effectByBuffer(bufferBean);
+            toRole.effectByBuffer(bufferBean,fromRole);
             count--;
         }
     }

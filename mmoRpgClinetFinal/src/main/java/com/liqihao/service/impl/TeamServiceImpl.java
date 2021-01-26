@@ -39,6 +39,8 @@ public class TeamServiceImpl implements TeamService {
             System.out.println("[-][-]角色id： " + r.getId() + "角色名称： " + r.getName() +"职业："+p.get(r.getProfessionId()).getName()+ " 所在队伍id： " + r.getTeamId());
             System.out.println("[-][-]Hp:" + r.getNowHp() + "/" + r.getHp());
             System.out.println("[-][-]Mp:" + r.getNowMP() + "/" + r.getMp());
+            System.out.println("[-][-]等级："+r.getLevel());
+            System.out.println("[-][-]装备总等级："+r.getEquipmentLevel());
             System.out.println("[-]");
         }
         System.out.println("[-]--------------------------------------------------------");
@@ -164,6 +166,8 @@ public class TeamServiceImpl implements TeamService {
         System.out.println("[-]--------------------------------------------------------");
 
         System.out.println("[-][-]角色id： " + r.getId() + "角色名称： " + r.getName() + " 所在队伍id： " + r.getTeamId());
+        System.out.println("[-][-]等级："+r.getLevel());
+        System.out.println("[-][-]装备总等级："+r.getEquipmentLevel());
         System.out.println("[-][-]Hp:" + r.getNowHp() + "/" + r.getHp());
         System.out.println("[-][-]Mp:" + r.getNowMP() + "/" + r.getMp());
         System.out.println("[-]默默地离开了当前队伍");
@@ -183,6 +187,8 @@ public class TeamServiceImpl implements TeamService {
         }
         System.out.println("[-]--------------------------------------------------------");
         System.out.println("[-][-]角色id： " + r.getId() + "角色名称： " + r.getName() + " 所在队伍id： " + r.getTeamId());
+        System.out.println("[-][-]等级："+r.getLevel());
+        System.out.println("[-][-]装备总等级："+r.getEquipmentLevel());
         System.out.println("[-][-]Hp:" + r.getNowHp() + "/" + r.getHp());
         System.out.println("[-][-]Mp:" + r.getNowMP() + "/" + r.getMp());
         System.out.println("[-]默默地加入了当前队伍");

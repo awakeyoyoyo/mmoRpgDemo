@@ -62,6 +62,9 @@ public class Dispatcherservlet {
             case ConstantValue.LOGOUT_RESPONSE:
                 playService.logoutResponse(nettyResponse);
                 break;
+            case ConstantValue.UP_LEVEL_RESPONSE:
+                playService.upLevelResponse(nettyResponse);
+                break;
             case ConstantValue.OUT_RIME_RESPONSE:
                 gameService.outTimeResponse(nettyResponse);
                 break;

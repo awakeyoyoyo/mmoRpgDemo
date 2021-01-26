@@ -14,6 +14,7 @@ message PlayModelMessage{
     UseSkillRequest=6;
     UseSkillResponse=7;
     DamagesNoticeResponse=8;
+    UpLevelResponse=9;
   }
   //用date_type来标识传的是哪一个枚举类型
   DateType data_type=1;
@@ -28,6 +29,7 @@ message PlayModelMessage{
     UseSkillRequest useSkillRequest=8;
     UseSkillResponse useSkillResponse=9;
     DamagesNoticeResponse damagesNoticeResponse=10;
+    UpLevelResponse upLevelResponse=11;
   }
 }
 message LoginRequest{
@@ -67,6 +69,12 @@ message DamagesNoticeResponse{
     RoleIdDamage roleIdDamage=1;
 }
 
+message UpLevelResponse{
+  int32 roleId=1;
+  string roleName=2;
+  int32 level=3;
+  int32 addLevel=4;
+}
 
 message RoleDTO{
   int32 id=1;
@@ -87,6 +95,8 @@ message RoleDTO{
   int32 money=16;
   int32 guildId=17;
   string guildName=18;
+  int32 level=19;
+  int32 equipmentLevel=20;
 }
 message RoleIdDamage{
   int32 fromRoleId=1;

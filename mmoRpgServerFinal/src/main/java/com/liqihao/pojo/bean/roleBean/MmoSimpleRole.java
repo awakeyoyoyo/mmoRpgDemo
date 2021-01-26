@@ -341,7 +341,8 @@ public class MmoSimpleRole extends Role implements MyObserver {
         setOnStatus(role.getOnStatus());
         setStatus(role.getStatus());
         setType(role.getType());
-
+        setExp(role.getExp());
+        setLevel(getExp()/10);
         setHp(baseRoleMessage.getHp());
         setNowHp(baseRoleMessage.getHp());
         setMp(baseRoleMessage.getMp());
@@ -638,7 +639,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
     }
 
     @Override
-    public void die() {
+    public void die(Role fromRole) {
 
     }
 
@@ -674,7 +675,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
      * @param bufferBean
      */
     @Override
-    public void effectByBuffer(BaseBuffBean bufferBean) {
+    public void effectByBuffer(BaseBuffBean bufferBean,Role fromRole) {
         //根据buffer类型扣血扣蓝
         bufferBean.effectToPeople(this);
     }

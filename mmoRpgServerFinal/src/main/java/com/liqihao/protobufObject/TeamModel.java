@@ -21623,6 +21623,18 @@ public final class TeamModel {
      * @return The professionId.
      */
     int getProfessionId();
+
+    /**
+     * <code>int32 level = 19;</code>
+     * @return The level.
+     */
+    int getLevel();
+
+    /**
+     * <code>int32 equipmentLevel = 20;</code>
+     * @return The equipmentLevel.
+     */
+    int getEquipmentLevel();
   }
   /**
    * Protobuf type {@code RoleDto}
@@ -21709,6 +21721,16 @@ public final class TeamModel {
             case 64: {
 
               professionId_ = input.readInt32();
+              break;
+            }
+            case 152: {
+
+              level_ = input.readInt32();
+              break;
+            }
+            case 160: {
+
+              equipmentLevel_ = input.readInt32();
               break;
             }
             default: {
@@ -21858,6 +21880,28 @@ public final class TeamModel {
       return professionId_;
     }
 
+    public static final int LEVEL_FIELD_NUMBER = 19;
+    private int level_;
+    /**
+     * <code>int32 level = 19;</code>
+     * @return The level.
+     */
+    @Override
+    public int getLevel() {
+      return level_;
+    }
+
+    public static final int EQUIPMENTLEVEL_FIELD_NUMBER = 20;
+    private int equipmentLevel_;
+    /**
+     * <code>int32 equipmentLevel = 20;</code>
+     * @return The equipmentLevel.
+     */
+    @Override
+    public int getEquipmentLevel() {
+      return equipmentLevel_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -21895,6 +21939,12 @@ public final class TeamModel {
       }
       if (professionId_ != 0) {
         output.writeInt32(8, professionId_);
+      }
+      if (level_ != 0) {
+        output.writeInt32(19, level_);
+      }
+      if (equipmentLevel_ != 0) {
+        output.writeInt32(20, equipmentLevel_);
       }
       unknownFields.writeTo(output);
     }
@@ -21936,6 +21986,14 @@ public final class TeamModel {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(8, professionId_);
       }
+      if (level_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(19, level_);
+      }
+      if (equipmentLevel_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(20, equipmentLevel_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -21967,6 +22025,10 @@ public final class TeamModel {
           != other.getTeamId()) return false;
       if (getProfessionId()
           != other.getProfessionId()) return false;
+      if (getLevel()
+          != other.getLevel()) return false;
+      if (getEquipmentLevel()
+          != other.getEquipmentLevel()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -21994,6 +22056,10 @@ public final class TeamModel {
       hash = (53 * hash) + getTeamId();
       hash = (37 * hash) + PROFESSIONID_FIELD_NUMBER;
       hash = (53 * hash) + getProfessionId();
+      hash = (37 * hash) + LEVEL_FIELD_NUMBER;
+      hash = (53 * hash) + getLevel();
+      hash = (37 * hash) + EQUIPMENTLEVEL_FIELD_NUMBER;
+      hash = (53 * hash) + getEquipmentLevel();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -22143,6 +22209,10 @@ public final class TeamModel {
 
         professionId_ = 0;
 
+        level_ = 0;
+
+        equipmentLevel_ = 0;
+
         return this;
       }
 
@@ -22177,6 +22247,8 @@ public final class TeamModel {
         result.nowMP_ = nowMP_;
         result.teamId_ = teamId_;
         result.professionId_ = professionId_;
+        result.level_ = level_;
+        result.equipmentLevel_ = equipmentLevel_;
         onBuilt();
         return result;
       }
@@ -22249,6 +22321,12 @@ public final class TeamModel {
         }
         if (other.getProfessionId() != 0) {
           setProfessionId(other.getProfessionId());
+        }
+        if (other.getLevel() != 0) {
+          setLevel(other.getLevel());
+        }
+        if (other.getEquipmentLevel() != 0) {
+          setEquipmentLevel(other.getEquipmentLevel());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -22571,6 +22649,68 @@ public final class TeamModel {
         onChanged();
         return this;
       }
+
+      private int level_ ;
+      /**
+       * <code>int32 level = 19;</code>
+       * @return The level.
+       */
+      @Override
+      public int getLevel() {
+        return level_;
+      }
+      /**
+       * <code>int32 level = 19;</code>
+       * @param value The level to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLevel(int value) {
+        
+        level_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 level = 19;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearLevel() {
+        
+        level_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int equipmentLevel_ ;
+      /**
+       * <code>int32 equipmentLevel = 20;</code>
+       * @return The equipmentLevel.
+       */
+      @Override
+      public int getEquipmentLevel() {
+        return equipmentLevel_;
+      }
+      /**
+       * <code>int32 equipmentLevel = 20;</code>
+       * @param value The equipmentLevel to set.
+       * @return This builder for chaining.
+       */
+      public Builder setEquipmentLevel(int value) {
+        
+        equipmentLevel_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 equipmentLevel = 20;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearEquipmentLevel() {
+        
+        equipmentLevel_ = 0;
+        onChanged();
+        return this;
+      }
       @Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -22853,10 +22993,11 @@ public final class TeamModel {
       "\030\006 \001(\022\"\213\001\n\013TeamBeanDto\022\016\n\006teamId\030\001 \001(\005\022\032" +
       "\n\010roleDtos\030\002 \003(\0132\010.RoleDto\022\020\n\010leaderId\030\003" +
       " \001(\005\022\020\n\010teamName\030\004 \001(\t\022\023\n\013copySceneId\030\005 " +
-      "\001(\005\022\027\n\017copySceneBeanId\030\006 \001(\005\"\177\n\007RoleDto\022" +
-      "\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\n\n\002hp\030\003 \001(\005\022\n\n" +
-      "\002mp\030\004 \001(\005\022\r\n\005nowHp\030\005 \001(\005\022\r\n\005nowMP\030\006 \001(\005\022" +
-      "\016\n\006teamId\030\007 \001(\005\022\024\n\014professionId\030\010 \001(\005B\013B" +
+      "\001(\005\022\027\n\017copySceneBeanId\030\006 \001(\005\"\246\001\n\007RoleDto" +
+      "\022\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\n\n\002hp\030\003 \001(\005\022\n" +
+      "\n\002mp\030\004 \001(\005\022\r\n\005nowHp\030\005 \001(\005\022\r\n\005nowMP\030\006 \001(\005" +
+      "\022\016\n\006teamId\030\007 \001(\005\022\024\n\014professionId\030\010 \001(\005\022\r" +
+      "\n\005level\030\023 \001(\005\022\026\n\016equipmentLevel\030\024 \001(\005B\013B" +
       "\tTeamModelb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
@@ -23030,7 +23171,7 @@ public final class TeamModel {
     internal_static_RoleDto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_RoleDto_descriptor,
-        new String[] { "Id", "Name", "Hp", "Mp", "NowHp", "NowMP", "TeamId", "ProfessionId", });
+        new String[] { "Id", "Name", "Hp", "Mp", "NowHp", "NowMP", "TeamId", "ProfessionId", "Level", "EquipmentLevel", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

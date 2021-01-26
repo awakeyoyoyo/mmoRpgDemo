@@ -72,6 +72,8 @@ public class CommonsUtil {
                 .setTeamId(simpleRole.getTeamId() == null ? -1 : simpleRole.getTeamId())
                 .setAttack(simpleRole.getAttack())
                 .setAttackAdd(simpleRole.getDamageAdd())
+                .setLevel(simpleRole.getLevel())
+                .setEquipmentLevel(simpleRole.getEquipmentLevel())
                 .setMoney(simpleRole.getMoney())
                 .setProfessionId(simpleRole.getProfessionId())
                 .setGuildName(simpleRole.getGuildBean()==null?"":simpleRole.getGuildBean().getName())
@@ -121,6 +123,20 @@ public class CommonsUtil {
                 }
             }
         }
+    }
+
+    public static void sendUpLevelAllRoles(Integer addLevel, Role role) {
+        NettyResponse nettyResponse=new NettyResponse();
+        PlayModel.PlayModelMessage.Builder messageData = PlayModel.PlayModelMessage.newBuilder();
+        messageData.setDataType(PlayModel.PlayModelMessage.DateType.UpLevelResponse);
+        PlayModel.UpLevelResponse.Builder registerResponseBuilder = PlayModel.UpLevelResponse.newBuilder();
+        registerResponseBuilder.setLevel(role.getLevel()).setRoleId(role.getId()).setRoleName(role.getName())
+                .setAddLevel(addLevel);
+        messageData.setUpLevelResponse(registerResponseBuilder.build());
+        nettyResponse.setCmd(ConstantValue.UP_LEVEL_RESPONSE);
+        nettyResponse.setData(messageData.build().toByteArray());
+        MmoSimpleRole mmoSimpleRole= (MmoSimpleRole) role;
+        notificationSceneRole(nettyResponse,mmoSimpleRole);
     }
 
 
@@ -471,6 +487,8 @@ public class CommonsUtil {
         bossBean.setNowHp(bossMessage.getBlood());
         bossBean.setDamageAdd(bossMessage.getDamageAdd());
         bossBean.setId(bossMessage.getId());
+        bossBean.setLevel(0);
+        bossBean.setEquipmentLevel(0);
         bossBean.setBossMessageId(bossMessage.getId());
         bossBean.setMp(bossMessage.getMp());
         bossBean.setName(bossMessage.getName());
@@ -666,6 +684,8 @@ public class CommonsUtil {
                     .setStatus(m.getStatus())
                     .setType(m.getType())
                     .setBlood(m.getHp())
+                    .setLevel(m.getLevel())
+                    .setEquipmentLevel(m.getEquipmentLevel())
                     .setNowBlood(m.getNowHp())
                     .setMp(m.getMp())
                     .setTeamId(m.getTeamId() == null ? -1 : m.getTeamId())

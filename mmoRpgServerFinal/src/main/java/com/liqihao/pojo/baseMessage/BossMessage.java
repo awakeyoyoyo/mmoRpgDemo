@@ -12,6 +12,15 @@ public class BossMessage  extends BaseMessage{
     private String skillIds;
     private Integer attack;
     private double damageAdd;
+    private Integer addExp;
+
+    public Integer getAddExp() {
+        return addExp;
+    }
+
+    public void setAddExp(Integer addExp) {
+        this.addExp = addExp;
+    }
 
     @Override
     public Integer getTheId() {

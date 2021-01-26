@@ -120,7 +120,7 @@ public class SkillBean {
         if (bufferMessage.getBufferStyle().equals(BufferStyleCode.SPACE_DO.getCode())) {
             //间隔生效
             Integer count=bufferMessage.getLastTime()/bufferMessage.getSpaceTime();
-            ScheduledThreadPoolUtil.BufferTask bufferTask = new ScheduledThreadPoolUtil.BufferTask(bufferBean, count, toRole);
+            ScheduledThreadPoolUtil.BufferTask bufferTask = new ScheduledThreadPoolUtil.BufferTask(bufferBean, count, toRole,fromRole);
             //查看是否已经有了该buffer 有则覆盖无则直接加入
             String key = toRole.getId().toString() + bufferBean.getBufferMessageId().toString()+toRole.getName()+fromRole.getName();
             ConcurrentHashMap<String, ScheduledFuture<?>> bufferRole = ScheduledThreadPoolUtil.getBufferRole();
@@ -131,7 +131,7 @@ public class SkillBean {
             bufferRole.put(key, t);
         }else{
             //持续生效
-            ScheduledThreadPoolUtil.BufferTask bufferTask = new ScheduledThreadPoolUtil.BufferTask(bufferBean, 1, toRole);
+            ScheduledThreadPoolUtil.BufferTask bufferTask = new ScheduledThreadPoolUtil.BufferTask(bufferBean, 1, toRole,fromRole);
             //用该嘲讽buffer id 作为主键，目的是让其每次都会覆盖就得嘲讽buffer
             String key = toRole.getId().toString() + bufferMessage.getId().toString()+toRole.getName()+fromRole.getName();
             ConcurrentHashMap<String, ScheduledFuture<?>> bufferRole = ScheduledThreadPoolUtil.getBufferRole();

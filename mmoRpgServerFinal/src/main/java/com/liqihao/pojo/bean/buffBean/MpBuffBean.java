@@ -43,7 +43,7 @@ public class MpBuffBean extends BaseBuffBean {
     }
 
     @Override
-    public void effectToRole(Role toRole){
+    public void effectToRole(Role toRole,Role fromRole){
         toRole.mpRwLock.writeLock().lock();
         try {
             BufferMessage bufferMessage= BufferMessageCache.getInstance().get(getBufferMessageId());

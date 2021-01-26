@@ -84,6 +84,8 @@ public class SceneServiceImpl implements SceneService {
             msr.setOnStatus(mmoRole.getOnStatus());
             msr.setBlood(mmoRole.getHp());
             msr.setNowBlood(mmoRole.getNowHp());
+            msr.setLevel(mmoRole.getLevel());
+            msr.setEquipmentLevel(mmoRole.getEquipmentLevel());
             msr.setMp(mmoRole.getMp());
             msr.setNowMp(mmoRole.getNowMp());
             msr.setTeamId(mmoRole.getTeamId() == null ? -1 : mmoRole.getTeamId());
@@ -127,6 +129,8 @@ public class SceneServiceImpl implements SceneService {
                 roleTemp.setHp(temp.getHp());
                 roleTemp.setNowHp(temp.getNowHp());
                 roleTemp.setMp(temp.getMp());
+                roleTemp.setLevel(temp.getLevel());
+                roleTemp.setEquipmentLevel(temp.getEquipmentLevel());
                 roleTemp.setNowMp(temp.getNowMp());
                 roleTemp.setMmoSceneId(temp.getMmoSceneId());
                 roleTemp.setAttack(temp.getAttack());
@@ -166,6 +170,8 @@ public class SceneServiceImpl implements SceneService {
                     .setMp(m.getMp())
                     .setTeamId(m.getTeamId() == null ? -1 : m.getTeamId())
                     .setNowMp(m.getNowMp())
+                    .setLevel(m.getLevel())
+                    .setEquipmentLevel(m.getEquipmentLevel())
                     .setAttack(m.getAttack())
                     .setAttackAdd(m.getDamageAdd());
             if (m.getType().equals(RoleTypeCode.PLAYER.getCode())) {

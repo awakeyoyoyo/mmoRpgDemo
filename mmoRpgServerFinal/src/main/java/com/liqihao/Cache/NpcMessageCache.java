@@ -45,6 +45,7 @@ public class NpcMessageCache extends CommonsBeanCache<MmoSimpleNPC>{
             npc.setNowMp(n.getMp());
             npc.setAttack(n.getAttack());
             npc.setBufferBeans(new CopyOnWriteArrayList<>());
+            npc.setAddExp(n.getAddExp());
             concurrentHashMap.put(n.getId(),npc);
         }
     }

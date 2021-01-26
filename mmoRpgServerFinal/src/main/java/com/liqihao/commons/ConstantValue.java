@@ -83,6 +83,7 @@ public interface ConstantValue {
      * 使用技能请求
      */
     int USE_SKILL_REQUEST =2003;
+
     //response
     //登陆响应
     /**
@@ -105,7 +106,10 @@ public interface ConstantValue {
      * 伤害响应
      */
     int DAMAGES_NOTICE_RESPONSE=2504;
-
+    /**
+     * 升级响应
+     */
+    int UP_LEVEL_RESPONSE =2505;
     /**
      * 游戏系统模块
      */

@@ -176,6 +176,7 @@ public class DbUtil {
         mmoRolePOJO.setName(mmoSimpleRole.getName());
         mmoRolePOJO.setProfessionId(mmoSimpleRole.getProfessionId());
         mmoRolePOJO.setMoney(mmoSimpleRole.getMoney());
+        mmoRolePOJO.setExp(mmoSimpleRole.getExp());
         if(mmoSimpleRole.getGuildBean()!=null) {
             mmoRolePOJO.setGuildId(mmoSimpleRole.getGuildBean().getId());
         }else {
@@ -406,6 +407,7 @@ public class DbUtil {
         mmoRolePOJO.setName(mmoSimpleRole.getName());
         mmoRolePOJO.setProfessionId(mmoSimpleRole.getProfessionId());
         mmoRolePOJO.setMoney(mmoSimpleRole.getMoney());
+        mmoRolePOJO.setExp(mmoSimpleRole.getExp());
         if(mmoSimpleRole.getGuildBean()!=null) {
             mmoRolePOJO.setGuildId(mmoSimpleRole.getGuildBean().getId());
         }else {

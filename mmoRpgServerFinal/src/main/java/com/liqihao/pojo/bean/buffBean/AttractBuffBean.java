@@ -57,7 +57,7 @@ public class AttractBuffBean extends BaseBuffBean {
         }
     }
     @Override
-    public void effectToRole(Role toRole){
+    public void effectToRole(Role toRole,Role fromRole){
         PlayModel.RoleIdDamage.Builder damageU =builderRoleDamage(toRole);
         damageU.setAttackStyle(AttackStyleCode.GG_ATTACK.getCode());
         PlayModel.PlayModelMessage.Builder myMessageBuilder = PlayModel.PlayModelMessage.newBuilder();

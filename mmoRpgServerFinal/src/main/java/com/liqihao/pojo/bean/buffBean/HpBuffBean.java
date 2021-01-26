@@ -41,15 +41,14 @@ public class HpBuffBean extends BaseBuffBean {
         toRole.changeNowBlood(flag*bufferMessage.getBuffNum(),builder,AttackStyleCode.BUFFER.getCode());
     }
     @Override
-    public void effectToRole(Role toRole){
+    public void effectToRole(Role toRole,Role fromRole){
         BufferMessage bufferMessage= BufferMessageCache.getInstance().get(getBufferMessageId());
         toRole.hpRwLock.writeLock().lock();
         try {
             Integer hp = toRole.getNowHp() - bufferMessage.getBuffNum();
             if (hp <= 0) {
                 hp = 0;
-                toRole.setStatus(RoleStatusCode.DIE.getCode());
-                toRole.die();
+                toRole.die(fromRole);
             }
             toRole.setNowHp(hp);
         }finally {

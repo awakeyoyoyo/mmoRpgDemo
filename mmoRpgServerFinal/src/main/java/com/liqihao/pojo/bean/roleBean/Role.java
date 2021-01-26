@@ -1,8 +1,12 @@
 package com.liqihao.pojo.bean.roleBean;
 
+import com.liqihao.commons.enums.RoleTypeCode;
 import com.liqihao.pojo.bean.SkillBean;
 import com.liqihao.pojo.bean.buffBean.BaseBuffBean;
 import com.liqihao.protobufObject.PlayModel;
+import com.liqihao.util.CommonsUtil;
+import com.liqihao.util.DbUtil;
+import com.liqihao.util.ScheduledThreadPoolUtil;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -27,11 +31,38 @@ public abstract class Role {
     private Integer copySceneBeanId;
     private Integer mmoSceneId;
     private Integer teamId;
+    private Integer level=0;
+    private Integer exp;
+    private Integer equipmentLevel=0;
     /**
      * 锁
      */
     public final ReentrantReadWriteLock hpRwLock = new ReentrantReadWriteLock();
     public final ReentrantReadWriteLock mpRwLock = new ReentrantReadWriteLock();
+
+    public Integer getEquipmentLevel() {
+        return equipmentLevel;
+    }
+
+    public void setEquipmentLevel(Integer equipmentLevel) {
+        this.equipmentLevel = equipmentLevel;
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
+    }
+
+    public Integer getExp() {
+        return exp;
+    }
+
+    public void setExp(Integer exp) {
+        this.exp = exp;
+    }
 
     public Integer getTeamId() {
         return teamId;
@@ -62,6 +93,47 @@ public abstract class Role {
     }
 
     /**
+     * description 加经验
+     * @param num
+     * @return {@link null }
+     * @author lqhao
+     * @createTime 2021/1/26 20:29
+     */
+    public void addExp(Integer num){
+        Integer nowExp=getExp()+num;
+        setExp(nowExp);
+        Integer nowLevel=nowExp/10;
+        upLevel(nowLevel);
+        MmoSimpleRole mmoSimpleRole= (MmoSimpleRole) this;
+        ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateRole(mmoSimpleRole));
+    }
+
+    /**
+     * description 升级
+     * @param level
+     * @return {@link null }
+     * @author lqhao
+     * @createTime 2021/1/26 20:28
+     */
+    public void upLevel(Integer level){
+        if (level>getLevel()){
+            Integer addLevel=level-getLevel();
+            setLevel(level);
+            if(getType().equals(RoleTypeCode.PLAYER.getCode())){
+                //发送给所有人有人升级
+                CommonsUtil.sendUpLevelAllRoles(addLevel,this);
+            }
+        }
+    }
+
+    public void changeEquipmentLevel(Integer equipmentLevel){
+        setEquipmentLevel(equipmentLevel);
+        //todo 抛出装备星级事件
+        if(getType().equals(RoleTypeCode.PLAYER.getCode())){
+            //todo 抛出升级
+        }
+    }
+    /**
      * 改变蓝量
      * @param number
      * @param damageU
@@ -80,7 +152,7 @@ public abstract class Role {
      * buffer影响
      * @param bufferBean
      */
-    public abstract void effectByBuffer(BaseBuffBean bufferBean);
+    public abstract void effectByBuffer(BaseBuffBean bufferBean,Role fromRole);
 
     /**
      * 角色被攻击调用
@@ -93,7 +165,7 @@ public abstract class Role {
     /**
      * 死角色死亡调用
      */
-    public abstract void die();
+    public abstract void die(Role fromRole);
 
     public void setId(Integer id) {
         this.id = id;

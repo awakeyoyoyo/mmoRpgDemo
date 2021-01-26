@@ -301,7 +301,7 @@ public class MmoHelperBean extends Role{
     }
 
     @Override
-    public void die(){
+    public void die(Role fromRole){
         MmoSimpleRole role=OnlineRoleMessageCache.getInstance().get(getMasterId());
         role.setMmoHelperBean(null);
         if (getMmoSceneId()!=null){
@@ -327,8 +327,8 @@ public class MmoHelperBean extends Role{
     /**
      * BUFFER的影响
      */
-    public void effectByBuffer(BaseBuffBean bufferBean) {
+    public void effectByBuffer(BaseBuffBean bufferBean,Role fromRole) {
         //根据buffer类型扣血扣蓝
-        bufferBean.effectToRole(this);
+        bufferBean.effectToRole(this,fromRole);
     }
 }

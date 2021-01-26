@@ -350,7 +350,9 @@ public class TeamBean {
         // 广播给各个队友
         TeamModel.RoleDto roleDto=TeamModel.RoleDto.newBuilder().setId(mmoSimpleRole.getId()).setHp(mmoSimpleRole.getHp())
                 .setMp(mmoSimpleRole.getMp()).setName(mmoSimpleRole.getName()).setNowHp(mmoSimpleRole.getNowHp())
-                .setNowMP(mmoSimpleRole.getNowMp()).setTeamId(mmoSimpleRole.getTeamId()).build();
+                .setNowMP(mmoSimpleRole.getNowMp()).setTeamId(mmoSimpleRole.getTeamId())
+                .setLevel(mmoSimpleRole.getLevel())
+                .setEquipmentLevel(mmoSimpleRole.getEquipmentLevel()).build();
         TeamModel.EntryPeopleResponse entryPeopleResponse=TeamModel.EntryPeopleResponse.newBuilder().setRoleDto(roleDto).build();
         TeamModel.TeamModelMessage.Builder teamMessageBuilder=TeamModel.TeamModelMessage.newBuilder();
         teamMessageBuilder.setDataType(TeamModel.TeamModelMessage.DateType.EntryPeopleResponse);
@@ -393,7 +395,8 @@ public class TeamBean {
      */
     private void exitTeamNotification(MmoSimpleRole mmoSimpleRole){
         TeamModel.RoleDto roleDto=TeamModel.RoleDto.newBuilder().setId(mmoSimpleRole.getId()).setHp(mmoSimpleRole.getHp())
-                .setMp(mmoSimpleRole.getMp()).setName(mmoSimpleRole.getName()).setNowHp(mmoSimpleRole.getNowHp())
+                .setMp(mmoSimpleRole.getMp()).setName(mmoSimpleRole.getName()).setNowHp(mmoSimpleRole.getNowHp()).setLevel(mmoSimpleRole.getLevel())
+                .setEquipmentLevel(mmoSimpleRole.getEquipmentLevel())
                 .setNowMP(mmoSimpleRole.getNowMp()).setTeamId(-1).build();
         TeamModel.ExitTeamResponse exitTeamResponse=TeamModel.ExitTeamResponse.newBuilder().setRoleDto(roleDto).build();
         TeamModel.TeamModelMessage.Builder teamMessageBuilder=TeamModel.TeamModelMessage.newBuilder();

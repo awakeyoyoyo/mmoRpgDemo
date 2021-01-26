@@ -99,6 +99,8 @@ public class TeamServiceImpl implements TeamService {
                 .setName(mmoSimpleRole.getName()).setNowHp(mmoSimpleRole.getNowHp())
                 .setTeamId(mmoSimpleRole.getTeamId())
                 .setProfessionId(mmoSimpleRole.getProfessionId())
+                .setLevel(mmoSimpleRole.getLevel())
+                .setEquipmentLevel(mmoSimpleRole.getEquipmentLevel())
                 .setNowMP(mmoSimpleRole.getNowMp()).build();
         List<TeamModel.RoleDto> roles=new ArrayList<>();
         roles.add(role);
