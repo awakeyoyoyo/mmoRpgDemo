@@ -15,8 +15,8 @@ public class DealBean {
     private MmoSimpleRole secondRole;
     private DealArticleBean firstDealArticleBean;
     private DealArticleBean secondDealArticleBean;
-    private Integer status;
-
+    private volatile Integer status;
+    public Object lock=new Object();
     public Integer getStatus() {
         return status;
     }
