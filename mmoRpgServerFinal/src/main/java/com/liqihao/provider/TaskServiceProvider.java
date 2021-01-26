@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -118,11 +119,13 @@ public class TaskServiceProvider {
         List<Integer> baseTaskBeanList=role.getTaskManager().getTaskIds();
         List<Integer> taskMessageList=new ArrayList<>();
         for (TaskMessage value : TaskMessageCache.getInstance().values()) {
-            if (baseTaskBeanList.contains(value.getId())||value.getType().equals(TaskTypeCode.ACHIEVEMENT.getCode())){
+            if (baseTaskBeanList.contains(value.getId())
+                    ||value.getType().equals(TaskTypeCode.ACHIEVEMENT.getCode())
+            ||value.getPreTaskId()!=-1){
                 continue;
-            }else{
-                taskMessageList.add(value.getId());
             }
+            taskMessageList.add(value.getId());
+
         }
         return taskMessageList;
     }

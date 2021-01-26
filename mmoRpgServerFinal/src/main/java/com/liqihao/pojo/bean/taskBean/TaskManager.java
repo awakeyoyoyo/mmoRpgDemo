@@ -1,5 +1,6 @@
 package com.liqihao.pojo.bean.taskBean;
 
+import com.liqihao.commons.enums.TaskStateCode;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 
 import java.util.*;
@@ -47,7 +48,7 @@ public class TaskManager {
             BaseTaskBean taskBean=taskBeans.get(key);
             if (taskBean!=null) {
                 Integer taskTargetType=taskBean.getTaskTargetTypeId();
-                if (taskTargetType.equals(taskAction.getTaskTargetType())){
+                if (taskTargetType.equals(taskAction.getTaskTargetType())&&taskBean.getStatus().equals(TaskStateCode.ON_DOING.getCode())){
                     taskBean.update(taskAction, role);
                 }
             }

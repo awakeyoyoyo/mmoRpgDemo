@@ -1,6 +1,7 @@
 package com.liqihao.pojo.baseMessage;
 
 /**
+ * 任务信息类
  * @author lqhao
  */
 public class TaskMessage extends BaseMessage{
@@ -15,6 +16,24 @@ public class TaskMessage extends BaseMessage{
     private Integer targetId;
     private Integer type;
     private Integer articleType;
+    private Integer preTaskId;
+    private Integer nextTaskId;
+
+    public Integer getPreTaskId() {
+        return preTaskId;
+    }
+
+    public void setPreTaskId(Integer preTaskId) {
+        this.preTaskId = preTaskId;
+    }
+
+    public Integer getNextTaskId() {
+        return nextTaskId;
+    }
+
+    public void setNextTaskId(Integer nextTaskId) {
+        this.nextTaskId = nextTaskId;
+    }
 
     public Integer getArticleType() {
         return articleType;

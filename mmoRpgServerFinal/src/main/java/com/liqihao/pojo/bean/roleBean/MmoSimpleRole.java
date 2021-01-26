@@ -187,7 +187,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
     public void setMoney(Integer money) {
         //任务条件触发
         if (getMoney()!=null) {
-            Integer addMoney = getMoney() - money;
+            Integer addMoney = money - getMoney();
             if (addMoney > 0) {
                 MoneyTaskAction moneyTaskAction = new MoneyTaskAction();
                 moneyTaskAction.setMoneyAddNum(addMoney);
@@ -728,6 +728,9 @@ public class MmoSimpleRole extends Role implements MyObserver {
         sceneTaskAction.setSceneId(nextSceneId);
         sceneTaskAction.setTaskTargetType(TaskTargetTypeCode.FIRST_TIME_SCENE.getCode());
         getTaskManager().handler(sceneTaskAction,this);
+        //同步角色信息
+        MmoSimpleRole role=this;
+        ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateRole(role));
         return nextSceneRoles;
     }
 

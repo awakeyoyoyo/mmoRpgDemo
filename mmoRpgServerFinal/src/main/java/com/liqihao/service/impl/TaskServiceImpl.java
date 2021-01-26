@@ -85,6 +85,11 @@ public class TaskServiceImpl implements TaskService {
         if (taskMessage.getType().equals(TaskTypeCode.ACHIEVEMENT.getCode())){
             throw new RpgServerException(StateCode.FAIL,"成就类型的任务不能手动接收");
         }
+        List<Integer> baseTaskBeanList=mmoSimpleRole.getTaskManager().getTaskIds();
+        if (baseTaskBeanList.contains(taskMessage.getId())
+                ||taskMessage.getPreTaskId()!=-1){
+            throw new RpgServerException(StateCode.FAIL,"该任务不能手动接收");
+        }
         TaskServiceProvider.acceptTask(taskMessage,mmoSimpleRole);
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.ACCEPT_TASK_RESPONSE);

@@ -60,14 +60,13 @@ public class MmoSimpleNPC extends Role {
 
 
     /**
-     * 判断是否死亡,并且更改状态
+     * description 被攻击
+     * @param skillBean
+     * @param fromRole
+     * @return {@link null }
+     * @author lqhao
+     * @createTime 2021/1/26 17:43
      */
-    public void checkDie() {
-        if (getNowHp() <= 0) {
-            super.setStatus(RoleStatusCode.DIE.getCode());
-        }
-    }
-
     @Override
     public void beAttack(SkillBean skillBean, Role fromRole) {
         MmoSimpleNPC mmoSimpleNPC=this;
@@ -92,8 +91,15 @@ public class MmoSimpleNPC extends Role {
                 hp = 0;
                 mmoSimpleNPC.setStatus(RoleStatusCode.DIE.getCode());
                 //任务条件触发
-                if (fromRole.getType().equals(RoleTypeCode.PLAYER.getCode())) {
-                    MmoSimpleRole role= (MmoSimpleRole) fromRole;
+                if (fromRole.getType().equals(RoleTypeCode.PLAYER.getCode())||fromRole.getType().equals(RoleTypeCode.HELPER.getCode())) {
+                    MmoSimpleRole role=null;
+                    if (fromRole.getType().equals(RoleTypeCode.HELPER.getCode())){
+                        MmoHelperBean mmoHelperBean= (MmoHelperBean) fromRole;
+                        Integer roleId=mmoHelperBean.getMasterId();
+                        role=OnlineRoleMessageCache.getInstance().get(roleId);
+                    }else {
+                        role = (MmoSimpleRole) fromRole;
+                    }
                     KillTaskAction killTaskAction = new KillTaskAction();
                     killTaskAction.setNum(1);
                     killTaskAction.setRoleType(RoleTypeCode.ENEMY.getCode());

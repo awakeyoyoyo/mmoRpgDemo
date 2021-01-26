@@ -1,5 +1,6 @@
 package com.liqihao.pojo.bean.taskBean;
 
+import com.liqihao.Cache.TaskMessageCache;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
@@ -14,7 +15,9 @@ import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.protobufObject.TaskModel;
 import com.liqihao.provider.ArticleServiceProvider;
 import com.liqihao.provider.TaskServiceProvider;
+import com.liqihao.util.DbUtil;
 import com.liqihao.util.ScheduledThreadPoolUtil;
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import io.netty.channel.Channel;
 
 import javax.print.DocFlavor;
@@ -147,6 +150,11 @@ public abstract class BaseTaskBean {
             reward(taskMessage,role);
             sendFinishTask(role);
         }
+        if (taskMessage.getNextTaskId()!=-1){
+            //还有后续任务
+            TaskMessage nextTaskMessage= TaskMessageCache.getInstance().get(taskMessage.getNextTaskId());
+            TaskServiceProvider.acceptTask(nextTaskMessage,role);
+        }
     }
 
     /**
@@ -164,6 +172,7 @@ public abstract class BaseTaskBean {
             role.moneyLock.writeLock().lock();
             try{
                 role.setMoney(role.getMoney()+rewardNum);
+                DbUtil.updateRole(role);
             }finally {
                 role.moneyLock.writeLock().unlock();
             }

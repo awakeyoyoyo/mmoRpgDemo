@@ -57,6 +57,8 @@ public class SceneServiceImpl implements SceneService {
         }
         //本地缓存设置当前场景角色
         MmoCacheCilent.getInstance().getRoleHashMap().putAll(roles);
+        MmoCacheCilent.getInstance().setNowSceneId(wentResponse.getSceneId());
+        MmoCacheCilent.getInstance().getNowRole().setMmosceneid(wentResponse.getSceneId());
         //本地缓存设置当前的场景
         SceneMessage m=MmoCacheCilent.getInstance().getSceneMessageConcurrentHashMap().get(mmoScene);
         ConcurrentHashMap<Integer, ProfessionMessage> p=MmoCacheCilent.getInstance().getProfessionMessageConcurrentHashMap();
