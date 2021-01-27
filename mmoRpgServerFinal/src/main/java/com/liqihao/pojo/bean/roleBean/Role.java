@@ -130,7 +130,6 @@ public abstract class Role {
         setEquipmentLevel(equipmentLevel);
         //todo 抛出装备星级事件
         if(getType().equals(RoleTypeCode.PLAYER.getCode())){
-            //todo 抛出升级
         }
     }
     /**

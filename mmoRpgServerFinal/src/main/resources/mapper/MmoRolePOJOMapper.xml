@@ -13,10 +13,11 @@
     <result column="profession_id" jdbcType="INTEGER" property="professionId" />
     <result column="guild_id" jdbcType="INTEGER" property="guildId" />
     <result column="exp" jdbcType="INTEGER" property="exp" />
+    <result column="friend_ids" jdbcType="VARCHAR" property="friendIds" />
   </resultMap>
   <sql id="Base_Column_List">
     id, status, name, type, mmo_scene_id, on_status, skill_ids, money, profession_id, 
-    guild_id, exp
+    guild_id, exp, friend_ids
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -32,11 +33,13 @@
     insert into mmo_role (id, status, name, 
       type, mmo_scene_id, on_status, 
       skill_ids, money, profession_id, 
-      guild_id, exp)
+      guild_id, exp, friend_ids
+      )
     values (#{id,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
       #{type,jdbcType=INTEGER}, #{mmoSceneId,jdbcType=INTEGER}, #{onStatus,jdbcType=INTEGER}, 
       #{skillIds,jdbcType=VARCHAR}, #{money,jdbcType=INTEGER}, #{professionId,jdbcType=INTEGER}, 
-      #{guildId,jdbcType=INTEGER}, #{exp,jdbcType=INTEGER})
+      #{guildId,jdbcType=INTEGER}, #{exp,jdbcType=INTEGER}, #{friendIds,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.liqihao.pojo.MmoRolePOJO">
     insert into mmo_role
@@ -74,6 +77,9 @@
       <if test="exp != null">
         exp,
       </if>
+      <if test="friendIds != null">
+        friend_ids,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -108,6 +114,9 @@
       </if>
       <if test="exp != null">
         #{exp,jdbcType=INTEGER},
+      </if>
+      <if test="friendIds != null">
+        #{friendIds,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -144,6 +153,9 @@
       <if test="exp != null">
         exp = #{exp,jdbcType=INTEGER},
       </if>
+      <if test="friendIds != null">
+        friend_ids = #{friendIds,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -158,10 +170,10 @@
       money = #{money,jdbcType=INTEGER},
       profession_id = #{professionId,jdbcType=INTEGER},
       guild_id = #{guildId,jdbcType=INTEGER},
-      exp = #{exp,jdbcType=INTEGER}
+      exp = #{exp,jdbcType=INTEGER},
+      friend_ids = #{friendIds,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-
   <select id="selectByRoleName" parameterType="java.lang.String" resultType="java.lang.Integer">
     select
       count(1)

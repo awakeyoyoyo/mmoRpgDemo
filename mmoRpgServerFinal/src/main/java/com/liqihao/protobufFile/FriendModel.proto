@@ -1,0 +1,85 @@
+syntax ="proto3";
+option java_outer_classname="FriendModel";
+message FriendModelMessage{
+  //定义枚举类型
+  enum DateType{
+    ApplyFriendRequest=0;//在proto3 要求enum的编号从0开始
+    AgreeFriendRequest=1;
+    RefuseFriendRequest=2;
+    ApplyFriendResponse=3;
+    AgreeFriendResponse=4;
+    RefuseFriendResponse=5;
+    HasNewFriendsResponse=6;
+    BeRefuseResponse=7;
+    GetFriendsRequest=8;
+    FriendApplyListRequest=9;
+    GetFriendsResponse=10;
+    FriendApplyListResponse=11;
+    ReduceFriendRequest=12;
+    ReduceFriendResponse=13;
+  }
+  //用date_type来标识传的是哪一个枚举类型
+  DateType data_type=1;
+  //表示每次枚举类型最多只能出现其中一个，节省空间
+  oneof dateBody{
+    ApplyFriendRequest applyFriendRequest=2;//在proto3 要求enum的编号从0开始
+    AgreeFriendRequest agreeFriendRequest=3;
+    RefuseFriendRequest refuseFriendRequest=4;
+    ApplyFriendResponse applyFriendResponse=5;
+    AgreeFriendResponse agreeFriendResponse=6;
+    RefuseFriendResponse refuseFriendResponse=7;
+    HasNewFriendsResponse hasNewFriendsResponse=8;
+    BeRefuseResponse beRefuseResponse=9;
+    GetFriendsRequest getFriendsRequest=10;
+    FriendApplyListRequest friendApplyListRequest=11;
+    GetFriendsResponse getFriendsResponse=12;
+    FriendApplyListResponse friendApplyListResponse=13;
+    ReduceFriendRequest reduceFriendRequest=14;
+    ReduceFriendResponse reduceFriendResponse=15;
+  }
+}
+message ReduceFriendRequest{
+  int32 roleId=1;
+}
+message ReduceFriendResponse{
+}
+message ApplyFriendRequest{
+  int32 roleId=1;
+}
+message AgreeFriendRequest{
+  int32 applyId=1;
+}
+message RefuseFriendRequest{
+  int32 applyId=1;
+}
+message ApplyFriendResponse{
+}
+message AgreeFriendResponse{
+}
+message RefuseFriendResponse{
+}
+message HasNewFriendsResponse{
+}
+message BeRefuseResponse{
+}
+message GetFriendsRequest{
+}
+message FriendApplyListRequest{
+}
+message GetFriendsResponse{
+  repeated FriendBean friends=1;
+}
+message FriendApplyListResponse{
+  repeated FriendApplyBean friendApplyBeans=1;
+}
+message FriendApplyBean{
+  int32 id=1;
+  int32 roleId=2;
+  string name=3;
+}
+message FriendBean{
+  int32 roleId=1;
+  string name=2;
+  int32 onStatus=3;
+  int32 professionId=4;
+}

@@ -35,6 +35,8 @@ public class Dispatcherservlet {
     private DealBankService dealBankService;
     @Autowired
     private TaskService taskService;
+    @Autowired
+    private FriendService friendService;
     /**
      * 根据model和cmd转发到不同的service
      * @param nettyResponse
@@ -307,6 +309,31 @@ public class Dispatcherservlet {
                 break;
             case ConstantValue.FINISH_TASK_RESPONSE:
                 taskService.finishTaskRequest(nettyResponse);
+                break;
+                //
+            case ConstantValue.APPLY_FRIEND_RESPONSE:
+                friendService.applyFriendResponse(nettyResponse);
+                break;
+            case ConstantValue.AGREE_FRIEND_RESPONSE:
+                friendService.agreeFriendResponse(nettyResponse);
+                break;
+            case ConstantValue.REFUSE_FRIEND_RESPONSE:
+                friendService.refuseFriendResponse(nettyResponse);
+                break;
+            case ConstantValue.HAS_NEW_FRIENDS_RESPONSE:
+                friendService.hasNewFriendsResponse(nettyResponse);
+                break;
+            case ConstantValue.BE_REFUSE_RESPONSE:
+                friendService.beRefuseResponse(nettyResponse);
+                break;
+            case ConstantValue.GET_FRIENDS_RESPONSE:
+                friendService.getFriendsResponse(nettyResponse);
+                break;
+            case ConstantValue.FRIEND_APPLY_LIST_RESPONSE:
+                friendService.friendApplyListResponse(nettyResponse);
+                break;
+            case ConstantValue.REDUCE_FRIEND_RESPONSE:
+                friendService.reduceFriendResponse(nettyResponse);
                 break;
             default:
                 System.out.println("handler:收到");

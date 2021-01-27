@@ -344,6 +344,15 @@ public class EquipmentBean implements Article{
             //装备栏增加装备
             mmoSimpleRole.getEquipmentBeanHashMap().put(equipmentMessage.getPosition(), this);
             equipmentBagId=DbUtil.getEquipmentBagNextIndex();
+            //修改人物装备星数
+            Integer olderEquipmentLevel=mmoSimpleRole.getEquipmentLevel();
+            if (oldBean!=null) {
+                EquipmentMessage oldEquipmentMessage = EquipmentMessageCache.getInstance().get(oldBean.getEquipmentMessageId());
+                olderEquipmentLevel=olderEquipmentLevel+equipmentMessage.getEquipmentLevel()-oldEquipmentMessage.getEquipmentLevel();
+            }else{
+                olderEquipmentLevel=olderEquipmentLevel+equipmentMessage.getEquipmentLevel();
+            }
+            mmoSimpleRole.changeEquipmentLevel(olderEquipmentLevel);
             //插入数据库
             EquipmentBean equipmentBean=this;
             Integer roleId=mmoSimpleRole.getId();

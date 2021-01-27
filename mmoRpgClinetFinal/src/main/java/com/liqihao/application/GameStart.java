@@ -312,9 +312,120 @@ public class GameStart {
                     case ConstantValue.ABANDON_TASK_REQUEST:
                         abandonTask(scanner);
                         break;
+                        //
+                    case ConstantValue.APPLY_FRIEND_REQUEST:
+                        applyFriendRequest(scanner);
+                        break;
+                    case ConstantValue.AGREE_FRIEND_REQUEST:
+                        agreeFriendRequest(scanner);
+                        break;
+                    case ConstantValue.REFUSE_FRIEND_REQUEST:
+                        refuseFriendRequest(scanner);
+                        break;
+                    case ConstantValue.GET_FRIENDS_REQUEST:
+                        getFriendsRequest(scanner);
+                        break;
+                    case ConstantValue.FRIEND_APPLY_LIST_REQUEST:
+                        friendApplyListRequest(scanner);
+                        break;
+                    case ConstantValue.REDUCE_FRIEND_REQUEST:
+                        reduceFriendRequest(scanner);
+                        break;
+
                     default:
                         System.out.println("GameStart-handler:收到错误cmd");
                 }
+    }
+
+    private void reduceFriendRequest(Scanner scanner) {
+        System.out.println("请输入你要删除的好友的角色id：");
+        Integer roleId=scanner.nextInt();
+        scanner.nextLine();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.REDUCE_FRIEND_REQUEST);
+        FriendModel.FriendModelMessage myMessage;
+        myMessage= FriendModel.FriendModelMessage.newBuilder()
+                .setDataType(FriendModel.FriendModelMessage.DateType.ReduceFriendRequest)
+                .setReduceFriendRequest(FriendModel.ReduceFriendRequest.newBuilder()
+                        .setRoleId(roleId)
+                        .build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void friendApplyListRequest(Scanner scanner) {
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.FRIEND_APPLY_LIST_REQUEST);
+        FriendModel.FriendModelMessage myMessage;
+        myMessage= FriendModel.FriendModelMessage.newBuilder()
+                .setDataType(FriendModel.FriendModelMessage.DateType.FriendApplyListRequest)
+                .setFriendApplyListRequest(FriendModel.FriendApplyListRequest.newBuilder()
+                        .build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void getFriendsRequest(Scanner scanner) {
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.GET_FRIENDS_REQUEST);
+        FriendModel.FriendModelMessage myMessage;
+        myMessage= FriendModel.FriendModelMessage.newBuilder()
+                .setDataType(FriendModel.FriendModelMessage.DateType.GetFriendsRequest)
+                .setGetFriendsRequest(FriendModel.GetFriendsRequest.newBuilder()
+                        .build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void refuseFriendRequest(Scanner scanner) {
+        System.out.println("请输入你要拒绝的申请id：");
+        Integer applyId=scanner.nextInt();
+        scanner.nextLine();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.REFUSE_FRIEND_REQUEST);
+        FriendModel.FriendModelMessage myMessage;
+        myMessage= FriendModel.FriendModelMessage.newBuilder()
+                .setDataType(FriendModel.FriendModelMessage.DateType.RefuseFriendRequest)
+                .setRefuseFriendRequest(FriendModel.RefuseFriendRequest.newBuilder().setApplyId(applyId)
+                        .build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void agreeFriendRequest(Scanner scanner) {
+        System.out.println("请输入你要通过的申请id：");
+        Integer applyId=scanner.nextInt();
+        scanner.nextLine();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.AGREE_FRIEND_REQUEST);
+        FriendModel.FriendModelMessage myMessage;
+        myMessage= FriendModel.FriendModelMessage.newBuilder()
+                .setDataType(FriendModel.FriendModelMessage.DateType.AgreeFriendRequest)
+                .setAgreeFriendRequest(FriendModel.AgreeFriendRequest.newBuilder().setApplyId(applyId)
+                        .build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
+    }
+
+    private void applyFriendRequest(Scanner scanner) {
+        System.out.println("请输入你要添加的好友的玩家id：");
+        Integer roleId=scanner.nextInt();
+        scanner.nextLine();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.APPLY_FRIEND_REQUEST);
+        FriendModel.FriendModelMessage myMessage;
+        myMessage= FriendModel.FriendModelMessage.newBuilder()
+                .setDataType(FriendModel.FriendModelMessage.DateType.ApplyFriendRequest)
+                .setApplyFriendRequest(FriendModel.ApplyFriendRequest.newBuilder().setRoleId(roleId)
+                        .build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
     }
 
     private void abandonTask(Scanner scanner) {

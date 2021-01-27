@@ -32,8 +32,6 @@ public class DbUtil {
     private static MmoGuildApplyPOJOMapper mmoGuildApplyPOJOMapper;
     private static MmoGuildRolePOJOMapper mmoGuildRolePOJOMapper;
     private static MmoWareHousePOJOMapper mmoWareHousePOJOMapper;
-
-
     private static  AtomicInteger mmoBagPojoIndex;
     private static  AtomicInteger mmoEquipmentIndex;
     private static  AtomicInteger equipmentBagIndex;
@@ -44,7 +42,9 @@ public class DbUtil {
         mmoEquipmentPOJOMapper.deleteByPrimaryKey(equipmentId);
     }
 
-
+    public static void updateRolePOJO(MmoRolePOJO mmoRolePOJO) {
+        mmoRolePOJOMapper.updateByPrimaryKey(mmoRolePOJO);
+    }
 
 
     @Autowired
@@ -408,6 +408,7 @@ public class DbUtil {
         mmoRolePOJO.setProfessionId(mmoSimpleRole.getProfessionId());
         mmoRolePOJO.setMoney(mmoSimpleRole.getMoney());
         mmoRolePOJO.setExp(mmoSimpleRole.getExp());
+        mmoRolePOJO.setFriendIds(CommonsUtil.listToString(mmoSimpleRole.getFriends()));
         if(mmoSimpleRole.getGuildBean()!=null) {
             mmoRolePOJO.setGuildId(mmoSimpleRole.getGuildBean().getId());
         }else {

@@ -27,6 +27,8 @@ public class MmoRolePOJO {
 
     private Integer exp;
 
+    private String friendIds;
+
     public Integer getId() {
         return id;
     }
@@ -115,6 +117,14 @@ public class MmoRolePOJO {
         this.exp = exp;
     }
 
+    public String getFriendIds() {
+        return friendIds;
+    }
+
+    public void setFriendIds(String friendIds) {
+        this.friendIds = friendIds == null ? null : friendIds.trim();
+    }
+
     /**
      * description 初始化方法
      * @param roleName
@@ -130,6 +140,7 @@ public class MmoRolePOJO {
         setType(RoleTypeCode.PLAYER.getCode());
         setMoney(0);
         setExp(0);
+        setFriendIds("");
         setGuildId(-1);
     }
 }

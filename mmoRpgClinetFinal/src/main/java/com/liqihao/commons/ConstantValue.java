@@ -576,7 +576,24 @@ public interface ConstantValue {
     int ACCEPT_TASK_RESPONSE=13502;
     int ABANDON_TASK_RESPONSE=13503;
     int FINISH_TASK_RESPONSE=13504;
-
+    /**
+     * 好友模块
+     */
+    String FRIEND_MODULE = "friendServiceImpl";
+    int APPLY_FRIEND_REQUEST=14000;
+    int AGREE_FRIEND_REQUEST=14001;
+    int REFUSE_FRIEND_REQUEST=14002;
+    int GET_FRIENDS_REQUEST=14003;
+    int FRIEND_APPLY_LIST_REQUEST=14004;
+    int APPLY_FRIEND_RESPONSE =14500;
+    int AGREE_FRIEND_RESPONSE =14501;
+    int REFUSE_FRIEND_RESPONSE=14502;
+    int HAS_NEW_FRIENDS_RESPONSE=14503;
+    int BE_REFUSE_RESPONSE =14505;
+    int GET_FRIENDS_RESPONSE=14506;
+    int FRIEND_APPLY_LIST_RESPONSE=14504;
+    int REDUCE_FRIEND_REQUEST=14007;
+    int REDUCE_FRIEND_RESPONSE=14507;
     /**
      * 参数错误响应
      */
@@ -586,6 +603,13 @@ public interface ConstantValue {
     /**
      * 指令
      */
+    String REDUCE_FRIEND_REQUEST_CMD="reduceFriend";
+    String APPLY_FRIEND_REQUEST_CMD="applyFriend";
+    String AGREE_FRIEND_REQUEST_CMD="agreeFriendApply";
+    String REFUSE_FRIEND_REQUEST_CMD="refuseFriendApply";
+    String GET_FRIENDS_REQUEST_CMD="getFriendList";
+    String FRIEND_APPLY_LIST_REQUEST_CMD="friendApplyList";
+
     String GET_PEOPLE_TASK_REQUEST_CMD="getPeopleTask";
     String GET_CAN_ACCEPT_TASK_REQUEST_CMD="getCanAcceptTask";
     String ACCEPT_TASK_REQUEST_CMD="acceptTask";

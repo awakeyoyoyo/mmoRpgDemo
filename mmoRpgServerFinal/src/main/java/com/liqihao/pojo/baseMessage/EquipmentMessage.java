@@ -14,12 +14,21 @@ public class EquipmentMessage extends BaseMessage {
     private Integer attackAdd;
     private double damageAdd;
     private Integer position;
+    private Integer equipmentLevel;
     @Override
     public Integer getTheId() {
         return getId();
     }
     public Integer getId() {
         return id;
+    }
+
+    public Integer getEquipmentLevel() {
+        return equipmentLevel;
+    }
+
+    public void setEquipmentLevel(Integer equipmentLevel) {
+        this.equipmentLevel = equipmentLevel;
     }
 
     public void setId(Integer id) {

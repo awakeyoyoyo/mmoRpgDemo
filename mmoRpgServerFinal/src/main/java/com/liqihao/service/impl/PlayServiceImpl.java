@@ -78,6 +78,7 @@ public class PlayServiceImpl implements PlayService {
         mmoUserPOJOMapper.insert(mmoUserPOJO);
         //角色新增所有的成就任务
         TaskServiceProvider.insertAllAchievements(mmoRolePOJO.getId());
+        RoleMessageCache.getInstance().put(mmoRolePOJO.getId(),mmoRolePOJO);
         //返回成功的数据包
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.REGISTER_RESPONSE);
@@ -164,8 +165,9 @@ public class PlayServiceImpl implements PlayService {
             //修改人物属性
             simpleRole.setAttack(simpleRole.getAttack() + message.getAttackAdd());
             simpleRole.setDamageAdd(simpleRole.getDamageAdd() + message.getDamageAdd());
-            //TODO
-            simpleRole.setEquipmentLevel(0);
+            //改变装备星级
+            Integer olderEquipmentLevel=simpleRole.getEquipmentLevel();
+            simpleRole.setEquipmentLevel(olderEquipmentLevel+message.getEquipmentLevel());
         }
         //初始化任务信息
         TaskServiceProvider.initTask(simpleRole);
@@ -174,7 +176,8 @@ public class PlayServiceImpl implements PlayService {
             GuildBean guildBean=GuildServiceProvider.getInstance().getGuildBeanById(role.getGuildId());
             simpleRole.setGuildBean(guildBean);
         }
-
+        //初始化好友
+        simpleRole.setFriends(CommonsUtil.split(role.getFriendIds()));
         OnlineRoleMessageCache.getInstance().put(role.getId(), simpleRole);
         //数据库中人物状态
         mmoRolePOJOMapper.updateByPrimaryKeySelective(role);

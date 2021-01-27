@@ -10,6 +10,7 @@ import com.liqihao.commons.enums.*;
 import com.liqihao.pojo.*;
 import com.liqihao.pojo.baseMessage.*;
 import com.liqihao.pojo.bean.*;
+import com.liqihao.pojo.bean.friendBean.FriendApplyBean;
 import com.liqihao.pojo.bean.taskBean.TaskManager;
 import com.liqihao.pojo.bean.articleBean.Article;
 import com.liqihao.pojo.bean.articleBean.EquipmentBean;
@@ -34,6 +35,7 @@ import org.apache.log4j.Logger;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.stream.Collectors;
@@ -131,6 +133,53 @@ public class MmoSimpleRole extends Role implements MyObserver {
      * 任务管理
      */
     private TaskManager taskManager;
+
+    /**
+     * 好友
+     */
+    private List<Integer> friends;
+
+    /**
+     * 好友申请
+     */
+    private HashMap<Integer,FriendApplyBean> friendApplyBeanHashMap=new HashMap<>();
+
+    /**
+     * 好友申请自增id
+     */
+    private AtomicInteger friendApplyIdAuto=new AtomicInteger(0);
+
+    public AtomicInteger getFriendApplyIdAuto() {
+        return friendApplyIdAuto;
+    }
+
+    public void setFriendApplyIdAuto(AtomicInteger friendApplyIdAuto) {
+        this.friendApplyIdAuto = friendApplyIdAuto;
+    }
+
+    public void setFriendApplyBeanHashMap(HashMap<Integer, FriendApplyBean> friendApplyBeanHashMap) {
+        this.friendApplyBeanHashMap = friendApplyBeanHashMap;
+    }
+
+    public HashMap<Integer, FriendApplyBean> getFriendApplyBeanHashMap() {
+        return friendApplyBeanHashMap;
+    }
+
+    public ReadWriteLock getMoneyLock() {
+        return moneyLock;
+    }
+
+    public boolean isOnDeal() {
+        return onDeal;
+    }
+
+    public List<Integer> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(List<Integer> friends) {
+        this.friends = friends;
+    }
 
     public TaskManager getTaskManager() {
         return taskManager;
@@ -397,7 +446,6 @@ public class MmoSimpleRole extends Role implements MyObserver {
                 equipmentBeanHashMap.remove(position);
                 //装备栏数据库减少该装备
                 if (equipmentBean.getEquipmentBagId() != null) {
-//                    needDeleteEquipmentIds.add(equipmentBean.getEquipmentBagId());
                     Integer bagId=equipmentBean.getEquipmentBagId();
                     ScheduledThreadPoolUtil.addTask(() -> DbUtil.deleteEquipmentBagById(bagId));
                 }
@@ -410,6 +458,10 @@ public class MmoSimpleRole extends Role implements MyObserver {
                 backpackManager.put(equipmentBean,getId());
                 setAttack(getAttack() - equipmentMessage.getAttackAdd());
                 setDamageAdd(getDamageAdd() - equipmentMessage.getDamageAdd());
+                //设置装备星级
+                Integer olderEquipmentLevel=getEquipmentLevel();
+                olderEquipmentLevel=olderEquipmentLevel-equipmentMessage.getEquipmentLevel();
+                changeEquipmentLevel(olderEquipmentLevel);
                 //数据库
                 return true;
             }
