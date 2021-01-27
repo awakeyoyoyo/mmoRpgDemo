@@ -1,6 +1,7 @@
 package com.liqihao.provider;
 import com.liqihao.Cache.TaskMessageCache;
 import com.liqihao.commons.RpgServerException;
+import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.TaskStateCode;
 import com.liqihao.commons.enums.TaskTargetTypeCode;
 import com.liqihao.commons.enums.TaskTypeCode;
@@ -110,6 +111,33 @@ public class TaskServiceProvider {
         }
     }
 
+    /**
+     * 完成任务
+     * @param taskMessageId
+     * @param role
+     */
+    public static void finish(Integer taskMessageId,MmoSimpleRole role) throws RpgServerException {
+        BaseTaskBean taskBean=role.getTaskManager().getTaskBeans().get(taskMessageId);
+        if (taskBean==null){
+            throw new RpgServerException(StateCode.FAIL,"没有该任务");
+        }
+        TaskMessage taskMessage=TaskMessageCache.getInstance().get(taskMessageId);
+        if (!taskBean.getStatus().equals(TaskStateCode.FINISH.getCode())){
+            throw new RpgServerException(StateCode.FAIL,"该任务未达到条件");
+        }
+        //删除
+        role.getTaskManager().getTaskBeans().remove(taskMessageId);
+        Integer taskBeanId=taskBean.getTaskDbId();
+        ScheduledThreadPoolUtil.addTask(() -> TaskServiceProvider.deleteTaskDb(taskBeanId));
+        //奖励
+        taskBean.reward(taskMessage,role);
+        taskBean.sendFinishTask(role);
+        if (taskMessage.getNextTaskId()!=-1){
+            //还有后续任务
+            TaskMessage nextTaskMessage= TaskMessageCache.getInstance().get(taskMessage.getNextTaskId());
+            TaskServiceProvider.acceptTask(nextTaskMessage,role);
+        }
+    }
 
 
     /**
@@ -130,18 +158,6 @@ public class TaskServiceProvider {
         return taskMessageList;
     }
 
-    public static void main(String[] args) {
-        String className=TaskTargetTypeCode.getClassNameByCode(1);
-        Object obj = null;
-        try {
-            Class<T> clz = (Class<T>) Class.forName(className);
-            obj = clz.newInstance();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        BaseTaskBean taskBean= (BaseTaskBean) obj;
-//        taskBean.update(null,null);
-    }
 
     public static void insertTaskDb(BaseTaskBean taskBean,Integer roleId){
         MmoTaskPOJO mmoTaskPOJO=new MmoTaskPOJO();

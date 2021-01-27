@@ -570,6 +570,7 @@ public interface ConstantValue {
     int GET_CAN_ACCEPT_TASK_REQUEST=13001;
     int ACCEPT_TASK_REQUEST=13002;
     int ABANDON_TASK_REQUEST=13003;
+    int FINISH_TASK_REQUEST=13004;
 
     int GET_PEOPLE_TASK_RESPONSE=13500;
     int GET_CAN_ACCEPT_TASK_RESPONSE=13501;
@@ -610,6 +611,7 @@ public interface ConstantValue {
     String GET_FRIENDS_REQUEST_CMD="getFriendList";
     String FRIEND_APPLY_LIST_REQUEST_CMD="friendApplyList";
 
+    String FINISH_TASK_REQUEST_CMD="finishTask";
     String GET_PEOPLE_TASK_REQUEST_CMD="getPeopleTask";
     String GET_CAN_ACCEPT_TASK_REQUEST_CMD="getCanAcceptTask";
     String ACCEPT_TASK_REQUEST_CMD="acceptTask";

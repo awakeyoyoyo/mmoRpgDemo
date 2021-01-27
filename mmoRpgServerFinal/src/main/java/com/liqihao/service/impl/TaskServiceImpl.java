@@ -129,4 +129,12 @@ public class TaskServiceImpl implements TaskService {
         nettyResponse.setData(messageBuilder.build().toByteArray());
         channel.writeAndFlush(nettyResponse);
     }
+
+    @Override
+    @HandlerCmdTag(cmd = ConstantValue.FINISH_TASK_REQUEST,module = ConstantValue.TASK_MODULE)
+    public void finishTaskRequest(TaskModel.TaskModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException {
+        Integer taskMessageId=myMessage.getFinishTaskRequest().getTaskMessageId();
+        TaskServiceProvider.finish(taskMessageId,mmoSimpleRole);
+    }
+
 }

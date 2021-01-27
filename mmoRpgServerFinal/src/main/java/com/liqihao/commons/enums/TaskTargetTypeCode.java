@@ -8,7 +8,6 @@ package com.liqihao.commons.enums;
 public enum TaskTargetTypeCode {
     //
     USE(1,"使用类型","com.liqihao.pojo.bean.taskBean.useTask.UseTaskBean"),
-//    EQUIPMENT(2,"装备类型","com.liqihao.pojo.bean.TaskBean.EquipTaskBean"),
     TALK(3,"对话类型","com.liqihao.pojo.bean.taskBean.talkTask.TalkTaskBean"),
     FIRST_TIME_SCENE(4,"第一次进入场景类型","com.liqihao.pojo.bean.taskBean.sceneFirstTask.SceneTaskBean"),
     SKILL(5,"技能类型","com.liqihao.pojo.bean.taskBean.skillTask.SkillTaskBean"),
@@ -16,7 +15,14 @@ public enum TaskTargetTypeCode {
     COPY_SCENE(7,"副本类型","com.liqihao.pojo.bean.taskBean.copySceneSuccessTask.CopySceneTaskBean"),
     FIRST_TIME_DEAL(9,"第一次交易类型","com.liqihao.pojo.bean.taskBean.dealFirstTask.DealTaskBean"),
     FIRST_TIME_TEAM(10,"第一次组队类型","com.liqihao.pojo.bean.taskBean.teamFirstTask.TeamTaskBean"),
+    UP_LEVEL(11,"提升等级类型","com.liqihao.pojo.bean.taskBean.roleLevelTask.RoleLevelTaskBean"),
+    EQUIPMENT_LEVEL(12,"总装备星级类型","com.liqihao.pojo.bean.taskBean.equipmentLevelTask.EquipmentLevelTaskBean"),
+    FIRST_TIME_GUILD(13,"第一次进入公会类型","com.liqihao.pojo.bean.taskBean.guildFirstTask.GuildFirstTaskBean"),
+    FIRST_TIME_PK(14,"第一次pk胜利类型","com.liqihao.pojo.bean.taskBean.pkFirstTask.PkFirstTaskBean"),
+    BEST_EQUIPMENT(15,"极品装备类型","com.liqihao.pojo.bean.taskBean.oneBestEquipmentTask.OneBestEquipmentTaskBean"),
+    FIRST_TIME_FRIEND(16,"第一次交友类型","com.liqihao.pojo.bean.taskBean.firstFriendTask.FriendFirstTaskBean"),
     KILL(8,"杀怪类型","com.liqihao.pojo.bean.taskBean.killTask.KillTaskBean");
+
     private  int code;
     private  String value;
     private String className;

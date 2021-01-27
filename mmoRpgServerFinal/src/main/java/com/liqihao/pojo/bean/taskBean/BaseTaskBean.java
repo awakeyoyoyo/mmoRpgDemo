@@ -140,22 +140,10 @@ public abstract class BaseTaskBean {
      */
     public void checkFinish(TaskMessage taskMessage,MmoSimpleRole role){
         if (getProgress() >= taskMessage.getTargetProgress()) {
-            if (taskMessage.getType().equals(TaskTypeCode.TASK.getCode())) {
-                role.getTaskManager().getTaskBeans().remove(taskMessage.getId());
-                Integer taskBeanId=getTaskDbId();
-                ScheduledThreadPoolUtil.addTask(() -> TaskServiceProvider.deleteTaskDb(taskBeanId));
-            }else{
-                setStatus(TaskStateCode.FINISH.getCode());
-            }
-            reward(taskMessage,role);
-            sendFinishTask(role);
-        }
-        if (taskMessage.getNextTaskId()!=-1){
-            //还有后续任务
-            TaskMessage nextTaskMessage= TaskMessageCache.getInstance().get(taskMessage.getNextTaskId());
-            TaskServiceProvider.acceptTask(nextTaskMessage,role);
+            setStatus(TaskStateCode.FINISH.getCode());
         }
     }
+
 
     /**
      * description 奖励

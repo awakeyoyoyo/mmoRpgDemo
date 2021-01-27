@@ -16,7 +16,9 @@ import com.liqihao.pojo.bean.articleBean.Article;
 import com.liqihao.pojo.bean.articleBean.EquipmentBean;
 import com.liqihao.pojo.bean.buffBean.BaseBuffBean;
 import com.liqihao.pojo.bean.guildBean.GuildBean;
+import com.liqihao.pojo.bean.taskBean.guildFirstTask.GuildFirstAction;
 import com.liqihao.pojo.bean.taskBean.moneyNumTask.MoneyTaskAction;
+import com.liqihao.pojo.bean.taskBean.pkFirstTask.PkFirstTaskAction;
 import com.liqihao.pojo.bean.taskBean.sceneFirstTask.SceneTaskAction;
 import com.liqihao.pojo.bean.taskBean.skillTask.SkillTaskAction;
 import com.liqihao.pojo.bean.taskBean.teamFirstTask.TeamTaskAction;
@@ -211,6 +213,9 @@ public class MmoSimpleRole extends Role implements MyObserver {
 
     public void setGuildBean(GuildBean guildBean) {
         this.guildBean = guildBean;
+        GuildFirstAction guildFirstAction=new GuildFirstAction();
+        guildFirstAction.setTaskTargetType(TaskTargetTypeCode.FIRST_TIME_GUILD.getCode());
+        getTaskManager().handler(guildFirstAction,this);
     }
 
     public Channel getChannel() {
@@ -583,7 +588,6 @@ public class MmoSimpleRole extends Role implements MyObserver {
     /**
      * 技能释放
      */
-
     public void skill(SkillBean skillBean, List<Role> target){
         if (!skillBean.getSkillAttackType().equals(SkillAttackTypeCode.CALL.getCode())) {
             for (Role r : target) {
@@ -1072,6 +1076,15 @@ public class MmoSimpleRole extends Role implements MyObserver {
                 newNumber = getNowHp() + Math.abs(number);
                 mmoSimpleRole.setNowHp(0);
                 mmoSimpleRole.setStatus(RoleStatusCode.DIE.getCode());
+                //抛出被打败事件
+                if(damageU.getFromRoleType()==RoleTypeCode.PLAYER.getCode()) {
+                    PkFirstTaskAction pkFirstTaskAction=new PkFirstTaskAction();
+                    pkFirstTaskAction.setTaskTargetType(TaskTargetTypeCode.FIRST_TIME_PK.getCode());
+                    MmoSimpleRole role=OnlineRoleMessageCache.getInstance().get(damageU.getFromRoleId());
+                    if (role!=null) {
+                        role.getTaskManager().handler(pkFirstTaskAction, role);
+                    }
+                }
             }
             //生成数据包
             List<PlayModel.RoleIdDamage> list = new ArrayList<>();

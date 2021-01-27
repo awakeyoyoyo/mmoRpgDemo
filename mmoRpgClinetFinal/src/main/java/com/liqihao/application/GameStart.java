@@ -331,10 +331,29 @@ public class GameStart {
                     case ConstantValue.REDUCE_FRIEND_REQUEST:
                         reduceFriendRequest(scanner);
                         break;
-
+                    case ConstantValue.FINISH_TASK_REQUEST:
+                        finishTaskRequest(scanner);
+                        break;
                     default:
                         System.out.println("GameStart-handler:收到错误cmd");
                 }
+    }
+
+    private void finishTaskRequest(Scanner scanner) {
+        System.out.println("请输入你要完成并领取的任务id：");
+        Integer taskId=scanner.nextInt();
+        scanner.nextLine();
+        NettyRequest nettyRequest=new NettyRequest();
+        nettyRequest.setCmd(ConstantValue.FINISH_TASK_REQUEST);
+        TaskModel.TaskModelMessage myMessage;
+        myMessage= TaskModel.TaskModelMessage.newBuilder()
+                .setDataType(TaskModel.TaskModelMessage.DateType.FinishTaskRequest)
+                .setFinishTaskRequest(TaskModel.FinishTaskRequest.newBuilder()
+                        .setTaskMessageId(taskId)
+                        .build()).build();
+        byte[] data=myMessage.toByteArray();
+        nettyRequest.setData(data);
+        channel.writeAndFlush(nettyRequest);
     }
 
     private void reduceFriendRequest(Scanner scanner) {

@@ -2,12 +2,14 @@ package com.liqihao.pojo.bean.articleBean;
 
 import com.liqihao.Cache.EquipmentMessageCache;
 import com.liqihao.Cache.MmoBaseMessageCache;
+import com.liqihao.commons.enums.TaskTargetTypeCode;
 import com.liqihao.pojo.baseMessage.EquipmentMessage;
 import com.liqihao.pojo.bean.BackPackManager;
 import com.liqihao.pojo.bean.dealBankBean.DealBankArticleBean;
 import com.liqihao.pojo.bean.dealBean.DealArticleBean;
 import com.liqihao.pojo.bean.guildBean.WareHouseManager;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
+import com.liqihao.pojo.bean.taskBean.oneBestEquipmentTask.OneBestEquipmentAction;
 import com.liqihao.pojo.dto.ArticleDto;
 import com.liqihao.util.DbUtil;
 import com.liqihao.util.ScheduledThreadPoolUtil;
@@ -353,6 +355,11 @@ public class EquipmentBean implements Article{
                 olderEquipmentLevel=olderEquipmentLevel+equipmentMessage.getEquipmentLevel();
             }
             mmoSimpleRole.changeEquipmentLevel(olderEquipmentLevel);
+            //穿极品装备
+            OneBestEquipmentAction oneBestEquipmentAction=new OneBestEquipmentAction();
+            oneBestEquipmentAction.setTaskTargetType(TaskTargetTypeCode.BEST_EQUIPMENT.getCode());
+            oneBestEquipmentAction.setEquipmentLevel(equipmentMessage.getEquipmentLevel());
+            mmoSimpleRole.getTaskManager().handler(oneBestEquipmentAction,mmoSimpleRole);
             //插入数据库
             EquipmentBean equipmentBean=this;
             Integer roleId=mmoSimpleRole.getId();

@@ -6,10 +6,12 @@ import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.RoleOnStatusCode;
+import com.liqihao.commons.enums.TaskTargetTypeCode;
 import com.liqihao.pojo.MmoRolePOJO;
 import com.liqihao.pojo.bean.friendBean.FriendApplyBean;
 import com.liqihao.pojo.bean.friendBean.FriendBean;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
+import com.liqihao.pojo.bean.taskBean.firstFriendTask.FriendFirstAction;
 import com.liqihao.protobufObject.FriendModel;
 import com.liqihao.util.CommonsUtil;
 import com.liqihao.util.DbUtil;
@@ -61,11 +63,20 @@ public class FriendServiceProvider {
         FriendApplyBean friendApplyBean=role.getFriendApplyBeanHashMap().get(applyId);
 
         role.getFriends().add(friendApplyBean.getRoleId());
+        //加好友事件
+        FriendFirstAction firstAction=new FriendFirstAction();
+        firstAction.setTaskTargetType(TaskTargetTypeCode.FIRST_TIME_FRIEND.getCode());
+        role.getTaskManager().handler(firstAction,role);
+
         ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateRole(role));
         MmoSimpleRole mmoSimpleRole= OnlineRoleMessageCache.getInstance().get(friendApplyBean.getRoleId());
         if (mmoSimpleRole!=null){
             mmoSimpleRole.getFriends().add(role.getId());
             ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateRole(mmoSimpleRole));
+            //加好友事件
+            FriendFirstAction friendFirstAction=new FriendFirstAction();
+            friendFirstAction.setTaskTargetType(TaskTargetTypeCode.FIRST_TIME_FRIEND.getCode());
+            mmoSimpleRole.getTaskManager().handler(friendFirstAction,mmoSimpleRole);
         }else{
             MmoRolePOJO mmoRolePOJO= RoleMessageCache.getInstance().get(friendApplyBean.getRoleId());
             List<Integer> friendIds= CommonsUtil.split(mmoRolePOJO.getFriendIds());

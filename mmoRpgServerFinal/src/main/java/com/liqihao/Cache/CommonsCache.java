@@ -24,10 +24,10 @@ public class CommonsCache<T extends BaseMessage>{
     public T get(Integer id){
         return concurrentHashMap.get(id);
     }
-    public T put(Integer id,T object){
+    private T put(Integer id,T object){
         return concurrentHashMap.put(id,object);
     }
-    public void remove(Integer id){
+    private void remove(Integer id){
         concurrentHashMap.remove(id);
     }
     public boolean contains(Integer id){

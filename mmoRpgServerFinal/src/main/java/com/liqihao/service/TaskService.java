@@ -47,4 +47,13 @@ public interface TaskService {
      * @throws RpgServerException
      */
     void abandonTaskRequest(TaskModel.TaskModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
+
+    /**
+     * 完成任务
+     * @param myMessage
+     * @param mmoSimpleRole
+     * @throws InvalidProtocolBufferException
+     * @throws RpgServerException
+     */
+    void finishTaskRequest(TaskModel.TaskModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
 }

@@ -9,6 +9,7 @@ import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.GuildRolePositionCode;
 import com.liqihao.pojo.MmoRolePOJO;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
+import com.liqihao.pojo.bean.taskBean.guildFirstTask.GuildFirstAction;
 import com.liqihao.protobufObject.GuildModel;
 import com.liqihao.provider.GuildServiceProvider;
 import com.liqihao.util.ScheduledThreadPoolUtil;

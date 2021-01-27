@@ -1,9 +1,13 @@
 package com.liqihao.pojo.bean.roleBean;
 
 import com.liqihao.commons.enums.RoleTypeCode;
+import com.liqihao.commons.enums.TaskTargetTypeCode;
 import com.liqihao.pojo.bean.SkillBean;
 import com.liqihao.pojo.bean.buffBean.BaseBuffBean;
+import com.liqihao.pojo.bean.taskBean.equipmentLevelTask.EquipmentTaskLevelAction;
+import com.liqihao.pojo.bean.taskBean.roleLevelTask.RoleLevelAction;
 import com.liqihao.protobufObject.PlayModel;
+import com.liqihao.provider.TaskServiceProvider;
 import com.liqihao.util.CommonsUtil;
 import com.liqihao.util.DbUtil;
 import com.liqihao.util.ScheduledThreadPoolUtil;
@@ -122,14 +126,25 @@ public abstract class Role {
             if(getType().equals(RoleTypeCode.PLAYER.getCode())){
                 //发送给所有人有人升级
                 CommonsUtil.sendUpLevelAllRoles(addLevel,this);
+                //抛出升级事件
+                RoleLevelAction roleLevelAction=new RoleLevelAction();
+                roleLevelAction.setLevel(getLevel());
+                roleLevelAction.setTaskTargetType(TaskTargetTypeCode.UP_LEVEL.getCode());
+                MmoSimpleRole mmoSimpleRole= (MmoSimpleRole) this;
+                mmoSimpleRole.getTaskManager().handler(roleLevelAction,mmoSimpleRole);
             }
         }
     }
 
     public void changeEquipmentLevel(Integer equipmentLevel){
         setEquipmentLevel(equipmentLevel);
-        //todo 抛出装备星级事件
+        // 抛出装备星级事件
         if(getType().equals(RoleTypeCode.PLAYER.getCode())){
+            EquipmentTaskLevelAction equipmentTaskLevelAction=new EquipmentTaskLevelAction();
+            equipmentTaskLevelAction.setChangeLevel(getEquipmentLevel());
+            equipmentTaskLevelAction.setTaskTargetType(TaskTargetTypeCode.EQUIPMENT_LEVEL.getCode());
+            MmoSimpleRole mmoSimpleRole= (MmoSimpleRole) this;
+            mmoSimpleRole.getTaskManager().handler(equipmentTaskLevelAction,mmoSimpleRole);
         }
     }
     /**

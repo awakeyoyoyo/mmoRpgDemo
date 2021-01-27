@@ -18,6 +18,7 @@ import com.liqihao.pojo.bean.guildBean.GuildApplyBean;
 import com.liqihao.pojo.bean.guildBean.GuildBean;
 import com.liqihao.pojo.bean.guildBean.GuildRoleBean;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
+import com.liqihao.pojo.bean.taskBean.guildFirstTask.GuildFirstAction;
 import com.liqihao.pojo.dto.ArticleDto;
 import com.liqihao.protobufObject.GuildModel;
 import com.liqihao.provider.GuildServiceProvider;
@@ -145,7 +146,7 @@ public class GuildServiceImpl implements GuildService {
     public void contributeMoney(GuildModel.GuildModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException {
         Channel channel = mmoSimpleRole.getChannel();
         Integer money=myMessage.getContributeMoneyRequest().getMoney();
-        if (money<=0||money>Integer.MAX_VALUE){
+        if (money<=0){
             throw new RpgServerException(StateCode.FAIL,"输入非法范围的金币");
         }
         if (mmoSimpleRole.getMoney()<money){
@@ -177,7 +178,7 @@ public class GuildServiceImpl implements GuildService {
         //背包id
         Integer articleId=myMessage.getContributeArticleRequest().getArticleId();
         Integer number=myMessage.getContributeArticleRequest().getNumber();
-        if (number<=0||number>Integer.MAX_VALUE){
+        if (number<=0){
             throw new RpgServerException(StateCode.FAIL,"输入非法范围的数量");
         }
         GuildBean guildBean=mmoSimpleRole.getGuildBean();
@@ -221,7 +222,7 @@ public class GuildServiceImpl implements GuildService {
         //背包id
         Integer warehouseId=myMessage.getGetArticleRequest().getWarehouseId();
         Integer number=myMessage.getGetArticleRequest().getNumber();
-        if (number<=0||number>Integer.MAX_VALUE){
+        if (number<=0){
             throw new RpgServerException(StateCode.FAIL,"输入非法范围的数量");
         }
         GuildBean guildBean=mmoSimpleRole.getGuildBean();
@@ -270,7 +271,7 @@ public class GuildServiceImpl implements GuildService {
         Channel channel = mmoSimpleRole.getChannel();
         //背包id
         Integer money=myMessage.getGetMoneyRequest().getMoney();
-        if (money<=0||money>Integer.MAX_VALUE){
+        if (money<=0){
             throw new RpgServerException(StateCode.FAIL,"输入非法范围的数量");
         }
         GuildBean guildBean=mmoSimpleRole.getGuildBean();

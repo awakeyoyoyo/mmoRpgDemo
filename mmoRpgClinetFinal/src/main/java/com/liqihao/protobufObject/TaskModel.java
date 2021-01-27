@@ -170,6 +170,21 @@ public final class TaskModel {
      */
     FinishTaskResponseOrBuilder getFinishTaskResponseOrBuilder();
 
+    /**
+     * <code>.FinishTaskRequest finishTaskRequest = 11;</code>
+     * @return Whether the finishTaskRequest field is set.
+     */
+    boolean hasFinishTaskRequest();
+    /**
+     * <code>.FinishTaskRequest finishTaskRequest = 11;</code>
+     * @return The finishTaskRequest.
+     */
+    FinishTaskRequest getFinishTaskRequest();
+    /**
+     * <code>.FinishTaskRequest finishTaskRequest = 11;</code>
+     */
+    FinishTaskRequestOrBuilder getFinishTaskRequestOrBuilder();
+
     public TaskModelMessage.DateBodyCase getDateBodyCase();
   }
   /**
@@ -350,6 +365,20 @@ public final class TaskModel {
               dateBodyCase_ = 10;
               break;
             }
+            case 90: {
+              FinishTaskRequest.Builder subBuilder = null;
+              if (dateBodyCase_ == 11) {
+                subBuilder = ((FinishTaskRequest) dateBody_).toBuilder();
+              }
+              dateBody_ =
+                  input.readMessage(FinishTaskRequest.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((FinishTaskRequest) dateBody_);
+                dateBody_ = subBuilder.buildPartial();
+              }
+              dateBodyCase_ = 11;
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -431,6 +460,10 @@ public final class TaskModel {
        * <code>FinishTaskResponse = 8;</code>
        */
       FinishTaskResponse(8),
+      /**
+       * <code>FinishTaskRequest = 9;</code>
+       */
+      FinishTaskRequest(9),
       UNRECOGNIZED(-1),
       ;
 
@@ -474,6 +507,10 @@ public final class TaskModel {
        * <code>FinishTaskResponse = 8;</code>
        */
       public static final int FinishTaskResponse_VALUE = 8;
+      /**
+       * <code>FinishTaskRequest = 9;</code>
+       */
+      public static final int FinishTaskRequest_VALUE = 9;
 
 
       public final int getNumber() {
@@ -509,6 +546,7 @@ public final class TaskModel {
           case 6: return AcceptTaskResponse;
           case 7: return AbandonTaskResponse;
           case 8: return FinishTaskResponse;
+          case 9: return FinishTaskRequest;
           default: return null;
         }
       }
@@ -579,6 +617,7 @@ public final class TaskModel {
       ACCEPTTASKRESPONSE(8),
       ABANDONTASKRESPONSE(9),
       FINISHTASKRESPONSE(10),
+      FINISHTASKREQUEST(11),
       DATEBODY_NOT_SET(0);
       private final int value;
       private DateBodyCase(int value) {
@@ -605,6 +644,7 @@ public final class TaskModel {
           case 8: return ACCEPTTASKRESPONSE;
           case 9: return ABANDONTASKRESPONSE;
           case 10: return FINISHTASKRESPONSE;
+          case 11: return FINISHTASKREQUEST;
           case 0: return DATEBODY_NOT_SET;
           default: return null;
         }
@@ -926,6 +966,37 @@ public final class TaskModel {
       return FinishTaskResponse.getDefaultInstance();
     }
 
+    public static final int FINISHTASKREQUEST_FIELD_NUMBER = 11;
+    /**
+     * <code>.FinishTaskRequest finishTaskRequest = 11;</code>
+     * @return Whether the finishTaskRequest field is set.
+     */
+    @Override
+    public boolean hasFinishTaskRequest() {
+      return dateBodyCase_ == 11;
+    }
+    /**
+     * <code>.FinishTaskRequest finishTaskRequest = 11;</code>
+     * @return The finishTaskRequest.
+     */
+    @Override
+    public FinishTaskRequest getFinishTaskRequest() {
+      if (dateBodyCase_ == 11) {
+         return (FinishTaskRequest) dateBody_;
+      }
+      return FinishTaskRequest.getDefaultInstance();
+    }
+    /**
+     * <code>.FinishTaskRequest finishTaskRequest = 11;</code>
+     */
+    @Override
+    public FinishTaskRequestOrBuilder getFinishTaskRequestOrBuilder() {
+      if (dateBodyCase_ == 11) {
+         return (FinishTaskRequest) dateBody_;
+      }
+      return FinishTaskRequest.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -969,6 +1040,9 @@ public final class TaskModel {
       }
       if (dateBodyCase_ == 10) {
         output.writeMessage(10, (FinishTaskResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 11) {
+        output.writeMessage(11, (FinishTaskRequest) dateBody_);
       }
       unknownFields.writeTo(output);
     }
@@ -1018,6 +1092,10 @@ public final class TaskModel {
       if (dateBodyCase_ == 10) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(10, (FinishTaskResponse) dateBody_);
+      }
+      if (dateBodyCase_ == 11) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(11, (FinishTaskRequest) dateBody_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1073,6 +1151,10 @@ public final class TaskModel {
           if (!getFinishTaskResponse()
               .equals(other.getFinishTaskResponse())) return false;
           break;
+        case 11:
+          if (!getFinishTaskRequest()
+              .equals(other.getFinishTaskRequest())) return false;
+          break;
         case 0:
         default:
       }
@@ -1125,6 +1207,10 @@ public final class TaskModel {
         case 10:
           hash = (37 * hash) + FINISHTASKRESPONSE_FIELD_NUMBER;
           hash = (53 * hash) + getFinishTaskResponse().hashCode();
+          break;
+        case 11:
+          hash = (37 * hash) + FINISHTASKREQUEST_FIELD_NUMBER;
+          hash = (53 * hash) + getFinishTaskRequest().hashCode();
           break;
         case 0:
         default:
@@ -1356,6 +1442,13 @@ public final class TaskModel {
             result.dateBody_ = finishTaskResponseBuilder_.build();
           }
         }
+        if (dateBodyCase_ == 11) {
+          if (finishTaskRequestBuilder_ == null) {
+            result.dateBody_ = dateBody_;
+          } else {
+            result.dateBody_ = finishTaskRequestBuilder_.build();
+          }
+        }
         result.dateBodyCase_ = dateBodyCase_;
         onBuilt();
         return result;
@@ -1443,6 +1536,10 @@ public final class TaskModel {
           }
           case FINISHTASKRESPONSE: {
             mergeFinishTaskResponse(other.getFinishTaskResponse());
+            break;
+          }
+          case FINISHTASKREQUEST: {
+            mergeFinishTaskRequest(other.getFinishTaskRequest());
             break;
           }
           case DATEBODY_NOT_SET: {
@@ -2834,6 +2931,147 @@ public final class TaskModel {
         dateBodyCase_ = 10;
         onChanged();;
         return finishTaskResponseBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          FinishTaskRequest, FinishTaskRequest.Builder, FinishTaskRequestOrBuilder> finishTaskRequestBuilder_;
+      /**
+       * <code>.FinishTaskRequest finishTaskRequest = 11;</code>
+       * @return Whether the finishTaskRequest field is set.
+       */
+      @Override
+      public boolean hasFinishTaskRequest() {
+        return dateBodyCase_ == 11;
+      }
+      /**
+       * <code>.FinishTaskRequest finishTaskRequest = 11;</code>
+       * @return The finishTaskRequest.
+       */
+      @Override
+      public FinishTaskRequest getFinishTaskRequest() {
+        if (finishTaskRequestBuilder_ == null) {
+          if (dateBodyCase_ == 11) {
+            return (FinishTaskRequest) dateBody_;
+          }
+          return FinishTaskRequest.getDefaultInstance();
+        } else {
+          if (dateBodyCase_ == 11) {
+            return finishTaskRequestBuilder_.getMessage();
+          }
+          return FinishTaskRequest.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.FinishTaskRequest finishTaskRequest = 11;</code>
+       */
+      public Builder setFinishTaskRequest(FinishTaskRequest value) {
+        if (finishTaskRequestBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dateBody_ = value;
+          onChanged();
+        } else {
+          finishTaskRequestBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 11;
+        return this;
+      }
+      /**
+       * <code>.FinishTaskRequest finishTaskRequest = 11;</code>
+       */
+      public Builder setFinishTaskRequest(
+          FinishTaskRequest.Builder builderForValue) {
+        if (finishTaskRequestBuilder_ == null) {
+          dateBody_ = builderForValue.build();
+          onChanged();
+        } else {
+          finishTaskRequestBuilder_.setMessage(builderForValue.build());
+        }
+        dateBodyCase_ = 11;
+        return this;
+      }
+      /**
+       * <code>.FinishTaskRequest finishTaskRequest = 11;</code>
+       */
+      public Builder mergeFinishTaskRequest(FinishTaskRequest value) {
+        if (finishTaskRequestBuilder_ == null) {
+          if (dateBodyCase_ == 11 &&
+              dateBody_ != FinishTaskRequest.getDefaultInstance()) {
+            dateBody_ = FinishTaskRequest.newBuilder((FinishTaskRequest) dateBody_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            dateBody_ = value;
+          }
+          onChanged();
+        } else {
+          if (dateBodyCase_ == 11) {
+            finishTaskRequestBuilder_.mergeFrom(value);
+          }
+          finishTaskRequestBuilder_.setMessage(value);
+        }
+        dateBodyCase_ = 11;
+        return this;
+      }
+      /**
+       * <code>.FinishTaskRequest finishTaskRequest = 11;</code>
+       */
+      public Builder clearFinishTaskRequest() {
+        if (finishTaskRequestBuilder_ == null) {
+          if (dateBodyCase_ == 11) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+            onChanged();
+          }
+        } else {
+          if (dateBodyCase_ == 11) {
+            dateBodyCase_ = 0;
+            dateBody_ = null;
+          }
+          finishTaskRequestBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.FinishTaskRequest finishTaskRequest = 11;</code>
+       */
+      public FinishTaskRequest.Builder getFinishTaskRequestBuilder() {
+        return getFinishTaskRequestFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.FinishTaskRequest finishTaskRequest = 11;</code>
+       */
+      @Override
+      public FinishTaskRequestOrBuilder getFinishTaskRequestOrBuilder() {
+        if ((dateBodyCase_ == 11) && (finishTaskRequestBuilder_ != null)) {
+          return finishTaskRequestBuilder_.getMessageOrBuilder();
+        } else {
+          if (dateBodyCase_ == 11) {
+            return (FinishTaskRequest) dateBody_;
+          }
+          return FinishTaskRequest.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.FinishTaskRequest finishTaskRequest = 11;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          FinishTaskRequest, FinishTaskRequest.Builder, FinishTaskRequestOrBuilder>
+          getFinishTaskRequestFieldBuilder() {
+        if (finishTaskRequestBuilder_ == null) {
+          if (!(dateBodyCase_ == 11)) {
+            dateBody_ = FinishTaskRequest.getDefaultInstance();
+          }
+          finishTaskRequestBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              FinishTaskRequest, FinishTaskRequest.Builder, FinishTaskRequestOrBuilder>(
+                  (FinishTaskRequest) dateBody_,
+                  getParentForChildren(),
+                  isClean());
+          dateBody_ = null;
+        }
+        dateBodyCase_ = 11;
+        onChanged();;
+        return finishTaskRequestBuilder_;
       }
       @Override
       public final Builder setUnknownFields(
@@ -7432,6 +7670,494 @@ public final class TaskModel {
 
   }
 
+  public interface FinishTaskRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:FinishTaskRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>int32 taskMessageId = 1;</code>
+     * @return The taskMessageId.
+     */
+    int getTaskMessageId();
+  }
+  /**
+   * Protobuf type {@code FinishTaskRequest}
+   */
+  public static final class FinishTaskRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:FinishTaskRequest)
+      FinishTaskRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use FinishTaskRequest.newBuilder() to construct.
+    private FinishTaskRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private FinishTaskRequest() {
+    }
+
+    @Override
+    @SuppressWarnings({"unused"})
+    protected Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new FinishTaskRequest();
+    }
+
+    @Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private FinishTaskRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+
+              taskMessageId_ = input.readInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return TaskModel.internal_static_FinishTaskRequest_descriptor;
+    }
+
+    @Override
+    protected FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return TaskModel.internal_static_FinishTaskRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              FinishTaskRequest.class, Builder.class);
+    }
+
+    public static final int TASKMESSAGEID_FIELD_NUMBER = 1;
+    private int taskMessageId_;
+    /**
+     * <code>int32 taskMessageId = 1;</code>
+     * @return The taskMessageId.
+     */
+    @Override
+    public int getTaskMessageId() {
+      return taskMessageId_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (taskMessageId_ != 0) {
+        output.writeInt32(1, taskMessageId_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (taskMessageId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, taskMessageId_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof FinishTaskRequest)) {
+        return super.equals(obj);
+      }
+      FinishTaskRequest other = (FinishTaskRequest) obj;
+
+      if (getTaskMessageId()
+          != other.getTaskMessageId()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + TASKMESSAGEID_FIELD_NUMBER;
+      hash = (53 * hash) + getTaskMessageId();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static FinishTaskRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static FinishTaskRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static FinishTaskRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static FinishTaskRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static FinishTaskRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static FinishTaskRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static FinishTaskRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static FinishTaskRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static FinishTaskRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static FinishTaskRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static FinishTaskRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static FinishTaskRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(FinishTaskRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(
+        BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code FinishTaskRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:FinishTaskRequest)
+        FinishTaskRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return TaskModel.internal_static_FinishTaskRequest_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return TaskModel.internal_static_FinishTaskRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                FinishTaskRequest.class, Builder.class);
+      }
+
+      // Construct using TaskModel.FinishTaskRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @Override
+      public Builder clear() {
+        super.clear();
+        taskMessageId_ = 0;
+
+        return this;
+      }
+
+      @Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return TaskModel.internal_static_FinishTaskRequest_descriptor;
+      }
+
+      @Override
+      public FinishTaskRequest getDefaultInstanceForType() {
+        return FinishTaskRequest.getDefaultInstance();
+      }
+
+      @Override
+      public FinishTaskRequest build() {
+        FinishTaskRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @Override
+      public FinishTaskRequest buildPartial() {
+        FinishTaskRequest result = new FinishTaskRequest(this);
+        result.taskMessageId_ = taskMessageId_;
+        onBuilt();
+        return result;
+      }
+
+      @Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.setField(field, value);
+      }
+      @Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof FinishTaskRequest) {
+          return mergeFrom((FinishTaskRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(FinishTaskRequest other) {
+        if (other == FinishTaskRequest.getDefaultInstance()) return this;
+        if (other.getTaskMessageId() != 0) {
+          setTaskMessageId(other.getTaskMessageId());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        FinishTaskRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (FinishTaskRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private int taskMessageId_ ;
+      /**
+       * <code>int32 taskMessageId = 1;</code>
+       * @return The taskMessageId.
+       */
+      @Override
+      public int getTaskMessageId() {
+        return taskMessageId_;
+      }
+      /**
+       * <code>int32 taskMessageId = 1;</code>
+       * @param value The taskMessageId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTaskMessageId(int value) {
+        
+        taskMessageId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 taskMessageId = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTaskMessageId() {
+        
+        taskMessageId_ = 0;
+        onChanged();
+        return this;
+      }
+      @Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:FinishTaskRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:FinishTaskRequest)
+    private static final FinishTaskRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new FinishTaskRequest();
+    }
+
+    public static FinishTaskRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<FinishTaskRequest>
+        PARSER = new com.google.protobuf.AbstractParser<FinishTaskRequest>() {
+      @Override
+      public FinishTaskRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new FinishTaskRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<FinishTaskRequest> parser() {
+      return PARSER;
+    }
+
+    @Override
+    public com.google.protobuf.Parser<FinishTaskRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @Override
+    public FinishTaskRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface TaskDtoOrBuilder extends
       // @@protoc_insertion_point(interface_extends:TaskDto)
       com.google.protobuf.MessageOrBuilder {
@@ -8182,6 +8908,11 @@ public final class TaskModel {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_FinishTaskResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_FinishTaskRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_FinishTaskRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_TaskDto_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -8195,7 +8926,7 @@ public final class TaskModel {
       descriptor;
   static {
     String[] descriptorData = {
-      "\n\017TaskModel.proto\"\255\006\n\020TaskModelMessage\022-" +
+      "\n\017TaskModel.proto\"\365\006\n\020TaskModelMessage\022-" +
       "\n\tdata_type\030\001 \001(\0162\032.TaskModelMessage.Dat" +
       "eType\0225\n\024getPeopleTaskRequest\030\002 \001(\0132\025.Ge" +
       "tPeopleTaskRequestH\000\022;\n\027getCanAcceptTask" +
@@ -8209,24 +8940,27 @@ public final class TaskModel {
       "nse\030\010 \001(\0132\023.AcceptTaskResponseH\000\0223\n\023aban" +
       "donTaskResponse\030\t \001(\0132\024.AbandonTaskRespo" +
       "nseH\000\0221\n\022finishTaskResponse\030\n \001(\0132\023.Fini" +
-      "shTaskResponseH\000\"\362\001\n\010DateType\022\030\n\024GetPeop" +
-      "leTaskRequest\020\000\022\033\n\027GetCanAcceptTaskReque" +
-      "st\020\001\022\025\n\021AcceptTaskRequest\020\002\022\026\n\022AbandonTa" +
-      "skRequest\020\003\022\031\n\025GetPeopleTaskResponse\020\004\022\034" +
-      "\n\030GetCanAcceptTaskResponse\020\005\022\026\n\022AcceptTa" +
-      "skResponse\020\006\022\027\n\023AbandonTaskResponse\020\007\022\026\n" +
-      "\022FinishTaskResponse\020\010B\n\n\010dateBody\"\026\n\024Get" +
-      "PeopleTaskRequest\"\031\n\027GetCanAcceptTaskReq" +
-      "uest\"*\n\021AcceptTaskRequest\022\025\n\rtaskMessage" +
-      "Id\030\001 \001(\005\"+\n\022AbandonTaskRequest\022\025\n\rtaskMe" +
-      "ssageId\030\001 \001(\005\"3\n\025GetPeopleTaskResponse\022\032" +
-      "\n\010taskDtos\030\001 \003(\0132\010.TaskDto\"+\n\030GetCanAcce" +
-      "ptTaskResponse\022\017\n\007taskIds\030\001 \003(\005\"\024\n\022Accep" +
-      "tTaskResponse\"\025\n\023AbandonTaskResponse\"+\n\022" +
-      "FinishTaskResponse\022\025\n\rtaskMessageId\030\001 \001(" +
-      "\005\"V\n\007TaskDto\022\020\n\010progress\030\001 \001(\005\022\025\n\rtaskMe" +
-      "ssageId\030\002 \001(\005\022\016\n\006status\030\003 \001(\005\022\022\n\ncreateT" +
-      "ime\030\004 \001(\022B\013B\tTaskModelb\006proto3"
+      "shTaskResponseH\000\022/\n\021finishTaskRequest\030\013 " +
+      "\001(\0132\022.FinishTaskRequestH\000\"\211\002\n\010DateType\022\030" +
+      "\n\024GetPeopleTaskRequest\020\000\022\033\n\027GetCanAccept" +
+      "TaskRequest\020\001\022\025\n\021AcceptTaskRequest\020\002\022\026\n\022" +
+      "AbandonTaskRequest\020\003\022\031\n\025GetPeopleTaskRes" +
+      "ponse\020\004\022\034\n\030GetCanAcceptTaskResponse\020\005\022\026\n" +
+      "\022AcceptTaskResponse\020\006\022\027\n\023AbandonTaskResp" +
+      "onse\020\007\022\026\n\022FinishTaskResponse\020\010\022\025\n\021Finish" +
+      "TaskRequest\020\tB\n\n\010dateBody\"\026\n\024GetPeopleTa" +
+      "skRequest\"\031\n\027GetCanAcceptTaskRequest\"*\n\021" +
+      "AcceptTaskRequest\022\025\n\rtaskMessageId\030\001 \001(\005" +
+      "\"+\n\022AbandonTaskRequest\022\025\n\rtaskMessageId\030" +
+      "\001 \001(\005\"3\n\025GetPeopleTaskResponse\022\032\n\010taskDt" +
+      "os\030\001 \003(\0132\010.TaskDto\"+\n\030GetCanAcceptTaskRe" +
+      "sponse\022\017\n\007taskIds\030\001 \003(\005\"\024\n\022AcceptTaskRes" +
+      "ponse\"\025\n\023AbandonTaskResponse\"+\n\022FinishTa" +
+      "skResponse\022\025\n\rtaskMessageId\030\001 \001(\005\"*\n\021Fin" +
+      "ishTaskRequest\022\025\n\rtaskMessageId\030\001 \001(\005\"V\n" +
+      "\007TaskDto\022\020\n\010progress\030\001 \001(\005\022\025\n\rtaskMessag" +
+      "eId\030\002 \001(\005\022\016\n\006status\030\003 \001(\005\022\022\n\ncreateTime\030" +
+      "\004 \001(\022B\013B\tTaskModelb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -8237,7 +8971,7 @@ public final class TaskModel {
     internal_static_TaskModelMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_TaskModelMessage_descriptor,
-        new String[] { "DataType", "GetPeopleTaskRequest", "GetCanAcceptTaskRequest", "AcceptTaskRequest", "AbandonTaskRequest", "GetPeopleTaskResponse", "GetCanAcceptTaskResponse", "AcceptTaskResponse", "AbandonTaskResponse", "FinishTaskResponse", "DateBody", });
+        new String[] { "DataType", "GetPeopleTaskRequest", "GetCanAcceptTaskRequest", "AcceptTaskRequest", "AbandonTaskRequest", "GetPeopleTaskResponse", "GetCanAcceptTaskResponse", "AcceptTaskResponse", "AbandonTaskResponse", "FinishTaskResponse", "FinishTaskRequest", "DateBody", });
     internal_static_GetPeopleTaskRequest_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_GetPeopleTaskRequest_fieldAccessorTable = new
@@ -8292,8 +9026,14 @@ public final class TaskModel {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_FinishTaskResponse_descriptor,
         new String[] { "TaskMessageId", });
-    internal_static_TaskDto_descriptor =
+    internal_static_FinishTaskRequest_descriptor =
       getDescriptor().getMessageTypes().get(10);
+    internal_static_FinishTaskRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_FinishTaskRequest_descriptor,
+        new String[] { "TaskMessageId", });
+    internal_static_TaskDto_descriptor =
+      getDescriptor().getMessageTypes().get(11);
     internal_static_TaskDto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_TaskDto_descriptor,

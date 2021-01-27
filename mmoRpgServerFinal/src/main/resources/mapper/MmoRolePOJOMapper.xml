@@ -29,8 +29,8 @@
     delete from mmo_role
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.liqihao.pojo.MmoRolePOJO">
-    insert into mmo_role (id, status, name, 
+  <insert id="insert" parameterType="com.liqihao.pojo.MmoRolePOJO" useGeneratedKeys="true" keyProperty="id">
+    insert into mmo_role (id, status, name,
       type, mmo_scene_id, on_status, 
       skill_ids, money, profession_id, 
       guild_id, exp, friend_ids

@@ -62,10 +62,7 @@ public class TaskServiceImpl implements TaskService {
         for (Integer taskMessageId : taskIds) {
             TaskMessage taskMessage= MmoCacheCilent.getInstance().getTaskMessageConcurrentHashMap().get(taskMessageId);
             System.out.println("[-]");
-            System.out.println("[-]任务id："+taskMessage.getId()+" 任务名称: "+taskMessage.getName());
-            System.out.println("[-]任务描述："+taskMessage.getDescription());
-            System.out.println("[-]任务目标进度："+taskMessage.getTargetProgress());
-            System.out.println("[-]任务类型："+ TaskTypeCode.getValue(taskMessage.getType()));
+            System.out.println("[-]任务id："+taskMessage.getId()+" 任务名称: "+taskMessage.getName()+" 任务描述: "+taskMessage.getDescription()+" 任务目标进度："+taskMessage.getTargetProgress()+" 任务类型："+ TaskTypeCode.getValue(taskMessage.getType()));
             System.out.println("[-]任务奖励：");
             if (taskMessage.getRewardArticleType().equals(ArticleTypeCode.MEDICINE.getCode())){
                 MedicineMessage medicineMessage=medicineMessageConcurrentHashMap.get(taskMessage.getRewardArticleMessageId());
@@ -111,9 +108,7 @@ public class TaskServiceImpl implements TaskService {
         ConcurrentHashMap<Integer, MedicineMessage> medicineMessageConcurrentHashMap=MmoCacheCilent.getInstance().getMedicineMessageConcurrentHashMap();
         ConcurrentHashMap<Integer, EquipmentMessage> equipmentMessageConcurrentHashMap=MmoCacheCilent.getInstance().getEquipmentMessageConcurrentHashMap();
         System.out.println("[-]--------------------------------------------------------");
-        System.out.println("[-]任务名:"+taskMessage.getName());
-        System.out.println("[-]任务描述:"+taskMessage.getDescription());
-        System.out.println("[-]任务类型:"+TaskTypeCode.getValue(taskMessage.getType()));
+        System.out.println("[-]任务名称: "+taskMessage.getName()+" 任务描述: "+taskMessage.getDescription()+" 任务类型："+ TaskTypeCode.getValue(taskMessage.getType()));
         System.out.println("[-]该任务已经完成");
         System.out.println("[-]恭喜你得到以下奖励");
         if (taskMessage.getRewardArticleType().equals(ArticleTypeCode.MEDICINE.getCode())){

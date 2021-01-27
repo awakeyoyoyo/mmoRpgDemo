@@ -12,6 +12,7 @@ message TaskModelMessage{
     AcceptTaskResponse=6;
     AbandonTaskResponse=7;
     FinishTaskResponse=8;
+    FinishTaskRequest=9;
   }
   //用date_type来标识传的是哪一个枚举类型
   DateType data_type=1;
@@ -26,6 +27,7 @@ message TaskModelMessage{
     AcceptTaskResponse acceptTaskResponse=8;
     AbandonTaskResponse abandonTaskResponse=9;
     FinishTaskResponse finishTaskResponse=10;
+    FinishTaskRequest finishTaskRequest=11;
   }
 }
 message GetPeopleTaskRequest{
@@ -53,6 +55,9 @@ message AbandonTaskResponse{
 
 }
 message FinishTaskResponse{
+  int32 taskMessageId=1;
+}
+message FinishTaskRequest{
   int32 taskMessageId=1;
 }
 message TaskDto{
