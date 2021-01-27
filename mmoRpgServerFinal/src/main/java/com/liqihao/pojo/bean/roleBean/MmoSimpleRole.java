@@ -1,6 +1,7 @@
 package com.liqihao.pojo.bean.roleBean;
 
 
+import com.googlecode.protobuf.format.JsonFormat;
 import com.liqihao.Cache.*;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
@@ -26,10 +27,7 @@ import com.liqihao.pojo.dto.EquipmentDto;
 import com.liqihao.protobufObject.ChatModel;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.provider.*;
-import com.liqihao.util.CommonsUtil;
-import com.liqihao.util.DbUtil;
-import com.liqihao.util.LogicThreadPool;
-import com.liqihao.util.ScheduledThreadPoolUtil;
+import com.liqihao.util.*;
 import io.netty.channel.Channel;
 import org.apache.log4j.Logger;
 
@@ -567,7 +565,8 @@ public class MmoSimpleRole extends Role implements MyObserver {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
         //广播
-        CommonsUtil.notificationSceneRole(nettyResponse,this);
+        String json= JsonFormat.printToString(myMessageBuilder.build());
+        NotificationUtil.notificationSceneRole(nettyResponse,this,json);
         //cd
         Map<Integer, Long> map = getCdMap();
         Long time = System.currentTimeMillis();
@@ -898,7 +897,8 @@ public class MmoSimpleRole extends Role implements MyObserver {
             nettyResponse.setCmd(ConstantValue.ACCEPT_MESSAGE_RESPONSE);
             nettyResponse.setStateCode(StateCode.SUCCESS);
             nettyResponse.setData(myMessage.toByteArray());
-            c.writeAndFlush(nettyResponse);
+            String json= JsonFormat.printToString(myMessage);
+            NotificationUtil.sendMessage(channel,nettyResponse,json);
         }
     }
 

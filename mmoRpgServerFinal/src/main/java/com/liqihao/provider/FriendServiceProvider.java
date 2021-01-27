@@ -1,5 +1,6 @@
 package com.liqihao.provider;
 
+import com.googlecode.protobuf.format.JsonFormat;
 import com.liqihao.Cache.OnlineRoleMessageCache;
 import com.liqihao.Cache.RoleMessageCache;
 import com.liqihao.commons.ConstantValue;
@@ -15,6 +16,7 @@ import com.liqihao.pojo.bean.taskBean.firstFriendTask.FriendFirstAction;
 import com.liqihao.protobufObject.FriendModel;
 import com.liqihao.util.CommonsUtil;
 import com.liqihao.util.DbUtil;
+import com.liqihao.util.NotificationUtil;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
 import org.slf4j.Logger;
@@ -93,16 +95,11 @@ public class FriendServiceProvider {
         nettyResponse.setCmd(ConstantValue.HAS_NEW_FRIENDS_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(messageData.toByteArray());
-        if (mmoSimpleRole!=null) {
-            Channel channel = mmoSimpleRole.getChannel();
-            if (channel != null) {
-                channel.writeAndFlush(nettyResponse);
-            }
-        }
-        Channel channel2=role.getChannel();
-        if (channel2!=null) {
-            channel2.writeAndFlush(nettyResponse);
-        }
+        String json= JsonFormat.printToString(messageData);
+        List<MmoSimpleRole> roles=new ArrayList<>();
+        roles.add(mmoSimpleRole);
+        roles.add(role);
+        NotificationUtil.sendRolesMessage(nettyResponse,roles,json);
     }
     /**
      * description 拒绝申请
@@ -130,7 +127,8 @@ public class FriendServiceProvider {
             nettyResponse.setData(messageData.toByteArray());
             Channel channel=applyRole.getChannel();
             if (channel!=null) {
-                channel.writeAndFlush(nettyResponse);
+                String json= JsonFormat.printToString(messageData);
+                NotificationUtil.sendMessage(channel,nettyResponse,json);
             }
         }
     }

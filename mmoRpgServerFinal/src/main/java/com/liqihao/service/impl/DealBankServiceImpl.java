@@ -1,5 +1,6 @@
 package com.liqihao.service.impl;
 
+import com.googlecode.protobuf.format.JsonFormat;
 import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.ConstantValue;
@@ -15,6 +16,7 @@ import com.liqihao.protobufObject.DealModel;
 import com.liqihao.provider.DealBankServiceProvider;
 import com.liqihao.service.DealBankService;
 import com.liqihao.util.CommonsUtil;
+import com.liqihao.util.NotificationUtil;
 import io.netty.channel.Channel;
 import org.springframework.stereotype.Service;
 
@@ -53,7 +55,8 @@ public class DealBankServiceImpl implements DealBankService {
         DealBankModel.AddSellArticleResponse.Builder addSellArticleResponseBuilder = DealBankModel.AddSellArticleResponse.newBuilder();
         messageData.setAddSellArticleResponse(addSellArticleResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
-        channel.writeAndFlush(nettyResponse);
+        String json= JsonFormat.printToString(messageData.build());
+        NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 
 
@@ -74,7 +77,8 @@ public class DealBankServiceImpl implements DealBankService {
                 .newBuilder();
         messageData.setReduceSellArticleResponse(reduceSellArticleResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
-        channel.writeAndFlush(nettyResponse);
+        String json= JsonFormat.printToString(messageData.build());
+        NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 
     @Override
@@ -94,7 +98,8 @@ public class DealBankServiceImpl implements DealBankService {
                 .newBuilder();
         messageData.setReduceAuctionArticleResponse(reduceAuctionArticleResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
-        channel.writeAndFlush(nettyResponse);
+        String json= JsonFormat.printToString(messageData.build());
+        NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 
     @Override
@@ -114,7 +119,8 @@ public class DealBankServiceImpl implements DealBankService {
                 .newBuilder();
         messageData.setBuyArticleResponse(buyArticleResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
-        channel.writeAndFlush(nettyResponse);
+        String json= JsonFormat.printToString(messageData.build());
+        NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 
     @Override
@@ -138,7 +144,8 @@ public class DealBankServiceImpl implements DealBankService {
                 .newBuilder();
         messageData.setAuctionArticleResponse(auctionArticleResponse.build());
         nettyResponse.setData(messageData.build().toByteArray());
-        channel.writeAndFlush(nettyResponse);
+        String json= JsonFormat.printToString(messageData.build());
+        NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 
     @Override
@@ -163,6 +170,7 @@ public class DealBankServiceImpl implements DealBankService {
                 .newBuilder().addAllDealBankArticleDtos(dealBankArticleDtos);
         messageData.setGetArticleResponse(getArticleResponse.build());
         nettyResponse.setData(messageData.build().toByteArray());
-        channel.writeAndFlush(nettyResponse);
+        String json= JsonFormat.printToString(messageData.build());
+        NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 }

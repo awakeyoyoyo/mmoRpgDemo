@@ -1,6 +1,7 @@
 package com.liqihao.util;
 
 
+import com.googlecode.protobuf.format.JsonFormat;
 import com.liqihao.Cache.*;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
@@ -102,28 +103,6 @@ public class CommonsUtil {
         return sceneRoles;
     }
 
-    public static void notificationSceneRole(NettyResponse nettyResponse,Role mmoSimpleRole) {
-        List<Integer> players;
-        if (mmoSimpleRole.getMmoSceneId()!=null) {
-            players = SceneBeanMessageCache.getInstance().get(mmoSimpleRole.getMmoSceneId()).getRoles();
-            for (Integer playerId:players){
-                Channel c= ChannelMessageCache.getInstance().get(playerId);
-                if (c!=null){
-                    c.writeAndFlush(nettyResponse);
-                }
-            }
-        }else{
-            List<Role> roles = CopySceneProvider.getCopySceneBeanById(mmoSimpleRole.getCopySceneBeanId()).getRoles();
-            for (Role role:roles) {
-                if (role.getType().equals(RoleTypeCode.PLAYER.getCode())){
-                    Channel c= ChannelMessageCache.getInstance().get(role.getId());
-                    if (c!=null){
-                        c.writeAndFlush(nettyResponse);
-                    }
-                }
-            }
-        }
-    }
 
     public static void sendUpLevelAllRoles(Integer addLevel, Role role) {
         NettyResponse nettyResponse=new NettyResponse();
@@ -136,7 +115,8 @@ public class CommonsUtil {
         nettyResponse.setCmd(ConstantValue.UP_LEVEL_RESPONSE);
         nettyResponse.setData(messageData.build().toByteArray());
         MmoSimpleRole mmoSimpleRole= (MmoSimpleRole) role;
-        notificationSceneRole(nettyResponse,mmoSimpleRole);
+        String json= JsonFormat.printToString(messageData.build());
+        NotificationUtil.notificationSceneRole(nettyResponse,mmoSimpleRole,json);
     }
 
 
@@ -706,12 +686,13 @@ public class CommonsUtil {
         nettyResponse.setStateCode(200);
         nettyResponse.setData(data2);
         List<Integer> players;
+        String json= JsonFormat.printToString(messageDataBuilder.build());
         if (sceneId!=null) {
             players = SceneBeanMessageCache.getInstance().get(sceneId).getRoles();
             for (Integer playerId:players){
                 Channel c= ChannelMessageCache.getInstance().get(playerId);
                 if (c!=null){
-                    c.writeAndFlush(nettyResponse);
+                    NotificationUtil.sendMessage(c,nettyResponse,json);
                 }
             }
 
@@ -721,7 +702,7 @@ public class CommonsUtil {
                 if (role.getType().equals(RoleTypeCode.PLAYER.getCode())){
                     Channel c= ChannelMessageCache.getInstance().get(role.getId());
                     if (c!=null){
-                        c.writeAndFlush(nettyResponse);
+                        NotificationUtil.sendMessage(c,nettyResponse,json);
                     }
                 }
             }
@@ -745,4 +726,5 @@ public class CommonsUtil {
         }
         return articleDtos;
     }
+
 }

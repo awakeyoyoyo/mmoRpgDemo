@@ -1,5 +1,6 @@
 package com.liqihao.service.impl;
 
+import com.googlecode.protobuf.format.JsonFormat;
 import com.liqihao.Cache.*;
 import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
@@ -21,6 +22,7 @@ import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.provider.*;
 import com.liqihao.service.PlayService;
 import com.liqihao.util.CommonsUtil;
+import com.liqihao.util.NotificationUtil;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
@@ -41,11 +43,7 @@ public class PlayServiceImpl implements PlayService {
     @Autowired
     private MmoUserPOJOMapper mmoUserPOJOMapper;
     @Autowired
-    private MmoBagPOJOMapper mmoBagPOJOMapper;
-    @Autowired
-    private MmoEquipmentBagPOJOMapper equipmentBagPOJOMapper;
-    @Autowired
-    private MmoEmailPOJOMapper emailPOJOMapper;
+    private PlayServiceProvider playServiceProvider;
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.REGISTER_REQUEST, module = ConstantValue.PLAY_MODULE)
@@ -64,21 +62,9 @@ public class PlayServiceImpl implements PlayService {
             //用户已存在
            throw new RpgServerException(StateCode.FAIL,"用户名已存在or角色名已经存在");
         }
-        //注册成功 数据库插入账号信息
-        MmoRolePOJO mmoRolePOJO = new MmoRolePOJO();
-        mmoRolePOJO.init(roleName);
-        mmoRolePOJO.setProfessionId(professionId);
-        mmoRolePOJOMapper.insert(mmoRolePOJO);
-        //角色表新增该用户
-        RoleMessageCache.getInstance().put(mmoRolePOJO.getId(),mmoRolePOJO);
-        MmoUserPOJO mmoUserPOJO = new MmoUserPOJO();
-        mmoUserPOJO.setUserRoleId(mmoRolePOJO.getId().toString());
-        mmoUserPOJO.setUserName(username);
-        mmoUserPOJO.setUserPwd(password);
-        mmoUserPOJOMapper.insert(mmoUserPOJO);
-        //角色新增所有的成就任务
-        TaskServiceProvider.insertAllAchievements(mmoRolePOJO.getId());
-        RoleMessageCache.getInstance().put(mmoRolePOJO.getId(),mmoRolePOJO);
+
+        playServiceProvider.registerRole(roleName,professionId,username,password);
+
         //返回成功的数据包
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.REGISTER_RESPONSE);
@@ -116,77 +102,15 @@ public class PlayServiceImpl implements PlayService {
             lastRole.logout();
         }
         NodeCheckMessageCache.getInstance().put(nodeIndex,true);
-        role.setOnStatus(RoleOnStatusCode.ONLINE.getCode());
-        //初始化基础信息获取
-        MmoSimpleRole simpleRole = new MmoSimpleRole();
-        role.setStatus(RoleStatusCode.ALIVE.getCode());
-        DetailBaseMessage baseDetailMessage = MmoBaseMessageCache.getInstance().getBaseDetailMessage();
-        simpleRole.setTeamApplyOrInviteSize(baseDetailMessage.getTeamApplyOrInviteSize());
-        RoleBaseMessage baseRoleMessage = MmoBaseMessageCache.getInstance().getBaseRoleMessage();
-        simpleRole.init(role, baseRoleMessage);
-        BackPackManager backPackManager = new BackPackManager(MmoBaseMessageCache.getInstance().getBaseDetailMessage().getBagSize());
-        //初始化背包
-        List<MmoBagPOJO> mmoBagPOJOS = mmoBagPOJOMapper.selectByRoleId(role.getId());
-        for (MmoBagPOJO mmoBagPOJO : mmoBagPOJOS) {
-            if (mmoBagPOJO.getArticleType().equals(ArticleTypeCode.EQUIPMENT.getCode())) {
-                EquipmentBean equipmentBean =ArticleServiceProvider.getEquipmentBeanConcurrentHashMap().get(mmoBagPOJO.getwId());
-                equipmentBean.setBagId(mmoBagPOJO.getBagId());
-                backPackManager.putOnDatabase(equipmentBean);
-            } else if (mmoBagPOJO.getArticleType().equals(ArticleTypeCode.MEDICINE.getCode())) {
-                MedicineMessage message = MedicineMessageCache.getInstance().get(mmoBagPOJO.getwId());
-                MedicineBean medicineBean = CommonsUtil.medicineMessageToMedicineBean(message);
-                medicineBean.setQuantity(mmoBagPOJO.getNumber());
-                medicineBean.setBagId(mmoBagPOJO.getBagId());
-                backPackManager.putOnDatabase(medicineBean);
-            }
-        }
-        simpleRole.setBackpackManager(backPackManager);
-        //初始化收件邮箱信息
-        List<MmoEmailPOJO> toEmailPOJOS = emailPOJOMapper.selectByToRoleId(role.getId());
-        for (MmoEmailPOJO m : toEmailPOJOS) {
-            EmailBean emailBean = CommonsUtil.emailPOJOToMmoEmailBean(m);
-            simpleRole.getToMmoEmailBeanConcurrentHashMap().put(emailBean.getId(), emailBean);
-        }
-        //初始化已发送邮箱信息
-        List<MmoEmailPOJO> fromEmailPOJOS = emailPOJOMapper.selectByFromRoleId(role.getId());
-        for (MmoEmailPOJO m : fromEmailPOJOS) {
-            EmailBean emailBean = CommonsUtil.emailPOJOToMmoEmailBean(m);
-            simpleRole.getFromMmoEmailBeanConcurrentHashMap().put(emailBean.getId(), emailBean);
-        }
-        //初始化装备栏
-        List<MmoEquipmentBagPOJO> equipmentBagPOJOS = equipmentBagPOJOMapper.selectByRoleId(role.getId());
-        HashMap<Integer, EquipmentBean> equipmentBeanConcurrentHashMap = simpleRole.getEquipmentBeanHashMap();
-        for (MmoEquipmentBagPOJO m : equipmentBagPOJOS) {
-            //从内存中取
-            EquipmentBean equipmentBean =ArticleServiceProvider.getEquipmentBeanConcurrentHashMap().get(m.getEquipmentId());
-            equipmentBean.setEquipmentBagId(m.getEquipmentBagId());
-            EquipmentMessage message = EquipmentMessageCache.getInstance().get(equipmentBean.getEquipmentMessageId());
-            equipmentBeanConcurrentHashMap.put(message.getPosition(), equipmentBean);
-            //修改人物属性
-            simpleRole.setAttack(simpleRole.getAttack() + message.getAttackAdd());
-            simpleRole.setDamageAdd(simpleRole.getDamageAdd() + message.getDamageAdd());
-            //改变装备星级
-            Integer olderEquipmentLevel=simpleRole.getEquipmentLevel();
-            simpleRole.setEquipmentLevel(olderEquipmentLevel+message.getEquipmentLevel());
-        }
-        //初始化任务信息
-        TaskServiceProvider.initTask(simpleRole);
-        //初始化公会信息
-        if (role.getGuildId()!=-1){
-            GuildBean guildBean=GuildServiceProvider.getInstance().getGuildBeanById(role.getGuildId());
-            simpleRole.setGuildBean(guildBean);
-        }
-        //初始化好友
-        simpleRole.setFriends(CommonsUtil.split(role.getFriendIds()));
-        OnlineRoleMessageCache.getInstance().put(role.getId(), simpleRole);
-        //数据库中人物状态
-        mmoRolePOJOMapper.updateByPrimaryKeySelective(role);
+        MmoSimpleRole simpleRole=playServiceProvider.initMmoPeople(role);
+
         //将channel绑定用户信息存储
         simpleRole.setChannel(channel);
         ChannelMessageCache.getInstance().put(role.getId(), channel);
         //channle绑定roleId
         AttributeKey<MmoSimpleRole> key = AttributeKey.valueOf("role");
         channel.attr(key).set(simpleRole);
+
         //protobuf 生成loginResponse
         PlayModel.PlayModelMessage.Builder messageData = PlayModel.PlayModelMessage.newBuilder();
         messageData.setDataType(PlayModel.PlayModelMessage.DateType.LoginResponse);
@@ -204,7 +128,8 @@ public class PlayServiceImpl implements PlayService {
         nettyResponse.setData(messageData.build().toByteArray());
         nettyResponse.setCmd(ConstantValue.LOGIN_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        channel.writeAndFlush(nettyResponse);
+        String json= JsonFormat.printToString(messageData.build());
+        NotificationUtil.sendMessage(channel,nettyResponse,json);
         //获取场景所有角色信息
         List<Role> sceneRoles=CommonsUtil.getAllRolesFromScene(simpleRole);
         //发送给场景中其他角色 有角色登陆
@@ -215,35 +140,7 @@ public class PlayServiceImpl implements PlayService {
     @HandlerCmdTag(cmd = ConstantValue.LOGOUT_REQUEST, module = ConstantValue.PLAY_MODULE)
     public void logoutRequest(PlayModel.PlayModelMessage myMessage, Channel channel) throws Exception {
         MmoSimpleRole role = CommonsUtil.checkLogin(channel);
-        ChannelMessageCache.getInstance().remove(role.getId());
-        AttributeKey<MmoSimpleRole> key = AttributeKey.valueOf("role");
-        channel.attr(key).set(null);
-        //退出副本
-        if (role.getCopySceneBeanId()!=null){
-            CopySceneProvider.getCopySceneBeanById(role.getCopySceneBeanId()).peopleExit(role.getId());
-        }
-        //退出队伍
-        if(role.getTeamId()!=null){
-            TeamServiceProvider.getTeamBeanByTeamId(role.getTeamId()).exitPeople(role.getId());
-        }
-        //退出场景
-        if(role.getMmoSceneId()!=null){
-            SceneBeanMessageCache.getInstance().get(role.getMmoSceneId()).getRoles().remove(role.getId());
-        }
-        //将数据库中设置为离线
-        MmoRolePOJO mmoRolePOJO = mmoRolePOJOMapper.selectByPrimaryKey(role.getId());
-        mmoRolePOJO.setOnStatus(RoleOnStatusCode.EXIT.getCode());
-        ScheduledThreadPoolUtil.addTask(() -> mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO));
-        //缓存角色集合删除
-        OnlineRoleMessageCache.getInstance().remove(role.getId());
-        NodeCheckMessageCache.getInstance().remove(role.getChannel().remoteAddress().toString());
-        if (role.getMmoSceneId() != null) {
-            SceneBeanMessageCache.getInstance().get(role.getMmoSceneId()).getRoles().remove(role.getId());
-        } else {
-            Integer teamId = role.getTeamId();
-            TeamBean teamBean = TeamServiceProvider.getTeamBeanByTeamId(teamId);
-            teamBean.exitPeople(role.getId());
-        }
+        playServiceProvider.logout(role);
         //protobuf生成消息
         PlayModel.PlayModelMessage.Builder myMessageBuilder = PlayModel.PlayModelMessage.newBuilder();
         myMessageBuilder.setDataType(PlayModel.PlayModelMessage.DateType.LogoutResponse);
@@ -256,7 +153,9 @@ public class PlayServiceImpl implements PlayService {
         nettyResponse.setCmd(ConstantValue.LOGOUT_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
-        channel.writeAndFlush(nettyResponse);
+        String json= JsonFormat.printToString(myMessageBuilder.build());
+        NotificationUtil.sendMessage(channel,nettyResponse,json);
+
     }
 
     @Override

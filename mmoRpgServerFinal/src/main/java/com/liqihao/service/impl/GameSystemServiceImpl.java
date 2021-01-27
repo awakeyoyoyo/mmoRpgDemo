@@ -1,5 +1,6 @@
 package com.liqihao.service.impl;
 
+import com.googlecode.protobuf.format.JsonFormat;
 import com.liqihao.Cache.OnlineRoleMessageCache;
 import com.liqihao.Cache.SceneBeanMessageCache;
 import com.liqihao.commons.*;
@@ -13,6 +14,7 @@ import com.liqihao.protobufObject.GameSystemModel;
 import com.liqihao.provider.TeamServiceProvider;
 import com.liqihao.util.CommonsUtil;
 import com.liqihao.util.DbUtil;
+import com.liqihao.util.NotificationUtil;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +72,7 @@ public class GameSystemServiceImpl implements com.liqihao.service.GameSystemServ
                 .setDataType(GameSystemModel.GameSystemModelMessage.DateType.OutTimeResponse)
                 .setOutTimeResponse(GameSystemModel.OutTimeResponse.newBuilder().setMessage("太久没活动了，服务器已断开连接").build()).build();
         response.setData(modelMessage.toByteArray());
-        channel.writeAndFlush(response);
-        return;
+        String json= JsonFormat.printToString(modelMessage);
+        NotificationUtil.sendMessage(channel,response,json);
     }
 }

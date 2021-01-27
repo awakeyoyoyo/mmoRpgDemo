@@ -1,5 +1,6 @@
 package com.liqihao.service.impl;
 
+import com.googlecode.protobuf.format.JsonFormat;
 import com.liqihao.Cache.ChannelMessageCache;
 import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
@@ -18,6 +19,7 @@ import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.provider.TeamServiceProvider;
 import com.liqihao.service.CopySceneService;
 import com.liqihao.util.CommonsUtil;
+import com.liqihao.util.NotificationUtil;
 import io.netty.channel.Channel;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -83,20 +85,19 @@ public class CopySceneServiceImpl implements CopySceneService {
         nettyResponse.setCmd(ConstantValue.ENTER_COPY_SCENE_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(messageData.toByteArray());
+        List<MmoSimpleRole> roles=new ArrayList<>();
         for (Role m:copySceneBean.getRoles()) {
             if (m.getType().equals(RoleTypeCode.PLAYER.getCode())) {
-                Channel c = ChannelMessageCache.getInstance().get(m.getId());
-                if (c != null) {
-                    c.writeAndFlush(nettyResponse);
-                }
+                roles.add((MmoSimpleRole) m);
             }
         }
+        String json= JsonFormat.printToString(messageData);
+        NotificationUtil.sendRolesMessage(nettyResponse,roles,json);
     }
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.EXIT_COPY_SCENE_REQUEST,module = ConstantValue.COPY_MODULE)
     public void exitCopySceneRequest(CopySceneModel.CopySceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws RpgServerException {
-        Channel channel = mmoSimpleRole.getChannel();
         //判断玩家是否在副本中
         if (mmoSimpleRole.getCopySceneId()==null){
             throw new RpgServerException(StateCode.FAIL,"当前玩家不在副本中");
@@ -114,13 +115,14 @@ public class CopySceneServiceImpl implements CopySceneService {
         nettyResponse.setCmd(ConstantValue.EXIT_COPY_SCENE_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(messageData.toByteArray());
-        for (MmoSimpleRole m:teamBean.getMmoSimpleRoles()) {
-            Channel c= ChannelMessageCache.getInstance().get(m.getId());
-            if (c!=null) {
-                c.writeAndFlush(nettyResponse);
+        List<MmoSimpleRole> roles=new ArrayList<>();
+        for (Role m:copySceneBean.getRoles()) {
+            if (m.getType().equals(RoleTypeCode.PLAYER.getCode())) {
+                roles.add((MmoSimpleRole) m);
             }
         }
-
+        String json= JsonFormat.printToString(messageData);
+        NotificationUtil.sendRolesMessage(nettyResponse,roles,json);
     }
 
     @Override
@@ -146,16 +148,11 @@ public class CopySceneServiceImpl implements CopySceneService {
         teamBean.setCopySceneBeanId(copySceneBean.getCopySceneBeanId());
         teamBean.setCopySceneId(copySceneBean.getCopySceneMessageId());
         // 创建成功 对队伍的人广播
-        for (MmoSimpleRole m:teamBean.getMmoSimpleRoles()) {
-            Channel c= ChannelMessageCache.getInstance().get(m.getId());
-            if (c!=null) {
-                sendSuccessCopyMessage(copySceneBean,c );
-            }
-        }
-
+        List<MmoSimpleRole> roles=new ArrayList<>(teamBean.getMmoSimpleRoles());
+        sendSuccessCopyMessage(copySceneBean,roles);
     }
 
-    private void sendSuccessCopyMessage(CopySceneBean copySceneBean,Channel channel){
+    private void sendSuccessCopyMessage(CopySceneBean copySceneBean,List<MmoSimpleRole> roles){
         CopySceneModel.CopySceneBeanDto.Builder copySceneBeanDtoBuilder=CopySceneModel.CopySceneBeanDto.newBuilder();
         List<CopySceneModel.BossBeanDto> bossBeanDtos=new ArrayList<>();
         List<CopySceneModel.RoleDto> roleDtos=new ArrayList<>();
@@ -194,7 +191,8 @@ public class CopySceneServiceImpl implements CopySceneService {
         nettyResponse.setCmd(ConstantValue.CREATE_COPY_SCENE_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(messageData.toByteArray());
-        channel.writeAndFlush(nettyResponse);
+        String json= JsonFormat.printToString(messageData);
+        NotificationUtil.sendRolesMessage(nettyResponse,roles,json);
     }
 
     private void sendCopyMessage(CopySceneBean copySceneBean,Channel channel){
@@ -230,6 +228,7 @@ public class CopySceneServiceImpl implements CopySceneService {
         nettyResponse.setCmd(ConstantValue.COPY_SCENE_MESSAGE_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(messageData.toByteArray());
-        channel.writeAndFlush(nettyResponse);
+        String json= JsonFormat.printToString(messageData);
+        NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 }

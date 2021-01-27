@@ -1,6 +1,7 @@
 package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.googlecode.protobuf.format.JsonFormat;
 import com.liqihao.Cache.NpcMessageCache;
 import com.liqihao.Cache.OnlineRoleMessageCache;
 import com.liqihao.Cache.SceneBeanMessageCache;
@@ -22,6 +23,7 @@ import com.liqihao.protobufObject.SceneModel;
 import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.provider.TaskServiceProvider;
 import com.liqihao.service.SceneService;
+import com.liqihao.util.NotificationUtil;
 import io.netty.channel.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -105,7 +107,8 @@ public class SceneServiceImpl implements SceneService {
         builder.setWentResponse(wentResponseBuilder.build());
         byte[] data2 = builder.build().toByteArray();
         nettyResponse.setData(data2);
-        channel.writeAndFlush(nettyResponse);
+        String json= JsonFormat.printToString(builder.build());
+        NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 
     @Override
@@ -189,8 +192,8 @@ public class SceneServiceImpl implements SceneService {
         nettyResponse.setCmd(ConstantValue.FIND_ALL_ROLES_RESPONSE);
         nettyResponse.setStateCode(200);
         nettyResponse.setData(data2);
-        channel.writeAndFlush(nettyResponse);
-        return;
+        String json= JsonFormat.printToString(messageDataBuilder.build());
+        NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 
     @Override
@@ -210,17 +213,18 @@ public class SceneServiceImpl implements SceneService {
         taskAction.setTaskTargetType(TaskTargetTypeCode.TALK.getCode());
         mmoSimpleRole.getTaskManager().handler(taskAction,mmoSimpleRole);
         //无问题 返回npcId
-        SceneModel.SceneModelMessage MessageData;
-        MessageData = SceneModel.SceneModelMessage.newBuilder()
+        SceneModel.SceneModelMessage messageData;
+        messageData = SceneModel.SceneModelMessage.newBuilder()
                 .setDataType(SceneModel.SceneModelMessage.DateType.TalkNPCResponse)
                 .setTalkNPCResponse(SceneModel.TalkNPCResponse.newBuilder().setNpcId(npcId).build()).build();
         //封装到NettyResponse中
         NettyResponse response = new NettyResponse();
         response.setCmd(ConstantValue.TALK_NPC_RESPONSE);
         response.setStateCode(StateCode.SUCCESS);
-        byte[] data2 = MessageData.toByteArray();
+        byte[] data2 = messageData.toByteArray();
         response.setData(data2);
-        channel.writeAndFlush(response);
+        String json= JsonFormat.printToString(messageData);
+        NotificationUtil.sendMessage(channel,response,json);
     }
 
 

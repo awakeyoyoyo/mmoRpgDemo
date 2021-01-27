@@ -1,5 +1,6 @@
 package com.liqihao.service.impl;
 
+import com.googlecode.protobuf.format.JsonFormat;
 import com.liqihao.Cache.OnlineRoleMessageCache;
 import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
@@ -16,6 +17,7 @@ import com.liqihao.protobufObject.DealModel;
 import com.liqihao.provider.DealServiceProvider;
 import com.liqihao.service.DealService;
 import com.liqihao.util.CommonsUtil;
+import com.liqihao.util.NotificationUtil;
 import io.netty.channel.Channel;
 import org.springframework.stereotype.Service;
 
@@ -50,15 +52,16 @@ public class DealServiceImpl implements DealService {
                 .setRoleId(mmoSimpleRole.getId()).setRoleName(mmoSimpleRole.getName());
         messageData.setAskDealResponse(askDealResponseResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
-        channel.writeAndFlush(nettyResponse);
-        Channel channel02=role2.getChannel();
-        channel02.writeAndFlush(nettyResponse);
+        List<MmoSimpleRole> roles=new ArrayList<>();
+        roles.add(role2);
+        roles.add(mmoSimpleRole);
+        String json= JsonFormat.printToString(messageData.build());
+        NotificationUtil.sendRolesMessage(nettyResponse,roles,json);
     }
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.AGREE_DEAL_REQUEST,module = ConstantValue.DEAL_MODULE)
     public void agreeDealRequest(DealModel.DealModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws RpgServerException {
-        Channel channel = mmoSimpleRole.getChannel();
         DealBean dealBean=DealServiceProvider.beginDeal(mmoSimpleRole);
         //返回成功的数据包
         NettyResponse nettyResponse = new NettyResponse();
@@ -70,11 +73,11 @@ public class DealServiceImpl implements DealService {
         DealModel.AgreeDealResponse.Builder agreeDealResponseBuilder = DealModel.AgreeDealResponse.newBuilder();
         messageData.setAgreeDealResponse(agreeDealResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
-        channel.writeAndFlush(nettyResponse);
-        Channel channel02=dealBean.getFirstRole().getChannel();
-        if (channel02!=null) {
-            channel02.writeAndFlush(nettyResponse);
-        }
+        List<MmoSimpleRole> roles=new ArrayList<>();
+        roles.add(dealBean.getFirstRole());
+        roles.add(dealBean.getSecondRole());
+        String json= JsonFormat.printToString(messageData.build());
+        NotificationUtil.sendRolesMessage(nettyResponse,roles,json);
     }
 
     @Override
@@ -92,11 +95,11 @@ public class DealServiceImpl implements DealService {
         DealModel.RefuseDealResponse.Builder refuseDealResponseBuilder = DealModel.RefuseDealResponse.newBuilder();
         messageData.setRefuseDealResponse(refuseDealResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
-        channel.writeAndFlush(nettyResponse);
-        Channel channel02=dealBean.getFirstRole().getChannel();
-        if (channel02!=null){
-            channel02.writeAndFlush(nettyResponse);
-        }
+        List<MmoSimpleRole> roles=new ArrayList<>();
+        roles.add(dealBean.getFirstRole());
+        roles.add(dealBean.getSecondRole());
+        String json= JsonFormat.printToString(messageData.build());
+        NotificationUtil.sendRolesMessage(nettyResponse,roles,json);
     }
 
     @Override
@@ -120,14 +123,11 @@ public class DealServiceImpl implements DealService {
                 .setRoleId(mmoSimpleRole.getId()).setRoleName(mmoSimpleRole.getName());
         messageData.setCancelDealResponse(cancelDealResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
-        Channel channel=dealBean.getSecondRole().getChannel();
-        if (channel!=null) {
-            channel.writeAndFlush(nettyResponse);
-        }
-        Channel channel02=dealBean.getFirstRole().getChannel();
-        if (channel02!=null) {
-            channel02.writeAndFlush(nettyResponse);
-        }
+        List<MmoSimpleRole> roles=new ArrayList<>();
+        roles.add(dealBean.getFirstRole());
+        roles.add(dealBean.getSecondRole());
+        String json= JsonFormat.printToString(messageData.build());
+        NotificationUtil.sendRolesMessage(nettyResponse,roles,json);
     }
 
     @Override
@@ -159,7 +159,8 @@ public class DealServiceImpl implements DealService {
                 .setSecondRoleId(dealBean.getSecondRole().getId()).setSecondRoleName(dealBean.getSecondRole().getName()).addAllSecondArticleDto(articleBuilders02).setSecondMoney(dealBean.getSecondDealArticleBean().getMoney());
         messageData.setGetDealMessageResponse(getDealMessageResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
-        channel.writeAndFlush(nettyResponse);
+        String json= JsonFormat.printToString(messageData.build());
+        NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 
     @Override
@@ -177,14 +178,11 @@ public class DealServiceImpl implements DealService {
                 .setMoney(money).setRoleId(mmoSimpleRole.getId()).setRoleName(mmoSimpleRole.getName());
         messageData.setSetDealMoneyResponse(setDealMoneyResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
-        Channel channel=dealBean.getSecondRole().getChannel();
-        if (channel!=null) {
-            channel.writeAndFlush(nettyResponse);
-        }
-        Channel channel02=dealBean.getFirstRole().getChannel();
-        if (channel02!=null) {
-            channel02.writeAndFlush(nettyResponse);
-        }
+        List<MmoSimpleRole> roles=new ArrayList<>();
+        roles.add(dealBean.getFirstRole());
+        roles.add(dealBean.getSecondRole());
+        String json= JsonFormat.printToString(messageData.build());
+        NotificationUtil.sendRolesMessage(nettyResponse,roles,json);
     }
 
     @Override
@@ -208,14 +206,11 @@ public class DealServiceImpl implements DealService {
         messageData.setAddArticleResponse(addArticleResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         DealBean dealBean=DealServiceProvider.getDealBean(mmoSimpleRole.getDealBeanId());
-        Channel channel=dealBean.getSecondRole().getChannel();
-        if (channel!=null) {
-            channel.writeAndFlush(nettyResponse);
-        }
-        Channel channel02=dealBean.getFirstRole().getChannel();
-        if (channel02!=null) {
-            channel02.writeAndFlush(nettyResponse);
-        }
+        List<MmoSimpleRole> roles=new ArrayList<>();
+        roles.add(dealBean.getFirstRole());
+        roles.add(dealBean.getSecondRole());
+        String json= JsonFormat.printToString(messageData.build());
+        NotificationUtil.sendRolesMessage(nettyResponse,roles,json);
     }
 
     @Override
@@ -240,13 +235,10 @@ public class DealServiceImpl implements DealService {
         messageData.setAbandonArticleResponse(abandonArticleResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         DealBean dealBean=DealServiceProvider.getDealBean(mmoSimpleRole.getDealBeanId());
-        Channel channel=dealBean.getSecondRole().getChannel();
-        if (channel!=null) {
-            channel.writeAndFlush(nettyResponse);
-        }
-        Channel channel02=dealBean.getFirstRole().getChannel();
-        if (channel02!=null) {
-            channel02.writeAndFlush(nettyResponse);
-        }
+        List<MmoSimpleRole> roles=new ArrayList<>();
+        roles.add(dealBean.getFirstRole());
+        roles.add(dealBean.getSecondRole());
+        String json= JsonFormat.printToString(messageData.build());
+        NotificationUtil.sendRolesMessage(nettyResponse,roles,json);
     }
 }

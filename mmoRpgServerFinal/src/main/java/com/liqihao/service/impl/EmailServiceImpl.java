@@ -1,5 +1,6 @@
 package com.liqihao.service.impl;
 
+import com.googlecode.protobuf.format.JsonFormat;
 import com.liqihao.Cache.MedicineMessageCache;
 import com.liqihao.Cache.OnlineRoleMessageCache;
 import com.liqihao.annotation.HandlerCmdTag;
@@ -21,6 +22,7 @@ import com.liqihao.provider.EmailServiceProvider;
 import com.liqihao.service.EmailService;
 import com.liqihao.util.CommonsUtil;
 import com.liqihao.util.DbUtil;
+import com.liqihao.util.NotificationUtil;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
 import org.springframework.stereotype.Service;
@@ -52,7 +54,8 @@ public class EmailServiceImpl implements EmailService {
         nettyResponse.setCmd(ConstantValue.GET_EMAIL_MESSAGE_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(messageData.toByteArray());
-        channel.writeAndFlush(nettyResponse);
+        String json= JsonFormat.printToString(messageData);
+        NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 
     @Override
@@ -115,7 +118,8 @@ public class EmailServiceImpl implements EmailService {
         nettyResponse.setCmd(ConstantValue.GET_EMAIL_ARTICLE_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(messageData.toByteArray());
-        channel.writeAndFlush(nettyResponse);
+        String json= JsonFormat.printToString(messageData);
+        NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 
     @Override
@@ -165,7 +169,8 @@ public class EmailServiceImpl implements EmailService {
         nettyResponse.setCmd(ConstantValue.ACCEPT_EMAIL_LIST_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(messageData.toByteArray());
-        channel.writeAndFlush(nettyResponse);
+        String json= JsonFormat.printToString(messageData);
+        NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 
 

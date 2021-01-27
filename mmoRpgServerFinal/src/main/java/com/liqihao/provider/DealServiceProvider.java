@@ -1,5 +1,6 @@
 package com.liqihao.provider;
 
+import com.googlecode.protobuf.format.JsonFormat;
 import com.liqihao.Cache.ChannelMessageCache;
 import com.liqihao.Cache.MedicineMessageCache;
 import com.liqihao.commons.ConstantValue;
@@ -19,9 +20,11 @@ import com.liqihao.pojo.bean.taskBean.dealFirstTask.DealTaskAction;
 import com.liqihao.pojo.bean.taskBean.teamFirstTask.TeamTaskAction;
 import com.liqihao.protobufObject.DealModel;
 import com.liqihao.util.CommonsUtil;
+import com.liqihao.util.NotificationUtil;
 import io.netty.channel.Channel;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -235,14 +238,11 @@ public class DealServiceProvider {
                 .setRoleId(role.getId()).setRoleName(role.getName());
         messageData.setConfirmDealResponse(confirmDealResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
-        Channel channel = ChannelMessageCache.getInstance().get(dealBean.getFirstRole().getId());
-        if (channel != null) {
-            channel.writeAndFlush(nettyResponse);
-        }
-        Channel channel02 = dealBean.getSecondRole().getChannel();
-        if (channel02 != null) {
-            channel02.writeAndFlush(nettyResponse);
-        }
+        List<MmoSimpleRole> roles=new ArrayList<>();
+        roles.add(dealBean.getFirstRole());
+        roles.add(dealBean.getSecondRole());
+        String json= JsonFormat.printToString(messageData.build());
+        NotificationUtil.sendRolesMessage(nettyResponse,roles,json);
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.liqihao.pojo.bean.teamBean;
 
+import com.googlecode.protobuf.format.JsonFormat;
 import com.liqihao.Cache.ChannelMessageCache;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
@@ -14,7 +15,10 @@ import com.liqihao.pojo.bean.taskBean.teamFirstTask.TeamTaskAction;
 import com.liqihao.protobufObject.TeamModel;
 import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.provider.TeamServiceProvider;
+import com.liqihao.util.NotificationUtil;
 import io.netty.channel.Channel;
+
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -127,14 +131,14 @@ public class TeamBean {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setCmd(ConstantValue.DELETE_TEAM_RESPONSE);
         nettyResponse.setData(teamMessageBuilder.build().toByteArray());
+        List<MmoSimpleRole> roles=new ArrayList<>(mmoSimpleRoles);
+        String json= JsonFormat.printToString(teamMessageBuilder.build());
+        NotificationUtil.sendRolesMessage(nettyResponse,roles,json);
         for (MmoSimpleRole role:mmoSimpleRoles){
-            Channel c= ChannelMessageCache.getInstance().get(role.getId());
             role.setTeamId(null);
             if(role.getMmoHelperBean()!=null){
                 role.getMmoHelperBean().setTeamId(null);
             }
-            // 广播队伍解散
-            c.writeAndFlush(nettyResponse);
             role.setCopySceneId(null);
         }
         //副本解散
@@ -361,12 +365,9 @@ public class TeamBean {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setCmd(ConstantValue.ENTRY_PEOPLE_RESPONSE);
         nettyResponse.setData(teamMessageBuilder.build().toByteArray());
-        for (MmoSimpleRole m:mmoSimpleRolesMap.values()) {
-            Channel c=ChannelMessageCache.getInstance().get(m.getId());
-            if (c!=null){
-                c.writeAndFlush(nettyResponse);
-            }
-        }
+        List<MmoSimpleRole> roles=new ArrayList<>(mmoSimpleRolesMap.values());
+        String json= JsonFormat.printToString(teamMessageBuilder.build());
+        NotificationUtil.sendRolesMessage(nettyResponse,roles,json);
     }
 
     /**
@@ -407,13 +408,9 @@ public class TeamBean {
         nettyResponse.setCmd(ConstantValue.EXIT_TEAM_RESPONSE);
         nettyResponse.setData(teamMessageBuilder.build().toByteArray());
         // 发送信息给退出队伍者
-        Channel c=ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
-        c.writeAndFlush(nettyResponse);
-        // 广播队伍里面的人少了人
-        for (MmoSimpleRole m:mmoSimpleRolesMap.values()) {
-            c=ChannelMessageCache.getInstance().get(m.getId());
-            c.writeAndFlush(nettyResponse);
-        }
+        List<MmoSimpleRole> roles=new ArrayList<>(mmoSimpleRolesMap.values());
+        String json= JsonFormat.printToString(teamMessageBuilder.build());
+        NotificationUtil.sendRolesMessage(nettyResponse,roles,json);
     }
 
     /**

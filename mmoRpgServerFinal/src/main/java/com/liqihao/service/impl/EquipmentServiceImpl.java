@@ -1,6 +1,7 @@
 package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.googlecode.protobuf.format.JsonFormat;
 import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.ConstantValue;
@@ -15,6 +16,7 @@ import com.liqihao.pojo.dto.EquipmentDto;
 import com.liqihao.protobufObject.EquipmentModel;
 import com.liqihao.service.EquipmentService;
 import com.liqihao.util.DbUtil;
+import com.liqihao.util.NotificationUtil;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +54,8 @@ public class EquipmentServiceImpl implements EquipmentService {
         messageBuilder.setDataType(EquipmentModel.EquipmentModelMessage.DateType.AddEquipmentResponse);
         messageBuilder.setAddEquipmentResponse(EquipmentModel.AddEquipmentResponse.newBuilder().build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
-        channel.writeAndFlush(nettyResponse);
+        String json= JsonFormat.printToString(messageBuilder.build());
+        NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 
     @Override
@@ -74,8 +77,8 @@ public class EquipmentServiceImpl implements EquipmentService {
         messageBuilder.setDataType(EquipmentModel.EquipmentModelMessage.DateType.EquipmentMsgResponse);
         messageBuilder.setEquipmentMsgResponse(EquipmentModel.EquipmentMsgResponse.newBuilder().addAllEquipments(equipmentDtoList).build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
-        channel.writeAndFlush(nettyResponse);
-        return;
+        String json= JsonFormat.printToString(messageBuilder.build());
+        NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 
     @Override
@@ -99,8 +102,8 @@ public class EquipmentServiceImpl implements EquipmentService {
         messageBuilder.setDataType(EquipmentModel.EquipmentModelMessage.DateType.ReduceEquipmentResponse);
         messageBuilder.setReduceEquipmentResponse(EquipmentModel.ReduceEquipmentResponse.newBuilder().build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
-        channel.writeAndFlush(nettyResponse);
-        return;
+        String json= JsonFormat.printToString(messageBuilder.build());
+        NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 
     @Override
@@ -126,7 +129,7 @@ public class EquipmentServiceImpl implements EquipmentService {
         messageBuilder.setDataType(EquipmentModel.EquipmentModelMessage.DateType.FixEquipmentResponse);
         messageBuilder.setFixEquipmentResponse(EquipmentModel.FixEquipmentResponse.newBuilder().build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
-        channel.writeAndFlush(nettyResponse);
-        return;
+        String json= JsonFormat.printToString(messageBuilder.build());
+        NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 }

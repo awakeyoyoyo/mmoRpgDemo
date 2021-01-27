@@ -53,12 +53,12 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        log.info("Server:channelRead");
+//        log.info("Server:channelRead");
         lossConnectCount=0;
         NettyRequest request= (NettyRequest) msg;
         if (request.getCmd()==ConstantValue.HEART_BEAT) {
             //心跳包则不处理 直接返回
-            log.info("收到客户端端的心跳包");
+//            log.info("收到客户端端的心跳包");
            return;
         }
 

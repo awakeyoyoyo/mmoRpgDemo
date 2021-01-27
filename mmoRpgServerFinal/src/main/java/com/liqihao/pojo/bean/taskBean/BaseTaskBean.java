@@ -1,5 +1,6 @@
 package com.liqihao.pojo.bean.taskBean;
 
+import com.googlecode.protobuf.format.JsonFormat;
 import com.liqihao.Cache.TaskMessageCache;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
@@ -16,6 +17,7 @@ import com.liqihao.protobufObject.TaskModel;
 import com.liqihao.provider.ArticleServiceProvider;
 import com.liqihao.provider.TaskServiceProvider;
 import com.liqihao.util.DbUtil;
+import com.liqihao.util.NotificationUtil;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import io.netty.channel.Channel;
@@ -128,7 +130,8 @@ public abstract class BaseTaskBean {
         messageBuilder.setDataType(TaskModel.TaskModelMessage.DateType.FinishTaskResponse);
         messageBuilder.setFinishTaskResponse(TaskModel.FinishTaskResponse.newBuilder().setTaskMessageId(getTaskMessageId()).build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
-        channel.writeAndFlush(nettyResponse);
+        String json= JsonFormat.printToString(messageBuilder.build());
+        NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
     /**
      * description 检车是否满足任务条件

@@ -1,6 +1,7 @@
 package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.googlecode.protobuf.format.JsonFormat;
 import com.liqihao.Cache.EquipmentMessageCache;
 import com.liqihao.Cache.GoodsMessageCache;
 import com.liqihao.Cache.MedicineMessageCache;
@@ -26,6 +27,7 @@ import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.provider.GoodsServiceProvider;
 import com.liqihao.service.BackpackService;
 import com.liqihao.util.CommonsUtil;
+import com.liqihao.util.NotificationUtil;
 import io.netty.channel.Channel;
 import org.springframework.stereotype.Service;
 
@@ -62,7 +64,8 @@ public class BackpackServiceImpl implements BackpackService {
             BackPackModel.AbandonResponse.Builder abandonResponseBuilder = BackPackModel.AbandonResponse.newBuilder();
             messageData.setAbandonResponse(abandonResponseBuilder.build());
             nettyResponse.setData(messageData.build().toByteArray());
-            channel.writeAndFlush(nettyResponse);
+            String json= JsonFormat.printToString(myMessage);
+            NotificationUtil.sendMessage(channel,nettyResponse,json);
         }
     }
 
@@ -94,8 +97,8 @@ public class BackpackServiceImpl implements BackpackService {
         backPackResponse.addAllArticleDtos(articleDtoList);
         messageData.setBackPackResponse(backPackResponse.build());
         nettyResponse.setData(messageData.build().toByteArray());
-        channel.writeAndFlush(nettyResponse);
-        return;
+        String json= JsonFormat.printToString(myMessage);
+        NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 
     @Override
@@ -106,18 +109,18 @@ public class BackpackServiceImpl implements BackpackService {
         boolean flag = mmoSimpleRole.useArticle(article);
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.USE_RESPONSE);
-        if (flag) {
-            nettyResponse.setStateCode(StateCode.SUCCESS);
-            //protobuf 生成registerResponse
-            BackPackModel.BackPackModelMessage.Builder messageData = BackPackModel.BackPackModelMessage.newBuilder();
-            messageData.setDataType(BackPackModel.BackPackModelMessage.DateType.UseResponse);
-            BackPackModel.UseResponse.Builder useResponse = BackPackModel.UseResponse.newBuilder();
-            messageData.setUseResponse(useResponse.build());
-            nettyResponse.setData(messageData.build().toByteArray());
-            channel.writeAndFlush(nettyResponse);
-        } else {
+        if (!flag) {
             throw new RpgServerException(StateCode.FAIL,"使用道具失败");
         }
+        nettyResponse.setStateCode(StateCode.SUCCESS);
+        //protobuf 生成registerResponse
+        BackPackModel.BackPackModelMessage.Builder messageData = BackPackModel.BackPackModelMessage.newBuilder();
+        messageData.setDataType(BackPackModel.BackPackModelMessage.DateType.UseResponse);
+        BackPackModel.UseResponse.Builder useResponse = BackPackModel.UseResponse.newBuilder();
+        messageData.setUseResponse(useResponse.build());
+        nettyResponse.setData(messageData.build().toByteArray());
+        String json= JsonFormat.printToString(myMessage);
+        NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 
     @Override
@@ -163,9 +166,8 @@ public class BackpackServiceImpl implements BackpackService {
         BackPackModel.AddArticleResponse.Builder addArticleResponse = BackPackModel.AddArticleResponse.newBuilder();
         messageData.setAddArticleResponse(addArticleResponse.build());
         nettyResponse.setData(messageData.build().toByteArray());
-        //protobuf 生成registerResponse
-        channel.writeAndFlush(nettyResponse);
-        return;
+        String json= JsonFormat.printToString(myMessage);
+        NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 
     @Override
@@ -216,8 +218,8 @@ public class BackpackServiceImpl implements BackpackService {
         findAllCanGetBuilder.addAllArticleFloorDto(resultList);
         messageData.setFindAllCanGetResponse(findAllCanGetBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
-        channel.writeAndFlush(nettyResponse);
-        return;
+        String json= JsonFormat.printToString(myMessage);
+        NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 
     @Override
@@ -250,7 +252,8 @@ public class BackpackServiceImpl implements BackpackService {
         BackPackModel.GetArticleFromFloorResponse.Builder getArticleFromFloorResponseBuilder = BackPackModel.GetArticleFromFloorResponse.newBuilder();
         messageData.setGetArticleFromFloorResponse(getArticleFromFloorResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
-        channel.writeAndFlush(nettyResponse);
+        String json= JsonFormat.printToString(myMessage);
+        NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 
     @Override
@@ -267,7 +270,8 @@ public class BackpackServiceImpl implements BackpackService {
         BackPackModel.CheckMoneyNumberResponse.Builder checkMoneyNumberResponseBuilder = BackPackModel.CheckMoneyNumberResponse.newBuilder().setMoney(money);
         messageData.setCheckMoneyNumberResponse(checkMoneyNumberResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
-        channel.writeAndFlush(nettyResponse);
+        String json= JsonFormat.printToString(myMessage);
+        NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 
     @Override
@@ -290,7 +294,8 @@ public class BackpackServiceImpl implements BackpackService {
         BackPackModel.BuyGoodsResponse.Builder buyGoodsResponseBuilder = BackPackModel.BuyGoodsResponse.newBuilder();
         messageData.setBuyGoodsResponse(buyGoodsResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
-        channel.writeAndFlush(nettyResponse);
+        String json= JsonFormat.printToString(myMessage);
+        NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 
     @Override
@@ -316,7 +321,8 @@ public class BackpackServiceImpl implements BackpackService {
         BackPackModel.FindAllGoodsResponse.Builder findAllGoodsResponse = BackPackModel.FindAllGoodsResponse.newBuilder().addAllGoodsDtos(goodsDtos);
         messageData.setFindAllGoodsResponse(findAllGoodsResponse.build());
         nettyResponse.setData(messageData.build().toByteArray());
-        channel.writeAndFlush(nettyResponse);
+        String json= JsonFormat.printToString(myMessage);
+        NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 
     @Override

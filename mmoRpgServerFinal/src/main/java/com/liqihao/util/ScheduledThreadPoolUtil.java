@@ -1,5 +1,6 @@
 package com.liqihao.util;
 
+import com.googlecode.protobuf.format.JsonFormat;
 import com.liqihao.Cache.*;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
@@ -383,7 +384,8 @@ public class ScheduledThreadPoolUtil {
             nettyResponse.setCmd(ConstantValue.RESTART_RESPONSE);
             nettyResponse.setStateCode(StateCode.SUCCESS);
             nettyResponse.setData(myMessageBuilder.build().toByteArray());
-            CommonsUtil.notificationSceneRole(nettyResponse,npc);
+            String json= JsonFormat.printToString(myMessageBuilder.build());
+            NotificationUtil.notificationSceneRole(nettyResponse,npc,json);
         }
     }
 
@@ -415,7 +417,8 @@ public class ScheduledThreadPoolUtil {
             nettyResponse.setCmd(ConstantValue.RESTART_RESPONSE);
             nettyResponse.setStateCode(StateCode.SUCCESS);
             nettyResponse.setData(myMessageBuilder.build().toByteArray());
-            CommonsUtil.notificationSceneRole(nettyResponse,role);
+            String json= JsonFormat.printToString(myMessageBuilder.build());
+            NotificationUtil.notificationSceneRole(nettyResponse,role,json);
         }
     }
     /**
@@ -713,7 +716,7 @@ public class ScheduledThreadPoolUtil {
 
         @Override
         public void run() {
-            log.info("定时数据落地任务：");
+//            log.info("定时数据落地任务：");
             LinkedList<Runnable> jobs = new LinkedList<>();
             //每隔时间清空任务队列里面的任务
             LinkedList<Runnable> tasks=ScheduledThreadPoolUtil.getDbTasks();

@@ -1,6 +1,7 @@
 package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.googlecode.protobuf.format.JsonFormat;
 import com.liqihao.Cache.TaskMessageCache;
 import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
@@ -16,6 +17,7 @@ import com.liqihao.protobufObject.TaskModel;
 import com.liqihao.provider.TaskServiceProvider;
 import com.liqihao.service.TaskService;
 import com.liqihao.util.CommonsUtil;
+import com.liqihao.util.NotificationUtil;
 import io.netty.channel.Channel;
 import org.springframework.stereotype.Service;
 
@@ -49,7 +51,8 @@ public class TaskServiceImpl implements TaskService {
         messageBuilder.setDataType(TaskModel.TaskModelMessage.DateType.GetPeopleTaskResponse);
         messageBuilder.setGetPeopleTaskResponse(TaskModel.GetPeopleTaskResponse.newBuilder().addAllTaskDtos(taskDtos).build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
-        channel.writeAndFlush(nettyResponse);
+        String json= JsonFormat.printToString(messageBuilder.build());
+        NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 
     @Override
@@ -66,7 +69,8 @@ public class TaskServiceImpl implements TaskService {
         messageBuilder.setDataType(TaskModel.TaskModelMessage.DateType.GetCanAcceptTaskResponse);
         messageBuilder.setGetCanAcceptTaskResponse(TaskModel.GetCanAcceptTaskResponse.newBuilder().addAllTaskIds(taskList).build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
-        channel.writeAndFlush(nettyResponse);
+        String json= JsonFormat.printToString(messageBuilder.build());
+        NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 
     @Override
@@ -99,7 +103,8 @@ public class TaskServiceImpl implements TaskService {
         messageBuilder.setDataType(TaskModel.TaskModelMessage.DateType.AcceptTaskResponse);
         messageBuilder.setAcceptTaskResponse(TaskModel.AcceptTaskResponse.newBuilder().build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
-        channel.writeAndFlush(nettyResponse);
+        String json= JsonFormat.printToString(messageBuilder.build());
+        NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 
     @Override
@@ -127,7 +132,8 @@ public class TaskServiceImpl implements TaskService {
         messageBuilder.setDataType(TaskModel.TaskModelMessage.DateType.AbandonTaskResponse);
         messageBuilder.setAbandonTaskResponse(TaskModel.AbandonTaskResponse.newBuilder().build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
-        channel.writeAndFlush(nettyResponse);
+        String json= JsonFormat.printToString(messageBuilder.build());
+        NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 
     @Override

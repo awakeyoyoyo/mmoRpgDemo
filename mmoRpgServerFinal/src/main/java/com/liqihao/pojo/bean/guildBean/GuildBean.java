@@ -1,5 +1,6 @@
 package com.liqihao.pojo.bean.guildBean;
 
+import com.googlecode.protobuf.format.JsonFormat;
 import com.liqihao.Cache.OnlineRoleMessageCache;
 import com.liqihao.Cache.RoleMessageCache;
 import com.liqihao.commons.ConstantValue;
@@ -12,6 +13,7 @@ import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.pojo.bean.taskBean.guildFirstTask.GuildFirstAction;
 import com.liqihao.protobufObject.GuildModel;
 import com.liqihao.provider.GuildServiceProvider;
+import com.liqihao.util.NotificationUtil;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
 
@@ -373,7 +375,8 @@ public class GuildBean {
         GuildModel.ApplyResponse.Builder applyResponseBuilder = GuildModel.ApplyResponse.newBuilder().setSuccessFlag(flag);
         messageData.setApplyResponse(applyResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
-        channel.writeAndFlush(nettyResponse);
+        String json= JsonFormat.printToString(messageData.build());
+        NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 
     /**

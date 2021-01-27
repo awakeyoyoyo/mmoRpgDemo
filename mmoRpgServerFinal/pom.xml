@@ -21,6 +21,12 @@
         <netty.version>4.1.32.Final</netty.version>
     </properties>
     <dependencies>
+        <!--protobuf to json-->
+        <dependency>
+            <groupId>com.googlecode.protobuf-java-format</groupId>
+            <artifactId>protobuf-java-format</artifactId>
+            <version>1.2</version>
+        </dependency>
         <!--读取excel 转换为bean的依赖-->
         <dependency>
             <groupId>org.apache.poi</groupId>

@@ -1,6 +1,7 @@
 package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.googlecode.protobuf.format.JsonFormat;
 import com.liqihao.Cache.OnlineRoleMessageCache;
 import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
@@ -14,6 +15,7 @@ import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.protobufObject.FriendModel;
 import com.liqihao.provider.FriendServiceProvider;
 import com.liqihao.service.FriendService;
+import com.liqihao.util.NotificationUtil;
 import io.netty.channel.Channel;
 import org.springframework.stereotype.Service;
 
@@ -54,7 +56,8 @@ public class FriendServiceImpl implements FriendService {
         nettyResponse.setData(messageData.toByteArray());
         Channel channel=mmoSimpleRole.getChannel();
         if (channel!=null) {
-            channel.writeAndFlush(nettyResponse);
+            String json= JsonFormat.printToString(messageData);
+            NotificationUtil.sendMessage(channel,nettyResponse,json);
         }
     }
 
@@ -80,7 +83,8 @@ public class FriendServiceImpl implements FriendService {
         nettyResponse.setData(messageData.toByteArray());
         Channel channel=mmoSimpleRole.getChannel();
         if (channel!=null) {
-            channel.writeAndFlush(nettyResponse);
+            String json= JsonFormat.printToString(messageData);
+            NotificationUtil.sendMessage(channel,nettyResponse,json);
         }
     }
 
@@ -103,7 +107,8 @@ public class FriendServiceImpl implements FriendService {
         nettyResponse.setData(messageData.toByteArray());
         Channel channel=mmoSimpleRole.getChannel();
         if (channel!=null) {
-            channel.writeAndFlush(nettyResponse);
+            String json= JsonFormat.printToString(messageData);
+            NotificationUtil.sendMessage(channel,nettyResponse,json);
         }
     }
 
@@ -126,7 +131,8 @@ public class FriendServiceImpl implements FriendService {
         nettyResponse.setData(messageData.toByteArray());
         Channel channel=mmoSimpleRole.getChannel();
         if (channel!=null) {
-            channel.writeAndFlush(nettyResponse);
+            String json= JsonFormat.printToString(messageData);
+            NotificationUtil.sendMessage(channel,nettyResponse,json);
         }
     }
 
@@ -154,7 +160,8 @@ public class FriendServiceImpl implements FriendService {
         nettyResponse.setData(messageData.toByteArray());
         Channel channel=mmoSimpleRole.getChannel();
         if (channel!=null) {
-            channel.writeAndFlush(nettyResponse);
+            String json= JsonFormat.printToString(messageData);
+            NotificationUtil.sendMessage(channel,nettyResponse,json);
         }
     }
 
@@ -181,7 +188,8 @@ public class FriendServiceImpl implements FriendService {
         nettyResponse.setData(messageData.toByteArray());
         Channel channel=mmoSimpleRole.getChannel();
         if (channel!=null) {
-            channel.writeAndFlush(nettyResponse);
+            String json= JsonFormat.printToString(messageData);
+            NotificationUtil.sendMessage(channel,nettyResponse,json);
         }
     }
 }
