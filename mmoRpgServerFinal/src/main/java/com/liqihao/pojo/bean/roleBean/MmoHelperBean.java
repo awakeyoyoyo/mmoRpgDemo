@@ -252,7 +252,7 @@ public class MmoHelperBean extends Role{
         useSkillBuilder.addAllRoleIdDamages(list);
         myMessageBuilder.setUseSkillResponse(useSkillBuilder.build());
         NettyResponse nettyResponse=new NettyResponse();
-        nettyResponse.setCmd(ConstantValue.USE_SKILL_RSPONSE);
+        nettyResponse.setCmd(ConstantValue.USE_SKILL_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
         //广播

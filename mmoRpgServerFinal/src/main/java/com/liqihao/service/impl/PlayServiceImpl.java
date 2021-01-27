@@ -292,6 +292,11 @@ public class PlayServiceImpl implements PlayService {
                 throw new RpgServerException(StateCode.FAIL,"蓝量不够无法使用该技能");
             }
         }
+        if(targetId.equals(mmoSimpleRole.getId())){
+            if (!skillMessage.getSkillDamageType().equals(SkillDamageTypeCode.ADD.getCode())){
+                throw new RpgServerException(StateCode.FAIL,"该技能不能对自身使用");
+            }
+        }
         //判断武器耐久是否足够
         if (mmoSimpleRole.getEquipmentBeanHashMap().get(PositionCode.ARMS.getCode()) != null && mmoSimpleRole.getEquipmentBeanHashMap().get(PositionCode.ARMS.getCode()).getNowDurability() <= 0) {
             throw new RpgServerException(StateCode.FAIL,"武器耐久度为0，请脱落武器再攻击");

@@ -31,10 +31,7 @@ public class TaskServiceImpl implements TaskService {
         for (TaskModel.TaskDto taskDto : taskDtos) {
             TaskMessage taskMessage= MmoCacheCilent.getInstance().getTaskMessageConcurrentHashMap().get(taskDto.getTaskMessageId());
             System.out.println("[-]");
-            System.out.println("[-]任务id："+taskMessage.getId()+" 任务名称: "+taskMessage.getName());
-            System.out.println("[-]任务描述："+taskMessage.getDescription());
-            System.out.println("[-]任务进度："+taskDto.getProgress()+"/"+taskMessage.getTargetProgress());
-            System.out.println("[-]任务类型："+ TaskTypeCode.getValue(taskMessage.getType())+" 任务状态："+ TaskStateCode.getValue(taskDto.getStatus()));
+            System.out.println("[-]任务id："+taskMessage.getId()+" 任务名称: "+taskMessage.getName()+" 任务描述: "+taskMessage.getDescription()+" 任务目标进度："+taskMessage.getTargetProgress()+" 任务类型："+ TaskTypeCode.getValue(taskMessage.getType())+" 任务状态："+ TaskStateCode.getValue(taskDto.getStatus()));
             System.out.println("[-]任务奖励：");
             if (taskMessage.getRewardArticleType().equals(ArticleTypeCode.MEDICINE.getCode())){
                 MedicineMessage medicineMessage=medicineMessageConcurrentHashMap.get(taskMessage.getRewardArticleMessageId());

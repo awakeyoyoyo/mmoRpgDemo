@@ -166,6 +166,9 @@ public class MmoSimpleNPC extends Role {
             //人物增加经验
             role.addExp(getAddExp());
         }
+        //重生到启始之地xinx 延时5s后复活
+        ScheduledThreadPoolUtil.NpcRestartTask npcRestartTask=new ScheduledThreadPoolUtil.NpcRestartTask(this);
+        ScheduledThreadPoolUtil.getScheduledExecutorService().schedule(npcRestartTask,5,TimeUnit.SECONDS);
     }
 
     //消除仇恨

@@ -114,22 +114,14 @@ public class ExcelReaderUtil {
     public static <T> List<T> readExcelFromFileName(String path,Class<T> tClass) throws IOException, IllegalAccessException, InstantiationException {
         File file = ResourceUtils.getFile(path);
         InputStream in = null;
-        in = new BufferedInputStream(new FileInputStream(file));
-        return readExcelToBean(in, tClass);
+        try {
+            in = new BufferedInputStream(new FileInputStream(file));
+            return readExcelToBean(in, tClass);
+        }finally {
+            if (in!=null){
+                in.close();
+            }
+        }
     }
 
-    public static void main(String[] args) throws IOException, IllegalAccessException, InstantiationException {
-//        File file = ResourceUtils.getFile("classpath:message/npcMessage.xlsx");
-        File file = ResourceUtils.getFile("classpath:message/skillMessage.xlsx");
-        InputStream in = null;
-        in = new BufferedInputStream(new FileInputStream(file));
-        List<SkillMessage> messages=readExcelToBean(in, SkillMessage.class);
-        for (SkillMessage npc:messages) {
-            System.out.println(npc.toString());
-        }
-        List<BaseDetailMessage> message=readExcelFromFileName("classpath:message/baseDetailMessage.xlsx",BaseDetailMessage.class);
-        for (BaseDetailMessage npc:message) {
-            System.out.println(npc.toString());
-        }
-    }
 }

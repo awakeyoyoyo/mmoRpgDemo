@@ -21,7 +21,6 @@ import com.liqihao.pojo.bean.taskBean.moneyNumTask.MoneyTaskAction;
 import com.liqihao.pojo.bean.taskBean.pkFirstTask.PkFirstTaskAction;
 import com.liqihao.pojo.bean.taskBean.sceneFirstTask.SceneTaskAction;
 import com.liqihao.pojo.bean.taskBean.skillTask.SkillTaskAction;
-import com.liqihao.pojo.bean.taskBean.teamFirstTask.TeamTaskAction;
 import com.liqihao.pojo.bean.teamBean.TeamApplyOrInviteBean;
 import com.liqihao.pojo.dto.EquipmentDto;
 import com.liqihao.protobufObject.ChatModel;
@@ -438,7 +437,6 @@ public class MmoSimpleRole extends Role implements MyObserver {
      * 脱装备
      */
     public Boolean unUseEquipment(Integer position) throws Exception {
-
         //判断该位置是否有装备
         EquipmentBean equipmentBean = getEquipmentBeanHashMap().get(position);
         //锁住背包
@@ -565,7 +563,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
         useSkillBuilder.addAllRoleIdDamages(list);
         myMessageBuilder.setUseSkillResponse(useSkillBuilder.build());
         NettyResponse nettyResponse=new NettyResponse();
-        nettyResponse.setCmd(ConstantValue.USE_SKILL_RSPONSE);
+        nettyResponse.setCmd(ConstantValue.USE_SKILL_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
         //广播
@@ -696,7 +694,19 @@ public class MmoSimpleRole extends Role implements MyObserver {
 
     @Override
     public void die(Role fromRole) {
-
+        if(fromRole!=null&&fromRole.getType()==RoleTypeCode.PLAYER.getCode()) {
+            PkFirstTaskAction pkFirstTaskAction=new PkFirstTaskAction();
+            pkFirstTaskAction.setTaskTargetType(TaskTargetTypeCode.FIRST_TIME_PK.getCode());
+            MmoSimpleRole role=OnlineRoleMessageCache.getInstance().get(fromRole.getId());
+            if (role!=null) {
+                role.getTaskManager().handler(pkFirstTaskAction, role);
+            }
+        }
+        //重生到启始之地xinx 延时5s后复活  不在副本中得时候
+        if (getMmoSceneId()!=null) {
+            ScheduledThreadPoolUtil.PeopleRestartTask restartTask = new ScheduledThreadPoolUtil.PeopleRestartTask(this);
+            ScheduledThreadPoolUtil.getScheduledExecutorService().schedule(restartTask, 5, TimeUnit.SECONDS);
+        }
     }
 
     /**
@@ -929,6 +939,15 @@ public class MmoSimpleRole extends Role implements MyObserver {
                 newNumber = getNowHp() + Math.abs(number);
                 mmoSimpleRole.setNowHp(0);
                 mmoSimpleRole.setStatus(RoleStatusCode.DIE.getCode());
+                //抛出被打败事件
+                if(damageU.getFromRoleType()==RoleTypeCode.PLAYER.getCode()) {
+                    MmoSimpleRole role=OnlineRoleMessageCache.getInstance().get(damageU.getFromRoleId());
+                    if (role!=null) {
+                        mmoSimpleRole.die(role);
+                    }
+                }else {
+                    mmoSimpleRole.die(null);
+                }
             }
             //生成数据包
             damageU.setDamage(newNumber);
@@ -1078,12 +1097,12 @@ public class MmoSimpleRole extends Role implements MyObserver {
                 mmoSimpleRole.setStatus(RoleStatusCode.DIE.getCode());
                 //抛出被打败事件
                 if(damageU.getFromRoleType()==RoleTypeCode.PLAYER.getCode()) {
-                    PkFirstTaskAction pkFirstTaskAction=new PkFirstTaskAction();
-                    pkFirstTaskAction.setTaskTargetType(TaskTargetTypeCode.FIRST_TIME_PK.getCode());
                     MmoSimpleRole role=OnlineRoleMessageCache.getInstance().get(damageU.getFromRoleId());
                     if (role!=null) {
-                        role.getTaskManager().handler(pkFirstTaskAction, role);
+                        mmoSimpleRole.die(role);
                     }
+                }else {
+                    mmoSimpleRole.die(null);
                 }
             }
             //生成数据包
@@ -1100,7 +1119,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
             useSkillBuilder.addAllRoleIdDamages(list);
             myMessageBuilder.setUseSkillResponse(useSkillBuilder.build());
             NettyResponse nettyResponse = new NettyResponse();
-            nettyResponse.setCmd(ConstantValue.USE_SKILL_RSPONSE);
+            nettyResponse.setCmd(ConstantValue.USE_SKILL_RESPONSE);
             nettyResponse.setStateCode(StateCode.SUCCESS);
             nettyResponse.setData(myMessageBuilder.build().toByteArray());
             //广播

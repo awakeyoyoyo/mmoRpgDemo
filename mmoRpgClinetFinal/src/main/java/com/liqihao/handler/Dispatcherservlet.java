@@ -58,6 +58,9 @@ public class Dispatcherservlet {
             case ConstantValue.LOGIN_RESPONSE:
                 playService.loginResponse(nettyResponse);
                 break;
+            case ConstantValue.RESTART_RESPONSE:
+                playService.restartResponse(nettyResponse);
+                break;
             case ConstantValue.REGISTER_RESPONSE:
                 playService.registerResponse(nettyResponse);
                 break;

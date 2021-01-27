@@ -99,9 +99,13 @@ public interface ConstantValue {
      */
     int LOGOUT_RESPONSE=2502;
     /**
+     * 复活响应
+     */
+    int RESTART_RESPONSE=2506;
+    /**
      * 使用技能响应
      */
-    int USE_SKILL_RSPONSE =2503;
+    int USE_SKILL_RESPONSE =2503;
     /**
      * 伤害响应
      */

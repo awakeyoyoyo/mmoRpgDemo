@@ -10,7 +10,6 @@ import com.liqihao.pojo.baseMessage.BufferMessage;
 import com.liqihao.pojo.bean.CopySceneBean;
 import com.liqihao.pojo.bean.SkillBean;
 import com.liqihao.pojo.bean.buffBean.BaseBuffBean;
-import com.liqihao.pojo.bean.taskBean.killTask.KillTaskAction;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.util.CommonsUtil;
@@ -336,7 +335,7 @@ public class BossBean extends Role {
         useSkillBuilder.addAllRoleIdDamages(list);
         myMessageBuilder.setUseSkillResponse(useSkillBuilder.build());
         NettyResponse nettyResponse=new NettyResponse();
-        nettyResponse.setCmd(ConstantValue.USE_SKILL_RSPONSE);
+        nettyResponse.setCmd(ConstantValue.USE_SKILL_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
         //广播

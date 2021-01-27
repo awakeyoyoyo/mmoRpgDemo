@@ -416,6 +416,8 @@ public class TeamServiceImpl implements TeamService {
                     .setHp(simpleRole.getHp()).setMp(simpleRole.getMp())
                     .setTeamId(mmoSimpleRole.getTeamId())
                     .setProfessionId(simpleRole.getProfessionId())
+                    .setEquipmentLevel(simpleRole.getEquipmentLevel())
+                    .setLevel(simpleRole.getLevel())
                     .setName(simpleRole.getName()).setNowHp(simpleRole.getNowHp())
                     .setNowMP(simpleRole.getNowMp()).build();
             roles.add(role);

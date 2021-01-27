@@ -33,7 +33,10 @@ public interface ConstantValue {
      *与npc对话
      */
     int TALK_NPC_REQUEST=1003;
-
+    /**
+     * 复活响应
+     */
+    int RESTART_RESPONSE=2506;
     /**
      *请求可以前往的场景的响应
      */

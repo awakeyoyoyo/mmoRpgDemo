@@ -259,4 +259,20 @@ public class PlayServiceImpl implements PlayService {
         System.out.println("[-]--------------------------------------------------------");
     }
 
+    @Override
+    public void restartResponse(NettyResponse nettyResponse) throws InvalidProtocolBufferException {
+        byte[] data = nettyResponse.getData();
+        PlayModel.PlayModelMessage myMessage;
+        myMessage = PlayModel.PlayModelMessage.parseFrom(data);
+        PlayModel.RestartResponse restartResponse = myMessage.getRestartResponse();
+        Integer roleId=restartResponse.getRoleId();
+        Integer sceneId=restartResponse.getSceneId();
+        String roleName=restartResponse.getName();
+        Integer roleType=restartResponse.getRoleType();
+        SceneMessage sceneMessage=MmoCacheCilent.getInstance().getSceneMessageConcurrentHashMap().get(sceneId);
+        System.out.println("[-]--------------------------------------------------------");
+        System.out.println("[-]角色id: " + roleId + " 角色名称: " + roleName+" 角色类型："+RoleTypeCode.getValue(roleType)+" 在"+sceneMessage.getPlaceName()+"复活了！！！");
+        System.out.println("[-]--------------------------------------------------------");
+    }
+
 }

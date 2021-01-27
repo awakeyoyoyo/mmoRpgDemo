@@ -1,7 +1,10 @@
 package com.liqihao.util;
 
 import com.liqihao.Cache.*;
+import com.liqihao.commons.ConstantValue;
+import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.RpgServerException;
+import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.*;
 import com.liqihao.pojo.baseMessage.BufferMessage;
 import com.liqihao.pojo.baseMessage.SkillMessage;
@@ -353,6 +356,68 @@ public class ScheduledThreadPoolUtil {
         }
     }
 
+    /**
+     * npc复活线程
+     * todo
+     */
+    public static class NpcRestartTask implements Runnable{
+        private MmoSimpleNPC npc;
+
+        public NpcRestartTask(MmoSimpleNPC npc) {
+            this.npc = npc;
+        }
+
+        @Override
+        public void run() {
+            npc.setStatus(RoleStatusCode.ALIVE.getCode());
+            npc.setNowHp(npc.getHp());
+            npc.setNowMp(npc.getMp());
+            //protobuf生成消息
+            PlayModel.PlayModelMessage.Builder myMessageBuilder = PlayModel.PlayModelMessage.newBuilder();
+            myMessageBuilder.setDataType(PlayModel.PlayModelMessage.DateType.RestartResponse);
+            PlayModel.RestartResponse.Builder restartResponseBuilder = PlayModel.RestartResponse.newBuilder()
+                    .setName(npc.getName()).setRoleId(npc.getId()).setSceneId(npc.getMmoSceneId()).setRoleType(npc.getType());
+            myMessageBuilder.setRestartResponse(restartResponseBuilder.build());
+            //封装成nettyResponse
+            NettyResponse nettyResponse = new NettyResponse();
+            nettyResponse.setCmd(ConstantValue.RESTART_RESPONSE);
+            nettyResponse.setStateCode(StateCode.SUCCESS);
+            nettyResponse.setData(myMessageBuilder.build().toByteArray());
+            CommonsUtil.notificationSceneRole(nettyResponse,npc);
+        }
+    }
+
+    /**
+     * 人物复活线程
+     */
+    public static class PeopleRestartTask implements Runnable{
+        private MmoSimpleRole role;
+
+        public PeopleRestartTask(MmoSimpleRole role) {
+            this.role = role;
+        }
+
+        @Override
+        public void run() {
+            role.setStatus(RoleStatusCode.ALIVE.getCode());
+            role.setNowHp(role.getHp());
+            role.setNowMp(role.getMp());
+            role.wentScene(1);
+            //发送复活消息
+            //protobuf生成消息
+            PlayModel.PlayModelMessage.Builder myMessageBuilder = PlayModel.PlayModelMessage.newBuilder();
+            myMessageBuilder.setDataType(PlayModel.PlayModelMessage.DateType.RestartResponse);
+            PlayModel.RestartResponse.Builder restartResponseBuilder = PlayModel.RestartResponse.newBuilder()
+                    .setName(role.getName()).setRoleId(role.getId()).setSceneId(role.getMmoSceneId()).setRoleType(role.getType());
+            myMessageBuilder.setRestartResponse(restartResponseBuilder.build());
+            //封装成nettyResponse
+            NettyResponse nettyResponse = new NettyResponse();
+            nettyResponse.setCmd(ConstantValue.RESTART_RESPONSE);
+            nettyResponse.setStateCode(StateCode.SUCCESS);
+            nettyResponse.setData(myMessageBuilder.build().toByteArray());
+            CommonsUtil.notificationSceneRole(nettyResponse,role);
+        }
+    }
     /**
      * 副本超时任务
      */

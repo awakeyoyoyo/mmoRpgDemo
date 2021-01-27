@@ -15,6 +15,7 @@ message PlayModelMessage{
     UseSkillResponse=7;
     DamagesNoticeResponse=8;
     UpLevelResponse=9;
+    RestartResponse=10;
   }
   //用date_type来标识传的是哪一个枚举类型
   DateType data_type=1;
@@ -30,7 +31,14 @@ message PlayModelMessage{
     UseSkillResponse useSkillResponse=9;
     DamagesNoticeResponse damagesNoticeResponse=10;
     UpLevelResponse upLevelResponse=11;
+    RestartResponse restartResponse=12;
   }
+}
+message RestartResponse{
+  int32 roleId=1;
+  string name=2;
+  int32 roleType=3;
+  int32 sceneId=4;
 }
 message LoginRequest{
   string username=1;

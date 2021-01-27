@@ -102,7 +102,7 @@ public class CommonsUtil {
         return sceneRoles;
     }
 
-    public static void notificationSceneRole(NettyResponse nettyResponse,MmoSimpleRole mmoSimpleRole) {
+    public static void notificationSceneRole(NettyResponse nettyResponse,Role mmoSimpleRole) {
         List<Integer> players;
         if (mmoSimpleRole.getMmoSceneId()!=null) {
             players = SceneBeanMessageCache.getInstance().get(mmoSimpleRole.getMmoSceneId()).getRoles();
