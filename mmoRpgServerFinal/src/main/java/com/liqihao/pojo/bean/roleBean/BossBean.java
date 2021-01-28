@@ -10,8 +10,10 @@ import com.liqihao.pojo.baseMessage.BufferMessage;
 import com.liqihao.pojo.bean.CopySceneBean;
 import com.liqihao.pojo.bean.SkillBean;
 import com.liqihao.pojo.bean.buffBean.BaseBuffBean;
+import com.liqihao.pojo.bean.teamBean.TeamBean;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.provider.CopySceneProvider;
+import com.liqihao.provider.TeamServiceProvider;
 import com.liqihao.util.CommonsUtil;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
@@ -113,7 +115,6 @@ public class BossBean extends Role {
             if (hp <= 0) {
                 reduce = reduce + hp;
                 hp = 0;
-
                 die(fromRole);
             }
             bossBean.setNowHp(hp);
@@ -186,7 +187,7 @@ public class BossBean extends Role {
             ScheduledThreadPoolUtil.getBossTaskMap().remove(bossAttackId);
             t.cancel(false);
         }
-        //任务or经验
+        //经验
         if (fromRole.getType().equals(RoleTypeCode.PLAYER.getCode())||fromRole.getType().equals(RoleTypeCode.HELPER.getCode())) {
             MmoSimpleRole role=null;
             if (fromRole.getType().equals(RoleTypeCode.HELPER.getCode())){
@@ -196,9 +197,17 @@ public class BossBean extends Role {
             }else {
                 role = (MmoSimpleRole) fromRole;
             }
-            //人物增加经验
+            Integer teamId=role.getTeamId();
+            TeamBean teamBean= TeamServiceProvider.getTeamBeanByTeamId(teamId);
+            List<MmoSimpleRole> teamRoles=new ArrayList<>(teamBean.getMmoSimpleRoles());
             BossMessage bossMessage=BossMessageCache.getInstance().get(getBossMessageId());
-            role.addExp(bossMessage.getAddExp());
+            //整个队伍人物增加经验
+            for (MmoSimpleRole teamRole : teamRoles) {
+                if (teamRole.getType().equals(RoleTypeCode.HELPER.getCode())){
+                    teamRole.addExp(bossMessage.getAddExp());
+                }
+            }
+
         }
     }
 

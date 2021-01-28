@@ -247,7 +247,7 @@ public class GuildServiceProvider  implements ApplicationContextAware {
         guildPOJO.setLevel(guildBean.getLevel());
         guildPOJO.setPeopleNum(guildBean.getPeopleNum());
         guildPOJO.setChairmanId(guildBean.getChairmanId());
-        guildBean.setMoney(guildBean.getMoney());
+        guildPOJO.setMoney(guildBean.getMoney());
         ScheduledThreadPoolUtil.addTask(() -> mmoGuildPOJOMapper.updateByPrimaryKey(guildPOJO));
     }
 

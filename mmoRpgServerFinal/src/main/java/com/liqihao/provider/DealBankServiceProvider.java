@@ -323,13 +323,14 @@ public class DealBankServiceProvider {
         mmoDealBankArticlePOJO.setCreateTime(dealBankArticleBean.getCreateTime());
         mmoDealBankArticlePOJO.setEndTime(dealBankArticleBean.getEndTime());
         mmoDealBankArticlePOJO.setType(dealBankArticleBean.getType());
+        mmoDealBankArticlePOJO.setNum(dealBankArticleBean.getNum());
         mmoDealBankArticlePOJO.setHighPrice(dealBankArticleBean.getHighPrice());
         mmoDealBankArticlePOJO.setPrice(dealBankArticleBean.getPrice());
         mmoDealBankArticlePOJO.setToRoleId(dealBankArticleBean.getToRoleId());
         ScheduledThreadPoolUtil.addTask(() -> mmoDealBankArticlePOJOMapper.updateByPrimaryKey(mmoDealBankArticlePOJO));
     }
 
-    /**
+    /**s
      * 获取交易物品列表
      */
     public static List<DealBankArticleBean> getSellArticleToDealBank() {

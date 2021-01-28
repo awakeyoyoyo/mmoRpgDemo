@@ -36,7 +36,6 @@ public class TeamServiceImpl implements TeamService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.APPLY_FOR_TEAM_REQUEST,module = ConstantValue.TEAM_MODULE)
     public void applyForTeamRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException {
-        Channel channel = mmoSimpleRole.getChannel();
         Integer teamId=myMessage.getApplyForTeamRequest().getTeamId();
         if (teamId==0){
             throw new RpgServerException(StateCode.FAIL,"请输入参数");
@@ -70,7 +69,7 @@ public class TeamServiceImpl implements TeamService {
         nettyResponse.setData(teamMessageBuilder.build().toByteArray());
         //send
         String json= JsonFormat.printToString(teamMessageBuilder.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(c,nettyResponse,json);
     }
 
 

@@ -293,10 +293,9 @@ public class CopySceneBean{
      */
     public void changeResult(TeamBean teamBean) {
         CopySceneMessage copySceneMessage= CopySceneMessageCache.getInstance().get(getCopySceneMessageId());
-
         //将副本中的人物全部状态改为存活
         for (Role role:roles) {
-            //增加任务 MmoRole role int progress,int articleType,int targetId,int targetType
+            //增加任务
             if (role.getType().equals(RoleTypeCode.PLAYER.getCode())) {
                 MmoSimpleRole mmoSimpleRole= (MmoSimpleRole) role;
                 CopySceneTaskAction copySceneTaskAction = new CopySceneTaskAction();
@@ -311,17 +310,17 @@ public class CopySceneBean{
         }
         //发奖励了
         List<MedicineBean> medicineBeans= ArticleServiceProvider.productMedicineToCopyScene(this,CommonsUtil.split(copySceneMessage.getMedicineIds()));
-//        List<EquipmentBean> equipmentBeans= ArticleServiceProvider.productEquipmentToCopyScene(this,CommonsUtil.split(copySceneMessage.getEquipmentIds()));
+        List<EquipmentBean> equipmentBeans= ArticleServiceProvider.productEquipmentToCopyScene(this,CommonsUtil.split(copySceneMessage.getEquipmentIds()));
         if (medicineBeans.size()>0) {
             for (MedicineBean m:medicineBeans) {
                 articlesMap.put(m.getFloorIndex(),m);
             }
         }
-//        if (equipmentBeans.size()>0){
-//            for (EquipmentBean e:equipmentBeans) {
-//                articlesMap.put(e.getFloorIndex(),e);
-//            }
-//        }
+        if (equipmentBeans.size()>0){
+            for (EquipmentBean e:equipmentBeans) {
+                articlesMap.put(e.getFloorIndex(),e);
+            }
+        }
         // 广播队伍副本挑战成功
         NettyResponse nettyResponse=new NettyResponse();
         nettyResponse.setCmd(ConstantValue.CHANGE_SUCCESS_RESPONSE);

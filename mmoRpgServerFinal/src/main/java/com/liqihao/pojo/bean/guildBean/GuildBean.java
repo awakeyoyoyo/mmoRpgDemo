@@ -190,7 +190,6 @@ public class GuildBean {
 
     /**
      * 公会申请
-     *
      * @param guildApplyBean
      */
     public void addGuildApplyBean(GuildApplyBean guildApplyBean) {
@@ -308,10 +307,8 @@ public class GuildBean {
                     }
                     GuildBean guildBean = this;
                     //数据库删除该人的记录
-
                     GuildServiceProvider.getInstance().deletePeople(roleBean.getId());
                     GuildServiceProvider.getInstance().updateGuildPOJO(guildBean);
-
                     break;
                 }
             }
@@ -415,6 +412,7 @@ public class GuildBean {
             Integer temp = guildMoney - money;
             setMoney(temp);
             mmoSimpleRole.setMoney(getMoney() + money);
+            GuildServiceProvider.getInstance().updateGuildPOJO(this);
         } finally {
             moneyRwLock.writeLock().unlock();
         }

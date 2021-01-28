@@ -210,7 +210,6 @@ public class PlayServiceImpl implements PlayService {
             System.out.println("[-]蓝量： " + mmoRole.getNowMp() + "/" + mmoRole.getMp());
             System.out.println("[-]");
             System.out.println("[-]角色："+mmoRole.getName()+" 反手恰了一口药恢复了"+roleIdDamage.getDamage()+"点"+DamageTypeCode.getValue(roleIdDamage.getDamageType()));
-            System.out.println("[-]减少了"+roleIdDamage.getDamage()+"点"+DamageTypeCode.getValue(roleIdDamage.getDamageType()));
         }else if (roleIdDamage.getAttackStyle() == AttackStyleCode.ATTACK.getCode()){
             SkillMessage skillMessage = MmoCacheCilent.getInstance().getSkillMessageConcurrentHashMap().get(roleIdDamage.getSkillId());
             System.out.println("[-]角色id：" + mmoRole.getId() + " 角色名: " + mmoRole.getName());

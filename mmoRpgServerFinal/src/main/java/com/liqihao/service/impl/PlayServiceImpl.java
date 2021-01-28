@@ -33,6 +33,7 @@ import java.util.*;
 
 /**
  * 用户模块
+ *
  * @author lqhao
  */
 @Service
@@ -51,19 +52,19 @@ public class PlayServiceImpl implements PlayService {
         String username = myMessage.getRegisterRequest().getUsername();
         String password = myMessage.getRegisterRequest().getPassword();
         String roleName = myMessage.getRegisterRequest().getRolename();
-        Integer professionId=myMessage.getRegisterRequest().getProfessionId();
-        if (professionId<1||professionId>4){
-            throw new RpgServerException(StateCode.FAIL,"错误职业id");
+        Integer professionId = myMessage.getRegisterRequest().getProfessionId();
+        if (professionId < 1 || professionId > 4) {
+            throw new RpgServerException(StateCode.FAIL, "错误职业id");
         }
         //查库
         Integer count1 = mmoUserPOJOMapper.selectByUsername(username);
         Integer count2 = mmoRolePOJOMapper.selectByRoleName(roleName);
         if (count1 > 0 || count2 > 0) {
             //用户已存在
-           throw new RpgServerException(StateCode.FAIL,"用户名已存在or角色名已经存在");
+            throw new RpgServerException(StateCode.FAIL, "用户名已存在or角色名已经存在");
         }
 
-        playServiceProvider.registerRole(roleName,professionId,username,password);
+        playServiceProvider.registerRole(roleName, professionId, username, password);
 
         //返回成功的数据包
         NettyResponse nettyResponse = new NettyResponse();
@@ -78,8 +79,8 @@ public class PlayServiceImpl implements PlayService {
         messageData.setRegisterResponse(registerResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(messageData.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        String json = JsonFormat.printToString(messageData.build());
+        NotificationUtil.sendMessage(channel, nettyResponse, json);
     }
 
     @Override
@@ -87,24 +88,24 @@ public class PlayServiceImpl implements PlayService {
     public void loginRequest(PlayModel.PlayModelMessage myMessage, Channel channel) throws RpgServerException {
         String username = myMessage.getLoginRequest().getUsername();
         String password = myMessage.getLoginRequest().getPassword();
-        MmoUserPOJO mmoUserPOJO  = mmoUserPOJOMapper.checkByUserNameAndPassword(username, password);
+        MmoUserPOJO mmoUserPOJO = mmoUserPOJOMapper.checkByUserNameAndPassword(username, password);
         if (null == mmoUserPOJO) {
-            throw new RpgServerException(StateCode.FAIL,"密码错误or账号错误");
+            throw new RpgServerException(StateCode.FAIL, "密码错误or账号错误");
         }
         //从数据库中读取角色,且修改其为在线模式，放入角色在线集合
         MmoRolePOJO role = mmoRolePOJOMapper.selectByPrimaryKey(Integer.parseInt(mmoUserPOJO.getUserRoleId()));
         //检测是否在线
-        String nodeIndex=channel.remoteAddress().toString();
-        if (NodeCheckMessageCache.getInstance().contains(nodeIndex)){
-            throw new RpgServerException(StateCode.FAIL,"当前已经登陆，请勿重复登陆");
+        String nodeIndex = channel.remoteAddress().toString();
+        if (NodeCheckMessageCache.getInstance().contains(nodeIndex)) {
+            throw new RpgServerException(StateCode.FAIL, "当前已经登陆，请勿重复登陆");
         }
-        MmoSimpleRole lastRole=OnlineRoleMessageCache.getInstance().get(role.getId());
-        if (lastRole!=null){
+        MmoSimpleRole lastRole = OnlineRoleMessageCache.getInstance().get(role.getId());
+        if (lastRole != null) {
             //另一个客户端在线
             lastRole.logout();
         }
-        NodeCheckMessageCache.getInstance().put(nodeIndex,true);
-        MmoSimpleRole simpleRole=playServiceProvider.initMmoPeople(role);
+        NodeCheckMessageCache.getInstance().put(nodeIndex, true);
+        MmoSimpleRole simpleRole = playServiceProvider.initMmoPeople(role);
 
         //将channel绑定用户信息存储
         simpleRole.setChannel(channel);
@@ -130,10 +131,10 @@ public class PlayServiceImpl implements PlayService {
         nettyResponse.setData(messageData.build().toByteArray());
         nettyResponse.setCmd(ConstantValue.LOGIN_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        String json= JsonFormat.printToString(messageData.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        String json = JsonFormat.printToString(messageData.build());
+        NotificationUtil.sendMessage(channel, nettyResponse, json);
         //获取场景所有角色信息
-        List<Role> sceneRoles=CommonsUtil.getAllRolesFromScene(simpleRole);
+        List<Role> sceneRoles = CommonsUtil.getAllRolesFromScene(simpleRole);
         //发送给场景中其他角色 有角色登陆
         CommonsUtil.sendRoleResponse(sceneRoles, simpleRole.getMmoSceneId(), null);
     }
@@ -156,8 +157,8 @@ public class PlayServiceImpl implements PlayService {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(myMessageBuilder.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        String json = JsonFormat.printToString(myMessageBuilder.build());
+        NotificationUtil.sendMessage(channel, nettyResponse, json);
 
     }
 
@@ -171,43 +172,43 @@ public class PlayServiceImpl implements PlayService {
         Long nextTime = mmoSimpleRole.getCdMap().get(skillId);
         if (nextTime != null) {
             if (System.currentTimeMillis() < nextTime) {
-                throw new RpgServerException(StateCode.FAIL,"该技能cd中。。");
+                throw new RpgServerException(StateCode.FAIL, "该技能cd中。。");
             }
         }
         //判断蓝是否够
         SkillMessage skillMessage = SkillMessageCache.getInstance().get(skillId);
         if (skillMessage == null) {
-            throw new RpgServerException(StateCode.FAIL,"没有该技能。。");
+            throw new RpgServerException(StateCode.FAIL, "没有该技能。。");
         }
         if (skillMessage.getConsumeType().equals(ConsumeTypeCode.HP.getCode())) {
             //扣血
             //判断血量是否足够
             if (mmoSimpleRole.getNowHp() < skillMessage.getConsumeNum()) {
                 //血量不够
-                throw new RpgServerException(StateCode.FAIL,"血量不够无法使用该技能");
+                throw new RpgServerException(StateCode.FAIL, "血量不够无法使用该技能");
             }
         } else {
             //扣篮
             //判断蓝量是否足够
             if (mmoSimpleRole.getNowMp() < skillMessage.getConsumeNum()) {
                 //蓝量不够
-                throw new RpgServerException(StateCode.FAIL,"蓝量不够无法使用该技能");
+                throw new RpgServerException(StateCode.FAIL, "蓝量不够无法使用该技能");
             }
         }
-        if(targetId.equals(mmoSimpleRole.getId())){
-            if (!skillMessage.getSkillDamageType().equals(SkillDamageTypeCode.ADD.getCode())){
-                throw new RpgServerException(StateCode.FAIL,"该技能不能对自身使用");
+        if (targetId.equals(mmoSimpleRole.getId())) {
+            if (!skillMessage.getSkillDamageType().equals(SkillDamageTypeCode.ADD.getCode())) {
+                throw new RpgServerException(StateCode.FAIL, "该技能不能对自身使用");
             }
         }
         //判断武器耐久是否足够
         if (mmoSimpleRole.getEquipmentBeanHashMap().get(PositionCode.ARMS.getCode()) != null && mmoSimpleRole.getEquipmentBeanHashMap().get(PositionCode.ARMS.getCode()).getNowDurability() <= 0) {
-            throw new RpgServerException(StateCode.FAIL,"武器耐久度为0，请脱落武器再攻击");
+            throw new RpgServerException(StateCode.FAIL, "武器耐久度为0，请脱落武器再攻击");
         }
         //判断是单体技能 还是群体技能   可以攻击所有玩家 除了队友 npc
         //从缓存中查找出 怪物
         SkillBean skillBean = mmoSimpleRole.getSkillBeanBySkillId(skillId);
-        if (skillBean==null){
-            throw new RpgServerException(StateCode.FAIL,"人物没有该技能。。");
+        if (skillBean == null) {
+            throw new RpgServerException(StateCode.FAIL, "人物没有该技能。。");
         }
         //召唤技能
         if (skillBean.getSkillAttackType().equals(SkillAttackTypeCode.CALL.getCode())) {
@@ -217,26 +218,27 @@ public class PlayServiceImpl implements PlayService {
         //寻找目标
         ArrayList<Role> target = new ArrayList<>();
         if (mmoSimpleRole.getMmoSceneId() != null) {
-            target.addAll(findTargetInScene(mmoSimpleRole, roleType, targetId));
+            target.addAll(findTargetInScene(mmoSimpleRole, roleType, targetId, skillMessage.getSkillDamageType()));
         } else {
-            target.addAll(findTargetInCopyScene(mmoSimpleRole));
+            target.addAll(findTargetInCopyScene(mmoSimpleRole, targetId));
         }
         //使用技能
         if (target.size() > 0) {
             mmoSimpleRole.useSkill(target, skillId);
         }
     }
- 
+
     /**
      * description 在场景中找目标
-     * @param mmoSimpleRole  
-     * @param roleType  
-     * @param targetId  
+     *
+     * @param mmoSimpleRole
+     * @param roleType
+     * @param targetId
      * @return {@link List< Role> }
      * @author lqhao
      * @createTime 2021/1/21 12:18
      */
-    private List<Role> findTargetInScene(MmoSimpleRole mmoSimpleRole, Integer roleType, Integer targetId) throws Exception {
+    private List<Role> findTargetInScene(MmoSimpleRole mmoSimpleRole, Integer roleType, Integer targetId, Integer skillDamageType) throws Exception {
         ArrayList<Role> targets = new ArrayList<>();
         //在场景中
         if (targetId == -1) {
@@ -256,13 +258,13 @@ public class PlayServiceImpl implements PlayService {
                 if (role.getId().equals(mmoSimpleRole.getId())) {
                     continue;
                 }
-                if (mmoSimpleRole.getTeamId() == null||role.getTeamId() == null||!mmoSimpleRole.getTeamId().equals(role.getTeamId())){
+                if (mmoSimpleRole.getTeamId() == null || role.getTeamId() == null || !mmoSimpleRole.getTeamId().equals(role.getTeamId())) {
                     targets.add(role);
                 }
             }
             //hepler
             for (MmoHelperBean h : sceneBean.getHelperBeans()) {
-                if (mmoSimpleRole.getTeamId() == null||h.getTeamId() == null||!mmoSimpleRole.getTeamId().equals(h.getTeamId())) {
+                if (mmoSimpleRole.getTeamId() == null || h.getTeamId() == null || !mmoSimpleRole.getTeamId().equals(h.getTeamId())) {
                     targets.add(h);
                 }
             }
@@ -278,15 +280,15 @@ public class PlayServiceImpl implements PlayService {
             }
 
             if (role == null) {
-                throw new RpgServerException(StateCode.FAIL,"当前场景没有该id的角色或者选择了攻击npc");
+                throw new RpgServerException(StateCode.FAIL, "当前场景没有该id的角色或者选择了攻击npc");
             }
             if (!role.getMmoSceneId().equals(mmoSimpleRole.getMmoSceneId())) {
-                throw new RpgServerException(StateCode.FAIL,"当前场景没有该id的角色");
+                throw new RpgServerException(StateCode.FAIL, "当前场景没有该id的角色");
             }
             if (mmoSimpleRole.getTeamId() != null) {
                 TeamBean teamBean = TeamServiceProvider.getTeamBeanByTeamId(mmoSimpleRole.getTeamId());
-                if (teamBean.getMmoSimpleRoles().contains(role)) {
-                    throw new RpgServerException(StateCode.FAIL,"该角色是队友啊，兄弟");
+                if (teamBean.getMmoSimpleRoles().contains(role) && !skillDamageType.equals(SkillDamageTypeCode.ADD.getCode())) {
+                    throw new RpgServerException(StateCode.FAIL, "该角色是队友啊，兄弟");
                 }
             }
             targets.add(role);
@@ -296,18 +298,27 @@ public class PlayServiceImpl implements PlayService {
 
     /**
      * description 副本中目标
+     *
      * @param mmoSimpleRole
      * @return {@link List< Role> }
      * @author lqhao
      * @createTime 2021/1/21 12:18
      */
-    private List<Role> findTargetInCopyScene(MmoSimpleRole mmoSimpleRole) {
+    private List<Role> findTargetInCopyScene(MmoSimpleRole mmoSimpleRole, Integer targetId) throws RpgServerException {
         ArrayList<Role> target = new ArrayList<>();
         //在副本中
         Integer copySceneBeanId = mmoSimpleRole.getCopySceneBeanId();
         CopySceneBean copySceneBean = CopySceneProvider.getCopySceneBeanById(copySceneBeanId);
-        if (copySceneBean.getNowBoss() != null) {
-            target.add(copySceneBean.getNowBoss());
+        if (targetId == -1) {
+            if (copySceneBean.getNowBoss() != null) {
+                target.add(copySceneBean.getNowBoss());
+            }
+        }else{
+            if (copySceneBean.getNowBoss() != null&&copySceneBean.getNowBoss().getId().equals(targetId)) {
+                target.add(copySceneBean.getNowBoss());
+            }else{
+                throw new RpgServerException(StateCode.FAIL,"没有该id的攻击对象");
+            }
         }
         return target;
     }
