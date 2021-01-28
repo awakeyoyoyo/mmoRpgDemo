@@ -39,7 +39,7 @@ public class DispatcherServlet implements ApplicationContextAware {
      * @return
      */
     public void handler(NettyRequest nettyRequest, Channel channel) {
-        logger.info("线程：" + Thread.currentThread().getName() + " 正在处理该请求");
+//        logger.info("线程：" + Thread.currentThread().getName() + " 正在处理该请求");
         int cmd = nettyRequest.getCmd();
         Method m = methodHashMap.get(cmd);
         MmoSimpleRole mmoSimpleRole=null;

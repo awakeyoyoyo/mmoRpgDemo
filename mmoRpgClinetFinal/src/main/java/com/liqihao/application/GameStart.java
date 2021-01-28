@@ -285,9 +285,6 @@ public class GameStart {
                     case ConstantValue.REDUCE_SELL_ARTICLE_REQUEST:
                         reduceSellArticle(scanner);
                         break;
-                    case ConstantValue.REDUCE_AUCTION_ARTICLE_REQUEST:
-                        reduceAuctionArticle(scanner);
-                        break;
                     case ConstantValue.BUY_ARTICLE_REQUEST:
                         buyArticle(scanner);
                         break;

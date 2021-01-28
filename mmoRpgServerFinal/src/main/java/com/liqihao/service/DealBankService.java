@@ -19,20 +19,12 @@ public interface DealBankService {
      */
     void addSellArticleRequest(DealBankModel.DealBankModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws RpgServerException;
     /**
-     * 下架一口价商品
+     * 下架商品
      * @param myMessage
      * @param mmoSimpleRole
      * @throws RpgServerException
      */
     void reduceSellArticleRequest(DealBankModel.DealBankModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws RpgServerException;
-
-    /**
-     * 下架拍卖品
-     * @param myMessage
-     * @param mmoSimpleRole
-     * @throws RpgServerException
-     */
-    void reduceAuctionArticleRequest(DealBankModel.DealBankModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws RpgServerException;
     /**
      * 购买一口价物品
      * @param myMessage

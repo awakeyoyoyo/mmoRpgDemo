@@ -81,26 +81,6 @@ public class DealBankServiceImpl implements DealBankService {
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 
-    @Override
-    @HandlerCmdTag(cmd = ConstantValue.REDUCE_AUCTION_ARTICLE_REQUEST, module = ConstantValue.DEAL_BANK_MODULE)
-    public void reduceAuctionArticleRequest(DealBankModel.DealBankModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws RpgServerException {
-        int dealBankArticleId=myMessage.getReduceAuctionArticleRequest().getDealBankArticleId();
-        DealBankServiceProvider.reduceSellArticleToDealBank(dealBankArticleId,mmoSimpleRole);
-        Channel channel=mmoSimpleRole.getChannel();
-        //protobuf
-        NettyResponse nettyResponse = new NettyResponse();
-        nettyResponse.setCmd(ConstantValue.REDUCE_AUCTION_ARTICLE_RESPONSE);
-        nettyResponse.setStateCode(StateCode.SUCCESS);
-        //protobuf 生成registerResponse
-        DealBankModel.DealBankModelMessage.Builder messageData = DealBankModel.DealBankModelMessage.newBuilder();
-        messageData.setDataType(DealBankModel.DealBankModelMessage.DateType.ReduceAuctionArticleResponse);
-        DealBankModel.ReduceAuctionArticleResponse.Builder reduceAuctionArticleResponseBuilder = DealBankModel.ReduceAuctionArticleResponse
-                .newBuilder();
-        messageData.setReduceAuctionArticleResponse(reduceAuctionArticleResponseBuilder.build());
-        nettyResponse.setData(messageData.build().toByteArray());
-        String json= JsonFormat.printToString(messageData.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
-    }
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.BUY_ARTICLE_REQUEST, module = ConstantValue.DEAL_BANK_MODULE)
