@@ -70,11 +70,11 @@ public class FriendServiceProvider {
         firstAction.setTaskTargetType(TaskTargetTypeCode.FIRST_TIME_FRIEND.getCode());
         role.getTaskManager().handler(firstAction,role);
 
-        ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateRole(role));
+        DbUtil.updateRole(role);
         MmoSimpleRole mmoSimpleRole= OnlineRoleMessageCache.getInstance().get(friendApplyBean.getRoleId());
         if (mmoSimpleRole!=null){
             mmoSimpleRole.getFriends().add(role.getId());
-            ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateRole(mmoSimpleRole));
+            DbUtil.updateRole(mmoSimpleRole);
             //加好友事件
             FriendFirstAction friendFirstAction=new FriendFirstAction();
             friendFirstAction.setTaskTargetType(TaskTargetTypeCode.FIRST_TIME_FRIEND.getCode());
@@ -83,7 +83,7 @@ public class FriendServiceProvider {
             MmoRolePOJO mmoRolePOJO= RoleMessageCache.getInstance().get(friendApplyBean.getRoleId());
             List<Integer> friendIds= CommonsUtil.split(mmoRolePOJO.getFriendIds());
             friendIds.add(role.getId());
-            ScheduledThreadPoolUtil.addTask(() ->  DbUtil.updateRolePOJO(mmoRolePOJO));
+            DbUtil.updateRolePOJO(mmoRolePOJO);
         }
         // 发送给双方有新的好友
         //protobuf
@@ -99,6 +99,7 @@ public class FriendServiceProvider {
         List<MmoSimpleRole> roles=new ArrayList<>();
         roles.add(mmoSimpleRole);
         roles.add(role);
+        //send
         NotificationUtil.sendRolesMessage(nettyResponse,roles,json);
     }
     /**
@@ -125,6 +126,7 @@ public class FriendServiceProvider {
             nettyResponse.setCmd(ConstantValue.BE_REFUSE_RESPONSE);
             nettyResponse.setStateCode(StateCode.SUCCESS);
             nettyResponse.setData(messageData.toByteArray());
+            //send
             Channel channel=applyRole.getChannel();
             if (channel!=null) {
                 String json= JsonFormat.printToString(messageData);
@@ -143,7 +145,7 @@ public class FriendServiceProvider {
     public static void reduceFriend(MmoSimpleRole role,Integer roleId){
         List<Integer> friendsIds=role.getFriends();
         friendsIds.remove(roleId);
-        ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateRole(role));
+        DbUtil.updateRole(role);
     }
 
     /**

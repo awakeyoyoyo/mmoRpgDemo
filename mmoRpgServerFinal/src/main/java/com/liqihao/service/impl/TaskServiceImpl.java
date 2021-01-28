@@ -51,6 +51,7 @@ public class TaskServiceImpl implements TaskService {
         messageBuilder.setDataType(TaskModel.TaskModelMessage.DateType.GetPeopleTaskResponse);
         messageBuilder.setGetPeopleTaskResponse(TaskModel.GetPeopleTaskResponse.newBuilder().addAllTaskDtos(taskDtos).build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
+        //send
         String json= JsonFormat.printToString(messageBuilder.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
@@ -69,6 +70,7 @@ public class TaskServiceImpl implements TaskService {
         messageBuilder.setDataType(TaskModel.TaskModelMessage.DateType.GetCanAcceptTaskResponse);
         messageBuilder.setGetCanAcceptTaskResponse(TaskModel.GetCanAcceptTaskResponse.newBuilder().addAllTaskIds(taskList).build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
+        //send
         String json= JsonFormat.printToString(messageBuilder.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
@@ -103,6 +105,7 @@ public class TaskServiceImpl implements TaskService {
         messageBuilder.setDataType(TaskModel.TaskModelMessage.DateType.AcceptTaskResponse);
         messageBuilder.setAcceptTaskResponse(TaskModel.AcceptTaskResponse.newBuilder().build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
+        //send
         String json= JsonFormat.printToString(messageBuilder.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
@@ -132,6 +135,7 @@ public class TaskServiceImpl implements TaskService {
         messageBuilder.setDataType(TaskModel.TaskModelMessage.DateType.AbandonTaskResponse);
         messageBuilder.setAbandonTaskResponse(TaskModel.AbandonTaskResponse.newBuilder().build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
+        //send
         String json= JsonFormat.printToString(messageBuilder.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }

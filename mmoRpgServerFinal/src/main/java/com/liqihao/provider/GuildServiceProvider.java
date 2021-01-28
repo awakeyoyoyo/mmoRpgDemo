@@ -33,6 +33,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -57,15 +58,15 @@ public class GuildServiceProvider  implements ApplicationContextAware {
     /**
      * 公会自增id
      */
-    private static AtomicInteger guildIdAuto;
+    public static AtomicInteger guildIdAuto;
     /**
      * 公会人物中间表自增id
      */
-    private static AtomicInteger guildRoleIdAuto;
+    public static AtomicInteger guildRoleIdAuto;
     /**
      * 公会申请表自增id
      */
-    private static AtomicInteger guildApplyIdAuto;
+    public static AtomicInteger guildApplyIdAuto;
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         instance=this;
@@ -120,7 +121,7 @@ public class GuildServiceProvider  implements ApplicationContextAware {
         mmoGuildPOJO.setId(guildIdAuto.incrementAndGet());
         GuildBean guildBean= CommonsUtil.mmoGuildPOJOToGuildBean(mmoGuildPOJO);
         //插入成员bean
-        List<GuildRoleBean> roleBeans=new ArrayList<>();
+        CopyOnWriteArrayList<GuildRoleBean> roleBeans=new CopyOnWriteArrayList<>();
         GuildRoleBean guildRoleBean=new GuildRoleBean();
         guildRoleBean.setRoleId(role.getId());
         guildRoleBean.setGuildId(guildBean.getId());
@@ -135,12 +136,16 @@ public class GuildServiceProvider  implements ApplicationContextAware {
         //用户持有公会引用
         role.setGuildBean(guildBean);
         //数据入库
-        ScheduledThreadPoolUtil.addTask(() -> {
-            mmoGuildPOJOMapper.insert(mmoGuildPOJO);
-            insertGuildRolePOJO(guildRoleBean);
-        });
+
+        insertGuildPOJO(mmoGuildPOJO);
+        insertGuildRolePOJO(guildRoleBean);
         return guildBean;
     }
+
+    private void insertGuildPOJO(MmoGuildPOJO mmoGuildPOJO) {
+        ScheduledThreadPoolUtil.addTask(() -> mmoGuildPOJOMapper.insert(mmoGuildPOJO));
+    }
+
     /**
      * 申请加入公会
      */
@@ -159,17 +164,19 @@ public class GuildServiceProvider  implements ApplicationContextAware {
         //放入公会bean中
         guildBean.addGuildApplyBean(guildApplyBean);
         //数据入库
-        ScheduledThreadPoolUtil.addTask(() -> insertGuildApplyPOJO(guildApplyBean));
+        insertGuildApplyPOJO(guildApplyBean);
     }
 
 
     /**
      * 删除指定的申请
      */
-    public void deleteApply(List<Integer> guildApplyIds) {
-        for (Integer id:guildApplyIds) {
-            mmoGuildApplyPOJOMapper.deleteByPrimaryKey(id);
-        }
+    public  void deleteApply(List<Integer> guildApplyIds) {
+        ScheduledThreadPoolUtil.addTask(() -> {
+            for (Integer id:guildApplyIds) {
+                mmoGuildApplyPOJOMapper.deleteByPrimaryKey(id);
+            }
+        });
     }
 
     /**
@@ -177,7 +184,7 @@ public class GuildServiceProvider  implements ApplicationContextAware {
      * @param guildRoleId
      */
     public void deletePeople(Integer guildRoleId) {
-        mmoGuildRolePOJOMapper.deleteByPrimaryKey(guildRoleId);
+        ScheduledThreadPoolUtil.addTask(() -> mmoGuildRolePOJOMapper.deleteByPrimaryKey(guildRoleId));
     }
 
     /**
@@ -192,22 +199,21 @@ public class GuildServiceProvider  implements ApplicationContextAware {
         guildApplyPOJO.setEndTime(guildApplyBean.getEndTime());
         guildApplyPOJO.setRoleId(guildApplyBean.getRoleId());
         guildApplyPOJO.setId(guildApplyBean.getId());
-        mmoGuildApplyPOJOMapper.insert(guildApplyPOJO);
+        ScheduledThreadPoolUtil.addTask(() -> mmoGuildApplyPOJOMapper.insert(guildApplyPOJO));
     }
     /**
      * 插入数据库角色申请表记录
      * @param guildRoleBean
      * @return
      */
-    public Integer insertGuildRolePOJO(GuildRoleBean guildRoleBean) {
+    public  void insertGuildRolePOJO(GuildRoleBean guildRoleBean) {
         MmoGuildRolePOJO guildRolePOJO=new MmoGuildRolePOJO();
         guildRolePOJO.setGuildId(guildRoleBean.getGuildId());
         guildRolePOJO.setGuildPositionId(guildRoleBean.getGuildPositionId());
         guildRolePOJO.setContribution(guildRoleBean.getContribution());
         guildRolePOJO.setRoleId(guildRoleBean.getRoleId());
         guildRoleBean.setId(guildRoleBean.getId());
-        mmoGuildRolePOJOMapper.insert(guildRolePOJO);
-        return guildRolePOJO.getId();
+        ScheduledThreadPoolUtil.addTask(() -> mmoGuildRolePOJOMapper.insert(guildRolePOJO));
     }
     /**
      * 检测是否有权限
@@ -229,10 +235,11 @@ public class GuildServiceProvider  implements ApplicationContextAware {
     }
 
     public void updateRolePOJO(MmoRolePOJO mmoRolePOJO) {
-        mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO);
+
+        ScheduledThreadPoolUtil.addTask(() ->  mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO));
     }
 
-    public void updateGuildPOJO(GuildBean guildBean) {
+    public  void updateGuildPOJO(GuildBean guildBean) {
         MmoGuildPOJO guildPOJO=new MmoGuildPOJO();
         guildPOJO.setId(guildBean.getId());
         guildPOJO.setName(guildBean.getName());
@@ -241,7 +248,7 @@ public class GuildServiceProvider  implements ApplicationContextAware {
         guildPOJO.setPeopleNum(guildBean.getPeopleNum());
         guildPOJO.setChairmanId(guildBean.getChairmanId());
         guildBean.setMoney(guildBean.getMoney());
-        mmoGuildPOJOMapper.updateByPrimaryKey(guildPOJO);
+        ScheduledThreadPoolUtil.addTask(() -> mmoGuildPOJOMapper.updateByPrimaryKey(guildPOJO));
     }
 
     public void updateGuildRole(GuildRoleBean roleBean) {
@@ -251,6 +258,6 @@ public class GuildServiceProvider  implements ApplicationContextAware {
         mmoGuildRolePOJO.setContribution(roleBean.getContribution());
         mmoGuildRolePOJO.setGuildId(roleBean.getGuildId());
         mmoGuildRolePOJO.setGuildPositionId(roleBean.getGuildPositionId());
-        mmoGuildRolePOJOMapper.updateByPrimaryKey(mmoGuildRolePOJO);
+        ScheduledThreadPoolUtil.addTask(() -> mmoGuildRolePOJOMapper.updateByPrimaryKey(mmoGuildRolePOJO));
     }
 }

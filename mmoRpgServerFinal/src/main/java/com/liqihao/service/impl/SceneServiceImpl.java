@@ -16,13 +16,11 @@ import com.liqihao.pojo.bean.roleBean.BossBean;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleNPC;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.pojo.bean.roleBean.Role;
-import com.liqihao.pojo.bean.taskBean.sceneFirstTask.SceneTaskAction;
-import com.liqihao.pojo.bean.taskBean.skillTask.SkillTaskAction;
 import com.liqihao.pojo.bean.taskBean.talkTask.TalkTaskAction;
 import com.liqihao.protobufObject.SceneModel;
 import com.liqihao.provider.CopySceneProvider;
-import com.liqihao.provider.TaskServiceProvider;
 import com.liqihao.service.SceneService;
+import com.liqihao.util.CommonsUtil;
 import com.liqihao.util.NotificationUtil;
 import io.netty.channel.Channel;
 import org.slf4j.Logger;
@@ -78,35 +76,15 @@ public class SceneServiceImpl implements SceneService {
         //simpleRole
         List<SceneModel.RoleDTO> roleDTOS = new ArrayList<>();
         for (Role mmoRole : nextSceneRoles) {
-            SceneModel.RoleDTO.Builder msr = SceneModel.RoleDTO.newBuilder();
-            msr.setId(mmoRole.getId());
-            msr.setName(mmoRole.getName());
-            msr.setType(mmoRole.getType());
-            msr.setStatus(mmoRole.getStatus());
-            msr.setOnStatus(mmoRole.getOnStatus());
-            msr.setBlood(mmoRole.getHp());
-            msr.setNowBlood(mmoRole.getNowHp());
-            msr.setLevel(mmoRole.getLevel());
-            msr.setEquipmentLevel(mmoRole.getEquipmentLevel());
-            msr.setMp(mmoRole.getMp());
-            msr.setNowMp(mmoRole.getNowMp());
-            msr.setTeamId(mmoRole.getTeamId() == null ? -1 : mmoRole.getTeamId());
-            msr.setAttack(mmoRole.getAttack());
-            msr.setAttackAdd(mmoRole.getDamageAdd());
-            if (mmoRole.getType().equals(RoleTypeCode.PLAYER.getCode())) {
-                MmoSimpleRole r = (MmoSimpleRole) mmoRole;
-                msr.setProfessionId(r.getProfessionId());
-                msr.setGuildName(r.getGuildBean()==null?"":r.getGuildBean().getName());
-                msr.setGuildId(r.getGuildBean()==null?-1:r.getGuildBean().getId());
-            }
-            SceneModel.RoleDTO msrObject = msr.build();
-            roleDTOS.add(msrObject);
+            SceneModel.RoleDTO.Builder msr = CommonsUtil.roleToSceneModelRoleDto(mmoRole);
+            roleDTOS.add(msr.build());
         }
         wentResponseBuilder.setSceneId(nextSceneId);
         wentResponseBuilder.addAllRoleDTO(roleDTOS);
         builder.setWentResponse(wentResponseBuilder.build());
         byte[] data2 = builder.build().toByteArray();
         nettyResponse.setData(data2);
+        //send
         String json= JsonFormat.printToString(builder.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
@@ -123,21 +101,7 @@ public class SceneServiceImpl implements SceneService {
             //NPC
             for (Integer id : sceneBean.getNpcs()) {
                 MmoSimpleNPC temp = NpcMessageCache.getInstance().get(id);
-                MmoSimpleRole roleTemp = new MmoSimpleRole();
-                roleTemp.setId(temp.getId());
-                roleTemp.setName(temp.getName());
-                roleTemp.setStatus(temp.getStatus());
-                roleTemp.setType(temp.getType());
-                roleTemp.setOnStatus(temp.getOnStatus());
-                roleTemp.setHp(temp.getHp());
-                roleTemp.setNowHp(temp.getNowHp());
-                roleTemp.setMp(temp.getMp());
-                roleTemp.setLevel(temp.getLevel());
-                roleTemp.setEquipmentLevel(temp.getEquipmentLevel());
-                roleTemp.setNowMp(temp.getNowMp());
-                roleTemp.setMmoSceneId(temp.getMmoSceneId());
-                roleTemp.setAttack(temp.getAttack());
-                roleTemp.setDamageAdd(temp.getDamageAdd());
+                MmoSimpleRole roleTemp = mmoSimpleNpcToMmoSimpleRole(temp);
                 sceneRoles.add(roleTemp);
             }
             //ROLES
@@ -163,26 +127,7 @@ public class SceneServiceImpl implements SceneService {
         SceneModel.FindAllRolesResponse.Builder findAllRolesResponseBuilder = SceneModel.FindAllRolesResponse.newBuilder();
         List<SceneModel.RoleDTO> roleDTOS = new ArrayList<>();
         for (Role m : sceneRoles) {
-            SceneModel.RoleDTO.Builder msr = SceneModel.RoleDTO.newBuilder().setId(m.getId())
-                    .setName(m.getName())
-                    .setOnStatus(m.getOnStatus())
-                    .setStatus(m.getStatus())
-                    .setType(m.getType())
-                    .setBlood(m.getHp())
-                    .setNowBlood(m.getNowHp())
-                    .setMp(m.getMp())
-                    .setTeamId(m.getTeamId() == null ? -1 : m.getTeamId())
-                    .setNowMp(m.getNowMp())
-                    .setLevel(m.getLevel())
-                    .setEquipmentLevel(m.getEquipmentLevel())
-                    .setAttack(m.getAttack())
-                    .setAttackAdd(m.getDamageAdd());
-            if (m.getType().equals(RoleTypeCode.PLAYER.getCode())) {
-                MmoSimpleRole mmoSimpleRole1 = (MmoSimpleRole) m;
-                msr.setProfessionId(mmoSimpleRole1.getProfessionId());
-                msr.setGuildName(mmoSimpleRole1.getGuildBean()==null?"":mmoSimpleRole1.getGuildBean().getName());
-                msr.setGuildId(mmoSimpleRole1.getGuildBean()==null?-1:mmoSimpleRole1.getGuildBean().getId());
-            }
+            SceneModel.RoleDTO.Builder msr = CommonsUtil.roleToSceneModelRoleDto(m);
             roleDTOS.add(msr.build());
         }
         findAllRolesResponseBuilder.addAllRoleDTO(roleDTOS);
@@ -192,16 +137,18 @@ public class SceneServiceImpl implements SceneService {
         nettyResponse.setCmd(ConstantValue.FIND_ALL_ROLES_RESPONSE);
         nettyResponse.setStateCode(200);
         nettyResponse.setData(data2);
+        //send
         String json= JsonFormat.printToString(messageDataBuilder.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
+
+
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.TALK_NPC_REQUEST, module = ConstantValue.SCENE_MODULE)
     public void talkNpcRequest(SceneModel.SceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws RpgServerException {
         Channel channel = mmoSimpleRole.getChannel();
         Integer npcId = myMessage.getTalkNPCRequest().getRoleId();
-
         //缓存中获取NPC
         MmoSimpleNPC npc = NpcMessageCache.getInstance().get(npcId);
         if (!npc.getMmoSceneId().equals(mmoSimpleRole.getMmoSceneId())) {
@@ -212,20 +159,39 @@ public class SceneServiceImpl implements SceneService {
         taskAction.setRoleId(npcId);
         taskAction.setTaskTargetType(TaskTargetTypeCode.TALK.getCode());
         mmoSimpleRole.getTaskManager().handler(taskAction,mmoSimpleRole);
-        //无问题 返回npcId
+        //protobuf
         SceneModel.SceneModelMessage messageData;
         messageData = SceneModel.SceneModelMessage.newBuilder()
                 .setDataType(SceneModel.SceneModelMessage.DateType.TalkNPCResponse)
                 .setTalkNPCResponse(SceneModel.TalkNPCResponse.newBuilder().setNpcId(npcId).build()).build();
-        //封装到NettyResponse中
         NettyResponse response = new NettyResponse();
         response.setCmd(ConstantValue.TALK_NPC_RESPONSE);
         response.setStateCode(StateCode.SUCCESS);
         byte[] data2 = messageData.toByteArray();
         response.setData(data2);
+        //send
         String json= JsonFormat.printToString(messageData);
         NotificationUtil.sendMessage(channel,response,json);
     }
 
 
+
+    private MmoSimpleRole mmoSimpleNpcToMmoSimpleRole(MmoSimpleNPC temp) {
+        MmoSimpleRole roleTemp = new MmoSimpleRole();
+        roleTemp.setId(temp.getId());
+        roleTemp.setName(temp.getName());
+        roleTemp.setStatus(temp.getStatus());
+        roleTemp.setType(temp.getType());
+        roleTemp.setOnStatus(temp.getOnStatus());
+        roleTemp.setHp(temp.getHp());
+        roleTemp.setNowHp(temp.getNowHp());
+        roleTemp.setMp(temp.getMp());
+        roleTemp.setLevel(temp.getLevel());
+        roleTemp.setEquipmentLevel(temp.getEquipmentLevel());
+        roleTemp.setNowMp(temp.getNowMp());
+        roleTemp.setMmoSceneId(temp.getMmoSceneId());
+        roleTemp.setAttack(temp.getAttack());
+        roleTemp.setDamageAdd(temp.getDamageAdd());
+        return roleTemp;
+    }
 }

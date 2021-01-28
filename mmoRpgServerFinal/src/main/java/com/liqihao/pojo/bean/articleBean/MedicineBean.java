@@ -31,6 +31,8 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import static com.liqihao.util.DbUtil.deleteWareHouseById;
+
 /**
  * medicine bean
  *
@@ -174,10 +176,10 @@ public class MedicineBean  implements Article{
                 setBagId(null);
                 backPackManager.getBackpacks().remove(this);
                 backPackManager.setNowSize(backPackManager.getNowSize()-1);
-                ScheduledThreadPoolUtil.addTask(() -> DbUtil.deleteBagById(bagId));
+                DbUtil.deleteBagById(bagId);
             }else {
                 MedicineBean medicineBean=this;
-                ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateBagMedicine(medicineBean,roleId));
+                DbUtil.updateBagMedicine(medicineBean,roleId);
             }
             return this;
         } else {
@@ -240,12 +242,12 @@ public class MedicineBean  implements Article{
                 if (sum <= ConstantValue.BAG_MAX_VALUE) {
                     //不超过加上
                     temp.setQuantity(sum);
-                    ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateBagMedicine(temp,roleId));
+                    DbUtil.updateBagMedicine(temp,roleId);
                     return true;
                 }
                 number = number - (ConstantValue.BAG_MAX_VALUE - temp.getQuantity());
                 temp.setQuantity(ConstantValue.BAG_MAX_VALUE);
-                ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateBagMedicine(temp,roleId));
+                DbUtil.updateBagMedicine(temp,roleId);
             }
         }
         //表明背包中没有该物品或者该物品的数量都是99或者是剩余的 新建
@@ -270,7 +272,7 @@ public class MedicineBean  implements Article{
                 articleDto.setId(getMedicineMessageId());
                 articleDto.setArticleType(getArticleTypeCode());
                 articleDto.setBagId(newMedicine.getBagId());
-                ScheduledThreadPoolUtil.addTask(() -> DbUtil.insertBag(articleDto,roleId));
+                DbUtil.insertBag(articleDto,roleId);
             }
             return true;
         }
@@ -292,9 +294,8 @@ public class MedicineBean  implements Article{
         setBagId(null);
         backPackManager.put(this,roleId);
         //数据库
-        ScheduledThreadPoolUtil.addTask(() -> {
-            DbUtil.deleteBagById(oldBagId);
-        });
+        DbUtil.deleteBagById(oldBagId);
+
     }
 
     /**
@@ -454,11 +455,7 @@ public class MedicineBean  implements Article{
         //设置仓库id
         wareHouseManager.putWareHouse(this,guildId);
         //数据库
-        ScheduledThreadPoolUtil.addTask(() -> {
-            DbUtil.deleteWareHouseById(wareHouseDBId);
-        });
-
-
+        deleteWareHouseById(wareHouseDBId);
     }
 
     /**
@@ -540,12 +537,12 @@ public class MedicineBean  implements Article{
                 if (sum <= ConstantValue.BAG_MAX_VALUE) {
                     //不超过加上
                     temp.setQuantity(sum);
-                    ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateWareHouseMedicine(temp,guildId));
+                    DbUtil.updateWareHouseMedicine(temp,guildId);
                     return true;
                 } else {
                     number = number - (ConstantValue.BAG_MAX_VALUE - temp.getQuantity());
                     temp.setQuantity(ConstantValue.BAG_MAX_VALUE);
-                    ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateWareHouseMedicine(temp,guildId));
+                    DbUtil.updateWareHouseMedicine(temp,guildId);
                 }
             }
         }
@@ -572,7 +569,7 @@ public class MedicineBean  implements Article{
                 articleDto.setId(getMedicineMessageId());
                 articleDto.setArticleType(getArticleTypeCode());
                 articleDto.setWareHouseDBId(newMedicine.getWareHouseDBId());
-                ScheduledThreadPoolUtil.addTask(() -> DbUtil.insertMedicineWareHouse(articleDto,guildId));
+                DbUtil.insertMedicineWareHouse(articleDto,guildId);
             }
             return true;
         }
@@ -595,10 +592,10 @@ public class MedicineBean  implements Article{
                 wareHouseManager.getBackpacks().remove(this);
                 wareHouseManager.reduceAndReturnNowSize();
                 wareHouseManager.reduceAndReturnWareHouseId();
-                ScheduledThreadPoolUtil.addTask(() -> DbUtil.deleteWareHouseById(wareHouseDBId));
+                deleteWareHouseById(wareHouseDBId);
             }else {
                 MedicineBean medicineBean=this;
-                ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateWareHouseMedicine(medicineBean,guildId));
+                DbUtil.updateWareHouseMedicine(medicineBean,guildId);
             }
             return this;
         } else {

@@ -109,7 +109,7 @@ public abstract class Role {
         Integer nowLevel=nowExp/10;
         upLevel(nowLevel);
         MmoSimpleRole mmoSimpleRole= (MmoSimpleRole) this;
-        ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateRole(mmoSimpleRole));
+        DbUtil.updateRole(mmoSimpleRole);
     }
 
     /**

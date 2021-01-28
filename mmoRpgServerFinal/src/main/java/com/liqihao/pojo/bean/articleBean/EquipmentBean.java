@@ -218,7 +218,7 @@ public class EquipmentBean implements Article{
         backPackManager.getBackpacks().remove(this);
         backPackManager.setNowSize(backPackManager.getNowSize()-1);
         //数据库
-        ScheduledThreadPoolUtil.addTask(() -> DbUtil.deleteBagById(bagId));
+        DbUtil.deleteBagById(bagId);
         return this;
     }
 
@@ -276,7 +276,7 @@ public class EquipmentBean implements Article{
             articleDto.setEquipmentId(getEquipmentId());
             articleDto.setArticleType(getArticleTypeCode());
             articleDto.setBagId(getBagId());
-            ScheduledThreadPoolUtil.addTask(() -> DbUtil.insertBag(articleDto,roleId));
+            DbUtil.insertBag(articleDto,roleId);
             return true;
         }
     }
@@ -301,9 +301,9 @@ public class EquipmentBean implements Article{
         articleDto.setEquipmentId(getEquipmentId());
         articleDto.setArticleType(getArticleTypeCode());
         articleDto.setBagId(getBagId());
-        ScheduledThreadPoolUtil.addTask(() -> {
-            DbUtil.deleteBagById(oldBagId);
-        });
+
+        DbUtil.deleteBagById(oldBagId);
+
     }
 
     /**
@@ -338,7 +338,7 @@ public class EquipmentBean implements Article{
                 Integer oldEquipmentBagId=oldBean.getEquipmentBagId();
                 oldBean.setEquipmentBagId(null);
                 //入库
-                ScheduledThreadPoolUtil.addTask(() -> DbUtil.deleteEquipmentBagById(oldEquipmentBagId));
+                DbUtil.deleteEquipmentBagById(oldEquipmentBagId);
                 backpackManager.put(oldBean,mmoSimpleRole.getId());
             }
             //背包减少装备
@@ -363,7 +363,7 @@ public class EquipmentBean implements Article{
             //插入数据库
             EquipmentBean equipmentBean=this;
             Integer roleId=mmoSimpleRole.getId();
-            ScheduledThreadPoolUtil.addTask(() -> DbUtil.addEquipmentBagPOJO(equipmentBean,roleId));
+             DbUtil.addEquipmentBagPOJO(equipmentBean,roleId);
             //人物属性
             mmoSimpleRole.setAttack(mmoSimpleRole.getAttack() + equipmentMessage.getAttackAdd());
             mmoSimpleRole.setDamageAdd(mmoSimpleRole.getDamageAdd() + equipmentMessage.getDamageAdd());
@@ -381,9 +381,8 @@ public class EquipmentBean implements Article{
         Integer wareHouseDBId=getWareHouseDBId();
         wareHouseManager.putWareHouse(this,guildId);
         //数据库
-        ScheduledThreadPoolUtil.addTask(() -> {
-            DbUtil.deleteWareHouseById(wareHouseDBId);
-        });
+        DbUtil.deleteWareHouseById(wareHouseDBId);
+
     }
 
     /**
@@ -428,10 +427,8 @@ public class EquipmentBean implements Article{
             articleDto.setArticleType(getArticleTypeCode());
             articleDto.setWareHouseDBId(getWareHouseDBId());
             //入库
-            ScheduledThreadPoolUtil.addTask(() -> {
-                DbUtil.insertEquipmentWareHouse(articleDto,guildId);
-                DbUtil.deleteBagById(bagId);
-            });
+            DbUtil.insertEquipmentWareHouse(articleDto,guildId);
+            DbUtil.deleteBagById(bagId);
             return true;
         }
     }
@@ -444,7 +441,7 @@ public class EquipmentBean implements Article{
         wareHouseManager.getBackpacks().remove(this);
         wareHouseManager.reduceAndReturnNowSize();
         //数据库
-        ScheduledThreadPoolUtil.addTask(() -> DbUtil.deleteWareHouseById(wareHouseDBId));
+         DbUtil.deleteWareHouseById(wareHouseDBId);
         return this;
     }
 

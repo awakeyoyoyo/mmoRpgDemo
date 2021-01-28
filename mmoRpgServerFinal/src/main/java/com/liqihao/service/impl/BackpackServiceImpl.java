@@ -58,12 +58,13 @@ public class BackpackServiceImpl implements BackpackService {
             NettyResponse nettyResponse = new NettyResponse();
             nettyResponse.setCmd(ConstantValue.ABANDON_RESPONSE);
             nettyResponse.setStateCode(StateCode.SUCCESS);
-            //protobuf 生成registerResponse
+            //protobuf
             BackPackModel.BackPackModelMessage.Builder messageData = BackPackModel.BackPackModelMessage.newBuilder();
             messageData.setDataType(BackPackModel.BackPackModelMessage.DateType.AbandonResponse);
             BackPackModel.AbandonResponse.Builder abandonResponseBuilder = BackPackModel.AbandonResponse.newBuilder();
             messageData.setAbandonResponse(abandonResponseBuilder.build());
             nettyResponse.setData(messageData.build().toByteArray());
+            //send
             String json= JsonFormat.printToString(myMessage);
             NotificationUtil.sendMessage(channel,nettyResponse,json);
         }
@@ -90,13 +91,14 @@ public class BackpackServiceImpl implements BackpackService {
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.BACKPACK_MSG_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        //protobuf 生成registerResponse
+        //protobuf
         BackPackModel.BackPackModelMessage.Builder messageData = BackPackModel.BackPackModelMessage.newBuilder();
         messageData.setDataType(BackPackModel.BackPackModelMessage.DateType.BackPackResponse);
         BackPackModel.BackPackResponse.Builder backPackResponse = BackPackModel.BackPackResponse.newBuilder();
         backPackResponse.addAllArticleDtos(articleDtoList);
         messageData.setBackPackResponse(backPackResponse.build());
         nettyResponse.setData(messageData.build().toByteArray());
+        //send
         String json= JsonFormat.printToString(myMessage);
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
@@ -113,12 +115,13 @@ public class BackpackServiceImpl implements BackpackService {
             throw new RpgServerException(StateCode.FAIL,"使用道具失败");
         }
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        //protobuf 生成registerResponse
+        //protobuf
         BackPackModel.BackPackModelMessage.Builder messageData = BackPackModel.BackPackModelMessage.newBuilder();
         messageData.setDataType(BackPackModel.BackPackModelMessage.DateType.UseResponse);
         BackPackModel.UseResponse.Builder useResponse = BackPackModel.UseResponse.newBuilder();
         messageData.setUseResponse(useResponse.build());
         nettyResponse.setData(messageData.build().toByteArray());
+        //send
         String json= JsonFormat.printToString(myMessage);
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
@@ -161,11 +164,13 @@ public class BackpackServiceImpl implements BackpackService {
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.ADD_ARTICLE_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
+        //protobuf
         BackPackModel.BackPackModelMessage.Builder messageData = BackPackModel.BackPackModelMessage.newBuilder();
         messageData.setDataType(BackPackModel.BackPackModelMessage.DateType.AddArticleResponse);
         BackPackModel.AddArticleResponse.Builder addArticleResponse = BackPackModel.AddArticleResponse.newBuilder();
         messageData.setAddArticleResponse(addArticleResponse.build());
         nettyResponse.setData(messageData.build().toByteArray());
+        //send
         String json= JsonFormat.printToString(myMessage);
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
@@ -183,41 +188,21 @@ public class BackpackServiceImpl implements BackpackService {
         List<BackPackModel.ArticleFloorDto> resultList = new ArrayList<>();
         if (copySceneBean.getArticlesMap().size() > 0) {
             for (Article a : copySceneBean.getArticlesMap().values()) {
-                BackPackModel.ArticleFloorDto.Builder dtoBuilder = BackPackModel.ArticleFloorDto.newBuilder();
-                if (a.getArticleTypeCode().equals(ArticleTypeCode.EQUIPMENT.getCode())) {
-                    //装备
-                    EquipmentBean equipmentBean = (EquipmentBean) a;
-                    EquipmentMessage equipmentMessage=EquipmentMessageCache.getInstance().get(equipmentBean.getEquipmentMessageId());
-                    dtoBuilder.setId(equipmentMessage.getId())
-                            .setArticleType(equipmentMessage.getArticleType())
-                            .setFloorIndex(equipmentBean.getFloorIndex())
-                            .setNowDurability(equipmentBean.getNowDurability())
-                            .setQuantity(1)
-                            .setEquipmentId(equipmentBean.getEquipmentId());
-                } else {
-                    //道具
-                    MedicineBean medicineBean = (MedicineBean) a;
-                    MedicineMessage medicineMessage= MedicineMessageCache.getInstance().get(medicineBean.getMedicineMessageId());
-                    dtoBuilder.setId(medicineBean.getMedicineMessageId())
-                            .setArticleType(medicineMessage.getArticleType())
-                            .setFloorIndex(medicineBean.getFloorIndex())
-                            .setNowDurability(-1)
-                            .setQuantity(medicineBean.getQuantity())
-                            .setEquipmentId(-1);
-                }
+                BackPackModel.ArticleFloorDto.Builder dtoBuilder = articleToFloorDto(a);
                 resultList.add(dtoBuilder.build());
             }
         }
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.FIND_ALL_CAN_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        //protobuf 生成registerResponse
+        //protobuf
         BackPackModel.BackPackModelMessage.Builder messageData = BackPackModel.BackPackModelMessage.newBuilder();
         messageData.setDataType(BackPackModel.BackPackModelMessage.DateType.FindAllCanGetResponse);
         BackPackModel.FindAllCanGetResponse.Builder findAllCanGetBuilder = BackPackModel.FindAllCanGetResponse.newBuilder();
         findAllCanGetBuilder.addAllArticleFloorDto(resultList);
         messageData.setFindAllCanGetResponse(findAllCanGetBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
+        //send
         String json= JsonFormat.printToString(myMessage);
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
@@ -247,11 +232,13 @@ public class BackpackServiceImpl implements BackpackService {
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.GET_ARTICLE_FROM_FLOOR_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
+        //protobuf
         BackPackModel.BackPackModelMessage.Builder messageData = BackPackModel.BackPackModelMessage.newBuilder();
         messageData.setDataType(BackPackModel.BackPackModelMessage.DateType.GetArticleFromFloorResponse);
         BackPackModel.GetArticleFromFloorResponse.Builder getArticleFromFloorResponseBuilder = BackPackModel.GetArticleFromFloorResponse.newBuilder();
         messageData.setGetArticleFromFloorResponse(getArticleFromFloorResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
+        //send
         String json= JsonFormat.printToString(myMessage);
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
@@ -265,11 +252,13 @@ public class BackpackServiceImpl implements BackpackService {
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.CHECK_MONEY_NUMBER_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
+        //protobuf
         BackPackModel.BackPackModelMessage.Builder messageData = BackPackModel.BackPackModelMessage.newBuilder();
         messageData.setDataType(BackPackModel.BackPackModelMessage.DateType.CheckMoneyNumberResponse);
         BackPackModel.CheckMoneyNumberResponse.Builder checkMoneyNumberResponseBuilder = BackPackModel.CheckMoneyNumberResponse.newBuilder().setMoney(money);
         messageData.setCheckMoneyNumberResponse(checkMoneyNumberResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
+        //send
         String json= JsonFormat.printToString(myMessage);
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
@@ -289,11 +278,13 @@ public class BackpackServiceImpl implements BackpackService {
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.BUY_GOODS_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
+        //protobuf
         BackPackModel.BackPackModelMessage.Builder messageData = BackPackModel.BackPackModelMessage.newBuilder();
         messageData.setDataType(BackPackModel.BackPackModelMessage.DateType.BuyGoodsResponse);
         BackPackModel.BuyGoodsResponse.Builder buyGoodsResponseBuilder = BackPackModel.BuyGoodsResponse.newBuilder();
         messageData.setBuyGoodsResponse(buyGoodsResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
+        //send
         String json= JsonFormat.printToString(myMessage);
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
@@ -316,11 +307,13 @@ public class BackpackServiceImpl implements BackpackService {
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.FIND_ALL_GOODS_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
+        //protobuf
         BackPackModel.BackPackModelMessage.Builder messageData = BackPackModel.BackPackModelMessage.newBuilder();
         messageData.setDataType(BackPackModel.BackPackModelMessage.DateType.FindAllGoodsResponse);
         BackPackModel.FindAllGoodsResponse.Builder findAllGoodsResponse = BackPackModel.FindAllGoodsResponse.newBuilder().addAllGoodsDtos(goodsDtos);
         messageData.setFindAllGoodsResponse(findAllGoodsResponse.build());
         nettyResponse.setData(messageData.build().toByteArray());
+        //send
         String json= JsonFormat.printToString(myMessage);
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
@@ -329,5 +322,38 @@ public class BackpackServiceImpl implements BackpackService {
     @HandlerCmdTag(cmd = ConstantValue.SORT_BACKPACK_REQUEST, module = ConstantValue.BAKCPACK_MODULE)
     public void sortBackPack(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws Exception {
         mmoSimpleRole.getBackpackManager().clearBackPack(mmoSimpleRole.getId());
+    }
+    
+    /**
+     * description 物品转化成传输dto
+     * @param article
+     * @return {@link BackPackModel.ArticleFloorDto.Builder }
+     * @author lqhao
+     * @createTime 2021/1/28 15:39
+     */
+    public BackPackModel.ArticleFloorDto.Builder articleToFloorDto(Article article){
+        BackPackModel.ArticleFloorDto.Builder dtoBuilder = BackPackModel.ArticleFloorDto.newBuilder();
+        if (article.getArticleTypeCode().equals(ArticleTypeCode.EQUIPMENT.getCode())) {
+            //装备
+            EquipmentBean equipmentBean = (EquipmentBean) article;
+            EquipmentMessage equipmentMessage=EquipmentMessageCache.getInstance().get(equipmentBean.getEquipmentMessageId());
+            dtoBuilder.setId(equipmentMessage.getId())
+                    .setArticleType(equipmentMessage.getArticleType())
+                    .setFloorIndex(equipmentBean.getFloorIndex())
+                    .setNowDurability(equipmentBean.getNowDurability())
+                    .setQuantity(1)
+                    .setEquipmentId(equipmentBean.getEquipmentId());
+        } else {
+            //道具
+            MedicineBean medicineBean = (MedicineBean) article;
+            MedicineMessage medicineMessage= MedicineMessageCache.getInstance().get(medicineBean.getMedicineMessageId());
+            dtoBuilder.setId(medicineBean.getMedicineMessageId())
+                    .setArticleType(medicineMessage.getArticleType())
+                    .setFloorIndex(medicineBean.getFloorIndex())
+                    .setNowDurability(-1)
+                    .setQuantity(medicineBean.getQuantity())
+                    .setEquipmentId(-1);
+        }
+        return dtoBuilder;
     }
 }

@@ -164,10 +164,10 @@ public class DealBankArticleBean {
             DealBankServiceProvider.sendFailToBuyer(dealBankAuctionBean,DealBankServiceProvider.AUCTION_FAIL_TITLE,DealBankServiceProvider.AUCTION_FAIL_PRICE);
             Integer dealBankAuctionDbId=dealBankAuctionBean.getDealBeanAuctionBeanDbId();
             //Db删除
-            ScheduledThreadPoolUtil.addTask(() -> DealBankServiceProvider.deleteDealBankAuctionById(dealBankAuctionDbId));
+            DealBankServiceProvider.deleteDealBankAuctionById(dealBankAuctionDbId);
         }
         //db删除
         Integer dealBankArticleDbId=getDealBankArticleDbId();
-        ScheduledThreadPoolUtil.addTask(() -> DealBankServiceProvider.deleteDealBankArticleById(dealBankArticleDbId));
+        DealBankServiceProvider.deleteDealBankArticleById(dealBankArticleDbId);
     }
 }

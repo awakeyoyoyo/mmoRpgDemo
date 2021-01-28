@@ -49,11 +49,12 @@ public class EquipmentServiceImpl implements EquipmentService {
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.ADD_EQUIPMENT_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        //protobuf 生成registerResponse
+        //protobuf
         EquipmentModel.EquipmentModelMessage.Builder messageBuilder = EquipmentModel.EquipmentModelMessage.newBuilder();
         messageBuilder.setDataType(EquipmentModel.EquipmentModelMessage.DateType.AddEquipmentResponse);
         messageBuilder.setAddEquipmentResponse(EquipmentModel.AddEquipmentResponse.newBuilder().build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
+        //send
         String json= JsonFormat.printToString(messageBuilder.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
@@ -73,10 +74,12 @@ public class EquipmentServiceImpl implements EquipmentService {
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.EQUIPMENT_MSG_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
+        //protobuf
         EquipmentModel.EquipmentModelMessage.Builder messageBuilder = EquipmentModel.EquipmentModelMessage.newBuilder();
         messageBuilder.setDataType(EquipmentModel.EquipmentModelMessage.DateType.EquipmentMsgResponse);
         messageBuilder.setEquipmentMsgResponse(EquipmentModel.EquipmentMsgResponse.newBuilder().addAllEquipments(equipmentDtoList).build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
+        //send
         String json= JsonFormat.printToString(messageBuilder.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
@@ -85,7 +88,7 @@ public class EquipmentServiceImpl implements EquipmentService {
     @HandlerCmdTag(cmd = ConstantValue.REDUCE_EQUIPMENT_REQUEST, module = ConstantValue.EQUIPMENT_MODULE)
     public void reduceEquipmentRequest(EquipmentModel.EquipmentModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws Exception {
 
-        Integer position = myMessage.getReduceEquipmentRequest().getPosition();
+        int position = myMessage.getReduceEquipmentRequest().getPosition();
         Channel channel = mmoSimpleRole.getChannel();
         if (position > 6 || position <= 0) {
             throw new RpgServerException(StateCode.FAIL,"传入无效的部位id");
@@ -98,10 +101,12 @@ public class EquipmentServiceImpl implements EquipmentService {
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.REDUCE_EQUIPMENT_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
+        //protobuf
         EquipmentModel.EquipmentModelMessage.Builder messageBuilder = EquipmentModel.EquipmentModelMessage.newBuilder();
         messageBuilder.setDataType(EquipmentModel.EquipmentModelMessage.DateType.ReduceEquipmentResponse);
         messageBuilder.setReduceEquipmentResponse(EquipmentModel.ReduceEquipmentResponse.newBuilder().build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
+        //send
         String json= JsonFormat.printToString(messageBuilder.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
@@ -121,14 +126,16 @@ public class EquipmentServiceImpl implements EquipmentService {
         EquipmentBean equipmentBean = (EquipmentBean) article;
         //修复武器
         equipmentBean.fixDurability();
-        ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateEquipment(equipmentBean));
+        DbUtil.updateEquipment(equipmentBean);
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.FIX_EQUIPMENT_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
+        //protobuf
         EquipmentModel.EquipmentModelMessage.Builder messageBuilder = EquipmentModel.EquipmentModelMessage.newBuilder();
         messageBuilder.setDataType(EquipmentModel.EquipmentModelMessage.DateType.FixEquipmentResponse);
         messageBuilder.setFixEquipmentResponse(EquipmentModel.FixEquipmentResponse.newBuilder().build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
+        //send
         String json= JsonFormat.printToString(messageBuilder.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }

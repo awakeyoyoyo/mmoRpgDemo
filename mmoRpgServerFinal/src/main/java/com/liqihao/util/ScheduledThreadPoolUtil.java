@@ -359,7 +359,6 @@ public class ScheduledThreadPoolUtil {
 
     /**
      * npc复活线程
-     * todo
      */
     public static class NpcRestartTask implements Runnable{
         private MmoSimpleNPC npc;

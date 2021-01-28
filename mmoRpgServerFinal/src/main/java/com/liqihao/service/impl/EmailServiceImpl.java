@@ -47,6 +47,7 @@ public class EmailServiceImpl implements EmailService {
             throw new RpgServerException(StateCode.FAIL,"没有该id的邮件");
         }
         EmailModel.EmailDto emailDto= CommonsUtil.mmoEmailBeanToEmailDto(mmoEmailBean);
+        //protobuf
         EmailModel.EmailModelMessage messageData=EmailModel.EmailModelMessage.newBuilder()
                 .setDataType(EmailModel.EmailModelMessage.DateType.GetEmailMessageResponse)
                 .setGetEmailMessageResponse(EmailModel.GetEmailMessageResponse.newBuilder().setEmailDto(emailDto).build()).build();
@@ -54,6 +55,7 @@ public class EmailServiceImpl implements EmailService {
         nettyResponse.setCmd(ConstantValue.GET_EMAIL_MESSAGE_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(messageData.toByteArray());
+        //send
         String json= JsonFormat.printToString(messageData);
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
@@ -84,33 +86,14 @@ public class EmailServiceImpl implements EmailService {
             MedicineMessage medicineMessage= MedicineMessageCache.getInstance().get(mmoEmailBean.getArticleMessageId());
             MedicineBean medicineBean=CommonsUtil.medicineMessageToMedicineBean(medicineMessage);
             medicineBean.setQuantity(mmoEmailBean.getArticleNum());
-            //上锁
-            synchronized (mmoSimpleRole.getBackpackManager()) {
-                if (!mmoSimpleRole.getBackpackManager().canPutArticle(medicineBean)) {
-                    throw new RpgServerException(StateCode.FAIL,"背包已经满了");
-                }
-                mmoSimpleRole.getBackpackManager().put(medicineBean,mmoSimpleRole.getId());
-            }
-            //邮件设置为没有物品
-            mmoEmailBean.setHasArticle(true);
-            mmoEmailBean.setGetFlag(true);
-            //数据库更新
-            ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateEmailBeanDb(mmoEmailBean));
+            //上锁 获取物品
+            getArticle(mmoSimpleRole,medicineBean,mmoEmailBean);
         }else{
             EquipmentBean equipmentBean= ArticleServiceProvider.getEquipmentBeanConcurrentHashMap().get(mmoEmailBean.getEquipmentId());
-            //上锁
-            synchronized (mmoSimpleRole.getBackpackManager()) {
-                if (!mmoSimpleRole.getBackpackManager().canPutArticle(equipmentBean)) {
-                    throw new RpgServerException(StateCode.FAIL,"背包已经满了");
-                }
-                mmoSimpleRole.getBackpackManager().put(equipmentBean,mmoSimpleRole.getId());
-            }
-            //邮件设置为没有物品
-            mmoEmailBean.setHasArticle(true);
-            mmoEmailBean.setGetFlag(true);
-            //数据库更新
-            ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateEmailBeanDb(mmoEmailBean));
+            //上锁 获取物品
+            getArticle(mmoSimpleRole,equipmentBean,mmoEmailBean);
         }
+        //protobuf
         EmailModel.EmailModelMessage messageData=EmailModel.EmailModelMessage.newBuilder()
                 .setDataType(EmailModel.EmailModelMessage.DateType.GetEmailArticleResponse)
                 .setGetEmailArticleResponse(EmailModel.GetEmailArticleResponse.newBuilder().build()).build();
@@ -118,6 +101,7 @@ public class EmailServiceImpl implements EmailService {
         nettyResponse.setCmd(ConstantValue.GET_EMAIL_ARTICLE_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(messageData.toByteArray());
+        //send
         String json= JsonFormat.printToString(messageData);
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
@@ -144,10 +128,9 @@ public class EmailServiceImpl implements EmailService {
         }
         mmoEmailBean.setGetMoneyFlag(true);
         mmoSimpleRole.setMoney(mmoSimpleRole.getMoney()+mmoEmailBean.getMoney());
-        ScheduledThreadPoolUtil.addTask(() -> {
-            DbUtil.updateEmailBeanDb(mmoEmailBean);
-            DbUtil.updateRole(mmoSimpleRole);
-        });
+
+        DbUtil.updateEmailBeanDb(mmoEmailBean);
+        DbUtil.updateRole(mmoSimpleRole);
     }
 
     @Override
@@ -162,6 +145,7 @@ public class EmailServiceImpl implements EmailService {
                 list.add(emailSimpleDto);
             }
         }
+        //protobuf
         EmailModel.EmailModelMessage messageData=EmailModel.EmailModelMessage.newBuilder()
                 .setDataType(EmailModel.EmailModelMessage.DateType.AcceptEmailListResponse)
                 .setAcceptEmailListResponse(EmailModel.AcceptEmailListResponse.newBuilder().addAllEmailSimpleDtos(list).build()).build();
@@ -169,6 +153,7 @@ public class EmailServiceImpl implements EmailService {
         nettyResponse.setCmd(ConstantValue.ACCEPT_EMAIL_LIST_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(messageData.toByteArray());
+        //send
         String json= JsonFormat.printToString(messageData);
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
@@ -188,6 +173,7 @@ public class EmailServiceImpl implements EmailService {
                 list.add(emailSimpleDto);
             }
         }
+        //protobuf
         EmailModel.EmailModelMessage messageData=EmailModel.EmailModelMessage.newBuilder()
                 .setDataType(EmailModel.EmailModelMessage.DateType.IsSendEmailListResponse)
                 .setIsSendEmailListResponse(EmailModel.IsSendEmailListResponse.newBuilder().addAllEmailSimpleDtos(list).build()).build();
@@ -195,7 +181,9 @@ public class EmailServiceImpl implements EmailService {
         nettyResponse.setCmd(ConstantValue.IS_SEND_EMAIL_LIST_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(messageData.toByteArray());
-        channel.writeAndFlush(nettyResponse);
+        //send
+        String json= JsonFormat.printToString(messageData);
+        NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 
     @Override
@@ -239,6 +227,7 @@ public class EmailServiceImpl implements EmailService {
         mmoEmailBean.setFromRoleId(mmoSimpleRole.getId());
         //发邮件
         EmailServiceProvider.sendArticleEmail(mmoSimpleRole,toRole,mmoEmailBean);
+        //protobuf
         EmailModel.EmailModelMessage messageData=EmailModel.EmailModelMessage.newBuilder()
                 .setDataType(EmailModel.EmailModelMessage.DateType.SendEmailResponse)
                 .setSendEmailResponse(EmailModel.SendEmailResponse.newBuilder().build()).build();
@@ -246,7 +235,9 @@ public class EmailServiceImpl implements EmailService {
         nettyResponse.setCmd(ConstantValue.SEND_EMAIL_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(messageData.toByteArray());
-        channel.writeAndFlush(nettyResponse);
+        //send
+        String json= JsonFormat.printToString(messageData);
+        NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 
     @Override
@@ -256,6 +247,7 @@ public class EmailServiceImpl implements EmailService {
         Channel channel = mmoSimpleRole.getChannel();
         //删除邮件
         EmailServiceProvider.deleteAcceptEmail(mmoSimpleRole,emailId);
+        //protobuf
         EmailModel.EmailModelMessage messageData=EmailModel.EmailModelMessage.newBuilder()
                 .setDataType(EmailModel.EmailModelMessage.DateType.DeleteAcceptEmailResponse)
                 .setDeleteAcceptEmailResponse(EmailModel.DeleteAcceptEmailResponse.newBuilder().build()).build();
@@ -263,7 +255,9 @@ public class EmailServiceImpl implements EmailService {
         nettyResponse.setCmd(ConstantValue.DELETE_ACCEPT_EMAIL_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(messageData.toByteArray());
-        channel.writeAndFlush(nettyResponse);
+        //send
+        String json= JsonFormat.printToString(messageData);
+        NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 
     @Override
@@ -273,6 +267,7 @@ public class EmailServiceImpl implements EmailService {
         Channel channel = mmoSimpleRole.getChannel();
         //删除邮件
         EmailServiceProvider.deleteIsSendEmail(mmoSimpleRole,emailId);
+        //protobuf
         EmailModel.EmailModelMessage messageData=EmailModel.EmailModelMessage.newBuilder()
                 .setDataType(EmailModel.EmailModelMessage.DateType.DeleteSendEmailResponse)
                 .setDeleteSendEmailResponse(EmailModel.DeleteSendEmailResponse.newBuilder().build()).build();
@@ -280,6 +275,31 @@ public class EmailServiceImpl implements EmailService {
         nettyResponse.setCmd(ConstantValue.DELETE_SEND_EMAIL_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(messageData.toByteArray());
-        channel.writeAndFlush(nettyResponse);
+        //send
+        String json= JsonFormat.printToString(messageData);
+        NotificationUtil.sendMessage(channel,nettyResponse,json);
+    }
+
+    /**
+     * description 获取邮件中的物品
+     * @param mmoSimpleRole
+     * @param article
+     * @param mmoEmailBean
+     * @return {@link null }
+     * @author lqhao
+     * @createTime 2021/1/28 15:12
+     */
+    public void getArticle(MmoSimpleRole mmoSimpleRole,Article article,EmailBean mmoEmailBean) throws RpgServerException {
+        synchronized (mmoSimpleRole.getBackpackManager()) {
+            if (!mmoSimpleRole.getBackpackManager().canPutArticle(article)) {
+                throw new RpgServerException(StateCode.FAIL,"背包已经满了");
+            }
+            mmoSimpleRole.getBackpackManager().put(article,mmoSimpleRole.getId());
+        }
+        //邮件设置为没有物品
+        mmoEmailBean.setHasArticle(true);
+        mmoEmailBean.setGetFlag(true);
+        //数据库更新
+        DbUtil.updateEmailBeanDb(mmoEmailBean);
     }
 }

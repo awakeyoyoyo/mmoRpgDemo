@@ -6,7 +6,7 @@ import com.liqihao.pojo.dto.ArticleDto;
 import java.util.List;
 
 /**
- * 交易模块
+ * 交易bean
  * @author lqhao
  */
 public class DealBean {
@@ -16,7 +16,7 @@ public class DealBean {
     private DealArticleBean firstDealArticleBean;
     private DealArticleBean secondDealArticleBean;
     private volatile Integer status;
-    public Object lock=new Object();
+    public static Object lock=new Object();
     public Integer getStatus() {
         return status;
     }

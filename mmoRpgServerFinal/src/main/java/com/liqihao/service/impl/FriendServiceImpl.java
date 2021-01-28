@@ -55,6 +55,7 @@ public class FriendServiceImpl implements FriendService {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(messageData.toByteArray());
         Channel channel=mmoSimpleRole.getChannel();
+        //send
         if (channel!=null) {
             String json= JsonFormat.printToString(messageData);
             NotificationUtil.sendMessage(channel,nettyResponse,json);
@@ -81,6 +82,7 @@ public class FriendServiceImpl implements FriendService {
         nettyResponse.setCmd(ConstantValue.AGREE_FRIEND_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(messageData.toByteArray());
+        //send
         Channel channel=mmoSimpleRole.getChannel();
         if (channel!=null) {
             String json= JsonFormat.printToString(messageData);
@@ -130,6 +132,7 @@ public class FriendServiceImpl implements FriendService {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(messageData.toByteArray());
         Channel channel=mmoSimpleRole.getChannel();
+        //send
         if (channel!=null) {
             String json= JsonFormat.printToString(messageData);
             NotificationUtil.sendMessage(channel,nettyResponse,json);
@@ -159,6 +162,7 @@ public class FriendServiceImpl implements FriendService {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(messageData.toByteArray());
         Channel channel=mmoSimpleRole.getChannel();
+        //send
         if (channel!=null) {
             String json= JsonFormat.printToString(messageData);
             NotificationUtil.sendMessage(channel,nettyResponse,json);
@@ -187,6 +191,7 @@ public class FriendServiceImpl implements FriendService {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(messageData.toByteArray());
         Channel channel=mmoSimpleRole.getChannel();
+        //send
         if (channel!=null) {
             String json= JsonFormat.printToString(messageData);
             NotificationUtil.sendMessage(channel,nettyResponse,json);

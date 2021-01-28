@@ -27,7 +27,7 @@ public class EquipmentLevelTaskBean extends BaseTaskBean {
             setProgress(level);
             Integer roleId=role.getId();
             BaseTaskBean taskBean=this;
-            ScheduledThreadPoolUtil.addTask(() -> TaskServiceProvider.updateTaskDb(taskBean,roleId));
+            TaskServiceProvider.updateTaskDb(taskBean,roleId);
             checkFinish(taskMessage,role);
         }
     }

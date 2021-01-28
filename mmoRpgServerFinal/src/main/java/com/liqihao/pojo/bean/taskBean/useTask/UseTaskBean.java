@@ -40,7 +40,7 @@ public class UseTaskBean extends BaseTaskBean {
             }
             BaseTaskBean taskBean=this;
             Integer roleId=role.getId();
-            ScheduledThreadPoolUtil.addTask(() -> TaskServiceProvider.updateTaskDb(taskBean,roleId));
+            TaskServiceProvider.updateTaskDb(taskBean,roleId);
             checkFinish(taskMessage,role);
         }
     }

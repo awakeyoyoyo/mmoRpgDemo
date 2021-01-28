@@ -19,6 +19,7 @@ import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.pojo.bean.taskBean.dealFirstTask.DealTaskAction;
 import com.liqihao.pojo.bean.taskBean.teamFirstTask.TeamTaskAction;
 import com.liqihao.protobufObject.DealModel;
+import com.liqihao.service.impl.DealServiceImpl;
 import com.liqihao.util.CommonsUtil;
 import com.liqihao.util.NotificationUtil;
 import io.netty.channel.Channel;
@@ -39,7 +40,6 @@ public class DealServiceProvider {
 
     /**
      * 发起交易
-     *
      * @param role1
      * @param role2
      * @return
@@ -195,12 +195,12 @@ public class DealServiceProvider {
                 //发送消息交易完成
                 sendDealSuccessMessage(dealBean);
                 //任务条件触发
-                DealTaskAction dealTaskAction01=new DealTaskAction();
+                DealTaskAction dealTaskAction01 = new DealTaskAction();
                 dealTaskAction01.setTaskTargetType(TaskTargetTypeCode.FIRST_TIME_DEAL.getCode());
-                role1.getTaskManager().handler(dealTaskAction01,role1);
-                DealTaskAction dealTaskAction02=new DealTaskAction();
+                role1.getTaskManager().handler(dealTaskAction01, role1);
+                DealTaskAction dealTaskAction02 = new DealTaskAction();
                 dealTaskAction02.setTaskTargetType(TaskTargetTypeCode.FIRST_TIME_DEAL.getCode());
-                role2.getTaskManager().handler(dealTaskAction02,role2);
+                role2.getTaskManager().handler(dealTaskAction02, role2);
             }
         }
     }
@@ -237,12 +237,7 @@ public class DealServiceProvider {
         DealModel.ConfirmDealResponse.Builder confirmDealResponseBuilder = DealModel.ConfirmDealResponse.newBuilder()
                 .setRoleId(role.getId()).setRoleName(role.getName());
         messageData.setConfirmDealResponse(confirmDealResponseBuilder.build());
-        nettyResponse.setData(messageData.build().toByteArray());
-        List<MmoSimpleRole> roles=new ArrayList<>();
-        roles.add(dealBean.getFirstRole());
-        roles.add(dealBean.getSecondRole());
-        String json= JsonFormat.printToString(messageData.build());
-        NotificationUtil.sendRolesMessage(nettyResponse,roles,json);
+        DealServiceImpl.sendResponseEachOther(dealBean, nettyResponse, messageData);
     }
 
     /**
@@ -299,17 +294,19 @@ public class DealServiceProvider {
             throw new RpgServerException(StateCode.FAIL, "该玩家并没有被邀请交易");
         }
         DealBean dealBean = dealBeans.get(role.getDealBeanId());
-        if (!dealBean.getStatus().equals(DealStatusCode.ON_DEAL.getCode())) {
-            throw new RpgServerException(StateCode.FAIL, "该交易还没开始，无法再修改金币");
+        synchronized (dealBean.lock) {
+            if (!dealBean.getStatus().equals(DealStatusCode.ON_DEAL.getCode())) {
+                throw new RpgServerException(StateCode.FAIL, "该交易还没开始，无法再修改金币");
+            }
+            DealArticleBean dealArticleBean01 = dealBean.getFirstDealArticleBean();
+            DealArticleBean dealArticleBean02 = dealBean.getSecondDealArticleBean();
+            if (dealArticleBean01.getRole().getId().equals(role.getId())) {
+                setMoney(dealArticleBean01, role, money);
+            } else {
+                setMoney(dealArticleBean02, role, money);
+            }
+            return dealBean;
         }
-        DealArticleBean dealArticleBean01 = dealBean.getFirstDealArticleBean();
-        DealArticleBean dealArticleBean02 = dealBean.getSecondDealArticleBean();
-        if (dealArticleBean01.getRole().getId().equals(role.getId())) {
-            setMoney(dealArticleBean01, role, money);
-        } else {
-            setMoney(dealArticleBean02, role, money);
-        }
-        return dealBean;
     }
 
     /**
@@ -327,6 +324,7 @@ public class DealServiceProvider {
         if (role.getMoney() < money) {
             throw new RpgServerException(StateCode.FAIL, "当前没有如此之多的金币");
         }
+
         role.moneyLock.writeLock().lock();
         try {
             Integer endMoney = dealArticleBean01.getMoney() - money;
@@ -347,49 +345,51 @@ public class DealServiceProvider {
             throw new RpgServerException(StateCode.FAIL, "该玩家并没有被邀请交易");
         }
         DealBean dealBean = dealBeans.get(role.getDealBeanId());
-        if (!dealBean.getStatus().equals(DealStatusCode.ON_DEAL.getCode())) {
-            throw new RpgServerException(StateCode.FAIL, "该交易还没开始，无法放入物品");
-        }
-        DealArticleBean dealArticleBean01 = dealBean.getFirstDealArticleBean();
-        DealArticleBean dealArticleBean02 = dealBean.getSecondDealArticleBean();
-        if (dealArticleBean01.getRole().getId().equals(role.getId())) {
-            if (dealArticleBean01.getConfirm()) {
-                throw new RpgServerException(StateCode.FAIL, "已经确认过该交易，无法再放入");
+        synchronized (dealBean.lock) {
+            if (!dealBean.getStatus().equals(DealStatusCode.ON_DEAL.getCode())) {
+                throw new RpgServerException(StateCode.FAIL, "该交易还没开始，无法放入物品");
             }
-            Article article = role.getBackpackManager().useOrAbandonArticle(articleId, num, role.getId());
-            if (article == null) {
-                throw new RpgServerException(StateCode.FAIL, "背包中物品数量不足");
-            }
-            if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())) {
-                MedicineMessage medicineMessage = MedicineMessageCache.getInstance().get(article.getArticleMessage().getId());
-                if (medicineMessage == null) {
-                    throw new RpgServerException(StateCode.FAIL, "存入错误物品id");
+            DealArticleBean dealArticleBean01 = dealBean.getFirstDealArticleBean();
+            DealArticleBean dealArticleBean02 = dealBean.getSecondDealArticleBean();
+            if (dealArticleBean01.getRole().getId().equals(role.getId())) {
+                if (dealArticleBean01.getConfirm()) {
+                    throw new RpgServerException(StateCode.FAIL, "已经确认过该交易，无法再放入");
                 }
-                MedicineBean medicineBean = CommonsUtil.medicineMessageToMedicineBean(medicineMessage);
-                medicineBean.setQuantity(num);
-                article = medicineBean;
-            }
-            dealArticleBean01.put(article);
-            return article;
-        } else {
-            if (dealArticleBean02.getConfirm()) {
-                throw new RpgServerException(StateCode.FAIL, "已经确认过该交易，无法再放入");
-            }
-            Article article = role.getBackpackManager().useOrAbandonArticle(articleId, num, role.getId());
-            if (article == null) {
-                throw new RpgServerException(StateCode.FAIL, "背包中物品数量不足");
-            }
-            if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())) {
-                MedicineMessage medicineMessage = MedicineMessageCache.getInstance().get(article.getArticleMessage().getId());
-                if (medicineMessage == null) {
-                    throw new RpgServerException(StateCode.FAIL, "存入错误物品id");
+                Article article = role.getBackpackManager().useOrAbandonArticle(articleId, num, role.getId());
+                if (article == null) {
+                    throw new RpgServerException(StateCode.FAIL, "背包中物品数量不足");
                 }
-                MedicineBean medicineBean = CommonsUtil.medicineMessageToMedicineBean(medicineMessage);
-                medicineBean.setQuantity(num);
-                article = medicineBean;
+                if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())) {
+                    MedicineMessage medicineMessage = MedicineMessageCache.getInstance().get(article.getArticleMessage().getId());
+                    if (medicineMessage == null) {
+                        throw new RpgServerException(StateCode.FAIL, "存入错误物品id");
+                    }
+                    MedicineBean medicineBean = CommonsUtil.medicineMessageToMedicineBean(medicineMessage);
+                    medicineBean.setQuantity(num);
+                    article = medicineBean;
+                }
+                dealArticleBean01.put(article);
+                return article;
+            } else {
+                if (dealArticleBean02.getConfirm()) {
+                    throw new RpgServerException(StateCode.FAIL, "已经确认过该交易，无法再放入");
+                }
+                Article article = role.getBackpackManager().useOrAbandonArticle(articleId, num, role.getId());
+                if (article == null) {
+                    throw new RpgServerException(StateCode.FAIL, "背包中物品数量不足");
+                }
+                if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())) {
+                    MedicineMessage medicineMessage = MedicineMessageCache.getInstance().get(article.getArticleMessage().getId());
+                    if (medicineMessage == null) {
+                        throw new RpgServerException(StateCode.FAIL, "存入错误物品id");
+                    }
+                    MedicineBean medicineBean = CommonsUtil.medicineMessageToMedicineBean(medicineMessage);
+                    medicineBean.setQuantity(num);
+                    article = medicineBean;
+                }
+                dealArticleBean02.put(article);
+                return article;
             }
-            dealArticleBean02.put(article);
-            return article;
         }
     }
 
@@ -403,68 +403,70 @@ public class DealServiceProvider {
             throw new RpgServerException(StateCode.FAIL, "该玩家并没有被邀请交易");
         }
         DealBean dealBean = dealBeans.get(role.getDealBeanId());
-        if (!dealBean.getStatus().equals(DealStatusCode.ON_DEAL.getCode())) {
-            throw new RpgServerException(StateCode.FAIL, "该交易还没开始，无法移除物品");
-        }
-        DealArticleBean dealArticleBean01 = dealBean.getFirstDealArticleBean();
-        DealArticleBean dealArticleBean02 = dealBean.getSecondDealArticleBean();
-        if (dealArticleBean01.getRole().getId().equals(role.getId())) {
-            if (dealArticleBean01.getConfirm()) {
-                throw new RpgServerException(StateCode.FAIL, "已经确认过该交易，无法再移除");
+        synchronized (dealBean.lock) {
+            if (!dealBean.getStatus().equals(DealStatusCode.ON_DEAL.getCode())) {
+                throw new RpgServerException(StateCode.FAIL, "该交易还没开始，无法移除物品");
             }
-            //从交易栏中找出物品
-            Article article = dealArticleBean01.abandon(dealArticleId, num);
-            if (article == null) {
-                throw new RpgServerException(StateCode.FAIL, "交易栏中物品数量不足");
-            }
-            if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())) {
-                MedicineMessage medicineMessage = MedicineMessageCache.getInstance().get(article.getArticleMessage().getId());
-                if (medicineMessage == null) {
-                    throw new RpgServerException(StateCode.FAIL, "存入错误物品id");
+            DealArticleBean dealArticleBean01 = dealBean.getFirstDealArticleBean();
+            DealArticleBean dealArticleBean02 = dealBean.getSecondDealArticleBean();
+            if (dealArticleBean01.getRole().getId().equals(role.getId())) {
+                if (dealArticleBean01.getConfirm()) {
+                    throw new RpgServerException(StateCode.FAIL, "已经确认过该交易，无法再移除");
                 }
-                MedicineBean medicineBean = CommonsUtil.medicineMessageToMedicineBean(medicineMessage);
-                medicineBean.setQuantity(num);
-                article = medicineBean;
-            }
-            //放入背包
-            boolean flag = role.getBackpackManager().put(article, role.getId());
-            if (!flag) {
-                throw new RpgServerException(StateCode.FAIL, "背包已经满了");
-            }
-            if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())) {
-                MedicineMessage medicineMessage = MedicineMessageCache.getInstance().get(article.getArticleMessage().getId());
-                if (medicineMessage == null) {
-                    throw new RpgServerException(StateCode.FAIL, "存入错误物品id");
+                //从交易栏中找出物品
+                Article article = dealArticleBean01.abandon(dealArticleId, num);
+                if (article == null) {
+                    throw new RpgServerException(StateCode.FAIL, "交易栏中物品数量不足");
                 }
-                MedicineBean medicineBean = CommonsUtil.medicineMessageToMedicineBean(medicineMessage);
-                medicineBean.setQuantity(num);
-                article = medicineBean;
-            }
-            return article;
-        } else {
-            if (dealArticleBean02.getConfirm()) {
-                throw new RpgServerException(StateCode.FAIL, "已经确认过该交易，无法再移除");
-            }
-            //从交易栏中找出物品
-            Article article = dealArticleBean02.abandon(dealArticleId, num);
-            if (article == null) {
-                throw new RpgServerException(StateCode.FAIL, "交易栏中物品数量不足");
-            }
-            if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())) {
-                MedicineMessage medicineMessage = MedicineMessageCache.getInstance().get(article.getArticleMessage().getId());
-                if (medicineMessage == null) {
-                    throw new RpgServerException(StateCode.FAIL, "存入错误物品id");
+                if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())) {
+                    MedicineMessage medicineMessage = MedicineMessageCache.getInstance().get(article.getArticleMessage().getId());
+                    if (medicineMessage == null) {
+                        throw new RpgServerException(StateCode.FAIL, "存入错误物品id");
+                    }
+                    MedicineBean medicineBean = CommonsUtil.medicineMessageToMedicineBean(medicineMessage);
+                    medicineBean.setQuantity(num);
+                    article = medicineBean;
                 }
-                MedicineBean medicineBean = CommonsUtil.medicineMessageToMedicineBean(medicineMessage);
-                medicineBean.setQuantity(num);
-                article = medicineBean;
+                //放入背包
+                boolean flag = role.getBackpackManager().put(article, role.getId());
+                if (!flag) {
+                    throw new RpgServerException(StateCode.FAIL, "背包已经满了");
+                }
+                if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())) {
+                    MedicineMessage medicineMessage = MedicineMessageCache.getInstance().get(article.getArticleMessage().getId());
+                    if (medicineMessage == null) {
+                        throw new RpgServerException(StateCode.FAIL, "存入错误物品id");
+                    }
+                    MedicineBean medicineBean = CommonsUtil.medicineMessageToMedicineBean(medicineMessage);
+                    medicineBean.setQuantity(num);
+                    article = medicineBean;
+                }
+                return article;
+            } else {
+                if (dealArticleBean02.getConfirm()) {
+                    throw new RpgServerException(StateCode.FAIL, "已经确认过该交易，无法再移除");
+                }
+                //从交易栏中找出物品
+                Article article = dealArticleBean02.abandon(dealArticleId, num);
+                if (article == null) {
+                    throw new RpgServerException(StateCode.FAIL, "交易栏中物品数量不足");
+                }
+                if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())) {
+                    MedicineMessage medicineMessage = MedicineMessageCache.getInstance().get(article.getArticleMessage().getId());
+                    if (medicineMessage == null) {
+                        throw new RpgServerException(StateCode.FAIL, "存入错误物品id");
+                    }
+                    MedicineBean medicineBean = CommonsUtil.medicineMessageToMedicineBean(medicineMessage);
+                    medicineBean.setQuantity(num);
+                    article = medicineBean;
+                }
+                //放入背包
+                boolean flag = role.getBackpackManager().put(article, role.getId());
+                if (!flag) {
+                    throw new RpgServerException(StateCode.FAIL, "背包已经满了");
+                }
+                return article;
             }
-            //放入背包
-            boolean flag = role.getBackpackManager().put(article, role.getId());
-            if (!flag) {
-                throw new RpgServerException(StateCode.FAIL, "背包已经满了");
-            }
-            return article;
         }
     }
 

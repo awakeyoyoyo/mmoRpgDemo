@@ -79,7 +79,7 @@ public class EmailServiceProvider implements ApplicationContextAware {
         }
         if (toRole!=null){
             toRole.getToMmoEmailBeanConcurrentHashMap().put(emailBean.getId(),emailBean);
-            ScheduledThreadPoolUtil.addTask(() -> DbUtil.mmoEmailPOJOIntoDataBase(emailBean));
+            DbUtil.mmoEmailPOJOIntoDataBase(emailBean);
         }else{
             // 插入数据库
             //查看是否有该玩家
@@ -88,7 +88,7 @@ public class EmailServiceProvider implements ApplicationContextAware {
                 throw new RpgServerException(StateCode.FAIL,"该用户不存在");
             }
             emailBean.setIntoDataBase(true);
-            ScheduledThreadPoolUtil.addTask(() -> DbUtil.mmoEmailPOJOIntoDataBase(emailBean));
+            DbUtil.mmoEmailPOJOIntoDataBase(emailBean);
         }
     }
     /**
@@ -135,9 +135,9 @@ public class EmailServiceProvider implements ApplicationContextAware {
                     if (emailBean.getArticleType().equals(ArticleTypeCode.EQUIPMENT.getCode())&&!emailBean.getGetFlag()){
                         //消除武器
                         Integer equipmentId=emailBean.getEquipmentId();
-                        ScheduledThreadPoolUtil.addTask(() ->DbUtil.deleteEquipmentById(equipmentId));
+                        DbUtil.deleteEquipmentById(equipmentId);
                     }
-                    ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateEmailBeanDb(emailBean));
+                     DbUtil.updateEmailBeanDb(emailBean);
                     break;
                 }
             }
@@ -153,7 +153,7 @@ public class EmailServiceProvider implements ApplicationContextAware {
                 if (id.equals(emailId)){
                     EmailBean emailBean=map.get(emailId);
                     emailBean.setFromDelete(true);
-                    ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateEmailBeanDb(emailBean));
+                    DbUtil.updateEmailBeanDb(emailBean);
                     break;
                 }
             }

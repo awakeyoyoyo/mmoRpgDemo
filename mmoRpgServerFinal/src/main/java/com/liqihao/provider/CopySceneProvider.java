@@ -70,7 +70,7 @@ public class CopySceneProvider {
                 for (Article value :copySceneBean.getArticlesMap().values()) {
                     if (value.getArticleTypeCode().equals(ArticleTypeCode.EQUIPMENT.getCode())){
                         EquipmentBean equipmentBean= (EquipmentBean) value;
-                        ScheduledThreadPoolUtil.addTask(() -> DbUtil.deleteEquipmentById(equipmentBean.getEquipmentId()));
+                        DbUtil.deleteEquipmentById(equipmentBean.getEquipmentId());
                     }
                 }
                 //删除延时任务

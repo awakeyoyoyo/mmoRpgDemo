@@ -25,7 +25,7 @@ public class TalkTaskBean extends BaseTaskBean {
             //相同
             setProgress(getProgress()+1);
             BaseTaskBean taskBean=this;
-            ScheduledThreadPoolUtil.addTask(() -> TaskServiceProvider.updateTaskDb(taskBean,roleId));
+            TaskServiceProvider.updateTaskDb(taskBean,roleId);
             checkFinish(taskMessage,role);
         }
 

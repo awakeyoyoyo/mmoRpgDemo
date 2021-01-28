@@ -26,7 +26,7 @@ public class GuildFirstTaskBean extends BaseTaskBean {
             setProgress(getProgress()+1);
             Integer roleId=role.getId();
             BaseTaskBean taskBean=this;
-            ScheduledThreadPoolUtil.addTask(() -> TaskServiceProvider.updateTaskDb(taskBean,roleId));
+            TaskServiceProvider.updateTaskDb(taskBean,roleId);
             checkFinish(taskMessage,role);
         }
     }

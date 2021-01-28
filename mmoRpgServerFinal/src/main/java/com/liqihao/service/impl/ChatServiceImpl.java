@@ -22,7 +22,6 @@ public class ChatServiceImpl implements ChatService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.SEND_TO_ALL_REQUEST,module = ConstantValue.CHAT_MODULE)
     public void sendToAllRequest(ChatModel.ChatModelMessage myMessage, MmoSimpleRole mmoSimpleRole) {
-        Channel channel = mmoSimpleRole.getChannel();
         String str=myMessage.getSendToAllRequest().getStr();
         ChatServiceProvider.getInstance().notifyObserver(mmoSimpleRole,str);
     }
@@ -30,7 +29,6 @@ public class ChatServiceImpl implements ChatService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.SEND_TO_ONE_REQUEST,module = ConstantValue.CHAT_MODULE)
     public void sendToOneRequest(ChatModel.ChatModelMessage myMessage, MmoSimpleRole mmoSimpleRole) {
-        Channel channel = mmoSimpleRole.getChannel();
         String str=myMessage.getSendToOneRequest().getStr();
         Integer roleId=myMessage.getSendToOneRequest().getRoleId();
         ChatServiceProvider.getInstance().notifyOne(roleId,mmoSimpleRole,str);
@@ -39,7 +37,6 @@ public class ChatServiceImpl implements ChatService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.SEND_TO_TEAM_REQUEST,module = ConstantValue.CHAT_MODULE)
     public void sendToTeamRequest(ChatModel.ChatModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws Exception {
-        Channel channel = mmoSimpleRole.getChannel();
         String str=myMessage.getSendToTeamRequest().getStr();
         Integer teamId=mmoSimpleRole.getTeamId();
         if (teamId==null){
@@ -51,7 +48,6 @@ public class ChatServiceImpl implements ChatService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.SEND_TO_SCENE_REQUEST,module = ConstantValue.CHAT_MODULE)
     public void sendToSceneRequest(ChatModel.ChatModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws Exception {
-        Channel channel = mmoSimpleRole.getChannel();
         String str=myMessage.getSendToSceneRequest().getStr();
         ChatServiceProvider.getInstance().notifyScene(mmoSimpleRole,str);
     }

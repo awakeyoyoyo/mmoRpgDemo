@@ -39,11 +39,11 @@ public class DbUtil {
     private static AtomicInteger mmoWareHouseIndex;
 
     public static void deleteEquipmentById(Integer equipmentId) {
-        mmoEquipmentPOJOMapper.deleteByPrimaryKey(equipmentId);
+        ScheduledThreadPoolUtil.addTask(() ->mmoEquipmentPOJOMapper.deleteByPrimaryKey(equipmentId));
     }
 
     public static void updateRolePOJO(MmoRolePOJO mmoRolePOJO) {
-        mmoRolePOJOMapper.updateByPrimaryKey(mmoRolePOJO);
+        ScheduledThreadPoolUtil.addTask(()->mmoRolePOJOMapper.updateByPrimaryKey(mmoRolePOJO));
     }
 
 
@@ -148,131 +148,20 @@ public class DbUtil {
         if (mmoEmailPOJO.getFromDelete()==true&&mmoEmailPOJO.getToDelete()==true){
             //id小于初始化的id 则代表是旧数据 删除
             if (mmoEmailPOJO.getId()<= EmailServiceProvider.getId()) {
-                mmoEmailPOJOMapper.deleteByPrimaryKey(mmoEmailPOJO.getId());
+                ScheduledThreadPoolUtil.addTask(() ->mmoEmailPOJOMapper.deleteByPrimaryKey(mmoEmailPOJO.getId()));
             }
         }else{
             if (mmoEmailPOJO.getId()<=EmailServiceProvider.getId()) {
-                mmoEmailPOJOMapper.updateByPrimaryKeySelective(mmoEmailPOJO);
+                ScheduledThreadPoolUtil.addTask(() ->mmoEmailPOJOMapper.updateByPrimaryKeySelective(mmoEmailPOJO));
             }else {
                 MmoEmailPOJO mmoEmail=mmoEmailPOJOMapper.selectByPrimaryKey(mmoEmailPOJO.getId());
                 if (mmoEmail==null) {
-                    mmoEmailPOJOMapper.insert(mmoEmailPOJO);
+                    ScheduledThreadPoolUtil.addTask(() ->mmoEmailPOJOMapper.insert(mmoEmailPOJO));
                 }else{
-                    mmoEmailPOJOMapper.updateByPrimaryKeySelective(mmoEmailPOJO);
+                    ScheduledThreadPoolUtil.addTask(() ->mmoEmailPOJOMapper.updateByPrimaryKeySelective(mmoEmailPOJO));
                 }
             }
         }
-    }
-
-    /**
-     * 人物信息入库
-     */
-    public  static void roleInfoIntoDataBase(MmoSimpleRole mmoSimpleRole){
-        MmoRolePOJO mmoRolePOJO=new MmoRolePOJO();
-        mmoRolePOJO.setId(mmoSimpleRole.getId());
-        mmoRolePOJO.setStatus(mmoSimpleRole.getStatus());
-        mmoRolePOJO.setOnStatus(mmoSimpleRole.getOnStatus());
-        mmoRolePOJO.setMmoSceneId(mmoSimpleRole.getMmoSceneId());
-        mmoRolePOJO.setName(mmoSimpleRole.getName());
-        mmoRolePOJO.setProfessionId(mmoSimpleRole.getProfessionId());
-        mmoRolePOJO.setMoney(mmoSimpleRole.getMoney());
-        mmoRolePOJO.setExp(mmoSimpleRole.getExp());
-        if(mmoSimpleRole.getGuildBean()!=null) {
-            mmoRolePOJO.setGuildId(mmoSimpleRole.getGuildBean().getId());
-        }else {
-            mmoRolePOJO.setGuildId(-1);
-        }
-//        mmoRolePOJO.setSkillIds(CommonsUtil.listToString(mmoSimpleRole.getSkillIdList()))
-        mmoRolePOJO.setType(mmoSimpleRole.getType());
-        mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO);
-    }
-
-    /**
-     * 背包入库
-     * @param backPackManager
-     * @param roleId
-     */
-    public static  void bagIntoDataBase(BackPackManager backPackManager, Integer roleId){
-        List<ArticleDto> articles=backPackManager.getBackpacksMessage();
-        //需要修改或者新增的记录
-        for (ArticleDto a:articles) {
-            MmoBagPOJO mmoBagPOJO=new MmoBagPOJO();
-            mmoBagPOJO.setArticleType(a.getArticleType());
-            mmoBagPOJO.setNumber(a.getQuantity());
-            mmoBagPOJO.setRoleId(roleId);
-            if (a.getArticleType().equals(ArticleTypeCode.EQUIPMENT.getCode())) {
-                mmoBagPOJO.setwId(a.getEquipmentId());
-            }else{
-                mmoBagPOJO.setwId(a.getId());
-            }
-            if (a.getBagId()!=null){
-                mmoBagPOJO.setBagId(a.getBagId());
-                mmoBagPOJOMapper.updateByPrimaryKey(mmoBagPOJO);
-            }else{
-                //新的
-                mmoBagPOJOMapper.insert(mmoBagPOJO);
-            }
-            /**
-             * 新产生的装备以及 更新旧 的装备
-             */
-            if (a.getArticleType().equals(ArticleTypeCode.EQUIPMENT.getCode())) {
-                MmoEquipmentPOJO e=mmoEquipmentPOJOMapper.selectByPrimaryKey(mmoBagPOJO.getwId());
-                if (e==null){
-                    e=new MmoEquipmentPOJO();
-                    e.setId(a.getEquipmentId());
-                    e.setNowDurability(a.getNowDurability());
-                    e.setMessageId(a.getId());
-                    mmoEquipmentPOJOMapper.insert(e);
-                }else{
-                    e.setNowDurability(a.getNowDurability());
-                    mmoEquipmentPOJOMapper.updateByPrimaryKey(e);
-                }
-            }
-        }
-        //需要删除的记录
-        List<Integer> bagIds=backPackManager.getNeedDeleteBagId();
-        for (Integer id:bagIds){
-            mmoBagPOJOMapper.deleteByPrimaryKey(id);
-        }
-        backPackManager.setNeedDeleteBagId(new ArrayList<>());
-    }
-
-    /**
-     * 装备入库
-     * @param mmoSimpleRole
-     */
-    public static void equipmentIntoDataBase(MmoSimpleRole mmoSimpleRole){
-        List<EquipmentDto> dtos=mmoSimpleRole.getEquipments();
-        for (EquipmentDto e:dtos) {
-            MmoEquipmentBagPOJO equipmentBagPOJO = new MmoEquipmentBagPOJO();
-            //装备栏
-            equipmentBagPOJO.setEquipmentId(e.getEquipmentId());
-            equipmentBagPOJO.setRoleId(mmoSimpleRole.getId());
-            if (e.getEquipmentBagId()!=null) {
-                //主键
-                equipmentBagPOJO.setEquipmentBagId(e.getEquipmentBagId());
-                equipmentBagPOJOMapper.updateByPrimaryKey(equipmentBagPOJO);
-            }else{
-                equipmentBagPOJOMapper.insert(equipmentBagPOJO);
-            }
-            //装备入库
-            MmoEquipmentPOJO equipmentPOJO=new MmoEquipmentPOJO();
-            equipmentPOJO.setId(e.getEquipmentId());
-            equipmentPOJO.setMessageId(e.getId());
-            equipmentPOJO.setNowDurability(e.getNowDurability());
-            MmoEquipmentPOJO pojo=mmoEquipmentPOJOMapper.selectByPrimaryKey(equipmentPOJO.getId());
-            if (pojo==null){
-                mmoEquipmentPOJOMapper.insert(equipmentPOJO);
-            }else{
-                mmoEquipmentPOJOMapper.updateByPrimaryKey(equipmentPOJO);
-            }
-        }
-        //需要删除的记录
-        List<Integer> equBagIds=mmoSimpleRole.getNeedDeleteEquipmentIds();
-        for (Integer id:equBagIds){
-            equipmentBagPOJOMapper.deleteByPrimaryKey(id);
-        }
-        mmoSimpleRole.setNeedDeleteEquipmentIds(new ArrayList<>());
     }
 
     /**
@@ -280,7 +169,7 @@ public class DbUtil {
      * @param bagId
      */
     public static void deleteBagById(Integer bagId) {
-        mmoBagPOJOMapper.deleteByPrimaryKey(bagId);
+        ScheduledThreadPoolUtil.addTask(() -> mmoBagPOJOMapper.deleteByPrimaryKey(bagId));
     }
 
     /**
@@ -288,7 +177,7 @@ public class DbUtil {
      * @param oldEquipmentBagId
      */
     public static void deleteEquipmentBagById(Integer oldEquipmentBagId) {
-        equipmentBagPOJOMapper.deleteByPrimaryKey(oldEquipmentBagId);
+        ScheduledThreadPoolUtil.addTask(() ->equipmentBagPOJOMapper.deleteByPrimaryKey(oldEquipmentBagId));
     }
 
     /**
@@ -302,7 +191,7 @@ public class DbUtil {
         equipmentBagPOJO.setEquipmentId(equipmentBean.getEquipmentId());
         equipmentBagPOJO.setRoleId(roleId);
         equipmentBagPOJO.setEquipmentBagId(equipmentBean.getEquipmentBagId());
-        equipmentBagPOJOMapper.insert(equipmentBagPOJO);
+        ScheduledThreadPoolUtil.addTask(() ->equipmentBagPOJOMapper.insert(equipmentBagPOJO));
     }
 
     /**
@@ -317,7 +206,7 @@ public class DbUtil {
         mmoBagPOJO.setRoleId(roleId);
         mmoBagPOJO.setwId(medicineBean.getMedicineMessageId());
         mmoBagPOJO.setBagId(medicineBean.getBagId());
-        mmoBagPOJOMapper.updateByPrimaryKey(mmoBagPOJO);
+        ScheduledThreadPoolUtil.addTask(() -> mmoBagPOJOMapper.updateByPrimaryKey(mmoBagPOJO));
     }
 
     /**
@@ -336,7 +225,7 @@ public class DbUtil {
             mmoBagPOJO.setwId(a.getId());
         }
         mmoBagPOJO.setBagId(a.getBagId());
-        mmoBagPOJOMapper.insert(mmoBagPOJO);
+        ScheduledThreadPoolUtil.addTask(() -> mmoBagPOJOMapper.insert(mmoBagPOJO));
     }
 
     /**
@@ -348,7 +237,7 @@ public class DbUtil {
         equipmentPOJO.setId(e.getEquipmentId());
         equipmentPOJO.setMessageId(e.getEquipmentMessageId());
         equipmentPOJO.setNowDurability(e.getNowDurability());
-        mmoEquipmentPOJOMapper.updateByPrimaryKey(equipmentPOJO);
+        ScheduledThreadPoolUtil.addTask(() ->mmoEquipmentPOJOMapper.updateByPrimaryKey(equipmentPOJO));
     }
 
     /**
@@ -376,9 +265,9 @@ public class DbUtil {
         //删除双方都是删除状态的
         if (mmoEmailPOJO.getFromDelete()==true&&mmoEmailPOJO.getToDelete()==true){
             //id小于初始化的id 则代表是旧数据 删除
-            mmoEmailPOJOMapper.deleteByPrimaryKey(mmoEmailPOJO.getId());
+            ScheduledThreadPoolUtil.addTask(() ->mmoEmailPOJOMapper.deleteByPrimaryKey(mmoEmailPOJO.getId()));
         }else{
-            mmoEmailPOJOMapper.updateByPrimaryKeySelective(mmoEmailPOJO);
+            ScheduledThreadPoolUtil.addTask(() ->mmoEmailPOJOMapper.updateByPrimaryKeySelective(mmoEmailPOJO));
         }
     }
 
@@ -391,7 +280,7 @@ public class DbUtil {
         mmoEquipmentPOJO.setId(equipmentBean.getEquipmentId());
         mmoEquipmentPOJO.setNowDurability(equipmentBean.getNowDurability());
         mmoEquipmentPOJO.setMessageId(equipmentBean.getEquipmentMessageId());
-        mmoEquipmentPOJOMapper.insert(mmoEquipmentPOJO);
+        ScheduledThreadPoolUtil.addTask(() ->mmoEquipmentPOJOMapper.insert(mmoEquipmentPOJO));
     }
 
     /**
@@ -415,7 +304,7 @@ public class DbUtil {
             mmoRolePOJO.setGuildId(-1);
         }
         mmoRolePOJO.setType(mmoSimpleRole.getType());
-        mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO);
+        ScheduledThreadPoolUtil.addTask(() -> mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO));
     }
 
     /**
@@ -423,7 +312,7 @@ public class DbUtil {
      * @param wareHouseDBId
      */
     public static void deleteWareHouseById(Integer wareHouseDBId) {
-        mmoWareHousePOJOMapper.deleteByPrimaryKey(wareHouseDBId);
+        ScheduledThreadPoolUtil.addTask(() ->mmoWareHousePOJOMapper.deleteByPrimaryKey(wareHouseDBId));
     }
 
     /**
@@ -438,7 +327,7 @@ public class DbUtil {
         mmoWareHousePOJO.setGuildId(guildId);
         mmoWareHousePOJO.setArticleMessageId(articleDto.getEquipmentId());
         mmoWareHousePOJO.setNumber(articleDto.getQuantity());
-        mmoWareHousePOJOMapper.insert(mmoWareHousePOJO);
+        ScheduledThreadPoolUtil.addTask(() -> mmoWareHousePOJOMapper.insert(mmoWareHousePOJO));
     }
 
     /**
@@ -453,7 +342,7 @@ public class DbUtil {
         mmoWareHousePOJO.setGuildId(guildId);
         mmoWareHousePOJO.setArticleMessageId(articleDto.getId());
         mmoWareHousePOJO.setNumber(articleDto.getQuantity());
-        mmoWareHousePOJOMapper.insert(mmoWareHousePOJO);
+        ScheduledThreadPoolUtil.addTask(() ->mmoWareHousePOJOMapper.insert(mmoWareHousePOJO));
     }
 
     /**
@@ -468,6 +357,6 @@ public class DbUtil {
         mmoWareHousePOJO.setGuildId(guildId);
         mmoWareHousePOJO.setArticleMessageId(temp.getMedicineMessageId());
         mmoWareHousePOJO.setNumber(temp.getQuantity());
-        mmoWareHousePOJOMapper.updateByPrimaryKey(mmoWareHousePOJO);
+        ScheduledThreadPoolUtil.addTask(() ->mmoWareHousePOJOMapper.updateByPrimaryKey(mmoWareHousePOJO));
     }
 }

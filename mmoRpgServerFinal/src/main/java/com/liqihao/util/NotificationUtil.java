@@ -30,7 +30,9 @@ public class NotificationUtil {
      * @param json
      */
     public static void sendMessage(Channel channel, NettyResponse nettyResponse,String json){
-        channel.writeAndFlush(nettyResponse);
+        if (channel!=null) {
+            channel.writeAndFlush(nettyResponse);
+        }
         //打印日志
         logger.info(json);
     }

@@ -45,16 +45,16 @@ public class DealBankServiceImpl implements DealBankService {
             throw new RpgServerException(StateCode.FAIL,"上架失败，无该物品或者数量不足");
         }
         DealBankServiceProvider.addSellArticleToDealBank(article,mmoSimpleRole,price,type,num);
-        //protobuf
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.ADD_SELL_ARTICLE_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        //protobuf 生成registerResponse
+        //protobuf
         DealBankModel.DealBankModelMessage.Builder messageData = DealBankModel.DealBankModelMessage.newBuilder();
         messageData.setDataType(DealBankModel.DealBankModelMessage.DateType.AddSellArticleResponse);
         DealBankModel.AddSellArticleResponse.Builder addSellArticleResponseBuilder = DealBankModel.AddSellArticleResponse.newBuilder();
         messageData.setAddSellArticleResponse(addSellArticleResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
+        //send
         String json= JsonFormat.printToString(messageData.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
@@ -70,13 +70,14 @@ public class DealBankServiceImpl implements DealBankService {
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.REDUCE_SELL_ARTICLE_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        //protobuf 生成registerResponse
+        //protobuf
         DealBankModel.DealBankModelMessage.Builder messageData = DealBankModel.DealBankModelMessage.newBuilder();
         messageData.setDataType(DealBankModel.DealBankModelMessage.DateType.ReduceSellArticleResponse);
         DealBankModel.ReduceSellArticleResponse.Builder reduceSellArticleResponseBuilder = DealBankModel.ReduceSellArticleResponse
                 .newBuilder();
         messageData.setReduceSellArticleResponse(reduceSellArticleResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
+        //send
         String json= JsonFormat.printToString(messageData.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
@@ -92,13 +93,14 @@ public class DealBankServiceImpl implements DealBankService {
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.BUY_ARTICLE_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        //protobuf 生成registerResponse
+        //protobuf
         DealBankModel.DealBankModelMessage.Builder messageData = DealBankModel.DealBankModelMessage.newBuilder();
         messageData.setDataType(DealBankModel.DealBankModelMessage.DateType.BuyArticleResponse);
         DealBankModel.BuyArticleResponse.Builder buyArticleResponseBuilder = DealBankModel.BuyArticleResponse
                 .newBuilder();
         messageData.setBuyArticleResponse(buyArticleResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
+        //send
         String json= JsonFormat.printToString(messageData.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
@@ -117,13 +119,14 @@ public class DealBankServiceImpl implements DealBankService {
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.AUCTION_ARTICLE_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        //protobuf 生成registerResponse
+        //protobuf
         DealBankModel.DealBankModelMessage.Builder messageData = DealBankModel.DealBankModelMessage.newBuilder();
         messageData.setDataType(DealBankModel.DealBankModelMessage.DateType.AuctionArticleResponse);
         DealBankModel.AuctionArticleResponse.Builder auctionArticleResponse = DealBankModel.AuctionArticleResponse
                 .newBuilder();
         messageData.setAuctionArticleResponse(auctionArticleResponse.build());
         nettyResponse.setData(messageData.build().toByteArray());
+        //send
         String json= JsonFormat.printToString(messageData.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
@@ -138,18 +141,18 @@ public class DealBankServiceImpl implements DealBankService {
             DealBankModel.DealBankArticleDto dealBankArticleDto= CommonsUtil.dealBankArticleBeanToDealBankArticleDto(dealBankArticleBean);
             dealBankArticleDtos.add(dealBankArticleDto);
         }
-
         //protobuf
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.GET_ARTICLE_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        //protobuf 生成registerResponse
+        //protobuf
         DealBankModel.DealBankModelMessage.Builder messageData = DealBankModel.DealBankModelMessage.newBuilder();
         messageData.setDataType(DealBankModel.DealBankModelMessage.DateType.GetArticleResponse);
         DealBankModel.GetArticleResponse.Builder getArticleResponse= DealBankModel.GetArticleResponse
                 .newBuilder().addAllDealBankArticleDtos(dealBankArticleDtos);
         messageData.setGetArticleResponse(getArticleResponse.build());
         nettyResponse.setData(messageData.build().toByteArray());
+        //send
         String json= JsonFormat.printToString(messageData.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }

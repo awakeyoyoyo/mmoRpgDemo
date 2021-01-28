@@ -31,8 +31,8 @@ public class TaskServiceImpl implements TaskService {
         for (TaskModel.TaskDto taskDto : taskDtos) {
             TaskMessage taskMessage= MmoCacheCilent.getInstance().getTaskMessageConcurrentHashMap().get(taskDto.getTaskMessageId());
             System.out.println("[-]");
-            System.out.println("[-]任务id："+taskMessage.getId()+" 任务名称: "+taskMessage.getName()+" 任务描述: "+taskMessage.getDescription()+" 任务目标进度："+taskMessage.getTargetProgress()+" 任务类型："+ TaskTypeCode.getValue(taskMessage.getType())+" 任务状态："+ TaskStateCode.getValue(taskDto.getStatus()));
-            System.out.println("[-]任务奖励：");
+            System.out.println("[-]任务id："+taskMessage.getId()+" 任务名称: "+taskMessage.getName()+" 任务描述: "+taskMessage.getDescription()+" 任务类型："+ TaskTypeCode.getValue(taskMessage.getType())+" 任务进度："+taskDto.getProgress()+"/"+taskMessage.getTargetProgress()+" 任务状态："+ TaskStateCode.getValue(taskDto.getStatus()));
+            System.out.print("[-]任务奖励：");
             if (taskMessage.getRewardArticleType().equals(ArticleTypeCode.MEDICINE.getCode())){
                 MedicineMessage medicineMessage=medicineMessageConcurrentHashMap.get(taskMessage.getRewardArticleMessageId());
                 System.out.println("[-]药物id："+medicineMessage.getId()+"药物名称："+medicineMessage.getName()+"药物数量："+taskMessage.getRewardNum());
@@ -59,8 +59,8 @@ public class TaskServiceImpl implements TaskService {
         for (Integer taskMessageId : taskIds) {
             TaskMessage taskMessage= MmoCacheCilent.getInstance().getTaskMessageConcurrentHashMap().get(taskMessageId);
             System.out.println("[-]");
-            System.out.println("[-]任务id："+taskMessage.getId()+" 任务名称: "+taskMessage.getName()+" 任务描述: "+taskMessage.getDescription()+" 任务目标进度："+taskMessage.getTargetProgress()+" 任务类型："+ TaskTypeCode.getValue(taskMessage.getType()));
-            System.out.println("[-]任务奖励：");
+            System.out.println("[-]任务id："+taskMessage.getId()+" 任务名称: "+taskMessage.getName()+" 任务描述: "+taskMessage.getDescription()+" 任务类型："+ TaskTypeCode.getValue(taskMessage.getType())+" 任务目标进度："+taskMessage.getTargetProgress());
+            System.out.print("[-]任务奖励：");
             if (taskMessage.getRewardArticleType().equals(ArticleTypeCode.MEDICINE.getCode())){
                 MedicineMessage medicineMessage=medicineMessageConcurrentHashMap.get(taskMessage.getRewardArticleMessageId());
                 System.out.println("[-]药物id："+medicineMessage.getId()+"药物名称："+medicineMessage.getName()+"药物数量："+taskMessage.getRewardNum());

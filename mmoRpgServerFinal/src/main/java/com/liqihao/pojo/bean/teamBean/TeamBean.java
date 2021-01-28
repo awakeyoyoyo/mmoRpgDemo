@@ -111,7 +111,6 @@ public class TeamBean {
         this.teamId = teamId;
     }
 
-
     public Integer getCopySceneBeanId() {
         return copySceneBeanId;
     }
@@ -173,9 +172,8 @@ public class TeamBean {
         nettyResponse.setCmd(ConstantValue.BAN_PEOPLE_RESPONSE);
         nettyResponse.setData(teamMessageBuilder.build().toByteArray());
         Channel ccc=ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
-        if (ccc!=null){
-            ccc.writeAndFlush(nettyResponse);
-        }
+        String json= JsonFormat.printToString(teamMessageBuilder.build());
+        NotificationUtil.sendMessage(ccc,nettyResponse,json);
         // 广播给队伍里面的人少了人
         exitTeamNotification(mmoSimpleRole);
     }
@@ -198,7 +196,6 @@ public class TeamBean {
             if (mmoSimpleRolesMap.values().isEmpty()){
                 //解散队伍
                 TeamServiceProvider.deleteTeamById(getTeamId());
-                return;
             }else {
                 //获取第一个,成员作为leader
                 MmoSimpleRole nextLeader = mmoSimpleRolesMap.values().iterator().next();
@@ -216,8 +213,8 @@ public class TeamBean {
                     ccc.writeAndFlush(nettyResponse);
                 }
                 exitTeamNotification(mmoSimpleRole);
-                return;
             }
+            return;
         }
         mmoSimpleRolesMap.remove(mmoSimpleRole.getId());
         //判断退出队伍者是否在副本中
@@ -265,11 +262,11 @@ public class TeamBean {
             }
         }
     }
+
     /**
      * 邀请玩家进队伍
      */
     public TeamApplyOrInviteBean invitePeople(MmoSimpleRole mmoSimpleRole) {
-
         TeamApplyOrInviteBean teamApplyOrInviteBean=new TeamApplyOrInviteBean();
         teamApplyOrInviteBean.setCreateTime(System.currentTimeMillis());
         teamApplyOrInviteBean.setEndTime(System.currentTimeMillis()+5*1000*60);
@@ -308,7 +305,6 @@ public class TeamBean {
 
     /**
      * 拒绝申请入队
-     * @param
      */
     public TeamApplyOrInviteBean refuseApply(Integer roleId) {
         checkOutTime();
@@ -324,6 +320,7 @@ public class TeamBean {
        }
        return null;
     }
+
     /**
      * 获取申请入队的列表
      */
@@ -334,7 +331,6 @@ public class TeamBean {
 
     /**
      * 增加队友
-     * @param mmoSimpleRole
      */
     public void addRole(MmoSimpleRole mmoSimpleRole,Channel channel) throws RpgServerException {
         //判断队伍人数上限
@@ -372,8 +368,6 @@ public class TeamBean {
 
     /**
      * 是否包含某申请
-     * @param roleId
-     * @return
      */
     public TeamApplyOrInviteBean containsInvite(Integer roleId) {
         checkOutTime();
@@ -392,7 +386,6 @@ public class TeamBean {
 
     /**
      * 离开队伍通知
-     * @param mmoSimpleRole
      */
     private void exitTeamNotification(MmoSimpleRole mmoSimpleRole){
         TeamModel.RoleDto roleDto=TeamModel.RoleDto.newBuilder().setId(mmoSimpleRole.getId()).setHp(mmoSimpleRole.getHp())

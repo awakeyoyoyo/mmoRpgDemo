@@ -35,7 +35,6 @@ public class CopySceneServiceImpl implements CopySceneService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.COPY_SCENE_MESSAGE_REQUEST,module = ConstantValue.COPY_MODULE)
     public void copySceneMessageRequest(CopySceneModel.CopySceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws RpgServerException {
-        //copySceneBeanId
         //判断是否在线 并且返回玩家对象
         Channel channel = mmoSimpleRole.getChannel();
         Integer teamId=mmoSimpleRole.getTeamId();
@@ -49,16 +48,14 @@ public class CopySceneServiceImpl implements CopySceneService {
         }
         Integer copySceneBeanId=TeamServiceProvider.getTeamBeanByTeamId(teamId).getCopySceneBeanId();
         CopySceneBean copySceneBean=CopySceneProvider.getCopySceneBeanById(copySceneBeanId);
-        // 返回
+        //send
         sendCopyMessage(copySceneBean, channel);
     }
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.ENTER_COPY_SCENE_REQUEST,module = ConstantValue.COPY_MODULE)
     public void enterCopySceneRequest(CopySceneModel.CopySceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws RpgServerException {
-        //copySceneId
         Integer copySceneId=myMessage.getEnterCopySceneRequest().getCopySceneId();
-        Channel channel = mmoSimpleRole.getChannel();
         //判断是否在组队状态
         Integer teamId=mmoSimpleRole.getTeamId();
         if (teamId==null){
@@ -91,6 +88,7 @@ public class CopySceneServiceImpl implements CopySceneService {
                 roles.add((MmoSimpleRole) m);
             }
         }
+        //send
         String json= JsonFormat.printToString(messageData);
         NotificationUtil.sendRolesMessage(nettyResponse,roles,json);
     }
@@ -108,6 +106,7 @@ public class CopySceneServiceImpl implements CopySceneService {
         copySceneBean.peopleExit(mmoSimpleRole.getId());
         // 发送信息
         CopySceneModel.RoleDto roleDto=CommonsUtil.mmoSimpleRolesToCopySceneRoleDto(mmoSimpleRole);
+        //protobuf
         CopySceneModel.CopySceneModelMessage messageData=CopySceneModel.CopySceneModelMessage.newBuilder()
                 .setDataType(CopySceneModel.CopySceneModelMessage.DateType.ExitCopySceneResponse)
                 .setExitCopySceneResponse(CopySceneModel.ExitCopySceneResponse.newBuilder().setRoleDto(roleDto).build()).build();
@@ -121,6 +120,7 @@ public class CopySceneServiceImpl implements CopySceneService {
                 roles.add((MmoSimpleRole) m);
             }
         }
+        //send
         String json= JsonFormat.printToString(messageData);
         NotificationUtil.sendRolesMessage(nettyResponse,roles,json);
     }
@@ -144,14 +144,22 @@ public class CopySceneServiceImpl implements CopySceneService {
             throw new RpgServerException(StateCode.FAIL,"该队伍已经绑定副本，无法在创建");
         }
         CopySceneBean copySceneBean=CopySceneProvider.createNewCopyScene(copySceneId,teamBean);
-
         teamBean.setCopySceneBeanId(copySceneBean.getCopySceneBeanId());
         teamBean.setCopySceneId(copySceneBean.getCopySceneMessageId());
         // 创建成功 对队伍的人广播
         List<MmoSimpleRole> roles=new ArrayList<>(teamBean.getMmoSimpleRoles());
+        //send
         sendSuccessCopyMessage(copySceneBean,roles);
     }
 
+    /**
+     * description 副本创建成功消息广播
+     * @param copySceneBean
+     * @param roles
+     * @return {@link null }
+     * @author lqhao
+     * @createTime 2021/1/28 15:33
+     */
     private void sendSuccessCopyMessage(CopySceneBean copySceneBean,List<MmoSimpleRole> roles){
         CopySceneModel.CopySceneBeanDto.Builder copySceneBeanDtoBuilder=CopySceneModel.CopySceneBeanDto.newBuilder();
         List<CopySceneModel.BossBeanDto> bossBeanDtos=new ArrayList<>();
@@ -175,6 +183,7 @@ public class CopySceneServiceImpl implements CopySceneService {
         }else {
             bossBeanDto = CopySceneModel.BossBeanDto.newBuilder().setId(-1).build();
         }
+        //protobuf
         CopySceneModel.CopySceneModelMessage messageData=CopySceneModel.CopySceneModelMessage.newBuilder()
                 .setDataType(CopySceneModel.CopySceneModelMessage.DateType.CreateCopySceneResponse)
                 .setCreateCopySceneResponse(CopySceneModel.CreateCopySceneResponse.newBuilder()
@@ -191,10 +200,19 @@ public class CopySceneServiceImpl implements CopySceneService {
         nettyResponse.setCmd(ConstantValue.CREATE_COPY_SCENE_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(messageData.toByteArray());
+        //send
         String json= JsonFormat.printToString(messageData);
         NotificationUtil.sendRolesMessage(nettyResponse,roles,json);
     }
 
+    /**
+     * description 发送副本信息
+     * @param copySceneBean
+     * @param channel
+     * @return {@link null }
+     * @author lqhao
+     * @createTime 2021/1/28 15:32
+     */
     private void sendCopyMessage(CopySceneBean copySceneBean,Channel channel){
         CopySceneModel.CopySceneBeanDto.Builder copySceneBeanDtoBuilder=CopySceneModel.CopySceneBeanDto.newBuilder();
         List<CopySceneModel.BossBeanDto> bossBeanDtos=new ArrayList<>();
@@ -211,6 +229,7 @@ public class CopySceneServiceImpl implements CopySceneService {
                 roleDtos.add(roleDto);
             }
         }
+        //protobuf
         CopySceneModel.BossBeanDto nowBoss=CommonsUtil.bossBeanToBossBeanDto(copySceneBean.getNowBoss());
         CopySceneModel.CopySceneModelMessage messageData=CopySceneModel.CopySceneModelMessage.newBuilder()
                 .setDataType(CopySceneModel.CopySceneModelMessage.DateType.CopySceneMessageResponse)
@@ -228,6 +247,7 @@ public class CopySceneServiceImpl implements CopySceneService {
         nettyResponse.setCmd(ConstantValue.COPY_SCENE_MESSAGE_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(messageData.toByteArray());
+        //send
         String json= JsonFormat.printToString(messageData);
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }

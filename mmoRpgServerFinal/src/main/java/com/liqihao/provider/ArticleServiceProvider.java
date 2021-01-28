@@ -124,7 +124,7 @@ public class ArticleServiceProvider implements ApplicationContextAware {
         equipmentBean.setEquipmentId(equipmentBeanIdAuto.incrementAndGet());
         equipmentBean.setNowDurability(equipmentMessage.getDurability());
         equipmentBean.setQuantity(1);
-        ScheduledThreadPoolUtil.addTask(() -> DbUtil.insertEquipment(equipmentBean));
+        DbUtil.insertEquipment(equipmentBean);
         return equipmentBean;
     }
 

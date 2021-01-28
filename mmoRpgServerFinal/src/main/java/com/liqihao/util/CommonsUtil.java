@@ -119,6 +119,31 @@ public class CommonsUtil {
         NotificationUtil.notificationSceneRole(nettyResponse,mmoSimpleRole,json);
     }
 
+    public static SceneModel.RoleDTO.Builder roleToSceneModelRoleDto(Role mmoRole) {
+        SceneModel.RoleDTO.Builder msr = SceneModel.RoleDTO.newBuilder();
+        msr.setId(mmoRole.getId());
+        msr.setName(mmoRole.getName());
+        msr.setType(mmoRole.getType());
+        msr.setStatus(mmoRole.getStatus());
+        msr.setOnStatus(mmoRole.getOnStatus());
+        msr.setBlood(mmoRole.getHp());
+        msr.setNowBlood(mmoRole.getNowHp());
+        msr.setLevel(mmoRole.getLevel());
+        msr.setEquipmentLevel(mmoRole.getEquipmentLevel());
+        msr.setMp(mmoRole.getMp());
+        msr.setNowMp(mmoRole.getNowMp());
+        msr.setTeamId(mmoRole.getTeamId() == null ? -1 : mmoRole.getTeamId());
+        msr.setAttack(mmoRole.getAttack());
+        msr.setAttackAdd(mmoRole.getDamageAdd());
+        if (mmoRole.getType().equals(RoleTypeCode.PLAYER.getCode())) {
+            MmoSimpleRole r = (MmoSimpleRole) mmoRole;
+            msr.setProfessionId(r.getProfessionId());
+            msr.setGuildName(r.getGuildBean()==null?"":r.getGuildBean().getName());
+            msr.setGuildId(r.getGuildBean()==null?-1:r.getGuildBean().getId());
+        }
+        return msr;
+    }
+
 
     @Autowired
     public  void setMmoBagPOJOMapper(MmoBagPOJOMapper mmoBagPOJOMapper) {

@@ -214,21 +214,7 @@ public class CopySceneBean{
                         //simpleRole
                         List<SceneModel.RoleDTO> roleDTOS = new ArrayList<>();
                         for (Role mmoRole : nextRoles) {
-                            SceneModel.RoleDTO.Builder msr = SceneModel.RoleDTO.newBuilder();
-                            msr.setId(mmoRole.getId());
-                            msr.setName(mmoRole.getName());
-                            msr.setType(mmoRole.getType());
-                            msr.setStatus(mmoRole.getStatus());
-                            msr.setOnStatus(mmoRole.getOnStatus());
-                            msr.setBlood(mmoRole.getHp());
-                            msr.setNowBlood(mmoRole.getNowHp());
-                            msr.setMp(mmoRole.getMp());
-                            msr.setNowMp(mmoRole.getNowMp());
-                            msr.setAttack(mmoRole.getAttack());
-                            msr.setAttackAdd(mmoRole.getDamageAdd());
-                            if (msr.getType() == RoleTypeCode.PLAYER.getCode()) {
-                                msr.setProfessionId(mmoSimpleRole.getProfessionId());
-                            }
+                            SceneModel.RoleDTO.Builder msr = CommonsUtil.roleToSceneModelRoleDto(mmoRole);
                             SceneModel.RoleDTO msrObject = msr.build();
                             roleDTOS.add(msrObject);
                         }
@@ -281,31 +267,17 @@ public class CopySceneBean{
             nettyResponse.setStateCode(StateCode.SUCCESS);
             SceneModel.SceneModelMessage.Builder builder=SceneModel.SceneModelMessage.newBuilder();
             builder.setDataType(SceneModel.SceneModelMessage.DateType.WentResponse);
-            SceneModel.WentResponse.Builder wentResponsebuilder=SceneModel.WentResponse.newBuilder();
+            SceneModel.WentResponse.Builder wentResponseBuilder=SceneModel.WentResponse.newBuilder();
             //simpleRole
             List<SceneModel.RoleDTO> roleDTOS=new ArrayList<>();
             for (Role mmoRole :nextRoles){
-                SceneModel.RoleDTO.Builder msr=SceneModel.RoleDTO.newBuilder();
-                msr.setId(mmoRole.getId());
-                msr.setName(mmoRole.getName());
-                msr.setType(mmoRole.getType());
-                msr.setStatus(mmoRole.getStatus());
-                msr.setOnStatus(mmoRole.getOnStatus());
-                msr.setBlood(mmoRole.getHp());
-                msr.setNowBlood(mmoRole.getNowHp());
-                msr.setMp(mmoRole.getMp());
-                msr.setNowMp(mmoRole.getNowMp());
-                msr.setAttack(mmoRole.getAttack());
-                msr.setAttackAdd(mmoRole.getDamageAdd());
-                if(msr.getType()== RoleTypeCode.PLAYER.getCode()){
-                    msr.setProfessionId(mmoSimpleRole.getProfessionId());
-                }
-                SceneModel.RoleDTO msrobject=msr.build();
-                roleDTOS.add(msrobject);
+                SceneModel.RoleDTO.Builder msr=CommonsUtil.roleToSceneModelRoleDto(mmoRole);
+                SceneModel.RoleDTO msrObject=msr.build();
+                roleDTOS.add(msrObject);
             }
-            wentResponsebuilder.setSceneId(nextSceneId);
-            wentResponsebuilder.addAllRoleDTO(roleDTOS);
-            builder.setWentResponse(wentResponsebuilder.build());
+            wentResponseBuilder.setSceneId(nextSceneId);
+            wentResponseBuilder.addAllRoleDTO(roleDTOS);
+            builder.setWentResponse(wentResponseBuilder.build());
             byte[] data2=builder.build().toByteArray();
             nettyResponse.setData(data2);
             c.writeAndFlush(nettyResponse);
@@ -369,7 +341,7 @@ public class CopySceneBean{
             }finally {
                 role.moneyLock.writeLock().unlock();
             }
-            ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateRole(role));
+            DbUtil.updateRole(role);
             if (c!=null) {
                 c.writeAndFlush(nettyResponse);
             }

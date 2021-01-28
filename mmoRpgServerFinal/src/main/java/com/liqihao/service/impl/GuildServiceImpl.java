@@ -52,12 +52,13 @@ public class GuildServiceImpl implements GuildService {
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.CREATE_GUILD_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        //protobuf 生成registerResponse
+        //protobuf
         GuildModel.GuildModelMessage.Builder messageData = GuildModel.GuildModelMessage.newBuilder();
         messageData.setDataType(GuildModel.GuildModelMessage.DateType.CreateGuildResponse);
         GuildModel.CreateGuildResponse.Builder createGuildResponseBuilder = GuildModel.CreateGuildResponse.newBuilder();
         messageData.setCreateGuildResponse(createGuildResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
+        //send
         String json= JsonFormat.printToString(messageData.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
@@ -75,12 +76,13 @@ public class GuildServiceImpl implements GuildService {
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.JOIN_GUILD_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        //protobuf 生成registerResponse
+        //protobuf
         GuildModel.GuildModelMessage.Builder messageData = GuildModel.GuildModelMessage.newBuilder();
         messageData.setDataType(GuildModel.GuildModelMessage.DateType.JoinGuildResponse);
         GuildModel.JoinGuildResponse.Builder joinGuildResponseBuilder = GuildModel.JoinGuildResponse.newBuilder();
         messageData.setJoinGuildResponse(joinGuildResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
+        //send
         String json= JsonFormat.printToString(messageData.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
@@ -109,12 +111,13 @@ public class GuildServiceImpl implements GuildService {
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.SET_GUILD_POSITION_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        //protobuf 生成registerResponse
+        //protobuf
         GuildModel.GuildModelMessage.Builder messageData = GuildModel.GuildModelMessage.newBuilder();
         messageData.setDataType(GuildModel.GuildModelMessage.DateType.SetGuildResponse);
         GuildModel.SetGuildResponse.Builder setGuildResponseBuilder = GuildModel.SetGuildResponse.newBuilder();
         messageData.setSetGuildResponse(setGuildResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
+        //send
         String json= JsonFormat.printToString(messageData.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
@@ -134,12 +137,13 @@ public class GuildServiceImpl implements GuildService {
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.OUT_GUILD_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        //protobuf 生成registerResponse
+        //protobuf
         GuildModel.GuildModelMessage.Builder messageData = GuildModel.GuildModelMessage.newBuilder();
         messageData.setDataType(GuildModel.GuildModelMessage.DateType.OutGuildResponse);
         GuildModel.OutGuildResponse.Builder outGuildResponseBuilder = GuildModel.OutGuildResponse.newBuilder();
         messageData.setOutGuildResponse(outGuildResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
+        //send
         String json= JsonFormat.printToString(messageData.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
@@ -165,12 +169,13 @@ public class GuildServiceImpl implements GuildService {
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.CONTRIBUTE_MONEY_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        //protobuf 生成registerResponse
+        //protobuf
         GuildModel.GuildModelMessage.Builder messageData = GuildModel.GuildModelMessage.newBuilder();
         messageData.setDataType(GuildModel.GuildModelMessage.DateType.ContributeMoneyResponse);
         GuildModel.ContributeMoneyResponse.Builder contributeMoneyResponseBuilder = GuildModel.ContributeMoneyResponse.newBuilder();
         messageData.setContributeMoneyResponse(contributeMoneyResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
+        //send
         String json= JsonFormat.printToString(messageData.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
@@ -190,6 +195,9 @@ public class GuildServiceImpl implements GuildService {
             throw new RpgServerException(StateCode.FAIL,"该角色没加入公会");
         }
         Article article=mmoSimpleRole.getBackpackManager().useOrAbandonArticle(articleId,number,mmoSimpleRole.getId());
+        if (article==null){
+            throw new RpgServerException(StateCode.FAIL,"捐赠失败，无该物品或者数量不足");
+        }
         if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())){
             MedicineMessage medicineMessage = MedicineMessageCache.getInstance().get(article.getArticleMessage().getId());
             if (medicineMessage == null) {
@@ -199,9 +207,6 @@ public class GuildServiceImpl implements GuildService {
             medicineBean.setQuantity(number);
             article = medicineBean;
         }
-        if (article==null){
-            throw new RpgServerException(StateCode.FAIL,"捐赠失败，无该物品或者数量不足");
-        }
         boolean flag=guildBean.getWareHouseManager().putWareHouse(article,guildBean.getId());
         if (!flag){
             throw new RpgServerException(StateCode.FAIL,"捐赠失败，仓库空间不足");
@@ -210,12 +215,13 @@ public class GuildServiceImpl implements GuildService {
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.CONTRIBUTE_ARTICLE_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        //protobuf 生成registerResponse
+        //protobuf
         GuildModel.GuildModelMessage.Builder messageData = GuildModel.GuildModelMessage.newBuilder();
         messageData.setDataType(GuildModel.GuildModelMessage.DateType.ContributeArticleResponse);
         GuildModel.ContributeArticleResponse.Builder contributeArticleResponseBuilder = GuildModel.ContributeArticleResponse.newBuilder();
         messageData.setContributeArticleResponse(contributeArticleResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
+        //send
         String json= JsonFormat.printToString(messageData.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
@@ -239,7 +245,7 @@ public class GuildServiceImpl implements GuildService {
         }
         Article article=guildBean.getWareHouseManager().useOrAbandonArticle(warehouseId,number,guildBean.getId());
         if (article==null){
-            throw new RpgServerException(StateCode.FAIL,"没有该物品");
+            throw new RpgServerException(StateCode.FAIL,"获取失败，无该物品或者数量不足");
         }
         if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())){
             MedicineMessage medicineMessage = MedicineMessageCache.getInstance().get(article.getArticleMessage().getId());
@@ -250,9 +256,6 @@ public class GuildServiceImpl implements GuildService {
             medicineBean.setQuantity(number);
             article = medicineBean;
         }
-        if (article==null){
-            throw new RpgServerException(StateCode.FAIL,"获取失败，无该物品或者数量不足");
-        }
         boolean flag=mmoSimpleRole.getBackpackManager().put(article,mmoSimpleRole.getId());
         if (!flag){
             throw new RpgServerException(StateCode.FAIL,"获取失败，背包空间不足");
@@ -261,12 +264,13 @@ public class GuildServiceImpl implements GuildService {
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.GET_GUILD_ARTICLE_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        //protobuf 生成registerResponse
+        //protobuf
         GuildModel.GuildModelMessage.Builder messageData = GuildModel.GuildModelMessage.newBuilder();
         messageData.setDataType(GuildModel.GuildModelMessage.DateType.GetArticleResponse);
         GuildModel.GetArticleResponse.Builder getArticleResponseBuilder = GuildModel.GetArticleResponse.newBuilder();
         messageData.setGetArticleResponse(getArticleResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
+        //send
         String json= JsonFormat.printToString(messageData.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
@@ -276,7 +280,7 @@ public class GuildServiceImpl implements GuildService {
     public void getMoney(GuildModel.GuildModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException {
         Channel channel = mmoSimpleRole.getChannel();
         //背包id
-        Integer money=myMessage.getGetMoneyRequest().getMoney();
+        int money=myMessage.getGetMoneyRequest().getMoney();
         if (money<=0){
             throw new RpgServerException(StateCode.FAIL,"输入非法范围的数量");
         }
@@ -292,12 +296,13 @@ public class GuildServiceImpl implements GuildService {
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.GET_GUILD_MONEY_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        //protobuf 生成registerResponse
+        //protobuf
         GuildModel.GuildModelMessage.Builder messageData = GuildModel.GuildModelMessage.newBuilder();
         messageData.setDataType(GuildModel.GuildModelMessage.DateType.GetMoneyResponse);
         GuildModel.GetMoneyResponse.Builder getMoneyResponseBuilder = GuildModel.GetMoneyResponse.newBuilder();
         messageData.setGetMoneyResponse(getMoneyResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
+        //send
         String json= JsonFormat.printToString(messageData.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
@@ -319,12 +324,13 @@ public class GuildServiceImpl implements GuildService {
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.GET_GUILD_APPLY_LIST_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        //protobuf 生成registerResponse
+        //protobuf
         GuildModel.GuildModelMessage.Builder messageData = GuildModel.GuildModelMessage.newBuilder();
         messageData.setDataType(GuildModel.GuildModelMessage.DateType.GetGuildApplyListResponse);
         GuildModel.GetGuildApplyListResponse.Builder getGuildApplyListResponseBuilder = GuildModel.GetGuildApplyListResponse.newBuilder().addAllGuildApplyDtos(guildApplyDtos);
         messageData.setGetGuildApplyListResponse(getGuildApplyListResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
+        //send
         String json= JsonFormat.printToString(messageData.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
@@ -354,12 +360,13 @@ public class GuildServiceImpl implements GuildService {
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.GET_GUILD_MESSAGE_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        //protobuf 生成registerResponse
+        //protobuf
         GuildModel.GuildModelMessage.Builder messageData = GuildModel.GuildModelMessage.newBuilder();
         messageData.setDataType(GuildModel.GuildModelMessage.DateType.GetGuildBeanResponse);
         GuildModel.GetGuildBeanResponse.Builder getGuildBeanResponseBuilder = GuildModel.GetGuildBeanResponse.newBuilder().setGuildDto(guildDto);
         messageData.setGetGuildBeanResponse(getGuildBeanResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
+        //send
         String json= JsonFormat.printToString(messageData.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
@@ -384,12 +391,13 @@ public class GuildServiceImpl implements GuildService {
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.AGREE_GUILD_APPLY_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        //protobuf 生成registerResponse
+        //protobuf
         GuildModel.GuildModelMessage.Builder messageData = GuildModel.GuildModelMessage.newBuilder();
         messageData.setDataType(GuildModel.GuildModelMessage.DateType.AgreeGuildApplyResponse);
         GuildModel.AgreeGuildApplyResponse.Builder agreeGuildApplyResponseBuilder = GuildModel.AgreeGuildApplyResponse.newBuilder();
         messageData.setAgreeGuildApplyResponse(agreeGuildApplyResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
+        //send
         String json= JsonFormat.printToString(messageData.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
@@ -414,12 +422,13 @@ public class GuildServiceImpl implements GuildService {
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.REFUSE_GUILD_APPLY_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        //protobuf 生成registerResponse
+        //protobuf
         GuildModel.GuildModelMessage.Builder messageData = GuildModel.GuildModelMessage.newBuilder();
         messageData.setDataType(GuildModel.GuildModelMessage.DateType.RefuseGuildApplyResponse);
         GuildModel.RefuseGuildApplyResponse.Builder refuseGuildApplyResponseBuilder = GuildModel.RefuseGuildApplyResponse.newBuilder();
         messageData.setRefuseGuildApplyResponse(refuseGuildApplyResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
+        //send
         String json= JsonFormat.printToString(messageData.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
@@ -451,12 +460,13 @@ public class GuildServiceImpl implements GuildService {
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.GET_GUILD_WAREHOUSE_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        //protobuf 生成registerResponse
+        //protobuf
         GuildModel.GuildModelMessage.Builder messageData = GuildModel.GuildModelMessage.newBuilder();
         messageData.setDataType(GuildModel.GuildModelMessage.DateType.GetGuildWareHouseResponse);
         GuildModel.GetGuildWareHouseResponse.Builder getGuildWareHouseResponseBuilder = GuildModel.GetGuildWareHouseResponse.newBuilder().addAllArticleDtos(articleDtoList);
         messageData.setGetGuildWareHouseResponse(getGuildWareHouseResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
+        //send
         String json= JsonFormat.printToString(messageData.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }

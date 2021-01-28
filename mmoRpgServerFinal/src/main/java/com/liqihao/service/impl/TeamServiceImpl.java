@@ -55,19 +55,20 @@ public class TeamServiceImpl implements TeamService {
             throw new RpgServerException(StateCode.FAIL,"队长已经离线");
         }
         TeamApplyOrInviteBean teamApplyBean=teamBean.applyTeam(mmoSimpleRole);
+        //protobuf
         TeamModel.ApplyInviteBeanDto.Builder applyBeanBuilder=TeamModel.ApplyInviteBeanDto.newBuilder();
         applyBeanBuilder.setTeamId(teamApplyBean.getTeamId()).setCreateTime(teamApplyBean.getCreateTime())
                 .setEndTime(teamApplyBean.getEndTime()).setRoleId(teamApplyBean.getRoleId())
                 .setTeamName(teamBean.getTeamName()).setType(teamApplyBean.getType());
-        TeamModel.ApplyForTeamResponse ApplyForTeamResponse=TeamModel.ApplyForTeamResponse.newBuilder().setApplyInviteBeanDtos(applyBeanBuilder.build()).build();
+        TeamModel.ApplyForTeamResponse applyForTeamResponse=TeamModel.ApplyForTeamResponse.newBuilder().setApplyInviteBeanDtos(applyBeanBuilder.build()).build();
         TeamModel.TeamModelMessage.Builder teamMessageBuilder=TeamModel.TeamModelMessage.newBuilder();
         teamMessageBuilder.setDataType(TeamModel.TeamModelMessage.DateType.ApplyForTeamResponse);
-        teamMessageBuilder.setApplyForTeamResponse(ApplyForTeamResponse);
+        teamMessageBuilder.setApplyForTeamResponse(applyForTeamResponse);
         NettyResponse nettyResponse=new NettyResponse();
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setCmd(ConstantValue.APPLY_FOR_TEAM_RESPONSE);
         nettyResponse.setData(teamMessageBuilder.build().toByteArray());
-        //发给队长
+        //send
         String json= JsonFormat.printToString(teamMessageBuilder.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
@@ -78,26 +79,24 @@ public class TeamServiceImpl implements TeamService {
     public void createTeamRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException {
         //判断是否在线 并且返回玩家对象
         Channel channel = mmoSimpleRole.getChannel();
-        String teamName=myMessage.getCreateTeamRequest().getName();
-        if (teamName==null){
-            throw new RpgServerException(StateCode.FAIL,"请输入参数");
-        }
+        String teamName = myMessage.getCreateTeamRequest().getName();
 
         //判断玩家是否已经有队伍
-        if (mmoSimpleRole.getTeamId()!=null){
-            throw new RpgServerException(StateCode.FAIL,"已经有队伍了");
+        if (mmoSimpleRole.getTeamId() != null) {
+            throw new RpgServerException(StateCode.FAIL, "已经有队伍了");
         }
-        TeamBean teamBean=TeamServiceProvider.createNewTeamBean(mmoSimpleRole,teamName);
+        TeamBean teamBean = TeamServiceProvider.createNewTeamBean(mmoSimpleRole, teamName);
         mmoSimpleRole.setTeamId(teamBean.getTeamId());
         //任务条件触发
-        TeamTaskAction taskAction=new TeamTaskAction();
+        TeamTaskAction taskAction = new TeamTaskAction();
         taskAction.setTaskTargetType(TaskTargetTypeCode.FIRST_TIME_TEAM.getCode());
-        mmoSimpleRole.getTaskManager().handler(taskAction,mmoSimpleRole);
+        mmoSimpleRole.getTaskManager().handler(taskAction, mmoSimpleRole);
 
-        if(mmoSimpleRole.getMmoHelperBean()!=null){
+        if (mmoSimpleRole.getMmoHelperBean() != null) {
             mmoSimpleRole.getMmoHelperBean().setTeamId(teamBean.getTeamId());
         }
-        TeamModel.RoleDto role=TeamModel.RoleDto.newBuilder().setId(mmoSimpleRole.getId())
+        //ptotobuf
+        TeamModel.RoleDto role = TeamModel.RoleDto.newBuilder().setId(mmoSimpleRole.getId())
                 .setHp(mmoSimpleRole.getHp()).setMp(mmoSimpleRole.getMp())
                 .setName(mmoSimpleRole.getName()).setNowHp(mmoSimpleRole.getNowHp())
                 .setTeamId(mmoSimpleRole.getTeamId())
@@ -105,21 +104,12 @@ public class TeamServiceImpl implements TeamService {
                 .setLevel(mmoSimpleRole.getLevel())
                 .setEquipmentLevel(mmoSimpleRole.getEquipmentLevel())
                 .setNowMP(mmoSimpleRole.getNowMp()).build();
-        List<TeamModel.RoleDto> roles=new ArrayList<>();
+        List<TeamModel.RoleDto> roles = new ArrayList<>();
         roles.add(role);
-        TeamModel.TeamBeanDto teamBeanDto=TeamModel.TeamBeanDto.newBuilder().addAllRoleDtos(roles)
+        TeamModel.TeamBeanDto teamBeanDto = TeamModel.TeamBeanDto.newBuilder().addAllRoleDtos(roles)
                 .setLeaderId(teamBean.getLeaderId()).setTeamName(teamBean.getTeamName())
                 .setTeamId(teamBean.getTeamId()).build();
-        TeamModel.TeamMessageResponse teamMessageResponse=TeamModel.TeamMessageResponse.newBuilder().setTeamBeanDto(teamBeanDto).build();
-        TeamModel.TeamModelMessage.Builder teamMessageBuilder=TeamModel.TeamModelMessage.newBuilder();
-        teamMessageBuilder.setDataType(TeamModel.TeamModelMessage.DateType.TeamMessageResponse);
-        teamMessageBuilder.setTeamMessageResponse(teamMessageResponse);
-        NettyResponse nettyResponse=new NettyResponse();
-        nettyResponse.setStateCode(StateCode.SUCCESS);
-        nettyResponse.setCmd(ConstantValue.TEAM_MESSAGE_RESPONSE);
-        nettyResponse.setData(teamMessageBuilder.build().toByteArray());
-        String json= JsonFormat.printToString(teamMessageBuilder.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        sendTeamMessageResponse(teamBeanDto, channel);
     }
 
     @Override
@@ -149,7 +139,6 @@ public class TeamServiceImpl implements TeamService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.DELETE_TEAM_REQUEST,module = ConstantValue.TEAM_MODULE)
     public void deleteTeamRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException {
-        Channel channel = mmoSimpleRole.getChannel();
         //判断玩家是否已经有队伍
         Integer teamId=mmoSimpleRole.getTeamId();
         TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(teamId);
@@ -173,7 +162,6 @@ public class TeamServiceImpl implements TeamService {
          *  若当前channle的role与传入的roleId相等,则表示用户接受了该队伍的邀请
          *  若当前channle的role与传入的roleId不相等，则是队长同意该用户的申请，需要判断当前channel role是否为队长
          */
-
         Integer roleId=myMessage.getEntryPeopleRequest().getRoleId();
         Integer teamId=myMessage.getEntryPeopleRequest().getTeamId();
         Channel channel = mmoSimpleRole.getChannel();
@@ -237,7 +225,6 @@ public class TeamServiceImpl implements TeamService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.INVITE_PEOPLE_REQUEST,module = ConstantValue.TEAM_MODULE)
     public void invitePeopleRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException {
-        Channel channel = mmoSimpleRole.getChannel();
         Integer roleId=myMessage.getInvitePeopleRequest().getRoleId();
         if (roleId==0){
             throw new RpgServerException(StateCode.FAIL,"请输入参数");
@@ -261,7 +248,7 @@ public class TeamServiceImpl implements TeamService {
         }
         TeamApplyOrInviteBean inviteBean=teamBean.invitePeople(inviteRole);
         Channel c=ChannelMessageCache.getInstance().get(roleId);
-        //发送邀请给玩家
+        //protobuf
         TeamModel.ApplyInviteBeanDto.Builder inviteBeanBuilder=TeamModel.ApplyInviteBeanDto.newBuilder();
         inviteBeanBuilder.setTeamId(inviteBean.getTeamId()).setCreateTime(inviteBean.getCreateTime())
                 .setEndTime(inviteBean.getEndTime()).setRoleId(inviteBean.getRoleId())
@@ -274,28 +261,30 @@ public class TeamServiceImpl implements TeamService {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setCmd(ConstantValue.INVITE_PEOPLE_RESPONSE);
         nettyResponse.setData(teamMessageBuilder.build().toByteArray());
-        //发给玩家
+        //send
         String json= JsonFormat.printToString(teamMessageBuilder.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(c,nettyResponse,json);
     }
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.REFUSE_APPLY_REQUEST,module = ConstantValue.TEAM_MODULE)
     public void refuseApplyRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException {
-
         //teamId和roleId和teamApplyId给队长
         //判断是否在线 并且返回玩家对象
         Integer roleId=myMessage.getRefuseApplyRequest().getRoleId();
-        Channel channel = mmoSimpleRole.getChannel();
         Integer teamId=mmoSimpleRole.getTeamId();
         if (teamId==null){
             throw new RpgServerException(StateCode.FAIL,"你根本无队伍");
         }
         TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(mmoSimpleRole.getTeamId());
+        if (!teamBean.getLeaderId().equals(mmoSimpleRole.getId())){
+            throw new RpgServerException(StateCode.FAIL,"你根本不是队长");
+        }
         TeamApplyOrInviteBean bean=teamBean.refuseApply(roleId);
         if (bean==null) {
             return;
         }
+        //protobuf
         TeamModel.TeamModelMessage.Builder teamMessageBuilder=TeamModel.TeamModelMessage.newBuilder();
         teamMessageBuilder.setDataType(TeamModel.TeamModelMessage.DateType.RefuseApplyResponse);
         teamMessageBuilder.setRefuseApplyResponse(TeamModel.RefuseApplyResponse.newBuilder().setTeamName(teamBean.getTeamName()));
@@ -303,29 +292,27 @@ public class TeamServiceImpl implements TeamService {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setCmd(ConstantValue.REFUSE_APPLY_RESPONSE);
         nettyResponse.setData(teamMessageBuilder.build().toByteArray());
-        //发给玩家
+        //send
         Channel c=ChannelMessageCache.getInstance().get(roleId);
         if (c==null) {
             return;
         }
         String json= JsonFormat.printToString(teamMessageBuilder.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(c,nettyResponse,json);
     }
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.REFUSE_INVITE_REQUEST,module = ConstantValue.TEAM_MODULE)
 
     public void refuseInviteRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException {
-        //teamId和roleId和teamApplyId给队长
-
         //判断是否在线 并且返回玩家对象
         Integer teamId=myMessage.getRefuseInviteRequest().getTeamId();
-        Channel channel = mmoSimpleRole.getChannel();
         TeamApplyOrInviteBean bean=mmoSimpleRole.refuseInvite(teamId);
         if (bean==null){
             return;
         }
         TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(teamId);
+        //protobuf
         TeamModel.TeamModelMessage.Builder teamMessageBuilder=TeamModel.TeamModelMessage.newBuilder();
         teamMessageBuilder.setDataType(TeamModel.TeamModelMessage.DateType.RefuseInviteResponse);
         teamMessageBuilder.setRefuseInviteResponse(TeamModel.RefuseInviteResponse.newBuilder().setRoleName(mmoSimpleRole.getName()));
@@ -333,13 +320,13 @@ public class TeamServiceImpl implements TeamService {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setCmd(ConstantValue.REFUSE_INVITE_RESPONSE);
         nettyResponse.setData(teamMessageBuilder.build().toByteArray());
-        //发给队长
+        //send
         Channel c=ChannelMessageCache.getInstance().get(teamBean.getLeaderId());
         if (c==null) {
             return;
         }
         String json= JsonFormat.printToString(teamMessageBuilder.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(c,nettyResponse,json);
     }
 
     @Override
@@ -366,7 +353,7 @@ public class TeamServiceImpl implements TeamService {
                     .setTeamName(teamBean.getTeamName()).setType(e.getType());
             applyInviteBeanDtos.add(applyBeanBuilder.build());
         }
-
+        //protobuf
         TeamModel.ApplyMessageResponse applyMessageResponse=TeamModel.ApplyMessageResponse.newBuilder().addAllApplyInviteBeanDtos(applyInviteBeanDtos).build();
         TeamModel.TeamModelMessage.Builder teamMessageBuilder=TeamModel.TeamModelMessage.newBuilder();
         teamMessageBuilder.setDataType(TeamModel.TeamModelMessage.DateType.ApplyMessageResponse);
@@ -375,7 +362,7 @@ public class TeamServiceImpl implements TeamService {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setCmd(ConstantValue.APPLY_MESSAGE_RESPONSE);
         nettyResponse.setData(teamMessageBuilder.build().toByteArray());
-        //发给队长
+        //send
         String json= JsonFormat.printToString(teamMessageBuilder.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
@@ -395,7 +382,7 @@ public class TeamServiceImpl implements TeamService {
                     .setTeamName(teamBean.getTeamName()).setType(e.getType());
             inviteBeanDtos.add(inviteBeanBuilder.build());
         }
-
+        //protobuf
         TeamModel.InviteMessageResponse inviteMessageResponse=TeamModel.InviteMessageResponse.newBuilder().addAllApplyInviteBeanDtos(inviteBeanDtos).build();
         TeamModel.TeamModelMessage.Builder teamMessageBuilder=TeamModel.TeamModelMessage.newBuilder();
         teamMessageBuilder.setDataType(TeamModel.TeamModelMessage.DateType.InviteMessageResponse);
@@ -404,7 +391,7 @@ public class TeamServiceImpl implements TeamService {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setCmd(ConstantValue.INVITE_MESSAGE_RESPONSE);
         nettyResponse.setData(teamMessageBuilder.build().toByteArray());
-        //发给队长
+        //send
         String json= JsonFormat.printToString(teamMessageBuilder.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
@@ -418,6 +405,7 @@ public class TeamServiceImpl implements TeamService {
             throw new RpgServerException(StateCode.FAIL,"没有进入任何队伍");
         }
         TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(teamId);
+        //protobuf
         List<TeamModel.RoleDto> roles=new ArrayList<>();
         for (MmoSimpleRole simpleRole:teamBean.getMmoSimpleRoles()) {
             TeamModel.RoleDto role = TeamModel.RoleDto.newBuilder().setId(simpleRole.getId())
@@ -434,6 +422,14 @@ public class TeamServiceImpl implements TeamService {
                 .setLeaderId(teamBean.getLeaderId()).setTeamName(teamBean.getTeamName())
                 .setTeamId(teamBean.getTeamId()).setCopySceneBeanId(teamBean.getCopySceneBeanId()==null?-1:teamBean.getCopySceneBeanId())
                 .setCopySceneId(teamBean.getCopySceneId()==null?-1:teamBean.getCopySceneId()).build();
+        //send
+        sendTeamMessageResponse(teamBeanDto,channel);
+    }
+
+    /**
+     * 发送队伍信息响应
+     */
+    public void sendTeamMessageResponse(TeamModel.TeamBeanDto teamBeanDto,Channel channel){
         TeamModel.TeamMessageResponse teamMessageResponse=TeamModel.TeamMessageResponse.newBuilder().setTeamBeanDto(teamBeanDto).build();
         TeamModel.TeamModelMessage.Builder teamMessageBuilder=TeamModel.TeamModelMessage.newBuilder();
         teamMessageBuilder.setDataType(TeamModel.TeamModelMessage.DateType.TeamMessageResponse);

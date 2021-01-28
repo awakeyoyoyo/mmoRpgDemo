@@ -45,15 +45,9 @@ public class TaskServiceProvider {
             if (!taskMessage.getType().equals(TaskTypeCode.ACHIEVEMENT.getCode())){
                 continue;
             }
-            BaseTaskBean taskBean= reflectionTaskBean(taskMessage.getTargetType());
-            taskBean.setTaskDbId(taskDbId.incrementAndGet());
-            taskBean.setProgress(0);
-            taskBean.setTaskMessageId(taskMessage.getId());
-            taskBean.setTaskTargetTypeId(taskMessage.getTargetType());
-            taskBean.setStatus(TaskStateCode.ON_DOING.getCode());
-            taskBean.setCreateTime(System.currentTimeMillis());
+            BaseTaskBean taskBean=createTaskBean(taskMessage);
             //数据库
-            ScheduledThreadPoolUtil.addTask(() -> insertTaskDb(taskBean,roleId));
+            insertTaskDb(taskBean,roleId);
         }
     }
 
@@ -65,9 +59,26 @@ public class TaskServiceProvider {
 
     /**
      * 接任务
+     * @param taskMessage
+     * @param role
      */
     public static void acceptTask(TaskMessage taskMessage,MmoSimpleRole role){
         //根据 task
+        BaseTaskBean taskBean=createTaskBean(taskMessage);
+        role.getTaskManager().addTask(taskBean);
+        //数据库
+        Integer roleId=role.getId();
+        insertTaskDb(taskBean,roleId);
+    }
+
+    /**
+     * description 根据taskMessage创建任务实体
+     * @param taskMessage
+     * @return {@link BaseTaskBean }
+     * @author lqhao
+     * @createTime 2021/1/28 11:41
+     */
+    private static BaseTaskBean createTaskBean(TaskMessage taskMessage) {
         BaseTaskBean taskBean= reflectionTaskBean(taskMessage.getTargetType());
         taskBean.setTaskDbId(taskDbId.incrementAndGet());
         taskBean.setProgress(0);
@@ -75,10 +86,7 @@ public class TaskServiceProvider {
         taskBean.setTaskTargetTypeId(taskMessage.getTargetType());
         taskBean.setStatus(TaskStateCode.ON_DOING.getCode());
         taskBean.setCreateTime(System.currentTimeMillis());
-        role.getTaskManager().addTask(taskBean);
-        //数据库
-        Integer roleId=role.getId();
-        ScheduledThreadPoolUtil.addTask(() -> insertTaskDb(taskBean,roleId));
+        return taskBean;
     }
 
     /**
@@ -87,7 +95,7 @@ public class TaskServiceProvider {
     public static void abandonTask(BaseTaskBean taskBean,MmoSimpleRole role) throws RpgServerException {
         role.getTaskManager().getTaskBeans().remove(taskBean.getTaskMessageId());
         Integer taskBeanId=taskBean.getTaskDbId();
-        ScheduledThreadPoolUtil.addTask(() -> deleteTaskDb(taskBeanId));
+        deleteTaskDb(taskBeanId);
     }
 
 
@@ -128,7 +136,7 @@ public class TaskServiceProvider {
         //删除
         role.getTaskManager().getTaskBeans().remove(taskMessageId);
         Integer taskBeanId=taskBean.getTaskDbId();
-        ScheduledThreadPoolUtil.addTask(() -> TaskServiceProvider.deleteTaskDb(taskBeanId));
+        deleteTaskDb(taskBeanId);
         //奖励
         taskBean.reward(taskMessage,role);
         taskBean.sendFinishTask(role);
@@ -158,7 +166,11 @@ public class TaskServiceProvider {
         return taskMessageList;
     }
 
-
+    /**
+     * 插入任务实体数据库
+     * @param taskBean
+     * @param roleId
+     */
     public static void insertTaskDb(BaseTaskBean taskBean,Integer roleId){
         MmoTaskPOJO mmoTaskPOJO=new MmoTaskPOJO();
         mmoTaskPOJO.setId(taskBean.getTaskDbId());
@@ -167,9 +179,14 @@ public class TaskServiceProvider {
         mmoTaskPOJO.setRoleId(roleId);
         mmoTaskPOJO.setTaskMessageId(taskBean.getTaskMessageId());
         mmoTaskPOJO.setCreateTime(taskBean.getCreateTime());
-        mmoTaskPOJOMapper.insert(mmoTaskPOJO);
+        ScheduledThreadPoolUtil.addTask(()->mmoTaskPOJOMapper.insert(mmoTaskPOJO));
     }
 
+    /**
+     * 更新任务实体数据库
+     * @param taskBean
+     * @param roleId
+     */
     public static void updateTaskDb(BaseTaskBean taskBean,Integer roleId){
         MmoTaskPOJO mmoTaskPOJO=new MmoTaskPOJO();
         mmoTaskPOJO.setId(taskBean.getTaskDbId());
@@ -178,8 +195,14 @@ public class TaskServiceProvider {
         mmoTaskPOJO.setRoleId(roleId);
         mmoTaskPOJO.setTaskMessageId(taskBean.getTaskMessageId());
         mmoTaskPOJO.setCreateTime(taskBean.getCreateTime());
-        mmoTaskPOJOMapper.updateByPrimaryKey(mmoTaskPOJO);
+        ScheduledThreadPoolUtil.addTask(() -> mmoTaskPOJOMapper.updateByPrimaryKey(mmoTaskPOJO));
     }
+
+    /**
+     * 反射得到TaskBean
+     * @param targetType
+     * @return
+     */
     public static BaseTaskBean reflectionTaskBean(Integer targetType){
         String className=TaskTargetTypeCode.getClassNameByCode(targetType);
         Object obj = null;
@@ -194,7 +217,11 @@ public class TaskServiceProvider {
         return taskBean;
     }
 
+    /**
+     * 从数据库删除
+     * @param taskBeanId
+     */
     public static void deleteTaskDb(Integer taskBeanId) {
-        mmoTaskPOJOMapper.deleteByPrimaryKey(taskBeanId);
+        ScheduledThreadPoolUtil.addTask(() -> mmoTaskPOJOMapper.deleteByPrimaryKey(taskBeanId));
     }
 }

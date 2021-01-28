@@ -20,6 +20,7 @@ import io.netty.channel.Channel;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -61,15 +62,31 @@ public class GuildBean {
     /**
      * 人员id集合
      */
-    private List<GuildRoleBean> guildRoleBeans = new ArrayList<>();
+    private CopyOnWriteArrayList<GuildRoleBean> guildRoleBeans = new CopyOnWriteArrayList<>();
     /**
      * 申请入公会请求
      */
-    private ArrayList<GuildApplyBean> guildApplyBeans = new ArrayList<>();
+    private CopyOnWriteArrayList<GuildApplyBean> guildApplyBeans = new CopyOnWriteArrayList<>();
     /**
      * 金钱
      */
     private Integer money;
+
+    public CopyOnWriteArrayList<GuildRoleBean> getGuildRoleBeans() {
+        return guildRoleBeans;
+    }
+
+    public void setGuildRoleBeans(CopyOnWriteArrayList<GuildRoleBean> guildRoleBeans) {
+        this.guildRoleBeans = guildRoleBeans;
+    }
+
+    public CopyOnWriteArrayList<GuildApplyBean> getGuildApplyBeans() {
+        return guildApplyBeans;
+    }
+
+    public void setGuildApplyBeans(CopyOnWriteArrayList<GuildApplyBean> guildApplyBeans) {
+        this.guildApplyBeans = guildApplyBeans;
+    }
 
     /**
      * 金币的读写锁
@@ -94,13 +111,7 @@ public class GuildBean {
         this.money = money;
     }
 
-    public ArrayList<GuildApplyBean> getGuildApplyBeans() {
-        return guildApplyBeans;
-    }
 
-    public void setGuildApplyBeans(ArrayList<GuildApplyBean> guildApplyBeans) {
-        this.guildApplyBeans = guildApplyBeans;
-    }
 
     public Integer getId() {
         return id;
@@ -158,13 +169,6 @@ public class GuildBean {
         this.createTime = createTime;
     }
 
-    public List<GuildRoleBean> getGuildRoleBeans() {
-        return guildRoleBeans;
-    }
-
-    public void setGuildRoleBeans(List<GuildRoleBean> guildRoleBeans) {
-        this.guildRoleBeans = guildRoleBeans;
-    }
 
     /**
      * 检查申请是否过时
@@ -181,7 +185,7 @@ public class GuildBean {
             }
         }
         //数据入库
-        ScheduledThreadPoolUtil.addTask(() -> GuildServiceProvider.getInstance().deleteApply(outTimeApplyIds));
+        GuildServiceProvider.getInstance().deleteApply(outTimeApplyIds);
     }
 
     /**
@@ -218,7 +222,7 @@ public class GuildBean {
                     //数据入库
                     List<Integer> deleteList = new ArrayList<Integer>();
                     deleteList.add(bean.getId());
-                    ScheduledThreadPoolUtil.addTask(() -> GuildServiceProvider.getInstance().deleteApply(deleteList));
+                    GuildServiceProvider.getInstance().deleteApply(deleteList);
                     return true;
                 }
             }
@@ -244,8 +248,7 @@ public class GuildBean {
                     guildRoleBean.setGuildId(getId());
                     guildRoleBean.setContribution(0);
                     guildRoleBean.setGuildPositionId(GuildRolePositionCode.COMMON_PEOPLE.getCode());
-                    Integer id = GuildServiceProvider.getInstance().insertGuildRolePOJO(guildRoleBean);
-                    guildRoleBean.setId(id);
+                    guildRoleBean.setId(GuildServiceProvider.guildRoleIdAuto.incrementAndGet());
                     //成员列表
                     peopleRwLock.writeLock().lock();
                     try {
@@ -262,7 +265,7 @@ public class GuildBean {
                         MmoRolePOJO mmoRolePOJO = RoleMessageCache.getInstance().get(bean.getRoleId());
                         mmoRolePOJO.setGuildId(bean.getGuildId());
                         //数据库删除 更新
-                        ScheduledThreadPoolUtil.addTask(() -> GuildServiceProvider.getInstance().updateRolePOJO(mmoRolePOJO));
+                        GuildServiceProvider.getInstance().updateRolePOJO(mmoRolePOJO);
                     } else {
                         role.setGuildBean(this);
                         sendJoinResponse(role, true);
@@ -271,10 +274,10 @@ public class GuildBean {
                     List<Integer> deleteList = new ArrayList<Integer>();
                     deleteList.add(bean.getId());
                     GuildBean guildBean = this;
-                    ScheduledThreadPoolUtil.addTask(() -> {
-                        GuildServiceProvider.getInstance().deleteApply(deleteList);
-                        GuildServiceProvider.getInstance().updateGuildPOJO(guildBean);
-                    });
+                    //入库
+                    GuildServiceProvider.getInstance().insertGuildRolePOJO(guildRoleBean);
+                    GuildServiceProvider.getInstance().deleteApply(deleteList);
+                    GuildServiceProvider.getInstance().updateGuildPOJO(guildBean);
                     return true;
                 }
             }
@@ -299,16 +302,16 @@ public class GuildBean {
                         MmoRolePOJO mmoRolePOJO = RoleMessageCache.getInstance().get(roleId);
                         mmoRolePOJO.setGuildId(-1);
                         //数据库
-                        ScheduledThreadPoolUtil.addTask(() -> GuildServiceProvider.getInstance().updateRolePOJO(mmoRolePOJO));
+                        GuildServiceProvider.getInstance().updateRolePOJO(mmoRolePOJO);
                     } else {
                         role.setGuildBean(null);
                     }
                     GuildBean guildBean = this;
                     //数据库删除该人的记录
-                    ScheduledThreadPoolUtil.addTask(() -> {
-                        GuildServiceProvider.getInstance().deletePeople(roleBean.getId());
-                        GuildServiceProvider.getInstance().updateGuildPOJO(guildBean);
-                    });
+
+                    GuildServiceProvider.getInstance().deletePeople(roleBean.getId());
+                    GuildServiceProvider.getInstance().updateGuildPOJO(guildBean);
+
                     break;
                 }
             }
@@ -327,7 +330,7 @@ public class GuildBean {
             if (toRoleId.equals(roleBean.getRoleId())) {
                 synchronized (roleBean) {
                     roleBean.setGuildPositionId(position);
-                    ScheduledThreadPoolUtil.addTask(() -> GuildServiceProvider.getInstance().updateGuildRole(roleBean));
+                    GuildServiceProvider.getInstance().updateGuildRole(roleBean);
                     break;
                 }
             }

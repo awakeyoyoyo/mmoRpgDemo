@@ -35,7 +35,6 @@ public class GameSystemServiceImpl implements com.liqihao.service.GameSystemServ
         //删除缓存中的信息
         if (role!=null) {
             Integer roleId=role.getId();
-            MmoSimpleRole mmoSimpleRole=OnlineRoleMessageCache.getInstance().get(roleId);
             // 直接获取即可 父类
             MmoSimpleRole mmoRole= OnlineRoleMessageCache.getInstance().get(roleId);
             MmoRolePOJO mmoRolePOJO=new MmoRolePOJO();
@@ -46,12 +45,6 @@ public class GameSystemServiceImpl implements com.liqihao.service.GameSystemServ
             mmoRolePOJO.setType(mmoRole.getType());
             mmoRolePOJO.setStatus(mmoRole.getStatus());
             //修改数据库
-            ScheduledThreadPoolUtil.addTask(() -> {
-                DbUtil.equipmentIntoDataBase(mmoSimpleRole);
-                DbUtil.bagIntoDataBase(mmoSimpleRole.getBackpackManager(),roleId);
-                DbUtil.roleInfoIntoDataBase(role);
-                mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO);
-            });
             if (role.getMmoSceneId()!=null) {
                 SceneBeanMessageCache.getInstance().get(role.getMmoSceneId()).getRoles().remove(role.getId());
             }
@@ -68,10 +61,12 @@ public class GameSystemServiceImpl implements com.liqihao.service.GameSystemServ
         NettyResponse response=new NettyResponse();
         response.setCmd(ConstantValue.OUT_RIME_RESPONSE);
         response.setStateCode(StateCode.SUCCESS);
+        //protobuf
         GameSystemModel.GameSystemModelMessage modelMessage=GameSystemModel.GameSystemModelMessage.newBuilder()
                 .setDataType(GameSystemModel.GameSystemModelMessage.DateType.OutTimeResponse)
                 .setOutTimeResponse(GameSystemModel.OutTimeResponse.newBuilder().setMessage("太久没活动了，服务器已断开连接").build()).build();
         response.setData(modelMessage.toByteArray());
+        //send
         String json= JsonFormat.printToString(modelMessage);
         NotificationUtil.sendMessage(channel,response,json);
     }

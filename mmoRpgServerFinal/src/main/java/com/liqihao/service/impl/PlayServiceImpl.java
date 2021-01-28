@@ -77,7 +77,9 @@ public class PlayServiceImpl implements PlayService {
         registerResponseBuilder.setStateCode(200);
         messageData.setRegisterResponse(registerResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
-        channel.writeAndFlush(nettyResponse);
+        //send
+        String json= JsonFormat.printToString(messageData.build());
+        NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 
     @Override
@@ -153,6 +155,7 @@ public class PlayServiceImpl implements PlayService {
         nettyResponse.setCmd(ConstantValue.LOGOUT_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
+        //send
         String json= JsonFormat.printToString(myMessageBuilder.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
 

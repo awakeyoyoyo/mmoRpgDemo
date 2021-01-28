@@ -448,7 +448,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
                 //装备栏数据库减少该装备
                 if (equipmentBean.getEquipmentBagId() != null) {
                     Integer bagId=equipmentBean.getEquipmentBagId();
-                    ScheduledThreadPoolUtil.addTask(() -> DbUtil.deleteEquipmentBagById(bagId));
+                     DbUtil.deleteEquipmentBagById(bagId);
                 }
                 //装备栏id为null
                 equipmentBean.setEquipmentBagId(null);
@@ -796,7 +796,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
         getTaskManager().handler(sceneTaskAction,this);
         //同步角色信息
         MmoSimpleRole role=this;
-        ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateRole(role));
+        DbUtil.updateRole(role);
         return nextSceneRoles;
     }
 

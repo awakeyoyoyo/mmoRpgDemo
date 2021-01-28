@@ -34,7 +34,6 @@ public class DealServiceImpl implements DealService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.ASK_DEAL_REQUEST,module = ConstantValue.DEAL_MODULE)
     public void askDealRequest(DealModel.DealModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws RpgServerException {
-        Channel channel = mmoSimpleRole.getChannel();
         Integer roleId=myMessage.getAskDealRequest().getRoleId();
         MmoSimpleRole role2= OnlineRoleMessageCache.getInstance().get(roleId);
         if (role2==null){
@@ -45,7 +44,7 @@ public class DealServiceImpl implements DealService {
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.ASK_DEAL_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        //protobuf 生成registerResponse
+        //protobuf
         DealModel.DealModelMessage.Builder messageData = DealModel.DealModelMessage.newBuilder();
         messageData.setDataType(DealModel.DealModelMessage.DateType.AskDealResponse);
         DealModel.AskDealResponse.Builder askDealResponseResponseBuilder = DealModel.AskDealResponse.newBuilder()
@@ -55,6 +54,7 @@ public class DealServiceImpl implements DealService {
         List<MmoSimpleRole> roles=new ArrayList<>();
         roles.add(role2);
         roles.add(mmoSimpleRole);
+        //send
         String json= JsonFormat.printToString(messageData.build());
         NotificationUtil.sendRolesMessage(nettyResponse,roles,json);
     }
@@ -67,17 +67,13 @@ public class DealServiceImpl implements DealService {
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.AGREE_DEAL_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        //protobuf 生成registerResponse
+        //protobuf
         DealModel.DealModelMessage.Builder messageData = DealModel.DealModelMessage.newBuilder();
         messageData.setDataType(DealModel.DealModelMessage.DateType.AgreeDealResponse);
         DealModel.AgreeDealResponse.Builder agreeDealResponseBuilder = DealModel.AgreeDealResponse.newBuilder();
         messageData.setAgreeDealResponse(agreeDealResponseBuilder.build());
-        nettyResponse.setData(messageData.build().toByteArray());
-        List<MmoSimpleRole> roles=new ArrayList<>();
-        roles.add(dealBean.getFirstRole());
-        roles.add(dealBean.getSecondRole());
-        String json= JsonFormat.printToString(messageData.build());
-        NotificationUtil.sendRolesMessage(nettyResponse,roles,json);
+        //send
+        sendResponseEachOther(dealBean, nettyResponse, messageData);
     }
 
     @Override
@@ -89,18 +85,15 @@ public class DealServiceImpl implements DealService {
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.REFUSE_DEAL_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        //protobuf 生成registerResponse
+        //protobuf
         DealModel.DealModelMessage.Builder messageData = DealModel.DealModelMessage.newBuilder();
         messageData.setDataType(DealModel.DealModelMessage.DateType.RefuseDealResponse);
         DealModel.RefuseDealResponse.Builder refuseDealResponseBuilder = DealModel.RefuseDealResponse.newBuilder();
         messageData.setRefuseDealResponse(refuseDealResponseBuilder.build());
-        nettyResponse.setData(messageData.build().toByteArray());
-        List<MmoSimpleRole> roles=new ArrayList<>();
-        roles.add(dealBean.getFirstRole());
-        roles.add(dealBean.getSecondRole());
-        String json= JsonFormat.printToString(messageData.build());
-        NotificationUtil.sendRolesMessage(nettyResponse,roles,json);
+        //send
+        sendResponseEachOther(dealBean, nettyResponse, messageData);
     }
+
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.CONFIRM_DEAL_REQUEST,module = ConstantValue.DEAL_MODULE)
@@ -116,18 +109,14 @@ public class DealServiceImpl implements DealService {
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.CANCEL_DEAL_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        //protobuf 生成registerResponse
+        //protobuf
         DealModel.DealModelMessage.Builder messageData = DealModel.DealModelMessage.newBuilder();
         messageData.setDataType(DealModel.DealModelMessage.DateType.CancelDealResponse);
         DealModel.CancelDealResponse.Builder cancelDealResponseBuilder = DealModel.CancelDealResponse.newBuilder()
                 .setRoleId(mmoSimpleRole.getId()).setRoleName(mmoSimpleRole.getName());
         messageData.setCancelDealResponse(cancelDealResponseBuilder.build());
-        nettyResponse.setData(messageData.build().toByteArray());
-        List<MmoSimpleRole> roles=new ArrayList<>();
-        roles.add(dealBean.getFirstRole());
-        roles.add(dealBean.getSecondRole());
-        String json= JsonFormat.printToString(messageData.build());
-        NotificationUtil.sendRolesMessage(nettyResponse,roles,json);
+        //send
+        sendResponseEachOther(dealBean, nettyResponse, messageData);
     }
 
     @Override
@@ -142,8 +131,8 @@ public class DealServiceImpl implements DealService {
         if (dealBean.getStatus().equals(DealStatusCode.WAIT.getCode())){
             throw new RpgServerException(StateCode.FAIL,"交易还未开始，等待接收交易请求");
         }
-        List<DealModel.ArticleDto> articleBuilders01=new ArrayList<>();
-        List<DealModel.ArticleDto> articleBuilders02=new ArrayList<>();
+        List<DealModel.ArticleDto> articleBuilders01;
+        List<DealModel.ArticleDto> articleBuilders02;
         List<ArticleDto> firstArticles=dealBean.getFirstDealArticleBean().getArticleDto();
         List<ArticleDto> secondArticles=dealBean.getSecondDealArticleBean().getArticleDto();
         articleBuilders01=CommonsUtil.articlesToDealModelArticleDto(firstArticles);
@@ -151,7 +140,7 @@ public class DealServiceImpl implements DealService {
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.GET_DEAL_MESSAGE_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        //protobuf 生成registerResponse
+        //protobuf
         DealModel.DealModelMessage.Builder messageData = DealModel.DealModelMessage.newBuilder();
         messageData.setDataType(DealModel.DealModelMessage.DateType.GetDealMessageResponse);
         DealModel.GetDealMessageResponse.Builder getDealMessageResponseBuilder = DealModel.GetDealMessageResponse.newBuilder().setFirstMoney(dealBean.getFirstDealArticleBean().getMoney())
@@ -159,6 +148,7 @@ public class DealServiceImpl implements DealService {
                 .setSecondRoleId(dealBean.getSecondRole().getId()).setSecondRoleName(dealBean.getSecondRole().getName()).addAllSecondArticleDto(articleBuilders02).setSecondMoney(dealBean.getSecondDealArticleBean().getMoney());
         messageData.setGetDealMessageResponse(getDealMessageResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
+        //send
         String json= JsonFormat.printToString(messageData.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
@@ -171,18 +161,14 @@ public class DealServiceImpl implements DealService {
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.SET_DEAL_MONEY_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        //protobuf 生成registerResponse
+        //protobuf
         DealModel.DealModelMessage.Builder messageData = DealModel.DealModelMessage.newBuilder();
         messageData.setDataType(DealModel.DealModelMessage.DateType.SetDealMoneyResponse);
         DealModel.SetDealMoneyResponse.Builder setDealMoneyResponseBuilder = DealModel.SetDealMoneyResponse.newBuilder()
                 .setMoney(money).setRoleId(mmoSimpleRole.getId()).setRoleName(mmoSimpleRole.getName());
         messageData.setSetDealMoneyResponse(setDealMoneyResponseBuilder.build());
-        nettyResponse.setData(messageData.build().toByteArray());
-        List<MmoSimpleRole> roles=new ArrayList<>();
-        roles.add(dealBean.getFirstRole());
-        roles.add(dealBean.getSecondRole());
-        String json= JsonFormat.printToString(messageData.build());
-        NotificationUtil.sendRolesMessage(nettyResponse,roles,json);
+        //send
+        sendResponseEachOther(dealBean, nettyResponse, messageData);
     }
 
     @Override
@@ -198,7 +184,7 @@ public class DealServiceImpl implements DealService {
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.ADD_DEAL_ARTICLE_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        //protobuf 生成registerResponse
+        //protobuf
         DealModel.DealModelMessage.Builder messageData = DealModel.DealModelMessage.newBuilder();
         messageData.setDataType(DealModel.DealModelMessage.DateType.AddArticleResponse);
         DealModel.AddArticleResponse.Builder addArticleResponseBuilder = DealModel.AddArticleResponse.newBuilder()
@@ -206,11 +192,8 @@ public class DealServiceImpl implements DealService {
         messageData.setAddArticleResponse(addArticleResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         DealBean dealBean=DealServiceProvider.getDealBean(mmoSimpleRole.getDealBeanId());
-        List<MmoSimpleRole> roles=new ArrayList<>();
-        roles.add(dealBean.getFirstRole());
-        roles.add(dealBean.getSecondRole());
-        String json= JsonFormat.printToString(messageData.build());
-        NotificationUtil.sendRolesMessage(nettyResponse,roles,json);
+        //send
+        sendResponseEachOther(dealBean, nettyResponse, messageData);
     }
 
     @Override
@@ -227,14 +210,27 @@ public class DealServiceImpl implements DealService {
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.ABANDON_DEAL_ARTICLE_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        //protobuf 生成registerResponse
+        //protobuf
         DealModel.DealModelMessage.Builder messageData = DealModel.DealModelMessage.newBuilder();
         messageData.setDataType(DealModel.DealModelMessage.DateType.AbandonArticleResponse);
         DealModel.AbandonArticleResponse.Builder abandonArticleResponseBuilder = DealModel.AbandonArticleResponse.newBuilder()
                 .setRoleId(mmoSimpleRole.getId()).setRoleName(mmoSimpleRole.getName()).setArticleDto(articleDto1);
         messageData.setAbandonArticleResponse(abandonArticleResponseBuilder.build());
-        nettyResponse.setData(messageData.build().toByteArray());
         DealBean dealBean=DealServiceProvider.getDealBean(mmoSimpleRole.getDealBeanId());
+        //send
+        sendResponseEachOther(dealBean, nettyResponse, messageData);
+    }
+    /**
+     * description 发送响应给对方
+     * @param dealBean
+     * @param nettyResponse
+     * @param messageData
+     * @return {@link null }
+     * @author lqhao
+     * @createTime 2021/1/28 15:15
+     */
+    public static void sendResponseEachOther(DealBean dealBean, NettyResponse nettyResponse, DealModel.DealModelMessage.Builder messageData) {
+        nettyResponse.setData(messageData.build().toByteArray());
         List<MmoSimpleRole> roles=new ArrayList<>();
         roles.add(dealBean.getFirstRole());
         roles.add(dealBean.getSecondRole());
