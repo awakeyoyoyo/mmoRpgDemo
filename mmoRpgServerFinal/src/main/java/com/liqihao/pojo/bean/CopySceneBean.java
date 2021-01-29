@@ -27,6 +27,7 @@ import com.liqihao.provider.TaskServiceProvider;
 import com.liqihao.provider.TeamServiceProvider;
 import com.liqihao.util.CommonsUtil;
 import com.liqihao.util.DbUtil;
+import com.liqihao.util.LogicThreadPool;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
 
@@ -334,13 +335,13 @@ public class CopySceneBean{
             /**
              * 队伍中玩家全部加金币 上锁，防止购买物品与副本挑战成功获取金币冲突
              */
-            role.moneyLock.writeLock().lock();
-            try {
-                role.setMoney(role.getMoney() + copySceneMessage.getMoney());
-            }finally {
-                role.moneyLock.writeLock().unlock();
-            }
-            DbUtil.updateRole(role);
+            Integer money=copySceneMessage.getMoney();
+            Integer index=CommonsUtil.getIndexByChannel(role.getChannel());
+            LogicThreadPool.getInstance().execute(() -> {
+                role.setMoney(role.getMoney() + money);
+                DbUtil.updateRole(role);
+            }, index);
+
             if (c!=null) {
                 c.writeAndFlush(nettyResponse);
             }

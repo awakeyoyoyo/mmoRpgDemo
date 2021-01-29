@@ -16,9 +16,7 @@ import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.protobufObject.TaskModel;
 import com.liqihao.provider.ArticleServiceProvider;
 import com.liqihao.provider.TaskServiceProvider;
-import com.liqihao.util.DbUtil;
-import com.liqihao.util.NotificationUtil;
-import com.liqihao.util.ScheduledThreadPoolUtil;
+import com.liqihao.util.*;
 import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import io.netty.channel.Channel;
 
@@ -160,14 +158,11 @@ public abstract class BaseTaskBean {
         Integer rewardArticleType=taskMessage.getRewardArticleType();
         //金币类型
         if (rewardArticleType.equals(ArticleTypeCode.MONEY.getCode())){
-            role.moneyLock.writeLock().lock();
-            try{
-                role.setMoney(role.getMoney()+rewardNum);
+            Integer index= CommonsUtil.getIndexByChannel(role.getChannel());
+            LogicThreadPool.getInstance().execute(() -> {
+                role.setMoney(role.getMoney() + rewardNum);
                 DbUtil.updateRole(role);
-            }finally {
-                role.moneyLock.writeLock().unlock();
-            }
-            return;
+            }, index);
         }
         //装备、药品
         Article article=null;

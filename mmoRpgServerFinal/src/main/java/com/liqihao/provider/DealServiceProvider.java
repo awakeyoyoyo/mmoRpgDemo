@@ -21,6 +21,7 @@ import com.liqihao.pojo.bean.taskBean.teamFirstTask.TeamTaskAction;
 import com.liqihao.protobufObject.DealModel;
 import com.liqihao.service.impl.DealServiceImpl;
 import com.liqihao.util.CommonsUtil;
+import com.liqihao.util.LogicThreadPool;
 import com.liqihao.util.NotificationUtil;
 import io.netty.channel.Channel;
 
@@ -171,37 +172,34 @@ public class DealServiceProvider {
                 //交易完成 双方交换
                 MmoSimpleRole role1 = dealBean.getFirstRole();
                 MmoSimpleRole role2 = dealBean.getSecondRole();
-                //交换金币
-                role1.setMoney(role1.getMoney() + dealArticleBean02.getMoney());
-                role2.setMoney(role2.getMoney() + dealArticleBean01.getMoney());
-                //物品
-                if (dealArticleBean02.getArticles().size() > 0) {
-                    for (Article a : dealArticleBean02.getArticles()) {
-                        role1.getBackpackManager().put(a, role1.getId());
-                    }
-                }
-                if (dealArticleBean01.getArticles().size() > 0) {
-                    for (Article a : dealArticleBean01.getArticles()) {
-                        role2.getBackpackManager().put(a, role2.getId());
-                    }
-                }
+                //交换金币 物品
+                //根据channel计算index
+                Integer index01 = CommonsUtil.getIndexByChannel(role1.getChannel());
+                LogicThreadPool.getInstance().execute(() -> exchangeThing(dealArticleBean01.getArticles(),role1,dealArticleBean01.getMoney()), index01);
+                //放到各自线程中执行
+                Integer index02 = CommonsUtil.getIndexByChannel(role2.getChannel());
+                LogicThreadPool.getInstance().execute(() -> exchangeThing(dealArticleBean02.getArticles(),role2,dealArticleBean02.getMoney()), index02);
                 dealBean.setStatus(DealStatusCode.FINISH.getCode());
                 dealBeans.remove(dealBean.getId());
-                role1.setOnDeal(false);
-                role1.setDealBeanId(null);
-                role2.setOnDeal(false);
-                role2.setDealBeanId(null);
                 //发送消息交易完成
                 sendDealSuccessMessage(dealBean);
-                //任务条件触发
-                DealTaskAction dealTaskAction01 = new DealTaskAction();
-                dealTaskAction01.setTaskTargetType(TaskTargetTypeCode.FIRST_TIME_DEAL.getCode());
-                role1.getTaskManager().handler(dealTaskAction01, role1);
-                DealTaskAction dealTaskAction02 = new DealTaskAction();
-                dealTaskAction02.setTaskTargetType(TaskTargetTypeCode.FIRST_TIME_DEAL.getCode());
-                role2.getTaskManager().handler(dealTaskAction02, role2);
             }
         }
+    }
+
+    public static void exchangeThing(List<Article> articles, MmoSimpleRole role, Integer money){
+        if (articles.size()>0) {
+            for (Article a : articles) {
+                role.getBackpackManager().put(a, role.getId());
+            }
+        }
+        role.setMoney(role.getMoney() +money);
+        role.setOnDeal(false);
+        role.setDealBeanId(null);
+        //任务
+        DealTaskAction dealTaskAction = new DealTaskAction();
+        dealTaskAction.setTaskTargetType(TaskTargetTypeCode.FIRST_TIME_DEAL.getCode());
+        role.getTaskManager().handler(dealTaskAction, role);
     }
 
     private static void sendDealSuccessMessage(DealBean dealBean) {
@@ -323,20 +321,13 @@ public class DealServiceProvider {
         if (role.getMoney() < money) {
             throw new RpgServerException(StateCode.FAIL, "当前没有如此之多的金币");
         }
-
-        role.moneyLock.writeLock().lock();
-        try {
-            Integer endMoney = dealArticleBean01.getMoney() - money;
-            role.setMoney(role.getMoney() + endMoney);
-            dealArticleBean01.setMoney(dealArticleBean01.getMoney() + money);
-        } finally {
-            role.moneyLock.writeLock().unlock();
-        }
+        Integer endMoney = dealArticleBean01.getMoney() - money;
+        role.setMoney(role.getMoney() + endMoney);
+        dealArticleBean01.setMoney(dealArticleBean01.getMoney() + money);
     }
 
     /**
      * 添加物品
-     *
      * @throws RpgServerException
      */
     public static Article addArticleDeal(Integer articleId, Integer num, MmoSimpleRole role) throws RpgServerException {

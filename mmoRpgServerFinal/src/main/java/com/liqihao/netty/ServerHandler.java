@@ -47,21 +47,17 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-//        log.info("Server:channelActive");
-//        log.info("["+ctx.channel().remoteAddress()+"] connected");
+
     }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-//        log.info("Server:channelRead");
         lossConnectCount=0;
         NettyRequest request= (NettyRequest) msg;
         if (request.getCmd()==ConstantValue.HEART_BEAT) {
             //心跳包则不处理 直接返回
-//            log.info("收到客户端端的心跳包");
            return;
         }
-
         //根据channel计算index
         Integer index= CommonsUtil.getIndexByChannel(ctx.channel());
         LogicThreadPool.getInstance().execute(() -> dispatcherservlet.handler(request,ctx.channel()),index);
@@ -76,7 +72,6 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
-        log.info("已经5秒未收到客户端的消息了！ 第几次？"+lossConnectCount);
         if (evt instanceof IdleStateEvent){
             IdleStateEvent event = (IdleStateEvent)evt;
             if (event.state()== IdleState.READER_IDLE){

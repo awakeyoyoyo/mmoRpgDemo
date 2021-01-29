@@ -124,11 +124,6 @@ public class MmoSimpleRole extends Role implements MyObserver {
      */
     private Integer dealBeanId;
     /**
-     * 金币读写锁
-     */
-    public final ReadWriteLock moneyLock=new ReentrantReadWriteLock();
-
-    /**
      * 任务管理
      */
     private TaskManager taskManager;
@@ -164,9 +159,6 @@ public class MmoSimpleRole extends Role implements MyObserver {
         return friendApplyBeanHashMap;
     }
 
-    public ReadWriteLock getMoneyLock() {
-        return moneyLock;
-    }
 
     public boolean isOnDeal() {
         return onDeal;
