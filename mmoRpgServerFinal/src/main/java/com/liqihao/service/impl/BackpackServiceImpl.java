@@ -155,7 +155,7 @@ public class BackpackServiceImpl implements BackpackService {
         }
         //上锁
         synchronized (mmoSimpleRole.getBackpackManager()) {
-            if (!mmoSimpleRole.getBackpackManager().canPutArticle(article)) {
+            if (!mmoSimpleRole.getBackpackManager().canPutArticle(article.getArticleMessageId(),article.getArticleTypeCode(),number)) {
                 throw new RpgServerException(StateCode.FAIL,"背包已经满了");
             }
             mmoSimpleRole.getBackpackManager().put(article,mmoSimpleRole.getId());
@@ -223,7 +223,7 @@ public class BackpackServiceImpl implements BackpackService {
         }
         //放入背包
         synchronized (mmoSimpleRole.getBackpackManager()) {
-            if (!mmoSimpleRole.getBackpackManager().canPutArticle(article)) {
+            if (!mmoSimpleRole.getBackpackManager().canPutArticle(article.getArticleMessageId(),article.getArticleTypeCode(),article.getQuantity())) {
                 throw new RpgServerException(StateCode.FAIL,"背包已经满了");
             }
             mmoSimpleRole.getBackpackManager().put(article,mmoSimpleRole.getId());
@@ -336,7 +336,7 @@ public class BackpackServiceImpl implements BackpackService {
         if (article.getArticleTypeCode().equals(ArticleTypeCode.EQUIPMENT.getCode())) {
             //装备
             EquipmentBean equipmentBean = (EquipmentBean) article;
-            EquipmentMessage equipmentMessage=EquipmentMessageCache.getInstance().get(equipmentBean.getEquipmentMessageId());
+            EquipmentMessage equipmentMessage=EquipmentMessageCache.getInstance().get(equipmentBean.getArticleMessageId());
             dtoBuilder.setId(equipmentMessage.getId())
                     .setArticleType(equipmentMessage.getArticleType())
                     .setFloorIndex(equipmentBean.getFloorIndex())
@@ -346,8 +346,8 @@ public class BackpackServiceImpl implements BackpackService {
         } else {
             //道具
             MedicineBean medicineBean = (MedicineBean) article;
-            MedicineMessage medicineMessage= MedicineMessageCache.getInstance().get(medicineBean.getMedicineMessageId());
-            dtoBuilder.setId(medicineBean.getMedicineMessageId())
+            MedicineMessage medicineMessage= MedicineMessageCache.getInstance().get(medicineBean.getArticleMessageId());
+            dtoBuilder.setId(medicineBean.getArticleTypeCode())
                     .setArticleType(medicineMessage.getArticleType())
                     .setFloorIndex(medicineBean.getFloorIndex())
                     .setNowDurability(-1)

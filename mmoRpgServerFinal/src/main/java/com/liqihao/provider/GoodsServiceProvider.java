@@ -77,7 +77,7 @@ public class GoodsServiceProvider {
             article= sellMedicineBean(goodsMessage.getArticleMessageId(),num);
         }
         synchronized (mmoSimpleRole.getBackpackManager()) {
-            flag = mmoSimpleRole.getBackpackManager().canPutArticle(article);
+            flag = mmoSimpleRole.getBackpackManager().canPutArticle(article.getArticleMessageId(), article.getArticleTypeCode(), article.getQuantity());
             if (!flag) {
                 //背包满了
                 //恢复

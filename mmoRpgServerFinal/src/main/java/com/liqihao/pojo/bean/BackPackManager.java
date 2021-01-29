@@ -31,7 +31,6 @@ public class BackPackManager {
         this.needDeleteBagId = needDeleteBagId;
     }
 
-
     public BackPackManager() {
     }
 
@@ -59,7 +58,18 @@ public class BackPackManager {
     /**
      * 背包格子是否足够
      */
-    public boolean canPutArticle(Article article) {
+    public boolean canPutArticle(Integer articleMessageId,Integer articleType,Integer num) {
+        Article article;
+        if (articleType.equals(ArticleTypeCode.EQUIPMENT.getCode())){
+            article=new MedicineBean();
+
+        }else if (articleType.equals(ArticleTypeCode.MEDICINE.getCode())){
+            article=new EquipmentBean();
+        }else{
+            return false;
+        }
+        article.setQuantity(num);
+        article.setArticleMessageId(articleMessageId);
         //判断物品类型
         return article.checkCanPut(this);
     }
@@ -88,7 +98,6 @@ public class BackPackManager {
      * 背包放入东西 按照数据库格式来存放
      */
     public synchronized void putOnDatabase(Article article) {
-
         if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())) {
             MedicineBean medicineBean = article.getArticle();
             medicineBean.setArticleId(getNewArticleId());
@@ -117,7 +126,7 @@ public class BackPackManager {
      */
     public synchronized Article useOrAbandonArticle(Integer articleId, Integer number,Integer roleId) {
         for (Article a : getBackpacks()) {
-            if (a.getArticleIdCode().equals(articleId)) {
+            if (a.getArticleId().equals(articleId)) {
                 return a.useOrAbandon(number,this,roleId);
             }
         }
@@ -152,7 +161,7 @@ public class BackPackManager {
      */
     public synchronized Article getArticleByArticleId(Integer articleId) {
         for (Article article : getBackpacks()) {
-            if (articleId.equals(article.getArticleIdCode())) {
+            if (articleId.equals(article.getArticleId())) {
                 return article;
             }
         }

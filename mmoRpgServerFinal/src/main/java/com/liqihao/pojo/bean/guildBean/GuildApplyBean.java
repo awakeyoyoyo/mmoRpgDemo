@@ -5,9 +5,9 @@ package com.liqihao.pojo.bean.guildBean;
  * @author lqhao
  */
 public class GuildApplyBean {
-    Integer id;
-    Integer roleId;
-    Integer guildId;
+    private Integer id;
+    private Integer roleId;
+    private Integer guildId;
     private long endTime;
     private long createTime;
 

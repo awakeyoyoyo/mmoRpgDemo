@@ -13,6 +13,7 @@ import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.pojo.bean.taskBean.guildFirstTask.GuildFirstAction;
 import com.liqihao.protobufObject.GuildModel;
 import com.liqihao.provider.GuildServiceProvider;
+import com.liqihao.util.DbUtil;
 import com.liqihao.util.NotificationUtil;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
@@ -91,12 +92,12 @@ public class GuildBean {
     /**
      * 金币的读写锁
      */
-    ReadWriteLock moneyRwLock = new ReentrantReadWriteLock();
+    public static final ReadWriteLock moneyRwLock = new ReentrantReadWriteLock();
 
     /**
      * 公会成员读写锁
      */
-    ReadWriteLock peopleRwLock = new ReentrantReadWriteLock();
+    public static final ReadWriteLock peopleRwLock = new ReentrantReadWriteLock();
 
     public Integer getMoney() {
         moneyRwLock.readLock().lock();
@@ -110,8 +111,6 @@ public class GuildBean {
     public void setMoney(Integer money) {
         this.money = money;
     }
-
-
 
     public Integer getId() {
         return id;
@@ -252,7 +251,7 @@ public class GuildBean {
                     peopleRwLock.writeLock().lock();
                     try {
                         getGuildRoleBeans().add(guildRoleBean);
-                    } finally {
+                    }finally {
                         peopleRwLock.writeLock().unlock();
                     }
                     //删除申请记录
@@ -288,7 +287,8 @@ public class GuildBean {
      * 离开公会
      */
     public void leaveGuild(Integer roleId) throws RpgServerException {
-        synchronized (guildRoleBeans) {
+        peopleRwLock.writeLock().lock();
+        try{
             Iterator iterator = guildRoleBeans.iterator();
             while (iterator.hasNext()) {
                 GuildRoleBean roleBean = (GuildRoleBean) iterator.next();
@@ -304,6 +304,7 @@ public class GuildBean {
                         GuildServiceProvider.getInstance().updateRolePOJO(mmoRolePOJO);
                     } else {
                         role.setGuildBean(null);
+                        DbUtil.updateRole(role);
                     }
                     GuildBean guildBean = this;
                     //数据库删除该人的记录
@@ -312,6 +313,8 @@ public class GuildBean {
                     break;
                 }
             }
+        }finally {
+            peopleRwLock.writeLock().unlock();
         }
     }
 
@@ -320,23 +323,29 @@ public class GuildBean {
      * 设置公会成员职位
      */
     public void setRolePosition(Integer toRoleId, Integer position) throws RpgServerException {
-        Iterator iterator = guildRoleBeans.iterator();
         //每次插入都删除申请过时或者
-        while (iterator.hasNext()) {
-            GuildRoleBean roleBean = (GuildRoleBean) iterator.next();
-            if (toRoleId.equals(roleBean.getRoleId())) {
-                synchronized (roleBean) {
-                    roleBean.setGuildPositionId(position);
-                    GuildServiceProvider.getInstance().updateGuildRole(roleBean);
-                    break;
+        //锁公会成员bean 防止成员离开 遍历成员出错
+        peopleRwLock.readLock().lock();
+        try{
+            Iterator iterator = guildRoleBeans.iterator();
+            while (iterator.hasNext()) {
+                GuildRoleBean roleBean = (GuildRoleBean) iterator.next();
+                if (toRoleId.equals(roleBean.getRoleId())) {
+                    //锁单独成员bean 防止同时修改
+                    synchronized (roleBean) {
+                        roleBean.setGuildPositionId(position);
+                        GuildServiceProvider.getInstance().updateGuildRole(roleBean);
+                        break;
+                    }
                 }
             }
+        }finally {
+            peopleRwLock.readLock().unlock();
         }
     }
 
     /**
      * 返回玩家在公会的信息
-     *
      * @param roleId
      * @return
      */
@@ -415,6 +424,26 @@ public class GuildBean {
             GuildServiceProvider.getInstance().updateGuildPOJO(this);
         } finally {
             moneyRwLock.writeLock().unlock();
+        }
+    }
+
+    /**
+     * description 是否已经存在该玩家的公会申请
+     * @param roleId
+     * @return {@link boolean }
+     * @author lqhao
+     * @createTime 2021/1/29 15:18
+     */
+    public boolean constrainGuildApplyBean(Integer roleId) {
+        synchronized (guildApplyBeans){
+            Iterator iterator=guildApplyBeans.iterator();
+            while (iterator.hasNext()){
+                GuildApplyBean guildApplyBean= (GuildApplyBean) iterator.next();
+                if (guildApplyBean.getRoleId().equals(roleId)){
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

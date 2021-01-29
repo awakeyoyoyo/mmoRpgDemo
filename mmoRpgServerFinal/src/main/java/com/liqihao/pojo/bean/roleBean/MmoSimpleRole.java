@@ -443,7 +443,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
                 //无装备
                 return false;
             } else {
-                EquipmentMessage equipmentMessage= (EquipmentMessage) EquipmentMessageCache.getInstance().get(equipmentBean.getEquipmentMessageId());
+                EquipmentMessage equipmentMessage=EquipmentMessageCache.getInstance().get(equipmentBean.getArticleMessageId());
                 equipmentBeanHashMap.remove(position);
                 //装备栏数据库减少该装备
                 if (equipmentBean.getEquipmentBagId() != null) {
@@ -453,7 +453,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
                 //装备栏id为null
                 equipmentBean.setEquipmentBagId(null);
                 //放入背包
-                if (!backpackManager.canPutArticle(equipmentBean)){
+                if (!backpackManager.canPutArticle(equipmentBean.getArticleMessageId(),equipmentBean.getArticleTypeCode(),equipmentBean.getQuantity())){
                     throw new RpgServerException(StateCode.FAIL,"背包已经满了");
                 }
                 backpackManager.put(equipmentBean,getId());
@@ -475,9 +475,9 @@ public class MmoSimpleRole extends Role implements MyObserver {
     public List<EquipmentDto> getEquipments() {
         List<EquipmentDto> equipmentDtos = new ArrayList<>();
         for (EquipmentBean bean : equipmentBeanHashMap.values()) {
-            EquipmentMessage equipmentMessage= EquipmentMessageCache.getInstance().get(bean.getEquipmentMessageId());
+            EquipmentMessage equipmentMessage= EquipmentMessageCache.getInstance().get(bean.getArticleMessageId());
             EquipmentDto equipmentDto = new EquipmentDto();
-            equipmentDto.setId(bean.getEquipmentMessageId());
+            equipmentDto.setId(bean.getArticleMessageId());
             equipmentDto.setNowDurability(bean.getNowDurability());
             equipmentDto.setPosition(equipmentMessage.getPosition());
             equipmentDto.setEquipmentBagId(bean.getEquipmentBagId());

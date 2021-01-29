@@ -204,7 +204,7 @@ public class DbUtil {
         mmoBagPOJO.setArticleType(medicineBean.getArticleTypeCode());
         mmoBagPOJO.setNumber(medicineBean.getQuantity());
         mmoBagPOJO.setRoleId(roleId);
-        mmoBagPOJO.setwId(medicineBean.getMedicineMessageId());
+        mmoBagPOJO.setwId(medicineBean.getArticleMessageId());
         mmoBagPOJO.setBagId(medicineBean.getBagId());
         ScheduledThreadPoolUtil.addTask(() -> mmoBagPOJOMapper.updateByPrimaryKey(mmoBagPOJO));
     }
@@ -235,7 +235,7 @@ public class DbUtil {
     public static void updateEquipment(EquipmentBean e) {
         MmoEquipmentPOJO equipmentPOJO=new MmoEquipmentPOJO();
         equipmentPOJO.setId(e.getEquipmentId());
-        equipmentPOJO.setMessageId(e.getEquipmentMessageId());
+        equipmentPOJO.setMessageId(e.getArticleMessageId());
         equipmentPOJO.setNowDurability(e.getNowDurability());
         ScheduledThreadPoolUtil.addTask(() ->mmoEquipmentPOJOMapper.updateByPrimaryKey(equipmentPOJO));
     }
@@ -279,7 +279,7 @@ public class DbUtil {
         MmoEquipmentPOJO mmoEquipmentPOJO=new MmoEquipmentPOJO();
         mmoEquipmentPOJO.setId(equipmentBean.getEquipmentId());
         mmoEquipmentPOJO.setNowDurability(equipmentBean.getNowDurability());
-        mmoEquipmentPOJO.setMessageId(equipmentBean.getEquipmentMessageId());
+        mmoEquipmentPOJO.setMessageId(equipmentBean.getArticleMessageId());
         ScheduledThreadPoolUtil.addTask(() ->mmoEquipmentPOJOMapper.insert(mmoEquipmentPOJO));
     }
 
@@ -355,7 +355,7 @@ public class DbUtil {
         mmoWareHousePOJO.setId(temp.getWareHouseDBId());
         mmoWareHousePOJO.setArticleType(temp.getArticleTypeCode());
         mmoWareHousePOJO.setGuildId(guildId);
-        mmoWareHousePOJO.setArticleMessageId(temp.getMedicineMessageId());
+        mmoWareHousePOJO.setArticleMessageId(temp.getArticleMessageId());
         mmoWareHousePOJO.setNumber(temp.getQuantity());
         ScheduledThreadPoolUtil.addTask(() ->mmoWareHousePOJOMapper.updateByPrimaryKey(mmoWareHousePOJO));
     }

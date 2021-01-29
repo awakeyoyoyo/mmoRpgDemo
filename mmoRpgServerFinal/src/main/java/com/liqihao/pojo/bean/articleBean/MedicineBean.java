@@ -41,96 +41,7 @@ import static com.liqihao.util.DbUtil.deleteWareHouseById;
  *
  * @author lqhao
  */
-public class MedicineBean  implements Article{
-    /**
-     * 药品基本信息Id
-     */
-    private Integer medicineMessageId;
-    private Integer quantity;
-    /**
-     * 缓存中背包id
-     */
-    private Integer articleId;
-    /**
-     * 数据库行记录id
-     */
-    private Integer bagId;
-    /**
-     *
-     *地面物品的下标
-     */
-    private Integer floorIndex;
-    /**
-     * 仓库id
-     */
-    private Integer wareHouseId;
-
-    /**
-     * 仓库 数据库id
-     */
-    private Integer wareHouseDBId;
-    /**
-     * 交易栏id
-     */
-    private Integer dealArticleId;
-
-    public Integer getDealArticleId() {
-        return dealArticleId;
-    }
-
-    public void setDealArticleId(Integer dealArticleId) {
-        this.dealArticleId = dealArticleId;
-    }
-    public Integer getWareHouseId() {
-        return wareHouseId;
-    }
-
-    public void setWareHouseId(Integer wareHouseId) {
-        this.wareHouseId = wareHouseId;
-    }
-
-    public Integer getWareHouseDBId() {
-        return wareHouseDBId;
-    }
-
-    public void setWareHouseDBId(Integer wareHouseDBId) {
-        this.wareHouseDBId = wareHouseDBId;
-    }
-
-    public Integer getFloorIndex() {
-        return floorIndex;
-    }
-    public void setFloorIndex(Integer floorIndex) {
-        this.floorIndex = floorIndex;
-    }
-    public Integer getBagId() {
-        return bagId;
-    }
-    public void setBagId(Integer bagId) {
-        this.bagId = bagId;
-    }
-    public Integer getMedicineMessageId() {
-        return medicineMessageId;
-    }
-    public void setMedicineMessageId(Integer medicineMessageId) {
-        this.medicineMessageId = medicineMessageId;
-    }
-
-    public Integer getArticleId() {
-        return articleId;
-    }
-
-    public void setArticleId(Integer articleId) {
-        this.articleId = articleId;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
+public class MedicineBean  extends Article{
 
     /**
      * 获取类型
@@ -138,28 +49,11 @@ public class MedicineBean  implements Article{
      */
     @Override
     public Integer getArticleTypeCode() {
-        MedicineMessage medicineMessage= MedicineMessageCache.getInstance().get(getMedicineMessageId());
+        MedicineMessage medicineMessage= MedicineMessageCache.getInstance().get(getArticleMessageId());
         return medicineMessage.getArticleType();
     }
 
-    /**
-     * 获取背包id
-     * @return
-     */
-    @Override
-    public Integer getArticleIdCode() {
-        return getArticleId();
-    }
 
-    @Override
-    public Integer getWareHouseIdCode() {
-        return getWareHouseId();
-    }
-
-    @Override
-    public Integer getDealArticleIdCode() {
-        return getDealArticleId();
-    }
 
     /**
      * 丢弃或者使用药品
@@ -198,7 +92,7 @@ public class MedicineBean  implements Article{
     public ArticleDto getArticleMessage() {
         ArticleDto articleDto = new ArticleDto();
         articleDto.setArticleId(getArticleId());
-        articleDto.setId(getMedicineMessageId());
+        articleDto.setId(getArticleMessageId());
         articleDto.setArticleType(getArticleTypeCode());
         articleDto.setQuantity(getQuantity());
         articleDto.setBagId(getBagId());
@@ -234,7 +128,7 @@ public class MedicineBean  implements Article{
         for (Article a : medicines) {
             MedicineBean temp = (MedicineBean) a;
             //物品类型
-            if (getMedicineMessageId().equals(temp.getMedicineMessageId()) && number > 0) {
+            if (getArticleMessageId().equals(temp.getArticleMessageId()) && number > 0) {
                 //判断是否已经满了
                 if (temp.getQuantity().equals(ConstantValue.BAG_MAX_VALUE)) {
                     continue;
@@ -272,7 +166,7 @@ public class MedicineBean  implements Article{
                 //新增的物品入库
                 ArticleDto articleDto=new ArticleDto();
                 articleDto.setQuantity(getQuantity());
-                articleDto.setId(getMedicineMessageId());
+                articleDto.setId(getArticleMessageId());
                 articleDto.setArticleType(getArticleTypeCode());
                 articleDto.setBagId(newMedicine.getBagId());
                 DbUtil.insertBag(articleDto,roleId);
@@ -316,7 +210,7 @@ public class MedicineBean  implements Article{
         for (Article a : medicines) {
             MedicineBean temp = (MedicineBean) a;
             //物品类型
-            if (medicineBean.getMedicineMessageId().equals(temp.getMedicineMessageId()) && number > 0) {
+            if (medicineBean.getArticleMessageId().equals(temp.getArticleMessageId()) && number > 0) {
                 //判断是否已经满了
                 if (temp.getQuantity().equals(backPackManager.getSize())) {
                     continue;
@@ -363,13 +257,13 @@ public class MedicineBean  implements Article{
     public boolean use(BackPackManager backpackManager, MmoSimpleRole mmoSimpleRole) {
         //任务条件触发
         UseTaskAction useTaskAction=new UseTaskAction();
-        useTaskAction.setTargetId(getMedicineMessageId());
+        useTaskAction.setTargetId(getArticleMessageId());
         useTaskAction.setArticleType(ArticleTypeCode.MEDICINE.getCode());
         useTaskAction.setProgress(1);
         useTaskAction.setTaskTargetType(TaskTargetTypeCode.USE.getCode());
         mmoSimpleRole.getTaskManager().handler(useTaskAction,mmoSimpleRole);
         //判断是瞬间恢复还是持续性恢复
-        MedicineMessage medicineMessage= MedicineMessageCache.getInstance().get(getMedicineMessageId());
+        MedicineMessage medicineMessage= MedicineMessageCache.getInstance().get(getArticleMessageId());
         if (medicineMessage.getMedicineType().equals(MedicineTypeCode.MOMENT.getCode())){
             Integer addNumber=medicineMessage.getDamageValue();
             if (medicineMessage.getDamageType().equals(DamageTypeCode.MP.getCode())) {
@@ -487,7 +381,7 @@ public class MedicineBean  implements Article{
         for (Article a : medicines) {
             MedicineBean temp = (MedicineBean) a;
             //物品类型
-            if (medicineBean.getMedicineMessageId().equals(temp.getMedicineMessageId()) && number > 0) {
+            if (medicineBean.getArticleMessageId().equals(temp.getArticleMessageId()) && number > 0) {
                 //判断是否已经满了
                 if (temp.getQuantity().equals(wareHouseManager.getSize())) {
                     continue;
@@ -540,7 +434,7 @@ public class MedicineBean  implements Article{
         for (Article a : medicines) {
             MedicineBean temp = (MedicineBean) a;
             //物品类型
-            if (getMedicineMessageId().equals(temp.getMedicineMessageId()) && number > 0) {
+            if (getArticleMessageId().equals(temp.getArticleMessageId()) && number > 0) {
                 //判断是否已经满了
                 if (temp.getQuantity().equals(ConstantValue.BAG_MAX_VALUE)) {
                     continue;
@@ -580,7 +474,7 @@ public class MedicineBean  implements Article{
                 //新增的物品入库
                 ArticleDto articleDto=new ArticleDto();
                 articleDto.setQuantity(getQuantity());
-                articleDto.setId(getMedicineMessageId());
+                articleDto.setId(getArticleMessageId());
                 articleDto.setArticleType(getArticleTypeCode());
                 articleDto.setWareHouseDBId(newMedicine.getWareHouseDBId());
                 DbUtil.insertMedicineWareHouse(articleDto,guildId);
@@ -630,7 +524,7 @@ public class MedicineBean  implements Article{
         for (Article a : medicines) {
             MedicineBean temp = (MedicineBean) a;
             //物品类型
-            if (getMedicineMessageId().equals(temp.getMedicineMessageId()) && number > 0) {
+            if (getArticleMessageId().equals(temp.getArticleMessageId()) && number > 0) {
                 //判断是否已经满了
                 if (temp.getQuantity().equals(ConstantValue.BAG_MAX_VALUE)) {
                     continue;
@@ -697,7 +591,7 @@ public class MedicineBean  implements Article{
      */
     public DealBankArticleBean convertDealBankArticleBean() {
         DealBankArticleBean dealBankArticleBean=new DealBankArticleBean();
-        dealBankArticleBean.setArticleMessageId(getMedicineMessageId());
+        dealBankArticleBean.setArticleMessageId(getArticleMessageId());
         dealBankArticleBean.setArticleType(getArticleTypeCode());
         dealBankArticleBean.setEquipmentId(-1);
         dealBankArticleBean.setNum(getQuantity());

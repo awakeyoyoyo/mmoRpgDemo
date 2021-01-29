@@ -94,7 +94,7 @@ public class PlayServiceProvider {
             //从内存中取
             EquipmentBean equipmentBean =ArticleServiceProvider.getEquipmentBeanConcurrentHashMap().get(m.getEquipmentId());
             equipmentBean.setEquipmentBagId(m.getEquipmentBagId());
-            EquipmentMessage message = EquipmentMessageCache.getInstance().get(equipmentBean.getEquipmentMessageId());
+            EquipmentMessage message = EquipmentMessageCache.getInstance().get(equipmentBean.getArticleMessageId());
             equipmentBeanConcurrentHashMap.put(message.getPosition(), equipmentBean);
             //修改人物属性
             simpleRole.setAttack(simpleRole.getAttack() + message.getAttackAdd());

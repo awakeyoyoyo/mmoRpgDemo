@@ -12,40 +12,111 @@ import com.liqihao.pojo.dto.ArticleDto;
  * 背包物品接口
  * @author lqhao
  */
-public interface Article {
-    
+public abstract class Article {
     /**
-     * description 获取物品类型code
-     * @return {@link Integer }
-     * @author lqhao
-     * @createTime 2021/1/25 11:04
+     * 数量
      */
-    Integer getArticleTypeCode();
-    
-    /**
-     * description 获取物品背包的id
-     * @return {@link Integer }
-     * @author lqhao
-     * @createTime 2021/1/25 11:04
-     */
-    Integer getArticleIdCode();
+    private Integer quantity;
 
     /**
-     * description 获取物品仓库id
-     * @return {@link Integer }
-     * @author lqhao
-     * @createTime 2021/1/25 11:05
+     * 缓存中背包id
      */
-    Integer getWareHouseIdCode();
+    private Integer articleId;
 
     /**
-     * description 获取交易栏的id
-     * @return {@link Integer }
-     * @author lqhao
-     * @createTime 2021/1/25 11:06
+     * 物品信息id
      */
-    Integer getDealArticleIdCode();
-  
+    private Integer articleMessageId;
+
+    /**
+     * 背包数据库 数据库行记录id
+     */
+    private Integer bagId;
+
+    /**
+     *地面物品的下标
+     */
+    private Integer floorIndex;
+
+    /**
+     * 仓库id
+     */
+    private Integer wareHouseId;
+
+    /**
+     * 仓库 数据库id
+     */
+    private Integer wareHouseDBId;
+
+    /**
+     * 交易栏id
+     */
+    private Integer dealArticleId;
+
+    public Integer getArticleMessageId() {
+        return articleMessageId;
+    }
+
+    public void setArticleMessageId(Integer articleMessageId) {
+        this.articleMessageId = articleMessageId;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public Integer getArticleId() {
+        return articleId;
+    }
+
+    public void setArticleId(Integer articleId) {
+        this.articleId = articleId;
+    }
+
+    public Integer getBagId() {
+        return bagId;
+    }
+
+    public void setBagId(Integer bagId) {
+        this.bagId = bagId;
+    }
+
+    public Integer getFloorIndex() {
+        return floorIndex;
+    }
+
+    public void setFloorIndex(Integer floorIndex) {
+        this.floorIndex = floorIndex;
+    }
+
+    public Integer getWareHouseId() {
+        return wareHouseId;
+    }
+
+    public void setWareHouseId(Integer wareHouseId) {
+        this.wareHouseId = wareHouseId;
+    }
+
+    public Integer getWareHouseDBId() {
+        return wareHouseDBId;
+    }
+
+    public void setWareHouseDBId(Integer wareHouseDBId) {
+        this.wareHouseDBId = wareHouseDBId;
+    }
+
+    public Integer getDealArticleId() {
+        return dealArticleId;
+    }
+
+    public void setDealArticleId(Integer dealArticleId) {
+        this.dealArticleId = dealArticleId;
+    }
+
     /**
      * description 物品减少或者删除
      * @param number
@@ -55,16 +126,23 @@ public interface Article {
      * @author lqhao
      * @createTime 2021/1/25 11:07
      */
-    Article useOrAbandon(Integer number, BackPackManager backPackManager,Integer roleId);
+    public abstract Article useOrAbandon(Integer number, BackPackManager backPackManager,Integer roleId);
 
-   
+    /**
+     * description 获取物品type
+     * @return {@link Integer }
+     * @author lqhao
+     * @createTime 2021/1/29 16:12
+     */
+
+    public abstract Integer getArticleTypeCode();
     /**
      * description 物品转化为物品dto
      * @return {@link ArticleDto }
      * @author lqhao
      * @createTime 2021/1/25 11:07
      */
-    ArticleDto getArticleMessage();
+    public abstract ArticleDto getArticleMessage();
   
     /**
      * description 获取其类型
@@ -72,7 +150,7 @@ public interface Article {
      * @author lqhao
      * @createTime 2021/1/25 11:07
      */
-    <T extends Article> T getArticle();
+    public  abstract <T extends Article> T getArticle();
   
     /**
      * description 放入背包中
@@ -82,7 +160,7 @@ public interface Article {
      * @author lqhao
      * @createTime 2021/1/25 11:07
      */
-    boolean put(BackPackManager backPackManager,Integer roleId);
+    public abstract  boolean put(BackPackManager backPackManager,Integer roleId);
     
     /**
      * description 物品整理
@@ -92,7 +170,7 @@ public interface Article {
      * @author lqhao
      * @createTime 2021/1/25 11:07
      */
-    void clearPut(BackPackManager backPackManager,Integer roleId);
+    public abstract void clearPut(BackPackManager backPackManager,Integer roleId);
 
     /**
      * description 检查是否可以放入
@@ -101,7 +179,7 @@ public interface Article {
      * @author lqhao
      * @createTime 2021/1/25 11:08
      */
-    boolean checkCanPut(BackPackManager backPackManager);
+    public abstract boolean checkCanPut(BackPackManager backPackManager);
 
     /**
      * description 物品被使用
@@ -111,19 +189,72 @@ public interface Article {
      * @author lqhao
      * @createTime 2021/1/25 11:04
      */
-    boolean use(BackPackManager backpackManager, MmoSimpleRole mmoSimpleRole);
+    public abstract boolean use(BackPackManager backpackManager, MmoSimpleRole mmoSimpleRole);
 
-    void clearPutWareHouse(WareHouseManager wareHouseManager, Integer guildId);
+    /**
+     * description 按规则放入仓库
+     * @param wareHouseManager
+     * @param guildId
+     * @return {@link null }
+     * @author lqhao
+     * @createTime 2021/1/29 16:13
+     */
+    public abstract void clearPutWareHouse(WareHouseManager wareHouseManager, Integer guildId);
 
-    boolean checkCanPutWareHouse(WareHouseManager wareHouseManager);
+    /**
+     * description 是否可放入仓库
+     * @param wareHouseManager
+     * @return {@link boolean }
+     * @author lqhao
+     * @createTime 2021/1/29 16:13
+     */
+    public abstract boolean checkCanPutWareHouse(WareHouseManager wareHouseManager);
 
-    boolean putWareHouse(WareHouseManager wareHouseManager, Integer guildId);
+    /**
+     * description 放入仓库
+     * @param wareHouseManager
+     * @param guildId
+     * @return {@link boolean }
+     * @author lqhao
+     * @createTime 2021/1/29 16:13
+     */
+    public abstract boolean putWareHouse(WareHouseManager wareHouseManager, Integer guildId);
 
-    Article useOrAbandonWareHouse(Integer number, WareHouseManager wareHouseManager,Integer guildId);
+    /**
+     * description 减少仓库中某物品数量
+     * @param number
+     * @param wareHouseManager
+     * @param guildId
+     * @return {@link Article }
+     * @author lqhao
+     * @createTime 2021/1/29 16:13
+     */
+    public abstract Article useOrAbandonWareHouse(Integer number, WareHouseManager wareHouseManager,Integer guildId);
 
-    boolean putDealBean(DealArticleBean dealArticleBean);
+    /**
+     * description 放入仓库
+     * @param dealArticleBean
+     * @return {@link boolean }
+     * @author lqhao
+     * @createTime 2021/1/29 16:14
+     */
+    public abstract boolean putDealBean(DealArticleBean dealArticleBean);
 
-    Article abandonDealBean(Integer number,DealArticleBean dealArticleBean);
+    /**
+     * description 减少交易栏中某物品数量
+     * @param number
+     * @param dealArticleBean
+     * @return {@link Article }
+     * @author lqhao
+     * @createTime 2021/1/29 16:14
+     */
+    public abstract Article abandonDealBean(Integer number,DealArticleBean dealArticleBean);
 
-    DealBankArticleBean convertDealBankArticleBean();
+    /**
+     * description 转化为交易栏bean
+     * @return {@link DealBankArticleBean }
+     * @author lqhao
+     * @createTime 2021/1/29 16:14
+     */
+    public abstract DealBankArticleBean convertDealBankArticleBean();
 }

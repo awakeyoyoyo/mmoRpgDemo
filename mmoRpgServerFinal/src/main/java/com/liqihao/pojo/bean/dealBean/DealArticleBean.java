@@ -81,7 +81,7 @@ public class DealArticleBean {
         Iterator iterator=articles.iterator();
         while (iterator.hasNext()) {
             Article a= (Article) iterator.next();
-            if (a.getDealArticleIdCode().equals(dealArticleId)) {
+            if (a.getDealArticleId().equals(dealArticleId)) {
                 return a.abandonDealBean(num,this);
             }
         }

@@ -562,7 +562,7 @@ public class CommonsUtil {
      */
     public static MedicineBean medicineMessageToMedicineBean(MedicineMessage medicineMessage){
         MedicineBean bean=new MedicineBean();
-        bean.setMedicineMessageId(medicineMessage.getId());
+        bean.setArticleMessageId(medicineMessage.getId());
         return bean;
     }
 
@@ -576,7 +576,7 @@ public class CommonsUtil {
         bean.setArticleId(null);
         bean.setNowDurability(equipmentMessage.getDurability());
         bean.setQuantity(1);
-        bean.setEquipmentMessageId(equipmentMessage.getId());
+        bean.setArticleMessageId(equipmentMessage.getId());
         return bean;
     }
 

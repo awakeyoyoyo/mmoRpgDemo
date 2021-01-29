@@ -215,11 +215,11 @@ public class EmailServiceImpl implements EmailService {
            if (mmoEmailBean.getArticleType().equals(ArticleTypeCode.MEDICINE.getCode())) {
                //药品
                MedicineBean medicineBean= (MedicineBean) article;
-               mmoEmailBean.setArticleMessageId(medicineBean.getMedicineMessageId());
+               mmoEmailBean.setArticleMessageId(medicineBean.getArticleMessageId());
            }else{
                //武器
                EquipmentBean equipmentBean= (EquipmentBean) article;
-               mmoEmailBean.setArticleMessageId(equipmentBean.getEquipmentMessageId());
+               mmoEmailBean.setArticleMessageId(equipmentBean.getArticleMessageId());
                mmoEmailBean.setEquipmentId(equipmentBean.getEquipmentId());
            }
         }
@@ -291,7 +291,7 @@ public class EmailServiceImpl implements EmailService {
      */
     public void getArticle(MmoSimpleRole mmoSimpleRole,Article article,EmailBean mmoEmailBean) throws RpgServerException {
         synchronized (mmoSimpleRole.getBackpackManager()) {
-            if (!mmoSimpleRole.getBackpackManager().canPutArticle(article)) {
+            if (!mmoSimpleRole.getBackpackManager().canPutArticle(article.getArticleMessageId(),article.getArticleTypeCode(),article.getQuantity())) {
                 throw new RpgServerException(StateCode.FAIL,"背包已经满了");
             }
             mmoSimpleRole.getBackpackManager().put(article,mmoSimpleRole.getId());

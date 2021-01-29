@@ -9,19 +9,41 @@ import com.liqihao.pojo.dto.ArticleDto;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * 仓库管理类
+ *
  * @author lqhao
  */
 public class WareHouseManager {
-    private CopyOnWriteArrayList<Article> backpacks=new CopyOnWriteArrayList<>();
-    private Integer size=50;
+    /**
+     * 仓库集合
+     */
+    private CopyOnWriteArrayList<Article> backpacks = new CopyOnWriteArrayList<>();
+    /**
+     * 仓库大小
+     */
+    private Integer size = 50;
+    /**
+     * 当前已占用格子数
+     */
     private AtomicInteger nowSize = new AtomicInteger(0);
+    /**
+     * 自增的仓库格子id
+     */
     private AtomicInteger wareHouseId = new AtomicInteger(0);
+    /**
+     * 仓库读写锁
+     */
+    public final static ReadWriteLock wareHouseWrLock = new ReentrantReadWriteLock();
 
     public WareHouseManager() {
     }
+
     public WareHouseManager(Integer size) {
         this.size = size;
     }
@@ -29,54 +51,51 @@ public class WareHouseManager {
     public CopyOnWriteArrayList<Article> getBackpacks() {
         return backpacks;
     }
+
     public void setBackpacks(CopyOnWriteArrayList<Article> backpacks) {
         this.backpacks = backpacks;
     }
+
     public Integer getSize() {
         return size;
     }
+
     public void setSize(Integer size) {
         this.size = size;
     }
-    public int getNowSize(){
+
+    public int getNowSize() {
         return nowSize.get();
     }
-    public int addAndReturnNowSize(){
-        return  nowSize.incrementAndGet();
+
+    public int addAndReturnNowSize() {
+        return nowSize.incrementAndGet();
     }
-    public int reduceAndReturnNowSize(){
-        return  nowSize.decrementAndGet();
+
+    public int reduceAndReturnNowSize() {
+        return nowSize.decrementAndGet();
     }
-    public int getWareHouseId(){
+
+    public int getWareHouseId() {
         return wareHouseId.get();
     }
-    public int addAndReturnWareHouseId(){
-        return  wareHouseId.incrementAndGet();
+
+    public int addAndReturnWareHouseId() {
+        return wareHouseId.incrementAndGet();
     }
-    public int reduceAndReturnWareHouseId(){
-        return  nowSize.decrementAndGet();
+
+    public int reduceAndReturnWareHouseId() {
+        return nowSize.decrementAndGet();
     }
 
     /**
      * 背包格子是否足够
      */
-    public synchronized boolean canPutArticle(Article article) {
+    public boolean canPutArticle(Article article) {
         //判断物品类型
         return article.checkCanPutWareHouse(this);
     }
 
-    /**
-     * 整理仓库
-     */
-    public synchronized void clearBackPack(Integer guildId){
-        CopyOnWriteArrayList<Article> newBackPack=new CopyOnWriteArrayList<>();
-        CopyOnWriteArrayList<Article> oldBackPack=getBackpacks();
-        setBackpacks(newBackPack);
-        wareHouseId=new AtomicInteger(0);
-        for (Article a:oldBackPack) {
-            a.clearPutWareHouse(this,guildId);
-        }
-    }
 
     /**
      * 放入仓库
@@ -84,63 +103,111 @@ public class WareHouseManager {
      * @param guildId
      * @return
      */
-    public synchronized boolean putWareHouse(Article article, Integer guildId) {
-        return article.putWareHouse(this,guildId);
+    public boolean putWareHouse(Article article, Integer guildId) {
+        wareHouseWrLock.writeLock().lock();
+        try {
+            if (!canPutArticle(article)){
+                //背包空间不足
+                return false;
+            }
+            article.putWareHouse(this, guildId);
+            return true;
+        } finally {
+            wareHouseWrLock.writeLock().unlock();
+        }
     }
 
     /**
-     *   仓库放入东西 按照数据库格式来存放
+     * 仓库放入东西 按照数据库格式来存放
      */
-    public synchronized void putFromDatabase(Article article) {
-        if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())) {
-            MedicineBean medicineBean = article.getArticle();
-            medicineBean.setWareHouseId(addAndReturnWareHouseId());
-            getBackpacks().add(medicineBean);
-            addAndReturnNowSize();
-        } else if ((article.getArticleTypeCode().equals(ArticleTypeCode.EQUIPMENT.getCode()))) {
-            //判断背包大小
-            EquipmentBean equipmentBean = article.getArticle();
-            //设置背包物品id
-            equipmentBean.setWareHouseId(addAndReturnWareHouseId());
-            addAndReturnNowSize();
-            getBackpacks().add(equipmentBean);
-            addAndReturnNowSize();
+    public void putFromDatabase(Article article) {
+        wareHouseWrLock.writeLock().lock();
+        try {
+            if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())) {
+                MedicineBean medicineBean = article.getArticle();
+                medicineBean.setWareHouseId(addAndReturnWareHouseId());
+                getBackpacks().add(medicineBean);
+                addAndReturnNowSize();
+            } else if ((article.getArticleTypeCode().equals(ArticleTypeCode.EQUIPMENT.getCode()))) {
+                //判断背包大小
+                EquipmentBean equipmentBean = article.getArticle();
+                //设置背包物品id
+                equipmentBean.setWareHouseId(addAndReturnWareHouseId());
+                addAndReturnNowSize();
+                getBackpacks().add(equipmentBean);
+                addAndReturnNowSize();
+            }
+        } finally {
+            wareHouseWrLock.writeLock().unlock();
         }
     }
 
     /**
      * 减少某样物品数量
      */
-    public synchronized Article useOrAbandonArticle(Integer wareHouseId, Integer number,Integer guildId) {
-        for (Article a : getBackpacks()) {
-            if (a.getWareHouseIdCode().equals(wareHouseId)) {
-                return a.useOrAbandonWareHouse(number,this,guildId);
+    public Article useOrAbandonArticle(Integer wareHouseId, Integer number, Integer guildId) {
+        wareHouseWrLock.writeLock().lock();
+        try {
+            for (Article a : getBackpacks()) {
+                if (a.getWareHouseId().equals(wareHouseId)) {
+                    return a.useOrAbandonWareHouse(number, this, guildId);
+                }
             }
+            return null;
+        } finally {
+            wareHouseWrLock.writeLock().unlock();
         }
-        return null;
     }
 
     /**
      * 根据wareHouseId获取物品信息
      */
-    public synchronized Article getArticleByArticleId(Integer wareHouseId) {
-        for (Article article : getBackpacks()) {
-            if (wareHouseId.equals(article.getWareHouseIdCode())) {
-                return article;
+    public Article getArticleByArticleId(Integer wareHouseId) {
+        wareHouseWrLock.readLock().lock();
+        try {
+            for (Article article : getBackpacks()) {
+                if (wareHouseId.equals(article.getWareHouseId())) {
+                    return article;
+                }
             }
+            return null;
+        } finally {
+            wareHouseWrLock.readLock().unlock();
         }
-        return null;
     }
 
     /**
      * 获取仓库内物品信息
      */
-    public synchronized ArrayList<ArticleDto> getBackpacksMessage() {
-        ArrayList<ArticleDto> articleDtos = new ArrayList<>();
-        for (Article article : getBackpacks()) {
-            ArticleDto articleDto = article.getArticleMessage();
-            articleDtos.add(articleDto);
+    public ArrayList<ArticleDto> getBackpacksMessage() {
+        wareHouseWrLock.readLock().lock();
+        try {
+            ArrayList<ArticleDto> articleDtos = new ArrayList<>();
+            for (Article article : getBackpacks()) {
+                ArticleDto articleDto = article.getArticleMessage();
+                articleDtos.add(articleDto);
+            }
+            return articleDtos;
+        } finally {
+            wareHouseWrLock.readLock().unlock();
         }
-        return articleDtos;
+    }
+
+    /**
+     * 整理仓库
+     */
+    public void clearBackPack(Integer guildId) {
+        wareHouseWrLock.writeLock().lock();
+        try {
+            CopyOnWriteArrayList<Article> newBackPack = new CopyOnWriteArrayList<>();
+            CopyOnWriteArrayList<Article> oldBackPack = getBackpacks();
+            setBackpacks(newBackPack);
+            wareHouseId = new AtomicInteger(0);
+            for (Article a : oldBackPack) {
+                a.clearPutWareHouse(this, guildId);
+            }
+        } finally {
+            wareHouseWrLock.writeLock().unlock();
+        }
     }
 }

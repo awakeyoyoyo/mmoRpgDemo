@@ -154,6 +154,10 @@ public class GuildServiceProvider  implements ApplicationContextAware {
         if (guildBean==null){
             throw new RpgServerException(StateCode.FAIL,"传入无效公会id");
         }
+        //检查是否已经加入
+        if (guildBean.constrainGuildApplyBean(role.getId())){
+            throw new RpgServerException(StateCode.FAIL,"已经申请过了，请勿重复申请");
+        }
         GuildApplyBean guildApplyBean=new GuildApplyBean();
         guildApplyBean.setGuildId(guildBeanId);
         guildApplyBean.setCreateTime(System.currentTimeMillis());
@@ -161,7 +165,7 @@ public class GuildServiceProvider  implements ApplicationContextAware {
         guildApplyBean.setEndTime(guildApplyBean.getCreateTime()+lastDay*24*60*60*1000);
         guildApplyBean.setRoleId(role.getId());
         guildApplyBean.setId(guildApplyIdAuto.incrementAndGet());
-        //放入公会bean中
+        //放入公会申请集合中中
         guildBean.addGuildApplyBean(guildApplyBean);
         //数据入库
         insertGuildApplyPOJO(guildApplyBean);

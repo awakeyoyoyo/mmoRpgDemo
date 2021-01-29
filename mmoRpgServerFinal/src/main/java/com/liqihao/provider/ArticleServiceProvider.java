@@ -136,7 +136,7 @@ public class ArticleServiceProvider implements ApplicationContextAware {
     public static MedicineBean productMedicine(Integer medicineId){
         MedicineMessage medicineMessage= MedicineMessageCache.getInstance().get(medicineId);
         MedicineBean medicineBean= CommonsUtil.medicineMessageToMedicineBean(medicineMessage);
-        medicineBean.setMedicineMessageId(medicineMessage.getId());
+        medicineBean.setArticleMessageId(medicineMessage.getId());
         return medicineBean;
     }
 }

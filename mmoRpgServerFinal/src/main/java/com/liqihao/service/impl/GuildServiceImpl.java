@@ -243,23 +243,30 @@ public class GuildServiceImpl implements GuildService {
         if (!GuildServiceProvider.getInstance().checkHasAuthority(mmoSimpleRole, GuildAuthorityCode.GET_ARTICLE.getCode())){
             throw new RpgServerException(StateCode.FAIL,"没有该权限");
         }
-        Article article=guildBean.getWareHouseManager().useOrAbandonArticle(warehouseId,number,guildBean.getId());
+        //获取仓库中该位置物品
+        Article article=guildBean.getWareHouseManager().getArticleByArticleId(warehouseId);
         if (article==null){
-            throw new RpgServerException(StateCode.FAIL,"获取失败，无该物品或者数量不足");
+            throw new RpgServerException(StateCode.FAIL,"仓库没有该物品");
         }
+        if (article.getQuantity()<number){
+            throw new RpgServerException(StateCode.FAIL,"仓库中该物品数量不足");
+        }
+        boolean flag=mmoSimpleRole.getBackpackManager().canPutArticle(article.getArticleMessageId(),article.getArticleTypeCode(),number);
+        if (!flag){
+            throw new RpgServerException(StateCode.FAIL,"背包已经满了");
+        }
+        //仓库减少该物品
+        guildBean.getWareHouseManager().useOrAbandonArticle(warehouseId,number,guildBean.getId());
         if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())){
+            //如果是药品则可能是分开，所以需要new
             MedicineMessage medicineMessage = MedicineMessageCache.getInstance().get(article.getArticleMessage().getId());
-            if (medicineMessage == null) {
-                throw new RpgServerException(StateCode.FAIL,"存入错误物品id");
-            }
             MedicineBean medicineBean = CommonsUtil.medicineMessageToMedicineBean(medicineMessage);
             medicineBean.setQuantity(number);
             article = medicineBean;
         }
-        boolean flag=mmoSimpleRole.getBackpackManager().put(article,mmoSimpleRole.getId());
-        if (!flag){
-            throw new RpgServerException(StateCode.FAIL,"获取失败，背包空间不足");
-        }
+        //武器则直接用同一个对象即可，因为其不可叠加
+        //放入背包
+        mmoSimpleRole.getBackpackManager().put(article,mmoSimpleRole.getId());
         //返回成功的数据包
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.GET_GUILD_ARTICLE_RESPONSE);
