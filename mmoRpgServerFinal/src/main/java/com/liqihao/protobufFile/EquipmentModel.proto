@@ -53,6 +53,7 @@ message EquipmentDto{
   //装备部位
   int32 position=2;
   //  //耐久度
-  int32  nowDurability=3;
-
+  int32 nowDurability=3;
+  //星级
+  int32 equipmentLevel=4;
 }

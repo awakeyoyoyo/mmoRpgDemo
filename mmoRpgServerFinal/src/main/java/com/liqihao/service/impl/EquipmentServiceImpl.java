@@ -68,7 +68,7 @@ public class EquipmentServiceImpl implements EquipmentService {
         List<EquipmentModel.EquipmentDto> equipmentDtoList = new ArrayList<>();
         for (EquipmentDto e : equipmentDtos) {
             EquipmentModel.EquipmentDto.Builder builder = EquipmentModel.EquipmentDto.newBuilder();
-            builder.setId(e.getId()).setPosition(e.getPosition()).setNowDurability(e.getNowDurability());
+            builder.setId(e.getId()).setPosition(e.getPosition()).setNowDurability(e.getNowDurability()).setEquipmentLevel(e.getEquipmentLevel());
             equipmentDtoList.add(builder.build());
         }
         NettyResponse nettyResponse = new NettyResponse();

@@ -1,6 +1,10 @@
 package com.liqihao.pojo.baseMessage;
 
-public class EquipmentMessage {
+/**
+ * 装备信息
+ * @author lqhao
+ */
+public class EquipmentMessage  {
     private Integer id;
     private String name;
     private boolean singleFlag;
@@ -10,9 +14,18 @@ public class EquipmentMessage {
     private Integer attackAdd;
     private double damageAdd;
     private Integer position;
+    private Integer equipmentLevel;
 
     public Integer getId() {
         return id;
+    }
+
+    public Integer getEquipmentLevel() {
+        return equipmentLevel;
+    }
+
+    public void setEquipmentLevel(Integer equipmentLevel) {
+        this.equipmentLevel = equipmentLevel;
     }
 
     public void setId(Integer id) {

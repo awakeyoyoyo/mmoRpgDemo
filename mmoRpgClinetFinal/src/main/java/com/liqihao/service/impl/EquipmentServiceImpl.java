@@ -31,7 +31,7 @@ public class EquipmentServiceImpl implements EquipmentService{
             System.out.println("[-]");
             System.out.println("[-]装备名字: "+message.getName());
             System.out.println("[-]装备部位: "+ PositionCode.getValue(dto.getPosition())+"装备部位id:"+dto.getPosition());
-            System.out.println("[-]装备耐久度: "+dto.getNowDurability());
+            System.out.println("[-]装备耐久度: "+dto.getNowDurability()+" 装备星级："+message.getEquipmentLevel());
             System.out.println("[-]");
         }
         System.out.println("[-]--------------------------------------------------------");

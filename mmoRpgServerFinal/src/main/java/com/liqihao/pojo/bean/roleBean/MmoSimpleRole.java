@@ -482,6 +482,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
             equipmentDto.setPosition(equipmentMessage.getPosition());
             equipmentDto.setEquipmentBagId(bean.getEquipmentBagId());
             equipmentDto.setEquipmentId(bean.getEquipmentId());
+            equipmentDto.setEquipmentLevel(equipmentMessage.getEquipmentLevel());
             equipmentDtos.add(equipmentDto);
         }
         return equipmentDtos;

@@ -29,6 +29,18 @@ public class EquipmentDto {
      * 装备数据库id
      */
     private Integer equipmentId;
+    /**
+     * 装备星级
+     */
+    private Integer equipmentLevel;
+
+    public Integer getEquipmentLevel() {
+        return equipmentLevel;
+    }
+
+    public void setEquipmentLevel(Integer equipmentLevel) {
+        this.equipmentLevel = equipmentLevel;
+    }
 
     public Integer getEquipmentId() {
         return equipmentId;

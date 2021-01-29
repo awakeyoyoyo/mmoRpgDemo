@@ -6672,6 +6672,16 @@ public final class EquipmentModel {
      * @return The nowDurability.
      */
     int getNowDurability();
+
+    /**
+     * <pre>
+     *星级
+     * </pre>
+     *
+     * <code>int32 equipmentLevel = 4;</code>
+     * @return The equipmentLevel.
+     */
+    int getEquipmentLevel();
   }
   /**
    * Protobuf type {@code EquipmentDto}
@@ -6731,6 +6741,11 @@ public final class EquipmentModel {
             case 24: {
 
               nowDurability_ = input.readInt32();
+              break;
+            }
+            case 32: {
+
+              equipmentLevel_ = input.readInt32();
               break;
             }
             default: {
@@ -6810,6 +6825,21 @@ public final class EquipmentModel {
       return nowDurability_;
     }
 
+    public static final int EQUIPMENTLEVEL_FIELD_NUMBER = 4;
+    private int equipmentLevel_;
+    /**
+     * <pre>
+     *星级
+     * </pre>
+     *
+     * <code>int32 equipmentLevel = 4;</code>
+     * @return The equipmentLevel.
+     */
+    @Override
+    public int getEquipmentLevel() {
+      return equipmentLevel_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -6833,6 +6863,9 @@ public final class EquipmentModel {
       if (nowDurability_ != 0) {
         output.writeInt32(3, nowDurability_);
       }
+      if (equipmentLevel_ != 0) {
+        output.writeInt32(4, equipmentLevel_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -6853,6 +6886,10 @@ public final class EquipmentModel {
       if (nowDurability_ != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(3, nowDurability_);
+      }
+      if (equipmentLevel_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, equipmentLevel_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -6875,6 +6912,8 @@ public final class EquipmentModel {
           != other.getPosition()) return false;
       if (getNowDurability()
           != other.getNowDurability()) return false;
+      if (getEquipmentLevel()
+          != other.getEquipmentLevel()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -6892,6 +6931,8 @@ public final class EquipmentModel {
       hash = (53 * hash) + getPosition();
       hash = (37 * hash) + NOWDURABILITY_FIELD_NUMBER;
       hash = (53 * hash) + getNowDurability();
+      hash = (37 * hash) + EQUIPMENTLEVEL_FIELD_NUMBER;
+      hash = (53 * hash) + getEquipmentLevel();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -7031,6 +7072,8 @@ public final class EquipmentModel {
 
         nowDurability_ = 0;
 
+        equipmentLevel_ = 0;
+
         return this;
       }
 
@@ -7060,6 +7103,7 @@ public final class EquipmentModel {
         result.id_ = id_;
         result.position_ = position_;
         result.nowDurability_ = nowDurability_;
+        result.equipmentLevel_ = equipmentLevel_;
         onBuilt();
         return result;
       }
@@ -7116,6 +7160,9 @@ public final class EquipmentModel {
         }
         if (other.getNowDurability() != 0) {
           setNowDurability(other.getNowDurability());
+        }
+        if (other.getEquipmentLevel() != 0) {
+          setEquipmentLevel(other.getEquipmentLevel());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -7274,6 +7321,49 @@ public final class EquipmentModel {
         onChanged();
         return this;
       }
+
+      private int equipmentLevel_ ;
+      /**
+       * <pre>
+       *星级
+       * </pre>
+       *
+       * <code>int32 equipmentLevel = 4;</code>
+       * @return The equipmentLevel.
+       */
+      @Override
+      public int getEquipmentLevel() {
+        return equipmentLevel_;
+      }
+      /**
+       * <pre>
+       *星级
+       * </pre>
+       *
+       * <code>int32 equipmentLevel = 4;</code>
+       * @param value The equipmentLevel to set.
+       * @return This builder for chaining.
+       */
+      public Builder setEquipmentLevel(int value) {
+        
+        equipmentLevel_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       *星级
+       * </pre>
+       *
+       * <code>int32 equipmentLevel = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearEquipmentLevel() {
+        
+        equipmentLevel_ = 0;
+        onChanged();
+        return this;
+      }
       @Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -7412,9 +7502,10 @@ public final class EquipmentModel {
       "EquipmentRequest\022\020\n\010position\030\001 \001(\005\"\026\n\024Ad" +
       "dEquipmentResponse\"9\n\024EquipmentMsgRespon" +
       "se\022!\n\nequipments\030\001 \003(\0132\r.EquipmentDto\"\031\n" +
-      "\027ReduceEquipmentResponse\"C\n\014EquipmentDto" +
+      "\027ReduceEquipmentResponse\"[\n\014EquipmentDto" +
       "\022\n\n\002id\030\001 \001(\005\022\020\n\010position\030\002 \001(\005\022\025\n\rnowDur" +
-      "ability\030\003 \001(\005B\020B\016EquipmentModelb\006proto3"
+      "ability\030\003 \001(\005\022\026\n\016equipmentLevel\030\004 \001(\005B\020B" +
+      "\016EquipmentModelb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -7479,7 +7570,7 @@ public final class EquipmentModel {
     internal_static_EquipmentDto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_EquipmentDto_descriptor,
-        new String[] { "Id", "Position", "NowDurability", });
+        new String[] { "Id", "Position", "NowDurability", "EquipmentLevel", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

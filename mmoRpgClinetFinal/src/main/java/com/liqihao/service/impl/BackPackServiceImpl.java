@@ -36,7 +36,7 @@ public class BackPackServiceImpl implements BackPackService {
                 //装备
                 EquipmentMessage equipmentMessage=equipmentMessageConcurrentHashMap.get(a.getId());
                 System.out.println("[-]");
-                System.out.println("[-][-]名字: "+equipmentMessage.getName()+" 耐久度： "+a.getNowDurability()+ "描述: "+equipmentMessage.getDescription());
+                System.out.println("[-][-]名字: "+equipmentMessage.getName()+" 装备星级："+equipmentMessage.getEquipmentLevel()+" 耐久度： "+a.getNowDurability()+ "描述: "+equipmentMessage.getDescription());
                 System.out.println("[-][-]背包中的id: "+a.getArticleId()+" 装备基本信息id: "+a.getId()+" 装备实例id: "+a.getEquipmentId()+" 物品数量: "+a.getQuantity());
                 System.out.println("[-]");
             }else if (a.getArticleType()== ArticleTypeCode.MEDICINE.getCode()){
@@ -123,7 +123,7 @@ public class BackPackServiceImpl implements BackPackService {
                 EquipmentMessage equipmentMessage=equipmentMessageConcurrentHashMap.get(a.getId());
                 System.out.println("[-]");
                 System.out.println("[-][-]名字: "+equipmentMessage.getName()+" 耐久度： "+a.getNowDurability()+ "描述: "+equipmentMessage.getDescription());
-                System.out.println("[-][-]装备基本信息id: "+a.getId()+" 装备实例id: "+a.getEquipmentId()+" 物品数量: "+a.getQuantity());
+                System.out.println("[-][-]装备基本信息id: "+a.getId()+" 装备实例id: "+a.getEquipmentId()+" 装备星级："+equipmentMessage.getEquipmentLevel()+" 物品数量: "+a.getQuantity());
                 System.out.println("[-][-]地面物品id："+a.getFloorIndex());
                 System.out.println("[-]");
             }else if (a.getArticleType()== ArticleTypeCode.MEDICINE.getCode()){
@@ -179,7 +179,7 @@ public class BackPackServiceImpl implements BackPackService {
                 EquipmentMessage equipmentMessage=equipmentMessageConcurrentHashMap.get(a.getArticleMessageId());
                 System.out.println("[-]");
                 System.out.println("[-][-]商品id："+a.getId()+" 名字: "+equipmentMessage.getName()+ "描述: "+equipmentMessage.getDescription());
-                System.out.println("[-][-]装备基本信息id: "+a.getId()+" 商品数量: "+a.getNowNum()+"/"+a.getNum());
+                System.out.println("[-][-]装备基本信息id: "+a.getId()+" 装备星级："+equipmentMessage.getEquipmentLevel()+" 商品数量: "+a.getNowNum()+"/"+a.getNum());
                 System.out.println("[-][-]价格："+a.getPrice());
                 System.out.println("[-]");
             }else if (a.getArticleTypeId()== ArticleTypeCode.MEDICINE.getCode()){
