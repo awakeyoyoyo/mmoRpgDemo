@@ -1,5 +1,21 @@
 ## 基于文字表现的MMORPG游戏
-
+### 配置文件
+- medicineMessage.xlsx **药品信息配置**
+- npcMessage.xlsx **npc信息配置**
+- skillMessage.xlsx **技能信息配置**
+- professionMessage.xlsx **职业信息配置**
+- taskMessage.xlsx **任务信息配置**
+- goodsMessage.xlsx **商品信息配置**
+- copySceneMessage.xlsx **副本信息配置**
+- guildAuthorityMessage.xlsx **公会权限配置**
+- equipmentMessage.xlsx **装备信息配置**
+- sceneMessage.xlsx **场景信息配置**
+- guildPositionMessage.xlsx **公会职业配置**
+- guildBaseMessage.xlsx **公会基本信息配置**
+- bufferMessage.xlsx **buff信息配置**
+- bossMessage.xlsx **boss信息配置**
+- baseRoleMessage.xlsx **人物信息配置**
+- baseDetailMessage.xlsx **基础信息配置**
 ### 游戏指令：
 ```java
     /**
