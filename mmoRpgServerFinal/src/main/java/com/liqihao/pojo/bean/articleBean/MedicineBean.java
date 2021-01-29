@@ -14,17 +14,20 @@ import com.liqihao.pojo.bean.dealBankBean.DealBankArticleBean;
 import com.liqihao.pojo.bean.dealBean.DealArticleBean;
 import com.liqihao.pojo.bean.guildBean.WareHouseManager;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
+import com.liqihao.pojo.bean.roleBean.Role;
 import com.liqihao.pojo.bean.taskBean.moneyNumTask.MoneyTaskAction;
 import com.liqihao.pojo.bean.taskBean.teamFirstTask.TeamTaskAction;
 import com.liqihao.pojo.bean.taskBean.useTask.UseTaskAction;
 import com.liqihao.pojo.dto.ArticleDto;
 import com.liqihao.protobufObject.PlayModel;
+import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.provider.TaskServiceProvider;
 import com.liqihao.util.DbUtil;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
 import org.springframework.beans.BeanUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
@@ -389,6 +392,7 @@ public class MedicineBean  implements Article{
                     mmoSimpleRole.setNowHp(newNumber);
                 }
             }
+            //protobuf
             PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();
             damageU.setFromRoleId(mmoSimpleRole.getId());
             damageU.setToRoleId(mmoSimpleRole.getId());
@@ -400,6 +404,7 @@ public class MedicineBean  implements Article{
             damageU.setNowblood(mmoSimpleRole.getNowHp());
             damageU.setSkillId(-1);
             damageU.setState(mmoSimpleRole.getStatus());
+            //protobuf
             PlayModel.PlayModelMessage.Builder myMessageBuilder = PlayModel.PlayModelMessage.newBuilder();
             myMessageBuilder.setDataType(PlayModel.PlayModelMessage.DateType.DamagesNoticeResponse);
             PlayModel.DamagesNoticeResponse.Builder damagesNoticeBuilder = PlayModel.DamagesNoticeResponse.newBuilder();
@@ -409,9 +414,18 @@ public class MedicineBean  implements Article{
             nettyResponse.setCmd(ConstantValue.DAMAGES_NOTICE_RESPONSE);
             nettyResponse.setStateCode(StateCode.SUCCESS);
             nettyResponse.setData(myMessageBuilder.build().toByteArray());
-
             Integer sceneId = mmoSimpleRole.getMmoSceneId();
-            List<Integer> players = SceneBeanMessageCache.getInstance().get(sceneId).getRoles();
+            List<Integer> players=new ArrayList<>();
+            if (sceneId!=null) {
+                players.addAll(SceneBeanMessageCache.getInstance().get(sceneId).getRoles());
+            }else{
+                List<Role> roleList= CopySceneProvider.getCopySceneBeanById(mmoSimpleRole.getCopySceneBeanId()).getRoles();
+                for (Role role : roleList) {
+                    if (role.getType().equals(RoleTypeCode.PLAYER.getCode())){
+                        players.add(role.getId());
+                    }
+                }
+            }
             for (Integer playerId : players) {
                 Channel cc = ChannelMessageCache.getInstance().get(playerId);
                 if (cc != null) {

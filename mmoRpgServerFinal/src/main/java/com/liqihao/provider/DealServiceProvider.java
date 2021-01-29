@@ -108,7 +108,6 @@ public class DealServiceProvider {
 
     /**
      * 拒绝交易
-     *
      * @param role
      * @return
      * @throws RpgServerException

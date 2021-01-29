@@ -162,6 +162,7 @@ public class DealBankServiceProvider {
         //插入数据库
         insertDealBankArticleBean(dealBankArticleBean);
     }
+
     /**
      * 下架物品
      */
@@ -172,18 +173,13 @@ public class DealBankServiceProvider {
             dealBankArticleBean = dealBankArticleBeans.get(dealBeanArticleBeanId);
             if (dealBankArticleBean == null) {
                 throw new RpgServerException(StateCode.FAIL, "该物品已经交易完成或不存在");
-
             }
             dealBankArticleBeans.remove(dealBankArticleBean.getDealBeanArticleBeanId());
         } finally {
             dealBankArticleBeansRwLock.writeLock().unlock();
         }
-
         if (!role.getId().equals(dealBankArticleBean.getFromRoleId())) {
             throw new RpgServerException(StateCode.FAIL, "非本商品的卖家无法下架");
-        }
-        if (!role.getId().equals(dealBankArticleBean.getFromRoleId())) {
-            throw new RpgServerException(StateCode.FAIL, "不能自己下架他人物品");
         }
         //发送给卖家
         sendReduceToSeller(dealBankArticleBean, SELLER_S_FAIL_TITLE, TO_UNSET);
@@ -254,11 +250,8 @@ public class DealBankServiceProvider {
             dealBankArticleBean.setHighPrice(money);
             dealBankArticleBean.setToRoleId(role.getId());
             //拍卖品 增加拍卖记录
-
             dealBankArticleBean.getDealBankAuctionBeans().add(dealBankAuctionBean);
-
             //更新数据库
-
             updateDealBankArticle(dealBankArticleBean);
             insertDealBankAuction(dealBankAuctionBean);
 

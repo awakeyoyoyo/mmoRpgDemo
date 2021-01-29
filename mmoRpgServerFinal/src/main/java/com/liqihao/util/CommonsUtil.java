@@ -144,6 +144,23 @@ public class CommonsUtil {
         return msr;
     }
 
+    public static SkillBean skillMessageToSkillBean(SkillMessage skillMessage) {
+        SkillBean skillBean = new SkillBean();
+        skillBean.setId(skillMessage.getId());
+        skillBean.setConsumeType(skillMessage.getConsumeType());
+        skillBean.setConsumeNum(skillMessage.getConsumeNum());
+        skillBean.setCd(skillMessage.getCd());
+        skillBean.setBufferIds(CommonsUtil.split(skillMessage.getBufferIds()));
+        skillBean.setBaseDamage(skillMessage.getBaseDamage());
+        skillBean.setSkillName(skillMessage.getSkillName());
+        skillBean.setSkillAttackType(skillMessage.getSkillAttackType());
+        skillBean.setSkillDamageType(skillMessage.getSkillDamageType());
+        skillBean.setChantTime(skillMessage.getChantTime());
+        skillBean.setAddPerson(skillMessage.getAddPerson());
+        skillBean.setSkillType(skillMessage.getSkillType());
+        return skillBean;
+    }
+
 
     @Autowired
     public  void setMmoBagPOJOMapper(MmoBagPOJOMapper mmoBagPOJOMapper) {

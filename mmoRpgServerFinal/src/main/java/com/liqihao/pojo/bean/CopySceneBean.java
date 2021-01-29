@@ -350,7 +350,7 @@ public class CopySceneBean{
     /**
      * 挑战失败-人物全部死亡
      */
-    public void changePeopleDie(TeamBean teamBean){
+    public void changeFailPeopleDie(TeamBean teamBean){
         //将副本中的人物全部状态改为存活
         for (Role role:roles) {
             role.setStatus(RoleStatusCode.ALIVE.getCode());
@@ -386,6 +386,10 @@ public class CopySceneBean{
         }
         //副本解散
         end(teamBean,CopySceneDeleteCauseCode.TIMEOUT.getCode());
+        //判断副本状态
+        if (getStatus().equals(CopySceneStatusCode.FINISH.getCode())){
+            return;
+        }
         //广播队伍副本挑战失败
         NettyResponse nettyResponse=new NettyResponse();
         nettyResponse.setCmd(ConstantValue.CHANGE_FAIL_RESPONSE);
@@ -428,6 +432,8 @@ public class CopySceneBean{
      * BOSS挑战是否完成
      */
     public void bossComeOrFinish()  {
+        //修改副本状态已经搞完
+        setStatus(CopySceneStatusCode.FINISH.getCode());
         if (bossBeans.size()>0){
             BossBean bossBean=bossBeans.pop();
             setNowBoss(bossBean);

@@ -181,11 +181,13 @@ public class BossBean extends Role {
         CopySceneBean copySceneBean=CopySceneProvider.getCopySceneBeanById(copySceneBeanId);
         copySceneBean.bossComeOrFinish();
         //移除boss攻击线程
-        Integer bossAttackId=getId()+copySceneBean.hashCode();
-        ScheduledFuture<?> t = ScheduledThreadPoolUtil.getBossTaskMap().get(bossAttackId);
-        if (t!=null){
-            ScheduledThreadPoolUtil.getBossTaskMap().remove(bossAttackId);
-            t.cancel(false);
+        Integer bossAttackId=getId()+hashCode();
+        synchronized (ScheduledThreadPoolUtil.getBossTaskMap()) {
+            ScheduledFuture<?> t = ScheduledThreadPoolUtil.getBossTaskMap().get(bossAttackId);
+            if (t != null) {
+                ScheduledThreadPoolUtil.getBossTaskMap().remove(bossAttackId);
+                t.cancel(false);
+            }
         }
         //经验
         if (fromRole.getType().equals(RoleTypeCode.PLAYER.getCode())||fromRole.getType().equals(RoleTypeCode.HELPER.getCode())) {
@@ -213,12 +215,12 @@ public class BossBean extends Role {
 
     public void bossAttack() {
         CopySceneBean copySceneBean = CopySceneProvider.getCopySceneBeanById(getCopySceneBeanId());
-        Integer bossAttackId=getId()+copySceneBean.hashCode();
+        Integer bossAttackId=getId()+hashCode();
         ScheduledFuture<?> t = ScheduledThreadPoolUtil.getBossTaskMap().get(bossAttackId);
         if (t != null) {
-            //代表着该boss已启动攻击线程
+            //代表着该boss已启动攻击线程 不同副本的玩家同时攻击boss，操作boss线程任务集合
         } else {
-            synchronized (this) {
+            synchronized (ScheduledThreadPoolUtil.getBossTaskMap()) {
                 t = ScheduledThreadPoolUtil.getBossTaskMap().get(bossAttackId);
                 if (t==null) {
                     List<SkillBean> skillBeans;
@@ -276,6 +278,8 @@ public class BossBean extends Role {
         }
         return null;
     }
+
+
     public void addHatred(Role role,Integer number){
         synchronized (hatredMap) {
             ConcurrentHashMap<Role, Integer> hatredMap = getHatredMap();
@@ -288,12 +292,14 @@ public class BossBean extends Role {
             }
         }
     }
+
     //消除仇恨
     public void removeHatred(Role role){
         if (getHatredMap().containsKey(role)){
             getHatredMap().remove(role);
         }
     }
+
     //根据skillI获取技能
     public SkillBean getSkillBeanBySkillId(Integer skillId) {
         List<SkillBean> skillBeans;
@@ -306,6 +312,7 @@ public class BossBean extends Role {
         }
         return null;
     }
+
     //使用技能
     public  void useSkill(List<Role> target, Integer skillId) {
         if (getStatus().equals(RoleStatusCode.DIE.getCode())){

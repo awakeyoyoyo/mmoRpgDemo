@@ -186,31 +186,33 @@ public class MmoHelperBean extends Role{
      * @param role
      */
     public void npcAttack(Role role) {
-        ScheduledFuture<?> t = ScheduledThreadPoolUtil.getHelperTaskMap().get(getId());
-        if (getTarget() != null) {
-            if (t != null) {
-                //代表着该npc正在攻击一个目标
-                if (role != getTarget()) {
-                    //与npc攻击的不是同一个目标 则切换
-                    ScheduledThreadPoolUtil.getHelperTaskMap().remove(getId());
-                    t.cancel(false);
-                    ScheduledThreadPoolUtil.HelperAttackTask helperAttackTask =
-                            new ScheduledThreadPoolUtil.HelperAttackTask(this, getSkillBeans(), role);
-                    t = ScheduledThreadPoolUtil.getScheduledExecutorService().scheduleAtFixedRate(helperAttackTask, 0, 6, TimeUnit.SECONDS);
-                    ScheduledThreadPoolUtil.getHelperTaskMap().put(getId(), t);
-                    setTarget(role);
-                    return;
-                } else {
+        //由召唤兽被攻击和攻击造成。存在多个线程召唤兽攻击线程任务集合操作问题
+        synchronized (ScheduledThreadPoolUtil.getHelperTaskMap()) {
+            ScheduledFuture<?> t = ScheduledThreadPoolUtil.getHelperTaskMap().get(getId());
+            Integer npcAttackTaskId=getId()+hashCode();
+            if (getTarget() != null) {
+                if (t != null) {
+                    //代表着该npc正在攻击一个目标
+                    if (role != getTarget()) {
+                        //与npc攻击的不是同一个目标 则切换
+                        ScheduledThreadPoolUtil.getHelperTaskMap().remove(npcAttackTaskId);
+                        t.cancel(false);
+                        ScheduledThreadPoolUtil.HelperAttackTask helperAttackTask =
+                                new ScheduledThreadPoolUtil.HelperAttackTask(this, getSkillBeans(), role);
+                        t = ScheduledThreadPoolUtil.getScheduledExecutorService().scheduleAtFixedRate(helperAttackTask, 0, 6, TimeUnit.SECONDS);
+                        ScheduledThreadPoolUtil.getHelperTaskMap().put(npcAttackTaskId, t);
+                        setTarget(role);
+                    }
                     //相同则无需操作 跳过
-                    return;
                 }
+            }else {
+                setTarget(role);
+                ScheduledThreadPoolUtil.HelperAttackTask helperAttackTask =
+                        new ScheduledThreadPoolUtil.HelperAttackTask(this, getSkillBeans(), role);
+                t = ScheduledThreadPoolUtil.getScheduledExecutorService().scheduleAtFixedRate(helperAttackTask, 0, 6, TimeUnit.SECONDS);
+                ScheduledThreadPoolUtil.getHelperTaskMap().put(npcAttackTaskId, t);
             }
         }
-        setTarget(role);
-        ScheduledThreadPoolUtil.HelperAttackTask helperAttackTask =
-                new ScheduledThreadPoolUtil.HelperAttackTask(this, getSkillBeans(), role);
-        t = ScheduledThreadPoolUtil.getScheduledExecutorService().scheduleAtFixedRate(helperAttackTask, 0, 6, TimeUnit.SECONDS);
-        ScheduledThreadPoolUtil.getHelperTaskMap().put(getId(), t);
     }
 
     /**

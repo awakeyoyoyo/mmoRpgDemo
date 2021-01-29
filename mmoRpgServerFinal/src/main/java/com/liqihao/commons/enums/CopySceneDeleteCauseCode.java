@@ -8,7 +8,7 @@ package com.liqihao.commons.enums;
 public enum CopySceneDeleteCauseCode {
     //
     TEAM_END(0,"队伍解散"), NO_PEOPLE(1,"最后一个玩家退出副本")
-    ,TIMEOUT(2,"超过规定挑战时间"), PEOPLE_DIE(3,"所有玩家死亡")
+    ,TIMEOUT(2,"副本挑战时间到了"), PEOPLE_DIE(3,"所有玩家死亡")
     ,SUCCESS(4,"挑战成功");
     private  int code;
     private  String value;

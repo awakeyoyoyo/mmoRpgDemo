@@ -317,41 +317,24 @@ public class ScheduledThreadPoolUtil {
         public void run() {
             logger.info("怪物攻击线程");
             MmoSimpleNPC npc = NpcMessageCache.getInstance().get(npcId);
+            Integer npcAttackId=npc.getId()+npc.hashCode();
             //判断是否有嘲讽buffer,则直接攻击嘲讽对象
             Role target = null;
             target = npc.getTarget();
-            if (npc.getStatus().equals(RoleStatusCode.DIE.getCode())) {
-                //死亡
-                bossTaskMap.remove(npc.getId());
-                bossTaskMap.get(npc.getId()).cancel(false);
-            }
-            if (target == null) {
-                // 没目标
-                bossTaskMap.remove(npc.getId());
-                bossTaskMap.get(npc.getId()).cancel(false);
-            }
-            //扣血咯
-            if (target.getNowHp() <= 0) {
-                npcTaskMap.get(npcId).cancel(false);
-                npcTaskMap.remove(npcId);
-                return;
+            // 没攻击目标 目标血量低于等于0 死亡
+            if (target == null||target.getNowHp() <= 0||npc.getStatus().equals(RoleStatusCode.DIE.getCode())) {
+                synchronized (npcTaskMap) {
+                    ScheduledFuture<?> t = npcTaskMap.get(npcAttackId);
+                    if (t != null) {
+                        npcTaskMap.remove(npcAttackId);
+                        t.cancel(false);
+                    }
+                }
             } else {
                 //npc默认使用普通攻击
-                //从缓存中找出技能
+                //从缓存中找出技能 npc默认只有 id：3 普通攻击
                 SkillMessage skillMessage = SkillMessageCache.getInstance().get(3);
-                SkillBean skillBean = new SkillBean();
-                skillBean.setId(skillMessage.getId());
-                skillBean.setConsumeType(skillMessage.getConsumeType());
-                skillBean.setConsumeNum(skillMessage.getConsumeNum());
-                skillBean.setCd(skillMessage.getCd());
-                skillBean.setBufferIds(CommonsUtil.split(skillMessage.getBufferIds()));
-                skillBean.setBaseDamage(skillMessage.getBaseDamage());
-                skillBean.setSkillName(skillMessage.getSkillName());
-                skillBean.setSkillAttackType(skillMessage.getSkillAttackType());
-                skillBean.setSkillDamageType(skillMessage.getSkillDamageType());
-                skillBean.setChantTime(skillMessage.getChantTime());
-                skillBean.setAddPerson(skillMessage.getAddPerson());
-                skillBean.setSkillType(skillMessage.getSkillType());
+                SkillBean skillBean = CommonsUtil.skillMessageToSkillBean(skillMessage);
                 target.beAttack(skillBean, npc);
             }
         }
@@ -426,16 +409,12 @@ public class ScheduledThreadPoolUtil {
     public static class CopySceneOutTimeTask implements Runnable {
         private TeamBean teamBean;
         private CopySceneBean copySceneBean;
-        private Logger logger = Logger.getLogger(CopySceneOutTimeTask.class);
-
         public CopySceneOutTimeTask() {
         }
-
         public CopySceneOutTimeTask(TeamBean teamBean, CopySceneBean copySceneBean) {
             this.teamBean = teamBean;
             this.copySceneBean = copySceneBean;
         }
-
         @Override
         public void run() {
             copySceneBean.changeFailTimeOut(teamBean);
@@ -468,17 +447,29 @@ public class ScheduledThreadPoolUtil {
             //仇恨的第一人
             Role role = null;
             role = bossBean.getTarget();
-
+            Integer bossAttackTaskId=bossBean.getId()+bossBean.hashCode();
             if (bossBean.getStatus().equals(RoleStatusCode.DIE.getCode())) {
-                bossTaskMap.remove(bossBean.getBossBeanId());
-                bossTaskMap.get(bossBean.getBossBeanId()).cancel(false);
+                synchronized (bossTaskMap) {
+                    ScheduledFuture<?> t = bossTaskMap.get(bossAttackTaskId);
+                    if (t != null) {
+                        bossTaskMap.remove(bossAttackTaskId);
+                        t.cancel(false);
+                    }
+                    return;
+                }
             }
             if (role == null) {
                 // 挑战失败
                 TeamBean teamBean = TeamServiceProvider.getTeamBeanByTeamId(copySceneBean.getTeamId());
-                copySceneBean.changePeopleDie(teamBean);
-                bossTaskMap.remove(bossBean.getBossBeanId());
-                bossTaskMap.get(bossBean.getBossBeanId()).cancel(false);
+                copySceneBean.changeFailPeopleDie(teamBean);
+                synchronized (bossTaskMap) {
+                    ScheduledFuture<?> t = bossTaskMap.get(bossAttackTaskId);
+                    if (t != null) {
+                        bossTaskMap.remove(bossAttackTaskId);
+                        t.cancel(false);
+                    }
+                    return;
+                }
             }
             SkillBean skillBean = null;
             //使用不同的技能
@@ -528,27 +519,45 @@ public class ScheduledThreadPoolUtil {
         public void run() {
             logger.info("helper攻击线程");
             //判断停止攻击
+            Integer helperBeanAttackId=helperBean.getId()+helperBean.hashCode();
             if (target.getMmoSceneId() != null) {
+                //场景
                 if (!target.getMmoSceneId().equals(helperBean.getMmoSceneId())) {
-                    helperTaskMap.remove(helperBean.getId());
-                    helperTaskMap.get(helperBean.getId()).cancel(false);
-                    return;
+                    synchronized (helperTaskMap) {
+                        ScheduledFuture<?> t = helperTaskMap.get(helperBeanAttackId);
+                        if (t != null) {
+                            helperTaskMap.remove(helperBeanAttackId);
+                            t.cancel(false);
+                        }
+                        return;
+                    }
                 }
             } else {
+                //副本
                 if (!target.getCopySceneBeanId().equals(helperBean.getCopySceneBeanId())) {
-                    helperTaskMap.remove(helperBean.getId());
-                    helperTaskMap.get(helperBean.getId()).cancel(false);
-                    return;
+                    synchronized (helperTaskMap) {
+                        ScheduledFuture<?> t = helperTaskMap.get(helperBeanAttackId);
+                        if (t != null) {
+                            helperTaskMap.remove(helperBeanAttackId);
+                            t.cancel(false);
+                        }
+                        return;
+                    }
                 }
             }
             if (target.getStatus().equals(RoleStatusCode.DIE.getCode()) || helperBean.getStatus().equals(RoleStatusCode.DIE.getCode())) {
                 // 没目标攻击  停止攻击线程
-                helperTaskMap.remove(helperBean.getId());
-                helperTaskMap.get(helperBean.getId()).cancel(false);
-                return;
+                synchronized (helperTaskMap) {
+                    ScheduledFuture<?> t = helperTaskMap.get(helperBeanAttackId);
+                    if (t != null) {
+                        helperTaskMap.remove(helperBeanAttackId);
+                        t.cancel(false);
+                    }
+                    return;
+                }
             }
             SkillBean skillBean = null;
-            //使用不同的技能
+            //使用不同的技能 技能组合只有两个  每5次攻击用一次2技能
             if (attackCount % 5 == 0) {
                 skillBean = skillBeans.get(1);
                 attackCount = 0;
@@ -567,6 +576,7 @@ public class ScheduledThreadPoolUtil {
                     targetRoles.addAll(findTargetCopyScene(helperBean));
                 }
             } else {
+
                 targetRoles.add(target);
             }
             //对role进行攻击

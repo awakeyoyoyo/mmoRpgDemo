@@ -99,7 +99,7 @@ public class BackpackServiceImpl implements BackpackService {
         messageData.setBackPackResponse(backPackResponse.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(myMessage);
+        String json= JsonFormat.printToString(messageData.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 
@@ -122,7 +122,7 @@ public class BackpackServiceImpl implements BackpackService {
         messageData.setUseResponse(useResponse.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(myMessage);
+        String json= JsonFormat.printToString(messageData.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 
@@ -171,7 +171,7 @@ public class BackpackServiceImpl implements BackpackService {
         messageData.setAddArticleResponse(addArticleResponse.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(myMessage);
+        String json= JsonFormat.printToString(messageData.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 
@@ -203,7 +203,7 @@ public class BackpackServiceImpl implements BackpackService {
         messageData.setFindAllCanGetResponse(findAllCanGetBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(myMessage);
+        String json= JsonFormat.printToString(messageData.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 
@@ -239,7 +239,7 @@ public class BackpackServiceImpl implements BackpackService {
         messageData.setGetArticleFromFloorResponse(getArticleFromFloorResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(myMessage);
+        String json= JsonFormat.printToString(messageData.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 
@@ -259,7 +259,7 @@ public class BackpackServiceImpl implements BackpackService {
         messageData.setCheckMoneyNumberResponse(checkMoneyNumberResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(myMessage);
+        String json= JsonFormat.printToString(messageData.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 
@@ -285,7 +285,7 @@ public class BackpackServiceImpl implements BackpackService {
         messageData.setBuyGoodsResponse(buyGoodsResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(myMessage);
+        String json= JsonFormat.printToString(messageData.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 
@@ -314,7 +314,7 @@ public class BackpackServiceImpl implements BackpackService {
         messageData.setFindAllGoodsResponse(findAllGoodsResponse.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(myMessage);
+        String json= JsonFormat.printToString(messageData.build());
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 

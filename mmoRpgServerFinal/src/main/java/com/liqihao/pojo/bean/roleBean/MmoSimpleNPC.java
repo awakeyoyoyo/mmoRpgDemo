@@ -31,10 +31,14 @@ import java.util.concurrent.TimeUnit;
  */
 public class MmoSimpleNPC extends Role {
 
-
+    /**
+     * 语言
+     */
     private String talk;
+    /**
+     * 携带的经验
+     */
     private Integer addExp;
-
     /**
      * 仇恨
      */
@@ -144,6 +148,13 @@ public class MmoSimpleNPC extends Role {
         }
     }
 
+    /**
+     * description 角色死亡
+     * @param fromRole
+     * @return {@link null }
+     * @author lqhao
+     * @createTime 2021/1/29 9:47
+     */
     @Override
     public void die(Role fromRole) {
         setStatus(RoleStatusCode.DIE.getCode());
@@ -171,14 +182,27 @@ public class MmoSimpleNPC extends Role {
         ScheduledThreadPoolUtil.getScheduledExecutorService().schedule(npcRestartTask,5,TimeUnit.SECONDS);
     }
 
-    //消除仇恨
+    /**
+     * description 消除仇恨
+     * @param role
+     * @return {@link null }
+     * @author lqhao
+     * @createTime 2021/1/29 9:47
+     */
     public void removeHatred(Role role) {
         if (getHatredMap().containsKey(role)) {
             getHatredMap().remove(role);
         }
     }
 
-    //增加仇恨
+    /**
+     * description 增加仇恨
+     * @param role
+     * @param number
+     * @return {@link null }
+     * @author lqhao
+     * @createTime 2021/1/29 9:47
+     */
     public void addHatred(Role role, Integer number) {
         synchronized (hatredMap) {
             ConcurrentHashMap<Role, Integer> hatredMap = getHatredMap();
@@ -192,7 +216,13 @@ public class MmoSimpleNPC extends Role {
         }
     }
 
-    //查找目标
+  
+    /**
+     * description 查找目标
+     * @return {@link Role }
+     * @author lqhao
+     * @createTime 2021/1/29 9:48
+     */
     public Role getTarget() {
         if (getStatus().equals(RoleStatusCode.DIE.getCode())) {
             return null;
@@ -231,33 +261,57 @@ public class MmoSimpleNPC extends Role {
         return null;
     }
 
+    /**
+     * description npc攻击
+     * @return {@link null }
+     * @author lqhao
+     * @createTime 2021/1/29 9:48
+     */
     public void npcAttack() {
-        ScheduledFuture<?> t = ScheduledThreadPoolUtil.getNpcTaskMap().get(getId());
+        Integer npcAttackId=getId()+hashCode();
+        ScheduledFuture<?> t = ScheduledThreadPoolUtil.getNpcTaskMap().get(npcAttackId);
         if (t != null) {
-            //代表着该npc已启动攻击线程
+            //代表着该npc已启动攻击线程 根据仇恨值来计算攻击目标 存在多个线程npc攻击线程任务集合操作问题 玩家死亡 线程在删除的时候，又有玩家攻击
         } else {
-            synchronized (this) {
-                t = ScheduledThreadPoolUtil.getNpcTaskMap().get(getId());
+            synchronized (ScheduledThreadPoolUtil.getNpcTaskMap()) {
+                t = ScheduledThreadPoolUtil.getNpcTaskMap().get(npcAttackId);
                 if (t == null) {
                     ScheduledThreadPoolUtil.NpcAttackTask npcAttackTask = new ScheduledThreadPoolUtil.NpcAttackTask(getId());
                     t = ScheduledThreadPoolUtil.getScheduledExecutorService().scheduleAtFixedRate(npcAttackTask, 0, 3, TimeUnit.SECONDS);
-                    ScheduledThreadPoolUtil.getNpcTaskMap().put(getId(), t);
+                    ScheduledThreadPoolUtil.getNpcTaskMap().put(npcAttackId, t);
                 }
             }
         }
     }
 
-
+    /**
+     * 改变蓝量
+     * @param number
+     * @param damageU
+     */
     @Override
     public void changeMp(int number, PlayModel.RoleIdDamage.Builder damageU) {
 
     }
 
+    /**
+     * 改变血量
+     * @param number
+     * @param damageU
+     * @param type
+     */
     @Override
     public void changeNowBlood(int number, PlayModel.RoleIdDamage.Builder damageU, int type) {
-
     }
 
+    /**
+     * description buffer影响
+     * @param bufferBean
+     * @param fromRole
+     * @return {@link null }
+     * @author lqhao
+     * @createTime 2021/1/29 9:50
+     */
     @Override
     public void effectByBuffer(BaseBuffBean bufferBean, Role fromRole) {
         //根据buffer类型扣血扣蓝

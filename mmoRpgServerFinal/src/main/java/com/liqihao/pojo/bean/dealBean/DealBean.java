@@ -16,7 +16,7 @@ public class DealBean {
     private DealArticleBean firstDealArticleBean;
     private DealArticleBean secondDealArticleBean;
     private volatile Integer status;
-    public static Object lock=new Object();
+    public  Object lock=new Object();
     public Integer getStatus() {
         return status;
     }
