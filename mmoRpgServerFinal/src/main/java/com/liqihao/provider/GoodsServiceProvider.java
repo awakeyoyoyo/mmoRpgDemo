@@ -39,10 +39,10 @@ public class GoodsServiceProvider {
      * @return
      */
     public static List<GoodsBean> getAllArticles(){
-        synchronized (goodsBeanConcurrentHashMap) {
-            List<GoodsBean> beans = new ArrayList<>(goodsBeanConcurrentHashMap.values());
-            return beans;
-        }
+
+        List<GoodsBean> beans = new ArrayList<>(goodsBeanConcurrentHashMap.values());
+        return beans;
+
     }
     /**
      *  对外提供买东西接口

@@ -77,7 +77,7 @@ public class BackPackManager {
     /**
      * 整理背包
      */
-    public synchronized void clearBackPack(Integer roleId){
+    public  void clearBackPack(Integer roleId){
         CopyOnWriteArrayList<Article> newBackPack=new CopyOnWriteArrayList<>();
         CopyOnWriteArrayList<Article> oldBackPack=getBackpacks();
         setBackpacks(newBackPack);
@@ -89,7 +89,7 @@ public class BackPackManager {
     /**
      * 背包放入东西
      */
-    public synchronized boolean put(Article article,Integer roleId) {
+    public  boolean put(Article article,Integer roleId) {
         //判断物品类型
         return article.put(this,roleId);
     }
@@ -97,7 +97,7 @@ public class BackPackManager {
     /**
      * 背包放入东西 按照数据库格式来存放
      */
-    public synchronized void putOnDatabase(Article article) {
+    public  void putOnDatabase(Article article) {
         if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())) {
             MedicineBean medicineBean = article.getArticle();
             medicineBean.setArticleId(getNewArticleId());
@@ -117,14 +117,14 @@ public class BackPackManager {
     /**
      * 判断背包是否存在某样东西
      */
-    public synchronized boolean contains(Article a) {
+    public  boolean contains(Article a) {
         return getBackpacks().contains(a);
     }
 
     /**
      * 减少某样物品数量/丢弃装备
      */
-    public synchronized Article useOrAbandonArticle(Integer articleId, Integer number,Integer roleId) {
+    public  Article useOrAbandonArticle(Integer articleId, Integer number,Integer roleId) {
         for (Article a : getBackpacks()) {
             if (a.getArticleId().equals(articleId)) {
                 return a.useOrAbandon(number,this,roleId);
@@ -159,7 +159,7 @@ public class BackPackManager {
     /**
      * 根据articleId获取物品信息
      */
-    public synchronized Article getArticleByArticleId(Integer articleId) {
+    public  Article getArticleByArticleId(Integer articleId) {
         for (Article article : getBackpacks()) {
             if (articleId.equals(article.getArticleId())) {
                 return article;
@@ -171,7 +171,7 @@ public class BackPackManager {
     /**
      * 获取背包内物品信息
      */
-    public synchronized ArrayList<ArticleDto> getBackpacksMessage() {
+    public  ArrayList<ArticleDto> getBackpacksMessage() {
         ArrayList<ArticleDto> articleDtos = new ArrayList<>();
         for (Article article : getBackpacks()) {
             ArticleDto articleDto = article.getArticleMessage();

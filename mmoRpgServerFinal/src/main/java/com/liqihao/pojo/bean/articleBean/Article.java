@@ -17,12 +17,10 @@ public abstract class Article {
      * 数量
      */
     private Integer quantity;
-
     /**
      * 缓存中背包id
      */
     private Integer articleId;
-
     /**
      * 物品信息id
      */

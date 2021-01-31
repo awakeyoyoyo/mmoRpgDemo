@@ -367,28 +367,6 @@ public class GuildBean {
     }
 
     /**
-     * 发送申请拒绝或者通过
-     *
-     * @param role
-     * @param flag
-     */
-    public void sendJoinResponse(MmoSimpleRole role, boolean flag) {
-        Channel channel = role.getChannel();
-        //返回成功的数据包
-        NettyResponse nettyResponse = new NettyResponse();
-        nettyResponse.setCmd(ConstantValue.GUILD_APPLY_RESPONSE);
-        nettyResponse.setStateCode(StateCode.SUCCESS);
-        //protobuf 生成registerResponse
-        GuildModel.GuildModelMessage.Builder messageData = GuildModel.GuildModelMessage.newBuilder();
-        messageData.setDataType(GuildModel.GuildModelMessage.DateType.ApplyResponse);
-        GuildModel.ApplyResponse.Builder applyResponseBuilder = GuildModel.ApplyResponse.newBuilder().setSuccessFlag(flag);
-        messageData.setApplyResponse(applyResponseBuilder.build());
-        nettyResponse.setData(messageData.build().toByteArray());
-        String json= JsonFormat.printToString(messageData.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
-    }
-
-    /**
      * 捐金币
      *
      * @param money
@@ -445,5 +423,27 @@ public class GuildBean {
             }
             return false;
         }
+    }
+
+    /**
+     * 发送申请拒绝或者通过
+     *
+     * @param role
+     * @param flag
+     */
+    public void sendJoinResponse(MmoSimpleRole role, boolean flag) {
+        Channel channel = role.getChannel();
+        //返回成功的数据包
+        NettyResponse nettyResponse = new NettyResponse();
+        nettyResponse.setCmd(ConstantValue.GUILD_APPLY_RESPONSE);
+        nettyResponse.setStateCode(StateCode.SUCCESS);
+        //protobuf 生成registerResponse
+        GuildModel.GuildModelMessage.Builder messageData = GuildModel.GuildModelMessage.newBuilder();
+        messageData.setDataType(GuildModel.GuildModelMessage.DateType.ApplyResponse);
+        GuildModel.ApplyResponse.Builder applyResponseBuilder = GuildModel.ApplyResponse.newBuilder().setSuccessFlag(flag);
+        messageData.setApplyResponse(applyResponseBuilder.build());
+        nettyResponse.setData(messageData.build().toByteArray());
+        String json= JsonFormat.printToString(messageData.build());
+        NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 }

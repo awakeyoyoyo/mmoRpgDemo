@@ -136,15 +136,11 @@ public class GuildServiceProvider  implements ApplicationContextAware {
         //用户持有公会引用
         role.setGuildBean(guildBean);
         //数据入库
-
         insertGuildPOJO(mmoGuildPOJO);
         insertGuildRolePOJO(guildRoleBean);
         return guildBean;
     }
 
-    private void insertGuildPOJO(MmoGuildPOJO mmoGuildPOJO) {
-        ScheduledThreadPoolUtil.addTask(() -> mmoGuildPOJOMapper.insert(mmoGuildPOJO));
-    }
 
     /**
      * 申请加入公会
@@ -263,5 +259,9 @@ public class GuildServiceProvider  implements ApplicationContextAware {
         mmoGuildRolePOJO.setGuildId(roleBean.getGuildId());
         mmoGuildRolePOJO.setGuildPositionId(roleBean.getGuildPositionId());
         ScheduledThreadPoolUtil.addTask(() -> mmoGuildRolePOJOMapper.updateByPrimaryKey(mmoGuildRolePOJO));
+    }
+
+    private void insertGuildPOJO(MmoGuildPOJO mmoGuildPOJO) {
+        ScheduledThreadPoolUtil.addTask(() -> mmoGuildPOJOMapper.insert(mmoGuildPOJO));
     }
 }

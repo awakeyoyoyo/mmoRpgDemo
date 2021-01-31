@@ -414,12 +414,15 @@ public class MmoSimpleRole extends Role implements MyObserver {
      * 使用道具
      */
     public Boolean useArticle(Integer articleId) {
-        Article article = backpackManager.getArticleByArticleId(articleId);
-        if (article==null){
-            return false;
+        Article article;
+        synchronized (backpackManager) {
+            article = backpackManager.getArticleByArticleId(articleId);
+            if (article == null) {
+                return false;
+            }
+            backpackManager.useOrAbandonArticle(articleId, 1, getId());
         }
-        backpackManager.useOrAbandonArticle(articleId, 1,getId());
-        return article.use(getBackpackManager(),this);
+        return article.use(getBackpackManager(), this);
     }
 
 

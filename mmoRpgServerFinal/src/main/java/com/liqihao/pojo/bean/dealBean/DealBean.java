@@ -16,7 +16,17 @@ public class DealBean {
     private DealArticleBean firstDealArticleBean;
     private DealArticleBean secondDealArticleBean;
     private volatile Integer status;
-    public  Object lock=new Object();
+    public final Object lock=new Object();
+    public long endTime;
+
+    public long getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(long endTime) {
+        this.endTime = endTime;
+    }
+
     public Integer getStatus() {
         return status;
     }

@@ -143,12 +143,12 @@ public class DealBankServiceProvider {
         dealBankArticleBean.setHighPrice(0);
         dealBankArticleBean.setEndTime(dealBankArticleBean.getCreateTime() + 60 * 60 * 24 * 1000);
         dealBankArticleBean.setDealBeanArticleBeanId(dealBankArticleBeanIdAuto.incrementAndGet());
-        dealBankArticleBeansRwLock.writeLock().lock();
+        dealBankArticleBeansRwLock.readLock().lock();
         try {
             //1天
             dealBankArticleBeans.put(dealBankArticleBean.getDealBeanArticleBeanId(), dealBankArticleBean);
         } finally {
-            dealBankArticleBeansRwLock.writeLock().unlock();
+            dealBankArticleBeansRwLock.readLock().unlock();
         }
         //判断是否是拍卖模式
         //开启定时任务
@@ -168,15 +168,21 @@ public class DealBankServiceProvider {
      */
     public static void reduceSellArticleToDealBank(Integer dealBeanArticleBeanId, MmoSimpleRole role) throws RpgServerException {
         DealBankArticleBean dealBankArticleBean;
-        dealBankArticleBeansRwLock.writeLock().lock();
+        dealBankArticleBeansRwLock.readLock().lock();
         try {
             dealBankArticleBean = dealBankArticleBeans.get(dealBeanArticleBeanId);
             if (dealBankArticleBean == null) {
                 throw new RpgServerException(StateCode.FAIL, "该物品已经交易完成或不存在");
             }
-            dealBankArticleBeans.remove(dealBankArticleBean.getDealBeanArticleBeanId());
+            // 防止多个玩家对同一个商品进行操作
+            dealBankArticleBean.dealBankArticleBeanRwLock.writeLock().lock();
+            try {
+                dealBankArticleBeans.remove(dealBankArticleBean.getDealBeanArticleBeanId());
+            }finally {
+                dealBankArticleBean.dealBankArticleBeanRwLock.writeLock().unlock();
+            }
         } finally {
-            dealBankArticleBeansRwLock.writeLock().unlock();
+            dealBankArticleBeansRwLock.readLock().unlock();
         }
         if (!role.getId().equals(dealBankArticleBean.getFromRoleId())) {
             throw new RpgServerException(StateCode.FAIL, "非本商品的卖家无法下架");
@@ -210,118 +216,77 @@ public class DealBankServiceProvider {
      */
     public static void buySellArticleToDealBank(Integer dealBankArticleBeanId, MmoSimpleRole role, Integer money) throws RpgServerException {
         DealBankArticleBean dealBankArticleBean;
-        dealBankArticleBeansRwLock.writeLock().lock();
+        dealBankArticleBeansRwLock.readLock().lock();
         try {
             dealBankArticleBean = dealBankArticleBeans.get(dealBankArticleBeanId);
             if (dealBankArticleBean == null) {
                 throw new RpgServerException(StateCode.FAIL, "该物品已经交易完成或不存在");
             }
-            if (money == 0 && dealBankArticleBean.getType().equals(DealBankArticleTypeCode.AUCTION.getCode())) {
-                throw new RpgServerException(StateCode.FAIL, "该商品为拍卖模式，请调用拍卖接口");
-            }
-            if (role.getId().equals(dealBankArticleBean.getFromRoleId())) {
-                throw new RpgServerException(StateCode.FAIL, "不能自己购买自己物品");
-            }
-            //检测金币是否够
-            if (dealBankArticleBean.getType().equals(DealBankArticleTypeCode.AUCTION.getCode())) {
-                if (role.getMoney() < money) {
-                    throw new RpgServerException(StateCode.FAIL, "人物金币不足");
+            dealBankArticleBean.dealBankArticleBeanRwLock.writeLock().lock();
+            try {
+                if (money == 0 && dealBankArticleBean.getType().equals(DealBankArticleTypeCode.AUCTION.getCode())) {
+                    throw new RpgServerException(StateCode.FAIL, "该商品为拍卖模式，请调用拍卖接口");
                 }
-                if (money < dealBankArticleBean.getHighPrice()) {
-                    throw new RpgServerException(StateCode.FAIL, "当前报价不是最高价");
+                if (role.getId().equals(dealBankArticleBean.getFromRoleId())) {
+                    throw new RpgServerException(StateCode.FAIL, "不能自己购买自己物品");
                 }
-            } else {
-                //判断金币足够
-                if (role.getMoney() < dealBankArticleBean.getPrice()) {
-                    throw new RpgServerException(StateCode.FAIL, "人物金币不足");
+                //检测金币是否够
+                if (dealBankArticleBean.getType().equals(DealBankArticleTypeCode.AUCTION.getCode())) {
+                    if (role.getMoney() < money) {
+                        throw new RpgServerException(StateCode.FAIL, "人物金币不足");
+                    }
+                    if (money < dealBankArticleBean.getHighPrice()) {
+                        throw new RpgServerException(StateCode.FAIL, "当前报价不是最高价");
+                    }
+                } else {
+                    //判断金币足够
+                    if (role.getMoney() < dealBankArticleBean.getPrice()) {
+                        throw new RpgServerException(StateCode.FAIL, "人物金币不足");
+                    }
                 }
-            }
-            //判断是否是拍卖品
-            if (dealBankArticleBean.getType().equals(DealBankArticleTypeCode.AUCTION.getCode())) {
-                //生成拍卖记录
-                DealBankAuctionBean dealBankAuctionBean = buildDealBankAuction(dealBankArticleBean, role.getId(), money);
-                role.setMoney(role.getMoney() - money);
-                dealBankArticleBean.setHighPrice(money);
-                dealBankArticleBean.setToRoleId(role.getId());
-                //拍卖品 增加拍卖记录
-                dealBankArticleBean.getDealBankAuctionBeans().add(dealBankAuctionBean);
-                //更新数据库
-                updateDealBankArticle(dealBankArticleBean);
-                insertDealBankAuction(dealBankAuctionBean);
+                //判断是否是拍卖品
+                if (dealBankArticleBean.getType().equals(DealBankArticleTypeCode.AUCTION.getCode())) {
+                    //生成拍卖记录
+                    DealBankAuctionBean dealBankAuctionBean = buildDealBankAuction(dealBankArticleBean, role.getId(), money);
+                    role.setMoney(role.getMoney() - money);
+                    dealBankArticleBean.setHighPrice(money);
+                    dealBankArticleBean.setToRoleId(role.getId());
+                    //拍卖品 增加拍卖记录
+                    dealBankArticleBean.getDealBankAuctionBeans().add(dealBankAuctionBean);
+                    //更新数据库
+                    updateDealBankArticle(dealBankArticleBean);
+                    insertDealBankAuction(dealBankAuctionBean);
+                } else {
+                    dealBankArticleBeans.remove(dealBankArticleBeanId);
+                    dealBankArticleBean.setToRoleId(role.getId());
+                    //扣除金币
+                    role.setMoney(role.getMoney() - dealBankArticleBean.getPrice());
+                    //发送交易成功给双方
+                    sendSuccessToBuyer(dealBankArticleBean, FROM_BUY_SUCCESS_TITLE, TO_BUY_SUCCESS);
+                    sendSuccessToSeller(dealBankArticleBean, TO_BUY_SUCCESS_TITLE, FROM_BUY_SUCCESS);
+                    //删除拍卖行中物品
+                    Integer dealBankArticleDBId = dealBankArticleBean.getDealBankArticleDbId();
+                    deleteDealBankArticleById(dealBankArticleDBId);
 
-            } else {
-                dealBankArticleBeans.remove(dealBankArticleBeanId);
-                dealBankArticleBean.setToRoleId(role.getId());
-                //扣除金币
-                role.setMoney(role.getMoney() - dealBankArticleBean.getPrice());
-                //发送交易成功给双方
-                sendSuccessToBuyer(dealBankArticleBean, FROM_BUY_SUCCESS_TITLE, TO_BUY_SUCCESS);
-                sendSuccessToSeller(dealBankArticleBean, TO_BUY_SUCCESS_TITLE, FROM_BUY_SUCCESS);
-                //删除拍卖行中物品
-                Integer dealBankArticleDBId = dealBankArticleBean.getDealBankArticleDbId();
-                deleteDealBankArticleById(dealBankArticleDBId);
-
+                }
+            }finally {
+                dealBankArticleBean.dealBankArticleBeanRwLock.writeLock().unlock();
             }
         } finally {
-            dealBankArticleBeansRwLock.writeLock().unlock();
+            dealBankArticleBeansRwLock.readLock().unlock();
         }
 
     }
 
-    private static void insertDealBankAuction(DealBankAuctionBean dealBankAuctionBean) {
-        MmoDealBankAuctionPOJO dealBankAuctionPOJO = new MmoDealBankAuctionPOJO();
-        dealBankAuctionPOJO.setDealBankArticleId(dealBankAuctionBean.getDealBeanArticleBeanDbId());
-        dealBankAuctionPOJO.setId(dealBankAuctionBean.getDealBeanAuctionBeanDbId());
-        dealBankAuctionPOJO.setMoney(dealBankAuctionBean.getMoney());
-        dealBankAuctionPOJO.setFromRoleId(dealBankAuctionBean.getFromRoleId());
-        dealBankAuctionPOJO.setCreateTime(System.currentTimeMillis());
-        ScheduledThreadPoolUtil.addTask(() -> mmoDealBankAuctionPOJOMapper.insert(dealBankAuctionPOJO));
-    }
-
-    private static void insertDealBankArticleBean(DealBankArticleBean dealBankArticleBean) {
-        MmoDealBankArticlePOJO mmoDealBankArticlePOJO = new MmoDealBankArticlePOJO();
-        mmoDealBankArticlePOJO.setId(dealBankArticleBean.getDealBankArticleDbId());
-        mmoDealBankArticlePOJO.setArticleType(dealBankArticleBean.getArticleType());
-        mmoDealBankArticlePOJO.setArticleMessageId(dealBankArticleBean.getArticleMessageId());
-        mmoDealBankArticlePOJO.setEquipmentId(dealBankArticleBean.getEquipmentId());
-        mmoDealBankArticlePOJO.setFromRoleId(dealBankArticleBean.getFromRoleId());
-        mmoDealBankArticlePOJO.setCreateTime(dealBankArticleBean.getCreateTime());
-        mmoDealBankArticlePOJO.setEndTime(dealBankArticleBean.getEndTime());
-        mmoDealBankArticlePOJO.setNum(dealBankArticleBean.getNum());
-        mmoDealBankArticlePOJO.setType(dealBankArticleBean.getType());
-        mmoDealBankArticlePOJO.setHighPrice(dealBankArticleBean.getHighPrice());
-        mmoDealBankArticlePOJO.setPrice(dealBankArticleBean.getPrice());
-        mmoDealBankArticlePOJO.setToRoleId(dealBankArticleBean.getToRoleId());
-        ScheduledThreadPoolUtil.addTask(() -> mmoDealBankArticlePOJOMapper.insert(mmoDealBankArticlePOJO));
-    }
-
-    private static void updateDealBankArticle(DealBankArticleBean dealBankArticleBean) {
-        MmoDealBankArticlePOJO mmoDealBankArticlePOJO = new MmoDealBankArticlePOJO();
-        mmoDealBankArticlePOJO.setId(dealBankArticleBean.getDealBankArticleDbId());
-        mmoDealBankArticlePOJO.setArticleType(dealBankArticleBean.getArticleType());
-        mmoDealBankArticlePOJO.setArticleMessageId(dealBankArticleBean.getArticleMessageId());
-        mmoDealBankArticlePOJO.setEquipmentId(dealBankArticleBean.getEquipmentId());
-        mmoDealBankArticlePOJO.setFromRoleId(dealBankArticleBean.getFromRoleId());
-        mmoDealBankArticlePOJO.setCreateTime(dealBankArticleBean.getCreateTime());
-        mmoDealBankArticlePOJO.setEndTime(dealBankArticleBean.getEndTime());
-        mmoDealBankArticlePOJO.setType(dealBankArticleBean.getType());
-        mmoDealBankArticlePOJO.setNum(dealBankArticleBean.getNum());
-        mmoDealBankArticlePOJO.setHighPrice(dealBankArticleBean.getHighPrice());
-        mmoDealBankArticlePOJO.setPrice(dealBankArticleBean.getPrice());
-        mmoDealBankArticlePOJO.setToRoleId(dealBankArticleBean.getToRoleId());
-        ScheduledThreadPoolUtil.addTask(() -> mmoDealBankArticlePOJOMapper.updateByPrimaryKey(mmoDealBankArticlePOJO));
-    }
-
     /**
-     * s
      * 获取交易物品列表
      */
     public static List<DealBankArticleBean> getSellArticleToDealBank() {
-        dealBankArticleBeansRwLock.readLock().lock();
+        dealBankArticleBeansRwLock.writeLock().lock();
         try {
             return new ArrayList<>(dealBankArticleBeans.values());
         } finally {
-            dealBankArticleBeansRwLock.readLock().unlock();
+            dealBankArticleBeansRwLock.writeLock().unlock();
         }
     }
 
@@ -329,25 +294,16 @@ public class DealBankServiceProvider {
      * 获取自身上架交易物品列表
      */
     public static List<DealBankArticleBean> getSellArticleToDealBankByMySelf(Integer roleId) {
-        dealBankArticleBeansRwLock.readLock().lock();
+        dealBankArticleBeansRwLock.writeLock().lock();
         try {
             return dealBankArticleBeans.values().stream().filter(e -> e.getFromRoleId().equals(roleId)).collect(Collectors.toList());
         } finally {
-            dealBankArticleBeansRwLock.readLock().unlock();
+            dealBankArticleBeansRwLock.writeLock().unlock();
         }
-    }
-
-    public static void deleteDealBankAuctionById(Integer dealBankAuctionDbId) {
-        ScheduledThreadPoolUtil.addTask(() -> mmoDealBankAuctionPOJOMapper.deleteByPrimaryKey(dealBankAuctionDbId));
-    }
-
-    public static void deleteDealBankArticleById(Integer dealBankArticleDbId) {
-        ScheduledThreadPoolUtil.addTask(() -> mmoDealBankArticlePOJOMapper.deleteByPrimaryKey(dealBankArticleDbId));
     }
 
     /**
      * description 发送成功邮件给卖家
-     *
      * @param dealBankArticleBean
      * @param title
      * @param context
@@ -378,7 +334,6 @@ public class DealBankServiceProvider {
 
     /**
      * description 发送交易失败邮件给买家
-     *
      * @param dealBankAuctionBean
      * @param title
      * @param context
@@ -505,4 +460,56 @@ public class DealBankServiceProvider {
         return dealBankAuctionBean;
     }
 
+
+    private static void insertDealBankAuction(DealBankAuctionBean dealBankAuctionBean) {
+        MmoDealBankAuctionPOJO dealBankAuctionPOJO = new MmoDealBankAuctionPOJO();
+        dealBankAuctionPOJO.setDealBankArticleId(dealBankAuctionBean.getDealBeanArticleBeanDbId());
+        dealBankAuctionPOJO.setId(dealBankAuctionBean.getDealBeanAuctionBeanDbId());
+        dealBankAuctionPOJO.setMoney(dealBankAuctionBean.getMoney());
+        dealBankAuctionPOJO.setFromRoleId(dealBankAuctionBean.getFromRoleId());
+        dealBankAuctionPOJO.setCreateTime(System.currentTimeMillis());
+        ScheduledThreadPoolUtil.addTask(() -> mmoDealBankAuctionPOJOMapper.insert(dealBankAuctionPOJO));
+    }
+
+    private static void insertDealBankArticleBean(DealBankArticleBean dealBankArticleBean) {
+        MmoDealBankArticlePOJO mmoDealBankArticlePOJO = new MmoDealBankArticlePOJO();
+        mmoDealBankArticlePOJO.setId(dealBankArticleBean.getDealBankArticleDbId());
+        mmoDealBankArticlePOJO.setArticleType(dealBankArticleBean.getArticleType());
+        mmoDealBankArticlePOJO.setArticleMessageId(dealBankArticleBean.getArticleMessageId());
+        mmoDealBankArticlePOJO.setEquipmentId(dealBankArticleBean.getEquipmentId());
+        mmoDealBankArticlePOJO.setFromRoleId(dealBankArticleBean.getFromRoleId());
+        mmoDealBankArticlePOJO.setCreateTime(dealBankArticleBean.getCreateTime());
+        mmoDealBankArticlePOJO.setEndTime(dealBankArticleBean.getEndTime());
+        mmoDealBankArticlePOJO.setNum(dealBankArticleBean.getNum());
+        mmoDealBankArticlePOJO.setType(dealBankArticleBean.getType());
+        mmoDealBankArticlePOJO.setHighPrice(dealBankArticleBean.getHighPrice());
+        mmoDealBankArticlePOJO.setPrice(dealBankArticleBean.getPrice());
+        mmoDealBankArticlePOJO.setToRoleId(dealBankArticleBean.getToRoleId());
+        ScheduledThreadPoolUtil.addTask(() -> mmoDealBankArticlePOJOMapper.insert(mmoDealBankArticlePOJO));
+    }
+
+    private static void updateDealBankArticle(DealBankArticleBean dealBankArticleBean) {
+        MmoDealBankArticlePOJO mmoDealBankArticlePOJO = new MmoDealBankArticlePOJO();
+        mmoDealBankArticlePOJO.setId(dealBankArticleBean.getDealBankArticleDbId());
+        mmoDealBankArticlePOJO.setArticleType(dealBankArticleBean.getArticleType());
+        mmoDealBankArticlePOJO.setArticleMessageId(dealBankArticleBean.getArticleMessageId());
+        mmoDealBankArticlePOJO.setEquipmentId(dealBankArticleBean.getEquipmentId());
+        mmoDealBankArticlePOJO.setFromRoleId(dealBankArticleBean.getFromRoleId());
+        mmoDealBankArticlePOJO.setCreateTime(dealBankArticleBean.getCreateTime());
+        mmoDealBankArticlePOJO.setEndTime(dealBankArticleBean.getEndTime());
+        mmoDealBankArticlePOJO.setType(dealBankArticleBean.getType());
+        mmoDealBankArticlePOJO.setNum(dealBankArticleBean.getNum());
+        mmoDealBankArticlePOJO.setHighPrice(dealBankArticleBean.getHighPrice());
+        mmoDealBankArticlePOJO.setPrice(dealBankArticleBean.getPrice());
+        mmoDealBankArticlePOJO.setToRoleId(dealBankArticleBean.getToRoleId());
+        ScheduledThreadPoolUtil.addTask(() -> mmoDealBankArticlePOJOMapper.updateByPrimaryKey(mmoDealBankArticlePOJO));
+    }
+
+    public static void deleteDealBankAuctionById(Integer dealBankAuctionDbId) {
+        ScheduledThreadPoolUtil.addTask(() -> mmoDealBankAuctionPOJOMapper.deleteByPrimaryKey(dealBankAuctionDbId));
+    }
+
+    public static void deleteDealBankArticleById(Integer dealBankArticleDbId) {
+        ScheduledThreadPoolUtil.addTask(() -> mmoDealBankArticlePOJOMapper.deleteByPrimaryKey(dealBankArticleDbId));
+    }
 }

@@ -5,6 +5,8 @@ import com.liqihao.provider.DealBankServiceProvider;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * 交易行上物品bean
@@ -25,7 +27,7 @@ public class DealBankArticleBean {
     private long endTime;
     private Integer equipmentId;
     private CopyOnWriteArrayList<DealBankAuctionBean> dealBankAuctionBeans=new CopyOnWriteArrayList<>();
-
+    public final ReadWriteLock dealBankArticleBeanRwLock = new ReentrantReadWriteLock();
     public CopyOnWriteArrayList<DealBankAuctionBean> getDealBankAuctionBeans() {
         return dealBankAuctionBeans;
     }
