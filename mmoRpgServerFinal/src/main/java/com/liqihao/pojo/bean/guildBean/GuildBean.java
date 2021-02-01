@@ -266,8 +266,11 @@ public class GuildBean {
                         //数据库删除 更新
                         GuildServiceProvider.getInstance().updateRolePOJO(mmoRolePOJO);
                     } else {
-                        role.setGuildBean(this);
-                        DbUtil.updateRole(role);
+                        GuildBean guildBean=this;
+                        role.execute(() -> {
+                            role.setGuildBean(guildBean);
+                            DbUtil.updateRole(role);
+                        });
                         sendJoinResponse(role, true);
                     }
                     //数据库删除 更新
@@ -305,8 +308,11 @@ public class GuildBean {
                         //数据库
                         GuildServiceProvider.getInstance().updateRolePOJO(mmoRolePOJO);
                     } else {
-                        role.setGuildBean(null);
-                        DbUtil.updateRole(role);
+                        GuildBean guildBean=this;
+                        role.execute(() -> {
+                            role.setGuildBean(guildBean);
+                            DbUtil.updateRole(role);
+                        });
                     }
                     GuildBean guildBean = this;
                     //数据库删除该人的记录
@@ -401,6 +407,7 @@ public class GuildBean {
             Integer temp = guildMoney - money;
             setMoney(temp);
             mmoSimpleRole.setMoney(getMoney() + money);
+            DbUtil.updateRole(mmoSimpleRole);
             GuildServiceProvider.getInstance().updateGuildPOJO(this);
         } finally {
             moneyRwLock.writeLock().unlock();

@@ -95,6 +95,9 @@ public class EquipmentBean extends Article{
     @Override
     public Article useOrAbandon(Integer number, BackPackManager backPackManager,Integer roleId) {
         //需要删除数据库的记录
+        if (number>1){
+            return null;
+        }
         Integer bagId=getBagId();
         setBagId(null);
         backPackManager.getBackpacks().remove(this);

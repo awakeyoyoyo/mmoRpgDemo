@@ -25,6 +25,7 @@ import com.liqihao.protobufObject.GuildModel;
 import com.liqihao.provider.GuildServiceProvider;
 import com.liqihao.service.GuildService;
 import com.liqihao.util.CommonsUtil;
+import com.liqihao.util.DbUtil;
 import com.liqihao.util.NotificationUtil;
 import io.netty.channel.Channel;
 import org.springframework.stereotype.Service;
@@ -164,7 +165,9 @@ public class GuildServiceImpl implements GuildService {
             throw new RpgServerException(StateCode.FAIL,"该角色没加入公会");
         }
         //操作金币
+        mmoSimpleRole.setMoney(mmoSimpleRole.getMoney()-money);
         guildBean.contributeMoney(money);
+        DbUtil.updateRole(mmoSimpleRole);
         //返回成功的数据包
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.CONTRIBUTE_MONEY_RESPONSE);

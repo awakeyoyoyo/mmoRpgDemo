@@ -791,19 +791,12 @@ public class GameStart {
         System.out.println("请输入你要捐献的物品的背包id：");
         Integer articleId=scanner.nextInt();
         scanner.nextLine();
-        System.out.println("请输入你要捐献的物品的类型：药品-0 武器-1");
-        Integer articleType=scanner.nextInt();
-        if (articleType<0||articleType>1){
-            System.out.println("输入错误数字");
-        }
-        Integer number=1;
-        if (articleType.equals(1)){
-            number=1;
-        }else{
-            System.out.println("输入放入数量");
-            number=scanner.nextInt();
-            scanner.nextLine();
-        }
+
+
+        System.out.println("输入放入数量");
+        Integer number=scanner.nextInt();
+        scanner.nextLine();
+
         scanner.nextLine();
         NettyRequest nettyRequest=new NettyRequest();
         nettyRequest.setCmd(ConstantValue.CONTRIBUTE_ARTICLE_REQUEST);
@@ -837,19 +830,10 @@ public class GameStart {
         System.out.println("请输入你要取出的物品的仓库id：");
         Integer wareHouseId=scanner.nextInt();
         scanner.nextLine();
-        System.out.println("请输入你要取出的物品的类型：药品-0 武器-1");
-        Integer articleType=scanner.nextInt();
-        if (articleType<0||articleType>1){
-            System.out.println("输入错误数字");
-        }
+
         Integer number;
-        if (articleType.equals(1)){
-            number=1;
-        }else{
-            System.out.println("输入取出数量");
-            number=scanner.nextInt();
-            scanner.nextLine();
-        }
+        System.out.println("输入取出数量");
+        number=scanner.nextInt();
         scanner.nextLine();
         NettyRequest nettyRequest=new NettyRequest();
         nettyRequest.setCmd(ConstantValue.GET_GUILD_ARTICLE_REQUEST);
