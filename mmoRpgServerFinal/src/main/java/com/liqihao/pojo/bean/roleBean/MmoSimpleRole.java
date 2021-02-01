@@ -848,32 +848,34 @@ public class MmoSimpleRole extends Role implements MyObserver {
      * @return
      */
     public Boolean wentCopyScene(CopySceneBean copySceneBean)  {
-        //从当前场景消失
-        Integer sceneId = getMmoSceneId();
-        SceneBean sceneBean = SceneBeanMessageCache.getInstance().get(sceneId);
-        sceneBean.getRoles().remove(getId());
-        setMmoSceneId(null);
-        //召唤兽
-        if (getMmoHelperBean()!=null){
-            SceneBeanMessageCache.getInstance().get(sceneId).getHelperBeans().remove(getMmoHelperBean());
-            getMmoHelperBean().setMmoSceneId(null);
-            getMmoHelperBean().setCopySceneBeanId(copySceneBean.getCopySceneMessageId());
-            copySceneBean.getRoles().add(getMmoHelperBean());
+        synchronized (copySceneBean.getRoles()) {
+            //从当前场景消失
+            Integer sceneId = getMmoSceneId();
+            SceneBean sceneBean = SceneBeanMessageCache.getInstance().get(sceneId);
+            sceneBean.getRoles().remove(getId());
+            setMmoSceneId(null);
+            //召唤兽
+            if (getMmoHelperBean() != null) {
+                SceneBeanMessageCache.getInstance().get(sceneId).getHelperBeans().remove(getMmoHelperBean());
+                getMmoHelperBean().setMmoSceneId(null);
+                getMmoHelperBean().setCopySceneBeanId(copySceneBean.getCopySceneBeanId());
+                copySceneBean.getRoles().add(getMmoHelperBean());
+            }
+            //人物设置副本
+            this.setCopySceneId(copySceneBean.getCopySceneMessageId());
+            this.setLastSceneId(sceneId);
+            this.setCopySceneBeanId(copySceneBean.getCopySceneBeanId());
+            //副本操作
+            copySceneBean.getRoles().add(this);
+            if (copySceneBean.getNowBoss() == null) {
+                copySceneBean.bossComeOrFinish();
+            }
+            List<Role> newRoles = new ArrayList<>();
+            newRoles.add(this);
+            //同步给场景中的角色 有角色进入
+            CommonsUtil.sendRoleResponse(newRoles, null, copySceneBean.getCopySceneBeanId());
+            return true;
         }
-        //人物设置副本
-        this.setCopySceneId(copySceneBean.getCopySceneMessageId());
-        this.setLastSceneId(sceneId);
-        this.setCopySceneBeanId(copySceneBean.getCopySceneBeanId());
-        //副本操作
-        copySceneBean.getRoles().add(this);
-        if (copySceneBean.getNowBoss()==null) {
-            copySceneBean.bossComeOrFinish();
-        }
-        List<Role> newRoles=new ArrayList<>();
-        newRoles.add(this);
-        //同步给场景中的角色 有角色进入
-        CommonsUtil.sendRoleResponse(newRoles,null,copySceneBean.getCopySceneBeanId());
-        return true;
     }
 
     @Override

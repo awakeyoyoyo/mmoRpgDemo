@@ -158,11 +158,9 @@ public abstract class BaseTaskBean {
         Integer rewardArticleType=taskMessage.getRewardArticleType();
         //金币类型
         if (rewardArticleType.equals(ArticleTypeCode.MONEY.getCode())){
-            Integer index= CommonsUtil.getIndexByChannel(role.getChannel());
-            LogicThreadPool.getInstance().execute(() -> {
-                role.setMoney(role.getMoney() + rewardNum);
-                DbUtil.updateRole(role);
-            }, index);
+            role.setMoney(role.getMoney() + rewardNum);
+            DbUtil.updateRole(role);
+            return;
         }
         //装备、药品
         Article article=null;

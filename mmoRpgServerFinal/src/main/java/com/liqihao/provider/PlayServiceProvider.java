@@ -118,6 +118,16 @@ public class PlayServiceProvider {
         return simpleRole;
     }
 
+    /**
+     * description 注册用户
+     * @param roleName
+     * @param professionId
+     * @param username
+     * @param password
+     * @return {@link null }
+     * @author lqhao
+     * @createTime 2021/2/1 11:57
+     */
     public void registerRole(String roleName, Integer professionId, String username, String password) {
         //注册成功 数据库插入账号信息
         MmoRolePOJO mmoRolePOJO = new MmoRolePOJO();
@@ -136,6 +146,13 @@ public class PlayServiceProvider {
         RoleMessageCache.getInstance().put(mmoRolePOJO.getId(),mmoRolePOJO);
     }
 
+    /**
+     * description 退出登陆
+     * @param role
+     * @return {@link null }
+     * @author lqhao
+     * @createTime 2021/2/1 11:56
+     */
     public void logout(MmoSimpleRole role) {
         ChannelMessageCache.getInstance().remove(role.getId());
         AttributeKey<MmoSimpleRole> key = AttributeKey.valueOf("role");

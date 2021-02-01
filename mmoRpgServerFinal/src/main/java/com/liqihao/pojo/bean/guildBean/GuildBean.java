@@ -255,7 +255,7 @@ public class GuildBean {
                         peopleRwLock.writeLock().unlock();
                     }
                     //删除申请记录
-                    iterator.remove();
+                    guildApplyBeans.remove(bean);
                     //对应角色
                     MmoSimpleRole role = OnlineRoleMessageCache.getInstance().get(bean.getRoleId());
                     if (role == null) {

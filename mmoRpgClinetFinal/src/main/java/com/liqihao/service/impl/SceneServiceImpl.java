@@ -127,7 +127,7 @@ public class SceneServiceImpl implements SceneService {
             System.out.println("[-][-]类型: " + RoleTypeCode.getValue(roleDTO.getType()) + " 状态: " + RoleStatusCode.getValue(roleDTO.getStatus()));
             System.out.println("[-][-]血量： " + roleDTO.getNowBlood() + "/" + roleDTO.getBlood());
             System.out.println("[-][-]蓝量： " + roleDTO.getNowMp() + "/" + roleDTO.getMp());
-            System.out.println("[-][-]攻击力： "+roleDTO.getAttack()+" 技能伤害加成: "+roleDTO.getAttackAdd());
+            System.out.println("[-][-]攻击力： "+roleDTO.getAttack()+" 技能伤害加成: "+String.format("%.3f", roleDTO.getAttackAdd()));
             System.out.println("[-][-]等级："+roleDTO.getLevel());
             System.out.println("[-][-]装备总等级："+roleDTO.getEquipmentLevel());
             System.out.println("[-][-]所在队伍id："+roleDTO.getTeamId());

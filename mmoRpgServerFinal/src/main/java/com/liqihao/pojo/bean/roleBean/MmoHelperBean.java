@@ -188,10 +188,9 @@ public class MmoHelperBean extends Role{
     public void npcAttack(Role role) {
         //由召唤兽被攻击和攻击造成。存在多个线程召唤兽攻击线程任务集合操作问题
         synchronized (ScheduledThreadPoolUtil.getHelperTaskMap()) {
-            ScheduledFuture<?> t = ScheduledThreadPoolUtil.getHelperTaskMap().get(getId());
             Integer npcAttackTaskId=getId()+hashCode();
-            if (getTarget() != null) {
-                if (t != null) {
+            ScheduledFuture<?> t = ScheduledThreadPoolUtil.getHelperTaskMap().get(npcAttackTaskId);
+            if (getTarget()!=null&&t!=null) {
                     //代表着该npc正在攻击一个目标
                     if (role != getTarget()) {
                         //与npc攻击的不是同一个目标 则切换
@@ -204,7 +203,6 @@ public class MmoHelperBean extends Role{
                         setTarget(role);
                     }
                     //相同则无需操作 跳过
-                }
             }else {
                 setTarget(role);
                 ScheduledThreadPoolUtil.HelperAttackTask helperAttackTask =

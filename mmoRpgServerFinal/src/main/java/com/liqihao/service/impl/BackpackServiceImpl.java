@@ -218,7 +218,7 @@ public class BackpackServiceImpl implements BackpackService {
         CopySceneBean copySceneBean = CopySceneProvider.getCopySceneBeanById(copySceneBeanId);
         Article article = copySceneBean.getArticleByIndex(index);
         if (article == null) {
-            throw new RpgServerException(StateCode.FAIL,"该物品已经被其他玩家获取了");
+            throw new RpgServerException(StateCode.FAIL,"地面没有该物品");
         }
         //放入背包
 
@@ -344,7 +344,7 @@ public class BackpackServiceImpl implements BackpackService {
             //道具
             MedicineBean medicineBean = (MedicineBean) article;
             MedicineMessage medicineMessage= MedicineMessageCache.getInstance().get(medicineBean.getArticleMessageId());
-            dtoBuilder.setId(medicineBean.getArticleTypeCode())
+            dtoBuilder.setId(medicineMessage.getId())
                     .setArticleType(medicineMessage.getArticleType())
                     .setFloorIndex(medicineBean.getFloorIndex())
                     .setNowDurability(-1)

@@ -47,7 +47,7 @@ public class TaskServiceProvider {
             }
             BaseTaskBean taskBean=createTaskBean(taskMessage);
             //数据库
-            insertTaskDb(taskBean,roleId);
+            insertTaskDbQuickly(taskBean,roleId);
         }
     }
 
@@ -180,6 +180,22 @@ public class TaskServiceProvider {
         mmoTaskPOJO.setTaskMessageId(taskBean.getTaskMessageId());
         mmoTaskPOJO.setCreateTime(taskBean.getCreateTime());
         ScheduledThreadPoolUtil.addTask(()->mmoTaskPOJOMapper.insert(mmoTaskPOJO));
+    }
+
+    /**
+     * 插入任务实体数据库
+     * @param taskBean
+     * @param roleId
+     */
+    public static void insertTaskDbQuickly(BaseTaskBean taskBean,Integer roleId){
+        MmoTaskPOJO mmoTaskPOJO=new MmoTaskPOJO();
+        mmoTaskPOJO.setId(taskBean.getTaskDbId());
+        mmoTaskPOJO.setStatus(taskBean.getStatus());
+        mmoTaskPOJO.setProgress(taskBean.getProgress());
+        mmoTaskPOJO.setRoleId(roleId);
+        mmoTaskPOJO.setTaskMessageId(taskBean.getTaskMessageId());
+        mmoTaskPOJO.setCreateTime(taskBean.getCreateTime());
+        mmoTaskPOJOMapper.insert(mmoTaskPOJO);
     }
 
     /**

@@ -165,8 +165,24 @@ public class MmoSimpleNPC extends Role {
                 MmoHelperBean mmoHelperBean = (MmoHelperBean) fromRole;
                 Integer roleId = mmoHelperBean.getMasterId();
                 role = OnlineRoleMessageCache.getInstance().get(roleId);
+                //停止召唤兽攻击
+                mmoHelperBean.setTarget(null);
+                Integer helperAttackId=mmoHelperBean.getId()+mmoHelperBean.hashCode();
+                synchronized (ScheduledThreadPoolUtil.getHelperTaskMap()) {
+                    ScheduledThreadPoolUtil.getHelperTaskMap().get(helperAttackId).cancel(false);
+                    ScheduledThreadPoolUtil.getHelperTaskMap().remove(helperAttackId);
+                }
             } else {
                 role = (MmoSimpleRole) fromRole;
+                MmoHelperBean mmoHelperBean = role.getMmoHelperBean();
+                if (mmoHelperBean!=null) {
+                    mmoHelperBean.setTarget(null);
+                    Integer helperAttackId = mmoHelperBean.getId() + mmoHelperBean.hashCode();
+                    synchronized (ScheduledThreadPoolUtil.getHelperTaskMap()) {
+                        ScheduledThreadPoolUtil.getHelperTaskMap().get(helperAttackId).cancel(false);
+                        ScheduledThreadPoolUtil.getHelperTaskMap().remove(helperAttackId);
+                    }
+                }
             }
             KillTaskAction killTaskAction = new KillTaskAction();
             killTaskAction.setNum(1);

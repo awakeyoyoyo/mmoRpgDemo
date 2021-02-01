@@ -252,7 +252,11 @@ public class CopySceneBean{
         teamBean.setCopySceneBeanId(null);
         teamBean.setCopySceneId(null);
         while (iterator.hasNext()){
-            MmoSimpleRole mmoSimpleRole= (MmoSimpleRole) iterator.next();
+            Role role= (Role) iterator.next();
+            if (!role.getType().equals(RoleTypeCode.PLAYER.getCode())){
+                continue;
+            }
+            MmoSimpleRole mmoSimpleRole= (MmoSimpleRole) role;
             //让用户回到原来的场景EE
             //副本角色删除
             roles.remove(mmoSimpleRole);
@@ -310,18 +314,18 @@ public class CopySceneBean{
             }
         }
         //发奖励了
-        List<MedicineBean> medicineBeans= ArticleServiceProvider.productMedicineToCopyScene(this,CommonsUtil.split(copySceneMessage.getMedicineIds()));
-        List<EquipmentBean> equipmentBeans= ArticleServiceProvider.productEquipmentToCopyScene(this,CommonsUtil.split(copySceneMessage.getEquipmentIds()));
-        if (medicineBeans.size()>0) {
-            for (MedicineBean m:medicineBeans) {
-                articlesMap.put(m.getFloorIndex(),m);
-            }
-        }
-        if (equipmentBeans.size()>0){
-            for (EquipmentBean e:equipmentBeans) {
-                articlesMap.put(e.getFloorIndex(),e);
-            }
-        }
+//        List<MedicineBean> medicineBeans= ArticleServiceProvider.productMedicineToCopyScene(this,CommonsUtil.split(copySceneMessage.getMedicineIds()));
+//        List<EquipmentBean> equipmentBeans= ArticleServiceProvider.productEquipmentToCopyScene(this,CommonsUtil.split(copySceneMessage.getEquipmentIds()));
+//        if (medicineBeans.size()>0) {
+//            for (MedicineBean m:medicineBeans) {
+//                articlesMap.put(m.getFloorIndex(),m);
+//            }
+//        }
+//        if (equipmentBeans.size()>0){
+//            for (EquipmentBean e:equipmentBeans) {
+//                articlesMap.put(e.getFloorIndex(),e);
+//            }
+//        }
         // 广播队伍副本挑战成功
         NettyResponse nettyResponse=new NettyResponse();
         nettyResponse.setCmd(ConstantValue.CHANGE_SUCCESS_RESPONSE);
@@ -356,6 +360,7 @@ public class CopySceneBean{
         for (Role role:roles) {
             role.setStatus(RoleStatusCode.ALIVE.getCode());
             role.setNowHp(role.getHp());
+            role.setNowMp(role.getMp());
         }
         //副本解散
         end(teamBean,CopySceneDeleteCauseCode.PEOPLE_DIE.getCode());
@@ -384,6 +389,7 @@ public class CopySceneBean{
         for (Role role:roles) {
             role.setStatus(RoleStatusCode.ALIVE.getCode());
             role.setNowHp(role.getHp());
+            role.setNowMp(role.getMp());
         }
         //副本解散
         end(teamBean,CopySceneDeleteCauseCode.TIMEOUT.getCode());
@@ -440,7 +446,7 @@ public class CopySceneBean{
             setNowBoss(bossBean);
             //发信息第二个boss出现
         }else{
-            // 挑战成功
+            //挑战成功
             TeamBean teamBean= TeamServiceProvider.getTeamBeanByTeamId(getTeamId());
             changeResult(teamBean);
         }

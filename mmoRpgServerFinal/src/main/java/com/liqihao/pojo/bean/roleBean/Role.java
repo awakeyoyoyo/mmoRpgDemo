@@ -96,91 +96,6 @@ public abstract class Role {
         return id;
     }
 
-    /**
-     * description 加经验
-     * @param num
-     * @return {@link null }
-     * @author lqhao
-     * @createTime 2021/1/26 20:29
-     */
-    public void addExp(Integer num){
-        Integer nowExp=getExp()+num;
-        setExp(nowExp);
-        Integer nowLevel=nowExp/10;
-        upLevel(nowLevel);
-        MmoSimpleRole mmoSimpleRole= (MmoSimpleRole) this;
-        DbUtil.updateRole(mmoSimpleRole);
-    }
-
-    /**
-     * description 升级
-     * @param level
-     * @return {@link null }
-     * @author lqhao
-     * @createTime 2021/1/26 20:28
-     */
-    public void upLevel(Integer level){
-        if (level>getLevel()){
-            Integer addLevel=level-getLevel();
-            setLevel(level);
-            if(getType().equals(RoleTypeCode.PLAYER.getCode())){
-                //发送给所有人有人升级
-                CommonsUtil.sendUpLevelAllRoles(addLevel,this);
-                //抛出升级事件
-                RoleLevelAction roleLevelAction=new RoleLevelAction();
-                roleLevelAction.setLevel(getLevel());
-                roleLevelAction.setTaskTargetType(TaskTargetTypeCode.UP_LEVEL.getCode());
-                MmoSimpleRole mmoSimpleRole= (MmoSimpleRole) this;
-                mmoSimpleRole.getTaskManager().handler(roleLevelAction,mmoSimpleRole);
-            }
-        }
-    }
-
-    public void changeEquipmentLevel(Integer equipmentLevel){
-        setEquipmentLevel(equipmentLevel);
-        // 抛出装备星级事件
-        if(getType().equals(RoleTypeCode.PLAYER.getCode())){
-            EquipmentTaskLevelAction equipmentTaskLevelAction=new EquipmentTaskLevelAction();
-            equipmentTaskLevelAction.setChangeLevel(getEquipmentLevel());
-            equipmentTaskLevelAction.setTaskTargetType(TaskTargetTypeCode.EQUIPMENT_LEVEL.getCode());
-            MmoSimpleRole mmoSimpleRole= (MmoSimpleRole) this;
-            mmoSimpleRole.getTaskManager().handler(equipmentTaskLevelAction,mmoSimpleRole);
-        }
-    }
-    /**
-     * 改变蓝量
-     * @param number
-     * @param damageU
-     */
-    public abstract void changeMp(int number, PlayModel.RoleIdDamage.Builder damageU) ;
-
-    /**
-     * 改变当前血量
-     * @param number
-     * @param damageU
-     * @param type
-     */
-    public abstract void changeNowBlood(int number, PlayModel.RoleIdDamage.Builder damageU, int type) ;
-
-    /**
-     * buffer影响
-     * @param bufferBean
-     */
-    public abstract void effectByBuffer(BaseBuffBean bufferBean,Role fromRole);
-
-    /**
-     * 角色被攻击调用
-     * @param skillBean
-     * @param fromRole
-     */
-    public abstract void beAttack(SkillBean skillBean, Role fromRole) ;
-
-
-    /**
-     * 死角色死亡调用
-     */
-    public abstract void die(Role fromRole);
-
     public void setId(Integer id) {
         this.id = id;
     }
@@ -272,5 +187,99 @@ public abstract class Role {
     public void setNowMp(Integer nowMp) {
         this.nowMp = nowMp;
     }
+
+    /**
+     * description 加经验
+     * @param num
+     * @return {@link null }
+     * @author lqhao
+     * @createTime 2021/1/26 20:29
+     */
+    public void addExp(Integer num){
+        Integer nowExp=getExp()+num;
+        setExp(nowExp);
+        Integer nowLevel=nowExp/10;
+        upLevel(nowLevel);
+        MmoSimpleRole mmoSimpleRole= (MmoSimpleRole) this;
+        DbUtil.updateRole(mmoSimpleRole);
+    }
+
+    /**
+     * description 升级
+     * @param level
+     * @return {@link null }
+     * @author lqhao
+     * @createTime 2021/1/26 20:28
+     */
+    public void upLevel(Integer level){
+        if (level>getLevel()){
+            Integer addLevel=level-getLevel();
+            setLevel(level);
+            if(getType().equals(RoleTypeCode.PLAYER.getCode())){
+                //发送给所有人有人升级
+                CommonsUtil.sendUpLevelAllRoles(addLevel,this);
+                //抛出升级事件
+                RoleLevelAction roleLevelAction=new RoleLevelAction();
+                roleLevelAction.setLevel(getLevel());
+                roleLevelAction.setTaskTargetType(TaskTargetTypeCode.UP_LEVEL.getCode());
+                MmoSimpleRole mmoSimpleRole= (MmoSimpleRole) this;
+                mmoSimpleRole.getTaskManager().handler(roleLevelAction,mmoSimpleRole);
+            }
+        }
+    }
+
+    /**
+     * description 改变人物装备星级
+     * @param equipmentLevel
+     * @return {@link null }
+     * @author lqhao
+     * @createTime 2021/2/1 15:11
+     */
+    public void changeEquipmentLevel(Integer equipmentLevel){
+        setEquipmentLevel(equipmentLevel);
+        // 抛出装备星级事件
+        if(getType().equals(RoleTypeCode.PLAYER.getCode())){
+            EquipmentTaskLevelAction equipmentTaskLevelAction=new EquipmentTaskLevelAction();
+            equipmentTaskLevelAction.setChangeLevel(getEquipmentLevel());
+            equipmentTaskLevelAction.setTaskTargetType(TaskTargetTypeCode.EQUIPMENT_LEVEL.getCode());
+            MmoSimpleRole mmoSimpleRole= (MmoSimpleRole) this;
+            mmoSimpleRole.getTaskManager().handler(equipmentTaskLevelAction,mmoSimpleRole);
+        }
+    }
+
+    /**
+     * 改变蓝量
+     * @param number
+     * @param damageU
+     */
+    public abstract void changeMp(int number, PlayModel.RoleIdDamage.Builder damageU) ;
+
+    /**
+     * 改变当前血量
+     * @param number
+     * @param damageU
+     * @param type
+     */
+    public abstract void changeNowBlood(int number, PlayModel.RoleIdDamage.Builder damageU, int type) ;
+
+    /**
+     * buffer影响
+     * @param bufferBean
+     */
+    public abstract void effectByBuffer(BaseBuffBean bufferBean,Role fromRole);
+
+    /**
+     * 角色被攻击调用
+     * @param skillBean
+     * @param fromRole
+     */
+    public abstract void beAttack(SkillBean skillBean, Role fromRole) ;
+
+
+    /**
+     * 死角色死亡调用
+     */
+    public abstract void die(Role fromRole);
+
 
 }

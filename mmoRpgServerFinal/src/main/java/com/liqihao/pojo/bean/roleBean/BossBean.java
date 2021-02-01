@@ -10,12 +10,15 @@ import com.liqihao.pojo.baseMessage.BufferMessage;
 import com.liqihao.pojo.bean.CopySceneBean;
 import com.liqihao.pojo.bean.SkillBean;
 import com.liqihao.pojo.bean.buffBean.BaseBuffBean;
+import com.liqihao.pojo.bean.guildBean.GuildBean;
 import com.liqihao.pojo.bean.teamBean.TeamBean;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.provider.TeamServiceProvider;
 import com.liqihao.util.CommonsUtil;
+import com.liqihao.util.LogicThreadPool;
 import com.liqihao.util.ScheduledThreadPoolUtil;
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import io.netty.channel.Channel;
 
 import java.util.ArrayList;
@@ -191,13 +194,29 @@ public class BossBean extends Role {
         }
         //经验
         if (fromRole.getType().equals(RoleTypeCode.PLAYER.getCode())||fromRole.getType().equals(RoleTypeCode.HELPER.getCode())) {
-            MmoSimpleRole role=null;
+            MmoSimpleRole role;
             if (fromRole.getType().equals(RoleTypeCode.HELPER.getCode())){
                 MmoHelperBean mmoHelperBean= (MmoHelperBean) fromRole;
                 Integer roleId=mmoHelperBean.getMasterId();
                 role=OnlineRoleMessageCache.getInstance().get(roleId);
+                //停止召唤兽攻击
+                mmoHelperBean.setTarget(null);
+                Integer helperAttackId=fromRole.getId()+fromRole.hashCode();
+                synchronized (ScheduledThreadPoolUtil.getHelperTaskMap()) {
+                    ScheduledThreadPoolUtil.getHelperTaskMap().get(helperAttackId).cancel(false);
+                    ScheduledThreadPoolUtil.getHelperTaskMap().remove(helperAttackId);
+                }
             }else {
                 role = (MmoSimpleRole) fromRole;
+                MmoHelperBean mmoHelperBean = role.getMmoHelperBean();
+                if (mmoHelperBean!=null) {
+                    mmoHelperBean.setTarget(null);
+                    Integer helperAttackId = mmoHelperBean.getId() + mmoHelperBean.hashCode();
+                    synchronized (ScheduledThreadPoolUtil.getHelperTaskMap()) {
+                        ScheduledThreadPoolUtil.getHelperTaskMap().get(helperAttackId).cancel(false);
+                        ScheduledThreadPoolUtil.getHelperTaskMap().remove(helperAttackId);
+                    }
+                }
             }
             Integer teamId=role.getTeamId();
             TeamBean teamBean= TeamServiceProvider.getTeamBeanByTeamId(teamId);
@@ -205,8 +224,10 @@ public class BossBean extends Role {
             BossMessage bossMessage=BossMessageCache.getInstance().get(getBossMessageId());
             //整个队伍人物增加经验
             for (MmoSimpleRole teamRole : teamRoles) {
-                if (teamRole.getType().equals(RoleTypeCode.HELPER.getCode())){
-                    teamRole.addExp(bossMessage.getAddExp());
+                if (teamRole.getType().equals(RoleTypeCode.PLAYER.getCode())){
+                    //放入各自玩家所在的线程仲执行
+                    Integer index=CommonsUtil.getIndexByChannel(teamRole.getChannel());
+                    LogicThreadPool.getInstance().execute(() -> teamRole.addExp(bossMessage.getAddExp()),index);
                 }
             }
 
@@ -263,7 +284,7 @@ public class BossBean extends Role {
                 Role target = null;
                 Integer max = 0;
                 for (Role role : hatredMap.keySet()) {
-                    if (role.getStatus().equals(RoleStatusCode.DIE.getCode())) {
+                    if (role.getStatus().equals(RoleStatusCode.DIE.getCode())||role.getMmoSceneId()!=null) {
                         //如果以及死了就消除仇恨了
                         removeHatred(role);
                         continue;
@@ -273,7 +294,16 @@ public class BossBean extends Role {
                         max = hatredMap.get(role);
                     }
                 }
-                return target;
+                if (max!=0) {
+                    return target;
+                }
+            }
+            CopySceneBean copySceneBean=CopySceneProvider.getCopySceneBeanById(getCopySceneBeanId());
+            for (Role role : copySceneBean.getRoles()) {
+                if (role.getStatus().equals(RoleStatusCode.ALIVE.getCode())&&role.getCopySceneBeanId()!=null&&role.getCopySceneBeanId().equals(copySceneBean.getCopySceneBeanId()))
+                {
+                    return role;
+                }
             }
         }
         return null;

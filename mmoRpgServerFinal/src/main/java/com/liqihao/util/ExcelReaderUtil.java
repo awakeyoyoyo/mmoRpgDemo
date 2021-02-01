@@ -113,15 +113,8 @@ public class ExcelReaderUtil {
 
     public static <T> List<T> readExcelFromFileName(String path,Class<T> tClass) throws IOException, IllegalAccessException, InstantiationException {
         File file = ResourceUtils.getFile(path);
-        InputStream in = null;
-        try {
-            in = new BufferedInputStream(new FileInputStream(file));
+        try(InputStream in = new BufferedInputStream(new FileInputStream(file))) {
             return readExcelToBean(in, tClass);
-        }finally {
-            if (in!=null) {
-                in.close();
-            }
         }
-
     }
 }

@@ -322,7 +322,7 @@ public class ScheduledThreadPoolUtil {
             Role target = null;
             target = npc.getTarget();
             // 没攻击目标 目标血量低于等于0 死亡
-            if (target == null||target.getNowHp() <= 0||npc.getStatus().equals(RoleStatusCode.DIE.getCode())) {
+            if (target == null||target.getNowHp() <= 0||npc.getStatus().equals(RoleStatusCode.DIE.getCode())||(target.getMmoSceneId()!=null&&!target.getMmoSceneId().equals(npc.getMmoSceneId()))) {
                 synchronized (npcTaskMap) {
                     ScheduledFuture<?> t = npcTaskMap.get(npcAttackId);
                     if (t != null) {
@@ -355,6 +355,7 @@ public class ScheduledThreadPoolUtil {
             npc.setStatus(RoleStatusCode.ALIVE.getCode());
             npc.setNowHp(npc.getHp());
             npc.setNowMp(npc.getMp());
+            npc.setHatredMap(new ConcurrentHashMap<>());
             //protobuf生成消息
             PlayModel.PlayModelMessage.Builder myMessageBuilder = PlayModel.PlayModelMessage.newBuilder();
             myMessageBuilder.setDataType(PlayModel.PlayModelMessage.DateType.RestartResponse);
@@ -403,6 +404,7 @@ public class ScheduledThreadPoolUtil {
             NotificationUtil.notificationSceneRole(nettyResponse,role,json);
         }
     }
+
     /**
      * 副本超时任务
      */
@@ -749,7 +751,6 @@ public class ScheduledThreadPoolUtil {
         }
     }
 
-
     /**
      * 拍卖超时任务
      */
@@ -777,7 +778,6 @@ public class ScheduledThreadPoolUtil {
             }
         }
     }
-
 
     /**
      * addTask到队列中
