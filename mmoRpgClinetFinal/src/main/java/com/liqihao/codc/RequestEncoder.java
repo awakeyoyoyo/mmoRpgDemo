@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
  * 数据包格式
  * 包头（4byte）-----状态码（4byte）------长度（4byte）--------数据
  * 数据包基本长度 命令+状态码+长度
+ * @author lqhao
  */
 public class RequestEncoder extends MessageToByteEncoder<NettyRequest> {
     private static Logger logger=Logger.getLogger(RequestEncoder.class);

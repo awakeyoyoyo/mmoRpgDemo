@@ -21,6 +21,7 @@ import com.liqihao.pojo.bean.guildBean.GuildBean;
 import com.liqihao.pojo.bean.guildBean.GuildRoleBean;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.util.CommonsUtil;
+import com.liqihao.util.DbUtil;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -136,6 +137,7 @@ public class GuildServiceProvider  implements ApplicationContextAware {
         //用户持有公会引用
         role.setGuildBean(guildBean);
         //数据入库
+        DbUtil.updateRole(role);
         insertGuildPOJO(mmoGuildPOJO);
         insertGuildRolePOJO(guildRoleBean);
         return guildBean;

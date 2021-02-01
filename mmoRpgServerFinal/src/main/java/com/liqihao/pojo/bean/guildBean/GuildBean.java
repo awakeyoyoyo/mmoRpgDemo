@@ -14,6 +14,7 @@ import com.liqihao.pojo.bean.taskBean.guildFirstTask.GuildFirstAction;
 import com.liqihao.protobufObject.GuildModel;
 import com.liqihao.provider.GuildServiceProvider;
 import com.liqihao.util.DbUtil;
+import com.liqihao.util.LogicThreadPool;
 import com.liqihao.util.NotificationUtil;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
@@ -266,6 +267,7 @@ public class GuildBean {
                         GuildServiceProvider.getInstance().updateRolePOJO(mmoRolePOJO);
                     } else {
                         role.setGuildBean(this);
+                        DbUtil.updateRole(role);
                         sendJoinResponse(role, true);
                     }
                     //数据库删除 更新

@@ -13,14 +13,15 @@ import java.util.List;
  * 响应解码器
  * 数据包格式
  * 包头（4byte）-----命令号（4byte）-----状态码（4byte）------长度（4byte）--------数据
+ * @author lqhao
  */
-public class ResponceDecoder extends ByteToMessageDecoder {
+public class ResponseDecoder extends ByteToMessageDecoder {
     /**
      * 数据包基本长度 包头+命令+状态码+长度
      */
     public static int BASE_LENGTH=4+4+4+4;
 
-    private static Logger logger=Logger.getLogger(ResponceDecoder.class);
+    private static Logger logger=Logger.getLogger(ResponseDecoder.class);
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
         if (byteBuf.readableBytes()>=BASE_LENGTH){

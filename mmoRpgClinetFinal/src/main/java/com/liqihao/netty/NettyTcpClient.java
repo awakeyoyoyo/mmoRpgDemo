@@ -2,7 +2,7 @@ package com.liqihao.netty;
 
 import com.liqihao.application.GameStart;
 import com.liqihao.codc.RequestEncoder;
-import com.liqihao.codc.ResponceDecoder;
+import com.liqihao.codc.ResponseDecoder;
 import com.liqihao.handler.Dispatcherservlet;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
@@ -46,7 +46,7 @@ public class NettyTcpClient {
                         protected void initChannel(SocketChannel socketChannel) throws Exception {
                             //给pipeline管道设置处理器
                             socketChannel.pipeline()
-                                    .addLast("decoder",new ResponceDecoder()) //解码器
+                                    .addLast("decoder",new ResponseDecoder()) //解码器
                                     .addLast("encoder",new RequestEncoder())  //编码器
                                     .addLast(new IdleStateHandler(0,5,0, TimeUnit.SECONDS))
                                     .addLast(new ClientHandler(dispatcherservlet));

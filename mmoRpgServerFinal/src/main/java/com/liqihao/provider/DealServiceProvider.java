@@ -129,10 +129,8 @@ public class DealServiceProvider {
                 dealBeans.remove(dealBean.getId());
             }
             //放入各个玩家线程进行
-            Integer index01 = CommonsUtil.getIndexByChannel(dealBean.getFirstRole().getChannel());
-            LogicThreadPool.getInstance().execute(() -> setRoleStatus(dealBean.getFirstRole(),false,null),index01);
-            Integer index02 = CommonsUtil.getIndexByChannel(dealBean.getSecondRole().getChannel());
-            LogicThreadPool.getInstance().execute(() -> setRoleStatus(dealBean.getSecondRole(),false,null),index02);
+            dealBean.getFirstRole().execute(() -> DealServiceProvider.setRoleStatus(dealBean.getFirstRole(),false,null));
+            dealBean.getFirstRole().execute(() -> DealServiceProvider.setRoleStatus(dealBean.getSecondRole(),false,null));
         }
         //删除超时交易
         deleteUnSetDeal();
@@ -177,12 +175,9 @@ public class DealServiceProvider {
                 MmoSimpleRole role1 = dealBean.getFirstRole();
                 MmoSimpleRole role2 = dealBean.getSecondRole();
                 //交换金币 物品
-                //根据channel计算index
-                Integer index01 = CommonsUtil.getIndexByChannel(role1.getChannel());
-                LogicThreadPool.getInstance().execute(() -> exchangeThing(dealArticleBean02.getArticles(),role1,dealArticleBean02.getMoney()), index01);
                 //放到各自线程中执行
-                Integer index02 = CommonsUtil.getIndexByChannel(role2.getChannel());
-                LogicThreadPool.getInstance().execute(() -> exchangeThing(dealArticleBean01.getArticles(),role2,dealArticleBean01.getMoney()), index02);
+                role1.execute(() -> exchangeThing(dealArticleBean02.getArticles(),role1,dealArticleBean02.getMoney()));
+                role2.execute(() -> exchangeThing(dealArticleBean02.getArticles(),role2,dealArticleBean01.getMoney()));
                 dealBean.setStatus(DealStatusCode.FINISH.getCode());
                 synchronized (dealBeans) {
                     dealBeans.remove(dealBean.getId());
@@ -214,19 +209,16 @@ public class DealServiceProvider {
             MmoSimpleRole role1 = dealBean.getFirstRole();
             MmoSimpleRole role2 = dealBean.getSecondRole();
             //交换金币 物品
-            //根据channel计算index
-            Integer index01 = CommonsUtil.getIndexByChannel(role1.getChannel());
-            LogicThreadPool.getInstance().execute(() -> exchangeThing(dealArticleBean01.getArticles(),role1,dealArticleBean01.getMoney()), index01);
             //放到各自线程中执行
-            Integer index02 = CommonsUtil.getIndexByChannel(role2.getChannel());
-            LogicThreadPool.getInstance().execute(() -> exchangeThing(dealArticleBean02.getArticles(),role2,dealArticleBean02.getMoney()), index02);
+            role1.execute(() -> exchangeThing(dealArticleBean01.getArticles(),role1,dealArticleBean01.getMoney()));
+            role2.execute(() -> exchangeThing(dealArticleBean01.getArticles(),role2,dealArticleBean02.getMoney()));
             dealBean.setStatus(DealStatusCode.FINISH.getCode());
             synchronized (dealBeans) {
                 dealBeans.remove(dealBean.getId());
             }
             //放入各个玩家线程进行
-            LogicThreadPool.getInstance().execute(() -> setRoleStatus(dealBean.getFirstRole(),false,null),index01);
-            LogicThreadPool.getInstance().execute(() -> setRoleStatus(dealBean.getSecondRole(),false,null),index02);
+            role1.execute(() -> DealServiceProvider.setRoleStatus(dealBean.getFirstRole(),false,null));
+            role2.execute(() -> DealServiceProvider.setRoleStatus(dealBean.getSecondRole(),false,null));
         }
         //删除超时交易
         deleteUnSetDeal();

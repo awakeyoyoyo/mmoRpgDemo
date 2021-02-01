@@ -710,14 +710,16 @@ public class MmoSimpleRole extends Role implements MyObserver {
     @Override
     public void changeNowBlood(int number, PlayModel.RoleIdDamage.Builder damageU, int type) {
         //获取对应线程的下标
-        Channel channel = ChannelMessageCache.getInstance().get(getId());
-        Integer index = CommonsUtil.getIndexByChannel(channel);
+        MmoSimpleRole role = OnlineRoleMessageCache.getInstance().get(getId());
+        if (role==null){
+            return;
+        }
         if (type == AttackStyleCode.USE_SKILL.getCode()) {
-            LogicThreadPool.getInstance().execute(new ChangeHpByAttackTask(number, this, damageU), index);
+            role.execute(new ChangeHpByAttackTask(number, this, damageU));
         } else if (type == AttackStyleCode.MEDICINE.getCode()){
-            LogicThreadPool.getInstance().execute(new ChangeHpByMedicineTask(number, this, damageU), index);
+            role.execute(new ChangeHpByMedicineTask(number, this, damageU));
         }else{
-            LogicThreadPool.getInstance().execute(new ChangeHpByBufferTask(number,this,damageU),index);
+            role.execute(new ChangeHpByBufferTask(number,this,damageU));
         }
     }
 
@@ -726,9 +728,8 @@ public class MmoSimpleRole extends Role implements MyObserver {
      */
     @Override
     public void changeMp(int number, PlayModel.RoleIdDamage.Builder damageU) {
-        Channel channel = ChannelMessageCache.getInstance().get(getId());
-        Integer index = CommonsUtil.getIndexByChannel(channel);
-        LogicThreadPool.getInstance().execute(new ChangeMpTask(number, this, damageU), index);
+        MmoSimpleRole role = OnlineRoleMessageCache.getInstance().get(getId());
+        role.execute(new ChangeMpTask(number, this, damageU));
     }
 
     /**
@@ -1210,9 +1211,13 @@ public class MmoSimpleRole extends Role implements MyObserver {
             }
         }
     }
+    public void execute(Runnable job){
+        Integer index=CommonsUtil.getIndexByChannel(getChannel());
+        LogicThreadPool.getInstance().execute(job,index);
+    }
 
     /**
-     * description 退出
+     * description 退出登陆
      * @return
      * @author lqhao
      * @createTime 2021/1/21 15:25

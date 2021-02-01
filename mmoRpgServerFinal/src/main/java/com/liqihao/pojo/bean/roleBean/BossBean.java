@@ -226,8 +226,8 @@ public class BossBean extends Role {
             for (MmoSimpleRole teamRole : teamRoles) {
                 if (teamRole.getType().equals(RoleTypeCode.PLAYER.getCode())){
                     //放入各自玩家所在的线程仲执行
-                    Integer index=CommonsUtil.getIndexByChannel(teamRole.getChannel());
-                    LogicThreadPool.getInstance().execute(() -> teamRole.addExp(bossMessage.getAddExp()),index);
+                    teamRole.execute(() -> teamRole.addExp(bossMessage.getAddExp()));
+
                 }
             }
 

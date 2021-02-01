@@ -340,11 +340,11 @@ public class CopySceneBean{
              * 队伍中玩家全部加金币 上锁，防止购买物品与副本挑战成功获取金币冲突
              */
             Integer money=copySceneMessage.getMoney();
-            Integer index=CommonsUtil.getIndexByChannel(role.getChannel());
-            LogicThreadPool.getInstance().execute(() -> {
+
+            role.execute(() -> {
                 role.setMoney(role.getMoney() + money);
                 DbUtil.updateRole(role);
-            }, index);
+            });
 
             if (c!=null) {
                 c.writeAndFlush(nettyResponse);
