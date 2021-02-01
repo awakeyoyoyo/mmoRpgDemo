@@ -1,5 +1,6 @@
 package com.liqihao.pojo.bean.buffBean;
 
+import com.googlecode.protobuf.format.JsonFormat;
 import com.liqihao.Cache.ChannelMessageCache;
 import com.liqihao.Cache.SceneBeanMessageCache;
 import com.liqihao.commons.ConstantValue;
@@ -10,6 +11,7 @@ import com.liqihao.commons.enums.RoleTypeCode;
 import com.liqihao.pojo.bean.roleBean.Role;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.provider.CopySceneProvider;
+import com.liqihao.util.NotificationUtil;
 import io.netty.channel.Channel;
 
 import java.util.List;
@@ -34,27 +36,9 @@ public class AttractBuffBean extends BaseBuffBean {
         nettyResponse.setCmd(ConstantValue.DAMAGES_NOTICE_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
-        List<Integer> players;
-        if (toRole.getMmoSceneId()!=null) {
-            players = SceneBeanMessageCache.getInstance().get(toRole.getMmoSceneId()).getRoles();
-            for (Integer playerId:players){
-                Channel c= ChannelMessageCache.getInstance().get(playerId);
-                if (c!=null){
-                    c.writeAndFlush(nettyResponse);
-                }
-            }
-
-        }else{
-            List<Role> roles = CopySceneProvider.getCopySceneBeanById(toRole.getCopySceneBeanId()).getRoles();
-            for (Role role:roles) {
-                if (role.getType().equals(RoleTypeCode.PLAYER.getCode())){
-                    Channel c= ChannelMessageCache.getInstance().get(role.getId());
-                    if (c!=null){
-                        c.writeAndFlush(nettyResponse);
-                    }
-                }
-            }
-        }
+        //广播信息
+        String json= JsonFormat.printToString(myMessageBuilder.build());
+        NotificationUtil.notificationSceneRole(nettyResponse,toRole,json);
     }
     @Override
     public void effectToRole(Role toRole,Role fromRole){
@@ -69,26 +53,8 @@ public class AttractBuffBean extends BaseBuffBean {
         nettyResponse.setCmd(ConstantValue.DAMAGES_NOTICE_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
-        List<Integer> players;
-        if (toRole.getMmoSceneId()!=null) {
-            players = SceneBeanMessageCache.getInstance().get(toRole.getMmoSceneId()).getRoles();
-            for (Integer playerId:players){
-                Channel c= ChannelMessageCache.getInstance().get(playerId);
-                if (c!=null){
-                    c.writeAndFlush(nettyResponse);
-                }
-            }
-
-        }else{
-            List<Role> roles = CopySceneProvider.getCopySceneBeanById(toRole.getCopySceneBeanId()).getRoles();
-            for (Role role:roles) {
-                if (role.getType().equals(RoleTypeCode.PLAYER.getCode())){
-                    Channel c= ChannelMessageCache.getInstance().get(role.getId());
-                    if (c!=null){
-                        c.writeAndFlush(nettyResponse);
-                    }
-                }
-            }
-        }
+        //广播信息
+        String json= JsonFormat.printToString(myMessageBuilder.build());
+        NotificationUtil.notificationSceneRole(nettyResponse,toRole,json);
     }
 }

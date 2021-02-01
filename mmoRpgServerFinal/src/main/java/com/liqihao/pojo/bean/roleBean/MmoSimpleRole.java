@@ -664,7 +664,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
         }else if (skillBean.getSkillType().equals(SkillTypeCode.PERCENTAGE.getCode())) {
             //百分比 按照攻击力比例增加
             Integer damage = skillBean.getBaseDamage();
-            reduce = (int) Math.ceil(damage + role.getAttack() * skillBean.getAddPerson());
+            reduce = (int) Math.ceil(damage + fromRole.getAttack() * skillBean.getAddPerson());
             PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();
             damageU.setFromRoleId(fromRole.getId());
             damageU.setFromRoleType(fromRole.getType());

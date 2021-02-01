@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * 请求编码器
  * 数据包格式
- * 包头（4byte）-----命令号（2byte）------长度（4byte）--------数据
+ * 包头（4byte）-----命令号（4byte）------长度（4byte）--------数据
  * @author lqhao
  */
 public class RequestDecoder extends ByteToMessageDecoder {
@@ -20,7 +20,7 @@ public class RequestDecoder extends ByteToMessageDecoder {
     /**
      * 数据包基本长度 包头+命令+长度
      */
-    public static int BASE_LENGTH = 4 + 2 + 4;
+    public static int BASE_LENGTH = 4 + 4 + 4;
 
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {

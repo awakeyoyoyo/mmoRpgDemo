@@ -12,25 +12,23 @@ import java.util.List;
 /**
  * 响应解码器
  * 数据包格式
- * 包头（4byte）-----命令号（2byte）-----状态码（4byte）------长度（4byte）--------数据
+ * 包头（4byte）-----命令号（4byte）-----状态码（4byte）------长度（4byte）--------数据
  */
 public class ResponceDecoder extends ByteToMessageDecoder {
     /**
      * 数据包基本长度 包头+命令+状态码+长度
      */
-    public static int BASE_LENGTH=4+2+4+4;
+    public static int BASE_LENGTH=4+4+4+4;
 
     private static Logger logger=Logger.getLogger(ResponceDecoder.class);
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
-//        logger.info("Client:ResponceDecoder readableBytes:"+byteBuf.readableBytes());
         if (byteBuf.readableBytes()>=BASE_LENGTH){
             //记录开始读取的index
             byteBuf.markReaderIndex();
             //可以处理
             //读到不正确包头 断开通道连接 避免恶意telnet或者攻击
             Integer flag=byteBuf.readInt();
-//            logger.info("Client:ResponceDecoder flag:"+flag);
             if (!flag.equals(ConstantValue.FLAG)) {
                 channelHandlerContext.channel().close();
                 logger.error("Server：包头错误关闭通道 flag:"+flag);
@@ -52,10 +50,7 @@ public class ResponceDecoder extends ByteToMessageDecoder {
             nettyResponse.setStateCode(stateCode);
             nettyResponse.setData(data);
             list.add(nettyResponse);
-        }else{
-            //数据包不完整，需要等待数据包来齐
-            return;
         }
-
+        //数据包不完整，需要等待数据包来齐
     }
 }
