@@ -25,8 +25,7 @@ public class TalkTaskBean extends BaseTaskBean {
             //相同
             setProgress(getProgress()+1);
             BaseTaskBean taskBean=this;
-            TaskServiceProvider.updateTaskDb(taskBean,roleId);
-            checkFinish(taskMessage,role);
+            checkFinish(taskMessage,taskBean,role);
         }
 
     }

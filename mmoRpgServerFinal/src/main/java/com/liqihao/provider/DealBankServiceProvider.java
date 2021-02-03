@@ -227,6 +227,9 @@ public class DealBankServiceProvider {
                 if (money == 0 && dealBankArticleBean.getType().equals(DealBankArticleTypeCode.AUCTION.getCode())) {
                     throw new RpgServerException(StateCode.FAIL, "该商品为拍卖模式，请调用拍卖接口");
                 }
+                if (money != 0 && dealBankArticleBean.getType().equals(DealBankArticleTypeCode.SELL.getCode())) {
+                    throw new RpgServerException(StateCode.FAIL, "该商品为一口价模式，请调用购买接口");
+                }
                 if (role.getId().equals(dealBankArticleBean.getFromRoleId())) {
                     throw new RpgServerException(StateCode.FAIL, "不能自己购买自己物品");
                 }
@@ -235,7 +238,7 @@ public class DealBankServiceProvider {
                     if (role.getMoney() < money) {
                         throw new RpgServerException(StateCode.FAIL, "人物金币不足");
                     }
-                    if (money < dealBankArticleBean.getHighPrice()) {
+                    if (money < dealBankArticleBean.getHighPrice()||money<dealBankArticleBean.getPrice()) {
                         throw new RpgServerException(StateCode.FAIL, "当前报价不是最高价");
                     }
                 } else {

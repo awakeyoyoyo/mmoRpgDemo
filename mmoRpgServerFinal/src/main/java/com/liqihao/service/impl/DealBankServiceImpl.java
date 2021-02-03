@@ -82,7 +82,6 @@ public class DealBankServiceImpl implements DealBankService {
         NotificationUtil.sendMessage(channel,nettyResponse,json);
     }
 
-
     @Override
     @HandlerCmdTag(cmd = ConstantValue.BUY_ARTICLE_REQUEST, module = ConstantValue.DEAL_BANK_MODULE)
     public void buyArticleRequest(DealBankModel.DealBankModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws RpgServerException {
@@ -110,7 +109,7 @@ public class DealBankServiceImpl implements DealBankService {
     public void auctionArticleRequest(DealBankModel.DealBankModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws RpgServerException {
         int dealBankArticleId=myMessage.getAuctionArticleRequest().getDealBankArticleId();
         int money=myMessage.getAuctionArticleRequest().getMoney();
-        if (money<0) {
+        if (money<=0) {
             throw new RpgServerException(StateCode.FAIL,"错误范围金币");
         }
         DealBankServiceProvider.buySellArticleToDealBank(dealBankArticleId,mmoSimpleRole,money);

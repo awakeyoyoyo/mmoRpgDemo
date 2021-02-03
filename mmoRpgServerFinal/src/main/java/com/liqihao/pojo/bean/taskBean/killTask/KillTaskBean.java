@@ -28,10 +28,8 @@ public class KillTaskBean extends BaseTaskBean {
             if (targetId.equals(taskMessage.getTargetId())){
                 //击杀的角色id相同
                 setProgress(getProgress()+number);
-                Integer roleId=role.getId();
                 BaseTaskBean taskBean=this;
-                TaskServiceProvider.updateTaskDb(taskBean,roleId);
-                checkFinish(taskMessage,role);
+                checkFinish(taskMessage,taskBean,role);
             }
         }
     }

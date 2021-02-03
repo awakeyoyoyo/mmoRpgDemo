@@ -183,10 +183,10 @@ public class GuildServiceProvider  implements ApplicationContextAware {
 
     /**
      * 删除数据库中 某人与公会的中间表记录
-     * @param guildRoleId
+     * @param roleId
      */
-    public void deletePeople(Integer guildRoleId) {
-        ScheduledThreadPoolUtil.addTask(() -> mmoGuildRolePOJOMapper.deleteByPrimaryKey(guildRoleId));
+    public void deletePeople(Integer roleId) {
+        ScheduledThreadPoolUtil.addTask(() -> mmoGuildRolePOJOMapper.deleteByRoleId(roleId));
     }
 
     /**
@@ -214,7 +214,7 @@ public class GuildServiceProvider  implements ApplicationContextAware {
         guildRolePOJO.setGuildPositionId(guildRoleBean.getGuildPositionId());
         guildRolePOJO.setContribution(guildRoleBean.getContribution());
         guildRolePOJO.setRoleId(guildRoleBean.getRoleId());
-        guildRoleBean.setId(guildRoleBean.getId());
+        guildRolePOJO.setId(guildRoleBean.getId());
         ScheduledThreadPoolUtil.addTask(() -> mmoGuildRolePOJOMapper.insert(guildRolePOJO));
     }
     /**

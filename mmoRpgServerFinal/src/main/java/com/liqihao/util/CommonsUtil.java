@@ -245,7 +245,7 @@ public class CommonsUtil {
         DealBankAuctionBean dealBankAuctionBean=new DealBankAuctionBean();
         dealBankAuctionBean.setDealBeanAuctionBeanDbId(dealBankAuctionPOJO.getId());
         dealBankAuctionBean.setMoney(dealBankAuctionPOJO.getMoney());
-        dealBankAuctionBean.setDealBeanArticleBeanDbId(dealBankAuctionBean.getDealBeanArticleBeanDbId());
+        dealBankAuctionBean.setDealBeanArticleBeanDbId(dealBankAuctionPOJO.getDealBankArticleId());
         dealBankAuctionBean.setFromRoleId(dealBankAuctionPOJO.getFromRoleId());
         dealBankAuctionBean.setCreateTime(dealBankAuctionPOJO.getCreateTime());
         return dealBankAuctionBean;
@@ -426,6 +426,9 @@ public class CommonsUtil {
         mmoEmailBean.setCreateTime(m.getCreateTime());
         mmoEmailBean.setFromRoleId(m.getFromRoleId());
         mmoEmailBean.setIntoDataBase(true);
+        mmoEmailBean.setMoney(m.getMoney());
+        mmoEmailBean.setEquipmentId(m.getEquipmentId());
+        mmoEmailBean.setGetMoneyFlag(m.getIsGetMoney());
         mmoEmailBean.setToDelete(m.getToDelete());
         mmoEmailBean.setFromDelete(m.getFromDelete());
         mmoEmailBean.setChecked(m.getChecked());

@@ -308,15 +308,14 @@ public class GuildBean {
                         //数据库
                         GuildServiceProvider.getInstance().updateRolePOJO(mmoRolePOJO);
                     } else {
-                        GuildBean guildBean=this;
                         role.execute(() -> {
-                            role.setGuildBean(guildBean);
+                            role.setGuildBean(null);
                             DbUtil.updateRole(role);
                         });
                     }
                     GuildBean guildBean = this;
                     //数据库删除该人的记录
-                    GuildServiceProvider.getInstance().deletePeople(roleBean.getId());
+                    GuildServiceProvider.getInstance().deletePeople(roleBean.getRoleId());
                     GuildServiceProvider.getInstance().updateGuildPOJO(guildBean);
                     break;
                 }
@@ -406,8 +405,13 @@ public class GuildBean {
             }
             Integer temp = guildMoney - money;
             setMoney(temp);
-            mmoSimpleRole.setMoney(getMoney() + money);
-            DbUtil.updateRole(mmoSimpleRole);
+            mmoSimpleRole.execute(new Runnable() {
+                @Override
+                public void run() {
+                    mmoSimpleRole.setMoney(mmoSimpleRole.getMoney() + money);
+                    DbUtil.updateRole(mmoSimpleRole);
+                }
+            });
             GuildServiceProvider.getInstance().updateGuildPOJO(this);
         } finally {
             moneyRwLock.writeLock().unlock();

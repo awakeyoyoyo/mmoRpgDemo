@@ -23,9 +23,7 @@ public class MoneyTaskBean extends BaseTaskBean {
         Integer moneyAddNum=moneyTaskAction.getMoneyAddNum();
         TaskMessage taskMessage= TaskMessageCache.getInstance().get(getTaskMessageId());
         setProgress(getProgress()+moneyAddNum);
-        Integer roleId=role.getId();
         BaseTaskBean taskBean=this;
-        TaskServiceProvider.updateTaskDb(taskBean,roleId);
-        checkFinish(taskMessage,role);
+        checkFinish(taskMessage,taskBean,role);
     }
 }

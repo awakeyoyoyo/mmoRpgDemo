@@ -10,7 +10,7 @@ import com.liqihao.pojo.bean.taskBean.BaseTaskAction;
  * @Version 1.0
  */
 public class EquipmentTaskLevelAction extends BaseTaskAction {
-    Integer equipmentLevel;
+    private Integer equipmentLevel;
 
     public Integer getChangeLevel() {
         return equipmentLevel;

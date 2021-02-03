@@ -24,17 +24,13 @@ public class SkillTaskBean extends BaseTaskBean {
         if (taskMessage.getTargetId()==null){
             //没有指定要使用什么技能
             setProgress(getProgress()+1);
-            Integer roleId=role.getId();
             BaseTaskBean taskBean=this;
-            TaskServiceProvider.updateTaskDb(taskBean,roleId);
-            checkFinish(taskMessage,role);
+            checkFinish(taskMessage,taskBean,role);
         }else if (skillId.equals(taskMessage.getTargetId())){
             //使用特定技能
             setProgress(getProgress()+1);
-            Integer roleId=role.getId();
             BaseTaskBean taskBean=this;
-            TaskServiceProvider.updateTaskDb(taskBean,roleId);
-            checkFinish(taskMessage,role);
+            checkFinish(taskMessage,taskBean,role);
         }
 
     }

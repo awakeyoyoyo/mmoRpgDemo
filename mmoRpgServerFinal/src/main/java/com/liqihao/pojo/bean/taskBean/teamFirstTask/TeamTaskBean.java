@@ -25,9 +25,7 @@ public class TeamTaskBean extends BaseTaskBean {
             //第一次
             setProgress(getProgress()+1);
             BaseTaskBean taskBean=this;
-            Integer roleId=role.getId();
-            TaskServiceProvider.updateTaskDb(taskBean,roleId);
-            checkFinish(taskMessage,role);
+            checkFinish(taskMessage,taskBean,role);
         }
     }
 }

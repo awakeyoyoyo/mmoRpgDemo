@@ -39,9 +39,7 @@ public class UseTaskBean extends BaseTaskBean {
                 setProgress(getProgress() + useTaskAction.getProgress());
             }
             BaseTaskBean taskBean=this;
-            Integer roleId=role.getId();
-            TaskServiceProvider.updateTaskDb(taskBean,roleId);
-            checkFinish(taskMessage,role);
+            checkFinish(taskMessage,taskBean,role);
         }
     }
 

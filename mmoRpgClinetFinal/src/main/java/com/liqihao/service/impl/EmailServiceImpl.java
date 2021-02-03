@@ -25,17 +25,19 @@ public class EmailServiceImpl implements EmailService {
         System.out.println("[-]邮件id："+ emailDto.getId()+" 邮件标题："+emailDto.getTitle());
         System.out.println("[-]邮件内容："+ emailDto.getContext());
         if (emailDto.getHasArticle()) {
-            if (emailDto.getArticleType()==ArticleTypeCode.MEDICINE.getCode()) {
-                System.out.println("[-]是否已经签收：" + emailDto.getIsGet());
-                System.out.println("[-]附带的药品id：" + emailDto.getArticleMessageId());
-                System.out.println("[-]附带的道具类型：" + ArticleTypeCode.getValue(emailDto.getArticleType()));
-                System.out.println("[-]附带的道具数量：" + emailDto.getArticleNum());
-            }else{
-                System.out.println("[-]是否已经签收：" + emailDto.getIsGet());
-                System.out.println("[-]附带的武器信息id：" + emailDto.getArticleMessageId());
-                System.out.println("[-]附带的武器实例id：" + emailDto.getEquipmentId());
-                System.out.println("[-]附带的道具类型：" + ArticleTypeCode.getValue(emailDto.getArticleType()));
-                System.out.println("[-]附带的道具数量：" + emailDto.getArticleNum());
+            if (emailDto.getArticleType()!=-1) {
+                if (emailDto.getArticleType() == ArticleTypeCode.MEDICINE.getCode()) {
+                    System.out.println("[-]是否已经签收：" + emailDto.getIsGet());
+                    System.out.println("[-]附带的药品id：" + emailDto.getArticleMessageId());
+                    System.out.println("[-]附带的道具类型：" + ArticleTypeCode.getValue(emailDto.getArticleType()));
+                    System.out.println("[-]附带的道具数量：" + emailDto.getArticleNum());
+                } else {
+                    System.out.println("[-]是否已经签收：" + emailDto.getIsGet());
+                    System.out.println("[-]附带的武器信息id：" + emailDto.getArticleMessageId());
+                    System.out.println("[-]附带的武器实例id：" + emailDto.getEquipmentId());
+                    System.out.println("[-]附带的道具类型：" + ArticleTypeCode.getValue(emailDto.getArticleType()));
+                    System.out.println("[-]附带的道具数量：" + emailDto.getArticleNum());
+                }
             }
         }
         System.out.println("[-]邮件携带金币："+ emailDto.getMoney() +"是否以签收金币："+emailDto.getIsGetMoney());

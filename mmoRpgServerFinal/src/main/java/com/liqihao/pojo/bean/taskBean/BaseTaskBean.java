@@ -139,10 +139,11 @@ public abstract class BaseTaskBean {
      * @author lqhao
      * @createTime 2021/1/26 15:49
      */
-    public void checkFinish(TaskMessage taskMessage,MmoSimpleRole role){
+    public void checkFinish(TaskMessage taskMessage,BaseTaskBean taskBean,MmoSimpleRole role){
         if (getProgress() >= taskMessage.getTargetProgress()) {
             setStatus(TaskStateCode.FINISH.getCode());
         }
+        TaskServiceProvider.updateTaskDb(taskBean,role.getId());
     }
 
 

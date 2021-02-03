@@ -25,10 +25,8 @@ public class CopySceneTaskBean extends BaseTaskBean {
         if (copySceneId.equals(taskMessage.getTargetId())){
             //是对应的副本
             setProgress(getProgress()+1);
-            Integer roleId=role.getId();
             BaseTaskBean taskBean=this;
-            TaskServiceProvider.updateTaskDb(taskBean,roleId);
-            checkFinish(taskMessage,role);
+            checkFinish(taskMessage,taskBean,role);
         }
 
     }

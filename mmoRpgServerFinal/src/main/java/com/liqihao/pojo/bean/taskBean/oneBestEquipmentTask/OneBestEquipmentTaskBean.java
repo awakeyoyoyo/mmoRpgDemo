@@ -27,10 +27,8 @@ public class OneBestEquipmentTaskBean extends BaseTaskBean {
             if (level>getProgress()) {
                 setProgress(level);
             }
-            Integer roleId=role.getId();
             BaseTaskBean taskBean=this;
-            TaskServiceProvider.updateTaskDb(taskBean,roleId);
-            checkFinish(taskMessage,role);
+            checkFinish(taskMessage,taskBean,role);
         }
     }
 }

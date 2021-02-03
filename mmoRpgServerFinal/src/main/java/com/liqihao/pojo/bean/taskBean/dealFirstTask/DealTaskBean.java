@@ -24,10 +24,8 @@ public class DealTaskBean extends BaseTaskBean {
         if (!getStatus().equals(TaskStateCode.FINISH.getCode())){
             //第一次
             setProgress(getProgress()+1);
-            Integer roleId=role.getId();
             BaseTaskBean taskBean=this;
-            TaskServiceProvider.updateTaskDb(taskBean,roleId);
-            checkFinish(taskMessage,role);
+            checkFinish(taskMessage,taskBean,role);
         }
     }
 }

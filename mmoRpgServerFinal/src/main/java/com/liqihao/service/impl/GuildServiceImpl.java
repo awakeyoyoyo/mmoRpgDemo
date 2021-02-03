@@ -165,9 +165,12 @@ public class GuildServiceImpl implements GuildService {
             throw new RpgServerException(StateCode.FAIL,"该角色没加入公会");
         }
         //操作金币
-        mmoSimpleRole.setMoney(mmoSimpleRole.getMoney()-money);
+        mmoSimpleRole.execute(() -> {
+            mmoSimpleRole.setMoney(mmoSimpleRole.getMoney()-money);
+            DbUtil.updateRole(mmoSimpleRole);
+        });
+
         guildBean.contributeMoney(money);
-        DbUtil.updateRole(mmoSimpleRole);
         //返回成功的数据包
         NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.CONTRIBUTE_MONEY_RESPONSE);

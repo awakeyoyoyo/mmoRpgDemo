@@ -103,4 +103,10 @@
     from INFORMATION_SCHEMA. TABLES
     where TABLE_NAME = 'mmo_guild_role'
   </select>
+
+
+  <delete id="deleteByRoleId" parameterType="java.lang.Integer">
+    delete from mmo_guild_role
+    where role_id = #{id,jdbcType=INTEGER}
+  </delete>
 </mapper>

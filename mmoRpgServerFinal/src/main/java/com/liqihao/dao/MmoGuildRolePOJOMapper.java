@@ -20,4 +20,6 @@ public interface MmoGuildRolePOJOMapper {
     List<MmoGuildRolePOJO> selectByGuildId(Integer id);
 
     Integer selectNextIndex();
+
+    int deleteByRoleId(Integer roleId);
 }
