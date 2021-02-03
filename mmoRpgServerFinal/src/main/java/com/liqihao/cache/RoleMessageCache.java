@@ -1,15 +1,13 @@
-package com.liqihao.Cache;
+package com.liqihao.cache;
 
-import com.liqihao.dao.MmoEquipmentPOJOMapper;
+import com.liqihao.cache.base.CommonsBeanCache;
 import com.liqihao.dao.MmoRolePOJOMapper;
 import com.liqihao.pojo.MmoRolePOJO;
-import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 

@@ -1,4 +1,4 @@
-package com.liqihao.Cache;
+package com.liqihao.cache.base;
 
 import com.liqihao.pojo.baseMessage.DetailBaseMessage;
 import com.liqihao.pojo.baseMessage.GuildBaseMessage;

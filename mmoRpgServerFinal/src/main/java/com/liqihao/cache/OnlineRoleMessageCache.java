@@ -1,6 +1,7 @@
-package com.liqihao.Cache;
+package com.liqihao.cache;
 
 
+import com.liqihao.cache.base.CommonsBeanCache;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import org.springframework.stereotype.Component;
 

@@ -1,6 +1,6 @@
 package com.liqihao.pojo.bean.roleBean;
 
-import com.liqihao.Cache.*;
+import com.liqihao.cache.*;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
@@ -10,15 +10,12 @@ import com.liqihao.pojo.baseMessage.BufferMessage;
 import com.liqihao.pojo.bean.CopySceneBean;
 import com.liqihao.pojo.bean.SkillBean;
 import com.liqihao.pojo.bean.buffBean.BaseBuffBean;
-import com.liqihao.pojo.bean.guildBean.GuildBean;
 import com.liqihao.pojo.bean.teamBean.TeamBean;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.provider.TeamServiceProvider;
 import com.liqihao.util.CommonsUtil;
-import com.liqihao.util.LogicThreadPool;
 import com.liqihao.util.ScheduledThreadPoolUtil;
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import io.netty.channel.Channel;
 
 import java.util.ArrayList;

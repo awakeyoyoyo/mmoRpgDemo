@@ -1,8 +1,8 @@
 package com.liqihao.provider;
 
 
-import com.liqihao.Cache.EquipmentMessageCache;
-import com.liqihao.Cache.MedicineMessageCache;
+import com.liqihao.cache.EquipmentMessageCache;
+import com.liqihao.cache.MedicineMessageCache;
 import com.liqihao.dao.MmoEquipmentPOJOMapper;
 import com.liqihao.pojo.MmoEquipmentPOJO;
 import com.liqihao.pojo.baseMessage.EquipmentMessage;
@@ -12,10 +12,10 @@ import com.liqihao.pojo.bean.articleBean.EquipmentBean;
 import com.liqihao.pojo.bean.articleBean.MedicineBean;
 import com.liqihao.util.CommonsUtil;
 import com.liqihao.util.DbUtil;
-import com.liqihao.util.ScheduledThreadPoolUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
@@ -32,28 +32,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Component
 public class ArticleServiceProvider implements ApplicationContextAware {
     private final Logger log = LoggerFactory.getLogger(EmailServiceProvider.class);
+
     MmoEquipmentPOJOMapper equipmentPOJOMapper;
     /**
      * 增添集合存储所有武器实例
      */
     private static ConcurrentHashMap<Integer,EquipmentBean> equipmentBeanConcurrentHashMap=new ConcurrentHashMap<>();
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        MmoEquipmentPOJOMapper equipmentPOJOMapper = (MmoEquipmentPOJOMapper) applicationContext.getBean("mmoEquipmentPOJOMapper");
-        this.equipmentPOJOMapper = equipmentPOJOMapper;
-        Integer index = equipmentPOJOMapper.selectNextIndex();
-        equipmentBeanIdAuto = new AtomicInteger(index);
-        id = index - 1;
-        List<MmoEquipmentPOJO> equipmentPoJos=equipmentPOJOMapper.selectAll();
-        for (MmoEquipmentPOJO equipmentPoJo : equipmentPoJos) {
-            EquipmentMessage equipmentMessage=EquipmentMessageCache.getInstance().get(equipmentPoJo.getMessageId());
-            EquipmentBean equipmentBean=CommonsUtil.equipmentMessageToEquipmentBean(equipmentMessage);
-            equipmentBean.setEquipmentId(equipmentPoJo.getId());
-            equipmentBeanConcurrentHashMap.put(equipmentBean.getEquipmentId(),equipmentBean);
-        }
-        log.info("EmailServiceProvider：数据库下一个主键index:" + index + " 之前有id：" + id);
-    }
 
     /**
      * 自增id
@@ -64,10 +48,14 @@ public class ArticleServiceProvider implements ApplicationContextAware {
 
     }
 
+    @Autowired
+    public void setEquipmentPOJOMapper(MmoEquipmentPOJOMapper equipmentPOJOMapper) {
+        this.equipmentPOJOMapper = equipmentPOJOMapper;
+    }
+
     public static ConcurrentHashMap<Integer, EquipmentBean> getEquipmentBeanConcurrentHashMap() {
         return equipmentBeanConcurrentHashMap;
     }
-
     public static void setEquipmentBeanConcurrentHashMap(ConcurrentHashMap<Integer, EquipmentBean> equipmentBeanConcurrentHashMap) {
         ArticleServiceProvider.equipmentBeanConcurrentHashMap = equipmentBeanConcurrentHashMap;
     }
@@ -80,6 +68,21 @@ public class ArticleServiceProvider implements ApplicationContextAware {
         ArticleServiceProvider.id = id;
     }
 
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        Integer index = equipmentPOJOMapper.selectNextIndex();
+        equipmentBeanIdAuto = new AtomicInteger(index);
+        id = index - 1;
+        List<MmoEquipmentPOJO> equipmentPoJos=equipmentPOJOMapper.selectAll();
+        for (MmoEquipmentPOJO equipmentPoJo : equipmentPoJos) {
+            EquipmentMessage equipmentMessage=EquipmentMessageCache.getInstance().get(equipmentPoJo.getMessageId());
+            EquipmentBean equipmentBean=CommonsUtil.equipmentMessageToEquipmentBean(equipmentMessage);
+            equipmentBean.setEquipmentId(equipmentPoJo.getId());
+            equipmentBeanConcurrentHashMap.put(equipmentBean.getEquipmentId(),equipmentBean);
+        }
+        log.info("EmailServiceProvider：数据库下一个主键index:" + index + " 之前有id：" + id);
+    }
     /**
      * 生成药品到副本
      * @param copySceneBean

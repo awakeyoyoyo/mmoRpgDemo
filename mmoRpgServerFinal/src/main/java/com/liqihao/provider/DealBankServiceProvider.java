@@ -1,6 +1,6 @@
 package com.liqihao.provider;
 
-import com.liqihao.Cache.OnlineRoleMessageCache;
+import com.liqihao.cache.OnlineRoleMessageCache;
 import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.DealBankArticleTypeCode;
@@ -81,12 +81,8 @@ public class DealBankServiceProvider {
     public static final String TO_BUY_SUCCESS = "购买成功,请签收你的物品";
     public static final String FROM_BUY_SUCCESS = "商品已被购买,请签收你的金币";
     public static final String AUCTION_FAIL_PRICE = "拍卖失败,有更高价格，请签收你的金币";
-
-
     @Autowired
     private CommonsUtil commonsUtil;
-    @Autowired
-    private ScheduledThreadPoolUtil scheduledThreadPoolUtil;
 
     @PostConstruct
     private void init() {

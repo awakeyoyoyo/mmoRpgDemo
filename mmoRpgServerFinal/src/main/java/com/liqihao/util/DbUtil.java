@@ -29,23 +29,12 @@ public class DbUtil {
     private static MmoEquipmentBagPOJOMapper equipmentBagPOJOMapper;
     private static MmoRolePOJOMapper mmoRolePOJOMapper;
     private static MmoEmailPOJOMapper mmoEmailPOJOMapper;
-    private static MmoGuildApplyPOJOMapper mmoGuildApplyPOJOMapper;
-    private static MmoGuildRolePOJOMapper mmoGuildRolePOJOMapper;
     private static MmoWareHousePOJOMapper mmoWareHousePOJOMapper;
     private static  AtomicInteger mmoBagPojoIndex;
     private static  AtomicInteger mmoEquipmentIndex;
     private static  AtomicInteger equipmentBagIndex;
     private static  AtomicInteger mmoEmailPojoIndex;
     private static AtomicInteger mmoWareHouseIndex;
-
-    public static void deleteEquipmentById(Integer equipmentId) {
-        ScheduledThreadPoolUtil.addTask(() ->mmoEquipmentPOJOMapper.deleteByPrimaryKey(equipmentId));
-    }
-
-    public static void updateRolePOJO(MmoRolePOJO mmoRolePOJO) {
-        ScheduledThreadPoolUtil.addTask(()->mmoRolePOJOMapper.updateByPrimaryKey(mmoRolePOJO));
-    }
-
 
     @Autowired
     public  void initMmoWareHousePOJOMapper(MmoWareHousePOJOMapper mmoWareHousePOJOMapper) {
@@ -62,7 +51,6 @@ public class DbUtil {
         DbUtil.mmoEquipmentPOJOMapper = mmoEquipmentPOJOMapper;
         mmoEquipmentIndex=new AtomicInteger(mmoEquipmentPOJOMapper.selectNextIndex());
     }
-
     @Autowired
     public  void initEquipmentBagPOJOMapper(MmoEquipmentBagPOJOMapper equipmentBagPOJOMapper) {
         DbUtil.equipmentBagPOJOMapper = equipmentBagPOJOMapper;
@@ -77,13 +65,21 @@ public class DbUtil {
         DbUtil.mmoEmailPOJOMapper = mmoEmailPOJOMapper;
         mmoEmailPojoIndex=new AtomicInteger(mmoEmailPOJOMapper.selectNextIndex());
     }
-    @Autowired
-    public  void initMmoGuildApplyPOJOMapper(MmoGuildApplyPOJOMapper mmoGuildApplyPOJOMapper) {
-        DbUtil.mmoGuildApplyPOJOMapper = mmoGuildApplyPOJOMapper;
+
+    /**
+     * 删除装备
+     * @param equipmentId
+     */
+    public static void deleteEquipmentById(Integer equipmentId) {
+        ScheduledThreadPoolUtil.addTask(() ->mmoEquipmentPOJOMapper.deleteByPrimaryKey(equipmentId));
     }
-    @Autowired
-    public  void initMmoGuildRolePOJOMapper(MmoGuildRolePOJOMapper mmoGuildRolePOJOMapper) {
-        DbUtil.mmoGuildRolePOJOMapper = mmoGuildRolePOJOMapper;
+
+    /**
+     * 更新RolePojo
+     * @param mmoRolePOJO
+     */
+    public static void updateRolePOJO(MmoRolePOJO mmoRolePOJO) {
+        ScheduledThreadPoolUtil.addTask(()->mmoRolePOJOMapper.updateByPrimaryKey(mmoRolePOJO));
     }
 
     /**
@@ -93,6 +89,7 @@ public class DbUtil {
     public static Integer getBagPojoNextIndex(){
         return mmoBagPojoIndex.incrementAndGet();
     }
+
     /**
      * 装备数据库id
      * @return
@@ -100,6 +97,7 @@ public class DbUtil {
     public static Integer getEquipmentNextIndex(){
         return mmoEquipmentIndex.incrementAndGet();
     }
+
     /**
      * 装备栏数据库id
      * @return
@@ -107,6 +105,7 @@ public class DbUtil {
     public static Integer getEquipmentBagNextIndex(){
         return equipmentBagIndex.incrementAndGet();
     }
+
     /**
      * 邮件数据库id
      * @return

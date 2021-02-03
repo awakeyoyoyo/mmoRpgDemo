@@ -24,6 +24,7 @@ import java.util.Map;
 
 /**
  * 根据module分发请求
+ *
  * @author lqhao
  */
 @Component
@@ -35,29 +36,29 @@ public class DispatcherServlet implements ApplicationContextAware {
 
     /**
      * 根据model转发到不同的handler
+     *
      * @param nettyRequest
      * @return
      */
     public void handler(NettyRequest nettyRequest, Channel channel) {
-//        logger.info("线程：" + Thread.currentThread().getName() + " 正在处理该请求");
         int cmd = nettyRequest.getCmd();
+        MmoSimpleRole mmoSimpleRole = null;
+        //根据指令获取方法对象
         Method m = methodHashMap.get(cmd);
-        MmoSimpleRole mmoSimpleRole=null;
-
         //特殊的登陆以及注册接口
-        if (cmd==ConstantValue.LOGIN_REQUEST||cmd==ConstantValue.REGISTER_REQUEST
-                ||cmd==ConstantValue.LOGOUT_REQUEST||cmd==ConstantValue.OUT_RIME_RESPONSE) {
+        if (cmd == ConstantValue.LOGIN_REQUEST || cmd == ConstantValue.REGISTER_REQUEST
+                || cmd == ConstantValue.LOGOUT_REQUEST || cmd == ConstantValue.OUT_RIME_RESPONSE) {
             String beanName = m.getAnnotation(HandlerCmdTag.class).module();
             ServiceObject serviceObject = services.get(beanName);
             try {
-            Object object = serviceObject.getParser().parseFrom(nettyRequest.getData());
-            m.invoke(serviceObject.getService(), object, channel);
-            }catch (InvocationTargetException e){
+                Object object = serviceObject.getParser().parseFrom(nettyRequest.getData());
+                m.invoke(serviceObject.getService(), object, channel);
+            } catch (InvocationTargetException e) {
                 e.printStackTrace();
-                sendException(channel,e.getTargetException().getMessage());
+                sendException(channel, e.getTargetException().getMessage());
             } catch (Exception e) {
                 e.printStackTrace();
-                sendException(channel,e.getMessage());
+                sendException(channel, e.getMessage());
             }
             return;
         }
@@ -70,50 +71,59 @@ public class DispatcherServlet implements ApplicationContextAware {
                 mmoSimpleRole = CommonsUtil.checkLogin(channel);
                 Object object = serviceObject.getParser().parseFrom(nettyRequest.getData());
                 m.invoke(serviceObject.getService(), object, mmoSimpleRole);
-            }catch (InvocationTargetException e){
+            } catch (InvocationTargetException e) {
                 e.printStackTrace();
-                sendException(channel,e.getTargetException().getMessage());
+                sendException(channel, e.getTargetException().getMessage());
             } catch (Exception e) {
                 e.printStackTrace();
-                sendException(channel,e.getMessage());
+                sendException(channel, e.getMessage());
             }
             return;
         }
         channel.writeAndFlush(new NettyResponse(StateCode.FAIL, ConstantValue.FAIL_RESPONSE, "传入错误的cmd".getBytes()));
     }
 
-    private void sendException(Channel ctx, String  cause){
-        NettyResponse nettyResponse=new NettyResponse();
+    /**
+     * 返回错误信息
+     * @param ctx
+     * @param cause
+     */
+    private void sendException(Channel ctx, String cause) {
+        NettyResponse nettyResponse = new NettyResponse();
         nettyResponse.setCmd(ConstantValue.FAIL_RESPONSE);
-        String message="服务端抛出异常："+cause;
+        String message = "服务端抛出异常：" + cause;
         nettyResponse.setData(message.getBytes(StandardCharsets.UTF_8));
         nettyResponse.setStateCode(StateCode.FAIL);
         ctx.writeAndFlush(nettyResponse);
     }
+
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        //key是beanName value是对象
         Map<String, Object> serviceMap = applicationContext.getBeansWithAnnotation(HandlerServiceTag.class);
-        services=new HashMap<>();
+        services = new HashMap<>();
         for (String key : serviceMap.keySet()) {
             Object o = serviceMap.get(key);
             Method[] methods = o.getClass().getMethods();
+            String protobufModel = o.getClass().getAnnotation(HandlerServiceTag.class).protobufModel();
             for (Method value : methods) {
-                String protobufModel = o.getClass().getAnnotation(HandlerServiceTag.class).protobufModel();
-                Class clazz = null;
-                Parser parser = null;
-                try {
-                    clazz = Class.forName(PACKET + protobufModel);
-                    Method method = clazz.getMethod("parser");
-                    parser = (Parser) method.invoke(null);
-                } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                    e.printStackTrace();
-                }
-                ServiceObject serviceObject = new ServiceObject();
-                serviceObject.setService(o);
-                serviceObject.setClazz(clazz);
-                serviceObject.setParser(parser);
-                services.put(key, serviceObject);
                 if (value.getAnnotation(HandlerCmdTag.class) != null) {
+                    Class clazz = null;
+                    Parser parser = null;
+                    try {
+                        clazz = Class.forName(PACKET + protobufModel);
+                        Method method = clazz.getMethod("parser");
+                        parser = (Parser) method.invoke(null);
+                    } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                        e.printStackTrace();
+                    }
+                    ServiceObject serviceObject = new ServiceObject();
+                    serviceObject.setService(o);
+                    serviceObject.setClazz(clazz);
+                    serviceObject.setParser(parser);
+                    //将serviceObject对象存储起来
+                    services.put(key, serviceObject);
+                    //将cmd与其映射的方法存储起来
                     methodHashMap.put(value.getAnnotation(HandlerCmdTag.class).cmd(), value);
                 }
             }

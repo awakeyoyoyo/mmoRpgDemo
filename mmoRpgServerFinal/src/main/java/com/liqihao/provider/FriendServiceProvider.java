@@ -1,8 +1,8 @@
 package com.liqihao.provider;
 
 import com.googlecode.protobuf.format.JsonFormat;
-import com.liqihao.Cache.OnlineRoleMessageCache;
-import com.liqihao.Cache.RoleMessageCache;
+import com.liqihao.cache.OnlineRoleMessageCache;
+import com.liqihao.cache.RoleMessageCache;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
@@ -17,7 +17,6 @@ import com.liqihao.protobufObject.FriendModel;
 import com.liqihao.util.CommonsUtil;
 import com.liqihao.util.DbUtil;
 import com.liqihao.util.NotificationUtil;
-import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

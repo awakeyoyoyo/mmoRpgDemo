@@ -1,13 +1,11 @@
-package com.liqihao.Cache;
+package com.liqihao.cache;
 
+import com.liqihao.cache.base.CommonsCache;
 import com.liqihao.pojo.baseMessage.BufferMessage;
-import com.liqihao.pojo.baseMessage.SkillMessage;
-import com.liqihao.util.ExcelReaderUtil;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -15,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author lqhao
  */
 @Component
-public class BufferMessageCache extends CommonsCache<BufferMessage>{
+public class BufferMessageCache extends CommonsCache<BufferMessage> {
     private static String excel_file = "classpath:message/bufferMessage.xlsx";
     private volatile static BufferMessageCache instance ;
     public static BufferMessageCache getInstance(){

@@ -1,7 +1,7 @@
 package com.liqihao.provider;
 
-import com.liqihao.Cache.ChannelMessageCache;
-import com.liqihao.Cache.MedicineMessageCache;
+import com.liqihao.cache.ChannelMessageCache;
+import com.liqihao.cache.MedicineMessageCache;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.RpgServerException;
@@ -19,7 +19,6 @@ import com.liqihao.pojo.bean.taskBean.dealFirstTask.DealTaskAction;
 import com.liqihao.protobufObject.DealModel;
 import com.liqihao.service.impl.DealServiceImpl;
 import com.liqihao.util.CommonsUtil;
-import com.liqihao.util.LogicThreadPool;
 import io.netty.channel.Channel;
 
 import java.util.ArrayList;

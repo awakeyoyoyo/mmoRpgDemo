@@ -1,10 +1,6 @@
-package com.liqihao.Cache;
+package com.liqihao.cache.base;
 
-import com.liqihao.util.ExcelReaderUtil;
-
-import java.io.IOException;
 import java.util.Collection;
-import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**

@@ -1,13 +1,11 @@
 package com.liqihao.pojo.bean.taskBean.sceneFirstTask;
 
-import com.liqihao.Cache.TaskMessageCache;
+import com.liqihao.cache.TaskMessageCache;
 import com.liqihao.commons.enums.TaskStateCode;
 import com.liqihao.pojo.baseMessage.TaskMessage;
 import com.liqihao.pojo.bean.taskBean.BaseTaskAction;
 import com.liqihao.pojo.bean.taskBean.BaseTaskBean;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
-import com.liqihao.provider.TaskServiceProvider;
-import com.liqihao.util.ScheduledThreadPoolUtil;
 
 /**
  * @Classname SceneTaskBean

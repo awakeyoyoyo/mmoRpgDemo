@@ -1,5 +1,6 @@
-package com.liqihao.Cache;
+package com.liqihao.cache;
 
+import com.liqihao.cache.base.CommonsCache;
 import com.liqihao.pojo.baseMessage.GuildAuthorityMessage;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author lqhao
  */
 @Component
-public class GuildAuthorityMessageCache extends CommonsCache<GuildAuthorityMessage>{
+public class GuildAuthorityMessageCache extends CommonsCache<GuildAuthorityMessage> {
     private static String excel_file = "classpath:message/guildAuthorityMessage.xlsx";
     private volatile static GuildAuthorityMessageCache instance ;
     public static GuildAuthorityMessageCache getInstance(){

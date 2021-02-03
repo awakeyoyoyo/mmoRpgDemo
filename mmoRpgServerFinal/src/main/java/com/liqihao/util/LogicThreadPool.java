@@ -16,16 +16,16 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author lqhao
  */
 public class LogicThreadPool<Job extends Runnable>implements ThreadPool<Job> {
-
     private static LogicThreadPool instance;
+
     private int threadSize;
+    /** 线程数 为 服务器核心*2+1 */
     public static void init(int num){
         LogicThreadPool logicThreadPool=new LogicThreadPool();
         instance=logicThreadPool;
         instance.initializeWorkers(num);
         instance.threadSize=num;
     }
-
 
     public int getThreadSize() {
         return threadSize;
@@ -56,10 +56,11 @@ public class LogicThreadPool<Job extends Runnable>implements ThreadPool<Job> {
             thread.start();
         }
     }
+
     class Worker implements Runnable {
         private final Logger log = LoggerFactory.getLogger(Worker.class);
         private volatile boolean running = true;
-        private LinkedList<Job> tasks = new LinkedList<>();
+        private final LinkedList<Job> tasks = new LinkedList<>();
 
         @Override
         public void run() {
@@ -88,6 +89,7 @@ public class LogicThreadPool<Job extends Runnable>implements ThreadPool<Job> {
                 }
             }
         }
+
         public void shutdown() {
             running = false;
         }

@@ -7,7 +7,7 @@ package com.liqihao.util;
 public interface ThreadPool<Job extends Runnable> {
 
     /**
-     * 执行一个Job，这个Job需要实现Runnabl
+     * 执行一个Job，这个Job需要实现Runnable
      * @param job
      * @param index
      */

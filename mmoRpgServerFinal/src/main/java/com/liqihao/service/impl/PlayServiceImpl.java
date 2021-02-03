@@ -1,7 +1,7 @@
 package com.liqihao.service.impl;
 
 import com.googlecode.protobuf.format.JsonFormat;
-import com.liqihao.Cache.*;
+import com.liqihao.cache.*;
 import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.*;
@@ -10,9 +10,6 @@ import com.liqihao.dao.*;
 import com.liqihao.pojo.*;
 import com.liqihao.pojo.baseMessage.*;
 import com.liqihao.pojo.bean.*;
-import com.liqihao.pojo.bean.articleBean.EquipmentBean;
-import com.liqihao.pojo.bean.articleBean.MedicineBean;
-import com.liqihao.pojo.bean.guildBean.GuildBean;
 import com.liqihao.pojo.bean.roleBean.MmoHelperBean;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleNPC;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
@@ -23,7 +20,6 @@ import com.liqihao.provider.*;
 import com.liqihao.service.PlayService;
 import com.liqihao.util.CommonsUtil;
 import com.liqihao.util.NotificationUtil;
-import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
 import org.springframework.beans.factory.annotation.Autowired;

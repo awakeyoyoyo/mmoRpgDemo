@@ -17,7 +17,8 @@ public class ServerInit{
         //初始化调度线程
 //        ScheduledThreadPoolUtil.init();
         //初始化逻辑线程池
-        LogicThreadPool.init(20);
+        //线程数 为 服务器核心*2+1
+        LogicThreadPool.init(9);
     }
 
 

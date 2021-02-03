@@ -2,7 +2,7 @@ package com.liqihao.pojo.bean.roleBean;
 
 
 import com.googlecode.protobuf.format.JsonFormat;
-import com.liqihao.Cache.*;
+import com.liqihao.cache.*;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.RpgServerException;
@@ -35,8 +35,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.stream.Collectors;
 
 

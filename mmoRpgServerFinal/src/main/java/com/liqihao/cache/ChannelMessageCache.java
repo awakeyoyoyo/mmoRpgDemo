@@ -1,5 +1,6 @@
-package com.liqihao.Cache;
+package com.liqihao.cache;
 
+import com.liqihao.cache.base.CommonsBeanCache;
 import io.netty.channel.Channel;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author lqhao
  */
 @Component
-public class ChannelMessageCache extends CommonsBeanCache<Channel>{
+public class ChannelMessageCache extends CommonsBeanCache<Channel> {
     private volatile static ChannelMessageCache instance ;
     public static ChannelMessageCache getInstance(){
         return instance;

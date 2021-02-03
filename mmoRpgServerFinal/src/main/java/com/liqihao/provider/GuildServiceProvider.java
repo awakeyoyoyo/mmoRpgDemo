@@ -1,8 +1,7 @@
 package com.liqihao.provider;
 
-import com.liqihao.Cache.GuildAuthorityMessageCache;
-import com.liqihao.Cache.GuildPositionMessageCache;
-import com.liqihao.Cache.MmoBaseMessageCache;
+import com.liqihao.cache.GuildPositionMessageCache;
+import com.liqihao.cache.base.MmoBaseMessageCache;
 import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.GuildRolePositionCode;
@@ -14,7 +13,6 @@ import com.liqihao.pojo.MmoGuildApplyPOJO;
 import com.liqihao.pojo.MmoGuildPOJO;
 import com.liqihao.pojo.MmoGuildRolePOJO;
 import com.liqihao.pojo.MmoRolePOJO;
-import com.liqihao.pojo.baseMessage.GuildAuthorityMessage;
 import com.liqihao.pojo.baseMessage.GuildPositionMessage;
 import com.liqihao.pojo.bean.guildBean.GuildApplyBean;
 import com.liqihao.pojo.bean.guildBean.GuildBean;
@@ -31,7 +29,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;

@@ -1,7 +1,7 @@
 package com.liqihao.util;
 
 import com.googlecode.protobuf.format.JsonFormat;
-import com.liqihao.Cache.*;
+import com.liqihao.cache.*;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.RpgServerException;
@@ -34,8 +34,16 @@ import java.util.concurrent.*;
  * @description
  * @date 2020-12-13 18:59
  */
-@Component
 public class ScheduledThreadPoolUtil {
+    static {
+        scheduledExecutorService = new ScheduledThreadPoolExecutor(15);
+        //每60s 修改过的数据落地
+        ScheduledThreadPoolUtil.scheduledExecutorService.scheduleAtFixedRate(new DbTask(), 0, 10, TimeUnit.SECONDS);
+    }
+
+    /**
+     * 时间调度线程池
+     */
     private static ScheduledThreadPoolExecutor scheduledExecutorService;
     /**
      * 存储了正在调度线程池中执行的回蓝的角色id
@@ -66,29 +74,12 @@ public class ScheduledThreadPoolUtil {
      */
     private static ConcurrentHashMap<Integer, ScheduledFuture<?>> dealBankTaskMap = new ConcurrentHashMap<>();
     /**
-     * 工作者列表
-     */
-    private static DbTask dbTask;
-    /**
      * db任务队列
      */
     private static LinkedList<Runnable> dbTasks = new LinkedList<>();
 
     public static LinkedList<Runnable> getDbTasks() {
         return dbTasks;
-    }
-
-    @PostConstruct
-    public static void init() {
-        replyMpRole = new ConcurrentHashMap<>();
-        bufferRole = new ConcurrentHashMap<>();
-        npcTaskMap = new ConcurrentHashMap<>();
-        copySceneTaskMap = new ConcurrentHashMap<>();
-        scheduledExecutorService = new ScheduledThreadPoolExecutor(10);
-        dbTask = new DbTask();
-        dbTasks=new LinkedList<>();
-        //每60s 修改过的数据落地
-        scheduledExecutorService.scheduleAtFixedRate(dbTask, 0, 10, TimeUnit.SECONDS);
     }
 
     public static ConcurrentHashMap<Integer, ScheduledFuture<?>> getDealBankTaskMap() {
@@ -155,6 +146,18 @@ public class ScheduledThreadPoolUtil {
         ScheduledThreadPoolUtil.replyMpRole = replyMpRole;
     }
 
+    /**
+     * addTask到队列中
+     */
+    public static void addTask(Runnable job) {
+        LinkedList<Runnable> tasks=ScheduledThreadPoolUtil.getDbTasks();
+        if (job != null) {
+            // 添加一个工作到任务队列即可
+            synchronized (tasks) {
+                tasks.addLast(job);
+            }
+        }
+    }
 
     /**
      * 自动恢复蓝量线程任务
@@ -283,11 +286,11 @@ public class ScheduledThreadPoolUtil {
 
         @Override
         public void run() {
-            logger.info("buffer线程-------------------" + Thread.currentThread().getName());
-            Integer toroleId = bufferBean.getToRoleId();
+//            logger.info("buffer线程-------------------" + Thread.currentThread().getName());
+            Integer toRoleId = bufferBean.getToRoleId();
             if (toRole == null || toRole.getStatus().equals(RoleStatusCode.DIE.getCode()) || count <= 0) {
                 //删除该buffer
-                String taskId = toroleId.toString() + bufferBean.getBufferMessageId().toString();
+                String taskId = toRoleId.toString() + bufferBean.getBufferMessageId().toString();
                 bufferRole.remove(taskId);
                 toRole.getBufferBeans().remove(bufferBean);
                 bufferRole.get(Integer.parseInt(taskId)).cancel(false);
@@ -315,7 +318,7 @@ public class ScheduledThreadPoolUtil {
 
         @Override
         public void run() {
-            logger.info("怪物攻击线程");
+//            logger.info("怪物攻击线程");
             MmoSimpleNPC npc = NpcMessageCache.getInstance().get(npcId);
             Integer npcAttackId=npc.getId()+npc.hashCode();
             //判断是否有嘲讽buffer,则直接攻击嘲讽对象
@@ -445,7 +448,7 @@ public class ScheduledThreadPoolUtil {
 
         @Override
         public void run() {
-            logger.info("boss攻击线程");
+//            logger.info("boss攻击线程");
             //仇恨的第一人
             Role role = null;
             role = bossBean.getTarget();
@@ -519,7 +522,7 @@ public class ScheduledThreadPoolUtil {
 
         @Override
         public void run() {
-            logger.info("helper攻击线程");
+//            logger.info("helper攻击线程");
             //判断停止攻击
             Integer helperBeanAttackId=helperBean.getId()+helperBean.hashCode();
             if (target.getMmoSceneId() != null) {
@@ -721,10 +724,7 @@ public class ScheduledThreadPoolUtil {
      * 定时更新数据任务
      */
     public static class DbTask implements Runnable {
-
         private final org.slf4j.Logger log = LoggerFactory.getLogger(DbTask.class);
-
-
         @Override
         public void run() {
 //            log.info("定时数据落地任务：");
@@ -779,16 +779,4 @@ public class ScheduledThreadPoolUtil {
         }
     }
 
-    /**
-     * addTask到队列中
-     */
-    public static void addTask(Runnable job) {
-        LinkedList<Runnable> tasks=ScheduledThreadPoolUtil.getDbTasks();
-        if (job != null) {
-            // 添加一个工作到任务队列即可
-            synchronized (tasks) {
-                tasks.addLast(job);
-            }
-        }
-    }
 }

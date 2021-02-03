@@ -25,7 +25,8 @@ public class ExcelReaderUtil {
         List<T> listBean = new ArrayList<T>();
         Field[] fields = tClass.getDeclaredFields();
         T uBean = null;
-        for (int i = 1; i < list.size(); i++) {// i=1是因为第一行不要
+        for (int i = 1; i < list.size(); i++) {
+            // i=1是因为第一行不要
             uBean = (T) tClass.newInstance();
             List<String> listStr = list.get(i);
             for (int j = 0; j < listStr.size(); j++) {
@@ -33,28 +34,28 @@ public class ExcelReaderUtil {
                     break;
                 }
                 Field field = fields[j];
-                String datastring = listStr.get(j);
+                String dataString = listStr.get(j);
                 field.setAccessible(true);
-                if (datastring.length()>0&&datastring!=null) {
+                if (dataString!=null&&dataString.length()>0) {
                     Class<?> type = field.getType();
                     if (type==String.class){
-                        field.set(uBean,datastring);
+                        field.set(uBean,dataString);
                     }else  if(type==Integer.class||type==int.class){
-                        field.set(uBean,Integer.parseInt(datastring));
+                        field.set(uBean,Integer.parseInt(dataString));
                     }else  if(type==Double.class||type==double.class){
-                        field.set(uBean,Double.parseDouble(datastring));
+                        field.set(uBean,Double.parseDouble(dataString));
                     } else  if(type==Float.class||type==float.class){
-                        field.set(uBean,Float.parseFloat(datastring));
+                        field.set(uBean,Float.parseFloat(dataString));
                     } else  if(type==Long.class||type==long.class){
-                        field.set(uBean,Long.parseLong(datastring));
+                        field.set(uBean,Long.parseLong(dataString));
                     }else if (type==Boolean.class||type==boolean.class){
-                        field.set(uBean,Boolean.parseBoolean(datastring));
+                        field.set(uBean,Boolean.parseBoolean(dataString));
                     }else if (type==Short.class||type==short.class){
-                        field.set(uBean,Short.parseShort(datastring));
+                        field.set(uBean,Short.parseShort(dataString));
                     }else if (type==Byte.class||type==byte.class){
-                        field.set(uBean,Byte.parseByte(datastring));
+                        field.set(uBean,Byte.parseByte(dataString));
                     }else if (type==Character.class ||type==char.class){
-                        field.set(uBean,datastring.charAt(0));
+                        field.set(uBean,dataString.charAt(0));
                     }
                 }
             }
@@ -71,11 +72,7 @@ public class ExcelReaderUtil {
         Workbook wb = null;
         try {
             wb = WorkbookFactory.create(is);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (InvalidFormatException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (InvalidFormatException | IOException e) {
             e.printStackTrace();
         }
         /** 得到第一个sheet */

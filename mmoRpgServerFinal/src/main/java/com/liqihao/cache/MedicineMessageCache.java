@@ -1,4 +1,5 @@
-package com.liqihao.Cache;
+package com.liqihao.cache;
+import com.liqihao.cache.base.CommonsCache;
 import com.liqihao.pojo.baseMessage.MedicineMessage;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author lqhao
  */
 @Component
-public class MedicineMessageCache extends CommonsCache<MedicineMessage>{
+public class MedicineMessageCache extends CommonsCache<MedicineMessage> {
     private static String excel_file = "classpath:message/medicineMessage.xlsx";
     private volatile static MedicineMessageCache instance ;
     public static MedicineMessageCache getInstance(){

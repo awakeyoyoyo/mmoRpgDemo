@@ -1,7 +1,7 @@
 package com.liqihao.provider;
 
-import com.liqihao.Cache.ProfessionMessageCache;
-import com.liqihao.Cache.SceneBeanMessageCache;
+import com.liqihao.cache.ProfessionMessageCache;
+import com.liqihao.cache.SceneBeanMessageCache;
 import com.liqihao.commons.enums.ProfessionCode;
 import com.liqihao.commons.enums.RoleOnStatusCode;
 import com.liqihao.commons.enums.RoleStatusCode;
@@ -21,7 +21,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author lqhao
  */
 public class CallerServiceProvider {
-
     private static AtomicInteger callerBeanIdAuto=new AtomicInteger(0);
 
     /**

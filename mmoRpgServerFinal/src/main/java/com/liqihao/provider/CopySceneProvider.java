@@ -1,7 +1,7 @@
 package com.liqihao.provider;
 
-import com.liqihao.Cache.BossMessageCache;
-import com.liqihao.Cache.CopySceneMessageCache;
+import com.liqihao.cache.BossMessageCache;
+import com.liqihao.cache.CopySceneMessageCache;
 import com.liqihao.commons.enums.ArticleTypeCode;
 import com.liqihao.pojo.baseMessage.BossMessage;
 import com.liqihao.pojo.baseMessage.CopySceneMessage;

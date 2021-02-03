@@ -1,14 +1,11 @@
 package com.liqihao.pojo.bean.taskBean;
 
 import com.googlecode.protobuf.format.JsonFormat;
-import com.liqihao.Cache.TaskMessageCache;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.ArticleTypeCode;
 import com.liqihao.commons.enums.TaskStateCode;
-import com.liqihao.commons.enums.TaskTypeCode;
-import com.liqihao.pojo.baseMessage.MedicineMessage;
 import com.liqihao.pojo.baseMessage.TaskMessage;
 import com.liqihao.pojo.bean.articleBean.Article;
 import com.liqihao.pojo.bean.articleBean.MedicineBean;
@@ -17,10 +14,7 @@ import com.liqihao.protobufObject.TaskModel;
 import com.liqihao.provider.ArticleServiceProvider;
 import com.liqihao.provider.TaskServiceProvider;
 import com.liqihao.util.*;
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import io.netty.channel.Channel;
-
-import javax.print.DocFlavor;
 
 
 /**

@@ -1,8 +1,8 @@
 package com.liqihao.service.impl;
 
 import com.googlecode.protobuf.format.JsonFormat;
-import com.liqihao.Cache.MedicineMessageCache;
-import com.liqihao.Cache.OnlineRoleMessageCache;
+import com.liqihao.cache.MedicineMessageCache;
+import com.liqihao.cache.OnlineRoleMessageCache;
 import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.ConstantValue;
@@ -23,7 +23,6 @@ import com.liqihao.service.EmailService;
 import com.liqihao.util.CommonsUtil;
 import com.liqihao.util.DbUtil;
 import com.liqihao.util.NotificationUtil;
-import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
 import org.springframework.stereotype.Service;
 

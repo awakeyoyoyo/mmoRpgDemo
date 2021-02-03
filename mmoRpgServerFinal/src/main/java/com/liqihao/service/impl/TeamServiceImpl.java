@@ -2,8 +2,8 @@ package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.googlecode.protobuf.format.JsonFormat;
-import com.liqihao.Cache.ChannelMessageCache;
-import com.liqihao.Cache.OnlineRoleMessageCache;
+import com.liqihao.cache.ChannelMessageCache;
+import com.liqihao.cache.OnlineRoleMessageCache;
 import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.ConstantValue;
@@ -12,7 +12,6 @@ import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.TaskTargetTypeCode;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
-import com.liqihao.pojo.bean.taskBean.sceneFirstTask.SceneTaskAction;
 import com.liqihao.pojo.bean.taskBean.teamFirstTask.TeamTaskAction;
 import com.liqihao.pojo.bean.teamBean.TeamApplyOrInviteBean;
 import com.liqihao.pojo.bean.teamBean.TeamBean;

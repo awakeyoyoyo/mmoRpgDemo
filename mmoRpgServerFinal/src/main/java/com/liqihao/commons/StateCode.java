@@ -5,6 +5,6 @@ package com.liqihao.commons;
  * @author LQHAO
  */
 public interface StateCode {
-    public static int SUCCESS=200;
-    public static int FAIL=400;
+    int SUCCESS=200;
+    int FAIL=400;
 }

@@ -1,5 +1,5 @@
 package com.liqihao.provider;
-import com.liqihao.Cache.TaskMessageCache;
+import com.liqihao.cache.TaskMessageCache;
 import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.TaskStateCode;
@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**

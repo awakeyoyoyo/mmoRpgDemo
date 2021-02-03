@@ -1,8 +1,8 @@
 package com.liqihao.util;
 
 
-import com.liqihao.Cache.ChannelMessageCache;
-import com.liqihao.Cache.SceneBeanMessageCache;
+import com.liqihao.cache.ChannelMessageCache;
+import com.liqihao.cache.SceneBeanMessageCache;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.enums.RoleTypeCode;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
@@ -36,6 +36,7 @@ public class NotificationUtil {
         //打印日志
         logger.info(json);
     }
+
     /**
      * 群发指定role
      * @param nettyResponse
@@ -51,6 +52,7 @@ public class NotificationUtil {
         }
         //打印日志
     }
+
     /**
      * 群发场景/副本中得角色
      * @param nettyResponse

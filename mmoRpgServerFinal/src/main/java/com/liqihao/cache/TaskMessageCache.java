@@ -1,7 +1,7 @@
-package com.liqihao.Cache;
+package com.liqihao.cache;
 
+import com.liqihao.cache.base.CommonsCache;
 import com.liqihao.pojo.baseMessage.TaskMessage;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;

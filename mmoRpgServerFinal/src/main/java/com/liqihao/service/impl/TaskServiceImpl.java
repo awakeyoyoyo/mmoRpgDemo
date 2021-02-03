@@ -2,7 +2,7 @@ package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.googlecode.protobuf.format.JsonFormat;
-import com.liqihao.Cache.TaskMessageCache;
+import com.liqihao.cache.TaskMessageCache;
 import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.ConstantValue;

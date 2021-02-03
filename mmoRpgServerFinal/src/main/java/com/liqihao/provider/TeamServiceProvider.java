@@ -1,6 +1,6 @@
 package com.liqihao.provider;
 
-import com.liqihao.Cache.MmoBaseMessageCache;
+import com.liqihao.cache.base.MmoBaseMessageCache;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.pojo.bean.teamBean.TeamBean;
 

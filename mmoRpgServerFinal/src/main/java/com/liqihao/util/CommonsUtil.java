@@ -2,7 +2,8 @@ package com.liqihao.util;
 
 
 import com.googlecode.protobuf.format.JsonFormat;
-import com.liqihao.Cache.*;
+import com.liqihao.cache.*;
+import com.liqihao.cache.base.MmoBaseMessageCache;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.RpgServerException;
@@ -46,17 +47,42 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 @Component
 public class CommonsUtil {
-    private static ApplicationContext applicationContext;
-    private static MmoBagPOJOMapper mmoBagPOJOMapper;
     private static MmoEquipmentPOJOMapper mmoEquipmentPOJOMapper;
-    private static MmoEquipmentBagPOJOMapper equipmentBagPOJOMapper;
-    private static MmoRolePOJOMapper mmoRolePOJOMapper;
-    private static MmoEmailPOJOMapper mmoEmailPOJOMapper;
     private static MmoGuildApplyPOJOMapper mmoGuildApplyPOJOMapper;
     private static MmoGuildRolePOJOMapper mmoGuildRolePOJOMapper;
     private static MmoWareHousePOJOMapper mmoWareHousePOJOMapper;
     private static MmoDealBankAuctionPOJOMapper mmoDealBankAuctionPOJOMapper;
 
+    @Autowired
+    public  void setMmoEquipmentPOJOMapper(MmoEquipmentPOJOMapper mmoEquipmentPOJOMapper) {
+        CommonsUtil.mmoEquipmentPOJOMapper = mmoEquipmentPOJOMapper;
+    }
+
+    @Autowired
+    public  void setMmoGuildApplyPOJOMapper(MmoGuildApplyPOJOMapper mmoGuildApplyPOJOMapper) {
+        CommonsUtil.mmoGuildApplyPOJOMapper = mmoGuildApplyPOJOMapper;
+    }
+
+    @Autowired
+    public  void setMmoGuildRolePOJOMapper(MmoGuildRolePOJOMapper mmoGuildRolePOJOMapper) {
+        CommonsUtil.mmoGuildRolePOJOMapper = mmoGuildRolePOJOMapper;
+    }
+
+    @Autowired
+    public  void setMmoWareHousePOJOMapper(MmoWareHousePOJOMapper mmoWareHousePOJOMapper) {
+        CommonsUtil.mmoWareHousePOJOMapper = mmoWareHousePOJOMapper;
+    }
+
+    @Autowired
+    public  void setMmoDealBankAuctionPOJOMapper(MmoDealBankAuctionPOJOMapper mmoDealBankAuctionPOJOMapper) {
+        CommonsUtil.mmoDealBankAuctionPOJOMapper = mmoDealBankAuctionPOJOMapper;
+    }
+
+    /**
+     * mmoRoleBean转化为protobuf传输dto
+     * @param simpleRole
+     * @return
+     */
     public static PlayModel.RoleDTO mmoRoleToPlayModelRoleDto(MmoSimpleRole simpleRole) {
         PlayModel.RoleDTO.Builder mmoSimpleRoleBuilder = PlayModel.RoleDTO.newBuilder();
         mmoSimpleRoleBuilder.setId(simpleRole.getId())
@@ -83,6 +109,11 @@ public class CommonsUtil {
         return mmoSimpleRoleBuilder.build();
     }
 
+    /**
+     * 查找找当前角色所在场景/副本中的所有角色
+     * @param simpleRole
+     * @return
+     */
     public static List<Role> getAllRolesFromScene(MmoSimpleRole simpleRole) {
         List<Role> sceneRoles = new ArrayList<>();
         SceneBean sceneBean = SceneBeanMessageCache.getInstance().get(simpleRole.getMmoSceneId());
@@ -103,7 +134,11 @@ public class CommonsUtil {
         return sceneRoles;
     }
 
-
+    /**
+     * 发送升级信息给所有角色
+     * @param addLevel
+     * @param role
+     */
     public static void sendUpLevelAllRoles(Integer addLevel, Role role) {
         NettyResponse nettyResponse=new NettyResponse();
         PlayModel.PlayModelMessage.Builder messageData = PlayModel.PlayModelMessage.newBuilder();
@@ -119,6 +154,11 @@ public class CommonsUtil {
         NotificationUtil.notificationSceneRole(nettyResponse,mmoSimpleRole,json);
     }
 
+    /**
+     * protobuf场景角色
+     * @param mmoRole
+     * @return
+     */
     public static SceneModel.RoleDTO.Builder roleToSceneModelRoleDto(Role mmoRole) {
         SceneModel.RoleDTO.Builder msr = SceneModel.RoleDTO.newBuilder();
         msr.setId(mmoRole.getId());
@@ -144,6 +184,11 @@ public class CommonsUtil {
         return msr;
     }
 
+    /**
+     * 技能信息转化为技能bean
+     * @param skillMessage
+     * @return
+     */
     public static SkillBean skillMessageToSkillBean(SkillMessage skillMessage) {
         SkillBean skillBean = new SkillBean();
         skillBean.setId(skillMessage.getId());
@@ -160,53 +205,6 @@ public class CommonsUtil {
         skillBean.setSkillType(skillMessage.getSkillType());
         return skillBean;
     }
-
-
-    @Autowired
-    public  void setMmoBagPOJOMapper(MmoBagPOJOMapper mmoBagPOJOMapper) {
-        CommonsUtil.mmoBagPOJOMapper = mmoBagPOJOMapper;
-    }
-    @Autowired
-
-    public  void setMmoEquipmentPOJOMapper(MmoEquipmentPOJOMapper mmoEquipmentPOJOMapper) {
-        CommonsUtil.mmoEquipmentPOJOMapper = mmoEquipmentPOJOMapper;
-    }
-    @Autowired
-
-    public  void setEquipmentBagPOJOMapper(MmoEquipmentBagPOJOMapper equipmentBagPOJOMapper) {
-        CommonsUtil.equipmentBagPOJOMapper = equipmentBagPOJOMapper;
-    }
-    @Autowired
-
-    public  void setMmoRolePOJOMapper(MmoRolePOJOMapper mmoRolePOJOMapper) {
-        CommonsUtil.mmoRolePOJOMapper = mmoRolePOJOMapper;
-    }
-    @Autowired
-
-    public  void setMmoEmailPOJOMapper(MmoEmailPOJOMapper mmoEmailPOJOMapper) {
-        CommonsUtil.mmoEmailPOJOMapper = mmoEmailPOJOMapper;
-    }
-    @Autowired
-
-    public  void setMmoGuildApplyPOJOMapper(MmoGuildApplyPOJOMapper mmoGuildApplyPOJOMapper) {
-        CommonsUtil.mmoGuildApplyPOJOMapper = mmoGuildApplyPOJOMapper;
-    }
-    @Autowired
-
-    public  void setMmoGuildRolePOJOMapper(MmoGuildRolePOJOMapper mmoGuildRolePOJOMapper) {
-        CommonsUtil.mmoGuildRolePOJOMapper = mmoGuildRolePOJOMapper;
-    }
-    @Autowired
-
-    public  void setMmoWareHousePOJOMapper(MmoWareHousePOJOMapper mmoWareHousePOJOMapper) {
-        CommonsUtil.mmoWareHousePOJOMapper = mmoWareHousePOJOMapper;
-    }
-    @Autowired
-
-    public  void setMmoDealBankAuctionPOJOMapper(MmoDealBankAuctionPOJOMapper mmoDealBankAuctionPOJOMapper) {
-        CommonsUtil.mmoDealBankAuctionPOJOMapper = mmoDealBankAuctionPOJOMapper;
-    }
-
 
     /**
      * BankArticlePOJO转化为DealBankArticleBean
@@ -251,12 +249,22 @@ public class CommonsUtil {
         return dealBankAuctionBean;
     }
 
+    /**
+     * 任务bean转化为protobuf传输
+     * @param taskBean
+     * @return
+     */
     public static TaskModel.TaskDto taskBeanToTaskDto(BaseTaskBean taskBean) {
         TaskModel.TaskDto taskDto=TaskModel.TaskDto.newBuilder().setTaskMessageId(taskBean.getTaskMessageId())
                 .setCreateTime(taskBean.getCreateTime()).setProgress(taskBean.getProgress()).setStatus(taskBean.getStatus()).build();
         return taskDto;
     }
 
+    /**
+     * 交易行拍卖商品bean转化为protobuf传输类
+     * @param dealBankArticleBean
+     * @return
+     */
     public static DealBankModel.DealBankArticleDto dealBankArticleBeanToDealBankArticleDto(DealBankArticleBean dealBankArticleBean) {
         List<DealBankAuctionBean> dealBankAuctionBeans=dealBankArticleBean.getDealBankAuctionBeans();
         List<DealBankModel.DealBankAuctionDto> dealBankAuctionDtos=new ArrayList<>();
@@ -275,6 +283,11 @@ public class CommonsUtil {
         return dealBankArticleDto;
     }
 
+    /**
+     * 交易行拍卖纪录转化为protobuf传输类
+     * @param dealBankAuctionBean
+     * @return
+     */
     private static DealBankModel.DealBankAuctionDto dealBankAuctionBeanToDealBankAuctionDto(DealBankAuctionBean dealBankAuctionBean) {
         DealBankModel.DealBankAuctionDto dealBankAuctionDto=DealBankModel.DealBankAuctionDto.newBuilder()
                 .setCreateTime(dealBankAuctionBean.getCreateTime())
@@ -284,8 +297,11 @@ public class CommonsUtil {
         return dealBankAuctionDto;
     }
 
-
-
+    /**
+     * 公会pojo转化为公会bean
+     * @param mmoGuildPOJO
+     * @return
+     */
     public static GuildBean MmoGuildPOJOToGuildBean(MmoGuildPOJO mmoGuildPOJO) {
         GuildBean guildBean=new GuildBean();
         guildBean.setId(mmoGuildPOJO.getId());
@@ -309,7 +325,7 @@ public class CommonsUtil {
             guildRoleBeans.add(guildRoleBean);
         }
         guildBean.getGuildRoleBeans().addAll(guildRoleBeans);
-        Integer wareHouseSize=MmoBaseMessageCache.getInstance().getGuildBaseMessage().getMaxWareHouseNumber();
+        Integer wareHouseSize= MmoBaseMessageCache.getInstance().getGuildBaseMessage().getMaxWareHouseNumber();
         guildBean.setWareHouseManager(new WareHouseManager(wareHouseSize));
         List<MmoWareHousePOJO> mmoWareHousePOJOS=mmoWareHousePOJOMapper.selectByGuildId(guildBean.getId());
         for (MmoWareHousePOJO mmoWareHousePOJO : mmoWareHousePOJOS) {
@@ -334,6 +350,11 @@ public class CommonsUtil {
         return guildBean;
     }
 
+    /**
+     * 公会成员pojo转化为公会成员bean
+     * @param guildRolePOJO
+     * @return
+     */
     private static GuildRoleBean guildRolePOJOToGuildRoleBean(MmoGuildRolePOJO guildRolePOJO) {
         GuildRoleBean guildRoleBean=new GuildRoleBean();
         guildRoleBean.setId(guildRolePOJO.getId());
@@ -344,6 +365,11 @@ public class CommonsUtil {
         return guildRoleBean;
     }
 
+    /**
+     * 公会申请pojo转化为公会申请bean
+     * @param guildApplyPOJO
+     * @return
+     */
     private static GuildApplyBean guildApplyPOJOToGuildApplyBean(MmoGuildApplyPOJO guildApplyPOJO) {
         GuildApplyBean guildApplyBean=new GuildApplyBean();
         guildApplyBean.setId(guildApplyPOJO.getId());
@@ -354,6 +380,11 @@ public class CommonsUtil {
         return guildApplyBean;
     }
 
+    /**
+     * 公会成员转化为protobuf传输类
+     * @param guildRoleBean
+     * @return
+     */
     public static GuildModel.GuildPeopleDto guildRoleBeanToGuildPeopleDto(GuildRoleBean guildRoleBean) {
         GuildModel.GuildPeopleDto.Builder guildPeopleDtoBuilder=GuildModel.GuildPeopleDto.newBuilder();
         guildPeopleDtoBuilder.setRoleId(guildRoleBean.getRoleId()).setGuildPosition(guildRoleBean.getGuildPositionId())
@@ -368,7 +399,11 @@ public class CommonsUtil {
         return guildPeopleDtoBuilder.build();
     }
 
-
+    /**
+     * bossBean转化为protobuf传输类
+     * @param boss
+     * @return
+     */
     public static CopySceneModel.BossBeanDto bossBeanToBossBeanDto(BossBean boss) {
         CopySceneModel.BossBeanDto.Builder bossDtoBuilder=CopySceneModel.BossBeanDto.newBuilder();
         bossDtoBuilder.setId(boss.getId());
@@ -382,7 +417,7 @@ public class CommonsUtil {
         List<CopySceneModel.BufferDto> bufferDtoList=new ArrayList<>();
         if (boss.getBufferBeans().size()>0){
             for (BaseBuffBean b:boss.getBufferBeans()) {
-                CopySceneModel.BufferDto bufferDto= bufferBeanToBufferDto(b);
+                CopySceneModel.BufferDto bufferDto= buffBeanToBuffDto(b);
                 bufferDtoList.add(bufferDto);
             }
         }
@@ -390,7 +425,12 @@ public class CommonsUtil {
         return  bossDtoBuilder.build();
     }
 
-    private static CopySceneModel.BufferDto bufferBeanToBufferDto(BaseBuffBean b) {
+    /**
+     * buffBean转化为protobuf
+     * @param b
+     * @return
+     */
+    private static CopySceneModel.BufferDto buffBeanToBuffDto(BaseBuffBean b) {
         CopySceneModel.BufferDto.Builder bufferDtoBuilder=CopySceneModel.BufferDto.newBuilder();
         BufferMessage bufferMessage= BufferMessageCache.getInstance().get(b.getBufferMessageId());
         return bufferDtoBuilder.setId(bufferMessage.getId()).setName(bufferMessage.getName()).setFromRoleId(b.getFromRoleId())
@@ -398,12 +438,17 @@ public class CommonsUtil {
                 .build();
     }
 
+    /**
+     * 角色bean转化为场景角色dto
+     * @param role
+     * @return
+     */
     public static CopySceneModel.RoleDto mmoSimpleRolesToCopySceneRoleDto(MmoSimpleRole role) {
         CopySceneModel.RoleDto.Builder roleDtoBuilder=CopySceneModel.RoleDto.newBuilder();
         List<CopySceneModel.BufferDto> bufferDtoList=new ArrayList<>();
         if (role.getBufferBeans().size()>0){
             for (BaseBuffBean b:role.getBufferBeans()) {
-                CopySceneModel.BufferDto bufferDto= bufferBeanToBufferDto(b);
+                CopySceneModel.BufferDto bufferDto= buffBeanToBuffDto(b);
                 bufferDtoList.add(bufferDto);
             }
         }
@@ -414,6 +459,11 @@ public class CommonsUtil {
 
     }
 
+    /**
+     * 邮件pojo转化为邮件bean
+     * @param m
+     * @return
+     */
     public static EmailBean emailPOJOToMmoEmailBean(MmoEmailPOJO m) {
         EmailBean mmoEmailBean=new EmailBean();
         mmoEmailBean.setId(m.getId());
@@ -437,6 +487,11 @@ public class CommonsUtil {
         return mmoEmailBean;
     }
 
+    /**
+     * 邮件bean转化为protobuf 详细邮件dto
+     * @param mmoEmailBean
+     * @return
+     */
     public static EmailModel.EmailDto mmoEmailBeanToEmailDto(EmailBean mmoEmailBean) {
         EmailModel.EmailDto emailDto=EmailModel.EmailDto.newBuilder()
                 .setArticleMessageId(mmoEmailBean.getArticleMessageId()).setArticleNum(mmoEmailBean.getArticleNum()).setArticleType(mmoEmailBean.getArticleType())
@@ -448,6 +503,11 @@ public class CommonsUtil {
         return emailDto;
     }
 
+    /**
+     * 邮件bean转化为protobuf 简单邮件dto
+     * @param mmoEmailBean
+     * @return
+     */
     public static EmailModel.EmailSimpleDto mmoEmailBeanToEmailSimpleDto(EmailBean mmoEmailBean) {
         EmailModel.EmailSimpleDto emailDto=EmailModel.EmailSimpleDto.newBuilder()
                 .setChecked(mmoEmailBean.getChecked()).setContext(mmoEmailBean.getContext()).setCreateTime(mmoEmailBean.getCreateTime())
@@ -456,6 +516,11 @@ public class CommonsUtil {
         return emailDto;
     }
 
+    /**
+     * 商品信息转化为商品bean
+     * @param g
+     * @return
+     */
     public static GoodsBean goodMessageToGoodBean(GoodsMessage g) {
         GoodsBean goodsBean=new GoodsBean();
         goodsBean.setId(g.getId());
@@ -464,6 +529,11 @@ public class CommonsUtil {
         return goodsBean;
     }
 
+    /**
+     * 公会pojo转化为公会bean
+     * @param mmoGuildPOJO
+     * @return
+     */
     public static GuildBean mmoGuildPOJOToGuildBean(MmoGuildPOJO mmoGuildPOJO) {
         GuildBean guildBean=new GuildBean();
         guildBean.setId(mmoGuildPOJO.getId());
@@ -478,6 +548,11 @@ public class CommonsUtil {
         return guildBean;
     }
 
+    /**
+     * 公会申请bean转化为protobuf 传输类
+     * @param guildApplyBean
+     * @return
+     */
     public static GuildModel.GuildApplyDto guildApplyBeanToGuildApplyDto(GuildApplyBean guildApplyBean) {
         GuildModel.GuildApplyDto.Builder guildApplyDtoBuilder=GuildModel.GuildApplyDto.newBuilder();
         GuildBean guildBean= GuildServiceProvider.getInstance().getGuildBeanById(guildApplyBean.getGuildId());
@@ -488,6 +563,11 @@ public class CommonsUtil {
         return guildApplyDtoBuilder.build();
     }
 
+    /**
+     * 副本信息转化为副本bean
+     * @param copySceneMessage
+     * @return
+     */
     public static CopySceneBean copySceneMessageToCopySceneBean(CopySceneMessage copySceneMessage) {
         CopySceneBean copySceneBean=new CopySceneBean();
         copySceneBean.setCreateTime(System.currentTimeMillis());
@@ -498,6 +578,11 @@ public class CommonsUtil {
         return copySceneBean;
     }
 
+    /**
+     * boss信息转化为bossbean
+     * @param bossMessage
+     * @return
+     */
     public static BossBean bossMessageToBossBean(BossMessage bossMessage) {
         BossBean bossBean=new BossBean();
         bossBean.setBufferBeans(new CopyOnWriteArrayList<BaseBuffBean>());
@@ -538,11 +623,9 @@ public class CommonsUtil {
         MmoSimpleRole mmoSimpleRole= CommonsUtil.getRoleByChannel(channel);
         if (mmoSimpleRole==null){
             throw new RpgServerException(StateCode.FAIL,"用户未登录");
-
         }
         return mmoSimpleRole;
     }
-
 
     /**
      * 根据channel获取role
@@ -583,6 +666,11 @@ public class CommonsUtil {
         return bean;
     }
 
+    /**
+     * npc转化为role
+     * @param npc
+     * @return
+     */
     public static MmoSimpleRole NpcToMmoSimpleRole(MmoSimpleNPC npc) {
         MmoSimpleRole roleTemp = new MmoSimpleRole();
         roleTemp.setId(npc.getId());
@@ -633,6 +721,11 @@ public class CommonsUtil {
         return Arrays.asList(strings);
     }
 
+    /**
+     * int list转化为string
+     * @param oldRoles
+     * @return
+     */
     public static String listToString(List<Integer> oldRoles) {
         StringBuffer stringBuffer=new StringBuffer();
         if (oldRoles.size()==0) {
@@ -649,6 +742,11 @@ public class CommonsUtil {
         return stringBuffer.toString();
     }
 
+    /**
+     * 场景信息转化为场景bean
+     * @param m
+     * @return
+     */
     public static SceneBean sceneMessageToSceneBean(SceneMessage m) {
         SceneBean sceneBean=new SceneBean();
         sceneBean.setId(m.getId());
@@ -695,6 +793,9 @@ public class CommonsUtil {
 
     /**
      * 向场景仲角色发送人物登场
+     * @param newRoles
+     * @param sceneId
+     * @param copySceneId
      */
     public static void sendRoleResponse(List<Role> newRoles, Integer sceneId, Integer copySceneId){
         //protobuf

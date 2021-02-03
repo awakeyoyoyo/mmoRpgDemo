@@ -1,23 +1,16 @@
 package com.liqihao.pojo.bean.buffBean;
 
 import com.googlecode.protobuf.format.JsonFormat;
-import com.liqihao.Cache.BufferMessageCache;
-import com.liqihao.Cache.ChannelMessageCache;
-import com.liqihao.Cache.SceneBeanMessageCache;
+import com.liqihao.cache.BufferMessageCache;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.AttackStyleCode;
 import com.liqihao.commons.enums.DamageTypeCode;
-import com.liqihao.commons.enums.RoleTypeCode;
 import com.liqihao.pojo.baseMessage.BufferMessage;
 import com.liqihao.pojo.bean.roleBean.Role;
 import com.liqihao.protobufObject.PlayModel;
-import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.util.NotificationUtil;
-import io.netty.channel.Channel;
-
-import java.util.List;
 
 /**
  * buffer Bean

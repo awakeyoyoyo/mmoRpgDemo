@@ -1,5 +1,6 @@
-package com.liqihao.Cache;
+package com.liqihao.cache;
 
+import com.liqihao.cache.base.CommonsBeanCache;
 import com.liqihao.pojo.baseMessage.NpcMessage;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleNPC;
 import com.liqihao.util.ExcelReaderUtil;
@@ -16,7 +17,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @author lqhao
  */
 @Component
-public class NpcMessageCache extends CommonsBeanCache<MmoSimpleNPC>{
+public class NpcMessageCache extends CommonsBeanCache<MmoSimpleNPC> {
     private static String npcMessage_file = "classpath:message/npcMessage.xlsx";
     private volatile static NpcMessageCache instance ;
     public static NpcMessageCache getInstance(){

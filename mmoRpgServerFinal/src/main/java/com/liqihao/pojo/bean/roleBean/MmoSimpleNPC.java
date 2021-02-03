@@ -1,18 +1,15 @@
 package com.liqihao.pojo.bean.roleBean;
 
-import com.liqihao.Cache.*;
+import com.liqihao.cache.*;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.*;
 import com.liqihao.pojo.baseMessage.BufferMessage;
-import com.liqihao.pojo.baseMessage.NpcMessage;
 import com.liqihao.pojo.bean.SceneBean;
 import com.liqihao.pojo.bean.SkillBean;
 import com.liqihao.pojo.bean.buffBean.BaseBuffBean;
 import com.liqihao.pojo.bean.taskBean.killTask.KillTaskAction;
-import com.liqihao.pojo.bean.taskBean.skillTask.SkillTaskAction;
-import com.liqihao.pojo.bean.taskBean.talkTask.TalkTaskAction;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;

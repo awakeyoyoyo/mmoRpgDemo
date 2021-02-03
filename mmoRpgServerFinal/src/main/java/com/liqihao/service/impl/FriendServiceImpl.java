@@ -2,7 +2,7 @@ package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.googlecode.protobuf.format.JsonFormat;
-import com.liqihao.Cache.OnlineRoleMessageCache;
+import com.liqihao.cache.OnlineRoleMessageCache;
 import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.ConstantValue;
@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @Classname FriendServiceImpl

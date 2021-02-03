@@ -2,14 +2,13 @@ package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.googlecode.protobuf.format.JsonFormat;
-import com.liqihao.Cache.NpcMessageCache;
-import com.liqihao.Cache.OnlineRoleMessageCache;
-import com.liqihao.Cache.SceneBeanMessageCache;
+import com.liqihao.cache.NpcMessageCache;
+import com.liqihao.cache.OnlineRoleMessageCache;
+import com.liqihao.cache.SceneBeanMessageCache;
 import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.*;
 import com.liqihao.commons.StateCode;
-import com.liqihao.commons.enums.RoleTypeCode;
 import com.liqihao.commons.enums.TaskTargetTypeCode;
 import com.liqihao.pojo.bean.*;
 import com.liqihao.pojo.bean.roleBean.BossBean;

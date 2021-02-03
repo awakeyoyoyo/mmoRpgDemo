@@ -2,7 +2,7 @@ package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.googlecode.protobuf.format.JsonFormat;
-import com.liqihao.Cache.MedicineMessageCache;
+import com.liqihao.cache.MedicineMessageCache;
 import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.ConstantValue;
@@ -19,7 +19,6 @@ import com.liqihao.pojo.bean.guildBean.GuildApplyBean;
 import com.liqihao.pojo.bean.guildBean.GuildBean;
 import com.liqihao.pojo.bean.guildBean.GuildRoleBean;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
-import com.liqihao.pojo.bean.taskBean.guildFirstTask.GuildFirstAction;
 import com.liqihao.pojo.dto.ArticleDto;
 import com.liqihao.protobufObject.GuildModel;
 import com.liqihao.provider.GuildServiceProvider;

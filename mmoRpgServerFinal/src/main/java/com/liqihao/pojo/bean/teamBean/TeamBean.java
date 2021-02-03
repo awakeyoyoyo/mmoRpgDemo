@@ -1,7 +1,7 @@
 package com.liqihao.pojo.bean.teamBean;
 
 import com.googlecode.protobuf.format.JsonFormat;
-import com.liqihao.Cache.ChannelMessageCache;
+import com.liqihao.cache.ChannelMessageCache;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.RpgServerException;

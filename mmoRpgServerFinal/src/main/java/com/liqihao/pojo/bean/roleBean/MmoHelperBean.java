@@ -1,9 +1,9 @@
 package com.liqihao.pojo.bean.roleBean;
 
-import com.liqihao.Cache.BufferMessageCache;
-import com.liqihao.Cache.ChannelMessageCache;
-import com.liqihao.Cache.OnlineRoleMessageCache;
-import com.liqihao.Cache.SceneBeanMessageCache;
+import com.liqihao.cache.BufferMessageCache;
+import com.liqihao.cache.ChannelMessageCache;
+import com.liqihao.cache.OnlineRoleMessageCache;
+import com.liqihao.cache.SceneBeanMessageCache;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;

@@ -1,6 +1,6 @@
 package com.liqihao.provider;
 
-import com.liqihao.Cache.GoodsMessageCache;
+import com.liqihao.cache.GoodsMessageCache;
 import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.ArticleTypeCode;
@@ -31,7 +31,6 @@ public class GoodsServiceProvider {
             GoodsBean goodsBean= CommonsUtil.goodMessageToGoodBean(g);
             goodsBeanConcurrentHashMap.put(goodsBean.getId(),goodsBean);
         }
-
     }
 
     /**

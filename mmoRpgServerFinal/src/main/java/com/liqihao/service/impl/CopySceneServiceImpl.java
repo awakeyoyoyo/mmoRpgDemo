@@ -1,7 +1,6 @@
 package com.liqihao.service.impl;
 
 import com.googlecode.protobuf.format.JsonFormat;
-import com.liqihao.Cache.ChannelMessageCache;
 import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
 import com.liqihao.commons.ConstantValue;

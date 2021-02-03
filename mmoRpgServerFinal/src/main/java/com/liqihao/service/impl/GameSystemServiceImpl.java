@@ -1,8 +1,8 @@
 package com.liqihao.service.impl;
 
 import com.googlecode.protobuf.format.JsonFormat;
-import com.liqihao.Cache.OnlineRoleMessageCache;
-import com.liqihao.Cache.SceneBeanMessageCache;
+import com.liqihao.cache.OnlineRoleMessageCache;
+import com.liqihao.cache.SceneBeanMessageCache;
 import com.liqihao.commons.*;
 import com.liqihao.commons.enums.RoleOnStatusCode;
 import com.liqihao.commons.StateCode;
@@ -13,9 +13,7 @@ import com.liqihao.pojo.bean.teamBean.TeamBean;
 import com.liqihao.protobufObject.GameSystemModel;
 import com.liqihao.provider.TeamServiceProvider;
 import com.liqihao.util.CommonsUtil;
-import com.liqihao.util.DbUtil;
 import com.liqihao.util.NotificationUtil;
-import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

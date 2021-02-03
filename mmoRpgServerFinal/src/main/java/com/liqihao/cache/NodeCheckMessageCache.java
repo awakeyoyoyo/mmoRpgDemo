@@ -1,10 +1,8 @@
-package com.liqihao.Cache;
+package com.liqihao.cache;
 
-import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**

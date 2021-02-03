@@ -1,14 +1,11 @@
-package com.liqihao.Cache;
+package com.liqihao.cache;
 
+import com.liqihao.cache.base.CommonsCache;
 import com.liqihao.pojo.baseMessage.SkillMessage;
-import com.liqihao.pojo.bean.SceneBean;
-import com.liqihao.pojo.bean.SkillBean;
-import com.liqihao.util.ExcelReaderUtil;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**

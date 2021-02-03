@@ -1,6 +1,6 @@
 package com.liqihao.pojo.bean.buffBean;
 
-import com.liqihao.Cache.BufferMessageCache;
+import com.liqihao.cache.BufferMessageCache;
 import com.liqihao.commons.enums.AttackStyleCode;
 import com.liqihao.commons.enums.ConsumeTypeCode;
 import com.liqihao.commons.enums.DamageTypeCode;

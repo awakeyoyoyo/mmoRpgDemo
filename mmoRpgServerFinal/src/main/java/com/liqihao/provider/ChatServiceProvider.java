@@ -1,7 +1,7 @@
 package com.liqihao.provider;
 
-import com.liqihao.Cache.OnlineRoleMessageCache;
-import com.liqihao.Cache.SceneBeanMessageCache;
+import com.liqihao.cache.OnlineRoleMessageCache;
+import com.liqihao.cache.SceneBeanMessageCache;
 import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.ChatTypeCode;

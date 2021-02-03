@@ -1,21 +1,18 @@
-package com.liqihao.Cache;
+package com.liqihao.cache.base;
 
 import com.liqihao.pojo.baseMessage.BaseMessage;
-import com.liqihao.pojo.baseMessage.CopySceneMessage;
 import com.liqihao.util.ExcelReaderUtil;
-import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 /**
- * Cache基类
+ * Cache基类   读取批量的配置文件
  * @author lqhao
  */
 public class CommonsCache<T extends BaseMessage>{
-    protected ConcurrentHashMap<Integer,T> concurrentHashMap;
+    private ConcurrentHashMap<Integer,T> concurrentHashMap;
     public CommonsCache() {
     }
     public CommonsCache(ConcurrentHashMap<Integer, T> concurrentHashMap) {

@@ -1,10 +1,9 @@
 package com.liqihao.pojo.bean.buffBean;
 
-import com.liqihao.Cache.BufferMessageCache;
+import com.liqihao.cache.BufferMessageCache;
 import com.liqihao.commons.enums.AttackStyleCode;
 import com.liqihao.commons.enums.ConsumeTypeCode;
 import com.liqihao.commons.enums.DamageTypeCode;
-import com.liqihao.commons.enums.RoleStatusCode;
 import com.liqihao.pojo.baseMessage.BufferMessage;
 import com.liqihao.pojo.bean.roleBean.Role;
 import com.liqihao.protobufObject.PlayModel;

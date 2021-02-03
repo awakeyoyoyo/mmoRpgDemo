@@ -1,11 +1,10 @@
 package com.liqihao.pojo.bean;
 
-import com.liqihao.Cache.ChannelMessageCache;
-import com.liqihao.Cache.CopySceneMessageCache;
-import com.liqihao.Cache.OnlineRoleMessageCache;
+import com.liqihao.cache.ChannelMessageCache;
+import com.liqihao.cache.CopySceneMessageCache;
+import com.liqihao.cache.OnlineRoleMessageCache;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
-import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.*;
 import com.liqihao.pojo.baseMessage.CopySceneMessage;
@@ -17,18 +16,14 @@ import com.liqihao.pojo.bean.roleBean.MmoHelperBean;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.pojo.bean.roleBean.Role;
 import com.liqihao.pojo.bean.taskBean.copySceneSuccessTask.CopySceneTaskAction;
-import com.liqihao.pojo.bean.taskBean.killTask.KillTaskAction;
 import com.liqihao.pojo.bean.teamBean.TeamBean;
 import com.liqihao.protobufObject.CopySceneModel;
 import com.liqihao.protobufObject.SceneModel;
 import com.liqihao.provider.ArticleServiceProvider;
 import com.liqihao.provider.CopySceneProvider;
-import com.liqihao.provider.TaskServiceProvider;
 import com.liqihao.provider.TeamServiceProvider;
 import com.liqihao.util.CommonsUtil;
 import com.liqihao.util.DbUtil;
-import com.liqihao.util.LogicThreadPool;
-import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
 
 import java.util.ArrayList;
@@ -36,7 +31,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -314,18 +308,18 @@ public class CopySceneBean{
             }
         }
         //发奖励了
-//        List<MedicineBean> medicineBeans= ArticleServiceProvider.productMedicineToCopyScene(this,CommonsUtil.split(copySceneMessage.getMedicineIds()));
-//        List<EquipmentBean> equipmentBeans= ArticleServiceProvider.productEquipmentToCopyScene(this,CommonsUtil.split(copySceneMessage.getEquipmentIds()));
-//        if (medicineBeans.size()>0) {
-//            for (MedicineBean m:medicineBeans) {
-//                articlesMap.put(m.getFloorIndex(),m);
-//            }
-//        }
-//        if (equipmentBeans.size()>0){
-//            for (EquipmentBean e:equipmentBeans) {
-//                articlesMap.put(e.getFloorIndex(),e);
-//            }
-//        }
+        List<MedicineBean> medicineBeans= ArticleServiceProvider.productMedicineToCopyScene(this,CommonsUtil.split(copySceneMessage.getMedicineIds()));
+        List<EquipmentBean> equipmentBeans= ArticleServiceProvider.productEquipmentToCopyScene(this,CommonsUtil.split(copySceneMessage.getEquipmentIds()));
+        if (medicineBeans.size()>0) {
+            for (MedicineBean m:medicineBeans) {
+                articlesMap.put(m.getFloorIndex(),m);
+            }
+        }
+        if (equipmentBeans.size()>0){
+            for (EquipmentBean e:equipmentBeans) {
+                articlesMap.put(e.getFloorIndex(),e);
+            }
+        }
         // 广播队伍副本挑战成功
         NettyResponse nettyResponse=new NettyResponse();
         nettyResponse.setCmd(ConstantValue.CHANGE_SUCCESS_RESPONSE);
