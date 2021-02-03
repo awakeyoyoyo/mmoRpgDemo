@@ -10,7 +10,6 @@ import com.google.protobuf.Parser;
  */
 public class ServiceObject {
     private Object service;
-    private Class clazz;
     private Parser parser;
 
     public Parser getParser() {
@@ -27,13 +26,5 @@ public class ServiceObject {
 
     public void setService(Object service) {
         this.service = service;
-    }
-
-    public Class getClazz() {
-        return clazz;
-    }
-
-    public void setClazz(Class clazz) {
-        this.clazz = clazz;
     }
 }

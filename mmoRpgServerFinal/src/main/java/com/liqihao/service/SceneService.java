@@ -15,6 +15,7 @@ public interface SceneService {
      * @param myMessage
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
+     * @throws RpgServerException
      */
     void wentRequest(SceneModel.SceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
 
@@ -31,6 +32,7 @@ public interface SceneService {
      * @param myMessage
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
+     * @throws RpgServerException
      */
     void talkNpcRequest(SceneModel.SceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
 }

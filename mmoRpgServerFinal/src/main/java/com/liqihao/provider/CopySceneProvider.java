@@ -31,6 +31,12 @@ public class CopySceneProvider {
     private static AtomicInteger copySceneBeanIdAuto=new AtomicInteger(0);
     private static AtomicInteger bossBeanIdAuto=new AtomicInteger(0);
 
+    /**
+     * 创建新的副本
+     * @param copySceneId
+     * @param teamBean
+     * @return
+     */
     public static CopySceneBean createNewCopyScene(Integer copySceneId, TeamBean teamBean){
         CopySceneMessage copySceneMessage=CopySceneMessageCache.getInstance().get(copySceneId);
         Integer copyBeanId=copySceneBeanIdAuto.incrementAndGet();
@@ -84,6 +90,11 @@ public class CopySceneProvider {
         }
     }
 
+    /**
+     * 获取副本byId
+     * @param copySceneBeanId
+     * @return
+     */
     public static CopySceneBean getCopySceneBeanById(Integer copySceneBeanId) {
         return copySceneBeans.get(copySceneBeanId);
     }

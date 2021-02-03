@@ -24,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Component
 public class GoodsServiceProvider {
-    private static final ConcurrentHashMap<Integer, GoodsBean> goodsBeanConcurrentHashMap=new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<Integer, GoodsBean> goodsBeanConcurrentHashMap=new ConcurrentHashMap<>();
     @PostConstruct
     private  void init(){
         for (GoodsMessage g:GoodsMessageCache.getInstance().values()){
@@ -38,11 +38,10 @@ public class GoodsServiceProvider {
      * @return
      */
     public static List<GoodsBean> getAllArticles(){
-
         List<GoodsBean> beans = new ArrayList<>(goodsBeanConcurrentHashMap.values());
         return beans;
-
     }
+
     /**
      *  对外提供买东西接口
      */
@@ -75,18 +74,15 @@ public class GoodsServiceProvider {
             //药品
             article= sellMedicineBean(goodsMessage.getArticleMessageId(),num);
         }
-        synchronized (mmoSimpleRole.getBackpackManager()) {
-            flag = mmoSimpleRole.getBackpackManager().canPutArticle(article.getArticleMessageId(), article.getArticleTypeCode(), article.getQuantity());
-            if (!flag) {
-                //背包满了
-                //恢复
-                synchronized (goodsBean) {
-                    goodsBean.setNowNum(goodsBean.getNowNum() + num);
-                }
-                throw new RpgServerException(StateCode.FAIL,"背包已经满了");
+        flag = mmoSimpleRole.getBackpackManager().canPutArticle(article.getArticleMessageId(), article.getArticleTypeCode(), article.getQuantity());
+        if (!flag) {
+            //背包满了
+            synchronized (goodsBean) {
+                goodsBean.setNowNum(goodsBean.getNowNum() + num);
             }
-            mmoSimpleRole.getBackpackManager().put(article,mmoSimpleRole.getId());
+            throw new RpgServerException(StateCode.FAIL,"背包已经满了");
         }
+        mmoSimpleRole.getBackpackManager().put(article,mmoSimpleRole.getId());
         return  article;
     }
 

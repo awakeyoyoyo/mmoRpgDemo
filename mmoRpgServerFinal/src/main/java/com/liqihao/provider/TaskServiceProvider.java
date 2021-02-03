@@ -32,6 +32,12 @@ public class TaskServiceProvider {
      */
     private static AtomicInteger taskDbId;
 
+    @Autowired
+    public void setMmoTaskPOJOMapper(MmoTaskPOJOMapper mmoTaskPOJOMapper) {
+        TaskServiceProvider.mmoTaskPOJOMapper = mmoTaskPOJOMapper;
+        taskDbId=new AtomicInteger(mmoTaskPOJOMapper.selectNextIndex() - 1);
+    }
+
     /**
      * description 插入所有的成就
      * @param roleId
@@ -50,11 +56,6 @@ public class TaskServiceProvider {
         }
     }
 
-    @Autowired
-    public void setMmoTaskPOJOMapper(MmoTaskPOJOMapper mmoTaskPOJOMapper) {
-        TaskServiceProvider.mmoTaskPOJOMapper = mmoTaskPOJOMapper;
-        taskDbId=new AtomicInteger(mmoTaskPOJOMapper.selectNextIndex() - 1);
-    }
 
     /**
      * 接任务
@@ -96,7 +97,6 @@ public class TaskServiceProvider {
         Integer taskBeanId=taskBean.getTaskDbId();
         deleteTaskDb(taskBeanId);
     }
-
 
     /**
      * 每次登陆后初始化任务表

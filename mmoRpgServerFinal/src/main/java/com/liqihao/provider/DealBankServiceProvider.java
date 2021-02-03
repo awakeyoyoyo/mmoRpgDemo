@@ -459,7 +459,10 @@ public class DealBankServiceProvider {
         return dealBankAuctionBean;
     }
 
-
+    /**
+     * 插入拍卖行拍卖纪录
+     * @param dealBankAuctionBean
+     */
     private static void insertDealBankAuction(DealBankAuctionBean dealBankAuctionBean) {
         MmoDealBankAuctionPOJO dealBankAuctionPOJO = new MmoDealBankAuctionPOJO();
         dealBankAuctionPOJO.setDealBankArticleId(dealBankAuctionBean.getDealBeanArticleBeanDbId());
@@ -470,6 +473,10 @@ public class DealBankServiceProvider {
         ScheduledThreadPoolUtil.addTask(() -> mmoDealBankAuctionPOJOMapper.insert(dealBankAuctionPOJO));
     }
 
+    /**
+     * 插入拍卖行拍卖品
+     * @param dealBankArticleBean
+     */
     private static void insertDealBankArticleBean(DealBankArticleBean dealBankArticleBean) {
         MmoDealBankArticlePOJO mmoDealBankArticlePOJO = new MmoDealBankArticlePOJO();
         mmoDealBankArticlePOJO.setId(dealBankArticleBean.getDealBankArticleDbId());
@@ -487,6 +494,10 @@ public class DealBankServiceProvider {
         ScheduledThreadPoolUtil.addTask(() -> mmoDealBankArticlePOJOMapper.insert(mmoDealBankArticlePOJO));
     }
 
+    /**
+     * 更新拍卖行物品
+     * @param dealBankArticleBean
+     */
     private static void updateDealBankArticle(DealBankArticleBean dealBankArticleBean) {
         MmoDealBankArticlePOJO mmoDealBankArticlePOJO = new MmoDealBankArticlePOJO();
         mmoDealBankArticlePOJO.setId(dealBankArticleBean.getDealBankArticleDbId());
@@ -504,10 +515,18 @@ public class DealBankServiceProvider {
         ScheduledThreadPoolUtil.addTask(() -> mmoDealBankArticlePOJOMapper.updateByPrimaryKey(mmoDealBankArticlePOJO));
     }
 
+    /**
+     * 删除拍卖行拍卖记录
+     * @param dealBankAuctionDbId
+     */
     public static void deleteDealBankAuctionById(Integer dealBankAuctionDbId) {
         ScheduledThreadPoolUtil.addTask(() -> mmoDealBankAuctionPOJOMapper.deleteByPrimaryKey(dealBankAuctionDbId));
     }
 
+    /**
+     * 删除拍卖行物品
+     * @param dealBankArticleDbId
+     */
     public static void deleteDealBankArticleById(Integer dealBankArticleDbId) {
         ScheduledThreadPoolUtil.addTask(() -> mmoDealBankArticlePOJOMapper.deleteByPrimaryKey(dealBankArticleDbId));
     }

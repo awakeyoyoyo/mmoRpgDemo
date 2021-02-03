@@ -3,6 +3,7 @@ package com.liqihao.netty;
 import com.liqihao.codc.RequestDecoder;
 import com.liqihao.codc.ResponseEncoder;
 import com.liqihao.handler.DispatcherServlet;
+import com.liqihao.provider.PlayServiceProvider;
 import com.liqihao.service.GameSystemService;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -30,6 +31,8 @@ public class NettyTcpServer {
     private int port=6666;
     @Autowired
     private DispatcherServlet dispatcherServlet;
+    @Autowired
+    private PlayServiceProvider playServiceProvider;
     public void run() throws Exception {
         //创建两个线程池 boosGroup、workerGroup
         //负责监听端口
@@ -52,7 +55,7 @@ public class NettyTcpServer {
                                     .addLast("decoder", new RequestDecoder())//解码器
                                     .addLast("encoder",new ResponseEncoder())//编码器
                                     .addLast(new IdleStateHandler(10,0,0, TimeUnit.SECONDS))//心跳
-                                    .addLast(new ServerHandler(dispatcherServlet))//业务处理handler
+                                    .addLast(new ServerHandler(dispatcherServlet,playServiceProvider))//业务处理handler
                             ;
                         }
                     });//给workerGroup的EventLoop对应的管道设置处理器

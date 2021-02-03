@@ -37,7 +37,7 @@ import java.util.concurrent.*;
 public class ScheduledThreadPoolUtil {
     static {
         scheduledExecutorService = new ScheduledThreadPoolExecutor(15);
-        //每60s 修改过的数据落地
+        //每10s 修改过的数据落地
         ScheduledThreadPoolUtil.scheduledExecutorService.scheduleAtFixedRate(new DbTask(), 0, 10, TimeUnit.SECONDS);
     }
 
@@ -76,9 +76,9 @@ public class ScheduledThreadPoolUtil {
     /**
      * db任务队列
      */
-    private static LinkedList<Runnable> dbTasks = new LinkedList<>();
+    private static volatile LinkedList<Runnable> dbTasks = new LinkedList<>();
 
-    public static LinkedList<Runnable> getDbTasks() {
+    public static  LinkedList<Runnable> getDbTasks() {
         return dbTasks;
     }
 
@@ -727,7 +727,7 @@ public class ScheduledThreadPoolUtil {
         private final org.slf4j.Logger log = LoggerFactory.getLogger(DbTask.class);
         @Override
         public void run() {
-//            log.info("定时数据落地任务：");
+            log.info("定时数据落地任务：");
             LinkedList<Runnable> jobs = new LinkedList<>();
             //每隔时间清空任务队列里面的任务
             LinkedList<Runnable> tasks=ScheduledThreadPoolUtil.getDbTasks();

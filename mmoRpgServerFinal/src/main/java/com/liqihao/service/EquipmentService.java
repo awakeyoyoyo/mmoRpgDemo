@@ -15,6 +15,7 @@ public interface EquipmentService {
      * @param myMessage
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
+     * @throws RpgServerException
      */
     void addEquipmentRequest(EquipmentModel.EquipmentModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
 
@@ -23,6 +24,7 @@ public interface EquipmentService {
      * @param myMessage
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
+     * @throws RpgServerException
      */
     void equipmentMasRequest(EquipmentModel.EquipmentModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException;
 
@@ -31,14 +33,16 @@ public interface EquipmentService {
      * @param myMessage
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
+     * @throws RpgServerException
      */
-    void reduceEquipmentRequest(EquipmentModel.EquipmentModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws Exception;
+    void reduceEquipmentRequest(EquipmentModel.EquipmentModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
 
     /**
      * 修复装备
      * @param myMessage
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
+     * @throws RpgServerException
      */
     void fixEquipmentRequest(EquipmentModel.EquipmentModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
 }

@@ -44,13 +44,10 @@ public class TaskManager {
      */
     public void handler(BaseTaskAction taskAction, MmoSimpleRole role){
         List<Integer> keys=getTaskIds();
-        for (Integer key : keys) {
-            BaseTaskBean taskBean=taskBeans.get(key);
-            if (taskBean!=null) {
-                Integer taskTargetType=taskBean.getTaskTargetTypeId();
-                if (taskTargetType.equals(taskAction.getTaskTargetType())&&taskBean.getStatus().equals(TaskStateCode.ON_DOING.getCode())){
+        for (BaseTaskBean taskBean : taskBeans.values()) {
+            Integer taskTargetType=taskBean.getTaskTargetTypeId();
+            if (taskTargetType.equals(taskAction.getTaskTargetType())&&taskBean.getStatus().equals(TaskStateCode.ON_DOING.getCode())){
                     taskBean.update(taskAction, role);
-                }
             }
         }
     }

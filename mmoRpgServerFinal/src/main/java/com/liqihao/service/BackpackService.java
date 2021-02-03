@@ -15,6 +15,7 @@ public interface BackpackService {
      * @param myMessage
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
+     * @throws RpgServerException
      */
     void abandonRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
 
@@ -31,6 +32,7 @@ public interface BackpackService {
      * @param myMessage
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
+     * @throws RpgServerException
      */
     void useRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
 
@@ -39,6 +41,7 @@ public interface BackpackService {
      * @param myMessage
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
+     * @throws RpgServerException
      */
     void addArticleRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws Exception;
     /**
@@ -46,6 +49,7 @@ public interface BackpackService {
      * @param myMessage
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
+     * @throws RpgServerException
      */
     void findAllCanGetRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
 
@@ -54,8 +58,9 @@ public interface BackpackService {
      * @param myMessage
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
+     * @throws RpgServerException
      */
-    void getArticleFromFloorRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws Exception;
+    void getArticleFromFloorRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
 
 
     /**

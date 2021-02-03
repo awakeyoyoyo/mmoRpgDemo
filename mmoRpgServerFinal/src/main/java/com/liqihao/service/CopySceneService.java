@@ -14,6 +14,7 @@ public interface CopySceneService {
      * 副本的详细信息
      * @param myMessage
      * @param mmoSimpleRole
+     * @throws RpgServerException
      */
     void copySceneMessageRequest(CopySceneModel.CopySceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws RpgServerException;
 
@@ -21,6 +22,7 @@ public interface CopySceneService {
      * 进入副本请求
      * @param myMessage
      * @param mmoSimpleRole
+     * @throws RpgServerException
      */
     void enterCopySceneRequest(CopySceneModel.CopySceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws RpgServerException;
 
@@ -28,6 +30,7 @@ public interface CopySceneService {
      * 离开副本请求
      * @param myMessage
      * @param mmoSimpleRole
+     * @throws RpgServerException
      */
     void exitCopySceneRequest(CopySceneModel.CopySceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws RpgServerException;
 
@@ -35,6 +38,7 @@ public interface CopySceneService {
      * 创建副本
      * @param myMessage
      * @param mmoSimpleRole
+     * @throws RpgServerException
      */
     void createCopySceneBeanRequest(CopySceneModel.CopySceneModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws RpgServerException;
 }

@@ -18,6 +18,7 @@ public interface GuildService {
      * @param myMessage
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
+     * @throws RpgServerException
      */
     void createGuild(GuildModel.GuildModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
 
@@ -27,6 +28,7 @@ public interface GuildService {
      * @param myMessage
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
+     * @throws RpgServerException
      */
     void joinGuild(GuildModel.GuildModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
 
@@ -36,6 +38,7 @@ public interface GuildService {
      * @param myMessage
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
+     * @throws RpgServerException
      */
     void setGuildPosition(GuildModel.GuildModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
 
@@ -55,6 +58,7 @@ public interface GuildService {
      * @param myMessage
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
+     * @throws RpgServerException
      */
     void contributeMoney(GuildModel.GuildModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
 
@@ -64,6 +68,7 @@ public interface GuildService {
      * @param myMessage
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
+     * @throws RpgServerException
      */
     void contributeArticle(GuildModel.GuildModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
 
@@ -73,6 +78,7 @@ public interface GuildService {
      * @param myMessage
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
+     * @throws RpgServerException
      */
     void getArticle(GuildModel.GuildModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
 
@@ -83,6 +89,7 @@ public interface GuildService {
      * @param myMessage
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
+     * @throws RpgServerException
      */
     void getMoney(GuildModel.GuildModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
 

@@ -2,6 +2,7 @@ package com.liqihao.provider;
 
 import com.liqihao.cache.*;
 import com.liqihao.cache.base.MmoBaseMessageCache;
+import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.enums.ArticleTypeCode;
 import com.liqihao.commons.enums.RoleOnStatusCode;
 import com.liqihao.commons.enums.RoleStatusCode;
@@ -152,7 +153,7 @@ public class PlayServiceProvider {
      * @author lqhao
      * @createTime 2021/2/1 11:56
      */
-    public void logout(MmoSimpleRole role) {
+    public void logout(MmoSimpleRole role) throws RpgServerException {
         ChannelMessageCache.getInstance().remove(role.getId());
         AttributeKey<MmoSimpleRole> key = AttributeKey.valueOf("role");
         Channel channel=role.getChannel();
@@ -168,6 +169,10 @@ public class PlayServiceProvider {
         //退出场景
         if(role.getMmoSceneId()!=null){
             SceneBeanMessageCache.getInstance().get(role.getMmoSceneId()).getRoles().remove(role.getId());
+        }
+        //是否在交易
+        if (role.getDealBeanId()!=null){
+            DealServiceProvider.cancelDeal(role);
         }
         //将数据库中设置为离线
         MmoRolePOJO mmoRolePOJO = mmoRolePOJOMapper.selectByPrimaryKey(role.getId());

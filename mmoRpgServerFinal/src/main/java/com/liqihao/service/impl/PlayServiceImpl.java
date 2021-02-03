@@ -98,7 +98,7 @@ public class PlayServiceImpl implements PlayService {
         MmoSimpleRole lastRole = OnlineRoleMessageCache.getInstance().get(role.getId());
         if (lastRole != null) {
             //另一个客户端在线
-            lastRole.logout();
+            playServiceProvider.logout(lastRole);
         }
         NodeCheckMessageCache.getInstance().put(nodeIndex, true);
         MmoSimpleRole simpleRole = playServiceProvider.initMmoPeople(role);

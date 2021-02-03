@@ -178,7 +178,6 @@ public class MmoHelperBean extends Role{
                 }
             }
         }
-        //召唤兽
     }
 
     /**

@@ -39,7 +39,7 @@ public class WareHouseManager {
     /**
      * 仓库读写锁
      */
-    public final static ReadWriteLock wareHouseWrLock = new ReentrantReadWriteLock();
+    public final ReadWriteLock wareHouseWrLock = new ReentrantReadWriteLock();
 
     public WareHouseManager() {
     }

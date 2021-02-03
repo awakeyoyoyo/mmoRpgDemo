@@ -176,8 +176,10 @@ public class MmoSimpleNPC extends Role {
                     mmoHelperBean.setTarget(null);
                     Integer helperAttackId = mmoHelperBean.getId() + mmoHelperBean.hashCode();
                     synchronized (ScheduledThreadPoolUtil.getHelperTaskMap()) {
-                        ScheduledThreadPoolUtil.getHelperTaskMap().get(helperAttackId).cancel(false);
-                        ScheduledThreadPoolUtil.getHelperTaskMap().remove(helperAttackId);
+                        if (ScheduledThreadPoolUtil.getHelperTaskMap().get(helperAttackId)!=null) {
+                            ScheduledThreadPoolUtil.getHelperTaskMap().get(helperAttackId).cancel(false);
+                            ScheduledThreadPoolUtil.getHelperTaskMap().remove(helperAttackId);
+                        }
                     }
                 }
             }

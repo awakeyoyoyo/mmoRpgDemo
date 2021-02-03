@@ -15,6 +15,7 @@ public interface TeamService {
      * @param myMessage
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
+     * @throws RpgServerException
      */
     void applyForTeamRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
     /**
@@ -22,6 +23,7 @@ public interface TeamService {
      * @param myMessage
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
+     * @throws RpgServerException
      */
     void banPeopleRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
     /**
@@ -29,6 +31,7 @@ public interface TeamService {
      * @param myMessage
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
+     * @throws RpgServerException
      */
     void createTeamRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
     /**
@@ -36,6 +39,7 @@ public interface TeamService {
      * @param myMessage
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
+     * @throws RpgServerException
      */
     void deleteTeamRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
     /**
@@ -43,6 +47,7 @@ public interface TeamService {
      * @param myMessage
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
+     * @throws RpgServerException
      */
     void entryPeopleRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
     /**
@@ -50,6 +55,7 @@ public interface TeamService {
      * @param myMessage
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
+     * @throws RpgServerException
      */
     void exitTeamRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
     /**
@@ -57,6 +63,7 @@ public interface TeamService {
      * @param myMessage
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
+     * @throws RpgServerException
      */
     void invitePeopleRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
     /**
@@ -64,6 +71,7 @@ public interface TeamService {
      * @param myMessage
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
+     * @throws RpgServerException
      */
     void refuseApplyRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
     /**
@@ -71,6 +79,7 @@ public interface TeamService {
      * @param myMessage
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
+     * @throws RpgServerException
      */
     void refuseInviteRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException;
 
@@ -79,6 +88,7 @@ public interface TeamService {
      * @param myMessage
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
+     * @throws RpgServerException
      */
     void applyMessageRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
 
@@ -87,6 +97,7 @@ public interface TeamService {
      * @param myMessage
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
+     * @throws RpgServerException
      */
     void inviteMessage(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException;
     /**
@@ -94,6 +105,7 @@ public interface TeamService {
      * @param myMessage
      * @param mmoSimpleRole
      * @throws InvalidProtocolBufferException
+     * @throws RpgServerException
      */
     void teamMessageRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException;
 }

@@ -134,7 +134,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
     /**
      * 好友申请
      */
-    private HashMap<Integer,FriendApplyBean> friendApplyBeanHashMap=new HashMap<>();
+    private ConcurrentHashMap<Integer,FriendApplyBean> friendApplyBeanHashMap=new ConcurrentHashMap<>();
 
     /**
      * 好友申请自增id
@@ -149,11 +149,11 @@ public class MmoSimpleRole extends Role implements MyObserver {
         this.friendApplyIdAuto = friendApplyIdAuto;
     }
 
-    public void setFriendApplyBeanHashMap(HashMap<Integer, FriendApplyBean> friendApplyBeanHashMap) {
+    public void setFriendApplyBeanHashMap(ConcurrentHashMap<Integer, FriendApplyBean> friendApplyBeanHashMap) {
         this.friendApplyBeanHashMap = friendApplyBeanHashMap;
     }
 
-    public HashMap<Integer, FriendApplyBean> getFriendApplyBeanHashMap() {
+    public ConcurrentHashMap<Integer, FriendApplyBean> getFriendApplyBeanHashMap() {
         return friendApplyBeanHashMap;
     }
 
@@ -355,6 +355,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
         }
         teamApplyOrInviteBeans.add(teamApplyOrInviteBean);
     }
+
     /**
      * 检测邀请过时
      */
@@ -422,7 +423,6 @@ public class MmoSimpleRole extends Role implements MyObserver {
         }
         return article.use(getBackpackManager(), this);
     }
-
 
     /**
      * 脱装备
@@ -877,10 +877,10 @@ public class MmoSimpleRole extends Role implements MyObserver {
         }
     }
 
-    @Override
     /**
      * 聊天
      */
+    @Override
     public void update(Role fromRole, String str,Integer chatType) {
         Channel c=ChannelMessageCache.getInstance().get(getId());
         if (c!=null){
@@ -899,6 +899,10 @@ public class MmoSimpleRole extends Role implements MyObserver {
         }
     }
 
+    /**
+     * 返回角色id
+     * @return
+     */
     @Override
     public Integer returnRoleId() {
         return getId();
@@ -1209,41 +1213,13 @@ public class MmoSimpleRole extends Role implements MyObserver {
             }
         }
     }
+
+    /**
+     * 玩家线程执行任务
+     * @param job
+     */
     public void execute(Runnable job){
         Integer index=CommonsUtil.getIndexByChannel(getChannel());
         LogicThreadPool.getInstance().execute(job,index);
-    }
-
-    /**
-     * description 退出登陆
-     * @return
-     * @author lqhao
-     * @createTime 2021/1/21 15:25
-     */
-    public void logout(){
-        //退出副本
-        if (getCopySceneBeanId()!=null){
-            CopySceneProvider.getCopySceneBeanById(getCopySceneBeanId()).peopleExit(getId());
-        }
-        //退出队伍
-        if(getTeamId()!=null){
-            TeamServiceProvider.getTeamBeanByTeamId(getTeamId()).exitPeople(getId());
-        }
-        //退出场景
-        if(getMmoSceneId()!=null){
-            SceneBeanMessageCache.getInstance().get(getMmoSceneId()).getRoles().remove(getId());
-        }
-        //断线
-        Channel c=ChannelMessageCache.getInstance().get(getId());
-        NettyResponse nettyResponse=new NettyResponse();
-        nettyResponse.setCmd(ConstantValue.FAIL_RESPONSE);
-        String message="服务器：角色已退出登录";
-        nettyResponse.setData(message.getBytes(StandardCharsets.UTF_8));
-        nettyResponse.setStateCode(StateCode.FAIL);
-        c.writeAndFlush(nettyResponse);
-        c.close();
-        //移出缓存
-        OnlineRoleMessageCache.getInstance().remove(getId());
-        NodeCheckMessageCache.getInstance().remove(getChannel().remoteAddress().toString());
     }
 }

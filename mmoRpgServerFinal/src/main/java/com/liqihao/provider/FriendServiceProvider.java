@@ -62,7 +62,7 @@ public class FriendServiceProvider {
      */
     public static void agreeApplyFriend(MmoSimpleRole role,Integer applyId){
         FriendApplyBean friendApplyBean=role.getFriendApplyBeanHashMap().get(applyId);
-
+        role.getFriendApplyBeanHashMap().remove(applyId);
         role.getFriends().add(friendApplyBean.getRoleId());
         //加好友事件
         FriendFirstAction firstAction=new FriendFirstAction();

@@ -208,7 +208,7 @@ public class BackpackServiceImpl implements BackpackService {
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.GET_ARTICLE_FROM_FLOOR_REQUEST, module = ConstantValue.BAKCPACK_MODULE)
-    public void getArticleFromFloorRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws Exception {
+    public void getArticleFromFloorRequest(BackPackModel.BackPackModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException {
         Integer index = myMessage.getGetArticleFromFloorRequest().getIndex();
         Channel channel = mmoSimpleRole.getChannel();
         Integer copySceneBeanId = mmoSimpleRole.getCopySceneBeanId();

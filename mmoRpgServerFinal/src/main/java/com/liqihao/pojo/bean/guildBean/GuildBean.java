@@ -90,12 +90,12 @@ public class GuildBean {
     /**
      * 金币的读写锁
      */
-    public static final ReadWriteLock moneyRwLock = new ReentrantReadWriteLock();
+    public final ReadWriteLock moneyRwLock = new ReentrantReadWriteLock();
 
     /**
      * 公会成员读写锁
      */
-    public static final ReadWriteLock peopleRwLock = new ReentrantReadWriteLock();
+    public final ReadWriteLock peopleRwLock = new ReentrantReadWriteLock();
 
     public Integer getMoney() {
         moneyRwLock.readLock().lock();

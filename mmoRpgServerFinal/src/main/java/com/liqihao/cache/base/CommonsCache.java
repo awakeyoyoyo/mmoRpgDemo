@@ -18,14 +18,12 @@ public class CommonsCache<T extends BaseMessage>{
     public CommonsCache(ConcurrentHashMap<Integer, T> concurrentHashMap) {
         this.concurrentHashMap = concurrentHashMap;
     }
+
     public T get(Integer id){
         return concurrentHashMap.get(id);
     }
     private T put(Integer id,T object){
         return concurrentHashMap.put(id,object);
-    }
-    private void remove(Integer id){
-        concurrentHashMap.remove(id);
     }
     public boolean contains(Integer id){
         return concurrentHashMap.containsKey(id);
@@ -41,7 +39,7 @@ public class CommonsCache<T extends BaseMessage>{
      * @throws InstantiationException
      */
     public  void init(String excel_file,Class clazz) throws IllegalAccessException, IOException, InstantiationException {
-        this.concurrentHashMap=new ConcurrentHashMap<>();
+        this.concurrentHashMap=new ConcurrentHashMap<>(32);
         List<T> messages= ExcelReaderUtil.readExcelFromFileName(excel_file,clazz);
         for (T message:messages) {
             concurrentHashMap.put(message.getTheId(),message);

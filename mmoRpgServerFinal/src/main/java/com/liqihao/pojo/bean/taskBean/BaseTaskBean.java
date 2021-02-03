@@ -50,13 +50,6 @@ public abstract class BaseTaskBean {
      */
     private Integer taskTargetTypeId;
 
-    /**
-     * 检测是否完成
-     * @param dto
-     * @param role
-     */
-    public abstract void update(BaseTaskAction dto,MmoSimpleRole role);
-
     public long getCreateTime() {
         return createTime;
     }
@@ -104,6 +97,13 @@ public abstract class BaseTaskBean {
     public void setTaskTargetTypeId(Integer taskTargetTypeId) {
         this.taskTargetTypeId = taskTargetTypeId;
     }
+
+    /**
+     * 检测是否完成
+     * @param dto
+     * @param role
+     */
+    public abstract void update(BaseTaskAction dto,MmoSimpleRole role);
 
     /**
      * description 发送任务完成消息

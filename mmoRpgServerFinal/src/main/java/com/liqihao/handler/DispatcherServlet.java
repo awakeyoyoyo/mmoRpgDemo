@@ -101,7 +101,7 @@ public class DispatcherServlet implements ApplicationContextAware {
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         //key是beanName value是对象
         Map<String, Object> serviceMap = applicationContext.getBeansWithAnnotation(HandlerServiceTag.class);
-        services = new HashMap<>();
+        services = new HashMap<>(32);
         for (String key : serviceMap.keySet()) {
             Object o = serviceMap.get(key);
             Method[] methods = o.getClass().getMethods();
@@ -119,7 +119,6 @@ public class DispatcherServlet implements ApplicationContextAware {
                     }
                     ServiceObject serviceObject = new ServiceObject();
                     serviceObject.setService(o);
-                    serviceObject.setClazz(clazz);
                     serviceObject.setParser(parser);
                     //将serviceObject对象存储起来
                     services.put(key, serviceObject);

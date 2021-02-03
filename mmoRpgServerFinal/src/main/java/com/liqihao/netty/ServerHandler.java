@@ -1,11 +1,10 @@
 package com.liqihao.netty;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.liqihao.commons.ConstantValue;
-import com.liqihao.commons.NettyRequest;
-import com.liqihao.commons.NettyResponse;
-import com.liqihao.commons.StateCode;
+import com.liqihao.commons.*;
 import com.liqihao.handler.DispatcherServlet;
+import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
+import com.liqihao.provider.PlayServiceProvider;
 import com.liqihao.service.GameSystemService;
 import com.liqihao.util.CommonsUtil;
 import com.liqihao.util.LogicThreadPool;
@@ -30,7 +29,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ServerHandler extends ChannelInboundHandlerAdapter {
     private DispatcherServlet dispatcherservlet;
-
+    private PlayServiceProvider playServiceProvider;
     /**
      * 计数----未有客户端可读次数
      */
@@ -41,8 +40,9 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
     public ServerHandler() {
     }
 
-    public ServerHandler(DispatcherServlet dispatcherservlet) {
+    public ServerHandler(DispatcherServlet dispatcherservlet,PlayServiceProvider playServiceProvider) {
         this.dispatcherservlet = dispatcherservlet;
+        this.playServiceProvider=playServiceProvider;
     }
 
     @Override
@@ -78,6 +78,10 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
                 lossConnectCount++;
                 if (lossConnectCount>MAX_LOSS_CONNECT_COUNT){
                     log.info("关闭这个不活跃通道！");
+                    MmoSimpleRole mmoSimpleRole= CommonsUtil.getRoleByChannel(ctx.channel());
+                    if (mmoSimpleRole==null){
+                        playServiceProvider.logout(mmoSimpleRole);
+                    }
                     ctx.channel().close();
                 }
             }

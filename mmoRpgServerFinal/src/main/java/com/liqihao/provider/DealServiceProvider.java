@@ -176,7 +176,7 @@ public class DealServiceProvider {
                 //交换金币 物品
                 //放到各自线程中执行
                 role1.execute(() -> exchangeThing(dealArticleBean02.getArticles(),role1,dealArticleBean02.getMoney()));
-                role2.execute(() -> exchangeThing(dealArticleBean02.getArticles(),role2,dealArticleBean01.getMoney()));
+                role2.execute(() -> exchangeThing(dealArticleBean01.getArticles(),role2,dealArticleBean01.getMoney()));
                 dealBean.setStatus(DealStatusCode.FINISH.getCode());
                 synchronized (dealBeans) {
                     dealBeans.remove(dealBean.getId());
@@ -210,7 +210,7 @@ public class DealServiceProvider {
             //交换金币 物品
             //放到各自线程中执行
             role1.execute(() -> exchangeThing(dealArticleBean01.getArticles(),role1,dealArticleBean01.getMoney()));
-            role2.execute(() -> exchangeThing(dealArticleBean01.getArticles(),role2,dealArticleBean02.getMoney()));
+            role2.execute(() -> exchangeThing(dealArticleBean02.getArticles(),role2,dealArticleBean02.getMoney()));
             dealBean.setStatus(DealStatusCode.FINISH.getCode());
             synchronized (dealBeans) {
                 dealBeans.remove(dealBean.getId());
@@ -259,7 +259,6 @@ public class DealServiceProvider {
             }
             return dealBean;
         }
-
     }
 
 

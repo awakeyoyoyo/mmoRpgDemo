@@ -140,7 +140,6 @@ public class GuildServiceProvider  implements ApplicationContextAware {
         return guildBean;
     }
 
-
     /**
      * 申请加入公会
      */
@@ -165,7 +164,6 @@ public class GuildServiceProvider  implements ApplicationContextAware {
         //数据入库
         insertGuildApplyPOJO(guildApplyBean);
     }
-
 
     /**
      * 删除指定的申请
@@ -214,6 +212,7 @@ public class GuildServiceProvider  implements ApplicationContextAware {
         guildRolePOJO.setId(guildRoleBean.getId());
         ScheduledThreadPoolUtil.addTask(() -> mmoGuildRolePOJOMapper.insert(guildRolePOJO));
     }
+
     /**
      * 检测是否有权限
      */
@@ -229,15 +228,27 @@ public class GuildServiceProvider  implements ApplicationContextAware {
          }
     }
 
+    /**
+     * 根据id查找guildBean
+     * @param guildId
+     * @return
+     */
     public GuildBean getGuildBeanById(Integer guildId) {
         return  guildBeanConcurrentHashMap.get(guildId);
     }
 
+    /**
+     * 更新角色pojo
+     * @param mmoRolePOJO
+     */
     public void updateRolePOJO(MmoRolePOJO mmoRolePOJO) {
-
         ScheduledThreadPoolUtil.addTask(() ->  mmoRolePOJOMapper.updateByPrimaryKeySelective(mmoRolePOJO));
     }
 
+    /**
+     * 更新公会pojo
+     * @param guildBean
+     */
     public  void updateGuildPOJO(GuildBean guildBean) {
         MmoGuildPOJO guildPOJO=new MmoGuildPOJO();
         guildPOJO.setId(guildBean.getId());
@@ -250,6 +261,10 @@ public class GuildServiceProvider  implements ApplicationContextAware {
         ScheduledThreadPoolUtil.addTask(() -> mmoGuildPOJOMapper.updateByPrimaryKey(guildPOJO));
     }
 
+    /**
+     * 更新公会用户
+     * @param roleBean
+     */
     public void updateGuildRole(GuildRoleBean roleBean) {
         MmoGuildRolePOJO mmoGuildRolePOJO=new MmoGuildRolePOJO();
         mmoGuildRolePOJO.setId(roleBean.getId());
@@ -260,6 +275,10 @@ public class GuildServiceProvider  implements ApplicationContextAware {
         ScheduledThreadPoolUtil.addTask(() -> mmoGuildRolePOJOMapper.updateByPrimaryKey(mmoGuildRolePOJO));
     }
 
+    /**
+     * 插入公会pojo
+     * @param mmoGuildPOJO
+     */
     private void insertGuildPOJO(MmoGuildPOJO mmoGuildPOJO) {
         ScheduledThreadPoolUtil.addTask(() -> mmoGuildPOJOMapper.insert(mmoGuildPOJO));
     }
