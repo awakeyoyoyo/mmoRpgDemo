@@ -140,6 +140,10 @@ public class DealBankArticleBean {
         this.dealBeanArticleBeanId = dealBeanArticleBeanId;
     }
 
+    /**
+     * 拍卖时间到达
+     * @throws RpgServerException
+     */
     public synchronized void dealBankTimeOut() throws RpgServerException {
         if (toRoleId==null){
             //拍卖结束没有卖家

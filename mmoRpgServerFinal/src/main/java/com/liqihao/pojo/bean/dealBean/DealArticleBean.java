@@ -77,7 +77,7 @@ public class DealArticleBean {
         //判断物品类型
         return article.putDealBean(this);
     }
-    public synchronized Article abandon(Integer dealArticleId,Integer num) {
+    public Article abandon(Integer dealArticleId,Integer num) {
         Iterator iterator=articles.iterator();
         while (iterator.hasNext()) {
             Article a= (Article) iterator.next();

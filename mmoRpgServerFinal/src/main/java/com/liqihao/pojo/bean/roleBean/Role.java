@@ -20,27 +20,43 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * @author lqhao
  */
 public abstract class Role {
+    /** roleId */
     private Integer id;
+    /** 姓名 */
     private String name;
+    /** hp */
     private Integer hp;
+    /** mp */
     private Integer mp;
+    /** 攻击 */
     private Integer attack;
+    /** 技能伤害加成 */
     private double damageAdd;
+    /** 类型 */
     private Integer type;
+    /** 状态 */
     private Integer status;
+    /** 在线离线状态 */
     private Integer onStatus;
+    /** 携带buffs */
     private CopyOnWriteArrayList<BaseBuffBean> bufferBeans;
+    /** 当前hp */
     private volatile Integer nowHp;
+    /** 当前mp */
     private volatile Integer nowMp;
+    /** 副本id */
     private Integer copySceneBeanId;
+    /** 场景id */
     private Integer mmoSceneId;
+    /** 队伍id */
     private Integer teamId;
+    /** 等级 */
     private Integer level=0;
+    /** 经验 */
     private Integer exp;
+    /** 装备等级 */
     private Integer equipmentLevel=0;
-    /**
-     * 锁
-     */
+    /**锁*/
     public final ReentrantReadWriteLock hpRwLock = new ReentrantReadWriteLock();
     public final ReentrantReadWriteLock mpRwLock = new ReentrantReadWriteLock();
 

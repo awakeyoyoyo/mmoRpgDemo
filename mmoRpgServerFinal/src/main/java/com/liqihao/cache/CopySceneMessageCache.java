@@ -20,7 +20,6 @@ public class CopySceneMessageCache extends CommonsCache<CopySceneMessage> {
         return instance;
     }
     public CopySceneMessageCache() {
-
     }
     @PostConstruct
     public  void init() throws IllegalAccessException, IOException, InstantiationException {

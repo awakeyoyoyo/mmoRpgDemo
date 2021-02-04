@@ -200,7 +200,7 @@ public class PlayServiceImpl implements PlayService {
         if (mmoSimpleRole.getEquipmentBeanHashMap().get(PositionCode.ARMS.getCode()) != null && mmoSimpleRole.getEquipmentBeanHashMap().get(PositionCode.ARMS.getCode()).getNowDurability() <= 0) {
             throw new RpgServerException(StateCode.FAIL, "武器耐久度为0，请脱落武器再攻击");
         }
-        //判断是单体技能 还是群体技能   可以攻击所有玩家 除了队友 npc
+        //判断是单体技能 还是群体技能 可以攻击所有玩家 除了队友 npc
         //从缓存中查找出 怪物
         SkillBean skillBean = mmoSimpleRole.getSkillBeanBySkillId(skillId);
         if (skillBean == null) {
@@ -216,7 +216,7 @@ public class PlayServiceImpl implements PlayService {
         if (mmoSimpleRole.getMmoSceneId() != null) {
             target.addAll(findTargetInScene(mmoSimpleRole, roleType, targetId, skillMessage.getSkillDamageType()));
         } else {
-            target.addAll(findTargetInCopyScene(mmoSimpleRole, targetId));
+            target.addAll(findTargetInCopyScene(mmoSimpleRole, targetId,roleType,skillMessage.getSkillDamageType()));
         }
         //使用技能
         if (target.size() > 0) {
@@ -245,7 +245,9 @@ public class PlayServiceImpl implements PlayService {
             for (Integer id : sceneBean.getNpcs()) {
                 MmoSimpleNPC npc = NpcMessageCache.getInstance().get(id);
                 if (npc.getType().equals(RoleTypeCode.ENEMY.getCode())) {
-                    targets.add(npc);
+                    if (npc.getStatus().equals(RoleStatusCode.ALIVE.getCode())) {
+                        targets.add(npc);
+                    }
                 }
             }
             //people
@@ -255,13 +257,17 @@ public class PlayServiceImpl implements PlayService {
                     continue;
                 }
                 if (mmoSimpleRole.getTeamId() == null || role.getTeamId() == null || !mmoSimpleRole.getTeamId().equals(role.getTeamId())) {
-                    targets.add(role);
+                    if (mmoSimpleRole.getStatus().equals(RoleStatusCode.ALIVE.getCode())) {
+                        targets.add(role);
+                    }
                 }
             }
             //hepler
             for (MmoHelperBean h : sceneBean.getHelperBeans()) {
                 if (mmoSimpleRole.getTeamId() == null || h.getTeamId() == null || !mmoSimpleRole.getTeamId().equals(h.getTeamId())) {
-                    targets.add(h);
+                    if (h.getStatus().equals(RoleStatusCode.ALIVE.getCode())) {
+                        targets.add(h);
+                    }
                 }
             }
         } else {
@@ -276,10 +282,13 @@ public class PlayServiceImpl implements PlayService {
             }
 
             if (role == null) {
-                throw new RpgServerException(StateCode.FAIL, "当前场景没有该id的角色或者选择了攻击npc");
+                throw new RpgServerException(StateCode.FAIL, "当前场景没有该id的角色");
             }
             if (!role.getMmoSceneId().equals(mmoSimpleRole.getMmoSceneId())) {
                 throw new RpgServerException(StateCode.FAIL, "当前场景没有该id的角色");
+            }
+            if (!role.getStatus().equals(RoleStatusCode.ALIVE.getCode())) {
+                throw new RpgServerException(StateCode.FAIL, "当前角色已经死亡");
             }
             if (mmoSimpleRole.getTeamId() != null) {
                 TeamBean teamBean = TeamServiceProvider.getTeamBeanByTeamId(mmoSimpleRole.getTeamId());
@@ -300,20 +309,34 @@ public class PlayServiceImpl implements PlayService {
      * @author lqhao
      * @createTime 2021/1/21 12:18
      */
-    private List<Role> findTargetInCopyScene(MmoSimpleRole mmoSimpleRole, Integer targetId) throws RpgServerException {
+    private List<Role> findTargetInCopyScene(MmoSimpleRole mmoSimpleRole, Integer targetId,Integer roleType,Integer skillDamage) throws RpgServerException {
         ArrayList<Role> target = new ArrayList<>();
         //在副本中
         Integer copySceneBeanId = mmoSimpleRole.getCopySceneBeanId();
         CopySceneBean copySceneBean = CopySceneProvider.getCopySceneBeanById(copySceneBeanId);
+        if (roleType.equals(RoleTypeCode.PLAYER.getCode())){
+            for (Role role : copySceneBean.getRoles()) {
+               if (role.getId().equals(targetId)){
+                   if (skillDamage.equals(SkillDamageTypeCode.REDUCE.getCode())){
+                       throw new RpgServerException(StateCode.FAIL,"该角色是队友啊，兄弟");
+                   }
+                   target.add(role);
+               }
+            }
+            if (target.size()<=0){
+                throw new RpgServerException(StateCode.FAIL,"没有该id的对象");
+            }
+            return target;
+        }
         if (targetId == -1) {
-            if (copySceneBean.getNowBoss() != null) {
+            if (copySceneBean.getNowBoss() != null&&copySceneBean.getNowBoss().getStatus().equals(RoleStatusCode.ALIVE.getCode())) {
                 target.add(copySceneBean.getNowBoss());
             }
         }else{
-            if (copySceneBean.getNowBoss() != null&&copySceneBean.getNowBoss().getId().equals(targetId)) {
+            if (copySceneBean.getNowBoss() != null&&copySceneBean.getNowBoss().getId().equals(targetId)&&copySceneBean.getNowBoss().getStatus().equals(RoleStatusCode.ALIVE.getCode())) {
                 target.add(copySceneBean.getNowBoss());
             }else{
-                throw new RpgServerException(StateCode.FAIL,"没有该id的攻击对象");
+                throw new RpgServerException(StateCode.FAIL,"没有该id的攻击对象或者该对象已经死亡");
             }
         }
         return target;

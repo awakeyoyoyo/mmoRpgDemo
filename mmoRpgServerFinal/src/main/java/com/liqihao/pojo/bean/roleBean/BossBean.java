@@ -44,8 +44,6 @@ public class BossBean extends Role {
     private ConcurrentHashMap<Role,Integer> hatredMap;
     private HashMap<Integer, Long> cdMap;
     private Integer BossBeanId;
-    public final ReentrantReadWriteLock hpRwLock = new ReentrantReadWriteLock();
-    public final ReentrantReadWriteLock mpRwLock = new ReentrantReadWriteLock();
     private Integer copySceneBeanId;
 
     public Integer getBossMessageId() {
