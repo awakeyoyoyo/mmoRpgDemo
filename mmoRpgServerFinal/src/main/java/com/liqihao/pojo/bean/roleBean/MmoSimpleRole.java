@@ -372,7 +372,6 @@ public class MmoSimpleRole extends Role implements MyObserver {
 
     /**
      * 初始化对象
-     *
      * @param role
      * @param baseRoleMessage
      */
@@ -576,6 +575,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
 
         //buffer
     }
+
     /**
      * 技能释放
      */
@@ -586,7 +586,6 @@ public class MmoSimpleRole extends Role implements MyObserver {
                     //伤害不为0才触发怪物的被攻击
                     r.beAttack(skillBean, this);
                 }
-                //伤害为0则是buffer技能 例如嘲讽
                 //buffer
                 for (Integer bufferId : skillBean.getBufferIds()) {
                     BufferMessage bufferMessage = BufferMessageCache.getInstance().get(bufferId);
@@ -618,7 +617,6 @@ public class MmoSimpleRole extends Role implements MyObserver {
                 }
             }
             //新的召唤兽放到场景中
-
             this.setMmoHelperBean(helperBean);
             if (getMmoHelperBean().getMmoSceneId() != null) {
                 SceneBean sceneBean = SceneBeanMessageCache.getInstance().get(getMmoHelperBean().getMmoSceneId());
@@ -634,6 +632,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
             }
         }
     }
+
     /**
      * 被攻击
      */
@@ -642,7 +641,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
         Role role=this;
         Integer reduce = 0;
         if (skillBean.getSkillType().equals(SkillTypeCode.FIX.getCode())) {
-            //固伤 只有技能伤害
+            //固伤 只有技能伤害+技能伤害加成
             reduce = (int) Math.ceil(skillBean.getBaseDamage() * (1 + fromRole.getDamageAdd()));
             PlayModel.RoleIdDamage.Builder damageU = PlayModel.RoleIdDamage.newBuilder();
             damageU.setFromRoleId(fromRole.getId());
@@ -685,6 +684,10 @@ public class MmoSimpleRole extends Role implements MyObserver {
         }
     }
 
+    /**
+     * 死亡
+     * @param fromRole
+     */
     @Override
     public void die(Role fromRole) {
         if(fromRole!=null&&fromRole.getType()==RoleTypeCode.PLAYER.getCode()) {
@@ -926,7 +929,6 @@ public class MmoSimpleRole extends Role implements MyObserver {
         }
         @Override
         public void run() {
-            logger.info("当前changeHpByBuffer线程是：" + Thread.currentThread().getName() + " 操作的角色是： " + mmoSimpleRole.getName());
             Integer oldHp = mmoSimpleRole.getNowHp();
             Integer newNumber = oldHp + number;
             if (newNumber > getHp()) {
@@ -967,29 +969,12 @@ public class MmoSimpleRole extends Role implements MyObserver {
             nettyResponse.setStateCode(StateCode.SUCCESS);
             nettyResponse.setData(myMessageBuilder.build().toByteArray());
             //广播
-            List<Integer> players;
-            if (getMmoSceneId()!=null) {
-                players = SceneBeanMessageCache.getInstance().get(mmoSimpleRole.getMmoSceneId()).getRoles();
-                for (Integer playerId:players){
-                    Channel c= ChannelMessageCache.getInstance().get(playerId);
-                    if (c!=null){
-                        c.writeAndFlush(nettyResponse);
-                    }
-                }
-
-            }else{
-                List<Role> roles = CopySceneProvider.getCopySceneBeanById(getCopySceneBeanId()).getRoles();
-                for (Role role:roles) {
-                    if (role.getType().equals(RoleTypeCode.PLAYER.getCode())){
-                        Channel c= ChannelMessageCache.getInstance().get(role.getId());
-                        if (c!=null){
-                            c.writeAndFlush(nettyResponse);
-                        }
-                    }
-                }
-            }
+            //广播
+            String json=JsonFormat.printToString(myMessageBuilder.build());
+            NotificationUtil.notificationSceneRole(nettyResponse,mmoSimpleRole,json);
         }
     }
+
     /**
      * 改变蓝量buffer的任务
      */
@@ -1010,7 +995,6 @@ public class MmoSimpleRole extends Role implements MyObserver {
 
         @Override
         public void run() {
-            logger.info("当前changeHp线程是：" + Thread.currentThread().getName() + " 操作的角色是： " + mmoSimpleRole.getName());
             Integer oldHp = mmoSimpleRole.getNowHp();
             Integer newNumber = oldHp + number;
             if (newNumber > getHp()) {
@@ -1038,30 +1022,12 @@ public class MmoSimpleRole extends Role implements MyObserver {
             nettyResponse.setCmd(ConstantValue.DAMAGES_NOTICE_RESPONSE);
             nettyResponse.setStateCode(StateCode.SUCCESS);
             nettyResponse.setData(myMessageBuilder.build().toByteArray());
-            Integer sceneId = mmoSimpleRole.getMmoSceneId();
-            List<Integer> players;
-            if (getMmoSceneId()!=null) {
-                players = SceneBeanMessageCache.getInstance().get(mmoSimpleRole.getMmoSceneId()).getRoles();
-                for (Integer playerId:players){
-                    Channel c= ChannelMessageCache.getInstance().get(playerId);
-                    if (c!=null){
-                        c.writeAndFlush(nettyResponse);
-                    }
-                }
-
-            }else{
-                List<Role> roles = CopySceneProvider.getCopySceneBeanById(getCopySceneBeanId()).getRoles();
-                for (Role role:roles) {
-                    if (role.getType().equals(RoleTypeCode.PLAYER.getCode())){
-                        Channel c= ChannelMessageCache.getInstance().get(role.getId());
-                        if (c!=null){
-                            c.writeAndFlush(nettyResponse);
-                        }
-                    }
-                }
-            }
+            //广播
+            String json=JsonFormat.printToString(myMessageBuilder.build());
+            NotificationUtil.notificationSceneRole(nettyResponse,mmoSimpleRole,json);
         }
     }
+
     /**
      * 被攻击改变血量的任务
      */
@@ -1082,7 +1048,6 @@ public class MmoSimpleRole extends Role implements MyObserver {
 
         @Override
         public void run() {
-            logger.info("当前changeHpByAttack线程是：" + Thread.currentThread().getName() + " 操作的角色是： " + mmoSimpleRole.getName());
             Integer oldHp = mmoSimpleRole.getNowHp();
             Integer newNumber = oldHp + number;
             if (newNumber > getHp()) {
@@ -1124,30 +1089,12 @@ public class MmoSimpleRole extends Role implements MyObserver {
             nettyResponse.setStateCode(StateCode.SUCCESS);
             nettyResponse.setData(myMessageBuilder.build().toByteArray());
             //广播
-            List<Integer> players;
-            if (getMmoSceneId()!=null) {
-                players = SceneBeanMessageCache.getInstance().get(mmoSimpleRole.getMmoSceneId()).getRoles();
-                for (Integer playerId:players){
-                    Channel c= ChannelMessageCache.getInstance().get(playerId);
-                    if (c!=null){
-                        c.writeAndFlush(nettyResponse);
-                    }
-                }
-
-            }else{
-                List<Role> roles = CopySceneProvider.getCopySceneBeanById(getCopySceneBeanId()).getRoles();
-                for (Role role:roles) {
-                    if (role.getType().equals(RoleTypeCode.PLAYER.getCode())){
-                        Channel c= ChannelMessageCache.getInstance().get(role.getId());
-                        if (c!=null){
-                            c.writeAndFlush(nettyResponse);
-                        }
-                    }
-                }
-            }
+            String json=JsonFormat.printToString(myMessageBuilder.build());
+            NotificationUtil.notificationSceneRole(nettyResponse,mmoSimpleRole,json);
 
         }
     }
+
     /**
      * 改变蓝量的任务
      */
@@ -1168,7 +1115,6 @@ public class MmoSimpleRole extends Role implements MyObserver {
 
         @Override
         public void run() {
-            logger.info("当前changeMp线程是：" + Thread.currentThread().getName() + " 操作的角色是： " + mmoSimpleRole.getName());
             Integer oldMp = mmoSimpleRole.getNowMp();
             Integer newNumber = oldMp + number;
             if (newNumber > getMp()) {
@@ -1190,27 +1136,9 @@ public class MmoSimpleRole extends Role implements MyObserver {
             nettyResponse.setCmd(ConstantValue.DAMAGES_NOTICE_RESPONSE);
             nettyResponse.setStateCode(StateCode.SUCCESS);
             nettyResponse.setData(myMessageBuilder.build().toByteArray());
-            List<Integer> players;
-            if (getMmoSceneId()!=null) {
-                players = SceneBeanMessageCache.getInstance().get(mmoSimpleRole.getMmoSceneId()).getRoles();
-                for (Integer playerId:players){
-                    Channel c= ChannelMessageCache.getInstance().get(playerId);
-                    if (c!=null){
-                        c.writeAndFlush(nettyResponse);
-                    }
-                }
-
-            }else{
-                List<Role> roles = CopySceneProvider.getCopySceneBeanById(getCopySceneBeanId()).getRoles();
-                for (Role role:roles) {
-                    if (role.getType().equals(RoleTypeCode.PLAYER.getCode())){
-                        Channel c= ChannelMessageCache.getInstance().get(role.getId());
-                        if (c!=null){
-                            c.writeAndFlush(nettyResponse);
-                        }
-                    }
-                }
-            }
+            //广播
+            String json=JsonFormat.printToString(myMessageBuilder.build());
+            NotificationUtil.notificationSceneRole(nettyResponse,mmoSimpleRole,json);
         }
     }
 

@@ -1,5 +1,6 @@
 package com.liqihao.pojo.bean.roleBean;
 
+import com.googlecode.protobuf.format.JsonFormat;
 import com.liqihao.cache.*;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
@@ -11,6 +12,7 @@ import com.liqihao.pojo.bean.SkillBean;
 import com.liqihao.pojo.bean.buffBean.BaseBuffBean;
 import com.liqihao.pojo.bean.taskBean.killTask.KillTaskAction;
 import com.liqihao.protobufObject.PlayModel;
+import com.liqihao.util.NotificationUtil;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
 
@@ -128,17 +130,8 @@ public class MmoSimpleNPC extends Role {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
         //广播给所有当前场景
-        SceneBean sceneBean = SceneBeanMessageCache.getInstance().get(this.getMmoSceneId());
-        List<Integer> roles = sceneBean.getRoles();
-        for (Integer id : roles) {
-            MmoSimpleRole role = OnlineRoleMessageCache.getInstance().get(id);
-            if (role != null) {
-                Channel c = ChannelMessageCache.getInstance().get(role.getId());
-                if (c != null) {
-                    c.writeAndFlush(nettyResponse);
-                }
-            }
-        }
+        String json = JsonFormat.printToString(myMessageBuilder.build());
+        NotificationUtil.notificationSceneRole(nettyResponse,this,json);
         //怪物攻击本人
         if (!mmoSimpleNPC.getStatus().equals(RoleStatusCode.DIE.getCode())) {
             mmoSimpleNPC.npcAttack();

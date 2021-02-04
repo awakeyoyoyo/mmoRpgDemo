@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * 逻辑线程池的实现
  * @author lqhao
  */
-public class LogicThreadPool<Job extends Runnable>implements ThreadPool<Job> {
+public class LogicThreadPool<Job extends Runnable> implements ThreadPool<Job> {
     private static LogicThreadPool instance;
 
     private int threadSize;
@@ -33,6 +33,7 @@ public class LogicThreadPool<Job extends Runnable>implements ThreadPool<Job> {
     public void setThreadSize(int threadSize) {
         this.threadSize = threadSize;
     }
+
     public static LogicThreadPool getInstance() {
         return instance;
     }
@@ -41,6 +42,7 @@ public class LogicThreadPool<Job extends Runnable>implements ThreadPool<Job> {
      * 工作者列表
      */
     private final CopyOnWriteArrayList<Worker> workers=new CopyOnWriteArrayList<>();
+
     /**
      *线程编号生成
      */
@@ -61,7 +63,6 @@ public class LogicThreadPool<Job extends Runnable>implements ThreadPool<Job> {
         private final Logger log = LoggerFactory.getLogger(Worker.class);
         private volatile boolean running = true;
         private final LinkedList<Job> tasks = new LinkedList<>();
-
         @Override
         public void run() {
             Job job = null;

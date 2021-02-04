@@ -24,9 +24,9 @@ import java.util.Map;
 
 /**
  * 根据module分发请求
- *
  * @author lqhao
  */
+
 @Component
 public class DispatcherServlet implements ApplicationContextAware {
     private static final Logger logger = Logger.getLogger(DispatcherServlet.class);
@@ -106,17 +106,18 @@ public class DispatcherServlet implements ApplicationContextAware {
             Object o = serviceMap.get(key);
             Method[] methods = o.getClass().getMethods();
             String protobufModel = o.getClass().getAnnotation(HandlerServiceTag.class).protobufModel();
+            Class clazz = null;
+            Parser parser = null;
+            try {
+                clazz = Class.forName(PACKET + protobufModel);
+                Method method = clazz.getMethod("parser");
+                parser = (Parser) method.invoke(null);
+            } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                e.printStackTrace();
+            }
+
             for (Method value : methods) {
                 if (value.getAnnotation(HandlerCmdTag.class) != null) {
-                    Class clazz = null;
-                    Parser parser = null;
-                    try {
-                        clazz = Class.forName(PACKET + protobufModel);
-                        Method method = clazz.getMethod("parser");
-                        parser = (Parser) method.invoke(null);
-                    } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                        e.printStackTrace();
-                    }
                     ServiceObject serviceObject = new ServiceObject();
                     serviceObject.setService(o);
                     serviceObject.setParser(parser);

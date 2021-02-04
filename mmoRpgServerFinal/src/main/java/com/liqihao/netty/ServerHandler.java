@@ -67,6 +67,10 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         log.error("ServerHandler exception message: "+cause);
         cause.printStackTrace();
+        MmoSimpleRole role=CommonsUtil.checkLogin(ctx.channel());
+        if (role!=null){
+            playServiceProvider.logout(role);
+        }
         sendException(ctx,cause.getMessage());
     }
 

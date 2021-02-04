@@ -45,10 +45,10 @@ public class DealServiceProvider {
     public static void createDeal(MmoSimpleRole role1, MmoSimpleRole role2) throws RpgServerException {
         deleteUnSetDeal();
         if (role1.getOnDeal()) {
-            throw new RpgServerException(StateCode.FAIL, "你处于交易状态，无法再发起交易请求");
+            throw new RpgServerException(StateCode.FAIL, "有一方或者双方处于交易状态，无法再发起交易请求");
         }
         if (role2.getOnDeal()) {
-            throw new RpgServerException(StateCode.FAIL, "对方处于交易状态，无法再发起交易请求");
+            throw new RpgServerException(StateCode.FAIL, "有一方或者双方处于交易状态，无法再发起交易请求");
         }
         DealBean dealBean = new DealBean();
         //初始化交易bean
@@ -74,8 +74,8 @@ public class DealServiceProvider {
         dealBean.setStatus(DealStatusCode.WAIT.getCode());
         //玩家进入交易状态
         //放到各自的线程做
-        role1.setDealBeanId(dealBean.getId());
-        role2.setDealBeanId(dealBean.getId());
+        role1.execute(() -> role1.setDealBeanId(dealBean.getId()));
+        role2.execute(() -> role2.setDealBeanId(dealBean.getId()));
         synchronized (dealBeans) {
             dealBeans.put(dealBean.getId(), dealBean);
         }
@@ -100,6 +100,9 @@ public class DealServiceProvider {
                 throw new RpgServerException(StateCode.FAIL, "该交易已经开始了，请勿重复开始");
             }
             dealBean.setStatus(DealStatusCode.ON_DEAL.getCode());
+            dealBean.getFirstRole().execute(() -> DealServiceProvider.setRoleStatus(dealBean.getFirstRole(),true,dealBean.getId()));
+            dealBean.getFirstRole().execute(() -> DealServiceProvider.setRoleStatus(dealBean.getFirstRole(),true,dealBean.getId()));
+
         }
         //删除超时交易
         deleteUnSetDeal();
@@ -421,7 +424,7 @@ public class DealServiceProvider {
         }
         Integer endMoney = dealArticleBean01.getMoney() - money;
         role.setMoney(role.getMoney() + endMoney);
-        dealArticleBean01.setMoney(dealArticleBean01.getMoney() + money);
+        dealArticleBean01.setMoney(money);
     }
 
     /**

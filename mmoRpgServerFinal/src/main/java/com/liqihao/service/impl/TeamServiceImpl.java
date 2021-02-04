@@ -71,7 +71,6 @@ public class TeamServiceImpl implements TeamService {
         NotificationUtil.sendMessage(c,nettyResponse,json);
     }
 
-
     @Override
     @HandlerCmdTag(cmd = ConstantValue.CREATE_TEAM_REQUEST,module = ConstantValue.TEAM_MODULE)
     public void createTeamRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException {

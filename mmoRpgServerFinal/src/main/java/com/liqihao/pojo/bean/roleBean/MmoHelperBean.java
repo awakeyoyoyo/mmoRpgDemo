@@ -1,5 +1,6 @@
 package com.liqihao.pojo.bean.roleBean;
 
+import com.googlecode.protobuf.format.JsonFormat;
 import com.liqihao.cache.BufferMessageCache;
 import com.liqihao.cache.ChannelMessageCache;
 import com.liqihao.cache.OnlineRoleMessageCache;
@@ -14,6 +15,7 @@ import com.liqihao.pojo.bean.SkillBean;
 import com.liqihao.pojo.bean.buffBean.BaseBuffBean;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.provider.CopySceneProvider;
+import com.liqihao.util.NotificationUtil;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
 
@@ -89,7 +91,6 @@ public class MmoHelperBean extends Role{
         this.cdMap = cdMap;
     }
 
-
     /**
      * 被攻击
      * @param skillBean
@@ -157,27 +158,8 @@ public class MmoHelperBean extends Role{
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
         //广播给所有当前场景
-        List<Integer> players;
-        if (getMmoSceneId()!=null) {
-            players = SceneBeanMessageCache.getInstance().get(getMmoSceneId()).getRoles();
-            for (Integer playerId:players){
-                Channel c= ChannelMessageCache.getInstance().get(playerId);
-                if (c!=null){
-                    c.writeAndFlush(nettyResponse);
-                }
-            }
-
-        }else{
-            List<Role> roles = CopySceneProvider.getCopySceneBeanById(getCopySceneBeanId()).getRoles();
-            for (Role role:roles) {
-                if (role.getType().equals(RoleTypeCode.PLAYER.getCode())){
-                    Channel c= ChannelMessageCache.getInstance().get(role.getId());
-                    if (c!=null){
-                        c.writeAndFlush(nettyResponse);
-                    }
-                }
-            }
-        }
+        String json = JsonFormat.printToString(myMessageBuilder.build());
+        NotificationUtil.notificationSceneRole(nettyResponse,this,json);
     }
 
     /**
@@ -255,28 +237,8 @@ public class MmoHelperBean extends Role{
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
         //广播
-        List<Integer> players;
-        if (getMmoSceneId()!=null) {
-            players = SceneBeanMessageCache.getInstance().get(getMmoSceneId()).getRoles();
-            for (Integer playerId:players){
-                Channel c= ChannelMessageCache.getInstance().get(playerId);
-                if (c!=null){
-                    c.writeAndFlush(nettyResponse);
-                }
-            }
-
-        }else{
-            List<Role> roles = CopySceneProvider.getCopySceneBeanById(getCopySceneBeanId()).getRoles();
-            for (Role role:roles) {
-                if (role.getType().equals(RoleTypeCode.PLAYER.getCode())){
-                    Channel c= ChannelMessageCache.getInstance().get(role.getId());
-                    if (c!=null){
-                        c.writeAndFlush(nettyResponse);
-                    }
-                }
-            }
-        }
-
+        String json = JsonFormat.printToString(myMessageBuilder.build());
+        NotificationUtil.notificationSceneRole(nettyResponse,this,json);
         //  被攻击怪物or人物orBoss
         for (Role r :targetRoles) {
             r.beAttack(skillBean,this);
@@ -287,6 +249,7 @@ public class MmoHelperBean extends Role{
             }
         }
     }
+
     /**
      * 根据skillI获取技能
      */
@@ -299,6 +262,10 @@ public class MmoHelperBean extends Role{
         return null;
     }
 
+    /**
+     * 死亡
+     * @param fromRole
+     */
     @Override
     public void die(Role fromRole){
         MmoSimpleRole role=OnlineRoleMessageCache.getInstance().get(getMasterId());
@@ -312,20 +279,32 @@ public class MmoHelperBean extends Role{
         }
     }
 
+    /**
+     * 改变蓝量
+     * @param number
+     * @param damageU
+     */
     @Override
     public void changeMp(int number, PlayModel.RoleIdDamage.Builder damageU) {
-
     }
 
+    /**
+     * 改变血量
+     * @param number
+     * @param damageU
+     * @param type
+     */
     @Override
     public void changeNowBlood(int number, PlayModel.RoleIdDamage.Builder damageU, int type) {
 
     }
 
-    @Override
     /**
-     * BUFFER的影响
+     * BUFF的影响
+     * @param bufferBean
+     * @param fromRole
      */
+    @Override
     public void effectByBuffer(BaseBuffBean bufferBean,Role fromRole) {
         //根据buffer类型扣血扣蓝
         bufferBean.effectToRole(this,fromRole);

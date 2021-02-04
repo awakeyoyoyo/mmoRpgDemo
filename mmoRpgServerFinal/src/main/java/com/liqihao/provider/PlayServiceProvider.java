@@ -174,6 +174,10 @@ public class PlayServiceProvider {
         if (role.getDealBeanId()!=null){
             DealServiceProvider.cancelDeal(role);
         }
+        //判断是否有召唤兽
+        if (role.getMmoHelperBean()!=null){
+            role.getMmoHelperBean().die(role);
+        }
         //将数据库中设置为离线
         MmoRolePOJO mmoRolePOJO = mmoRolePOJOMapper.selectByPrimaryKey(role.getId());
         mmoRolePOJO.setOnStatus(RoleOnStatusCode.EXIT.getCode());
