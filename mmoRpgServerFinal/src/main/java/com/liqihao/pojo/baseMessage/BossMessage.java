@@ -18,7 +18,7 @@ public class BossMessage  extends BaseMessage{
         return addExp;
     }
 
-    public void setAddExp(Integer addExp) {
+    private void setAddExp(Integer addExp) {
         this.addExp = addExp;
     }
 
@@ -31,7 +31,7 @@ public class BossMessage  extends BaseMessage{
         return id;
     }
 
-    public void setId(Integer id) {
+    private void setId(Integer id) {
         this.id = id;
     }
 
@@ -39,7 +39,7 @@ public class BossMessage  extends BaseMessage{
         return name;
     }
 
-    public void setName(String name) {
+    private void setName(String name) {
         this.name = name;
     }
 
@@ -47,7 +47,7 @@ public class BossMessage  extends BaseMessage{
         return blood;
     }
 
-    public void setBlood(Integer blood) {
+    private void setBlood(Integer blood) {
         this.blood = blood;
     }
 
@@ -55,7 +55,7 @@ public class BossMessage  extends BaseMessage{
         return mp;
     }
 
-    public void setMp(Integer mp) {
+    private void setMp(Integer mp) {
         this.mp = mp;
     }
 
@@ -63,7 +63,7 @@ public class BossMessage  extends BaseMessage{
         return skillIds;
     }
 
-    public void setSkillIds(String skillIds) {
+    private void setSkillIds(String skillIds) {
         this.skillIds = skillIds;
     }
 
@@ -71,7 +71,7 @@ public class BossMessage  extends BaseMessage{
         return attack;
     }
 
-    public void setAttack(Integer attack) {
+    private void setAttack(Integer attack) {
         this.attack = attack;
     }
 
@@ -79,7 +79,7 @@ public class BossMessage  extends BaseMessage{
         return damageAdd;
     }
 
-    public void setDamageAdd(double damageAdd) {
+    private void setDamageAdd(double damageAdd) {
         this.damageAdd = damageAdd;
     }
 }

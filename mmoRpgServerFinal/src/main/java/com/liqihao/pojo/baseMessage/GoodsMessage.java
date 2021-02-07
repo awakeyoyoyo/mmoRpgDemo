@@ -34,7 +34,7 @@ public class GoodsMessage extends BaseMessage {
         return id;
     }
 
-    public void setId(Integer id) {
+    private void setId(Integer id) {
         this.id = id;
     }
 
@@ -42,7 +42,7 @@ public class GoodsMessage extends BaseMessage {
         return articleMessageId;
     }
 
-    public void setArticleMessageId(Integer articleMessageId) {
+    private void setArticleMessageId(Integer articleMessageId) {
         this.articleMessageId = articleMessageId;
     }
 
@@ -50,7 +50,7 @@ public class GoodsMessage extends BaseMessage {
         return articleTypeId;
     }
 
-    public void setArticleTypeId(Integer articleTypeId) {
+    private void setArticleTypeId(Integer articleTypeId) {
         this.articleTypeId = articleTypeId;
     }
 
@@ -58,7 +58,7 @@ public class GoodsMessage extends BaseMessage {
         return num;
     }
 
-    public void setNum(Integer num) {
+    private void setNum(Integer num) {
         this.num = num;
     }
 
@@ -66,7 +66,7 @@ public class GoodsMessage extends BaseMessage {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    private void setPrice(Integer price) {
         this.price = price;
     }
 }

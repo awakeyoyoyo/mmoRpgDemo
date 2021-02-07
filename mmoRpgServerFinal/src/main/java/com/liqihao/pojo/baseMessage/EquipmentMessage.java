@@ -27,11 +27,11 @@ public class EquipmentMessage extends BaseMessage {
         return equipmentLevel;
     }
 
-    public void setEquipmentLevel(Integer equipmentLevel) {
+    private void setEquipmentLevel(Integer equipmentLevel) {
         this.equipmentLevel = equipmentLevel;
     }
 
-    public void setId(Integer id) {
+    private void setId(Integer id) {
         this.id = id;
     }
 
@@ -39,7 +39,7 @@ public class EquipmentMessage extends BaseMessage {
         return name;
     }
 
-    public void setName(String name) {
+    private void setName(String name) {
         this.name = name;
     }
 
@@ -47,7 +47,7 @@ public class EquipmentMessage extends BaseMessage {
         return singleFlag;
     }
 
-    public void setSingleFlag(boolean singleFlag) {
+    private void setSingleFlag(boolean singleFlag) {
         this.singleFlag = singleFlag;
     }
 
@@ -55,7 +55,7 @@ public class EquipmentMessage extends BaseMessage {
         return articleType;
     }
 
-    public void setArticleType(Integer articleType) {
+    private void setArticleType(Integer articleType) {
         this.articleType = articleType;
     }
 
@@ -63,7 +63,7 @@ public class EquipmentMessage extends BaseMessage {
         return description;
     }
 
-    public void setDescription(String description) {
+    private void setDescription(String description) {
         this.description = description;
     }
 
@@ -71,7 +71,7 @@ public class EquipmentMessage extends BaseMessage {
         return durability;
     }
 
-    public void setDurability(Integer durability) {
+    private void setDurability(Integer durability) {
         this.durability = durability;
     }
 
@@ -79,7 +79,7 @@ public class EquipmentMessage extends BaseMessage {
         return attackAdd;
     }
 
-    public void setAttackAdd(Integer attackAdd) {
+    private void setAttackAdd(Integer attackAdd) {
         this.attackAdd = attackAdd;
     }
 
@@ -87,7 +87,7 @@ public class EquipmentMessage extends BaseMessage {
         return damageAdd;
     }
 
-    public void setDamageAdd(double damageAdd) {
+    private void setDamageAdd(double damageAdd) {
         this.damageAdd = damageAdd;
     }
 
@@ -95,7 +95,7 @@ public class EquipmentMessage extends BaseMessage {
         return position;
     }
 
-    public void setPosition(Integer position) {
+    private void setPosition(Integer position) {
         this.position = position;
     }
 }

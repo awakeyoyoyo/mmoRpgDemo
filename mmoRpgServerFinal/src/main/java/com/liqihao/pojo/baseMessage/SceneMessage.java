@@ -17,7 +17,7 @@ public class SceneMessage extends BaseMessage{
         return id;
     }
 
-    public void setId(Integer id) {
+    private void setId(Integer id) {
         this.id = id;
     }
 
@@ -25,7 +25,7 @@ public class SceneMessage extends BaseMessage{
         return placeName;
     }
 
-    public void setPlaceName(String placeName) {
+    private void setPlaceName(String placeName) {
         this.placeName = placeName;
     }
 
@@ -33,7 +33,7 @@ public class SceneMessage extends BaseMessage{
         return canScene;
     }
 
-    public void setCanScene(String canScene) {
+    private void setCanScene(String canScene) {
         this.canScene = canScene;
     }
 

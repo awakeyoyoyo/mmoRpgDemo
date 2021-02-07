@@ -20,7 +20,7 @@ public class BufferMessage extends BaseMessage {
         return bufferStyle;
     }
 
-    public void setBufferStyle(Integer bufferStyle) {
+    private void setBufferStyle(Integer bufferStyle) {
         this.bufferStyle = bufferStyle;
     }
 
@@ -28,7 +28,7 @@ public class BufferMessage extends BaseMessage {
         return id;
     }
 
-    public void setId(Integer id) {
+    private void setId(Integer id) {
         this.id = id;
     }
 
@@ -36,7 +36,7 @@ public class BufferMessage extends BaseMessage {
         return name;
     }
 
-    public void setName(String name) {
+    private void setName(String name) {
         this.name = name;
     }
 
@@ -44,7 +44,7 @@ public class BufferMessage extends BaseMessage {
         return buffType;
     }
 
-    public void setBuffType(Integer buffType) {
+    private void setBuffType(Integer buffType) {
         this.buffType = buffType;
     }
 
@@ -52,7 +52,7 @@ public class BufferMessage extends BaseMessage {
         return buffNum;
     }
 
-    public void setBuffNum(Integer buffNum) {
+    private void setBuffNum(Integer buffNum) {
         this.buffNum = buffNum;
     }
 
@@ -60,7 +60,7 @@ public class BufferMessage extends BaseMessage {
         return lastTime;
     }
 
-    public void setLastTime(Integer lastTime) {
+    private void setLastTime(Integer lastTime) {
         this.lastTime = lastTime;
     }
 
@@ -68,7 +68,7 @@ public class BufferMessage extends BaseMessage {
         return spaceTime;
     }
 
-    public void setSpaceTime(Integer spaceTime) {
+    private void setSpaceTime(Integer spaceTime) {
         this.spaceTime = spaceTime;
     }
 }

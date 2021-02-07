@@ -16,7 +16,7 @@ public class ProfessionMessage extends BaseMessage{
         return id;
     }
 
-    public void setId(Integer id) {
+    private void setId(Integer id) {
         this.id = id;
     }
 
@@ -24,7 +24,7 @@ public class ProfessionMessage extends BaseMessage{
         return name;
     }
 
-    public void setName(String name) {
+    private void setName(String name) {
         this.name = name;
     }
 
@@ -32,7 +32,7 @@ public class ProfessionMessage extends BaseMessage{
         return skillIds;
     }
 
-    public void setSkillIds(String skillIds) {
+    private void setSkillIds(String skillIds) {
         this.skillIds = skillIds;
     }
 }

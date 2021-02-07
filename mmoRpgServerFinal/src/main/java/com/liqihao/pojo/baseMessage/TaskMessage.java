@@ -23,7 +23,7 @@ public class TaskMessage extends BaseMessage{
         return preTaskId;
     }
 
-    public void setPreTaskId(Integer preTaskId) {
+    private void setPreTaskId(Integer preTaskId) {
         this.preTaskId = preTaskId;
     }
 
@@ -31,7 +31,7 @@ public class TaskMessage extends BaseMessage{
         return nextTaskId;
     }
 
-    public void setNextTaskId(Integer nextTaskId) {
+    private void setNextTaskId(Integer nextTaskId) {
         this.nextTaskId = nextTaskId;
     }
 
@@ -39,7 +39,7 @@ public class TaskMessage extends BaseMessage{
         return articleType;
     }
 
-    public void setArticleType(Integer articleType) {
+    private void setArticleType(Integer articleType) {
         this.articleType = articleType;
     }
 
@@ -47,7 +47,7 @@ public class TaskMessage extends BaseMessage{
         return targetType;
     }
 
-    public void setTargetType(Integer targetType) {
+    private void setTargetType(Integer targetType) {
         this.targetType = targetType;
     }
 
@@ -60,7 +60,7 @@ public class TaskMessage extends BaseMessage{
         return getId();
     }
 
-    public void setId(Integer id) {
+    private void setId(Integer id) {
         this.id = id;
     }
 
@@ -68,7 +68,7 @@ public class TaskMessage extends BaseMessage{
         return name;
     }
 
-    public void setName(String name) {
+    private void setName(String name) {
         this.name = name;
     }
 
@@ -76,7 +76,7 @@ public class TaskMessage extends BaseMessage{
         return description;
     }
 
-    public void setDescription(String description) {
+    private void setDescription(String description) {
         this.description = description;
     }
 
@@ -84,7 +84,7 @@ public class TaskMessage extends BaseMessage{
         return targetProgress;
     }
 
-    public void setTargetProgress(Integer targetProgress) {
+    private void setTargetProgress(Integer targetProgress) {
         this.targetProgress = targetProgress;
     }
 
@@ -92,7 +92,7 @@ public class TaskMessage extends BaseMessage{
         return rewardArticleType;
     }
 
-    public void setRewardArticleType(Integer rewardArticleType) {
+    private void setRewardArticleType(Integer rewardArticleType) {
         this.rewardArticleType = rewardArticleType;
     }
 
@@ -100,7 +100,7 @@ public class TaskMessage extends BaseMessage{
         return rewardArticleMessageId;
     }
 
-    public void setRewardArticleMessageId(Integer rewardArticleMessageId) {
+    private void setRewardArticleMessageId(Integer rewardArticleMessageId) {
         this.rewardArticleMessageId = rewardArticleMessageId;
     }
 
@@ -108,7 +108,7 @@ public class TaskMessage extends BaseMessage{
         return rewardNum;
     }
 
-    public void setRewardNum(Integer rewardNum) {
+    private void setRewardNum(Integer rewardNum) {
         this.rewardNum = rewardNum;
     }
 
@@ -116,7 +116,7 @@ public class TaskMessage extends BaseMessage{
         return targetId;
     }
 
-    public void setTargetId(Integer targetId) {
+    private void setTargetId(Integer targetId) {
         this.targetId = targetId;
     }
 
@@ -124,7 +124,7 @@ public class TaskMessage extends BaseMessage{
         return type;
     }
 
-    public void setType(Integer type) {
+    private void setType(Integer type) {
         this.type = type;
     }
 }

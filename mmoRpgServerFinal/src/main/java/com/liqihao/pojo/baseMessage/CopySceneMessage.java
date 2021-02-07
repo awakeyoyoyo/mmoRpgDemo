@@ -31,7 +31,7 @@ public class CopySceneMessage extends BaseMessage{
         return medicineIds;
     }
 
-    public void setMedicineIds(String medicineIds) {
+    private void setMedicineIds(String medicineIds) {
         this.medicineIds = medicineIds;
     }
 
@@ -39,7 +39,7 @@ public class CopySceneMessage extends BaseMessage{
         return equipmentIds;
     }
 
-    public void setEquipmentIds(String equipmentIds) {
+    private void setEquipmentIds(String equipmentIds) {
         this.equipmentIds = equipmentIds;
     }
 
@@ -47,7 +47,7 @@ public class CopySceneMessage extends BaseMessage{
         return money;
     }
 
-    public void setMoney(Integer money) {
+    private void setMoney(Integer money) {
         this.money = money;
     }
 
@@ -55,7 +55,7 @@ public class CopySceneMessage extends BaseMessage{
         return id;
     }
 
-    public void setId(Integer id) {
+    private void setId(Integer id) {
         this.id = id;
     }
 
@@ -63,7 +63,7 @@ public class CopySceneMessage extends BaseMessage{
         return name;
     }
 
-    public void setName(String name) {
+    private void setName(String name) {
         this.name = name;
     }
 
@@ -71,7 +71,7 @@ public class CopySceneMessage extends BaseMessage{
         return lastTime;
     }
 
-    public void setLastTime(Integer lastTime) {
+    private void setLastTime(Integer lastTime) {
         this.lastTime = lastTime;
     }
 
@@ -79,7 +79,7 @@ public class CopySceneMessage extends BaseMessage{
         return bossIds;
     }
 
-    public void setBossIds(String bossIds) {
+    private void setBossIds(String bossIds) {
         this.bossIds = bossIds;
     }
 }

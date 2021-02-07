@@ -17,7 +17,7 @@ public class GuildPositionMessage extends BaseMessage{
         return id;
     }
 
-    public void setId(Integer id) {
+    private void setId(Integer id) {
         this.id = id;
     }
 
@@ -25,7 +25,7 @@ public class GuildPositionMessage extends BaseMessage{
         return name;
     }
 
-    public void setName(String name) {
+    private void setName(String name) {
         this.name = name;
     }
 
@@ -33,7 +33,7 @@ public class GuildPositionMessage extends BaseMessage{
         return authorityIds;
     }
 
-    public void setAuthorityIds(String authorityIds) {
+    private void setAuthorityIds(String authorityIds) {
         this.authorityIds = authorityIds;
     }
 }

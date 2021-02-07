@@ -13,7 +13,7 @@ public class GuildBaseMessage {
         return applyLastTime;
     }
 
-    public void setApplyLastTime(Integer applyLastTime) {
+    private void setApplyLastTime(Integer applyLastTime) {
         this.applyLastTime = applyLastTime;
     }
 
@@ -21,7 +21,7 @@ public class GuildBaseMessage {
         return maxRoleNumber;
     }
 
-    public void setMaxRoleNumber(Integer maxRoleNumber) {
+    private void setMaxRoleNumber(Integer maxRoleNumber) {
         this.maxRoleNumber = maxRoleNumber;
     }
 
@@ -29,7 +29,7 @@ public class GuildBaseMessage {
         return maxWareHouseNumber;
     }
 
-    public void setMaxWareHouseNumber(Integer maxWareHouseNumber) {
+    private void setMaxWareHouseNumber(Integer maxWareHouseNumber) {
         this.maxWareHouseNumber = maxWareHouseNumber;
     }
 }

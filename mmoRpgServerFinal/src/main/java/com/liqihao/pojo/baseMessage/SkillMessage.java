@@ -62,7 +62,7 @@ public class SkillMessage extends BaseMessage{
         return chantTime;
     }
 
-    public void setChantTime(Integer chantTime) {
+    private void setChantTime(Integer chantTime) {
         this.chantTime = chantTime;
     }
 
@@ -70,7 +70,7 @@ public class SkillMessage extends BaseMessage{
         return skillDamageType;
     }
 
-    public void setSkillDamageType(Integer skillDamageType) {
+    private void setSkillDamageType(Integer skillDamageType) {
         this.skillDamageType = skillDamageType;
     }
 
@@ -78,7 +78,7 @@ public class SkillMessage extends BaseMessage{
         return skillAttackType;
     }
 
-    public void setSkillAttackType(Integer skillAttackType) {
+    private void setSkillAttackType(Integer skillAttackType) {
         this.skillAttackType = skillAttackType;
     }
 
@@ -101,7 +101,7 @@ public class SkillMessage extends BaseMessage{
         return addPerson;
     }
 
-    public void setAddPerson(double addPerson) {
+    private void setAddPerson(double addPerson) {
         this.addPerson = addPerson;
     }
 
@@ -109,14 +109,14 @@ public class SkillMessage extends BaseMessage{
         return skillType;
     }
 
-    public void setSkillType(Integer skillType) {
+    private void setSkillType(Integer skillType) {
         this.skillType = skillType;
     }
     public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    private void setId(Integer id) {
         this.id = id;
     }
 
@@ -124,7 +124,7 @@ public class SkillMessage extends BaseMessage{
         return skillName;
     }
 
-    public void setSkillName(String skillName) {
+    private void setSkillName(String skillName) {
         this.skillName = skillName;
     }
 
@@ -132,7 +132,7 @@ public class SkillMessage extends BaseMessage{
         return baseDamage;
     }
 
-    public void setBaseDamage(Integer baseDamage) {
+    private void setBaseDamage(Integer baseDamage) {
         this.baseDamage = baseDamage;
     }
 
@@ -140,7 +140,7 @@ public class SkillMessage extends BaseMessage{
         return cd;
     }
 
-    public void setCd(Integer cd) {
+    private void setCd(Integer cd) {
         this.cd = cd;
     }
 
@@ -148,7 +148,7 @@ public class SkillMessage extends BaseMessage{
         return consumeType;
     }
 
-    public void setConsumeType(Integer consumeType) {
+    private void setConsumeType(Integer consumeType) {
         this.consumeType = consumeType;
     }
 
@@ -156,7 +156,7 @@ public class SkillMessage extends BaseMessage{
         return consumeNum;
     }
 
-    public void setConsumeNum(Integer consumeNum) {
+    private void setConsumeNum(Integer consumeNum) {
         this.consumeNum = consumeNum;
     }
 
@@ -164,7 +164,7 @@ public class SkillMessage extends BaseMessage{
         return bufferIds;
     }
 
-    public void setBufferIds(String bufferIds) {
+    private void setBufferIds(String bufferIds) {
         this.bufferIds = bufferIds;
     }
 }

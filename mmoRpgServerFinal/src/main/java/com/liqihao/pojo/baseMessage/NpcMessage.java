@@ -34,7 +34,7 @@ public class NpcMessage extends BaseMessage{
         return damageAdd;
     }
 
-    public void setDamageAdd(double damageAdd) {
+    private void setDamageAdd(double damageAdd) {
         this.damageAdd = damageAdd;
     }
 
@@ -42,7 +42,7 @@ public class NpcMessage extends BaseMessage{
         return attack;
     }
 
-    public void setAttack(Integer attack) {
+    private void setAttack(Integer attack) {
         this.attack = attack;
     }
 
@@ -50,7 +50,7 @@ public class NpcMessage extends BaseMessage{
         return mp;
     }
 
-    public void setMp(Integer mp) {
+    private void setMp(Integer mp) {
         this.mp = mp;
     }
 
@@ -75,7 +75,7 @@ public class NpcMessage extends BaseMessage{
         return talk;
     }
 
-    public void setTalk(String talk) {
+    private void setTalk(String talk) {
         this.talk = talk;
     }
 
@@ -83,7 +83,7 @@ public class NpcMessage extends BaseMessage{
         return blood;
     }
 
-    public void setBlood(Integer blood) {
+    private void setBlood(Integer blood) {
         this.blood = blood;
     }
 
@@ -91,7 +91,7 @@ public class NpcMessage extends BaseMessage{
         return id;
     }
 
-    public void setId(Integer id) {
+    private void setId(Integer id) {
         this.id = id;
     }
 
@@ -99,7 +99,7 @@ public class NpcMessage extends BaseMessage{
         return status;
     }
 
-    public void setStatus(Integer status) {
+    private void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -107,7 +107,7 @@ public class NpcMessage extends BaseMessage{
         return name;
     }
 
-    public void setName(String name) {
+    private void setName(String name) {
         this.name = name;
     }
 
@@ -115,7 +115,7 @@ public class NpcMessage extends BaseMessage{
         return type;
     }
 
-    public void setType(Integer type) {
+    private void setType(Integer type) {
         this.type = type;
     }
 
@@ -123,7 +123,7 @@ public class NpcMessage extends BaseMessage{
         return mmoSceneId;
     }
 
-    public void setMmoSceneId(Integer mmoSceneId) {
+    private void setMmoSceneId(Integer mmoSceneId) {
         this.mmoSceneId = mmoSceneId;
     }
 
@@ -131,7 +131,7 @@ public class NpcMessage extends BaseMessage{
         return onStatus;
     }
 
-    public void setOnStatus(Integer onStatus) {
+    private void setOnStatus(Integer onStatus) {
         this.onStatus = onStatus;
     }
 }

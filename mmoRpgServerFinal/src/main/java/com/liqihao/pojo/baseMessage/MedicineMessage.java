@@ -24,7 +24,7 @@ public class MedicineMessage extends BaseMessage{
         return lastTime;
     }
 
-    public void setLastTime(Integer lastTime) {
+    private void setLastTime(Integer lastTime) {
         this.lastTime = lastTime;
     }
 
@@ -32,7 +32,7 @@ public class MedicineMessage extends BaseMessage{
         return secondValue;
     }
 
-    public void setSecondValue(Integer secondValue) {
+    private void setSecondValue(Integer secondValue) {
         this.secondValue = secondValue;
     }
 
@@ -40,7 +40,7 @@ public class MedicineMessage extends BaseMessage{
         return medicineType;
     }
 
-    public void setMedicineType(Integer medicineType) {
+    private void setMedicineType(Integer medicineType) {
         this.medicineType = medicineType;
     }
 
@@ -48,7 +48,7 @@ public class MedicineMessage extends BaseMessage{
         return cd;
     }
 
-    public void setCd(Integer cd) {
+    private void setCd(Integer cd) {
         this.cd = cd;
     }
 
@@ -56,7 +56,7 @@ public class MedicineMessage extends BaseMessage{
         return damageType;
     }
 
-    public void setDamageType(Integer damageType) {
+    private void setDamageType(Integer damageType) {
         this.damageType = damageType;
     }
 
@@ -64,7 +64,7 @@ public class MedicineMessage extends BaseMessage{
         return damageValue;
     }
 
-    public void setDamageValue(Integer damageValue) {
+    private void setDamageValue(Integer damageValue) {
         this.damageValue = damageValue;
     }
 
@@ -72,7 +72,7 @@ public class MedicineMessage extends BaseMessage{
         return id;
     }
 
-    public void setId(Integer id) {
+    private void setId(Integer id) {
         this.id = id;
     }
 
@@ -80,7 +80,7 @@ public class MedicineMessage extends BaseMessage{
         return name;
     }
 
-    public void setName(String name) {
+    private void setName(String name) {
         this.name = name;
     }
 
@@ -88,7 +88,7 @@ public class MedicineMessage extends BaseMessage{
         return singleFlag;
     }
 
-    public void setSingleFlag(boolean singleFlag) {
+    private void setSingleFlag(boolean singleFlag) {
         this.singleFlag = singleFlag;
     }
 
@@ -96,7 +96,7 @@ public class MedicineMessage extends BaseMessage{
         return articleType;
     }
 
-    public void setArticleType(Integer articleType) {
+    private void setArticleType(Integer articleType) {
         this.articleType = articleType;
     }
 
@@ -104,7 +104,7 @@ public class MedicineMessage extends BaseMessage{
         return description;
     }
 
-    public void setDescription(String description) {
+    private void setDescription(String description) {
         this.description = description;
     }
 }

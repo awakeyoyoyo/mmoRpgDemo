@@ -14,7 +14,7 @@ public class RoleBaseMessage {
         return damageAdd;
     }
 
-    public void setDamageAdd(double damageAdd) {
+    private void setDamageAdd(double damageAdd) {
         this.damageAdd = damageAdd;
     }
 
@@ -22,7 +22,7 @@ public class RoleBaseMessage {
         return attack;
     }
 
-    public void setAttack(Integer attack) {
+    private void setAttack(Integer attack) {
         this.attack = attack;
     }
 
@@ -30,7 +30,7 @@ public class RoleBaseMessage {
         return hp;
     }
 
-    public void setHp(Integer hp) {
+    private void setHp(Integer hp) {
         this.hp = hp;
     }
 
@@ -38,7 +38,7 @@ public class RoleBaseMessage {
         return mp;
     }
 
-    public void setMp(Integer mp) {
+    private void setMp(Integer mp) {
         this.mp = mp;
     }
 }
