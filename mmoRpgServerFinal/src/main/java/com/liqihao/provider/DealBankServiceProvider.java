@@ -44,10 +44,6 @@ public class DealBankServiceProvider {
      */
     private static ConcurrentHashMap<Integer, DealBankArticleBean> dealBankArticleBeans = new ConcurrentHashMap<>();
     /**
-     * 交易行上物品的读写锁
-     */
-    public final static ReadWriteLock dealBankArticleBeansRwLock = new ReentrantReadWriteLock();
-    /**
      * 交易行上物品id
      */
     private static AtomicInteger dealBankArticleBeanIdAuto = new AtomicInteger(0);
@@ -139,13 +135,10 @@ public class DealBankServiceProvider {
         dealBankArticleBean.setHighPrice(0);
         dealBankArticleBean.setEndTime(dealBankArticleBean.getCreateTime() + 60 * 60 * 24 * 1000);
         dealBankArticleBean.setDealBeanArticleBeanId(dealBankArticleBeanIdAuto.incrementAndGet());
-        dealBankArticleBeansRwLock.readLock().lock();
-        try {
-            //1天
-            dealBankArticleBeans.put(dealBankArticleBean.getDealBeanArticleBeanId(), dealBankArticleBean);
-        } finally {
-            dealBankArticleBeansRwLock.readLock().unlock();
-        }
+
+        //1天
+        dealBankArticleBeans.put(dealBankArticleBean.getDealBeanArticleBeanId(), dealBankArticleBean);
+
         //判断是否是拍卖模式
         //开启定时任务
         if (dealBankArticleBean.getType().equals(DealBankArticleTypeCode.AUCTION.getCode())) {
@@ -164,22 +157,19 @@ public class DealBankServiceProvider {
      */
     public static void reduceSellArticleToDealBank(Integer dealBeanArticleBeanId, MmoSimpleRole role) throws RpgServerException {
         DealBankArticleBean dealBankArticleBean;
-        dealBankArticleBeansRwLock.readLock().lock();
-        try {
-            dealBankArticleBean = dealBankArticleBeans.get(dealBeanArticleBeanId);
-            if (dealBankArticleBean == null) {
-                throw new RpgServerException(StateCode.FAIL, "该物品已经交易完成或不存在");
-            }
-            // 防止多个玩家对同一个商品进行操作
-            dealBankArticleBean.dealBankArticleBeanRwLock.writeLock().lock();
-            try {
-                dealBankArticleBeans.remove(dealBankArticleBean.getDealBeanArticleBeanId());
-            }finally {
-                dealBankArticleBean.dealBankArticleBeanRwLock.writeLock().unlock();
-            }
-        } finally {
-            dealBankArticleBeansRwLock.readLock().unlock();
+
+        dealBankArticleBean = dealBankArticleBeans.get(dealBeanArticleBeanId);
+        if (dealBankArticleBean == null) {
+            throw new RpgServerException(StateCode.FAIL, "该物品已经交易完成或不存在");
         }
+        // 防止多个玩家对同一个商品进行操作
+        dealBankArticleBean.dealBankArticleBeanRwLock.writeLock().lock();
+        try {
+            dealBankArticleBeans.remove(dealBankArticleBean.getDealBeanArticleBeanId());
+        } finally {
+            dealBankArticleBean.dealBankArticleBeanRwLock.writeLock().unlock();
+        }
+
         if (!role.getId().equals(dealBankArticleBean.getFromRoleId())) {
             throw new RpgServerException(StateCode.FAIL, "非本商品的卖家无法下架");
         }
@@ -212,8 +202,7 @@ public class DealBankServiceProvider {
      */
     public static void buySellArticleToDealBank(Integer dealBankArticleBeanId, MmoSimpleRole role, Integer money) throws RpgServerException {
         DealBankArticleBean dealBankArticleBean;
-        dealBankArticleBeansRwLock.readLock().lock();
-        try {
+
             dealBankArticleBean = dealBankArticleBeans.get(dealBankArticleBeanId);
             if (dealBankArticleBean == null) {
                 throw new RpgServerException(StateCode.FAIL, "该物品已经交易完成或不存在");
@@ -234,7 +223,7 @@ public class DealBankServiceProvider {
                     if (role.getMoney() < money) {
                         throw new RpgServerException(StateCode.FAIL, "人物金币不足");
                     }
-                    if (money < dealBankArticleBean.getHighPrice()||money<dealBankArticleBean.getPrice()) {
+                    if (money < dealBankArticleBean.getHighPrice() || money < dealBankArticleBean.getPrice()) {
                         throw new RpgServerException(StateCode.FAIL, "当前报价不是最高价");
                     }
                 } else {
@@ -268,12 +257,10 @@ public class DealBankServiceProvider {
                     deleteDealBankArticleById(dealBankArticleDBId);
 
                 }
-            }finally {
+            } finally {
                 dealBankArticleBean.dealBankArticleBeanRwLock.writeLock().unlock();
             }
-        } finally {
-            dealBankArticleBeansRwLock.readLock().unlock();
-        }
+
 
     }
 
@@ -281,28 +268,21 @@ public class DealBankServiceProvider {
      * 获取交易物品列表
      */
     public static List<DealBankArticleBean> getSellArticleToDealBank() {
-        dealBankArticleBeansRwLock.writeLock().lock();
-        try {
+
             return new ArrayList<>(dealBankArticleBeans.values());
-        } finally {
-            dealBankArticleBeansRwLock.writeLock().unlock();
-        }
+
     }
 
     /**
      * 获取自身上架交易物品列表
      */
     public static List<DealBankArticleBean> getSellArticleToDealBankByMySelf(Integer roleId) {
-        dealBankArticleBeansRwLock.writeLock().lock();
-        try {
-            return dealBankArticleBeans.values().stream().filter(e -> e.getFromRoleId().equals(roleId)).collect(Collectors.toList());
-        } finally {
-            dealBankArticleBeansRwLock.writeLock().unlock();
-        }
+        return dealBankArticleBeans.values().stream().filter(e -> e.getFromRoleId().equals(roleId)).collect(Collectors.toList());
     }
 
     /**
      * description 发送成功邮件给卖家
+     *
      * @param dealBankArticleBean
      * @param title
      * @param context
@@ -333,6 +313,7 @@ public class DealBankServiceProvider {
 
     /**
      * description 发送交易失败邮件给买家
+     *
      * @param dealBankAuctionBean
      * @param title
      * @param context
@@ -461,6 +442,7 @@ public class DealBankServiceProvider {
 
     /**
      * 插入拍卖行拍卖纪录
+     *
      * @param dealBankAuctionBean
      */
     private static void insertDealBankAuction(DealBankAuctionBean dealBankAuctionBean) {
@@ -475,6 +457,7 @@ public class DealBankServiceProvider {
 
     /**
      * 插入拍卖行拍卖品
+     *
      * @param dealBankArticleBean
      */
     private static void insertDealBankArticleBean(DealBankArticleBean dealBankArticleBean) {
@@ -496,6 +479,7 @@ public class DealBankServiceProvider {
 
     /**
      * 更新拍卖行物品
+     *
      * @param dealBankArticleBean
      */
     private static void updateDealBankArticle(DealBankArticleBean dealBankArticleBean) {
@@ -517,6 +501,7 @@ public class DealBankServiceProvider {
 
     /**
      * 删除拍卖行拍卖记录
+     *
      * @param dealBankAuctionDbId
      */
     public static void deleteDealBankAuctionById(Integer dealBankAuctionDbId) {
@@ -525,6 +510,7 @@ public class DealBankServiceProvider {
 
     /**
      * 删除拍卖行物品
+     *
      * @param dealBankArticleDbId
      */
     public static void deleteDealBankArticleById(Integer dealBankArticleDbId) {
