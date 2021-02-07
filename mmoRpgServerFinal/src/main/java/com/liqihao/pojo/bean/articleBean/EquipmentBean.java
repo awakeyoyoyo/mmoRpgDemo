@@ -1,5 +1,6 @@
 package com.liqihao.pojo.bean.articleBean;
 
+import com.liqihao.Dbitem.Iitem;
 import com.liqihao.cache.EquipmentMessageCache;
 import com.liqihao.cache.base.MmoBaseMessageCache;
 import com.liqihao.commons.enums.ArticleTypeCode;

@@ -75,63 +75,31 @@ public class NpcMessage extends BaseMessage{
         return talk;
     }
 
-    private void setTalk(String talk) {
-        this.talk = talk;
-    }
-
     public Integer getBlood() {
         return blood;
-    }
-
-    private void setBlood(Integer blood) {
-        this.blood = blood;
     }
 
     public Integer getId() {
         return id;
     }
 
-    private void setId(Integer id) {
-        this.id = id;
-    }
-
     public Integer getStatus() {
         return status;
-    }
-
-    private void setStatus(Integer status) {
-        this.status = status;
     }
 
     public String getName() {
         return name;
     }
 
-    private void setName(String name) {
-        this.name = name;
-    }
-
     public Integer getType() {
         return type;
-    }
-
-    private void setType(Integer type) {
-        this.type = type;
     }
 
     public Integer getMmoSceneId() {
         return mmoSceneId;
     }
 
-    private void setMmoSceneId(Integer mmoSceneId) {
-        this.mmoSceneId = mmoSceneId;
-    }
-
     public Integer getOnStatus() {
         return onStatus;
-    }
-
-    private void setOnStatus(Integer onStatus) {
-        this.onStatus = onStatus;
     }
 }

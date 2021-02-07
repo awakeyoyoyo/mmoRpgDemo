@@ -58,28 +58,17 @@ public class SkillMessage extends BaseMessage{
     public Integer getTheId() {
         return getId();
     }
+
     public Integer getChantTime() {
         return chantTime;
-    }
-
-    private void setChantTime(Integer chantTime) {
-        this.chantTime = chantTime;
     }
 
     public Integer getSkillDamageType() {
         return skillDamageType;
     }
 
-    private void setSkillDamageType(Integer skillDamageType) {
-        this.skillDamageType = skillDamageType;
-    }
-
     public Integer getSkillAttackType() {
         return skillAttackType;
-    }
-
-    private void setSkillAttackType(Integer skillAttackType) {
-        this.skillAttackType = skillAttackType;
     }
 
     @Override
@@ -101,70 +90,35 @@ public class SkillMessage extends BaseMessage{
         return addPerson;
     }
 
-    private void setAddPerson(double addPerson) {
-        this.addPerson = addPerson;
-    }
-
     public Integer getSkillType() {
         return skillType;
     }
 
-    private void setSkillType(Integer skillType) {
-        this.skillType = skillType;
-    }
     public Integer getId() {
         return id;
-    }
-
-    private void setId(Integer id) {
-        this.id = id;
     }
 
     public String getSkillName() {
         return skillName;
     }
 
-    private void setSkillName(String skillName) {
-        this.skillName = skillName;
-    }
-
     public Integer getBaseDamage() {
         return baseDamage;
-    }
-
-    private void setBaseDamage(Integer baseDamage) {
-        this.baseDamage = baseDamage;
     }
 
     public Integer getCd() {
         return cd;
     }
 
-    private void setCd(Integer cd) {
-        this.cd = cd;
-    }
-
     public Integer getConsumeType() {
         return consumeType;
-    }
-
-    private void setConsumeType(Integer consumeType) {
-        this.consumeType = consumeType;
     }
 
     public Integer getConsumeNum() {
         return consumeNum;
     }
 
-    private void setConsumeNum(Integer consumeNum) {
-        this.consumeNum = consumeNum;
-    }
-
     public String getBufferIds() {
         return bufferIds;
-    }
-
-    private void setBufferIds(String bufferIds) {
-        this.bufferIds = bufferIds;
     }
 }

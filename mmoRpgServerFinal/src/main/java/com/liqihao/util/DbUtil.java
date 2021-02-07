@@ -3,6 +3,7 @@ package com.liqihao.util;
 import com.liqihao.commons.enums.ArticleTypeCode;
 import com.liqihao.dao.*;
 import com.liqihao.pojo.*;
+import com.liqihao.pojo.baseMessage.BossMessage;
 import com.liqihao.pojo.bean.BackPackManager;
 import com.liqihao.pojo.bean.EmailBean;
 import com.liqihao.pojo.bean.articleBean.Article;
@@ -37,23 +38,6 @@ public class DbUtil {
     private static  AtomicInteger mmoEmailPojoIndex;
     private static AtomicInteger mmoWareHouseIndex;
 
-    public static void updateBagPojo(Article article,Integer roleId) {
-        synchronized (article) {
-            MmoBagPOJO mmoBagPOJO = new MmoBagPOJO();
-            if (article.getArticleTypeCode().equals(ArticleTypeCode.EQUIPMENT.getCode())) {
-                EquipmentBean equipmentBean = (EquipmentBean) article;
-                mmoBagPOJO.setwId(equipmentBean.getEquipmentId());
-            } else {
-                mmoBagPOJO.setwId(article.getArticleMessageId());
-            }
-            mmoBagPOJO.setNumber(article.getQuantity());
-            mmoBagPOJO.setArticleType(article.getArticleTypeCode());
-            mmoBagPOJO.setBagId(article.getBagId());
-            mmoBagPOJO.setRoleId(roleId);
-            article.setChangeFlag(false);
-            mmoBagPOJOMapper.updateByPrimaryKey(mmoBagPOJO);
-        }
-    }
 
     @Autowired
     public  void initMmoWareHousePOJOMapper(MmoWareHousePOJOMapper mmoWareHousePOJOMapper) {
@@ -83,6 +67,48 @@ public class DbUtil {
     public  void initMmoEmailPOJOMapper(MmoEmailPOJOMapper mmoEmailPOJOMapper) {
         DbUtil.mmoEmailPOJOMapper = mmoEmailPOJOMapper;
         mmoEmailPojoIndex=new AtomicInteger(mmoEmailPOJOMapper.selectNextIndex());
+    }
+    /**
+     * 更新背包物品
+     * @param article
+     * @param roleId
+     */
+    public static void updateBagPojo(Article article,Integer roleId) {
+        synchronized (article) {
+            MmoBagPOJO mmoBagPOJO = new MmoBagPOJO();
+            if (article.getArticleTypeCode().equals(ArticleTypeCode.EQUIPMENT.getCode())) {
+                EquipmentBean equipmentBean = (EquipmentBean) article;
+                mmoBagPOJO.setwId(equipmentBean.getEquipmentId());
+            } else {
+                mmoBagPOJO.setwId(article.getArticleMessageId());
+            }
+            mmoBagPOJO.setNumber(article.getQuantity());
+            mmoBagPOJO.setArticleType(article.getArticleTypeCode());
+            mmoBagPOJO.setBagId(article.getBagId());
+            mmoBagPOJO.setRoleId(roleId);
+            article.setChangeFlag(false);
+            mmoBagPOJOMapper.updateByPrimaryKey(mmoBagPOJO);
+        }
+    }
+
+    /**
+     * 更新仓库物品
+     * @param article
+     * @param id
+     */
+    public static void updateWareHousePojo(Article article, Integer id) {
+        MmoWareHousePOJO mmoWareHousePOJO=new MmoWareHousePOJO();
+        mmoWareHousePOJO.setId(article.getWareHouseDBId());
+        mmoWareHousePOJO.setArticleType(article.getArticleTypeCode());
+        mmoWareHousePOJO.setGuildId(id);
+        if (article.getArticleTypeCode().equals(ArticleTypeCode.MEDICINE.getCode())) {
+            mmoWareHousePOJO.setArticleMessageId(article.getArticleMessageId());
+        }else{
+            EquipmentBean equipmentBean= (EquipmentBean) article;
+            mmoWareHousePOJO.setArticleMessageId(equipmentBean.getEquipmentId());
+        }
+        mmoWareHousePOJO.setNumber(article.getQuantity());
+        ScheduledThreadPoolUtil.addTask(() ->mmoWareHousePOJOMapper.updateByPrimaryKey(mmoWareHousePOJO));
     }
 
     /**

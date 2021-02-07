@@ -1,5 +1,6 @@
 package com.liqihao.pojo.bean.articleBean;
 
+import com.liqihao.Dbitem.Iitem;
 import com.liqihao.cache.ChannelMessageCache;
 import com.liqihao.cache.MedicineMessageCache;
 import com.liqihao.cache.SceneBeanMessageCache;
@@ -73,7 +74,7 @@ public class MedicineBean  extends Article{
                     DbUtil.deleteBagById(bagId);
                 } else {
                     MedicineBean medicineBean = this;
-                    medicineBean.updateIntoDb(roleId);
+                    medicineBean.updateItem(roleId);
                 }
             }
             return this;
@@ -138,12 +139,12 @@ public class MedicineBean  extends Article{
                     if (sum <= ConstantValue.BAG_MAX_VALUE) {
                         //不超过加上
                         temp.setQuantity(sum);
-                        temp.updateIntoDb(roleId);
+                        temp.updateItem(roleId);
                         return true;
                     }
                     number = number - (ConstantValue.BAG_MAX_VALUE - temp.getQuantity());
                     temp.setQuantity(ConstantValue.BAG_MAX_VALUE);
-                    temp.updateIntoDb(roleId);
+                    temp.updateItem(roleId);
                 }
             }
         }
@@ -580,5 +581,4 @@ public class MedicineBean  extends Article{
         dealBankArticleBean.setNum(getQuantity());
         return dealBankArticleBean;
     }
-
 }

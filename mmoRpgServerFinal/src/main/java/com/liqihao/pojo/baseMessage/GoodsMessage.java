@@ -30,43 +30,24 @@ public class GoodsMessage extends BaseMessage {
     public Integer getTheId() {
         return getId();
     }
+
     public Integer getId() {
         return id;
-    }
-
-    private void setId(Integer id) {
-        this.id = id;
     }
 
     public Integer getArticleMessageId() {
         return articleMessageId;
     }
 
-    private void setArticleMessageId(Integer articleMessageId) {
-        this.articleMessageId = articleMessageId;
-    }
-
     public Integer getArticleTypeId() {
         return articleTypeId;
-    }
-
-    private void setArticleTypeId(Integer articleTypeId) {
-        this.articleTypeId = articleTypeId;
     }
 
     public Integer getNum() {
         return num;
     }
 
-    private void setNum(Integer num) {
-        this.num = num;
-    }
-
     public Integer getPrice() {
         return price;
-    }
-
-    private void setPrice(Integer price) {
-        this.price = price;
     }
 }

@@ -17,23 +17,11 @@ public class GuildPositionMessage extends BaseMessage{
         return id;
     }
 
-    private void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
 
-    private void setName(String name) {
-        this.name = name;
-    }
-
     public String getAuthorityIds() {
         return authorityIds;
-    }
-
-    private void setAuthorityIds(String authorityIds) {
-        this.authorityIds = authorityIds;
     }
 }

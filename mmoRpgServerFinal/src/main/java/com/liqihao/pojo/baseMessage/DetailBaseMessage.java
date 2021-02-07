@@ -14,16 +14,8 @@ public class DetailBaseMessage {
         return teamRoleSize;
     }
 
-    private void setTeamRoleSize(Integer teamRoleSize) {
-        this.teamRoleSize = teamRoleSize;
-    }
-
     public Integer getTeamApplyOrInviteSize() {
         return teamApplyOrInviteSize;
-    }
-
-    private void setTeamApplyOrInviteSize(Integer teamApplyOrInviteSize) {
-        this.teamApplyOrInviteSize = teamApplyOrInviteSize;
     }
 
     @Override
@@ -38,15 +30,7 @@ public class DetailBaseMessage {
         return bagSize;
     }
 
-    private void setBagSize(Integer bagSize) {
-        this.bagSize = bagSize;
-    }
-
     public Integer getReduceDurability() {
         return reduceDurability;
-    }
-
-    private void setReduceDurability(Integer reduceDurability) {
-        this.reduceDurability = reduceDurability;
     }
 }

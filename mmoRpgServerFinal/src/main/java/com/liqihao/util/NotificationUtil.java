@@ -37,8 +37,8 @@ public class NotificationUtil {
             channel.writeAndFlush(nettyResponse);
         }
         //打印日志
-        String json2= JsonFormat.printToString(builder.build());
-        logger.info(json2);
+        String json= JsonFormat.printToString(builder.build());
+        logger.info(json);
     }
 
     /**

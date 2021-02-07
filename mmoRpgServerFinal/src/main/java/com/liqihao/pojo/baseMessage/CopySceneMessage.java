@@ -31,55 +31,27 @@ public class CopySceneMessage extends BaseMessage{
         return medicineIds;
     }
 
-    private void setMedicineIds(String medicineIds) {
-        this.medicineIds = medicineIds;
-    }
-
     public String getEquipmentIds() {
         return equipmentIds;
-    }
-
-    private void setEquipmentIds(String equipmentIds) {
-        this.equipmentIds = equipmentIds;
     }
 
     public Integer getMoney() {
         return money;
     }
 
-    private void setMoney(Integer money) {
-        this.money = money;
-    }
-
     public Integer getId() {
         return id;
-    }
-
-    private void setId(Integer id) {
-        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
-    private void setName(String name) {
-        this.name = name;
-    }
-
     public Integer getLastTime() {
         return lastTime;
     }
 
-    private void setLastTime(Integer lastTime) {
-        this.lastTime = lastTime;
-    }
-
     public String getBossIds() {
         return bossIds;
-    }
-
-    private void setBossIds(String bossIds) {
-        this.bossIds = bossIds;
     }
 }

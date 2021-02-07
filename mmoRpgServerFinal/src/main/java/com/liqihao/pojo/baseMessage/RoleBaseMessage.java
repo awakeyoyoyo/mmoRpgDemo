@@ -14,31 +14,15 @@ public class RoleBaseMessage {
         return damageAdd;
     }
 
-    private void setDamageAdd(double damageAdd) {
-        this.damageAdd = damageAdd;
-    }
-
     public Integer getAttack() {
         return attack;
-    }
-
-    private void setAttack(Integer attack) {
-        this.attack = attack;
     }
 
     public Integer getHp() {
         return hp;
     }
 
-    private void setHp(Integer hp) {
-        this.hp = hp;
-    }
-
     public Integer getMp() {
         return mp;
-    }
-
-    private void setMp(Integer mp) {
-        this.mp = mp;
     }
 }

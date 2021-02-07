@@ -18,9 +18,6 @@ public class BossMessage  extends BaseMessage{
         return addExp;
     }
 
-    private void setAddExp(Integer addExp) {
-        this.addExp = addExp;
-    }
 
     @Override
     public Integer getTheId() {
@@ -31,55 +28,27 @@ public class BossMessage  extends BaseMessage{
         return id;
     }
 
-    private void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
-    }
-
-    private void setName(String name) {
-        this.name = name;
     }
 
     public Integer getBlood() {
         return blood;
     }
 
-    private void setBlood(Integer blood) {
-        this.blood = blood;
-    }
-
     public Integer getMp() {
         return mp;
-    }
-
-    private void setMp(Integer mp) {
-        this.mp = mp;
     }
 
     public String getSkillIds() {
         return skillIds;
     }
 
-    private void setSkillIds(String skillIds) {
-        this.skillIds = skillIds;
-    }
-
     public Integer getAttack() {
         return attack;
     }
 
-    private void setAttack(Integer attack) {
-        this.attack = attack;
-    }
-
     public double getDamageAdd() {
         return damageAdd;
-    }
-
-    private void setDamageAdd(double damageAdd) {
-        this.damageAdd = damageAdd;
     }
 }

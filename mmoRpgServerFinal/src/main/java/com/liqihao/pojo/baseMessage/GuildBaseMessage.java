@@ -13,23 +13,11 @@ public class GuildBaseMessage {
         return applyLastTime;
     }
 
-    private void setApplyLastTime(Integer applyLastTime) {
-        this.applyLastTime = applyLastTime;
-    }
-
     public Integer getMaxRoleNumber() {
         return maxRoleNumber;
     }
 
-    private void setMaxRoleNumber(Integer maxRoleNumber) {
-        this.maxRoleNumber = maxRoleNumber;
-    }
-
     public Integer getMaxWareHouseNumber() {
         return maxWareHouseNumber;
-    }
-
-    private void setMaxWareHouseNumber(Integer maxWareHouseNumber) {
-        this.maxWareHouseNumber = maxWareHouseNumber;
     }
 }

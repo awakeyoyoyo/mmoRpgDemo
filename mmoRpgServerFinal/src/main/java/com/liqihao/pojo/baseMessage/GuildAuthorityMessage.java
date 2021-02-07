@@ -17,15 +17,7 @@ public class GuildAuthorityMessage extends BaseMessage{
         return id;
     }
 
-    private void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getDescription() {
         return description;
-    }
-
-    private void setDescription(String description) {
-        this.description = description;
     }
 }

@@ -1,5 +1,6 @@
 package com.liqihao.pojo.bean.articleBean;
 
+import com.liqihao.Dbitem.Iitem;
 import com.liqihao.commons.RpgServerException;
 import com.liqihao.pojo.bean.BackPackManager;
 import com.liqihao.pojo.bean.dealBankBean.DealBankArticleBean;
@@ -14,7 +15,7 @@ import com.liqihao.util.ScheduledThreadPoolUtil;
  * 背包物品接口
  * @author lqhao
  */
-public abstract class Article {
+public abstract class Article extends Iitem {
     /**
      * 数量
      */
@@ -53,18 +54,8 @@ public abstract class Article {
      */
     private Integer dealArticleId;
 
-    /**
-     * 是否更改标志
-     */
-    private volatile boolean changeFlag;
 
-    public boolean getChangeFlag() {
-        return changeFlag;
-    }
 
-    public void setChangeFlag(boolean changeFlag) {
-        this.changeFlag = changeFlag;
-    }
 
     public Integer getArticleMessageId() {
         return articleMessageId;
@@ -273,13 +264,19 @@ public abstract class Article {
 
     /**
      * 背包数据库更新
-     * @param roleId
+     * @param id
      */
-    public void updateIntoDb(Integer roleId){
+    @Override
+    public void updateItem(Integer id) {
         if (!getChangeFlag()) {
             setChangeFlag(true);
             Article article=this;
-            ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateBagPojo(article,roleId));
+            if (getBagId()!=null) {
+                ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateBagPojo(article, id));
+            }else if (getWareHouseDBId()!=null){
+                //公会
+                ScheduledThreadPoolUtil.addTask(()->DbUtil.updateWareHousePojo(article,id));
+            }
         }
     }
 }
