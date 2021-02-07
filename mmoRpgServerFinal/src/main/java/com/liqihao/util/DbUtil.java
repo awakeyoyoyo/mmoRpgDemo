@@ -5,6 +5,7 @@ import com.liqihao.dao.*;
 import com.liqihao.pojo.*;
 import com.liqihao.pojo.bean.BackPackManager;
 import com.liqihao.pojo.bean.EmailBean;
+import com.liqihao.pojo.bean.articleBean.Article;
 import com.liqihao.pojo.bean.articleBean.EquipmentBean;
 import com.liqihao.pojo.bean.articleBean.MedicineBean;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
@@ -35,6 +36,24 @@ public class DbUtil {
     private static  AtomicInteger equipmentBagIndex;
     private static  AtomicInteger mmoEmailPojoIndex;
     private static AtomicInteger mmoWareHouseIndex;
+
+    public static void updateBagPojo(Article article,Integer roleId) {
+        synchronized (article) {
+            MmoBagPOJO mmoBagPOJO = new MmoBagPOJO();
+            if (article.getArticleTypeCode().equals(ArticleTypeCode.EQUIPMENT.getCode())) {
+                EquipmentBean equipmentBean = (EquipmentBean) article;
+                mmoBagPOJO.setwId(equipmentBean.getEquipmentId());
+            } else {
+                mmoBagPOJO.setwId(article.getArticleMessageId());
+            }
+            mmoBagPOJO.setNumber(article.getQuantity());
+            mmoBagPOJO.setArticleType(article.getArticleTypeCode());
+            mmoBagPOJO.setBagId(article.getBagId());
+            mmoBagPOJO.setRoleId(roleId);
+            article.setChangeFlag(false);
+            mmoBagPOJOMapper.updateByPrimaryKey(mmoBagPOJO);
+        }
+    }
 
     @Autowired
     public  void initMmoWareHousePOJOMapper(MmoWareHousePOJOMapper mmoWareHousePOJOMapper) {

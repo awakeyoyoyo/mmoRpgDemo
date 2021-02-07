@@ -2,7 +2,10 @@ package com.liqihao.pojo.bean.articleBean;
 
 import com.liqihao.cache.EquipmentMessageCache;
 import com.liqihao.cache.base.MmoBaseMessageCache;
+import com.liqihao.commons.enums.ArticleTypeCode;
 import com.liqihao.commons.enums.TaskTargetTypeCode;
+import com.liqihao.pojo.MmoBagPOJO;
+import com.liqihao.pojo.MmoEquipmentPOJO;
 import com.liqihao.pojo.baseMessage.EquipmentMessage;
 import com.liqihao.pojo.bean.BackPackManager;
 import com.liqihao.pojo.bean.dealBankBean.DealBankArticleBean;
@@ -12,6 +15,7 @@ import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.pojo.bean.taskBean.oneBestEquipmentTask.OneBestEquipmentAction;
 import com.liqihao.pojo.dto.ArticleDto;
 import com.liqihao.util.DbUtil;
+import com.liqihao.util.ScheduledThreadPoolUtil;
 
 /**
  * Equipment Bean
@@ -217,7 +221,7 @@ public class EquipmentBean extends Article{
             //插入数据库
             EquipmentBean equipmentBean=this;
             Integer roleId=mmoSimpleRole.getId();
-             DbUtil.addEquipmentBagPOJO(equipmentBean,roleId);
+            DbUtil.addEquipmentBagPOJO(equipmentBean,roleId);
             //人物属性
             mmoSimpleRole.setAttack(mmoSimpleRole.getAttack() + equipmentMessage.getAttackAdd());
             mmoSimpleRole.setDamageAdd(mmoSimpleRole.getDamageAdd() + equipmentMessage.getDamageAdd());
@@ -317,4 +321,5 @@ public class EquipmentBean extends Article{
         dealBankArticleBean.setNum(getQuantity());
         return dealBankArticleBean;
     }
+
 }

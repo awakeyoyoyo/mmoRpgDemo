@@ -19,6 +19,7 @@ import com.liqihao.pojo.dto.ArticleDto;
 import com.liqihao.protobufObject.PlayModel;
 import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.util.DbUtil;
+import com.liqihao.util.NotificationUtil;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
 import org.springframework.beans.BeanUtils;
@@ -60,19 +61,20 @@ public class MedicineBean  extends Article{
     public Article useOrAbandon(Integer number, BackPackManager backPackManager,Integer roleId) {
         if (number <= getQuantity()) {
             //可以丢弃
-            setQuantity(getQuantity() - number);
-            //判断是否数量为0 为0则删除
-            if (getQuantity() == 0) {
-                //需要删除数据库的记录
-//                backPackManager.getNeedDeleteBagId().add(getBagId());
-                Integer bagId=getBagId();
-                setBagId(null);
-                backPackManager.getBackpacks().remove(this);
-                backPackManager.setNowSize(backPackManager.getNowSize()-1);
-                DbUtil.deleteBagById(bagId);
-            }else {
-                MedicineBean medicineBean=this;
-                DbUtil.updateBagMedicine(medicineBean,roleId);
+            synchronized (this) {
+                setQuantity(getQuantity() - number);
+                //判断是否数量为0 为0则删除
+                if (getQuantity() == 0) {
+                    //需要删除数据库的记录
+                    Integer bagId = getBagId();
+                    setBagId(null);
+                    backPackManager.getBackpacks().remove(this);
+                    backPackManager.setNowSize(backPackManager.getNowSize() - 1);
+                    DbUtil.deleteBagById(bagId);
+                } else {
+                    MedicineBean medicineBean = this;
+                    medicineBean.updateIntoDb(roleId);
+                }
             }
             return this;
         } else {
@@ -124,23 +126,25 @@ public class MedicineBean  extends Article{
         for (Article a : medicines) {
             MedicineBean temp = (MedicineBean) a;
             //物品类型
-            if (getArticleMessageId().equals(temp.getArticleMessageId()) && number > 0) {
-                //判断是否已经满了
-                if (temp.getQuantity().equals(ConstantValue.BAG_MAX_VALUE)) {
-                    continue;
+            synchronized (temp) {
+                if (getArticleMessageId().equals(temp.getArticleMessageId()) && number > 0) {
+                    //判断是否已经满了
+                    if (temp.getQuantity().equals(ConstantValue.BAG_MAX_VALUE)) {
+                        continue;
+                    }
+                    Integer nowNum = temp.getQuantity();
+                    Integer sum = nowNum + number;
+                    //判断加上后是否已经超过99
+                    if (sum <= ConstantValue.BAG_MAX_VALUE) {
+                        //不超过加上
+                        temp.setQuantity(sum);
+                        temp.updateIntoDb(roleId);
+                        return true;
+                    }
+                    number = number - (ConstantValue.BAG_MAX_VALUE - temp.getQuantity());
+                    temp.setQuantity(ConstantValue.BAG_MAX_VALUE);
+                    temp.updateIntoDb(roleId);
                 }
-                Integer nowNum = temp.getQuantity();
-                Integer sum = nowNum + number;
-                //判断加上后是否已经超过99
-                if (sum <= ConstantValue.BAG_MAX_VALUE) {
-                    //不超过加上
-                    temp.setQuantity(sum);
-                    DbUtil.updateBagMedicine(temp,roleId);
-                    return true;
-                }
-                number = number - (ConstantValue.BAG_MAX_VALUE - temp.getQuantity());
-                temp.setQuantity(ConstantValue.BAG_MAX_VALUE);
-                DbUtil.updateBagMedicine(temp,roleId);
             }
         }
         //表明背包中没有该物品或者该物品的数量都是99或者是剩余的 新建
@@ -304,25 +308,8 @@ public class MedicineBean  extends Article{
             nettyResponse.setCmd(ConstantValue.DAMAGES_NOTICE_RESPONSE);
             nettyResponse.setStateCode(StateCode.SUCCESS);
             nettyResponse.setData(myMessageBuilder.build().toByteArray());
-            Integer sceneId = mmoSimpleRole.getMmoSceneId();
-            List<Integer> players=new ArrayList<>();
-            if (sceneId!=null) {
-                players.addAll(SceneBeanMessageCache.getInstance().get(sceneId).getRoles());
-            }else{
-                List<Role> roleList= CopySceneProvider.getCopySceneBeanById(mmoSimpleRole.getCopySceneBeanId()).getRoles();
-                for (Role role : roleList) {
-                    if (role.getType().equals(RoleTypeCode.PLAYER.getCode())){
-                        players.add(role.getId());
-                    }
-                }
-            }
-            for (Integer playerId : players) {
-                Channel cc = ChannelMessageCache.getInstance().get(playerId);
-                if (cc != null) {
-                    cc.writeAndFlush(nettyResponse);
-                }
-            }
-            return  true;
+            NotificationUtil.notificationSceneRole(nettyResponse,mmoSimpleRole,myMessageBuilder);
+            return true;
         }else {
             //判断是否已经有持续性药品任务
             ConcurrentHashMap<String, ScheduledFuture<?>> replyMpRoleMap = ScheduledThreadPoolUtil.getReplyMpRole();
@@ -593,4 +580,5 @@ public class MedicineBean  extends Article{
         dealBankArticleBean.setNum(getQuantity());
         return dealBankArticleBean;
     }
+
 }

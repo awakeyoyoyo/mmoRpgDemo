@@ -60,7 +60,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
            return;
         }
         //根据channel计算index
-        MmoSimpleRole role=CommonsUtil.checkLogin(ctx.channel());
+        MmoSimpleRole role= CommonsUtil.getRoleByChannel(ctx.channel());
         if(role!=null) {
             role.execute(() -> dispatcherservlet.handler(request, ctx.channel()));
         }else{

@@ -7,6 +7,8 @@ import com.liqihao.pojo.bean.dealBean.DealArticleBean;
 import com.liqihao.pojo.bean.guildBean.WareHouseManager;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.pojo.dto.ArticleDto;
+import com.liqihao.util.DbUtil;
+import com.liqihao.util.ScheduledThreadPoolUtil;
 
 /**
  * 背包物品接口
@@ -50,6 +52,19 @@ public abstract class Article {
      * 交易栏id
      */
     private Integer dealArticleId;
+
+    /**
+     * 是否更改标志
+     */
+    private volatile boolean changeFlag;
+
+    public boolean getChangeFlag() {
+        return changeFlag;
+    }
+
+    public void setChangeFlag(boolean changeFlag) {
+        this.changeFlag = changeFlag;
+    }
 
     public Integer getArticleMessageId() {
         return articleMessageId;
@@ -255,4 +270,16 @@ public abstract class Article {
      * @createTime 2021/1/29 16:14
      */
     public abstract DealBankArticleBean convertDealBankArticleBean();
+
+    /**
+     * 背包数据库更新
+     * @param roleId
+     */
+    public void updateIntoDb(Integer roleId){
+        if (!getChangeFlag()) {
+            setChangeFlag(true);
+            Article article=this;
+            ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateBagPojo(article,roleId));
+        }
+    }
 }
