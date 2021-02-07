@@ -1,6 +1,7 @@
 package com.liqihao.netty;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.liqihao.cache.ChannelMessageCache;
 import com.liqihao.commons.*;
 import com.liqihao.handler.DispatcherServlet;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
@@ -59,8 +60,12 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
            return;
         }
         //根据channel计算index
-        Integer index= CommonsUtil.getIndexByChannel(ctx.channel());
-        LogicThreadPool.getInstance().execute(() -> dispatcherservlet.handler(request,ctx.channel()),index);
+        MmoSimpleRole role=CommonsUtil.checkLogin(ctx.channel());
+        if(role!=null) {
+            role.execute(() -> dispatcherservlet.handler(request, ctx.channel()));
+        }else{
+            dispatcherservlet.handler(request, ctx.channel());
+        }
     }
 
     @Override

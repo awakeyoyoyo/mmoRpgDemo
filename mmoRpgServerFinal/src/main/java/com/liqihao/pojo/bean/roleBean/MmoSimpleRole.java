@@ -1141,7 +1141,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
      * @param job
      */
     public void execute(Runnable job){
-        Integer index=CommonsUtil.getIndexByChannel(getChannel());
+        Integer index=CommonsUtil.getIndexByChannel(getId());
         LogicThreadPool.getInstance().execute(job,index);
     }
 }

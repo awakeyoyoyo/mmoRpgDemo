@@ -605,9 +605,9 @@ public class CommonsUtil {
     /**
      * 根据channle获取线程池线程下表
      */
-    public static Integer getIndexByChannel(Channel channel) {
+    public static Integer getIndexByChannel(Integer roleId) {
         int threadSize = LogicThreadPool.getInstance().getThreadSize();
-        Integer index = channel.hashCode() & (threadSize - 1);
+        Integer index = roleId& (threadSize - 1);
         return index;
     }
 
