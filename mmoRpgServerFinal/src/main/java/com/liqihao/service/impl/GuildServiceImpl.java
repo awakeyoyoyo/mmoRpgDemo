@@ -59,8 +59,7 @@ public class GuildServiceImpl implements GuildService {
         messageData.setCreateGuildResponse(createGuildResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(messageData.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
     }
 
     @Override
@@ -83,8 +82,7 @@ public class GuildServiceImpl implements GuildService {
         messageData.setJoinGuildResponse(joinGuildResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(messageData.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
     }
 
     @Override
@@ -118,8 +116,7 @@ public class GuildServiceImpl implements GuildService {
         messageData.setSetGuildResponse(setGuildResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(messageData.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
     }
 
     @Override
@@ -144,8 +141,7 @@ public class GuildServiceImpl implements GuildService {
         messageData.setOutGuildResponse(outGuildResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(messageData.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
     }
 
     @Override
@@ -181,13 +177,12 @@ public class GuildServiceImpl implements GuildService {
         messageData.setContributeMoneyResponse(contributeMoneyResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(messageData.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
     }
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.CONTRIBUTE_ARTICLE_REQUEST, module = ConstantValue.GUILD_MODULE)
-    public void contributeArticle(GuildModel.GuildModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException {
+    public void contributeArticle(GuildModel.GuildModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws RpgServerException {
         Channel channel = mmoSimpleRole.getChannel();
         //背包id
         Integer articleId=myMessage.getContributeArticleRequest().getArticleId();
@@ -227,8 +222,7 @@ public class GuildServiceImpl implements GuildService {
         messageData.setContributeArticleResponse(contributeArticleResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(messageData.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
     }
 
     @Override
@@ -283,8 +277,7 @@ public class GuildServiceImpl implements GuildService {
         messageData.setGetArticleResponse(getArticleResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(messageData.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
     }
 
     @Override
@@ -315,8 +308,7 @@ public class GuildServiceImpl implements GuildService {
         messageData.setGetMoneyResponse(getMoneyResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(messageData.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
     }
 
     @Override
@@ -343,8 +335,7 @@ public class GuildServiceImpl implements GuildService {
         messageData.setGetGuildApplyListResponse(getGuildApplyListResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(messageData.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
     }
 
     @Override
@@ -379,8 +370,7 @@ public class GuildServiceImpl implements GuildService {
         messageData.setGetGuildBeanResponse(getGuildBeanResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(messageData.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
     }
 
     @Override
@@ -410,8 +400,7 @@ public class GuildServiceImpl implements GuildService {
         messageData.setAgreeGuildApplyResponse(agreeGuildApplyResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(messageData.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
     }
 
     @Override
@@ -441,8 +430,7 @@ public class GuildServiceImpl implements GuildService {
         messageData.setRefuseGuildApplyResponse(refuseGuildApplyResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(messageData.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
     }
 
 
@@ -479,7 +467,6 @@ public class GuildServiceImpl implements GuildService {
         messageData.setGetGuildWareHouseResponse(getGuildWareHouseResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(messageData.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
     }
 }

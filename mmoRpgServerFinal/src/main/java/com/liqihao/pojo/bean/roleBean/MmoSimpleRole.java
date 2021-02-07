@@ -426,7 +426,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
     /**
      * 脱装备
      */
-    public Boolean unUseEquipment(Integer position) throws Exception {
+    public Boolean unUseEquipment(Integer position) throws RpgServerException {
         //判断该位置是否有装备
         EquipmentBean equipmentBean = getEquipmentBeanHashMap().get(position);
         //锁住背包
@@ -558,8 +558,8 @@ public class MmoSimpleRole extends Role implements MyObserver {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
         //广播
-        String json= JsonFormat.printToString(myMessageBuilder.build());
-        NotificationUtil.notificationSceneRole(nettyResponse,this,json);
+        NotificationUtil.notificationSceneRole(nettyResponse,this,myMessageBuilder);
+
         //cd
         Map<Integer, Long> map = getCdMap();
         Long time = System.currentTimeMillis();
@@ -897,8 +897,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
             nettyResponse.setCmd(ConstantValue.ACCEPT_MESSAGE_RESPONSE);
             nettyResponse.setStateCode(StateCode.SUCCESS);
             nettyResponse.setData(myMessage.toByteArray());
-            String json= JsonFormat.printToString(myMessage);
-            NotificationUtil.sendMessage(channel,nettyResponse,json);
+            NotificationUtil.sendMessage(channel,nettyResponse,myMessage.toBuilder());
         }
     }
 
@@ -969,9 +968,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
             nettyResponse.setStateCode(StateCode.SUCCESS);
             nettyResponse.setData(myMessageBuilder.build().toByteArray());
             //广播
-            //广播
-            String json=JsonFormat.printToString(myMessageBuilder.build());
-            NotificationUtil.notificationSceneRole(nettyResponse,mmoSimpleRole,json);
+            NotificationUtil.notificationSceneRole(nettyResponse,mmoSimpleRole,myMessageBuilder);
         }
     }
 
@@ -1023,8 +1020,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
             nettyResponse.setStateCode(StateCode.SUCCESS);
             nettyResponse.setData(myMessageBuilder.build().toByteArray());
             //广播
-            String json=JsonFormat.printToString(myMessageBuilder.build());
-            NotificationUtil.notificationSceneRole(nettyResponse,mmoSimpleRole,json);
+            NotificationUtil.notificationSceneRole(nettyResponse,mmoSimpleRole,myMessageBuilder);
         }
     }
 
@@ -1089,8 +1085,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
             nettyResponse.setStateCode(StateCode.SUCCESS);
             nettyResponse.setData(myMessageBuilder.build().toByteArray());
             //广播
-            String json=JsonFormat.printToString(myMessageBuilder.build());
-            NotificationUtil.notificationSceneRole(nettyResponse,mmoSimpleRole,json);
+            NotificationUtil.notificationSceneRole(nettyResponse,mmoSimpleRole,myMessageBuilder);
 
         }
     }
@@ -1137,8 +1132,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
             nettyResponse.setStateCode(StateCode.SUCCESS);
             nettyResponse.setData(myMessageBuilder.build().toByteArray());
             //广播
-            String json=JsonFormat.printToString(myMessageBuilder.build());
-            NotificationUtil.notificationSceneRole(nettyResponse,mmoSimpleRole,json);
+            NotificationUtil.notificationSceneRole(nettyResponse,mmoSimpleRole,myMessageBuilder);
         }
     }
 

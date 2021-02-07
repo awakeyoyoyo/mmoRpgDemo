@@ -1,6 +1,5 @@
 package com.liqihao.pojo.bean.teamBean;
 
-import com.googlecode.protobuf.format.JsonFormat;
 import com.liqihao.cache.ChannelMessageCache;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
@@ -131,8 +130,7 @@ public class TeamBean {
         nettyResponse.setCmd(ConstantValue.DELETE_TEAM_RESPONSE);
         nettyResponse.setData(teamMessageBuilder.build().toByteArray());
         List<MmoSimpleRole> roles=new ArrayList<>(mmoSimpleRoles);
-        String json= JsonFormat.printToString(teamMessageBuilder.build());
-        NotificationUtil.sendRolesMessage(nettyResponse,roles,json);
+        NotificationUtil.sendRolesMessage(nettyResponse,roles,teamMessageBuilder);
         for (MmoSimpleRole role:mmoSimpleRoles){
             role.setTeamId(null);
             if(role.getMmoHelperBean()!=null){
@@ -172,8 +170,7 @@ public class TeamBean {
         nettyResponse.setCmd(ConstantValue.BAN_PEOPLE_RESPONSE);
         nettyResponse.setData(teamMessageBuilder.build().toByteArray());
         Channel ccc=ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
-        String json= JsonFormat.printToString(teamMessageBuilder.build());
-        NotificationUtil.sendMessage(ccc,nettyResponse,json);
+        NotificationUtil.sendMessage(ccc,nettyResponse,teamMessageBuilder);
         // 广播给队伍里面的人少了人
         exitTeamNotification(mmoSimpleRole);
     }
@@ -362,8 +359,7 @@ public class TeamBean {
         nettyResponse.setCmd(ConstantValue.ENTRY_PEOPLE_RESPONSE);
         nettyResponse.setData(teamMessageBuilder.build().toByteArray());
         List<MmoSimpleRole> roles=new ArrayList<>(mmoSimpleRolesMap.values());
-        String json= JsonFormat.printToString(teamMessageBuilder.build());
-        NotificationUtil.sendRolesMessage(nettyResponse,roles,json);
+        NotificationUtil.sendRolesMessage(nettyResponse,roles,teamMessageBuilder);
     }
 
     /**
@@ -402,8 +398,7 @@ public class TeamBean {
         nettyResponse.setData(teamMessageBuilder.build().toByteArray());
         // 发送信息给退出队伍者
         List<MmoSimpleRole> roles=new ArrayList<>(mmoSimpleRolesMap.values());
-        String json= JsonFormat.printToString(teamMessageBuilder.build());
-        NotificationUtil.sendRolesMessage(nettyResponse,roles,json);
+        NotificationUtil.sendRolesMessage(nettyResponse,roles,teamMessageBuilder);
     }
 
     /**

@@ -1,12 +1,14 @@
 package com.liqihao.util;
 
 
+import com.googlecode.protobuf.format.JsonFormat;
 import com.liqihao.cache.ChannelMessageCache;
 import com.liqihao.cache.SceneBeanMessageCache;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.enums.RoleTypeCode;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.pojo.bean.roleBean.Role;
+import com.liqihao.protobufObject.SceneModel;
 import com.liqihao.provider.CopySceneProvider;
 import io.netty.channel.Channel;
 import org.apache.log4j.Logger;
@@ -24,26 +26,31 @@ public class NotificationUtil {
     private static Logger logger = Logger.getLogger(NotificationUtil.class);
 
     /**
-     * 单发
+     * 发送消息
      * @param channel
      * @param nettyResponse
-     * @param json
+     * @param builder
      */
-    public static void sendMessage(Channel channel, NettyResponse nettyResponse,String json){
+    public static void sendMessage(Channel channel, NettyResponse nettyResponse
+            , com.google.protobuf.GeneratedMessageV3.Builder builder){
         if (channel!=null) {
             channel.writeAndFlush(nettyResponse);
         }
         //打印日志
-        logger.info(json);
+        String json2= JsonFormat.printToString(builder.build());
+        logger.info(json2);
     }
 
     /**
-     * 群发指定role
+     * 群送角色消息
      * @param nettyResponse
-     * @param json
+     * @param roles
+     * @param builder
      */
-    public static void sendRolesMessage(NettyResponse nettyResponse, List<MmoSimpleRole> roles,String json){
-        logger.info(json);
+    public static void sendRolesMessage(NettyResponse nettyResponse, List<MmoSimpleRole> roles
+            ,com.google.protobuf.GeneratedMessageV3.Builder builder){
+        String json2= JsonFormat.printToString(builder.build());
+        logger.info(json2);
         for (MmoSimpleRole m:roles) {
             Channel c=ChannelMessageCache.getInstance().get(m.getId());
             if (c!=null){
@@ -54,13 +61,15 @@ public class NotificationUtil {
     }
 
     /**
-     * 群发场景/副本中得角色
+     * 通知当前场景的角色
      * @param nettyResponse
      * @param mmoSimpleRole
-     * @param json
+     * @param builder
      */
-    public static void notificationSceneRole(NettyResponse nettyResponse, Role mmoSimpleRole, String json) {
-        logger.info(json);
+    public static void notificationSceneRole(NettyResponse nettyResponse, Role mmoSimpleRole
+            ,com.google.protobuf.GeneratedMessageV3.Builder builder){
+        String json2= JsonFormat.printToString(builder.build());
+        logger.info(json2);
         List<Integer> players;
         if (mmoSimpleRole.getMmoSceneId()!=null) {
             players = SceneBeanMessageCache.getInstance().get(mmoSimpleRole.getMmoSceneId()).getRoles();

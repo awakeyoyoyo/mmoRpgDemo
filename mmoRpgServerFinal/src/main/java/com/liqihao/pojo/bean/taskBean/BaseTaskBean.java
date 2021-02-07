@@ -1,6 +1,5 @@
 package com.liqihao.pojo.bean.taskBean;
 
-import com.googlecode.protobuf.format.JsonFormat;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
@@ -122,8 +121,7 @@ public abstract class BaseTaskBean {
         messageBuilder.setDataType(TaskModel.TaskModelMessage.DateType.FinishTaskResponse);
         messageBuilder.setFinishTaskResponse(TaskModel.FinishTaskResponse.newBuilder().setTaskMessageId(getTaskMessageId()).build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
-        String json= JsonFormat.printToString(messageBuilder.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageBuilder);
     }
     /**
      * description 检车是否满足任务条件

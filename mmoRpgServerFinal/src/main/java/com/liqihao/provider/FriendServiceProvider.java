@@ -94,12 +94,11 @@ public class FriendServiceProvider {
         nettyResponse.setCmd(ConstantValue.HAS_NEW_FRIENDS_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(messageData.toByteArray());
-        String json= JsonFormat.printToString(messageData);
         List<MmoSimpleRole> roles=new ArrayList<>();
         roles.add(mmoSimpleRole);
         roles.add(role);
         //send
-        NotificationUtil.sendRolesMessage(nettyResponse,roles,json);
+        NotificationUtil.sendRolesMessage(nettyResponse,roles,messageData.toBuilder());
     }
     /**
      * description 拒绝申请
@@ -128,8 +127,7 @@ public class FriendServiceProvider {
             //send
             Channel channel=applyRole.getChannel();
             if (channel!=null) {
-                String json= JsonFormat.printToString(messageData);
-                NotificationUtil.sendMessage(channel,nettyResponse,json);
+                NotificationUtil.sendMessage(channel,nettyResponse,messageData.toBuilder());
             }
         }
     }

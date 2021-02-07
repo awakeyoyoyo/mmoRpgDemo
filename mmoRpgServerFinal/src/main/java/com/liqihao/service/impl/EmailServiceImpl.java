@@ -55,8 +55,7 @@ public class EmailServiceImpl implements EmailService {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(messageData.toByteArray());
         //send
-        String json= JsonFormat.printToString(messageData);
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData.toBuilder());
     }
 
     @Override
@@ -101,8 +100,7 @@ public class EmailServiceImpl implements EmailService {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(messageData.toByteArray());
         //send
-        String json= JsonFormat.printToString(messageData);
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData.toBuilder());
     }
 
     @Override
@@ -153,8 +151,7 @@ public class EmailServiceImpl implements EmailService {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(messageData.toByteArray());
         //send
-        String json= JsonFormat.printToString(messageData);
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData.toBuilder());
     }
 
 
@@ -181,8 +178,7 @@ public class EmailServiceImpl implements EmailService {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(messageData.toByteArray());
         //send
-        String json= JsonFormat.printToString(messageData);
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData.toBuilder());
     }
 
     @Override
@@ -235,8 +231,7 @@ public class EmailServiceImpl implements EmailService {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(messageData.toByteArray());
         //send
-        String json= JsonFormat.printToString(messageData);
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData.toBuilder());
     }
 
     @Override
@@ -255,8 +250,7 @@ public class EmailServiceImpl implements EmailService {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(messageData.toByteArray());
         //send
-        String json= JsonFormat.printToString(messageData);
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData.toBuilder());
     }
 
     @Override
@@ -275,8 +269,7 @@ public class EmailServiceImpl implements EmailService {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(messageData.toByteArray());
         //send
-        String json= JsonFormat.printToString(messageData);
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData.toBuilder());
     }
 
     /**

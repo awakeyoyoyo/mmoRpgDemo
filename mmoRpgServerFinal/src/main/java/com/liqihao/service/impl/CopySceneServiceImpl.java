@@ -88,8 +88,7 @@ public class CopySceneServiceImpl implements CopySceneService {
             }
         }
         //send
-        String json= JsonFormat.printToString(messageData);
-        NotificationUtil.sendRolesMessage(nettyResponse,roles,json);
+        NotificationUtil.sendRolesMessage(nettyResponse,roles,messageData.toBuilder());
     }
 
     @Override
@@ -120,8 +119,7 @@ public class CopySceneServiceImpl implements CopySceneService {
             }
         }
         //send
-        String json= JsonFormat.printToString(messageData);
-        NotificationUtil.sendRolesMessage(nettyResponse,roles,json);
+        NotificationUtil.sendRolesMessage(nettyResponse,roles,messageData.toBuilder());
     }
 
     @Override
@@ -200,8 +198,7 @@ public class CopySceneServiceImpl implements CopySceneService {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(messageData.toByteArray());
         //send
-        String json= JsonFormat.printToString(messageData);
-        NotificationUtil.sendRolesMessage(nettyResponse,roles,json);
+        NotificationUtil.sendRolesMessage(nettyResponse,roles,messageData.toBuilder());
     }
 
     /**
@@ -247,7 +244,6 @@ public class CopySceneServiceImpl implements CopySceneService {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(messageData.toByteArray());
         //send
-        String json= JsonFormat.printToString(messageData);
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData.toBuilder());
     }
 }

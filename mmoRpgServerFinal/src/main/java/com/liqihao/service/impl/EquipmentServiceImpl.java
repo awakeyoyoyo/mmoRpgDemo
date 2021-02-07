@@ -55,8 +55,7 @@ public class EquipmentServiceImpl implements EquipmentService {
         messageBuilder.setAddEquipmentResponse(EquipmentModel.AddEquipmentResponse.newBuilder().build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(messageBuilder.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageBuilder);
     }
 
     @Override
@@ -80,13 +79,12 @@ public class EquipmentServiceImpl implements EquipmentService {
         messageBuilder.setEquipmentMsgResponse(EquipmentModel.EquipmentMsgResponse.newBuilder().addAllEquipments(equipmentDtoList).build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(messageBuilder.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageBuilder);
     }
 
     @Override
     @HandlerCmdTag(cmd = ConstantValue.REDUCE_EQUIPMENT_REQUEST, module = ConstantValue.EQUIPMENT_MODULE)
-    public void reduceEquipmentRequest(EquipmentModel.EquipmentModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws Exception {
+    public void reduceEquipmentRequest(EquipmentModel.EquipmentModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws RpgServerException {
 
         int position = myMessage.getReduceEquipmentRequest().getPosition();
         Channel channel = mmoSimpleRole.getChannel();
@@ -107,8 +105,7 @@ public class EquipmentServiceImpl implements EquipmentService {
         messageBuilder.setReduceEquipmentResponse(EquipmentModel.ReduceEquipmentResponse.newBuilder().build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(messageBuilder.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageBuilder);
     }
 
     @Override
@@ -136,7 +133,6 @@ public class EquipmentServiceImpl implements EquipmentService {
         messageBuilder.setFixEquipmentResponse(EquipmentModel.FixEquipmentResponse.newBuilder().build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(messageBuilder.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageBuilder);
     }
 }

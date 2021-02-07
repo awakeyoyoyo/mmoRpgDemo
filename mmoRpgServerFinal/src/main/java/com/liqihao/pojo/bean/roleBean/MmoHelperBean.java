@@ -158,8 +158,7 @@ public class MmoHelperBean extends Role{
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
         //广播给所有当前场景
-        String json = JsonFormat.printToString(myMessageBuilder.build());
-        NotificationUtil.notificationSceneRole(nettyResponse,this,json);
+        NotificationUtil.notificationSceneRole(nettyResponse,this,myMessageBuilder);
     }
 
     /**
@@ -237,8 +236,7 @@ public class MmoHelperBean extends Role{
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
         //广播
-        String json = JsonFormat.printToString(myMessageBuilder.build());
-        NotificationUtil.notificationSceneRole(nettyResponse,this,json);
+        NotificationUtil.notificationSceneRole(nettyResponse,this,myMessageBuilder);
         //  被攻击怪物or人物orBoss
         for (Role r :targetRoles) {
             r.beAttack(skillBean,this);

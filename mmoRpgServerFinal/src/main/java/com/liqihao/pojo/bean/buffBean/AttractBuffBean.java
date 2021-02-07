@@ -30,8 +30,7 @@ public class AttractBuffBean extends BaseBuffBean {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
         //广播信息
-        String json= JsonFormat.printToString(myMessageBuilder.build());
-        NotificationUtil.notificationSceneRole(nettyResponse,toRole,json);
+        NotificationUtil.notificationSceneRole(nettyResponse,toRole,myMessageBuilder);
     }
     @Override
     public void effectToRole(Role toRole,Role fromRole){
@@ -47,7 +46,6 @@ public class AttractBuffBean extends BaseBuffBean {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
         //广播信息
-        String json= JsonFormat.printToString(myMessageBuilder.build());
-        NotificationUtil.notificationSceneRole(nettyResponse,toRole,json);
+        NotificationUtil.notificationSceneRole(nettyResponse,toRole,myMessageBuilder);
     }
 }

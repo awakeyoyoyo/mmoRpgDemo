@@ -1,7 +1,6 @@
 package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.googlecode.protobuf.format.JsonFormat;
 import com.liqihao.cache.ChannelMessageCache;
 import com.liqihao.cache.OnlineRoleMessageCache;
 import com.liqihao.annotation.HandlerCmdTag;
@@ -67,8 +66,7 @@ public class TeamServiceImpl implements TeamService {
         nettyResponse.setCmd(ConstantValue.APPLY_FOR_TEAM_RESPONSE);
         nettyResponse.setData(teamMessageBuilder.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(teamMessageBuilder.build());
-        NotificationUtil.sendMessage(c,nettyResponse,json);
+        NotificationUtil.sendMessage(c,nettyResponse,teamMessageBuilder);
     }
 
     @Override
@@ -162,8 +160,8 @@ public class TeamServiceImpl implements TeamService {
         Integer roleId=myMessage.getEntryPeopleRequest().getRoleId();
         Integer teamId=myMessage.getEntryPeopleRequest().getTeamId();
         Channel channel = mmoSimpleRole.getChannel();
+        TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(teamId);
         if (roleId.equals(mmoSimpleRole.getId())){
-            TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(teamId);
             if (teamBean==null){
                 throw new RpgServerException(StateCode.FAIL,"没有该队伍");
             }
@@ -184,7 +182,6 @@ public class TeamServiceImpl implements TeamService {
             mmoSimpleRole.getTeamApplyOrInviteBeans().remove(applyOrInviteBean);
         }else{
             //队长同意该用户进队伍
-            TeamBean teamBean=TeamServiceProvider.getTeamBeanByTeamId(teamId);
             if (teamBean==null){
                 throw new RpgServerException(StateCode.FAIL,"请先创建队伍");
             }
@@ -208,7 +205,6 @@ public class TeamServiceImpl implements TeamService {
     @Override
     @HandlerCmdTag(cmd = ConstantValue.EXIT_TEAM_REQUEST,module = ConstantValue.TEAM_MODULE)
     public void exitTeamRequest(TeamModel.TeamModelMessage myMessage, MmoSimpleRole mmoSimpleRole) throws InvalidProtocolBufferException, RpgServerException {
-        Channel channel = mmoSimpleRole.getChannel();
         //判断是否有队伍
         Integer teamId=mmoSimpleRole.getTeamId();
         if (teamId==null){
@@ -259,8 +255,7 @@ public class TeamServiceImpl implements TeamService {
         nettyResponse.setCmd(ConstantValue.INVITE_PEOPLE_RESPONSE);
         nettyResponse.setData(teamMessageBuilder.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(teamMessageBuilder.build());
-        NotificationUtil.sendMessage(c,nettyResponse,json);
+        NotificationUtil.sendMessage(c,nettyResponse,teamMessageBuilder);
     }
 
     @Override
@@ -294,8 +289,7 @@ public class TeamServiceImpl implements TeamService {
         if (c==null) {
             return;
         }
-        String json= JsonFormat.printToString(teamMessageBuilder.build());
-        NotificationUtil.sendMessage(c,nettyResponse,json);
+        NotificationUtil.sendMessage(c,nettyResponse,teamMessageBuilder);
     }
 
     @Override
@@ -322,8 +316,7 @@ public class TeamServiceImpl implements TeamService {
         if (c==null) {
             return;
         }
-        String json= JsonFormat.printToString(teamMessageBuilder.build());
-        NotificationUtil.sendMessage(c,nettyResponse,json);
+        NotificationUtil.sendMessage(c,nettyResponse,teamMessageBuilder);
     }
 
     @Override
@@ -360,8 +353,7 @@ public class TeamServiceImpl implements TeamService {
         nettyResponse.setCmd(ConstantValue.APPLY_MESSAGE_RESPONSE);
         nettyResponse.setData(teamMessageBuilder.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(teamMessageBuilder.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,teamMessageBuilder);
     }
 
     @Override
@@ -389,8 +381,7 @@ public class TeamServiceImpl implements TeamService {
         nettyResponse.setCmd(ConstantValue.INVITE_MESSAGE_RESPONSE);
         nettyResponse.setData(teamMessageBuilder.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(teamMessageBuilder.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,teamMessageBuilder);
     }
 
     @Override
@@ -435,7 +426,6 @@ public class TeamServiceImpl implements TeamService {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setCmd(ConstantValue.TEAM_MESSAGE_RESPONSE);
         nettyResponse.setData(teamMessageBuilder.build().toByteArray());
-        String json= JsonFormat.printToString(teamMessageBuilder.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,teamMessageBuilder);
     }
 }

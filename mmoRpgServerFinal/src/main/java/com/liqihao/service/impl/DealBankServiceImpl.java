@@ -55,8 +55,7 @@ public class DealBankServiceImpl implements DealBankService {
         messageData.setAddSellArticleResponse(addSellArticleResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(messageData.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
     }
 
 
@@ -78,8 +77,7 @@ public class DealBankServiceImpl implements DealBankService {
         messageData.setReduceSellArticleResponse(reduceSellArticleResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(messageData.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
     }
 
     @Override
@@ -100,8 +98,7 @@ public class DealBankServiceImpl implements DealBankService {
         messageData.setBuyArticleResponse(buyArticleResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(messageData.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
     }
 
     @Override
@@ -126,8 +123,7 @@ public class DealBankServiceImpl implements DealBankService {
         messageData.setAuctionArticleResponse(auctionArticleResponse.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(messageData.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
     }
 
     @Override
@@ -152,7 +148,6 @@ public class DealBankServiceImpl implements DealBankService {
         messageData.setGetArticleResponse(getArticleResponse.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(messageData.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
     }
 }

@@ -1,6 +1,5 @@
 package com.liqihao.service.impl;
 
-import com.googlecode.protobuf.format.JsonFormat;
 import com.liqihao.cache.*;
 import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
@@ -75,8 +74,7 @@ public class PlayServiceImpl implements PlayService {
         messageData.setRegisterResponse(registerResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        String json = JsonFormat.printToString(messageData.build());
-        NotificationUtil.sendMessage(channel, nettyResponse, json);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
     }
 
     @Override
@@ -127,8 +125,7 @@ public class PlayServiceImpl implements PlayService {
         nettyResponse.setData(messageData.build().toByteArray());
         nettyResponse.setCmd(ConstantValue.LOGIN_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        String json = JsonFormat.printToString(messageData.build());
-        NotificationUtil.sendMessage(channel, nettyResponse, json);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
         //获取场景所有角色信息
         List<Role> sceneRoles = CommonsUtil.getAllRolesFromScene(simpleRole);
         //发送给场景中其他角色 有角色登陆
@@ -153,8 +150,7 @@ public class PlayServiceImpl implements PlayService {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
         //send
-        String json = JsonFormat.printToString(myMessageBuilder.build());
-        NotificationUtil.sendMessage(channel, nettyResponse, json);
+        NotificationUtil.sendMessage(channel, nettyResponse, myMessageBuilder);
 
     }
 

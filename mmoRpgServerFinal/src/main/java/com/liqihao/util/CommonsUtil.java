@@ -1,7 +1,6 @@
 package com.liqihao.util;
 
 
-import com.googlecode.protobuf.format.JsonFormat;
 import com.liqihao.cache.*;
 import com.liqihao.cache.base.MmoBaseMessageCache;
 import com.liqihao.commons.ConstantValue;
@@ -32,7 +31,6 @@ import com.liqihao.provider.GuildServiceProvider;
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -150,8 +148,7 @@ public class CommonsUtil {
         nettyResponse.setCmd(ConstantValue.UP_LEVEL_RESPONSE);
         nettyResponse.setData(messageData.build().toByteArray());
         MmoSimpleRole mmoSimpleRole= (MmoSimpleRole) role;
-        String json= JsonFormat.printToString(messageData.build());
-        NotificationUtil.notificationSceneRole(nettyResponse,mmoSimpleRole,json);
+        NotificationUtil.notificationSceneRole(nettyResponse,mmoSimpleRole,registerResponseBuilder);
     }
 
     /**
@@ -832,13 +829,12 @@ public class CommonsUtil {
         nettyResponse.setStateCode(200);
         nettyResponse.setData(data2);
         List<Integer> players;
-        String json= JsonFormat.printToString(messageDataBuilder.build());
         if (sceneId!=null) {
             players = SceneBeanMessageCache.getInstance().get(sceneId).getRoles();
             for (Integer playerId:players){
                 Channel c= ChannelMessageCache.getInstance().get(playerId);
                 if (c!=null){
-                    NotificationUtil.sendMessage(c,nettyResponse,json);
+                    NotificationUtil.sendMessage(c,nettyResponse,messageDataBuilder);
                 }
             }
 
@@ -848,7 +844,7 @@ public class CommonsUtil {
                 if (role.getType().equals(RoleTypeCode.PLAYER.getCode())){
                     Channel c= ChannelMessageCache.getInstance().get(role.getId());
                     if (c!=null){
-                        NotificationUtil.sendMessage(c,nettyResponse,json);
+                        NotificationUtil.sendMessage(c,nettyResponse,messageDataBuilder);
                     }
                 }
             }

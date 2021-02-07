@@ -56,8 +56,7 @@ public class FriendServiceImpl implements FriendService {
         Channel channel=mmoSimpleRole.getChannel();
         //send
         if (channel!=null) {
-            String json= JsonFormat.printToString(messageData);
-            NotificationUtil.sendMessage(channel,nettyResponse,json);
+            NotificationUtil.sendMessage(channel,nettyResponse,messageData.toBuilder());
         }
     }
 
@@ -84,8 +83,7 @@ public class FriendServiceImpl implements FriendService {
         //send
         Channel channel=mmoSimpleRole.getChannel();
         if (channel!=null) {
-            String json= JsonFormat.printToString(messageData);
-            NotificationUtil.sendMessage(channel,nettyResponse,json);
+            NotificationUtil.sendMessage(channel,nettyResponse,messageData.toBuilder());
         }
     }
 
@@ -108,8 +106,7 @@ public class FriendServiceImpl implements FriendService {
         nettyResponse.setData(messageData.toByteArray());
         Channel channel=mmoSimpleRole.getChannel();
         if (channel!=null) {
-            String json= JsonFormat.printToString(messageData);
-            NotificationUtil.sendMessage(channel,nettyResponse,json);
+            NotificationUtil.sendMessage(channel,nettyResponse,messageData.toBuilder());
         }
     }
 
@@ -133,8 +130,7 @@ public class FriendServiceImpl implements FriendService {
         Channel channel=mmoSimpleRole.getChannel();
         //send
         if (channel!=null) {
-            String json= JsonFormat.printToString(messageData);
-            NotificationUtil.sendMessage(channel,nettyResponse,json);
+            NotificationUtil.sendMessage(channel,nettyResponse,messageData.toBuilder());
         }
     }
 
@@ -163,8 +159,7 @@ public class FriendServiceImpl implements FriendService {
         Channel channel=mmoSimpleRole.getChannel();
         //send
         if (channel!=null) {
-            String json= JsonFormat.printToString(messageData);
-            NotificationUtil.sendMessage(channel,nettyResponse,json);
+            NotificationUtil.sendMessage(channel,nettyResponse,messageData.toBuilder());
         }
     }
 
@@ -192,8 +187,7 @@ public class FriendServiceImpl implements FriendService {
         Channel channel=mmoSimpleRole.getChannel();
         //send
         if (channel!=null) {
-            String json= JsonFormat.printToString(messageData);
-            NotificationUtil.sendMessage(channel,nettyResponse,json);
+            NotificationUtil.sendMessage(channel,nettyResponse,messageData.toBuilder());
         }
     }
 }

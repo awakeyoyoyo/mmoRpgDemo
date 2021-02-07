@@ -453,7 +453,6 @@ public class GuildBean {
         GuildModel.ApplyResponse.Builder applyResponseBuilder = GuildModel.ApplyResponse.newBuilder().setSuccessFlag(flag);
         messageData.setApplyResponse(applyResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
-        String json= JsonFormat.printToString(messageData.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
     }
 }

@@ -269,6 +269,10 @@ public class PlayServiceImpl implements PlayService {
         String roleName=restartResponse.getName();
         Integer roleType=restartResponse.getRoleType();
         SceneMessage sceneMessage=MmoCacheCilent.getInstance().getSceneMessageConcurrentHashMap().get(sceneId);
+        if (roleId.equals(MmoCacheCilent.getInstance().getNowRole().getId())){
+            MmoCacheCilent.getInstance().getNowRole().setMmosceneid(1);
+            MmoCacheCilent.getInstance().setNowSceneId(1);
+        }
         System.out.println("[-]--------------------------------------------------------");
         System.out.println("[-]角色id: " + roleId + " 角色名称: " + roleName+" 角色类型："+RoleTypeCode.getValue(roleType)+" 在"+sceneMessage.getPlaceName()+"复活了！！！");
         System.out.println("[-]--------------------------------------------------------");

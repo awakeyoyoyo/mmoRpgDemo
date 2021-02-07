@@ -130,8 +130,7 @@ public class MmoSimpleNPC extends Role {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
         //广播给所有当前场景
-        String json = JsonFormat.printToString(myMessageBuilder.build());
-        NotificationUtil.notificationSceneRole(nettyResponse,this,json);
+        NotificationUtil.notificationSceneRole(nettyResponse,this,myMessageBuilder);
         //怪物攻击本人
         if (!mmoSimpleNPC.getStatus().equals(RoleStatusCode.DIE.getCode())) {
             mmoSimpleNPC.npcAttack();

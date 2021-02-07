@@ -1,7 +1,6 @@
 package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.googlecode.protobuf.format.JsonFormat;
 import com.liqihao.cache.NpcMessageCache;
 import com.liqihao.cache.OnlineRoleMessageCache;
 import com.liqihao.cache.SceneBeanMessageCache;
@@ -84,8 +83,7 @@ public class SceneServiceImpl implements SceneService {
         byte[] data2 = builder.build().toByteArray();
         nettyResponse.setData(data2);
         //send
-        String json= JsonFormat.printToString(builder.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,wentResponseBuilder);
     }
 
     @Override
@@ -137,8 +135,7 @@ public class SceneServiceImpl implements SceneService {
         nettyResponse.setStateCode(200);
         nettyResponse.setData(data2);
         //send
-        String json= JsonFormat.printToString(messageDataBuilder.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageDataBuilder);
     }
 
 
@@ -169,8 +166,7 @@ public class SceneServiceImpl implements SceneService {
         byte[] data2 = messageData.toByteArray();
         response.setData(data2);
         //send
-        String json= JsonFormat.printToString(messageData);
-        NotificationUtil.sendMessage(channel,response,json);
+        NotificationUtil.sendMessage(channel,response,messageData.toBuilder());
     }
 
 

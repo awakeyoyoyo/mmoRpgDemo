@@ -370,8 +370,7 @@ public class ScheduledThreadPoolUtil {
             nettyResponse.setCmd(ConstantValue.RESTART_RESPONSE);
             nettyResponse.setStateCode(StateCode.SUCCESS);
             nettyResponse.setData(myMessageBuilder.build().toByteArray());
-            String json= JsonFormat.printToString(myMessageBuilder.build());
-            NotificationUtil.notificationSceneRole(nettyResponse,npc,json);
+            NotificationUtil.notificationSceneRole(nettyResponse,npc,myMessageBuilder);
         }
     }
 
@@ -403,8 +402,7 @@ public class ScheduledThreadPoolUtil {
             nettyResponse.setCmd(ConstantValue.RESTART_RESPONSE);
             nettyResponse.setStateCode(StateCode.SUCCESS);
             nettyResponse.setData(myMessageBuilder.build().toByteArray());
-            String json= JsonFormat.printToString(myMessageBuilder.build());
-            NotificationUtil.notificationSceneRole(nettyResponse,role,json);
+            NotificationUtil.notificationSceneRole(nettyResponse,role,restartResponseBuilder);
         }
     }
 

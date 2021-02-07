@@ -55,8 +55,7 @@ public class DealServiceImpl implements DealService {
         roles.add(role2);
         roles.add(mmoSimpleRole);
         //send
-        String json= JsonFormat.printToString(messageData.build());
-        NotificationUtil.sendRolesMessage(nettyResponse,roles,json);
+        NotificationUtil.sendRolesMessage(nettyResponse,roles,messageData);
     }
 
     @Override
@@ -149,8 +148,7 @@ public class DealServiceImpl implements DealService {
         messageData.setGetDealMessageResponse(getDealMessageResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(messageData.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
     }
 
     @Override
@@ -234,7 +232,6 @@ public class DealServiceImpl implements DealService {
         List<MmoSimpleRole> roles=new ArrayList<>();
         roles.add(dealBean.getFirstRole());
         roles.add(dealBean.getSecondRole());
-        String json= JsonFormat.printToString(messageData.build());
-        NotificationUtil.sendRolesMessage(nettyResponse,roles,json);
+        NotificationUtil.sendRolesMessage(nettyResponse,roles,messageData);
     }
 }

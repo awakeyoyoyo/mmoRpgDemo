@@ -1,7 +1,6 @@
 package com.liqihao.service.impl;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.googlecode.protobuf.format.JsonFormat;
 import com.liqihao.cache.TaskMessageCache;
 import com.liqihao.annotation.HandlerCmdTag;
 import com.liqihao.annotation.HandlerServiceTag;
@@ -52,8 +51,7 @@ public class TaskServiceImpl implements TaskService {
         messageBuilder.setGetPeopleTaskResponse(TaskModel.GetPeopleTaskResponse.newBuilder().addAllTaskDtos(taskDtos).build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(messageBuilder.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageBuilder);
     }
 
     @Override
@@ -71,8 +69,7 @@ public class TaskServiceImpl implements TaskService {
         messageBuilder.setGetCanAcceptTaskResponse(TaskModel.GetCanAcceptTaskResponse.newBuilder().addAllTaskIds(taskList).build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(messageBuilder.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageBuilder);
     }
 
     @Override
@@ -106,8 +103,7 @@ public class TaskServiceImpl implements TaskService {
         messageBuilder.setAcceptTaskResponse(TaskModel.AcceptTaskResponse.newBuilder().build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(messageBuilder.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageBuilder);
     }
 
     @Override
@@ -136,8 +132,7 @@ public class TaskServiceImpl implements TaskService {
         messageBuilder.setAbandonTaskResponse(TaskModel.AbandonTaskResponse.newBuilder().build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
         //send
-        String json= JsonFormat.printToString(messageBuilder.build());
-        NotificationUtil.sendMessage(channel,nettyResponse,json);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageBuilder);
     }
 
     @Override
