@@ -1,5 +1,7 @@
 package com.liqihao.Dbitem;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 /**
  * @Classname Iitem
  * @Description 顶层抽象类
@@ -11,13 +13,13 @@ public abstract class Iitem {
     /**
      * 是否更改标志
      */
-    private volatile boolean changeFlag;
+    private volatile AtomicBoolean changeFlag=new AtomicBoolean(false);
 
-    public boolean getChangeFlag() {
+    public AtomicBoolean getChangeFlag() {
         return changeFlag;
     }
 
-    public void setChangeFlag(boolean changeFlag) {
+    public void setChangeFlag(AtomicBoolean changeFlag) {
         this.changeFlag = changeFlag;
     }
 

@@ -1,6 +1,7 @@
 package com.liqihao.pojo.bean.guildBean;
 
 import com.googlecode.protobuf.format.JsonFormat;
+import com.liqihao.Dbitem.Iitem;
 import com.liqihao.cache.OnlineRoleMessageCache;
 import com.liqihao.cache.RoleMessageCache;
 import com.liqihao.commons.ConstantValue;
@@ -9,11 +10,13 @@ import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.GuildRolePositionCode;
 import com.liqihao.pojo.MmoRolePOJO;
+import com.liqihao.pojo.bean.articleBean.Article;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.protobufObject.GuildModel;
 import com.liqihao.provider.GuildServiceProvider;
 import com.liqihao.util.DbUtil;
 import com.liqihao.util.NotificationUtil;
+import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
 
 import java.util.ArrayList;
@@ -29,7 +32,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  *
  * @author lqhao
  */
-public class GuildBean {
+public class GuildBean extends Iitem {
     /**
      * 公会id
      */
@@ -266,7 +269,7 @@ public class GuildBean {
                         GuildBean guildBean=this;
                         role.execute(() -> {
                             role.setGuildBean(guildBean);
-                            DbUtil.updateRole(role);
+                            role.updateItem(role.getId());
                         });
                         sendJoinResponse(role, true);
                     }
@@ -277,7 +280,7 @@ public class GuildBean {
                     //入库
                     GuildServiceProvider.getInstance().insertGuildRolePOJO(guildRoleBean);
                     GuildServiceProvider.getInstance().deleteApply(deleteList);
-                    GuildServiceProvider.getInstance().updateGuildPOJO(guildBean);
+                    updateItem(guildBean.getId());
                     return true;
                 }
             }
@@ -307,13 +310,13 @@ public class GuildBean {
                     } else {
                         role.execute(() -> {
                             role.setGuildBean(null);
-                            DbUtil.updateRole(role);
+                            role.updateItem(role.getId());
                         });
                     }
                     GuildBean guildBean = this;
                     //数据库删除该人的记录
                     GuildServiceProvider.getInstance().deletePeople(roleBean.getRoleId());
-                    GuildServiceProvider.getInstance().updateGuildPOJO(guildBean);
+                    updateItem(guildBean.getId());
                     break;
                 }
             }
@@ -338,7 +341,7 @@ public class GuildBean {
                     //锁单独成员bean 防止同时修改
                     synchronized (roleBean) {
                         roleBean.setGuildPositionId(position);
-                        GuildServiceProvider.getInstance().updateGuildRole(roleBean);
+                        roleBean.updateItem(roleBean.getId());
                         break;
                     }
                 }
@@ -380,7 +383,7 @@ public class GuildBean {
         try {
             Integer temp = money + getMoney();
             setMoney(temp);
-            GuildServiceProvider.getInstance().updateGuildPOJO(this);
+            updateItem(getId());
         } finally {
             moneyRwLock.writeLock().unlock();
         }
@@ -406,10 +409,10 @@ public class GuildBean {
                 @Override
                 public void run() {
                     mmoSimpleRole.setMoney(mmoSimpleRole.getMoney() + money);
-                    DbUtil.updateRole(mmoSimpleRole);
+                    mmoSimpleRole.updateItem(mmoSimpleRole.getId());
                 }
             });
-            GuildServiceProvider.getInstance().updateGuildPOJO(this);
+            updateItem(getId());
         } finally {
             moneyRwLock.writeLock().unlock();
         }
@@ -454,5 +457,17 @@ public class GuildBean {
         messageData.setApplyResponse(applyResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         NotificationUtil.sendMessage(channel,nettyResponse,messageData);
+    }
+
+    /**
+     * 更新公会信息
+     * @param id
+     */
+    @Override
+    public void updateItem(Integer id) {
+        if (getChangeFlag().compareAndSet(false,true)) {
+            GuildBean guildBean=this;
+            ScheduledThreadPoolUtil.addTask(() -> GuildServiceProvider.getInstance().updateGuildPOJO(guildBean));
+        }
     }
 }

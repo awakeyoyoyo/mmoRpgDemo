@@ -1,5 +1,6 @@
 package com.liqihao.pojo.bean.taskBean;
 
+import com.liqihao.Dbitem.Iitem;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
@@ -23,7 +24,7 @@ import io.netty.channel.Channel;
  * @Date 2021/1/21 12:19
  * @Version 1.0
  */
-public abstract class BaseTaskBean {
+public abstract class BaseTaskBean extends Iitem {
     /**
      * 任务信息类
      */
@@ -135,7 +136,7 @@ public abstract class BaseTaskBean {
         if (getProgress() >= taskMessage.getTargetProgress()) {
             setStatus(TaskStateCode.FINISH.getCode());
         }
-        TaskServiceProvider.updateTaskDb(taskBean,role.getId());
+        taskBean.updateItem(role.getId());
     }
 
 
@@ -152,7 +153,7 @@ public abstract class BaseTaskBean {
         //金币类型
         if (rewardArticleType.equals(ArticleTypeCode.MONEY.getCode())){
             role.setMoney(role.getMoney() + rewardNum);
-            DbUtil.updateRole(role);
+            role.updateItem(role.getId());
             return;
         }
         //装备、药品
@@ -166,5 +167,17 @@ public abstract class BaseTaskBean {
         }
         //放入背包
         role.getBackpackManager().put(article,role.getId());
+    }
+
+    /**
+     * 更新任务信息
+     * @param id
+     */
+    @Override
+    public void updateItem(Integer id) {
+        if (getChangeFlag().compareAndSet(false,true)) {
+            BaseTaskBean bean=this;
+            ScheduledThreadPoolUtil.addTask(()->TaskServiceProvider.updateTaskDb(bean,id));
+        }
     }
 }

@@ -419,4 +419,9 @@ public class BossBean extends Role {
     public void changeNowBlood(int number, PlayModel.RoleIdDamage.Builder damageU, int type) {
 
     }
+
+    @Override
+    public void updateItem(Integer id) {
+        return;
+    }
 }

@@ -337,7 +337,7 @@ public class CopySceneBean{
 
             role.execute(() -> {
                 role.setMoney(role.getMoney() + money);
-                DbUtil.updateRole(role);
+                role.updateItem(role.getId());
             });
 
             if (c!=null) {

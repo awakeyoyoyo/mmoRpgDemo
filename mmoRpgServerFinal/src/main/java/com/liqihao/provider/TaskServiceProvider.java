@@ -210,7 +210,8 @@ public class TaskServiceProvider {
         mmoTaskPOJO.setRoleId(roleId);
         mmoTaskPOJO.setTaskMessageId(taskBean.getTaskMessageId());
         mmoTaskPOJO.setCreateTime(taskBean.getCreateTime());
-        ScheduledThreadPoolUtil.addTask(() -> mmoTaskPOJOMapper.updateByPrimaryKey(mmoTaskPOJO));
+        taskBean.getChangeFlag().set(false);
+        mmoTaskPOJOMapper.updateByPrimaryKey(mmoTaskPOJO);
     }
 
     /**

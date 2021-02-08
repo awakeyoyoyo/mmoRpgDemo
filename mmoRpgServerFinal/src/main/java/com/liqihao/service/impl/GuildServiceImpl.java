@@ -162,7 +162,7 @@ public class GuildServiceImpl implements GuildService {
         //操作金币
         mmoSimpleRole.execute(() -> {
             mmoSimpleRole.setMoney(mmoSimpleRole.getMoney()-money);
-            DbUtil.updateRole(mmoSimpleRole);
+            mmoSimpleRole.updateItem(mmoSimpleRole.getId());
         });
 
         guildBean.contributeMoney(money);

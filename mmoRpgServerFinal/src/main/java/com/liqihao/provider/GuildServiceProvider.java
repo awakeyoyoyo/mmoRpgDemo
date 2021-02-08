@@ -134,7 +134,7 @@ public class GuildServiceProvider  implements ApplicationContextAware {
         //用户持有公会引用
         role.setGuildBean(guildBean);
         //数据入库
-        DbUtil.updateRole(role);
+        role.updateItem(role.getId());
         insertGuildPOJO(mmoGuildPOJO);
         insertGuildRolePOJO(guildRoleBean);
         return guildBean;
@@ -258,7 +258,8 @@ public class GuildServiceProvider  implements ApplicationContextAware {
         guildPOJO.setPeopleNum(guildBean.getPeopleNum());
         guildPOJO.setChairmanId(guildBean.getChairmanId());
         guildPOJO.setMoney(guildBean.getMoney());
-        ScheduledThreadPoolUtil.addTask(() -> mmoGuildPOJOMapper.updateByPrimaryKey(guildPOJO));
+        guildBean.getChangeFlag().set(false);
+        mmoGuildPOJOMapper.updateByPrimaryKey(guildPOJO);
     }
 
     /**
@@ -272,7 +273,8 @@ public class GuildServiceProvider  implements ApplicationContextAware {
         mmoGuildRolePOJO.setContribution(roleBean.getContribution());
         mmoGuildRolePOJO.setGuildId(roleBean.getGuildId());
         mmoGuildRolePOJO.setGuildPositionId(roleBean.getGuildPositionId());
-        ScheduledThreadPoolUtil.addTask(() -> mmoGuildRolePOJOMapper.updateByPrimaryKey(mmoGuildRolePOJO));
+        roleBean.getChangeFlag().set(false);
+        mmoGuildRolePOJOMapper.updateByPrimaryKey(mmoGuildRolePOJO);
     }
 
     /**

@@ -64,16 +64,15 @@ public class FriendServiceProvider {
         FriendApplyBean friendApplyBean=role.getFriendApplyBeanHashMap().get(applyId);
         role.getFriendApplyBeanHashMap().remove(applyId);
         role.getFriends().add(friendApplyBean.getRoleId());
+        role.updateItem(role.getId());
         //加好友事件
         FriendFirstAction firstAction=new FriendFirstAction();
         firstAction.setTaskTargetType(TaskTargetTypeCode.FIRST_TIME_FRIEND.getCode());
         role.getTaskManager().handler(firstAction,role);
-
-        DbUtil.updateRole(role);
         MmoSimpleRole mmoSimpleRole= OnlineRoleMessageCache.getInstance().get(friendApplyBean.getRoleId());
         if (mmoSimpleRole!=null){
             mmoSimpleRole.getFriends().add(role.getId());
-            DbUtil.updateRole(mmoSimpleRole);
+            mmoSimpleRole.updateItem(mmoSimpleRole.getId());
             //加好友事件
             FriendFirstAction friendFirstAction=new FriendFirstAction();
             friendFirstAction.setTaskTargetType(TaskTargetTypeCode.FIRST_TIME_FRIEND.getCode());
@@ -140,9 +139,9 @@ public class FriendServiceProvider {
      * @createTime 2021/1/27 10:06
      */
     public static void reduceFriend(MmoSimpleRole role,Integer roleId){
-        List<Integer> friendsIds=role.getFriends();
+        List<Integer> friendsIds = role.getFriends();
         friendsIds.remove(roleId);
-        DbUtil.updateRole(role);
+        role.updateItem(role.getId());
     }
 
     /**

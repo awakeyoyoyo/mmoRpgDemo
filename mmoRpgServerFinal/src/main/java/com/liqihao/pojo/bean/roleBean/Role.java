@@ -1,8 +1,10 @@
 package com.liqihao.pojo.bean.roleBean;
 
+import com.liqihao.Dbitem.Iitem;
 import com.liqihao.commons.enums.RoleTypeCode;
 import com.liqihao.commons.enums.TaskTargetTypeCode;
 import com.liqihao.pojo.bean.SkillBean;
+import com.liqihao.pojo.bean.articleBean.Article;
 import com.liqihao.pojo.bean.buffBean.BaseBuffBean;
 import com.liqihao.pojo.bean.taskBean.equipmentLevelTask.EquipmentTaskLevelAction;
 import com.liqihao.pojo.bean.taskBean.roleLevelTask.RoleLevelAction;
@@ -19,7 +21,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * 所有角色的父类
  * @author lqhao
  */
-public abstract class Role {
+public abstract class Role  extends Iitem{
     /** roleId */
     private Integer id;
     /** 姓名 */
@@ -212,12 +214,12 @@ public abstract class Role {
      * @createTime 2021/1/26 20:29
      */
     public void addExp(Integer num){
-        Integer nowExp=getExp()+num;
+        Integer nowExp = getExp() + num;
         setExp(nowExp);
-        Integer nowLevel=nowExp/10;
+        Integer nowLevel = nowExp / 10;
         upLevel(nowLevel);
-        MmoSimpleRole mmoSimpleRole= (MmoSimpleRole) this;
-        DbUtil.updateRole(mmoSimpleRole);
+        MmoSimpleRole mmoSimpleRole = (MmoSimpleRole) this;
+        mmoSimpleRole.updateItem(mmoSimpleRole.getId());
     }
 
     /**
@@ -294,8 +296,7 @@ public abstract class Role {
 
     /**
      * 死角色死亡调用
+     * @param fromRole
      */
     public abstract void die(Role fromRole);
-
-
 }

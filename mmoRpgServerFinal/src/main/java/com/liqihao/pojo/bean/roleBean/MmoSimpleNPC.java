@@ -324,4 +324,9 @@ public class MmoSimpleNPC extends Role {
         //根据buffer类型扣血扣蓝
         bufferBean.effectToRole(this, fromRole);
     }
+
+    @Override
+    public void updateItem(Integer id) {
+        return;
+    }
 }

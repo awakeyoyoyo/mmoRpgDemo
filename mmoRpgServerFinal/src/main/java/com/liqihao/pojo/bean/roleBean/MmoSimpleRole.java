@@ -758,7 +758,6 @@ public class MmoSimpleRole extends Role implements MyObserver {
             }
         }
         SceneBeanMessageCache.getInstance().get(nextSceneId).getRoles().add(getId());
-        setMmoSceneId(nextSceneId);
         if (getMmoHelperBean()!=null){
             SceneBeanMessageCache.getInstance().get(nextSceneId).getHelperBeans().add(getMmoHelperBean());
             getMmoHelperBean().setMmoSceneId(nextSceneId);
@@ -793,8 +792,10 @@ public class MmoSimpleRole extends Role implements MyObserver {
         sceneTaskAction.setTaskTargetType(TaskTargetTypeCode.FIRST_TIME_SCENE.getCode());
         getTaskManager().handler(sceneTaskAction,this);
         //同步角色信息
-        MmoSimpleRole role=this;
-        DbUtil.updateRole(role);
+        setMmoSceneId(nextSceneId);
+        MmoSimpleRole role = this;
+        role.updateItem(role.getId());
+
         return nextSceneRoles;
     }
 
@@ -908,6 +909,18 @@ public class MmoSimpleRole extends Role implements MyObserver {
     @Override
     public Integer returnRoleId() {
         return getId();
+    }
+
+    /**
+     * 更新角色信息
+     * @param id
+     */
+    @Override
+    public void updateItem(Integer id) {
+        if (getChangeFlag().compareAndSet(false,true)) {
+            MmoSimpleRole mmoSimpleRole=this;
+            ScheduledThreadPoolUtil.addTask(()->DbUtil.updateRole(mmoSimpleRole));
+        }
     }
 
     /**

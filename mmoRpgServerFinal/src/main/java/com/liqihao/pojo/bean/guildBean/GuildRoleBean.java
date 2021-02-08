@@ -1,12 +1,15 @@
 package com.liqihao.pojo.bean.guildBean;
 
+import com.liqihao.Dbitem.Iitem;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
+import com.liqihao.provider.GuildServiceProvider;
+import com.liqihao.util.ScheduledThreadPoolUtil;
 
 /**
  * 公会成员记录bean
  * @author lqhao
  */
-public class GuildRoleBean {
+public class GuildRoleBean extends Iitem {
     private Integer id;
 
     private Integer guildId;
@@ -55,5 +58,17 @@ public class GuildRoleBean {
 
     public void setContribution(Integer contribution) {
         this.contribution = contribution;
+    }
+
+    /**
+     * 更新公会角色bean
+     * @param id
+     */
+    @Override
+    public void updateItem(Integer id) {
+        if (getChangeFlag().compareAndSet(false,true)){
+            GuildRoleBean guildRoleBean=this;
+            ScheduledThreadPoolUtil.addTask(() -> GuildServiceProvider.getInstance().updateGuildRole(guildRoleBean));
+        }
     }
 }

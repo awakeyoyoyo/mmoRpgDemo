@@ -124,10 +124,10 @@ public class EmailServiceImpl implements EmailService {
             throw new RpgServerException(StateCode.FAIL,"这信不是给你的");
         }
         mmoEmailBean.setGetMoneyFlag(true);
-        mmoSimpleRole.setMoney(mmoSimpleRole.getMoney()+mmoEmailBean.getMoney());
-
         DbUtil.updateEmailBeanDb(mmoEmailBean);
-        DbUtil.updateRole(mmoSimpleRole);
+        mmoSimpleRole.setMoney(mmoSimpleRole.getMoney() + mmoEmailBean.getMoney());
+        mmoSimpleRole.updateItem(mmoSimpleRole.getId());
+
     }
 
     @Override

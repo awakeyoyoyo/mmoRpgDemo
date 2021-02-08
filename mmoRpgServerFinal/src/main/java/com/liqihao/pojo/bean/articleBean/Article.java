@@ -55,8 +55,6 @@ public abstract class Article extends Iitem {
     private Integer dealArticleId;
 
 
-
-
     public Integer getArticleMessageId() {
         return articleMessageId;
     }
@@ -268,8 +266,7 @@ public abstract class Article extends Iitem {
      */
     @Override
     public void updateItem(Integer id) {
-        if (!getChangeFlag()) {
-            setChangeFlag(true);
+        if (getChangeFlag().compareAndSet(false,true)) {
             Article article=this;
             if (getBagId()!=null) {
                 ScheduledThreadPoolUtil.addTask(() -> DbUtil.updateBagPojo(article, id));
