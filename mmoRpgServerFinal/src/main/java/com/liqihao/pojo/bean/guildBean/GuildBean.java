@@ -1,7 +1,6 @@
 package com.liqihao.pojo.bean.guildBean;
 
-import com.googlecode.protobuf.format.JsonFormat;
-import com.liqihao.Dbitem.Iitem;
+import com.liqihao.Dbitem.Item;
 import com.liqihao.cache.OnlineRoleMessageCache;
 import com.liqihao.cache.RoleMessageCache;
 import com.liqihao.commons.ConstantValue;
@@ -10,11 +9,9 @@ import com.liqihao.commons.RpgServerException;
 import com.liqihao.commons.StateCode;
 import com.liqihao.commons.enums.GuildRolePositionCode;
 import com.liqihao.pojo.MmoRolePOJO;
-import com.liqihao.pojo.bean.articleBean.Article;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
 import com.liqihao.protobufObject.GuildModel;
 import com.liqihao.provider.GuildServiceProvider;
-import com.liqihao.util.DbUtil;
 import com.liqihao.util.NotificationUtil;
 import com.liqihao.util.ScheduledThreadPoolUtil;
 import io.netty.channel.Channel;
@@ -32,7 +29,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  *
  * @author lqhao
  */
-public class GuildBean extends Iitem {
+public class GuildBean extends Item {
     /**
      * 公会id
      */

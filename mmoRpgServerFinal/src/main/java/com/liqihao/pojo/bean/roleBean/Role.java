@@ -1,18 +1,14 @@
 package com.liqihao.pojo.bean.roleBean;
 
-import com.liqihao.Dbitem.Iitem;
+import com.liqihao.Dbitem.Item;
 import com.liqihao.commons.enums.RoleTypeCode;
 import com.liqihao.commons.enums.TaskTargetTypeCode;
 import com.liqihao.pojo.bean.SkillBean;
-import com.liqihao.pojo.bean.articleBean.Article;
 import com.liqihao.pojo.bean.buffBean.BaseBuffBean;
 import com.liqihao.pojo.bean.taskBean.equipmentLevelTask.EquipmentTaskLevelAction;
 import com.liqihao.pojo.bean.taskBean.roleLevelTask.RoleLevelAction;
 import com.liqihao.protobufObject.PlayModel;
-import com.liqihao.provider.TaskServiceProvider;
 import com.liqihao.util.CommonsUtil;
-import com.liqihao.util.DbUtil;
-import com.liqihao.util.ScheduledThreadPoolUtil;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -21,7 +17,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * 所有角色的父类
  * @author lqhao
  */
-public abstract class Role  extends Iitem{
+public abstract class Role  extends Item {
     /** roleId */
     private Integer id;
     /** 姓名 */

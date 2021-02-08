@@ -93,7 +93,7 @@ public class DbUtil {
         mmoBagPOJO.setArticleType(article.getArticleTypeCode());
         mmoBagPOJO.setBagId(article.getBagId());
         mmoBagPOJO.setRoleId(roleId);
-        article.getChangeFlag().compareAndSet(true, false);
+        article.getChangeFlag().set(false);
         mmoBagPOJOMapper.updateByPrimaryKey(mmoBagPOJO);
     }
 

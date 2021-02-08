@@ -1,9 +1,6 @@
 package com.liqihao.pojo.bean.articleBean;
 
-import com.liqihao.Dbitem.Iitem;
-import com.liqihao.cache.ChannelMessageCache;
 import com.liqihao.cache.MedicineMessageCache;
-import com.liqihao.cache.SceneBeanMessageCache;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
@@ -14,18 +11,14 @@ import com.liqihao.pojo.bean.dealBankBean.DealBankArticleBean;
 import com.liqihao.pojo.bean.dealBean.DealArticleBean;
 import com.liqihao.pojo.bean.guildBean.WareHouseManager;
 import com.liqihao.pojo.bean.roleBean.MmoSimpleRole;
-import com.liqihao.pojo.bean.roleBean.Role;
 import com.liqihao.pojo.bean.taskBean.useTask.UseTaskAction;
 import com.liqihao.pojo.dto.ArticleDto;
 import com.liqihao.protobufObject.PlayModel;
-import com.liqihao.provider.CopySceneProvider;
 import com.liqihao.util.DbUtil;
 import com.liqihao.util.NotificationUtil;
 import com.liqihao.util.ScheduledThreadPoolUtil;
-import io.netty.channel.Channel;
 import org.springframework.beans.BeanUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;

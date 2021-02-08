@@ -1,7 +1,6 @@
 package com.liqihao.pojo.bean.articleBean;
 
-import com.liqihao.Dbitem.Iitem;
-import com.liqihao.commons.RpgServerException;
+import com.liqihao.Dbitem.Item;
 import com.liqihao.pojo.bean.BackPackManager;
 import com.liqihao.pojo.bean.dealBankBean.DealBankArticleBean;
 import com.liqihao.pojo.bean.dealBean.DealArticleBean;
@@ -15,7 +14,7 @@ import com.liqihao.util.ScheduledThreadPoolUtil;
  * 背包物品接口
  * @author lqhao
  */
-public abstract class Article extends Iitem {
+public abstract class Article extends Item {
     /**
      * 数量
      */

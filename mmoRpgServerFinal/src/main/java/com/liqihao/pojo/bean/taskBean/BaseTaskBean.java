@@ -1,6 +1,6 @@
 package com.liqihao.pojo.bean.taskBean;
 
-import com.liqihao.Dbitem.Iitem;
+import com.liqihao.Dbitem.Item;
 import com.liqihao.commons.ConstantValue;
 import com.liqihao.commons.NettyResponse;
 import com.liqihao.commons.StateCode;
@@ -24,7 +24,7 @@ import io.netty.channel.Channel;
  * @Date 2021/1/21 12:19
  * @Version 1.0
  */
-public abstract class BaseTaskBean extends Iitem {
+public abstract class BaseTaskBean extends Item {
     /**
      * 任务信息类
      */
