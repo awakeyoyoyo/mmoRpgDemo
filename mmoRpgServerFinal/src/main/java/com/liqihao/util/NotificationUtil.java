@@ -29,15 +29,15 @@ public class NotificationUtil {
      * 发送消息
      * @param channel
      * @param nettyResponse
-     * @param builder
+     * @param message
      */
     public static void sendMessage(Channel channel, NettyResponse nettyResponse
-            , com.google.protobuf.GeneratedMessageV3.Builder builder){
+            , com.google.protobuf.GeneratedMessageV3 message){
         if (channel!=null) {
             channel.writeAndFlush(nettyResponse);
         }
         //打印日志
-        String json= JsonFormat.printToString(builder.build());
+        String json= JsonFormat.printToString(message);
         logger.info(json);
     }
 
@@ -45,11 +45,11 @@ public class NotificationUtil {
      * 群送角色消息
      * @param nettyResponse
      * @param roles
-     * @param builder
+     * @param message
      */
     public static void sendRolesMessage(NettyResponse nettyResponse, List<MmoSimpleRole> roles
-            ,com.google.protobuf.GeneratedMessageV3.Builder builder){
-        String json2= JsonFormat.printToString(builder.build());
+            ,com.google.protobuf.GeneratedMessageV3 message){
+        String json2= JsonFormat.printToString(message);
         logger.info(json2);
         for (MmoSimpleRole m:roles) {
             Channel c=ChannelMessageCache.getInstance().get(m.getId());
@@ -64,11 +64,11 @@ public class NotificationUtil {
      * 通知当前场景的角色
      * @param nettyResponse
      * @param mmoSimpleRole
-     * @param builder
+     * @param message
      */
     public static void notificationSceneRole(NettyResponse nettyResponse, Role mmoSimpleRole
-            ,com.google.protobuf.GeneratedMessageV3.Builder builder){
-        String json2= JsonFormat.printToString(builder.build());
+            ,com.google.protobuf.GeneratedMessageV3 message){
+        String json2= JsonFormat.printToString(message);
         logger.info(json2);
         List<Integer> players;
         if (mmoSimpleRole.getMmoSceneId()!=null) {

@@ -55,7 +55,7 @@ public class EquipmentServiceImpl implements EquipmentService {
         messageBuilder.setAddEquipmentResponse(EquipmentModel.AddEquipmentResponse.newBuilder().build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
         //send
-        NotificationUtil.sendMessage(channel,nettyResponse,messageBuilder);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageBuilder.build());
     }
 
     @Override
@@ -79,7 +79,7 @@ public class EquipmentServiceImpl implements EquipmentService {
         messageBuilder.setEquipmentMsgResponse(EquipmentModel.EquipmentMsgResponse.newBuilder().addAllEquipments(equipmentDtoList).build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
         //send
-        NotificationUtil.sendMessage(channel,nettyResponse,messageBuilder);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageBuilder.build());
     }
 
     @Override
@@ -105,7 +105,7 @@ public class EquipmentServiceImpl implements EquipmentService {
         messageBuilder.setReduceEquipmentResponse(EquipmentModel.ReduceEquipmentResponse.newBuilder().build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
         //send
-        NotificationUtil.sendMessage(channel,nettyResponse,messageBuilder);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageBuilder.build());
     }
 
     @Override
@@ -133,6 +133,6 @@ public class EquipmentServiceImpl implements EquipmentService {
         messageBuilder.setFixEquipmentResponse(EquipmentModel.FixEquipmentResponse.newBuilder().build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
         //send
-        NotificationUtil.sendMessage(channel,nettyResponse,messageBuilder);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageBuilder.build());
     }
 }

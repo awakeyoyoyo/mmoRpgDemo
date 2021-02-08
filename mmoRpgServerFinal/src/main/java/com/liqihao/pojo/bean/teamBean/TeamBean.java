@@ -130,7 +130,7 @@ public class TeamBean {
         nettyResponse.setCmd(ConstantValue.DELETE_TEAM_RESPONSE);
         nettyResponse.setData(teamMessageBuilder.build().toByteArray());
         List<MmoSimpleRole> roles=new ArrayList<>(mmoSimpleRoles);
-        NotificationUtil.sendRolesMessage(nettyResponse,roles,teamMessageBuilder);
+        NotificationUtil.sendRolesMessage(nettyResponse,roles,teamMessageBuilder.build());
         for (MmoSimpleRole role:mmoSimpleRoles){
             role.setTeamId(null);
             if(role.getMmoHelperBean()!=null){
@@ -170,7 +170,7 @@ public class TeamBean {
         nettyResponse.setCmd(ConstantValue.BAN_PEOPLE_RESPONSE);
         nettyResponse.setData(teamMessageBuilder.build().toByteArray());
         Channel ccc=ChannelMessageCache.getInstance().get(mmoSimpleRole.getId());
-        NotificationUtil.sendMessage(ccc,nettyResponse,teamMessageBuilder);
+        NotificationUtil.sendMessage(ccc,nettyResponse,teamMessageBuilder.build());
         // 广播给队伍里面的人少了人
         exitTeamNotification(mmoSimpleRole);
     }
@@ -359,7 +359,7 @@ public class TeamBean {
         nettyResponse.setCmd(ConstantValue.ENTRY_PEOPLE_RESPONSE);
         nettyResponse.setData(teamMessageBuilder.build().toByteArray());
         List<MmoSimpleRole> roles=new ArrayList<>(mmoSimpleRolesMap.values());
-        NotificationUtil.sendRolesMessage(nettyResponse,roles,teamMessageBuilder);
+        NotificationUtil.sendRolesMessage(nettyResponse,roles,teamMessageBuilder.build());
     }
 
     /**
@@ -398,7 +398,7 @@ public class TeamBean {
         nettyResponse.setData(teamMessageBuilder.build().toByteArray());
         // 发送信息给退出队伍者
         List<MmoSimpleRole> roles=new ArrayList<>(mmoSimpleRolesMap.values());
-        NotificationUtil.sendRolesMessage(nettyResponse,roles,teamMessageBuilder);
+        NotificationUtil.sendRolesMessage(nettyResponse,roles,teamMessageBuilder.build());
     }
 
     /**

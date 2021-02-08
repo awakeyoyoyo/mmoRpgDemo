@@ -83,7 +83,7 @@ public class SceneServiceImpl implements SceneService {
         byte[] data2 = builder.build().toByteArray();
         nettyResponse.setData(data2);
         //send
-        NotificationUtil.sendMessage(channel,nettyResponse,wentResponseBuilder);
+        NotificationUtil.sendMessage(channel,nettyResponse,wentResponseBuilder.build());
     }
 
     @Override
@@ -135,7 +135,7 @@ public class SceneServiceImpl implements SceneService {
         nettyResponse.setStateCode(200);
         nettyResponse.setData(data2);
         //send
-        NotificationUtil.sendMessage(channel,nettyResponse,messageDataBuilder);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageDataBuilder.build());
     }
 
 
@@ -166,7 +166,7 @@ public class SceneServiceImpl implements SceneService {
         byte[] data2 = messageData.toByteArray();
         response.setData(data2);
         //send
-        NotificationUtil.sendMessage(channel,response,messageData.toBuilder());
+        NotificationUtil.sendMessage(channel,response,messageData);
     }
 
 

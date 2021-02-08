@@ -59,7 +59,7 @@ public class GuildServiceImpl implements GuildService {
         messageData.setCreateGuildResponse(createGuildResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData.build());
     }
 
     @Override
@@ -82,7 +82,7 @@ public class GuildServiceImpl implements GuildService {
         messageData.setJoinGuildResponse(joinGuildResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData.build());
     }
 
     @Override
@@ -116,7 +116,7 @@ public class GuildServiceImpl implements GuildService {
         messageData.setSetGuildResponse(setGuildResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData.build());
     }
 
     @Override
@@ -141,7 +141,7 @@ public class GuildServiceImpl implements GuildService {
         messageData.setOutGuildResponse(outGuildResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData.build());
     }
 
     @Override
@@ -162,7 +162,7 @@ public class GuildServiceImpl implements GuildService {
         //操作金币
         mmoSimpleRole.execute(() -> {
             mmoSimpleRole.setMoney(mmoSimpleRole.getMoney()-money);
-            mmoSimpleRole.updateItem(mmoSimpleRole.getId());
+            DbUtil.updateRole(mmoSimpleRole);
         });
 
         guildBean.contributeMoney(money);
@@ -177,7 +177,7 @@ public class GuildServiceImpl implements GuildService {
         messageData.setContributeMoneyResponse(contributeMoneyResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData.build());
     }
 
     @Override
@@ -222,7 +222,7 @@ public class GuildServiceImpl implements GuildService {
         messageData.setContributeArticleResponse(contributeArticleResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData.build());
     }
 
     @Override
@@ -277,7 +277,7 @@ public class GuildServiceImpl implements GuildService {
         messageData.setGetArticleResponse(getArticleResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData.build());
     }
 
     @Override
@@ -308,7 +308,7 @@ public class GuildServiceImpl implements GuildService {
         messageData.setGetMoneyResponse(getMoneyResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData.build());
     }
 
     @Override
@@ -335,7 +335,7 @@ public class GuildServiceImpl implements GuildService {
         messageData.setGetGuildApplyListResponse(getGuildApplyListResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData.build());
     }
 
     @Override
@@ -370,7 +370,7 @@ public class GuildServiceImpl implements GuildService {
         messageData.setGetGuildBeanResponse(getGuildBeanResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData.build());
     }
 
     @Override
@@ -400,7 +400,7 @@ public class GuildServiceImpl implements GuildService {
         messageData.setAgreeGuildApplyResponse(agreeGuildApplyResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData.build());
     }
 
     @Override
@@ -430,7 +430,7 @@ public class GuildServiceImpl implements GuildService {
         messageData.setRefuseGuildApplyResponse(refuseGuildApplyResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData.build());
     }
 
 
@@ -467,6 +467,6 @@ public class GuildServiceImpl implements GuildService {
         messageData.setGetGuildWareHouseResponse(getGuildWareHouseResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData.build());
     }
 }

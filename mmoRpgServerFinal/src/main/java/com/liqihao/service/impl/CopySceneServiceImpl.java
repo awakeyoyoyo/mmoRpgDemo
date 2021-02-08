@@ -88,7 +88,7 @@ public class CopySceneServiceImpl implements CopySceneService {
             }
         }
         //send
-        NotificationUtil.sendRolesMessage(nettyResponse,roles,messageData.toBuilder());
+        NotificationUtil.sendRolesMessage(nettyResponse,roles,messageData);
     }
 
     @Override
@@ -119,7 +119,7 @@ public class CopySceneServiceImpl implements CopySceneService {
             }
         }
         //send
-        NotificationUtil.sendRolesMessage(nettyResponse,roles,messageData.toBuilder());
+        NotificationUtil.sendRolesMessage(nettyResponse,roles,messageData);
     }
 
     @Override
@@ -198,7 +198,7 @@ public class CopySceneServiceImpl implements CopySceneService {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(messageData.toByteArray());
         //send
-        NotificationUtil.sendRolesMessage(nettyResponse,roles,messageData.toBuilder());
+        NotificationUtil.sendRolesMessage(nettyResponse,roles,messageData);
     }
 
     /**
@@ -244,6 +244,6 @@ public class CopySceneServiceImpl implements CopySceneService {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(messageData.toByteArray());
         //send
-        NotificationUtil.sendMessage(channel,nettyResponse,messageData.toBuilder());
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
     }
 }

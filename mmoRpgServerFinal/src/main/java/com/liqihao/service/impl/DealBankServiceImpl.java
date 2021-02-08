@@ -55,7 +55,7 @@ public class DealBankServiceImpl implements DealBankService {
         messageData.setAddSellArticleResponse(addSellArticleResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData.build());
     }
 
 
@@ -77,7 +77,7 @@ public class DealBankServiceImpl implements DealBankService {
         messageData.setReduceSellArticleResponse(reduceSellArticleResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData.build());
     }
 
     @Override
@@ -98,7 +98,7 @@ public class DealBankServiceImpl implements DealBankService {
         messageData.setBuyArticleResponse(buyArticleResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData.build());
     }
 
     @Override
@@ -123,7 +123,7 @@ public class DealBankServiceImpl implements DealBankService {
         messageData.setAuctionArticleResponse(auctionArticleResponse.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData.build());
     }
 
     @Override
@@ -148,6 +148,6 @@ public class DealBankServiceImpl implements DealBankService {
         messageData.setGetArticleResponse(getArticleResponse.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData.build());
     }
 }

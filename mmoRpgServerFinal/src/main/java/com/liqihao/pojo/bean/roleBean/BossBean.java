@@ -147,7 +147,7 @@ public class BossBean extends Role {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
         //广播给所有当前场景
-        NotificationUtil.notificationSceneRole(nettyResponse,this,myMessageBuilder);
+        NotificationUtil.notificationSceneRole(nettyResponse,this,myMessageBuilder.build());
         //怪物攻击本人
         if (!bossBean.getStatus().equals(RoleStatusCode.DIE.getCode())) {
             bossBean.bossAttack();
@@ -387,7 +387,7 @@ public class BossBean extends Role {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
         //广播
-        NotificationUtil.notificationSceneRole(nettyResponse,this,myMessageBuilder);
+        NotificationUtil.notificationSceneRole(nettyResponse,this,myMessageBuilder.build());
 
         //  被攻击怪物or人物orBoss
         for (Role r :target) {

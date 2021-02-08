@@ -55,7 +55,7 @@ public class DealServiceImpl implements DealService {
         roles.add(role2);
         roles.add(mmoSimpleRole);
         //send
-        NotificationUtil.sendRolesMessage(nettyResponse,roles,messageData);
+        NotificationUtil.sendRolesMessage(nettyResponse,roles,messageData.build());
     }
 
     @Override
@@ -148,7 +148,7 @@ public class DealServiceImpl implements DealService {
         messageData.setGetDealMessageResponse(getDealMessageResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData.build());
     }
 
     @Override
@@ -232,6 +232,6 @@ public class DealServiceImpl implements DealService {
         List<MmoSimpleRole> roles=new ArrayList<>();
         roles.add(dealBean.getFirstRole());
         roles.add(dealBean.getSecondRole());
-        NotificationUtil.sendRolesMessage(nettyResponse,roles,messageData);
+        NotificationUtil.sendRolesMessage(nettyResponse,roles,messageData.build());
     }
 }

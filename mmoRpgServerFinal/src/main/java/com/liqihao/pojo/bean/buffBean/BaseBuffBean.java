@@ -100,7 +100,7 @@ public abstract class BaseBuffBean {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
         //广播信息
-        NotificationUtil.notificationSceneRole(nettyResponse,toRole,myMessageBuilder);
+        NotificationUtil.notificationSceneRole(nettyResponse,toRole,myMessageBuilder.build());
     }
 
     /**

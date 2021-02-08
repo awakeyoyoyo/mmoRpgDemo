@@ -51,7 +51,7 @@ public class TaskServiceImpl implements TaskService {
         messageBuilder.setGetPeopleTaskResponse(TaskModel.GetPeopleTaskResponse.newBuilder().addAllTaskDtos(taskDtos).build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
         //send
-        NotificationUtil.sendMessage(channel,nettyResponse,messageBuilder);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageBuilder.build());
     }
 
     @Override
@@ -69,7 +69,7 @@ public class TaskServiceImpl implements TaskService {
         messageBuilder.setGetCanAcceptTaskResponse(TaskModel.GetCanAcceptTaskResponse.newBuilder().addAllTaskIds(taskList).build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
         //send
-        NotificationUtil.sendMessage(channel,nettyResponse,messageBuilder);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageBuilder.build());
     }
 
     @Override
@@ -103,7 +103,7 @@ public class TaskServiceImpl implements TaskService {
         messageBuilder.setAcceptTaskResponse(TaskModel.AcceptTaskResponse.newBuilder().build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
         //send
-        NotificationUtil.sendMessage(channel,nettyResponse,messageBuilder);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageBuilder.build());
     }
 
     @Override
@@ -132,7 +132,7 @@ public class TaskServiceImpl implements TaskService {
         messageBuilder.setAbandonTaskResponse(TaskModel.AbandonTaskResponse.newBuilder().build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
         //send
-        NotificationUtil.sendMessage(channel,nettyResponse,messageBuilder);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageBuilder.build());
     }
 
     @Override

@@ -74,7 +74,7 @@ public class PlayServiceImpl implements PlayService {
         messageData.setRegisterResponse(registerResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
         //send
-        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData.build());
     }
 
     @Override
@@ -125,7 +125,7 @@ public class PlayServiceImpl implements PlayService {
         nettyResponse.setData(messageData.build().toByteArray());
         nettyResponse.setCmd(ConstantValue.LOGIN_RESPONSE);
         nettyResponse.setStateCode(StateCode.SUCCESS);
-        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData.build());
         //获取场景所有角色信息
         List<Role> sceneRoles = CommonsUtil.getAllRolesFromScene(simpleRole);
         //发送给场景中其他角色 有角色登陆
@@ -150,7 +150,7 @@ public class PlayServiceImpl implements PlayService {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
         //send
-        NotificationUtil.sendMessage(channel, nettyResponse, myMessageBuilder);
+        NotificationUtil.sendMessage(channel, nettyResponse, myMessageBuilder.build());
 
     }
 

@@ -314,7 +314,7 @@ public class MedicineBean extends Article {
             nettyResponse.setCmd(ConstantValue.DAMAGES_NOTICE_RESPONSE);
             nettyResponse.setStateCode(StateCode.SUCCESS);
             nettyResponse.setData(myMessageBuilder.build().toByteArray());
-            NotificationUtil.notificationSceneRole(nettyResponse, mmoSimpleRole, myMessageBuilder);
+            NotificationUtil.notificationSceneRole(nettyResponse, mmoSimpleRole, myMessageBuilder.build());
             return true;
         } else {
             //判断是否已经有持续性药品任务

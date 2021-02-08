@@ -65,6 +65,6 @@ public class GameSystemServiceImpl implements com.liqihao.service.GameSystemServ
                 .setOutTimeResponse(GameSystemModel.OutTimeResponse.newBuilder().setMessage("太久没活动了，服务器已断开连接").build()).build();
         response.setData(modelMessage.toByteArray());
         //send
-        NotificationUtil.sendMessage(channel,response,modelMessage.toBuilder());
+        NotificationUtil.sendMessage(channel,response,modelMessage);
     }
 }

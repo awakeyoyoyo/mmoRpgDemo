@@ -122,7 +122,7 @@ public abstract class BaseTaskBean extends Iitem {
         messageBuilder.setDataType(TaskModel.TaskModelMessage.DateType.FinishTaskResponse);
         messageBuilder.setFinishTaskResponse(TaskModel.FinishTaskResponse.newBuilder().setTaskMessageId(getTaskMessageId()).build());
         nettyResponse.setData(messageBuilder.build().toByteArray());
-        NotificationUtil.sendMessage(channel,nettyResponse,messageBuilder);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageBuilder.build());
     }
     /**
      * description 检车是否满足任务条件

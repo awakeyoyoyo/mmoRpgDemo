@@ -456,7 +456,7 @@ public class GuildBean extends Iitem {
         GuildModel.ApplyResponse.Builder applyResponseBuilder = GuildModel.ApplyResponse.newBuilder().setSuccessFlag(flag);
         messageData.setApplyResponse(applyResponseBuilder.build());
         nettyResponse.setData(messageData.build().toByteArray());
-        NotificationUtil.sendMessage(channel,nettyResponse,messageData);
+        NotificationUtil.sendMessage(channel,nettyResponse,messageData.build());
     }
 
     /**

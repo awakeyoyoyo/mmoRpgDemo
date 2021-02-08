@@ -97,7 +97,7 @@ public class FriendServiceProvider {
         roles.add(mmoSimpleRole);
         roles.add(role);
         //send
-        NotificationUtil.sendRolesMessage(nettyResponse,roles,messageData.toBuilder());
+        NotificationUtil.sendRolesMessage(nettyResponse,roles,messageData);
     }
     /**
      * description 拒绝申请
@@ -126,7 +126,7 @@ public class FriendServiceProvider {
             //send
             Channel channel=applyRole.getChannel();
             if (channel!=null) {
-                NotificationUtil.sendMessage(channel,nettyResponse,messageData.toBuilder());
+                NotificationUtil.sendMessage(channel,nettyResponse,messageData);
             }
         }
     }

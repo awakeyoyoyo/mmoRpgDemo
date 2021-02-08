@@ -558,7 +558,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setData(myMessageBuilder.build().toByteArray());
         //广播
-        NotificationUtil.notificationSceneRole(nettyResponse,this,myMessageBuilder);
+        NotificationUtil.notificationSceneRole(nettyResponse,this,myMessageBuilder.build());
 
         //cd
         Map<Integer, Long> map = getCdMap();
@@ -898,7 +898,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
             nettyResponse.setCmd(ConstantValue.ACCEPT_MESSAGE_RESPONSE);
             nettyResponse.setStateCode(StateCode.SUCCESS);
             nettyResponse.setData(myMessage.toByteArray());
-            NotificationUtil.sendMessage(channel,nettyResponse,myMessage.toBuilder());
+            NotificationUtil.sendMessage(channel,nettyResponse,myMessage);
         }
     }
 
@@ -981,7 +981,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
             nettyResponse.setStateCode(StateCode.SUCCESS);
             nettyResponse.setData(myMessageBuilder.build().toByteArray());
             //广播
-            NotificationUtil.notificationSceneRole(nettyResponse,mmoSimpleRole,myMessageBuilder);
+            NotificationUtil.notificationSceneRole(nettyResponse,mmoSimpleRole,myMessageBuilder.build());
         }
     }
 
@@ -1033,7 +1033,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
             nettyResponse.setStateCode(StateCode.SUCCESS);
             nettyResponse.setData(myMessageBuilder.build().toByteArray());
             //广播
-            NotificationUtil.notificationSceneRole(nettyResponse,mmoSimpleRole,myMessageBuilder);
+            NotificationUtil.notificationSceneRole(nettyResponse,mmoSimpleRole,myMessageBuilder.build());
         }
     }
 
@@ -1098,7 +1098,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
             nettyResponse.setStateCode(StateCode.SUCCESS);
             nettyResponse.setData(myMessageBuilder.build().toByteArray());
             //广播
-            NotificationUtil.notificationSceneRole(nettyResponse,mmoSimpleRole,myMessageBuilder);
+            NotificationUtil.notificationSceneRole(nettyResponse,mmoSimpleRole,myMessageBuilder.build());
 
         }
     }
@@ -1145,7 +1145,7 @@ public class MmoSimpleRole extends Role implements MyObserver {
             nettyResponse.setStateCode(StateCode.SUCCESS);
             nettyResponse.setData(myMessageBuilder.build().toByteArray());
             //广播
-            NotificationUtil.notificationSceneRole(nettyResponse,mmoSimpleRole,myMessageBuilder);
+            NotificationUtil.notificationSceneRole(nettyResponse,mmoSimpleRole,myMessageBuilder.build());
         }
     }
 

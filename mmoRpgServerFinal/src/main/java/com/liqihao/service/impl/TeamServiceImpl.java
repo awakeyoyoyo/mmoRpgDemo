@@ -66,7 +66,7 @@ public class TeamServiceImpl implements TeamService {
         nettyResponse.setCmd(ConstantValue.APPLY_FOR_TEAM_RESPONSE);
         nettyResponse.setData(teamMessageBuilder.build().toByteArray());
         //send
-        NotificationUtil.sendMessage(c,nettyResponse,teamMessageBuilder);
+        NotificationUtil.sendMessage(c,nettyResponse,teamMessageBuilder.build());
     }
 
     @Override
@@ -255,7 +255,7 @@ public class TeamServiceImpl implements TeamService {
         nettyResponse.setCmd(ConstantValue.INVITE_PEOPLE_RESPONSE);
         nettyResponse.setData(teamMessageBuilder.build().toByteArray());
         //send
-        NotificationUtil.sendMessage(c,nettyResponse,teamMessageBuilder);
+        NotificationUtil.sendMessage(c,nettyResponse,teamMessageBuilder.build());
     }
 
     @Override
@@ -289,7 +289,7 @@ public class TeamServiceImpl implements TeamService {
         if (c==null) {
             return;
         }
-        NotificationUtil.sendMessage(c,nettyResponse,teamMessageBuilder);
+        NotificationUtil.sendMessage(c,nettyResponse,teamMessageBuilder.build());
     }
 
     @Override
@@ -316,7 +316,7 @@ public class TeamServiceImpl implements TeamService {
         if (c==null) {
             return;
         }
-        NotificationUtil.sendMessage(c,nettyResponse,teamMessageBuilder);
+        NotificationUtil.sendMessage(c,nettyResponse,teamMessageBuilder.build());
     }
 
     @Override
@@ -353,7 +353,7 @@ public class TeamServiceImpl implements TeamService {
         nettyResponse.setCmd(ConstantValue.APPLY_MESSAGE_RESPONSE);
         nettyResponse.setData(teamMessageBuilder.build().toByteArray());
         //send
-        NotificationUtil.sendMessage(channel,nettyResponse,teamMessageBuilder);
+        NotificationUtil.sendMessage(channel,nettyResponse,teamMessageBuilder.build());
     }
 
     @Override
@@ -381,7 +381,7 @@ public class TeamServiceImpl implements TeamService {
         nettyResponse.setCmd(ConstantValue.INVITE_MESSAGE_RESPONSE);
         nettyResponse.setData(teamMessageBuilder.build().toByteArray());
         //send
-        NotificationUtil.sendMessage(channel,nettyResponse,teamMessageBuilder);
+        NotificationUtil.sendMessage(channel,nettyResponse,teamMessageBuilder.build());
     }
 
     @Override
@@ -426,6 +426,6 @@ public class TeamServiceImpl implements TeamService {
         nettyResponse.setStateCode(StateCode.SUCCESS);
         nettyResponse.setCmd(ConstantValue.TEAM_MESSAGE_RESPONSE);
         nettyResponse.setData(teamMessageBuilder.build().toByteArray());
-        NotificationUtil.sendMessage(channel,nettyResponse,teamMessageBuilder);
+        NotificationUtil.sendMessage(channel,nettyResponse,teamMessageBuilder.build());
     }
 }

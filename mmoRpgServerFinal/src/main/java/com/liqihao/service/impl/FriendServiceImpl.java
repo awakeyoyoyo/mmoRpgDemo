@@ -56,7 +56,7 @@ public class FriendServiceImpl implements FriendService {
         Channel channel=mmoSimpleRole.getChannel();
         //send
         if (channel!=null) {
-            NotificationUtil.sendMessage(channel,nettyResponse,messageData.toBuilder());
+            NotificationUtil.sendMessage(channel,nettyResponse,messageData);
         }
     }
 
@@ -83,7 +83,7 @@ public class FriendServiceImpl implements FriendService {
         //send
         Channel channel=mmoSimpleRole.getChannel();
         if (channel!=null) {
-            NotificationUtil.sendMessage(channel,nettyResponse,messageData.toBuilder());
+            NotificationUtil.sendMessage(channel,nettyResponse,messageData);
         }
     }
 
@@ -106,7 +106,7 @@ public class FriendServiceImpl implements FriendService {
         nettyResponse.setData(messageData.toByteArray());
         Channel channel=mmoSimpleRole.getChannel();
         if (channel!=null) {
-            NotificationUtil.sendMessage(channel,nettyResponse,messageData.toBuilder());
+            NotificationUtil.sendMessage(channel,nettyResponse,messageData);
         }
     }
 
@@ -130,7 +130,7 @@ public class FriendServiceImpl implements FriendService {
         Channel channel=mmoSimpleRole.getChannel();
         //send
         if (channel!=null) {
-            NotificationUtil.sendMessage(channel,nettyResponse,messageData.toBuilder());
+            NotificationUtil.sendMessage(channel,nettyResponse,messageData);
         }
     }
 
@@ -159,7 +159,7 @@ public class FriendServiceImpl implements FriendService {
         Channel channel=mmoSimpleRole.getChannel();
         //send
         if (channel!=null) {
-            NotificationUtil.sendMessage(channel,nettyResponse,messageData.toBuilder());
+            NotificationUtil.sendMessage(channel,nettyResponse,messageData);
         }
     }
 
@@ -187,7 +187,7 @@ public class FriendServiceImpl implements FriendService {
         Channel channel=mmoSimpleRole.getChannel();
         //send
         if (channel!=null) {
-            NotificationUtil.sendMessage(channel,nettyResponse,messageData.toBuilder());
+            NotificationUtil.sendMessage(channel,nettyResponse,messageData);
         }
     }
 }

@@ -148,7 +148,7 @@ public class CommonsUtil {
         nettyResponse.setCmd(ConstantValue.UP_LEVEL_RESPONSE);
         nettyResponse.setData(messageData.build().toByteArray());
         MmoSimpleRole mmoSimpleRole= (MmoSimpleRole) role;
-        NotificationUtil.notificationSceneRole(nettyResponse,mmoSimpleRole,registerResponseBuilder);
+        NotificationUtil.notificationSceneRole(nettyResponse,mmoSimpleRole,registerResponseBuilder.build());
     }
 
     /**
@@ -834,7 +834,7 @@ public class CommonsUtil {
             for (Integer playerId:players){
                 Channel c= ChannelMessageCache.getInstance().get(playerId);
                 if (c!=null){
-                    NotificationUtil.sendMessage(c,nettyResponse,messageDataBuilder);
+                    NotificationUtil.sendMessage(c,nettyResponse,messageDataBuilder.build());
                 }
             }
 
@@ -844,7 +844,7 @@ public class CommonsUtil {
                 if (role.getType().equals(RoleTypeCode.PLAYER.getCode())){
                     Channel c= ChannelMessageCache.getInstance().get(role.getId());
                     if (c!=null){
-                        NotificationUtil.sendMessage(c,nettyResponse,messageDataBuilder);
+                        NotificationUtil.sendMessage(c,nettyResponse,messageDataBuilder.build());
                     }
                 }
             }
